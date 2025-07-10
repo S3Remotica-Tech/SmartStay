@@ -7,17 +7,25 @@ describe('It should check compliance reducer', () => {
             type: 'COMPLIANCE_LIST',
             payload: {
                 response: [],
+                filterOptions:[],
                 statusCode: 200
             }
         }
-        expect(ComplianceReducer(initialState, action)).toStrictEqual({
-            ...initialState,
-            Compliance: [],
-            statusCodeCompliance: 200,
+        const newState = ComplianceReducer(initialState, action);
+  console.log('👉 newState:', newState);
+   expect(newState).toStrictEqual({
+    ...initialState,
+    Compliance: [],
+    statusCodeCompliance: 200,
+    filterOptions: [],
+  });
 
-
-
-        })
+        // expect(ComplianceReducer(initialState, action)).toStrictEqual({
+        //     ...initialState,
+        //     Compliance: [],
+        //     statusCodeCompliance: 200,
+        //       filterOptions: [],
+        // })
     })
 
 

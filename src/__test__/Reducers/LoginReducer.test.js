@@ -165,12 +165,17 @@ describe('it should check login reducers', () => {
     it('it should check for ERROR_EMAIL', () => {
         const action = {
             type: 'ERROR_EMAIL',
-            payload: "enter valid email"
+            payload: {
+                 response: "enter valid email",
+            statusCode: 200
+            }
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
            ...initialState,
             errorEmail: 'enter valid email',
+            errorStatusCode: 200
+
                   })
     })
 
@@ -191,12 +196,16 @@ describe('it should check login reducers', () => {
     it('it should check for ERROR_PASSWORD', () => {
         const action = {
             type: 'ERROR_PASSWORD',
-            payload: "enter valid password"
+            payload: {
+                response: "enter valid password",
+            statusCode: 200
+            }
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
            ...initialState,
             errorPassword: 'enter valid password',
+            errorPasswordStatusCode: 200,
                  })
     })
 

@@ -540,7 +540,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -596,7 +596,9 @@ describe('it should check Pg list reducers', () => {
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode:0
+            
 
         })
     })
@@ -644,7 +646,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -698,9 +700,10 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbCustomer: 0,
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
-              UpgradestatusCode: 0,
+            UpgradestatusCode: 0,
             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            statusCodeForAdvanceFilter: 0,
+              SameTitleErrorStatusCode:0
         })
     })
 
@@ -744,7 +747,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -799,8 +802,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-                       dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0
         })
     })
 
@@ -845,7 +849,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -900,8 +904,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -946,7 +951,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1001,8 +1006,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1046,7 +1052,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1101,8 +1107,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1149,7 +1156,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1204,8 +1211,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1251,7 +1259,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1306,8 +1314,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1353,7 +1362,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1408,8 +1417,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1454,7 +1464,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1509,8 +1519,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1556,7 +1567,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1611,8 +1622,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1660,7 +1672,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1715,8 +1727,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1764,7 +1777,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1819,8 +1832,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1867,7 +1881,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -1922,8 +1936,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -1970,7 +1985,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -2025,8 +2040,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2072,7 +2088,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 201,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -2127,8 +2143,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2174,7 +2191,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -2229,8 +2246,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2275,7 +2293,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 200,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -2330,8 +2348,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2376,7 +2395,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -2431,8 +2450,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2477,7 +2497,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 200,
             AddEBstatusCode: 0,
@@ -2532,8 +2552,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2580,7 +2601,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -2635,8 +2656,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2736,8 +2758,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2782,7 +2805,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -2837,8 +2860,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2881,7 +2905,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -2936,8 +2960,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -2981,7 +3006,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3036,8 +3061,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -3081,7 +3107,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3136,8 +3162,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -3180,7 +3207,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3235,8 +3262,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -3282,7 +3310,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3337,8 +3365,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -3383,7 +3412,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3438,8 +3467,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -3484,7 +3514,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3539,8 +3569,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     })
 
@@ -3585,7 +3616,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3640,8 +3671,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -3688,7 +3720,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3743,8 +3775,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -3793,7 +3826,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3848,8 +3881,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -3895,7 +3929,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -3950,8 +3984,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -3996,7 +4031,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4051,8 +4086,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4100,7 +4136,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4155,8 +4191,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4205,7 +4242,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4260,8 +4297,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4310,7 +4348,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4365,8 +4403,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4413,7 +4452,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4468,8 +4507,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4517,7 +4557,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4572,8 +4612,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4620,7 +4661,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4675,8 +4716,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4723,7 +4765,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4778,8 +4820,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4827,7 +4870,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4882,8 +4925,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -4929,7 +4973,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -4984,8 +5028,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -5033,7 +5078,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -5088,8 +5133,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -5136,7 +5182,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -5191,8 +5237,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -5241,7 +5288,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -5296,8 +5343,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -5345,7 +5393,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -5400,8 +5448,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -5450,7 +5499,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -5505,8 +5554,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -5555,7 +5605,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -5610,8 +5660,9 @@ describe('it should check Pg list reducers', () => {
             nostatusCodeforEbHostelBased: 0,
             statusCodeForEBRoombasednodata: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
     }
     )
@@ -5793,13 +5844,15 @@ describe('it should check Pg list reducers', () => {
         const action = {
             type: 'SAME_TITLE',
             payload: {
-                response: 'title already exist'
+                response: 'title already exist',
+                statusCode:200,
             }
         };
 
         expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            TitleAlready: 'title already exist'
+            TitleAlready: 'title already exist',
+            SameTitleErrorStatusCode: 200
         });
     });
 
@@ -5808,13 +5861,15 @@ describe('it should check Pg list reducers', () => {
         const action = {
             type: 'CLEAR_SAME_TITLE',
             payload: {
-                response: ''
+                response: '',
+                statusCode: 0
             }
         };
 
         expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            TitleAlready: ''
+            TitleAlready: '',
+            SameTitleErrorStatusCode: 0
         });
     });
 
@@ -5823,13 +5878,15 @@ describe('it should check Pg list reducers', () => {
         const action = {
             type: 'TITTLE_UNIQUE',
             payload: {
-                response: 'Title is unique'
+                response: 'Title is unique',
+                statusCode: 200
             }
         };
 
         expect(PgListReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            TittleUnique: 'Title is unique'
+            TittleUnique: 'Title is unique',
+            SameTitleErrorStatusCode: 200
         });
     });
 
@@ -5893,7 +5950,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -5947,8 +6004,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
 
 
         })
@@ -6006,7 +6064,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -6060,8 +6118,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
 
 
         })
@@ -6120,7 +6179,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -6174,8 +6233,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
 
 
         })
@@ -6233,7 +6293,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -6287,8 +6347,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
 
         })
 
@@ -6346,7 +6407,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -6400,8 +6461,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 200,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
 
 
         })
@@ -6459,7 +6521,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -6513,8 +6575,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
 
         })
 
@@ -6572,7 +6635,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -6626,8 +6689,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 200,
             nostatusCodeforEbHostelBased: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
 
 
         })
@@ -6686,7 +6750,7 @@ describe('it should check Pg list reducers', () => {
             noRoomsInFloorStatusCode: 0,
             createPgStatusCode: 0,
             createBedStatusCode: 0,
-            alreadyBedAvailable: 0,
+            alreadyBedAvailable: "",
             statusCodeForDeleteRoom: 0,
             statusCodeDeleteBed: 0,
             AddEBstatusCode: 0,
@@ -6740,10 +6804,9 @@ describe('it should check Pg list reducers', () => {
             NoDashboardStatusCode: 0,
             nostatusCodeforEbHostelBased: 0,
             UpgradestatusCode: 0,
-             dashboardFilterAdvance: [],
-            statusCodeForAdvanceFilter: 0
-
-
+            dashboardFilterAdvance: [],
+            statusCodeForAdvanceFilter: 0,
+            SameTitleErrorStatusCode: 0,
         })
 
     })

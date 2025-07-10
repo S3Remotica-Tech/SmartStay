@@ -70,13 +70,15 @@ describe('it should check invoice reducers', () => {
         const action = {
             type: 'ERROR_RECURE',
             payload: {
-                response: 'Some error occurred'
+                response: 'Some error occurred',
+                statusCode: 201,
             }
         };
 
         expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-            errorRecuireFile: 'Some error occurred'
+            errorRecuireFile: 'Some error occurred',
+            AddErrorRecurrringStatusCode: 201
         });
     });
 
@@ -1192,7 +1194,19 @@ describe('it should check invoice reducers', () => {
             BillsPdfDetails: [],
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
-            statusCodeNewReceiptStatusCode: 0
+            statusCodeNewReceiptStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
+            ReceiptAddErrorStatuscode: 0,
+            ReceiptErrmsg: "",
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
 
         });
     });
@@ -1272,7 +1286,20 @@ describe('it should check invoice reducers', () => {
             BillsPdfDetails: [],
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
-            statusCodeNewReceiptStatusCode: 0
+            statusCodeNewReceiptStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
+            ReceiptAddErrorStatuscode: 0,
+            ReceiptErrmsg: "",
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
+
 
         });
     });
@@ -1356,7 +1383,19 @@ describe('it should check invoice reducers', () => {
             BillsPdfDetails: [],
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
-            statusCodeNewReceiptStatusCode: 0
+            statusCodeNewReceiptStatusCode: 0,
+             AddErrorRecurrringStatusCode: 0,
+            ReceiptAddErrorStatuscode: 0,
+            ReceiptErrmsg: "",
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
 
         });
     });
@@ -1439,7 +1478,19 @@ describe('it should check invoice reducers', () => {
             BillsPdfDetails: [],
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
-            statusCodeNewReceiptStatusCode: 0
+            statusCodeNewReceiptStatusCode: 0,
+             AddErrorRecurrringStatusCode: 0,
+            ReceiptAddErrorStatuscode: 0,
+            ReceiptErrmsg: "",
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
 
         });
     });
@@ -1522,7 +1573,19 @@ describe('it should check invoice reducers', () => {
             BillsPdfDetails: [],
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
-            statusCodeNewReceiptStatusCode: 0
+            statusCodeNewReceiptStatusCode: 0,
+             AddErrorRecurrringStatusCode: 0,
+            ReceiptAddErrorStatuscode: 0,
+            ReceiptErrmsg: "",
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
 
         });
     });
@@ -1606,7 +1669,19 @@ describe('it should check invoice reducers', () => {
             BillsPdfDetails: [],
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
-            statusCodeNewReceiptStatusCode: 0
+            statusCodeNewReceiptStatusCode: 0,
+             AddErrorRecurrringStatusCode: 0,
+            ReceiptAddErrorStatuscode: 0,
+            ReceiptErrmsg: "",
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
 
         });
     });
@@ -1687,7 +1762,19 @@ describe('it should check invoice reducers', () => {
             BillsPdfDetails: [],
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
-            statusCodeNewReceiptStatusCode: 0
+            statusCodeNewReceiptStatusCode: 0,
+             AddErrorRecurrringStatusCode: 0,
+            ReceiptAddErrorStatuscode: 0,
+            ReceiptErrmsg: "",
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
 
         });
     });
@@ -1768,7 +1855,19 @@ describe('it should check invoice reducers', () => {
             BillsPdfDetails: [],
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
-            statusCodeNewReceiptStatusCode: 0
+            statusCodeNewReceiptStatusCode: 0,
+             AddErrorRecurrringStatusCode: 0,
+            ReceiptAddErrorStatuscode: 0,
+            ReceiptErrmsg: "",
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
 
         });
     });
@@ -1776,7 +1875,7 @@ describe('it should check invoice reducers', () => {
 
 
 
-it('it should check GET-BILLS-PDF-DETAILS', () => {
+    it('it should check GET-BILLS-PDF-DETAILS', () => {
         const action = {
             type: 'GET-BILLS-PDF-DETAILS',
             payload: {
@@ -1795,7 +1894,7 @@ it('it should check GET-BILLS-PDF-DETAILS', () => {
 
 
 
- it('it should check  CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE', () => {
+    it('it should check  CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE',
             payload: {
@@ -1816,19 +1915,19 @@ it('it should check GET-BILLS-PDF-DETAILS', () => {
 
 
 
- it('it should check  CLEAR_NEE_RECEIPT_PDF_STATUS_CODE', () => {
-        const action = {
-            type: 'CLEAR_NEE_RECEIPT_PDF_STATUS_CODE',
-            payload: {
-                statusCode: 0
-            }
-        };
+it('it should check  CLEAR_NEE_RECEIPT_PDF_STATUS_CODE', () => {
+    const action = {
+        type: 'CLEAR_NEE_RECEIPT_PDF_STATUS_CODE',
+        payload: {
+            statusCode: 0
+        }
+    };
 
-        expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
-            ...initialState,
-            statusCodeNewReceiptStatusCode: 0
-        });
+    expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+        ...initialState,
+        statusCodeNewReceiptStatusCode: 0
     });
+});
 
 
 it('should handle RECEIPT_PDF_CHANGES', () => {

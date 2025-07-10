@@ -66,13 +66,15 @@ describe('It should check expense reducer', () => {
             type: 'EXPENSES_LIST',
             payload: {
                 response: [],
-                statusCode: 200
+                statusCode: 200,
+                paymentmode:[]
             }
         }
         expect(ExpenseReducer(initialState, action)).toStrictEqual({
             ...initialState,
             expenseList: [],
             getExpenseStatusCode: 200,
+             paymentModeList: [],
         })
     })
 

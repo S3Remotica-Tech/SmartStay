@@ -93,7 +93,7 @@
     "build:dev": "vite build --mode development",
     "build:prod": "vite build --mode production",
     "build:qa": "vite build --mode qa",
-   "lint": "eslint . --max-warnings 0",
+    "lint": "eslint . --max-warnings 0",
     "preview": "vite preview",
     "test": "jest --coverage"
   },
@@ -134,8 +134,10 @@
     "globals": "^16.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
+    "jsdom": "^26.1.0",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.3.5",
+    "vitest": "^3.2.4",
     "webpack": "^5.89.0"
   },
   "jest": {
