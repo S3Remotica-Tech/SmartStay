@@ -1143,8 +1143,7 @@ function PgList(props) {
               </div>
 
               <div className="show-scroll" 
-              // style={{ maxHeight: "500px", overflowY: "auto", overflowX: "hidden" }}
-              >
+                            >
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}
