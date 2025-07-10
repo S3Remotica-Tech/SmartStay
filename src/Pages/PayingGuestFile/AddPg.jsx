@@ -99,6 +99,10 @@ function AddPg({ show, handleClose, currentItem }) {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
+
+
+
+
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
     if (fileImage) {
@@ -526,48 +530,55 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   }, [currentItem]);
 
+ 
+const handleFileChange = (index) => async (e) => {
+  const selectedFiles = Array.from(e.target.files);
 
+  if (selectedFiles.length > 0) {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 800,
+      useWebWorker: true,
+    };
 
-  const handleFileChange = (index) => async (e) => {
-    const selectedFiles = Array.from(e.target.files);
+    const compressedFiles = await Promise.all(
+      selectedFiles.map(async (file) => {
+        try {
+          const compressedBlob = await imageCompression(file, options);
+       
+          return new File([compressedBlob], file.name, {
+            type: compressedBlob.type,
+            lastModified: Date.now(),
+          });
+        } catch (error) {
+          console.error("Image compression error:", error);
+          return null;
+        }
+      })
+    );
 
-    if (selectedFiles.length > 0) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-      };
+    setImages((prevImages) => {
+      const updatedImages = [...prevImages];
 
-      const compressedFiles = await Promise.all(
-        selectedFiles.map(async (file) => {
-          try {
-            return await imageCompression(file, options);
-          } catch (error) {
-            console.error("Image compression error:", error);
-            return null;
-          }
-        })
-      );
+      compressedFiles.forEach((compressedFile, i)  => {
+        if (compressedFile) {
+          const currentIndex = index + i;
 
-      setImages((prevImages) => {
-        const updatedImages = [...prevImages];
-
-        compressedFiles.forEach((compressedFile, i) => {
-          if (compressedFile) {
-            const currentIndex = index + i;
-
-            updatedImages[currentIndex] = {
-              name: `image${currentIndex + 1}`,
-              image: compressedFile,
-              isChanged: true,
-            };
-          }
-        });
-
-        return updatedImages;
+          updatedImages[currentIndex] = {
+            name: `image${currentIndex + 1}`,
+            image: compressedFile, 
+            isChanged: true,
+          };
+        }
       });
-    }
-  };
+
+      return updatedImages;
+    });
+  }
+};
+
+
+  
 
   const handleMouseEnter = (index) => {
     setDisplayLayer(index);
