@@ -1073,9 +1073,9 @@ const CheckOutForm = ({
                             setCheckOutRequestDate(date ? date.toDate() : null);
                           }}
 
-                         
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".show-scroll") || document.body
+
+                         getPopupContainer={() =>
+                            document.body
                           }
 
                         />
@@ -1142,12 +1142,18 @@ const CheckOutForm = ({
                             setIsChangedError("");
                             setCheckOutDate(date ? date.toDate() : null);
                           }}
+                          disabledDate={(current) => {
+                            if (!selectedCustomer) return false;
 
-                     
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".show-scroll") || document.body
-                          }
+                            const filteruserlist = state.UsersList.Users?.filter(
+                              (u) => u.ID === selectedCustomer
+                            );
+                            if (!filteruserlist?.length) return false;
 
+                            const joining_Date = moment(filteruserlist[0].user_join_date, "YYYY-MM-DD");
+                            return current && current.isBefore(joining_Date, "day");
+                          }}
+                          getPopupContainer={() => document.body}
                         />
 
                       </div>
@@ -1232,8 +1238,8 @@ const CheckOutForm = ({
                     </div>
                   )}
                 </div>
-              
-            </div>
+
+              </div>
 
             </div>
 
@@ -1262,7 +1268,7 @@ const CheckOutForm = ({
 
           {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-              <MdError style={{ color: "red", marginRight: '5px' , fontSize:14}} />
+              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}
@@ -1460,9 +1466,7 @@ const CheckOutForm = ({
                           setIsChangedError("");
                           setCheckOutDate(date ? date.toDate() : null);
                         }}
-                        getPopupContainer={(triggerNode) =>
-                          triggerNode.closest(".show-scroll") || document.body
-                        }
+                       getPopupContainer={() => document.body}
                         disabled={conformEdit}
                       />
                     </div>
@@ -1470,8 +1474,7 @@ const CheckOutForm = ({
                   {checkoUtDateError && (
                     <div
                       className="d-flex align-items-center p-1"
-                      style={{ marginTop: "-6px" }}
-                    >
+                      style={{ marginTop: "-6px" }}>
                       <MdError
                         style={{
                           color: "red",
@@ -1535,7 +1538,7 @@ const CheckOutForm = ({
                 </div>
 
 
-                <h6 style={{fontSize:16, fontFamily:"Gilroy",fontWeight:600}}>Advance Deduction</h6>
+                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Advance Deduction</h6>
 
                 <div className="row align-items-center">
 
@@ -1642,7 +1645,7 @@ const CheckOutForm = ({
                             setNoChangeMessage("")
                             setPaymentDate(date ? date.toDate() : null);
                           }}
-                          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                          getPopupContainer={() => document.body}
                         />
                       </div>
                     </Form.Group>
@@ -1821,7 +1824,7 @@ const CheckOutForm = ({
                   </div>
                 )}
               </div>
-            
+
 
               {isChangedError && (
                 <div
@@ -1966,4 +1969,3 @@ CheckOutForm.propTypes = {
 };
 
 export default CheckOutForm;
-                                          
