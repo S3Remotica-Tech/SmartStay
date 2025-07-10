@@ -72,8 +72,12 @@ const Compliance = () => {
 
 
 
-
-
+  const pageSizeOptions = [
+    { value: 6, label: "6" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
 
 
@@ -325,10 +329,16 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
-  };
+
+
+
+  const handleItemsPerPageChange = (selectedOption) => {
+  if (selectedOption) {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
+  }
+};
+
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -1071,7 +1081,7 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
 
                 <div className='row row-gap-3 p-4'
                   style={{
-                    maxHeight: "470px",
+                    maxHeight: "500px",
                     overflowY: "auto",
                   }}>
                   {currentItems.length > 0 && currentItems.map((complaints) => (
@@ -1102,7 +1112,7 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
                   }
 
                 </div>
-                {filteredUsers && filteredUsers?.length >= 6 && (
+                {filteredUsers && filteredUsers?.length > 6 && (
 
                   <nav className=" mb-0"
                     style={{
@@ -1121,26 +1131,64 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
                   >
 
                     <div>
-                      <select
-                        value={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                        style={{
-                          padding: "5px",
-                          border: "1px solid #1E45E1",
-                          borderRadius: "5px",
-                          color: "#1E45E1",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          outline: "none",
-                          boxShadow: "none",
 
+                      <Select
+                        options={pageSizeOptions}
+                        value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
+                       onChange={handleItemsPerPageChange}
+                        placeholder="Items per page"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        noOptionsMessage={() => "No options"}
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            borderRadius: "6px",
+                            fontSize: "14px",
+                            color: "#1E45E1",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            border: "1px solid #1E45E1",
+                            boxShadow: "0 0 0 1px #1E45E1",
+                            cursor: "pointer",
+                             width:90,
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                            fontFamily: "Gilroy",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "200px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                            fontFamily: "Gilroy",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#1E45E1",
+                            cursor: "pointer",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            cursor: "pointer",
+                            backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                            color: state.isFocused ? "#FFF" : "#000",
+                          }),
                         }}
-                      >
-                        <option value={6}>6</option>
-                        <option value={10}>10</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                      </select>
+                      />
                     </div>
 
                     <ul

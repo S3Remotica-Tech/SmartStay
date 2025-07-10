@@ -201,7 +201,7 @@ function BookingModal(props) {
     if (input.length === 0) {
       setPhoneError("");
     } else if (input.length < 10) {
-      setPhoneError("Invalid Mobile Number");
+      setPhoneError("Please Enter Valid Mobile Number");
     } else if (input.length === 10) {
       setPhoneError("");
     }
@@ -272,7 +272,7 @@ function BookingModal(props) {
       setEmailErrorMessage("");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id");
+      setEmailError("Please Enter Valid Email Id");
     } else {
       setEmailError("");
       setEmailErrorMessage("");

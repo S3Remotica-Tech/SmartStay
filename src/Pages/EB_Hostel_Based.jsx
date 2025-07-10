@@ -19,6 +19,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { CloseCircle } from "iconsax-react";
+import Select from "react-select";
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
@@ -37,8 +38,22 @@ function EBHostelReading(props) {
   const [formLoading, setFormLoading] = useState(false)
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
-   const [dateErrorMesg, setDateErrorMesg] = useState("")
+  const [dateErrorMesg, setDateErrorMesg] = useState("")
   const [hostelEbList, setHostelEbList] = useState("")
+
+
+
+  const electricityPageOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
+
+
+
+
+
+
 
   useEffect(() => {
     if (selectedHostel) {
@@ -91,7 +106,7 @@ function EBHostelReading(props) {
         popupRef.current.focus();
       }
     }, 0);
-   
+
   };
 
   useEffect(() => {
@@ -116,7 +131,7 @@ function EBHostelReading(props) {
     };
   }, []);
 
-  
+
 
 
 
@@ -373,7 +388,7 @@ function EBHostelReading(props) {
 
 
 
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
@@ -392,10 +407,12 @@ function EBHostelReading(props) {
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
   };
-  const handleItemsPerPageChange = (event) => {
-    setElectricityrowsPerPage(Number(event.target.value));
-    setelectricitycurrentPage(1)
+
+  const handleItemsPerPageChange = (selectedOption) => {
+    setElectricityrowsPerPage(Number(selectedOption.value));
+    setelectricitycurrentPage(1);
   };
+
 
   const totalPagesinvoice = Math.ceil(
     hostelEbList?.length / electricityrowsPerPage
@@ -923,7 +940,7 @@ function EBHostelReading(props) {
       }
 
 
-      {props.value === "3" && !props.ebpermissionError && props.electricityHostel?.length >= 5 &&
+      {props.value === "3" && !props.ebpermissionError && props.electricityHostel?.length > 10 &&
         <nav
           style={{
             display: "flex",
@@ -941,27 +958,67 @@ function EBHostelReading(props) {
         >
 
           <div>
-            <select
-              value={electricityrowsPerPage}
+            <Select
+              options={electricityPageOptions}
+              value={
+                electricityrowsPerPage
+                  ? { value: electricityrowsPerPage, label: `${electricityrowsPerPage}` }
+                  : null
+              }
               onChange={handleItemsPerPageChange}
-              style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
-                fontFamily: "Gilroy"
-
+              placeholder="Items per page"
+              classNamePrefix="custom"
+              menuPlacement="auto"
+              noOptionsMessage={() => "No options"}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  height: "40px",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  color: "#1E45E1",
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                  border: "1px solid #1E45E1",
+                  boxShadow: "0 0 0 1px #1E45E1",
+                  cursor: "pointer",
+                   width:90,
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #ced4da",
+                  fontFamily: "Gilroy",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  maxHeight: "200px",
+                  padding: 0,
+                  scrollbarWidth: "thin",
+                  overflowY: "auto",
+                  fontFamily: "Gilroy",
+                }),
+                placeholder: (base) => ({
+                  ...base,
+                  color: "#555",
+                }),
+                dropdownIndicator: (base) => ({
+                  ...base,
+                  color: "#1E45E1",
+                  cursor: "pointer",
+                }),
+                indicatorSeparator: () => ({
+                  display: "none",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  cursor: "pointer",
+                  backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                  color: state.isFocused ? "#fff" : "#000",
+                }),
               }}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
+            />
           </div>
 
 

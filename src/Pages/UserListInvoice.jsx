@@ -13,6 +13,8 @@ import {
 import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
 import Emptystate from "../Assets/Images/Empty-State.jpg";
+import Select from "react-select";
+
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
@@ -37,10 +39,22 @@ function UserListInvoice(props) {
   const handleInvoicePageChange = (InvoicepageNumber) => {
     setinvoicecurrentPage(InvoicepageNumber);
   };
-  const handleItemsPerPageChange = (event) => {
-    setInvoicerowsPerPage(Number(event.target.value));
-    setinvoicecurrentPage(1)
-  };
+
+const invoiceOptions = [
+  { value: 4, label: "4" },
+  { value: 10, label: "10" },
+  { value: 50, label: "50" },
+  { value: 100, label: "100" },
+];
+
+
+
+  const handleItemsPerPageChange = (selectedOption) => {
+  if (selectedOption?.value) {
+    setInvoicerowsPerPage(selectedOption.value);
+    setinvoicecurrentPage(1);
+  }
+};
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
@@ -831,32 +845,71 @@ function UserListInvoice(props) {
       </div>
 
 
-      {invoiceFilterddata?.length >= 4 && (
+      {invoiceFilterddata?.length > 4 && (
 
         <nav
            className="position-fixed bottom-0 end-0 mb-3 me-3 d-flex justify-content-end align-items-center"
+           style={{backgroundColor:"white", zIndex:1000}}
         >
           <div>
-            <select
-              value={invoicerowsPerPage}
-              onChange={handleItemsPerPageChange}
-              style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
-              }}
-            >
-              <option value={4}>4</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
-          </div>
+  <Select
+    value={invoiceOptions.find((opt) => opt.value === invoicerowsPerPage)}
+    onChange={handleItemsPerPageChange}
+    options={invoiceOptions}
+    placeholder="Items per page"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No options"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "40px",
+        borderRadius: "6px",
+        fontSize: "14px",
+        color: "#1E45E1",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        border: "1px solid #1E45E1",
+        boxShadow: "0 0 0 1px #1E45E1",
+        cursor: "pointer",
+        width: 90,
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+        fontFamily: "Gilroy",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "200px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+        fontFamily: "Gilroy",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#1E45E1",
+        cursor: "pointer",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+      option: (base, state) => ({
+        ...base,
+        cursor: "pointer",
+        backgroundColor: state.isFocused ? "#1E45E1" : "white",
+        color: state.isFocused ? "#fff" : "#000",
+      }),
+    }}
+  />
+</div>
 
           <ul
             style={{

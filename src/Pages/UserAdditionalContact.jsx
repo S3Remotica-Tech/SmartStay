@@ -501,15 +501,12 @@ useEffect(() => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          display: "flex",
-                          alignItems: "center",
+                          
                         }}
                       >
-                        User Names{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
+                        User Names {" "} <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                                                  
+                        
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -527,7 +524,7 @@ useEffect(() => {
                           border: "1px solid #D9D9D9",
                           height: 50,
                           borderRadius: 8,
-                          marginTop: 8,
+                          marginTop: 0,
                         }}
                       />
                     </Form.Group>
@@ -563,11 +560,10 @@ useEffect(() => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          display: "flex",
-                          alignItems: "center",
+                         
                         }}
                       >
-                        Guardian{" "}
+                        Guardian {" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -589,7 +585,7 @@ useEffect(() => {
                           border: "1px solid #D9D9D9",
                           height: 50,
                           borderRadius: 8,
-                          marginTop: 8,
+                          marginTop: 0,
                         }}
                       />
                     </Form.Group>
@@ -628,7 +624,7 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        Mobile Number{" "}
+                        Mobile Number {" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -757,7 +753,7 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        Area , Street , Sector , Village{" "}
+                        Area , Street , Sector , Village {" "}
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -795,7 +791,7 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        Landmark{" "}
+                        Landmark {" "}
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -836,7 +832,7 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        Pincode
+                        Pincode {" "}
                         <span style={{ color: "red", fontSize: "20px" }}>*</span>
                       </Form.Label>
                       <Form.Control
@@ -890,7 +886,7 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        Town/City{" "}
+                        Town/City {" "}
                         <span style={{ color: "red", fontSize: "20px" }}> * </span>
                       </Form.Label>
                       <FormControl
@@ -932,7 +928,7 @@ useEffect(() => {
                           lineHeight: "normal",
                         }}
                       >
-                        State
+                        State {" "}
                         <span style={{ color: "red", fontSize: "20px" }}> * </span>
                       </Form.Label>
 

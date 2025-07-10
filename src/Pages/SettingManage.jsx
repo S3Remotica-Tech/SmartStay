@@ -910,7 +910,7 @@ function SettingManage() {
                 </div>
               </div>
 
-              <div className="show-scroll" style={{ maxHeight: "500px", overflowY: "auto" }}>
+              <div >
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}

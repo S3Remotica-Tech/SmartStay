@@ -15,6 +15,7 @@ import { CloseCircle } from "iconsax-react";
 import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
+import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -31,12 +32,37 @@ function SettingSubscription() {
   const [hostelCountError, setHostelCountError] = useState("");
   const [hostelError, setHostelError] = useState("");
   const [planType, setPlanType] = useState("");
-  const [getPlanActive, setGetPlanActive] = useState("");
+  const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
+const [currentPage, setCurrentPage] = useState(1);
+const [itemsPerPage, setItemsPerPage] = useState(5);
+
+const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
 
 
+const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
+const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
+
+ const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+const handleItemsPerPageChange = (selectedOption) => {
+  setItemsPerPage(Number(selectedOption.value));
+  setCurrentPage(1);
+};
+
+
+
+const pageSizeOptions = [
+  { value: 5, label: "5" },
+  { value: 10, label: "10" },
+  { value: 15, label: "15" }
+];
 
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
@@ -310,15 +336,15 @@ function SettingSubscription() {
         {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 && (
           <div className="col-lg-12 col-md-12 col-sm-10 mt-3">
             <div
-              className=" booking-table-userlist  booking-table me-2"
+              className="  me-2"
               style={{ paddingBottom: "20px" }}
             >
               {getPlanActive?.length > 0 && (
                 <div
                   className="show-scrolls"
                   style={{
-                    height: "250px",
-                    overflow: "auto",
+                    maxHeight: "200px",
+                    overflowY: "auto",
                     borderTop: "1px solid #E8E8E8",
                     marginBottom: 20,
                     marginTop: "20px",
@@ -545,9 +571,7 @@ function SettingSubscription() {
                         verticalAlign: "middle",
                       }}
                     >
-                      {getPlanActive.length > 0 &&
-                        getPlanActive[0]?.hostel_details.length > 0 &&
-                        getPlanActive[0]?.hostel_details.map((view, index) => {
+                      {paginatedData.length > 0 && paginatedData?.map((view, index) => {
                        let formattedDate = "-";
                     if (view.plan_start) {
                       const Dated = new Date(view.plan_start);
@@ -556,7 +580,7 @@ function SettingSubscription() {
                       const year = Dated.getFullYear();
                       formattedDate = `${day}/${month}/${year}`;
                             }
-
+ 
 
                           let DueformattedDate = "-";
                    if (view.plan_end) {
@@ -581,7 +605,7 @@ function SettingSubscription() {
                                 className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                               >
 
-                               <div style={{marginLeft:10}}>{index + 1}</div> 
+                               <div style={{marginLeft:10}}>{indexOfFirstItem + index + 1}</div> 
                               </td>
                               <td
                                 style={{
@@ -687,6 +711,143 @@ function SettingSubscription() {
             </div>
           </div>
         )}
+         {
+              hostelDetails.length > 5 &&
+              <nav style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "end",
+                padding: "10px",
+                borderRadius: "5px",
+                position: "sticky",
+                zIndex: 1000,
+                                bottom: 0,
+                               right: 0,
+                backgroundColor: "#fff"
+              }}>
+
+                <div>
+                  <Select
+                    options={pageSizeOptions}
+                    value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
+                    onChange={handleItemsPerPageChange}
+                    placeholder="Items per page"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No options"}
+                   styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "40px",
+                              border: "1px solid #1E45E1",
+                              borderRadius: "5px",
+                              fontSize: "14px",
+                              color: "#1E45E1",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              fontFamily: "Gilroy",
+                              boxShadow:  "0 0 0 1px #1E45E1",
+                               width:90,
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "200px",
+                              padding: 0,
+                              overflowY: "auto",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#1E45E1",
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                              color: state.isFocused ? "#fff" : "#000",
+                            }),
+                          }}
+                  />
+                </div>
+
+
+                <ul className="selectoption"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    listStyleType: "none",
+                    margin: 0,
+                    padding: 0,
+                  }}
+                >
+
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                    </button>
+                  </li>
+
+
+                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                    {currentPage} of {totalPages}
+                  </li>
+
+
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ArrowRight2
+                        size="16"
+                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                      />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            }
       </div>
 
      

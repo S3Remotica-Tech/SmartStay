@@ -15,6 +15,7 @@ import AssignAmenities from './AmenitiesFile/AssignAmenities';
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import PropTypes from "prop-types";
 import './SettingsAmentities.css';
+import Select from "react-select";
 
 function SettingAmenities({ hostelid }) {
 
@@ -301,9 +302,16 @@ function SettingAmenities({ hostelid }) {
     const handlePageChange = (generalpageNumber) => {
         setAmenitiescurrentPage(generalpageNumber);
     };
-
-    const handleItemsPerPageChange = (event) => {
-        setAmenitiesrowsPerPage(Number(event.target.value));
+    const amenitiesOptions = [
+        { value: 2, label: "2" },
+        { value: 5, label: "5" },
+        { value: 10, label: "10" },
+        { value: 50, label: "50" },
+        { value: 100, label: "100" },
+    ];
+    const handleItemsPerPageChange = (selectedOption) => {
+        setAmenitiesrowsPerPage(selectedOption.value);
+        setAmenitiescurrentPage(1);
     };
 
     const totalPagesGeneral = Math.ceil(
@@ -325,9 +333,8 @@ function SettingAmenities({ hostelid }) {
     return (
         <div
             style={{
-                position: "relative", maxHeight: "500px",
-                overflowY: "auto",
-                paddingRight: 11, paddingLeft: 10
+                position: "relative",
+                paddingRight: 11, paddingLeft: 10,
             }}>
 
             <div
@@ -388,17 +395,18 @@ function SettingAmenities({ hostelid }) {
 
             )}
 
-            <div className='container mt-4 mb-3' style={{ position: "relative" }}>
+            <div className='container mt-4 mb-3 show-scrolls' style={{ position: "relative" , maxHeight: "460px",
+                overflowY: "auto",backgroundColor:""}}>
 
 
-                <div className='row row-gap-3 scroll-issue'>
+                <div className='row row-gap-3'>
 
 
 
                     {currentRowAmenities && currentRowAmenities.length > 0 ? (
                         currentRowAmenities.map((amenity, index) => (
 
-                            <div key={index} className='col-lg-8 col-md-8 col-xs-12 col-sm-12 col-12 p-0' >
+                            <div key={index} className='col-lg-10 col-md-12 col-xs-12 col-sm-12 col-12 p-0' >
                                 <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
                                     <Card.Body>
                                         <div className='d-flex justify-content-between align-items-center'>
@@ -610,34 +618,34 @@ function SettingAmenities({ hostelid }) {
 
                     ) : !loading &&
 
-                  
 
 
-   <div
-             style={{
-               textAlign: "center",
-               marginTop: 90,
-               height: '30vh',
-               display: "flex",
-               flexDirection: "column",
-               alignItems: "center",
-              
-             }}
-           >
-             <img src={EmptyState} alt="emptystate" />
-             <div
-               className="pb-1"
-               style={{
-                 fontWeight: 600,
-                 fontFamily: "Gilroy",
-                 fontSize: 18,
-                 color: "rgba(75, 75, 75, 1)",
-               }}
-             >
-               No Amenities available
-             </div>
-            
-           </div>
+
+                    <div
+                        style={{
+                            textAlign: "center",
+                            marginTop: 90,
+                            height: '30vh',
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+
+                        }}
+                    >
+                        <img src={EmptyState} alt="emptystate" />
+                        <div
+                            className="pb-1"
+                            style={{
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: 18,
+                                color: "rgba(75, 75, 75, 1)",
+                            }}
+                        >
+                            No Amenities available
+                        </div>
+
+                    </div>
 
 
 
@@ -684,35 +692,82 @@ function SettingAmenities({ hostelid }) {
             </div>
 
 
-            {amenitiesFilterddata.length >= 2 && (
+            {amenitiesFilterddata.length > 2 && (
                 <nav
-                    className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "0px",
+                        right: "0px",
+                        backgroundColor: "#fff",
+                        borderRadius: "5px",
+                        zIndex: 1000,
+                    }}
 
                 >
 
                     <div>
-                        <select
-                            value={amenitiesrowsPerPage}
+                        <Select
+                            value={amenitiesOptions.find(opt => opt.value === amenitiesrowsPerPage)}
                             onChange={handleItemsPerPageChange}
-                            style={{
-                                padding: "5px",
-                                border: "1px solid #1E45E1",
-                                borderRadius: "5px",
-                                color: "#1E45E1",
-                                fontWeight: "bold",
-                                cursor: "pointer",
-                                outline: "none",
-                                boxShadow: "none",
+                            options={amenitiesOptions}
+                            placeholder="Items per page"
+                            classNamePrefix="custom"
+                            menuPlacement="auto"
+                            noOptionsMessage={() => "No options"}
+                            styles={{
+                                control: (base) => ({
+                                    ...base,
+                                    height: "40px",
+                                    borderRadius: "6px",
+                                    fontSize: "14px",
+                                    color: "#1E45E1",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 600,
+                                    border: "1px solid #1E45E1",
+                                    boxShadow: "0 0 0 1px #1E45E1",
+                                    cursor: "pointer",
+                                    width: 90,
+                                }),
+                                menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    border: "1px solid #ced4da",
+                                    fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    maxHeight: "200px",
+                                    padding: 0,
+                                    scrollbarWidth: "thin",
+                                    overflowY: "auto",
+                                    fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                    ...base,
+                                    color: "#1E45E1",
+                                    cursor: "pointer",
+                                }),
+                                indicatorSeparator: () => ({
+                                    display: "none",
+                                }),
+                                option: (base, state) => ({
+                                    ...base,
+                                    cursor: "pointer",
+                                    backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                                    color: state.isFocused ? "#fff" : "#000",
+                                }),
                             }}
-                        >
-                            <option value={2}>2</option>
-                            <option value={5}>5</option>
-                            <option value={10}>10</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                        </select>
+                        />
                     </div>
-
 
                     <ul
                         style={{

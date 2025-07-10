@@ -23,7 +23,7 @@ import Filters from "../../Assets/Images/Filters.svg";
 import Image from 'react-bootstrap/Image';
 import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { useMediaQuery, useTheme } from '@mui/material'
-
+import Select from "react-select";
 function Expenses({ allPageHostel_Id }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -55,6 +55,21 @@ function Expenses({ allPageHostel_Id }) {
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
+
+const pageOptions = [
+    { value: 10, label: "10" },
+  { value: 50, label: "50" },
+  { value: 100, label: "100" },
+];
+
+
+
+
+
+
+
+
+
   const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -83,66 +98,76 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
- const handleExpenceExcel = () => {
-   
-     if(ExcelFilterminAmount && ExcelFiltermaxAmount){
-       dispatch({
-      type: "EXPORTEXPENCESDETAILS",
-      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id  ,
-        min_amount: Number(ExcelFilterminAmount) || 0, max_amount:Number(ExcelFiltermaxAmount) || 0, 
+  const handleExpenceExcel = () => {
+
+    if (ExcelFilterminAmount && ExcelFiltermaxAmount) {
+      dispatch({
+        type: "EXPORTEXPENCESDETAILS",
+        payload: {
+          type: "expenses", hostel_id: state.login.selectedHostel_Id,
+          min_amount: Number(ExcelFilterminAmount) || 0, max_amount: Number(ExcelFiltermaxAmount) || 0,
         }
-    })
-    setExcelFilterMinAmount('')
-    setExcelFilterMaxAmount('')
-    setExcelFilterPaymentmode('')
-    setExcelFilterCategoryValue('')
-    setExcelFilterDates([])
-  }
-
-     else if( ExcelFilterDates.length === 2 ){
-  dispatch({
-      type: "EXPORTEXPENCESDETAILS",
-      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id  ,
-        start_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-        end_date:ExcelFilterDates[1]?.format("YYYY-MM-DD")}
-    })
-    setExcelFilterMinAmount('')
-    setExcelFilterMaxAmount('')
-    setExcelFilterPaymentmode('')
-    setExcelFilterCategoryValue('')
-    setExcelFilterDates([])
-  }
-
-    else if(ExcelFiltercategoryValue){
-             dispatch({ type: "EXPORTEXPENCESDETAILS",
-            payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id , 
-            category:Number(ExcelFiltercategoryValue)}
-    })
-    setExcelFilterMinAmount('')
-    setExcelFilterMaxAmount('')
-    setExcelFilterPaymentmode('')
-    setExcelFilterCategoryValue('')
-    setExcelFilterDates([])
+      })
+      setExcelFilterMinAmount('')
+      setExcelFilterMaxAmount('')
+      setExcelFilterPaymentmode('')
+      setExcelFilterCategoryValue('')
+      setExcelFilterDates([])
     }
 
-      else if(ExcelFilterPaymentmode){
-             dispatch({ type: "EXPORTEXPENCESDETAILS",
-             payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id,
-               payment_mode: Number(ExcelFilterPaymentmode) }
-    })
-    setExcelFilterMinAmount('')
-    setExcelFilterMaxAmount('')
-    setExcelFilterPaymentmode('')
-    setExcelFilterCategoryValue('')
-    setExcelFilterDates([])
+    else if (ExcelFilterDates.length === 2) {
+      dispatch({
+        type: "EXPORTEXPENCESDETAILS",
+        payload: {
+          type: "expenses", hostel_id: state.login.selectedHostel_Id,
+          start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+          end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
+        }
+      })
+      setExcelFilterMinAmount('')
+      setExcelFilterMaxAmount('')
+      setExcelFilterPaymentmode('')
+      setExcelFilterCategoryValue('')
+      setExcelFilterDates([])
     }
 
-    else{
-        dispatch({ type: "EXPORTEXPENCESDETAILS",
-         payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id}
-        }); 
-     }
-    
+    else if (ExcelFiltercategoryValue) {
+      dispatch({
+        type: "EXPORTEXPENCESDETAILS",
+        payload: {
+          type: "expenses", hostel_id: state.login.selectedHostel_Id,
+          category: Number(ExcelFiltercategoryValue)
+        }
+      })
+      setExcelFilterMinAmount('')
+      setExcelFilterMaxAmount('')
+      setExcelFilterPaymentmode('')
+      setExcelFilterCategoryValue('')
+      setExcelFilterDates([])
+    }
+
+    else if (ExcelFilterPaymentmode) {
+      dispatch({
+        type: "EXPORTEXPENCESDETAILS",
+        payload: {
+          type: "expenses", hostel_id: state.login.selectedHostel_Id,
+          payment_mode: Number(ExcelFilterPaymentmode)
+        }
+      })
+      setExcelFilterMinAmount('')
+      setExcelFilterMaxAmount('')
+      setExcelFilterPaymentmode('')
+      setExcelFilterCategoryValue('')
+      setExcelFilterDates([])
+    }
+
+    else {
+      dispatch({
+        type: "EXPORTEXPENCESDETAILS",
+        payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id }
+      });
+    }
+
     setIsDownloadTriggered(true);
   };
 
@@ -158,10 +183,10 @@ function Expenses({ allPageHostel_Id }) {
         setIsDownloadTriggered(false);
       }, 500);
     }
-  }, [excelDownload , isDownloadTriggered]);
+  }, [excelDownload, isDownloadTriggered]);
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
-      
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_EXPORT_EXPENSE_DETAILS" });
       }, 200);
@@ -351,8 +376,8 @@ function Expenses({ allPageHostel_Id }) {
     dates,
     minAmount,
     maxAmount,
-     dispatch,
-  state.login.selectedHostel_Id,
+    dispatch,
+    state.login.selectedHostel_Id,
   ]);
 
   useEffect(() => {
@@ -416,7 +441,7 @@ function Expenses({ allPageHostel_Id }) {
   };
 
 
-   
+
 
   const [currentItem, setCurrentItem] = useState("");
 
@@ -445,17 +470,17 @@ function Expenses({ allPageHostel_Id }) {
   const { getExpenseStatusCode } = state.ExpenseList;
 
 
-useEffect(() => {
-  if (getExpenseStatusCode === 200) {
-    setLoading(false);
-    setGetData(state.ExpenseList.expenseList);
+  useEffect(() => {
+    if (getExpenseStatusCode === 200) {
+      setLoading(false);
+      setGetData(state.ExpenseList.expenseList);
 
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
-    }, 4000);
-  }
-}, [getExpenseStatusCode, dispatch, state.ExpenseList.expenseList]);
-                             
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+      }, 4000);
+    }
+  }, [getExpenseStatusCode, dispatch, state.ExpenseList.expenseList]);
+
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
@@ -486,13 +511,13 @@ useEffect(() => {
       }, 2000);
     }
   },
-[
-  state.ExpenseList.StatusCodeForAddExpenseSuccess,
-  state.ExpenseList.deleteExpenseStatusCode,
-  dispatch,
-  state.login.selectedHostel_Id,
-]
-);
+    [
+      state.ExpenseList.StatusCodeForAddExpenseSuccess,
+      state.ExpenseList.deleteExpenseStatusCode,
+      dispatch,
+      state.login.selectedHostel_Id,
+    ]
+  );
 
   const filterByPriceRange = (data) => {
     switch (selectedPriceRange) {
@@ -524,43 +549,44 @@ useEffect(() => {
 
 
   const filteredData = React.useMemo(
-  () => filterByPriceRange(getData) || [],
-  [getData] 
-);
+    () => filterByPriceRange(getData) || [],
+    [getData]
+  );
 
   useEffect(() => {
-  if (filteredData && filteredData.length > 0) {
-    const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-    const pages = Math.ceil(filteredData.length / itemsPerPage);
+    if (filteredData && filteredData.length > 0) {
+      const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+      const pages = Math.ceil(filteredData.length / itemsPerPage);
 
-    setCurrentItems(slicedItems);
-    setTotalPages(pages);
-  } else {
-    setCurrentItems([]);
-    setTotalPages(0);
-  }
-}, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
+      setCurrentItems(slicedItems);
+      setTotalPages(pages);
+    } else {
+      setCurrentItems([]);
+      setTotalPages(0);
+    }
+  }, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
 
   const [currentItems, setCurrentItems] = useState([]);
-const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-useEffect(() => {
-  if (filteredData && filteredData.length > 0) {
-    const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-    const pages = Math.ceil(filteredData.length / itemsPerPage);
+  useEffect(() => {
+    if (filteredData && filteredData.length > 0) {
+      const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+      const pages = Math.ceil(filteredData.length / itemsPerPage);
 
-    setCurrentItems(slicedItems);
-    setTotalPages(pages);
-  } else {
-    setCurrentItems([]);
-    setTotalPages(0);
-  }
-}, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
+      setCurrentItems(slicedItems);
+      setTotalPages(pages);
+    } else {
+      setCurrentItems([]);
+      setTotalPages(0);
+    }
+  }, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
 
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
-  };
+  const handleItemsPerPageChange = (selectedOption) => {
+  setItemsPerPage(Number(selectedOption.value));
+  setCurrentPage(1);
+};
+
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -629,7 +655,7 @@ useEffect(() => {
     }
   };
 
-  
+
 
   const [showCategory, setShowCategory] = useState(false);
   const [showPaymentMode, setShowPaymentMode] = useState(false);
@@ -643,7 +669,7 @@ useEffect(() => {
     setShowCategory(false);
   };
 
-   
+
 
   const handleModeValueChange = (e) => {
     setSelectedValue(null);
@@ -727,92 +753,92 @@ useEffect(() => {
 
 
   const handleDateChange = (selectedDates) => {
-  if (!selectedDates || selectedDates.length !== 2) {
-    setDates([]);
-    setExcelFilterDates([])
-    setSelectedValue("All");
-    setCategoryValue("");
-    setModeValue("");
-    setAmountValue("");
-    setMinAmount("");
-    setMaxAmount("");
-    setAssetValue("");
-    setVendorValue("");
-    setPickerKey((prevKey) => prevKey + 1);
+    if (!selectedDates || selectedDates.length !== 2) {
+      setDates([]);
+      setExcelFilterDates([])
+      setSelectedValue("All");
+      setCategoryValue("");
+      setModeValue("");
+      setAmountValue("");
+      setMinAmount("");
+      setMaxAmount("");
+      setAssetValue("");
+      setVendorValue("");
+      setPickerKey((prevKey) => prevKey + 1);
+      setCurrentPage(1);
+
+      dispatch({
+        type: "EXPENSELIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      return;
+    }
+
+    const newStartDate = dayjs(selectedDates[0]).startOf("day");
+    const newEndDate = dayjs(selectedDates[1]).endOf("day");
+    setDates([newStartDate, newEndDate]);
+    setExcelFilterDates([newStartDate, newEndDate])
     setCurrentPage(1);
+  };
 
-    dispatch({
-      type: "EXPENSELIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    return;
-  }
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
 
-  const newStartDate = dayjs(selectedDates[0]).startOf("day");
-  const newEndDate = dayjs(selectedDates[1]).endOf("day");
-  setDates([newStartDate, newEndDate]);
-  setExcelFilterDates([newStartDate, newEndDate])
-  setCurrentPage(1);
-};
-
-useEffect(() => {
-  if (!state.login.selectedHostel_Id) return;
-
-  const payload = { hostel_id: state.login.selectedHostel_Id };
-  if (dates.length === 2) {
-    payload.start_date = dates[0].format("YYYY-MM-DD");
-    payload.end_date = dates[1].format("YYYY-MM-DD");
-  }
-  dispatch({ type: "EXPENSELIST", payload });
-}, [dates, state.login.selectedHostel_Id, dispatch]);
-
-useEffect(() => {
-  if (!state.login.selectedHostel_Id) return;
-
-  const payload = { hostel_id: state.login.selectedHostel_Id };
-
-  if (selectedValue === "All") {
+    const payload = { hostel_id: state.login.selectedHostel_Id };
+    if (dates.length === 2) {
+      payload.start_date = dates[0].format("YYYY-MM-DD");
+      payload.end_date = dates[1].format("YYYY-MM-DD");
+    }
     dispatch({ type: "EXPENSELIST", payload });
-  } else if (categoryValue) {
-    payload.category = categoryValue;
-    dispatch({ type: "EXPENSELIST", payload });
-  } else if (modeValue) {
-    payload.payment_mode = modeValue;
-    dispatch({ type: "EXPENSELIST", payload });
-  } else if (amountValue) {
-    const [minAmount, maxAmount] = amountValue.split("-").map(Number);
-    payload.min_amount = minAmount;
-    payload.max_amount = maxAmount;
-    dispatch({ type: "EXPENSELIST", payload });
-  } else if (assetValue) {
-    payload.asset_id = assetValue;
-    dispatch({ type: "EXPENSELIST", payload });
-  } else if (vendorValue) {
-    payload.vendor_id = vendorValue;
-    dispatch({ type: "EXPENSELIST", payload });
-  }
-}, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue, state.login.selectedHostel_Id, dispatch]);
+  }, [dates, state.login.selectedHostel_Id, dispatch]);
 
-useEffect(() => {
-  if (state.ExpenseList.getExpenseStatusCode === 200) {
-    setGetData(state.ExpenseList.expenseList || []);
-    setLoading(false);
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
-    }, 1000);
-  }
-}, [state.ExpenseList.getExpenseStatusCode, state.ExpenseList.expenseList, dispatch]);
+  useEffect(() => {
+    if (!state.login.selectedHostel_Id) return;
+
+    const payload = { hostel_id: state.login.selectedHostel_Id };
+
+    if (selectedValue === "All") {
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (categoryValue) {
+      payload.category = categoryValue;
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (modeValue) {
+      payload.payment_mode = modeValue;
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (amountValue) {
+      const [minAmount, maxAmount] = amountValue.split("-").map(Number);
+      payload.min_amount = minAmount;
+      payload.max_amount = maxAmount;
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (assetValue) {
+      payload.asset_id = assetValue;
+      dispatch({ type: "EXPENSELIST", payload });
+    } else if (vendorValue) {
+      payload.vendor_id = vendorValue;
+      dispatch({ type: "EXPENSELIST", payload });
+    }
+  }, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue, state.login.selectedHostel_Id, dispatch]);
+
+  useEffect(() => {
+    if (state.ExpenseList.getExpenseStatusCode === 200) {
+      setGetData(state.ExpenseList.expenseList || []);
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.ExpenseList.getExpenseStatusCode, state.ExpenseList.expenseList, dispatch]);
 
 
-useEffect(() => {
-  if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-    setGetData([]);
-    setLoading(false);
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_NOEXPENSEdATA" });
-    }, 1000);
-  }
-}, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
+  useEffect(() => {
+    if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
+      setGetData([]);
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NOEXPENSEdATA" });
+      }, 1000);
+    }
+  }, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
 
 
   return (
@@ -832,7 +858,7 @@ useEffect(() => {
             <img
               src={EmptyState}
               alt="Empty State"
-              
+
             />
 
 
@@ -847,12 +873,12 @@ useEffect(() => {
                 }}
               >
                 <MdError size={20} />
-                <span   style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}>{expencepermissionError}</span>
+                <span style={{
+                  fontSize: "12px",
+                  color: "red",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}>{expencepermissionError}</span>
               </div>
             )}
           </div>
@@ -968,10 +994,10 @@ useEffect(() => {
                               maxHeight: "200px",
                               overflowY: "auto",
                               zIndex: 20,
-                                 border: "1px solid #ccc",
-    backgroundColor: "#fff",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    boxSizing: "content-box", 
+                              border: "1px solid #ccc",
+                              backgroundColor: "#fff",
+                              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                              boxSizing: "content-box",
                             }}
                             value={categoryValue}
                             onClick={handleCatogoryChange}
@@ -1001,20 +1027,20 @@ useEffect(() => {
                           <ListGroup
                             className="show-scrolls-Expense"
 
- style={{
-    position: "absolute",
-    right: 200,
-    top: 0,
-    borderRadius: "8px",
-    maxHeight: "200px",
-    overflowY: "auto",
-    zIndex: 20,
-    border: "1px solid #ccc",
-    backgroundColor: "#fff",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    boxSizing: "content-box", 
-        
-  }}
+                            style={{
+                              position: "absolute",
+                              right: 200,
+                              top: 0,
+                              borderRadius: "8px",
+                              maxHeight: "200px",
+                              overflowY: "auto",
+                              zIndex: 20,
+                              border: "1px solid #ccc",
+                              backgroundColor: "#fff",
+                              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                              boxSizing: "content-box",
+
+                            }}
                             value={modeValue}
                             onClick={handleModeValueChange}
                           >
@@ -1109,7 +1135,7 @@ useEffect(() => {
                           fontSize: 15,
                           fontWeight: 500,
                           color: "#222",
-                           fontFamily: "Gilroy",
+                          fontFamily: "Gilroy",
 
                         }}
                         placeholder="Search..."
@@ -1328,7 +1354,7 @@ useEffect(() => {
 
                 style={{
 
-                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "440px" : "auto",
+                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "480px" : "auto",
                   overflow: "auto",
                   marginBottom: 20,
                   marginTop: "20px"
@@ -1480,44 +1506,85 @@ useEffect(() => {
           )}
 
 
-          {filteredData.length >= 5 && (
+          {filteredData.length > 10 && (
             <nav
-
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "end",
                 padding: "10px",
                 position: "fixed",
-                bottom: "10px",
-                right: "10px",
+                bottom: "0px",
+                right: "0px",
+                left:0,
+                backgroundColor:"#fff",
                 borderRadius: "5px",
-                
                 zIndex: 1000,
               }}
             >
 
 
               <div>
-                <select className="selectoption"
-                  value={itemsPerPage}
+                <Select
+                  options={pageOptions}
+                  value={
+                    itemsPerPage
+                      ? { value: itemsPerPage, label: `${itemsPerPage}` }
+                      : null
+                  }
                   onChange={handleItemsPerPageChange}
-                  style={{
-                    padding: "5px",
-                    border: "1px solid #1E45E1",
-                    borderRadius: "5px",
-                    color: "#1E45E1",
-                    fontWeight: "bold",
-                    cursor: "pointer",
-                    outline: "none",
-                    boxShadow: "none",
+                  placeholder="Items per page"
+                  classNamePrefix="custom"
+                   menuPlacement="auto"
+                    noOptionsMessage={() => "No options"}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      height: "40px",
+                      padding: "0 5px",
+                      border: "1px solid #1E45E1",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      color: "#1E45E1",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                      boxShadow: "0 0 0 1px #1E45E1",
+                       width:90,
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      maxHeight: "200px",
+                      overflowY: "auto",
+                      padding: 0,
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: "#555",
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#1E45E1",
+                      cursor: "pointer",
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                      color: state.isFocused ? "#fff" : "#000",
+                      cursor: "pointer",
+                    }),
                   }}
-                >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
+                />
+
               </div>
 
 

@@ -374,10 +374,10 @@ function Booking(props) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
-     
-      
+
+
     }
-setFormError("")
+    setFormError("")
 
   };
 
@@ -406,13 +406,13 @@ setFormError("")
         case "firstName":
           setfirstNameError("Please Enter First Name");
           break;
-            case "phone":
+        case "phone":
           setPhoneError("Please Enter Mobile Number");
           break;
         case "joiningDate":
           setDateError("Please Enter Joining Date");
           break;
-          
+
         case "amount":
           setamountError("Please Enter Amount");
           break;
@@ -442,7 +442,7 @@ setFormError("")
         case "firstName":
           setfirstNameError("");
           break;
-            case "phone":
+        case "phone":
           setPhoneError("");
           break;
         case "joiningDate":
@@ -482,32 +482,32 @@ setFormError("")
     const isphoneValid = validateAssignField(Phone, "phone");
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isamountValid = validateAssignField(amount, "amount");
-    
+
     const isHostelValid = validateAssignField(HostelIds, "paying");
     const isCityValid = validateAssignField(city, "City");
-    const isPincodeValid = validateAssignField (pincode, "Pincode");
+    const isPincodeValid = validateAssignField(pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
 
 
 
-      if (Phone.length !== 10) {
+    if (Phone.length !== 10) {
       setPhoneError("Please Enter Valid Mobile Number");
       hasError = true;
     } else {
       setPhoneError("");
-    
+
     }
 
-if (pincode && String(pincode).length !== 6) {
-  setPincodeError("Pin Code Must Be Exactly 6 Digits");
-  if (!focusedRef.current && pincodeRef?.current) {
-    pincodeRef.current.focus();
-    focusedRef.current = true;
-  }
-  hasError = true;
-} else {
-  setPincodeError(""); 
-}
+    if (pincode && String(pincode).length !== 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focusedRef.current && pincodeRef?.current) {
+        pincodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else {
+      setPincodeError("");
+    }
 
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
@@ -522,8 +522,8 @@ if (pincode && String(pincode).length !== 6) {
       setEmailError("");
     }
 
-       if (joiningDate ) {
-      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+    if (joiningDate) {
+      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
       if (selectedHostel) {
         const HostelCreateDate = new Date(selectedHostel.create_At);
         const BookingJoiningDate = new Date(joiningDate);
@@ -532,7 +532,7 @@ if (pincode && String(pincode).length !== 6) {
         if (BookingJoiningDateOnly < HostelCreateDateOnly) {
           setJoingDateErrmsg('Before Hostel Create date not allowed');
           hasError = true;
-      
+
         } else {
           setJoingDateErrmsg('');
         }
@@ -565,9 +565,9 @@ if (pincode && String(pincode).length !== 6) {
 
 
     const isChangedBed =
-         (initialStateAssign.joiningDate && joiningDate &&
-                moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
-                moment(joiningDate).format("YYYY-MM-DD")) ||
+      (initialStateAssign.joiningDate && joiningDate &&
+        moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
+        moment(joiningDate).format("YYYY-MM-DD")) ||
 
       Number(amount) !== Number(initialStateAssign.amount) ||
       String(firstName) !== String(initialStateAssign.firstName) ||
@@ -793,7 +793,7 @@ if (pincode && String(pincode).length !== 6) {
   const popupRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
@@ -837,10 +837,20 @@ if (pincode && String(pincode).length !== 6) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
+ const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
   };
+
+
+
+
+const pageOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
+
   useEffect(() => {
     if (props.resetPage) {
       setCurrentPage(1);
@@ -864,9 +874,9 @@ if (pincode && String(pincode).length !== 6) {
   }, [customerBooking])
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
-  setBookingLoading(false)
+      setBookingLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
@@ -887,14 +897,14 @@ useEffect(() => {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              marginTop:90
+              marginTop: 90
             }}
           >
 
             <img
               src={Emptystate}
               alt="Empty State"
-             
+
             />
 
 
@@ -908,7 +918,7 @@ useEffect(() => {
                   marginTop: "1rem",
                 }}
               >
-                <MdError  style={{ marginRight: "5px", fontSize: 14 }}/>
+                <MdError style={{ marginRight: "5px", fontSize: 14 }} />
                 <span
                   style={{
                     fontSize: "12px",
@@ -964,7 +974,7 @@ useEffect(() => {
                   className='show-scrolls'
                   style={{
 
-                    height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "365px" : "auto",
+                    height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "450px" : "auto",
                     overflow: "auto",
                     borderTop: "1px solid #E8E8E8",
                     marginBottom: 20,
@@ -1193,7 +1203,7 @@ useEffect(() => {
                                   fontSize: "13px",
                                   fontWeight: 600,
                                   fontFamily: "Gilroy",
-                                  
+
                                   cursor: "pointer",
                                   marginTop: 10,
                                   whiteSpace: "nowrap",
@@ -1371,8 +1381,8 @@ useEffect(() => {
                                     ref={popupRef}
                                     style={{
                                       position: "fixed",
-                                      top:  popupPosition.top - 30,
-                                      left:  popupPosition.left , 
+                                      top: popupPosition.top - 30,
+                                      left: popupPosition.left,
                                       width: 160,
                                       height: "auto",
                                       backgroundColor: "#F9F9F9",
@@ -1549,127 +1559,166 @@ useEffect(() => {
             )}
 
 
-            {((props.search || props.filterStatus) ? props.filteredUsers?.length : customerBooking?.length) >= 5 && (
+            {((props.search || props.filterStatus) ? props.filteredUsers?.length : customerBooking?.length) > 10 && (
 
 
-              <nav
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "0",
-                  right: "0",
-                  backgroundColor: "white",
-                  zIndex: "1000",
-                }}
-              >
-
-                <div>
-                  <select
-                    value={itemsPerPage}
-                    onChange={handleItemsPerPageChange}
-                    style={{
-                      padding: "5px",
-                      border: "1px solid #1E45E1",
-                      borderRadius: "5px",
-                      color: "#1E45E1",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      outline: "none",
-                      boxShadow: "none",
-
-                    }}
-                  >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                </div>
-
-
-                <ul
+                <nav
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    listStyleType: "none",
-                    margin: 0,
-                    padding: 0,
+                    justifyContent: "end",
+                    padding: "10px",
+                    position: "fixed",
+                    bottom: "0",
+                    right: "0",
+                    left: 0,
+                    backgroundColor: "white",
+                    zIndex: "1000",
                   }}
                 >
 
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                        cursor:
-                          currentPage === 1 ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
+                  <div>
+                    <Select
+                      options={pageOptions}
+                      value={
+                        itemsPerPage
+                          ? { value: itemsPerPage, label: `${itemsPerPage}` }
+                          : null
+                      }
+                      onChange={handleItemsPerPageChange}
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
+                      noOptionsMessage={() => "No options"}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          height: "40px",
+                          padding: "0 5px",
+                          border: "1px solid #1E45E1",
+                          borderRadius: "5px",
+                          fontSize: "14px",
+                          color: "#1E45E1",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          fontFamily: "Gilroy",
+                          boxShadow: "0 0 0 1px #1E45E1",
+                          width: 100,
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #ced4da",
+                          fontFamily: "Gilroy",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          maxHeight: "200px",
+                          overflowY: "auto",
+                          padding: 0,
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#1E45E1",
+                          cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                          color: state.isFocused ? "#fff" : "#000",
+                          cursor: "pointer",
+                        }),
                       }}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      <ArrowLeft2
-                        size="16"
-                        color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                      />
-                    </button>
-                  </li>
+                    />
+                  </div>
 
 
-                  <li
+                  <ul
                     style={{
-                      margin: "0 10px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      display: "flex",
+                      alignItems: "center",
+                      listStyleType: "none",
+                      margin: 0,
+                      padding: 0,
                     }}
                   >
-                    {currentPage} of {totalPages}
-                  </li>
+
+                    <li style={{ margin: "0 10px" }}>
+                      <button
+                        style={{
+                          padding: "5px",
+                          textDecoration: "none",
+                          color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                          cursor:
+                            currentPage === 1 ? "not-allowed" : "pointer",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          minWidth: "30px",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        <ArrowLeft2
+                          size="16"
+                          color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                        />
+                      </button>
+                    </li>
 
 
-                  <li style={{ margin: "0 10px" }}>
-                    <button
+                    <li
                       style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color:
-                          currentPage === totalPages ? "#ccc" : "#1E45E1",
-                        cursor:
-                          currentPage === totalPages
-                            ? "not-allowed"
-                            : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
+                        margin: "0 10px",
+                        fontSize: "14px",
+                        fontWeight: "bold",
                       }}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
                     >
-                      <ArrowRight2
-                        size="16"
-                        color={
-                          currentPage === totalPages ? "#ccc" : "#1E45E1"
-                        }
-                      />
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            )}
-          </div>
+                      {currentPage} of {totalPages}
+                    </li>
+
+
+                    <li style={{ margin: "0 10px" }}>
+                      <button
+                        style={{
+                          padding: "5px",
+                          textDecoration: "none",
+                          color:
+                            currentPage === totalPages ? "#ccc" : "#1E45E1",
+                          cursor:
+                            currentPage === totalPages
+                              ? "not-allowed"
+                              : "pointer",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          minWidth: "30px",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        <ArrowRight2
+                          size="16"
+                          color={
+                            currentPage === totalPages ? "#ccc" : "#1E45E1"
+                          }
+                        />
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              )}
+            </div>
         </div>
       )}
 
@@ -1720,7 +1769,7 @@ useEffect(() => {
             <div className="d-flex align-items-center">
               <div
                 className=""
-                style={{ height: 100, width: 100, position: "relative",cursor: "pointer" }}
+                style={{ height: 100, width: 100, position: "relative", cursor: "pointer" }}
               >
                 <Image
                   src={
@@ -1812,15 +1861,15 @@ useEffect(() => {
                     value={firstName}
                     onChange={(e) => handleFirstName(e)}
                   />
-                   {firstNameError && (
+                  {firstNameError && (
 
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError}</span>
-                  </div>
-                )}
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+                      <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError}</span>
+                    </div>
+                  )}
                 </Form.Group>
-               
+
               </Col>
 
               <Col md={6} className="">
@@ -1874,7 +1923,7 @@ useEffect(() => {
                       id="vendor-select-pg"
                       style={{
                         border: "1px solid #D9D9D9",
-                         cursor: "pointer",
+                        cursor: "pointer",
                         borderRadius: "8px 0 0 8px",
                         height: 50,
                         fontSize: 16,
@@ -1931,7 +1980,7 @@ useEffect(() => {
                   )}
                   {state?.Booking?.bookingPhoneError && (
                     <div style={{ color: "red" }}>
-                      <MdError  style={{ marginRight: "5px", fontSize: 14 }}/>
+                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
                       <span
                         style={{
                           fontSize: "12px",
@@ -1972,56 +2021,56 @@ useEffect(() => {
                     value={Email}
                     onChange={(e) => handleEmail(e)}
                   />
-                   {emailError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {emailError}
-                    </span>
-                  </div>
-                )}
+                  {emailError && (
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {emailError}
+                      </span>
+                    </div>
+                  )}
 
-                {emailErrorMessage && (
-                  <div style={{ color: "red" }}>
-                    <MdError  style={{ marginRight: "5px", fontSize: 14 }}/>
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {" "}
-                      {emailErrorMessage}
-                    </span>
-                  </div>
-                )}
-                {state?.Booking?.bookingEmailError && (
-                  <div style={{ color: "red" }}>
-                    <MdError  style={{ marginRight: "5px", fontSize: 14 }}/>
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {" "}
-                      {state?.Booking?.bookingEmailError}
-                    </span>
-                  </div>
-                )}
+                  {emailErrorMessage && (
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {" "}
+                        {emailErrorMessage}
+                      </span>
+                    </div>
+                  )}
+                  {state?.Booking?.bookingEmailError && (
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {" "}
+                        {state?.Booking?.bookingEmailError}
+                      </span>
+                    </div>
+                  )}
                 </Form.Group>
-               
+
               </Col>
             </Row>
             <Col md={12}>
@@ -2054,14 +2103,14 @@ useEffect(() => {
                     borderRadius: 8,
                   }}
                 />
-                 {house_noError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                </div>
-              )}
+                {house_noError && (
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
+                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
+                  </div>
+                )}
               </Form.Group>
-             
+
 
             </Col>
 
@@ -2095,14 +2144,14 @@ useEffect(() => {
                       borderRadius: 8,
                     }}
                   />
-                    {streetError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                  </div>
-                )}
+                  {streetError && (
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
+                      <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
+                    </div>
+                  )}
                 </Form.Group>
-              
+
               </Col>
 
               <Col md={6}>
@@ -2134,14 +2183,14 @@ useEffect(() => {
                       borderRadius: 8,
                     }}
                   />
-                    {landmarkError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                  </div>
-                )}
+                  {landmarkError && (
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
+                      <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
+                    </div>
+                  )}
                 </Form.Group>
-              
+
               </Col>
             </Row>
 
@@ -2233,14 +2282,14 @@ useEffect(() => {
                       borderRadius: 8,
                     }}
                   />
-                    {cityError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                  </div>
-                )}
+                  {cityError && (
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
+                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
+                    </div>
+                  )}
                 </Form.Group>
-              
+
               </Col>
             </Row>
 
@@ -2334,19 +2383,19 @@ useEffect(() => {
                     }),
                   }}
                 />
-              
-              
+
+
                 {!state_name && state_nameError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {state_nameError}
-                  </span>
-                </div>
-              )}
-              
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {state_nameError}
+                    </span>
+                  </div>
+                )}
+
               </Form.Group>
-            
+
 
             </div>
 
@@ -2369,7 +2418,7 @@ useEffect(() => {
 
                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                     <DatePicker
-                      style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", fontSize:16}}
+                      style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", fontSize: 16 }}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={joiningDate ? dayjs(joiningDate) : null}
@@ -2382,36 +2431,36 @@ useEffect(() => {
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     />
                   </div>
-                    {dateError && (
-                  <div style={{ color: "red" }}>
-                    <MdError  style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }}/>
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {dateError}
-                    </span>
-                  </div>
-                )}
+                  {dateError && (
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {dateError}
+                      </span>
+                    </div>
+                  )}
 
-                
-                                {joiningDateErrmsg.trim() !== "" && (
-                                      <div className="d-flex align-items-center">
-                                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
-                                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                      {joiningDateErrmsg}
-                                        </label>
-                                          </div>
-                                       )}
+
+                  {joiningDateErrmsg.trim() !== "" && (
+                    <div className="d-flex align-items-center">
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {joiningDateErrmsg}
+                      </label>
+                    </div>
+                  )}
                 </Form.Group>
-              
+
               </Col>
               <Col md={6} >
-                <Form.Group  className="mb-2">
+                <Form.Group className="mb-2">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -2440,20 +2489,20 @@ useEffect(() => {
                       borderRadius: 8,
                     }}
                   />
-                    {amountError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
-                  </div>
-                )}
+                  {amountError && (
+                    <div style={{ color: "red" }}>
+                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+                      <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
+                    </div>
+                  )}
                 </Form.Group>
-              
+
               </Col>
             </Row>
 
 
             {formError && (
-              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red", fontFamily:"Gilroy" }}>
+              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red", fontFamily: "Gilroy" }}>
                 <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                 <span style={{ fontSize: "12px" }}>{formError}</span>
               </div>
@@ -2464,12 +2513,12 @@ useEffect(() => {
 
         </Modal.Body>
 
-{state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-4'>
-              <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+        {state.createAccount?.networkError ?
+          <div className='d-flex  align-items-center justify-content-center mt-4'>
+            <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+          : null}
         {bookingLoading &&
           <div
             style={{

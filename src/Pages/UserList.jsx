@@ -49,6 +49,7 @@ import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../Assets/Images/arrow-left.png";
+import Select from "react-select";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -1217,7 +1218,7 @@ function UserList(props) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -1259,10 +1260,18 @@ function UserList(props) {
     setSortConfig({ key, direction });
   };
 
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
+
+ const pageOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
+
+  const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
     setCurrentPage(1);
   };
+
 
   const handleMenuClick = () => {
     setShowForm(true);
@@ -2639,7 +2648,7 @@ function UserList(props) {
                           style={{
                             height:
                               sortedData?.length >= 5 || sortedData?.length >= 5
-                                ? "350px"
+                                ? "430px"
                                 : "auto",
                             overflow: "auto",
                             borderTop: "1px solid #E8E8E8",
@@ -3401,7 +3410,7 @@ function UserList(props) {
                  {
   !customerpermissionError &&
   (
-    (search || filterStatus ? filteredUsers?.length : userListDetail?.length) >= 5
+    (search || filterStatus ? filteredUsers?.length : userListDetail?.length) > 10
   ) && (
 
                     <nav
@@ -3413,30 +3422,70 @@ function UserList(props) {
                         position: "fixed",
                         bottom: "0",
                         right: "0",
+                        left:0,
                         backgroundColor: "white",
                         zIndex: "1000",
                       }}
                     >
                       <div>
-                        <select
-                          value={itemsPerPage}
+                        <Select
+                          options={pageOptions}
+                          value={
+                            itemsPerPage
+                              ? { value: itemsPerPage, label: `${itemsPerPage}` }
+                              : null
+                          }
                           onChange={handleItemsPerPageChange}
-                          style={{
-                            padding: "5px",
-                            border: "1px solid #1E45E1",
-                            borderRadius: "5px",
-                            color: "#1E45E1",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                            outline: "none",
-                            boxShadow: "none",
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          noOptionsMessage={() => "No options"}
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "40px",
+                              padding: "0 5px",
+                              border: "1px solid #1E45E1",
+                              borderRadius: "5px",
+                              fontSize: "14px",
+                              color: "#1E45E1",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              fontFamily: "Gilroy",
+                              boxShadow: "0 0 0 1px #1E45E1",
+                              width: 100,
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              maxHeight: "200px",
+                              overflowY: "auto",
+                              padding: 0,
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#1E45E1",
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                              color: state.isFocused ? "#fff" : "#000",
+                              cursor: "pointer",
+                            }),
                           }}
-                        >
-                          <option value={5}>5</option>
-                          <option value={10}>10</option>
-                          <option value={50}>50</option>
-                          <option value={100}>100</option>
-                        </select>
+                        />
                       </div>
 
                       <ul

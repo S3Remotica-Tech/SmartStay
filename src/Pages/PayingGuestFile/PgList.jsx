@@ -867,6 +867,7 @@ function PgList(props) {
                             <ul
                               className="show-scroll"
                               style={{
+
                               
                                 width: 260,
                                 backgroundColor: "#fff",
@@ -1141,7 +1142,8 @@ function PgList(props) {
                 </div>
               </div>
 
-              <div className="show-scroll" style={{ maxHeight: "500px", overflowY: "auto", overflowX: "hidden" }}>
+              <div className="show-scroll" 
+                            >
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}

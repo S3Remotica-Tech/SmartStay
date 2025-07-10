@@ -14,7 +14,7 @@ import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import './Settingexpense.css';
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
-
+import Select from "react-select";
 
 function SettingExpenses({ hostelid }) {
 
@@ -35,7 +35,7 @@ function SettingExpenses({ hostelid }) {
   const [subcategory_Id, setSubCategory_ID] = useState(null)
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
   const [loading, setLoading] = useState(true)
-  const [expensesrowsPerPage, setExpensesrowsPerPage] = useState(5);
+  const [expensesrowsPerPage, setExpensesrowsPerPage] = useState(10);
   const [expensesFilterddata, setExpensesFilterddata] = useState([]);
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
 
@@ -471,10 +471,18 @@ function SettingExpenses({ hostelid }) {
     setExpensescurrentPage(generalpageNumber);
   };
 
-  const handleItemsPerPageChange = (event) => {
-    setExpensesrowsPerPage(Number(event.target.value));
-    setExpensescurrentPage(1)
-  };
+ const handleItemsPerPageChange = (selectedOption) => {
+  setExpensesrowsPerPage(selectedOption.value);
+  setExpensescurrentPage(1);
+};
+
+const expenseOptions = [
+    { value: 10, label: "10" },
+  { value: 50, label: "50" },
+  { value: 100, label: "100" },
+];
+
+
 
   const totalPagesGeneral = Math.ceil(
     expensesFilterddata?.length / expensesrowsPerPage
@@ -609,7 +617,8 @@ function SettingExpenses({ hostelid }) {
       )}
 
 
-      <div className="mt-4 d-flex flex-wrap justify-content-between scroll-issue" style={{ gap: "20px", alignItems: "flex-start" }}>
+      <div className="mt-4 pe-4 d-flex flex-wrap justify-content-between show-scrolls" style={{ gap: "20px", alignItems: "flex-start",   maxHeight: "470px",
+                overflowY: "auto" }}>
 
         {currentRowExpense && currentRowExpense.length > 0 ? (
           currentRowExpense.map((category) => (
@@ -724,29 +733,78 @@ function SettingExpenses({ hostelid }) {
         )}
 
 
-        {expensesFilterddata?.length >= 5 && (
-          <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
-            <div>
-              <select
-                value={expensesrowsPerPage}
-                onChange={handleItemsPerPageChange}
-                style={{
-                  padding: "5px",
-                  border: "1px solid #1E45E1",
-                  borderRadius: "5px",
-                  color: "#1E45E1",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  outline: "none",
-                  boxShadow: "none",
-                }}
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </div>
+        {expensesFilterddata?.length > 10 && (
+          <nav  style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+            padding: "10px",
+            position: "fixed",
+            bottom: "0px",
+            right: "0px",
+            backgroundColor: "#fff",
+            borderRadius: "5px",
+            zIndex: 1000,
+          }}>
+          <div>
+  <Select
+    value={expenseOptions.find((opt) => opt.value === expensesrowsPerPage)}
+    onChange={handleItemsPerPageChange}
+    options={expenseOptions}
+    placeholder="Items per page"
+    classNamePrefix="custom"
+    menuPlacement="auto"
+    noOptionsMessage={() => "No options"}
+    styles={{
+      control: (base) => ({
+        ...base,
+        height: "40px",
+        borderRadius: "6px",
+        fontSize: "14px",
+        color: "#1E45E1",
+        fontFamily: "Gilroy",
+        fontWeight: 600,
+        border: "1px solid #1E45E1",
+        boxShadow: "0 0 0 1px #1E45E1",
+        cursor: "pointer",
+        width: 90,
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+        fontFamily: "Gilroy",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "200px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+        fontFamily: "Gilroy",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#1E45E1",
+        cursor: "pointer",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+      option: (base, state) => ({
+        ...base,
+        cursor: "pointer",
+        backgroundColor: state.isFocused ? "#1E45E1" : "white",
+        color: state.isFocused ? "#fff" : "#000",
+      }),
+    }}
+  />
+</div>
 
             <ul
               style={{
