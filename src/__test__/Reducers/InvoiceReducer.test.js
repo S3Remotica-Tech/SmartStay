@@ -1,6 +1,110 @@
+
+/* global vi */
+/* eslint-env vitest */
+
+
 import InvoiceReducer, { initialState } from "../../Redux/Reducer/InvoiceReducer";
 
 describe('it should check invoice reducers', () => {
+
+
+
+
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            Invoice: [],
+            message: '',
+            invoiceSettings: [],
+            invoicePDF: '',
+            prefix: '',
+            statusCodeForPDf: 0,
+            suffix: '',
+            profile: '',
+            AmenitiesSettings: [],
+            AmenitiesList: [],
+            AmenitiesUpdate: [],
+            statusCode: 0,
+            InvoiceListStatusCode: 0,
+            toTriggerPDF: false,
+            invoiceSettingsStatusCode: 0,
+            StatusCodeAmenitiesGet: 0,
+            AmenitiesUpdateStatusCode: 0,
+            ManualInvoice: [],
+            BillsErrorstatusCode: 0,
+            manualInvoiceStatusCode: 0,
+            UpdateInvoiceStatusCode: 0,
+            ManualInvoiceNUmber: [],
+            ManualInvoices: [],
+            ManualInvoicesgetstatuscode: 0,
+            Manulainvoicenumberstatuscode: 0,
+            manualInvoiceAddStatusCode: 0,
+            manualInvoiceEditStatusCode: 0,
+            manualInvoiceDeleteStatusCode: 0,
+            recurrbillamountgetStatuscode: 0,
+            Recurringbillamounts: [],
+            RecurringBillAddStatusCode: 0,
+            RecurringBills: [],
+            RecurringbillsgetStatuscode: 0,
+            NodataRecurringStatusCode: 0,
+            deleterecurringbillsStatuscode: 0,
+            settingsaddRecurringStatusCode: 0,
+            deleteUserSuccessStatusCode: 0,
+            deleteAmenitiesSuccessStatusCode: 0,
+            assignAmenitiesSuccessStatusCode: 0,
+            getAssignAmenitiesSuccessStatusCode: 0,
+            GetAssignAmenitiesList: [],
+            GetUnAssignAmenitiesList: [],
+            UnAssignAmenitiesSuccessStatusCode: 0,
+            deletemanualError: '',
+            ReceiptList: [],
+            ReceiptlistgetStatuscode: 0,
+            NodataReceiptStatusCode: 0,
+            ReceiptAddsuccessStatuscode: 0,
+            ReceiptEditsuccessStatuscode: 0,
+            ReceiptDeletesuccessStatuscode: 0,
+            Reference_Id: '',
+            ReferenceIdgetsuccessStatuscode: 0,
+            errorAmenities: 0,
+            alreadyAssignAmenitiesStatusCode: 0,
+            statusCodeForReceiptPDf: 0,
+            ReceiptPDF: '',
+            getstatusCodeForfilterrecurrcustomers: 0,
+            FilterRecurrCustomers: [],
+            errorRecuireFile: '',
+            RecurenotEnable: '',
+            RecurenotenableStatusCode: 0,
+            Errmessage: '',
+            amnitiessAddError: '',
+
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+
+            newReceiptchanges: [],
+            ReceiptErrmsg: '',
+            ReceiptAddErrorStatuscode: 0,
+            statusCodeNewReceiptStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
+            triggeredBy: '',
+
+            whatsappSettings:
+                JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                    0: false,
+                    1: false,
+                    2: false,
+                    3: false,
+                },
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = InvoiceReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
+
+
 
 
     it('it should check ERROR_AMENITIES', () => {
@@ -283,8 +387,10 @@ describe('it should check invoice reducers', () => {
     it('it should check UPDATEINVOICE_DETAILS', () => {
         const action = {
             type: 'UPDATEINVOICE_DETAILS',
-            payload: {
-                response: {
+            payload:
+            {
+                statusCode: 100,
+                                response: {
                     statusCode: 200
                 },
             }
@@ -296,6 +402,24 @@ describe('it should check invoice reducers', () => {
         });
     });
 
+   it('it should check UPDATEINVOICE_DETAILS STATUS CODE', () => {
+        const action = {
+            type: 'UPDATEINVOICE_DETAILS',
+            payload:
+            {
+                statusCode: 200,
+                  response: {
+                    statusCode: 0
+                },
+               
+            }
+        };
+
+        expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            UpdateInvoiceStatusCode: 200
+        });
+    });
 
     it('it should check CLEAR_INVOICE_UPDATE_LIST', () => {
         const action = {
@@ -765,6 +889,13 @@ describe('it should check invoice reducers', () => {
         });
     });
 
+
+
+
+
+
+
+
     it('it should check REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST', () => {
         const action = {
             type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST',
@@ -807,6 +938,25 @@ describe('it should check invoice reducers', () => {
             RecurringbillsgetStatuscode: 200
         });
     });
+
+
+    it('it should check RECURRING_BILLS_LIST NULL CHECK', () => {
+        const action = {
+            type: 'RECURRING_BILLS_LIST',
+            payload: {
+                response: null,
+                statusCode: 200
+            }
+        };
+
+        expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            RecurringBills: [],
+            RecurringbillsgetStatuscode: 200
+        });
+    });
+
+
 
     it('it should check REMOVE_STATUS_CODE_RECURRING_BILLS_LIST', () => {
         const action = {
@@ -1384,7 +1534,7 @@ describe('it should check invoice reducers', () => {
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
             statusCodeNewReceiptStatusCode: 0,
-             AddErrorRecurrringStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
             ReceiptAddErrorStatuscode: 0,
             ReceiptErrmsg: "",
             triggeredBy: '',
@@ -1479,7 +1629,7 @@ describe('it should check invoice reducers', () => {
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
             statusCodeNewReceiptStatusCode: 0,
-             AddErrorRecurrringStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
             ReceiptAddErrorStatuscode: 0,
             ReceiptErrmsg: "",
             triggeredBy: '',
@@ -1574,7 +1724,7 @@ describe('it should check invoice reducers', () => {
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
             statusCodeNewReceiptStatusCode: 0,
-             AddErrorRecurrringStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
             ReceiptAddErrorStatuscode: 0,
             ReceiptErrmsg: "",
             triggeredBy: '',
@@ -1670,7 +1820,7 @@ describe('it should check invoice reducers', () => {
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
             statusCodeNewReceiptStatusCode: 0,
-             AddErrorRecurrringStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
             ReceiptAddErrorStatuscode: 0,
             ReceiptErrmsg: "",
             triggeredBy: '',
@@ -1763,7 +1913,7 @@ describe('it should check invoice reducers', () => {
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
             statusCodeNewReceiptStatusCode: 0,
-             AddErrorRecurrringStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
             ReceiptAddErrorStatuscode: 0,
             ReceiptErrmsg: "",
             triggeredBy: '',
@@ -1856,7 +2006,7 @@ describe('it should check invoice reducers', () => {
             BillsPdfSuccessCode: 0,
             newReceiptchanges: [],
             statusCodeNewReceiptStatusCode: 0,
-             AddErrorRecurrringStatusCode: 0,
+            AddErrorRecurrringStatusCode: 0,
             ReceiptAddErrorStatuscode: 0,
             ReceiptErrmsg: "",
             triggeredBy: '',
@@ -1908,10 +2058,6 @@ describe('it should check invoice reducers', () => {
         });
     });
 
-})
-
-
-
 
 
 
@@ -1947,6 +2093,463 @@ it('should handle RECEIPT_PDF_CHANGES', () => {
         statusCodeNewReceiptStatusCode: payload.statusCode
     });
 });
+
+
+
+it('it should check ERROR_RECEIPTS_ADD', () => {
+    const action = {
+        type: 'ERROR_RECEIPTS_ADD',
+        payload: {
+            response: "",
+            statusCode: 200
+        }
+    };
+
+    expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+        Invoice: [],
+        message: '',
+        invoiceSettings: [],
+        invoicePDF: '',
+        prefix: '',
+        statusCodeForPDf: 0,
+        suffix: '',
+        profile: '',
+        AmenitiesSettings: [],
+        AmenitiesList: [],
+        AmenitiesUpdate: [],
+        statusCode: 0,
+        InvoiceListStatusCode: 0,
+        toTriggerPDF: false,
+        invoiceSettingsStatusCode: 0,
+        StatusCodeAmenitiesGet: 0,
+        AmenitiesUpdateStatusCode: 0,
+        ManualInvoice: [],
+        BillsErrorstatusCode: 0,
+        manualInvoiceStatusCode: 0,
+        UpdateInvoiceStatusCode: 0,
+        ManualInvoiceNUmber: [],
+        ManualInvoices: [],
+        ManualInvoicesgetstatuscode: 0,
+        Manulainvoicenumberstatuscode: 0,
+        manualInvoiceAddStatusCode: 0,
+        manualInvoiceEditStatusCode: 0,
+        manualInvoiceDeleteStatusCode: 0,
+        recurrbillamountgetStatuscode: 0,
+        Recurringbillamounts: [],
+        RecurringBillAddStatusCode: 0,
+        RecurringBills: [],
+        RecurringbillsgetStatuscode: 0,
+        NodataRecurringStatusCode: 0,
+        deleterecurringbillsStatuscode: 0,
+        settingsaddRecurringStatusCode: 0,
+        deleteUserSuccessStatusCode: 0,
+        deleteAmenitiesSuccessStatusCode: 0,
+        assignAmenitiesSuccessStatusCode: 0,
+        getAssignAmenitiesSuccessStatusCode: 0,
+        GetAssignAmenitiesList: [],
+        GetUnAssignAmenitiesList: [],
+        UnAssignAmenitiesSuccessStatusCode: 0,
+        deletemanualError: '',
+        ReceiptList: [],
+        ReceiptlistgetStatuscode: 0,
+        NodataReceiptStatusCode: 0,
+        ReceiptAddsuccessStatuscode: 0,
+        ReceiptEditsuccessStatuscode: 0,
+        ReceiptDeletesuccessStatuscode: 0,
+        Reference_Id: '',
+        ReferenceIdgetsuccessStatuscode: 0,
+        errorAmenities: 0,
+        alreadyAssignAmenitiesStatusCode: 0,
+        statusCodeForReceiptPDf: 0,
+        ReceiptPDF: '',
+        getstatusCodeForfilterrecurrcustomers: 0,
+        FilterRecurrCustomers: [],
+        errorRecuireFile: '',
+        RecurenotEnable: '',
+        RecurenotenableStatusCode: 0,
+        Errmessage: '',
+        amnitiessAddError: '',
+
+        BillsPdfDetails: [],
+        BillsPdfSuccessCode: 0,
+
+        newReceiptchanges: [],
+        ReceiptErrmsg: '',
+        ReceiptAddErrorStatuscode: 200,
+        statusCodeNewReceiptStatusCode: 0,
+        AddErrorRecurrringStatusCode: 0,
+        triggeredBy: '',
+
+        whatsappSettings:
+            JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                0: false,
+                1: false,
+                2: false,
+                3: false,
+            },
+
+    });
+});
+
+
+it('it should check REMOVE_STATUS_ERROR_RECEIPTS_ADD', () => {
+    const action = {
+        type: 'REMOVE_STATUS_ERROR_RECEIPTS_ADD',
+        payload: {
+            response: "",
+            statusCode: 0
+        }
+    };
+
+    expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+        Invoice: [],
+        message: '',
+        invoiceSettings: [],
+        invoicePDF: '',
+        prefix: '',
+        statusCodeForPDf: 0,
+        suffix: '',
+        profile: '',
+        AmenitiesSettings: [],
+        AmenitiesList: [],
+        AmenitiesUpdate: [],
+        statusCode: 0,
+        InvoiceListStatusCode: 0,
+        toTriggerPDF: false,
+        invoiceSettingsStatusCode: 0,
+        StatusCodeAmenitiesGet: 0,
+        AmenitiesUpdateStatusCode: 0,
+        ManualInvoice: [],
+        BillsErrorstatusCode: 0,
+        manualInvoiceStatusCode: 0,
+        UpdateInvoiceStatusCode: 0,
+        ManualInvoiceNUmber: [],
+        ManualInvoices: [],
+        ManualInvoicesgetstatuscode: 0,
+        Manulainvoicenumberstatuscode: 0,
+        manualInvoiceAddStatusCode: 0,
+        manualInvoiceEditStatusCode: 0,
+        manualInvoiceDeleteStatusCode: 0,
+        recurrbillamountgetStatuscode: 0,
+        Recurringbillamounts: [],
+        RecurringBillAddStatusCode: 0,
+        RecurringBills: [],
+        RecurringbillsgetStatuscode: 0,
+        NodataRecurringStatusCode: 0,
+        deleterecurringbillsStatuscode: 0,
+        settingsaddRecurringStatusCode: 0,
+        deleteUserSuccessStatusCode: 0,
+        deleteAmenitiesSuccessStatusCode: 0,
+        assignAmenitiesSuccessStatusCode: 0,
+        getAssignAmenitiesSuccessStatusCode: 0,
+        GetAssignAmenitiesList: [],
+        GetUnAssignAmenitiesList: [],
+        UnAssignAmenitiesSuccessStatusCode: 0,
+        deletemanualError: '',
+        ReceiptList: [],
+        ReceiptlistgetStatuscode: 0,
+        NodataReceiptStatusCode: 0,
+        ReceiptAddsuccessStatuscode: 0,
+        ReceiptEditsuccessStatuscode: 0,
+        ReceiptDeletesuccessStatuscode: 0,
+        Reference_Id: '',
+        ReferenceIdgetsuccessStatuscode: 0,
+        errorAmenities: 0,
+        alreadyAssignAmenitiesStatusCode: 0,
+        statusCodeForReceiptPDf: 0,
+        ReceiptPDF: '',
+        getstatusCodeForfilterrecurrcustomers: 0,
+        FilterRecurrCustomers: [],
+        errorRecuireFile: '',
+        RecurenotEnable: '',
+        RecurenotenableStatusCode: 0,
+        Errmessage: '',
+        amnitiessAddError: '',
+        BillsPdfDetails: [],
+        BillsPdfSuccessCode: 0,
+        newReceiptchanges: [],
+        ReceiptErrmsg: '',
+        ReceiptAddErrorStatuscode: 0,
+        statusCodeNewReceiptStatusCode: 0,
+        AddErrorRecurrringStatusCode: 0,
+        triggeredBy: '',
+
+        whatsappSettings:
+            JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                0: false,
+                1: false,
+                2: false,
+                3: false,
+            },
+
+    });
+});
+
+
+it('it should check SET_TRIGGER_SOURCE', () => {
+    const action = {
+        type: 'SET_TRIGGER_SOURCE',
+        payload: "1"
+    };
+
+    expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+        Invoice: [],
+        message: '',
+        invoiceSettings: [],
+        invoicePDF: '',
+        prefix: '',
+        statusCodeForPDf: 0,
+        suffix: '',
+        profile: '',
+        AmenitiesSettings: [],
+        AmenitiesList: [],
+        AmenitiesUpdate: [],
+        statusCode: 0,
+        InvoiceListStatusCode: 0,
+        toTriggerPDF: false,
+        invoiceSettingsStatusCode: 0,
+        StatusCodeAmenitiesGet: 0,
+        AmenitiesUpdateStatusCode: 0,
+        ManualInvoice: [],
+        BillsErrorstatusCode: 0,
+        manualInvoiceStatusCode: 0,
+        UpdateInvoiceStatusCode: 0,
+        ManualInvoiceNUmber: [],
+        ManualInvoices: [],
+        ManualInvoicesgetstatuscode: 0,
+        Manulainvoicenumberstatuscode: 0,
+        manualInvoiceAddStatusCode: 0,
+        manualInvoiceEditStatusCode: 0,
+        manualInvoiceDeleteStatusCode: 0,
+        recurrbillamountgetStatuscode: 0,
+        Recurringbillamounts: [],
+        RecurringBillAddStatusCode: 0,
+        RecurringBills: [],
+        RecurringbillsgetStatuscode: 0,
+        NodataRecurringStatusCode: 0,
+        deleterecurringbillsStatuscode: 0,
+        settingsaddRecurringStatusCode: 0,
+        deleteUserSuccessStatusCode: 0,
+        deleteAmenitiesSuccessStatusCode: 0,
+        assignAmenitiesSuccessStatusCode: 0,
+        getAssignAmenitiesSuccessStatusCode: 0,
+        GetAssignAmenitiesList: [],
+        GetUnAssignAmenitiesList: [],
+        UnAssignAmenitiesSuccessStatusCode: 0,
+        deletemanualError: '',
+        ReceiptList: [],
+        ReceiptlistgetStatuscode: 0,
+        NodataReceiptStatusCode: 0,
+        ReceiptAddsuccessStatuscode: 0,
+        ReceiptEditsuccessStatuscode: 0,
+        ReceiptDeletesuccessStatuscode: 0,
+        Reference_Id: '',
+        ReferenceIdgetsuccessStatuscode: 0,
+        errorAmenities: 0,
+        alreadyAssignAmenitiesStatusCode: 0,
+        statusCodeForReceiptPDf: 0,
+        ReceiptPDF: '',
+        getstatusCodeForfilterrecurrcustomers: 0,
+        FilterRecurrCustomers: [],
+        errorRecuireFile: '',
+        RecurenotEnable: '',
+        RecurenotenableStatusCode: 0,
+        Errmessage: '',
+        amnitiessAddError: '',
+        BillsPdfDetails: [],
+        BillsPdfSuccessCode: 0,
+        newReceiptchanges: [],
+        ReceiptErrmsg: '',
+        ReceiptAddErrorStatuscode: 0,
+        statusCodeNewReceiptStatusCode: 0,
+        AddErrorRecurrringStatusCode: 0,
+        triggeredBy: '1',
+
+        whatsappSettings:
+            JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                0: false,
+                1: false,
+                2: false,
+                3: false,
+            },
+
+    });
+});
+
+it('it should check CLEAR_TRIGGER_SOURCE', () => {
+    const action = {
+        type: 'CLEAR_TRIGGER_SOURCE',
+        payload: ""
+    };
+
+    expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+        Invoice: [],
+        message: '',
+        invoiceSettings: [],
+        invoicePDF: '',
+        prefix: '',
+        statusCodeForPDf: 0,
+        suffix: '',
+        profile: '',
+        AmenitiesSettings: [],
+        AmenitiesList: [],
+        AmenitiesUpdate: [],
+        statusCode: 0,
+        InvoiceListStatusCode: 0,
+        toTriggerPDF: false,
+        invoiceSettingsStatusCode: 0,
+        StatusCodeAmenitiesGet: 0,
+        AmenitiesUpdateStatusCode: 0,
+        ManualInvoice: [],
+        BillsErrorstatusCode: 0,
+        manualInvoiceStatusCode: 0,
+        UpdateInvoiceStatusCode: 0,
+        ManualInvoiceNUmber: [],
+        ManualInvoices: [],
+        ManualInvoicesgetstatuscode: 0,
+        Manulainvoicenumberstatuscode: 0,
+        manualInvoiceAddStatusCode: 0,
+        manualInvoiceEditStatusCode: 0,
+        manualInvoiceDeleteStatusCode: 0,
+        recurrbillamountgetStatuscode: 0,
+        Recurringbillamounts: [],
+        RecurringBillAddStatusCode: 0,
+        RecurringBills: [],
+        RecurringbillsgetStatuscode: 0,
+        NodataRecurringStatusCode: 0,
+        deleterecurringbillsStatuscode: 0,
+        settingsaddRecurringStatusCode: 0,
+        deleteUserSuccessStatusCode: 0,
+        deleteAmenitiesSuccessStatusCode: 0,
+        assignAmenitiesSuccessStatusCode: 0,
+        getAssignAmenitiesSuccessStatusCode: 0,
+        GetAssignAmenitiesList: [],
+        GetUnAssignAmenitiesList: [],
+        UnAssignAmenitiesSuccessStatusCode: 0,
+        deletemanualError: '',
+        ReceiptList: [],
+        ReceiptlistgetStatuscode: 0,
+        NodataReceiptStatusCode: 0,
+        ReceiptAddsuccessStatuscode: 0,
+        ReceiptEditsuccessStatuscode: 0,
+        ReceiptDeletesuccessStatuscode: 0,
+        Reference_Id: '',
+        ReferenceIdgetsuccessStatuscode: 0,
+        errorAmenities: 0,
+        alreadyAssignAmenitiesStatusCode: 0,
+        statusCodeForReceiptPDf: 0,
+        ReceiptPDF: '',
+        getstatusCodeForfilterrecurrcustomers: 0,
+        FilterRecurrCustomers: [],
+        errorRecuireFile: '',
+        RecurenotEnable: '',
+        RecurenotenableStatusCode: 0,
+        Errmessage: '',
+        amnitiessAddError: '',
+        BillsPdfDetails: [],
+        BillsPdfSuccessCode: 0,
+        newReceiptchanges: [],
+        ReceiptErrmsg: '',
+        ReceiptAddErrorStatuscode: 0,
+        statusCodeNewReceiptStatusCode: 0,
+        AddErrorRecurrringStatusCode: 0,
+        triggeredBy: '',
+
+        whatsappSettings:
+            JSON.parse(localStorage.getItem('whatsappSettings')) || {
+                0: false,
+                1: false,
+                2: false,
+                3: false,
+            },
+
+    });
+});
+
+
+it('it should check SET_WHATSAPP_SETTINGS', () => {
+const payload = {
+    0: true,
+    1: false,
+    2: true,
+    3: false,
+  };
+
+    const action = {
+        type: 'SET_WHATSAPP_SETTINGS',
+        payload: payload,
+    };
+
+     const expectedState = {
+    ...initialState,
+    whatsappSettings: payload,
+  };
+
+    expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual(expectedState);
+});
+
+it('should handle TOGGLE_WHATSAPP_SETTING', () => {
+   const initialWhatsappSettings = {
+    0: false,
+    1: false,
+    2: false,
+    3: false,
+  };
+
+  const initialStateWithWhatsapp = {
+    ...initialState,
+    whatsappSettings: initialWhatsappSettings,
+  };
+
+ 
+  const payload = {
+    id: 2,
+    value: true,
+  };
+
+  const action = {
+    type: 'TOGGLE_WHATSAPP_SETTING',
+    payload,
+  };
+
+  
+  const expectedWhatsappSettings = {
+    ...initialWhatsappSettings,
+    [payload.id]: payload.value,
+  };
+
+   const setItemSpy = vi.spyOn(localStorage.__proto__, 'setItem');
+  setItemSpy.mockImplementation(() => {});
+
+  const result = InvoiceReducer(initialStateWithWhatsapp, action);
+
+  expect(result).toStrictEqual({
+    ...initialStateWithWhatsapp,
+    whatsappSettings: expectedWhatsappSettings,
+  });
+
+  expect(setItemSpy).toHaveBeenCalledWith(
+    'whatsappSettings',
+    JSON.stringify(expectedWhatsappSettings)
+  );
+  setItemSpy.mockRestore();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+})
+
+
 
 
 

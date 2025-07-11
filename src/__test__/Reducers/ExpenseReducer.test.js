@@ -5,6 +5,34 @@ import ExpenseReducer, { initialState } from "../../Redux/Reducer/ExpenseReducer
 
 describe('It should check expense reducer', () => {
 
+
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            categoryList: [],
+            StatusCodeForAddExpenseSuccess: 0,
+            expenseList: [],
+            getExpenseStatusCode: 0,
+            deleteExpenseStatusCode: 0,
+            assetList: [],
+            vendorList: [],
+            categorylist: [],
+            paymentModeList: [],
+            nodataGetExpenseStatusCode: 0,
+            transactionHistory: [],
+            StatusCodeForAddExpenseTagSuccess: 0,
+            expenceNetBanking: '',
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = ExpenseReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
+
+
     it('it should check for CATEGORY_LIST', () => {
         const action = {
             type: 'CATEGORY_LIST',
@@ -67,14 +95,14 @@ describe('It should check expense reducer', () => {
             payload: {
                 response: [],
                 statusCode: 200,
-                paymentmode:[]
+                paymentmode: []
             }
         }
         expect(ExpenseReducer(initialState, action)).toStrictEqual({
             ...initialState,
             expenseList: [],
             getExpenseStatusCode: 200,
-             paymentModeList: [],
+            paymentModeList: [],
         })
     })
 
@@ -210,12 +238,12 @@ describe('It should check expense reducer', () => {
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(ExpenseReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
 

@@ -3,6 +3,134 @@ import UserListReducer, { initialState } from "../../Redux/Reducer/UserListReduc
 describe('it should check userList reducers', () => {
 
 
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = UserListReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
     it('it should check DELETE_CUSTOMER', () => {
         const action = {
             type: 'DELETE_CUSTOMER',
@@ -1016,7 +1144,7 @@ describe('it should check userList reducers', () => {
 
 
 
-  
+
 
     it('it should check EXPORT_DETAILS', () => {
         const action = {
@@ -1429,24 +1557,24 @@ describe('it should check userList reducers', () => {
                 response: 'error contact details'
             }
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             contactError: 'error contact details'
         });
     });
-    
+
     it('should check CLEAR_CONTACT_ERROR', () => {
         const action = {
             type: 'CLEAR_CONTACT_ERROR'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             contactError: ''
         });
     });
-    
+
 
 
 
@@ -1458,25 +1586,25 @@ describe('it should check userList reducers', () => {
                 statusCode: 200
             }
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             generateAdvance: [],
             statusCodeForGenerateAdvance: 200
         });
     });
-    
+
     it('should check REMOVE_GENERATE_ADVANCE', () => {
         const action = {
             type: 'REMOVE_GENERATE_ADVANCE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             statusCodeForGenerateAdvance: 0
         });
     });
-    
+
 
 
 
@@ -1487,318 +1615,1886 @@ describe('it should check userList reducers', () => {
             type: 'GENERATE_ERROR',
             payload: 'some error occured'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             generateError: 'some error occured'
         });
     });
-    
+
     it('should check CLEAR_GENERATE_ERROR', () => {
         const action = {
             type: 'CLEAR_GENERATE_ERROR'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             generateError: ''
         });
     });
-    
+
     it('should check UPLOAD_DOCUMENT', () => {
         const action = {
             type: 'UPLOAD_DOCUMENT',
             payload: {
-                 message: 'Document uploaded successfully', 
-                 statusCode: 200 
-                }
+                message: 'Document uploaded successfully',
+                statusCode: 200
+            }
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             uploaddocu: 'Document uploaded successfully',
             statusCodeForUploadDocument: 200
         });
     });
-    
+
     it('should check CLEAR_UPLOAD_DOCUMENT', () => {
         const action = {
             type: 'CLEAR_UPLOAD_DOCUMENT'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             statusCodeForUploadDocument: 0
         });
     });
-    
+
     it('should check UPLOAD_OTHER_DOCUMENT', () => {
         const action = {
             type: 'UPLOAD_OTHER_DOCUMENT',
             payload: {
-                message: 'Other document uploaded', 
-                statusCode: 200 
+                message: 'Other document uploaded',
+                statusCode: 200
             }
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             otherUploaddocu: 'Other document uploaded',
             statusCodeForOtherDocu: 200
         });
     });
-    
+
     it('should check CLEAR_UPLOAD_OTHER_DOCUMENT', () => {
         const action = {
             type: 'CLEAR_UPLOAD_OTHER_DOCUMENT'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             statusCodeForOtherDocu: 0
         });
     });
-    
+
     it('should check USERROOMAVAILABLETRUE', () => {
-        const action = { 
-            type: 'USERROOMAVAILABLETRUE' 
+        const action = {
+            type: 'USERROOMAVAILABLETRUE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userRoomfor: true
         });
     });
-    
+
     it('should check USERROOMAVAILABLEFALSE', () => {
-        const action = { 
-            type: 'USERROOMAVAILABLEFALSE' 
+        const action = {
+            type: 'USERROOMAVAILABLEFALSE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userRoomfor: false
         });
     });
-    
+
     it('should check USERPROFILEBILLTRUE', () => {
-        const action = { 
-            type: 'USERPROFILEBILLTRUE' 
+        const action = {
+            type: 'USERPROFILEBILLTRUE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userProfilebill: true
         });
     });
-    
+
     it('should check USERPROFILEBILLFALSE', () => {
         const action = {
-             type: 'USERPROFILEBILLFALSE'
-             };
-    
+            type: 'USERPROFILEBILLFALSE'
+        };
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userProfilebill: false
         });
     });
-    
+
     it('should check ADHAR_UPLOAD_ERROR', () => {
         const action = {
             type: 'ADHAR_UPLOAD_ERROR',
             payload: {
-                 response: 'Aadhar upload error', 
-                statusCode: 200 }
+                response: 'Aadhar upload error',
+                statusCode: 200
+            }
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             adharuploadfileError: 'Aadhar upload error',
             statuscodeForAdharFileError: 200
         });
     });
-    
+
     it('should check CLEAR_ADHAR_UPLOAD_ERROR', () => {
         const action = { type: 'CLEAR_ADHAR_UPLOAD_ERROR' };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             adharuploadfileError: ''
         });
     });
-    
+
     it('should check CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE', () => {
-        const action = { 
-            type: 'CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE' 
+        const action = {
+            type: 'CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             statuscodeForAdharFileError: 0
         });
     });
-    
+
     it('should check USERREADINGTRUE', () => {
-        const action = { 
-            type: 'USERREADINGTRUE' 
+        const action = {
+            type: 'USERREADINGTRUE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userReading: true
         });
     });
-    
+
     it('should check USERREADINGFALSE', () => {
-        const action = { 
-            type: 'USERREADINGFALSE' 
+        const action = {
+            type: 'USERREADINGFALSE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userReading: false
         });
     });
-    
+
     it('should check USERHOSTELREADINGTRUE', () => {
-        const action = { 
-            type: 'USERHOSTELREADINGTRUE' 
+        const action = {
+            type: 'USERHOSTELREADINGTRUE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userHostelRead: true
         });
     });
-    
+
     it('should check USERHOSTELREADINGFALSE', () => {
-        const action = { 
-            type: 'USERHOSTELREADINGFALSE' 
+        const action = {
+            type: 'USERHOSTELREADINGFALSE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userHostelRead: false
         });
     });
-    
+
     it('should check USERREADING_DELETETRUE', () => {
-        const action = { 
+        const action = {
             type: 'USERREADING_DELETETRUE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userReadingdelete: true
         });
     });
-    
+
     it('should check USERREADING_DELETEFALSE', () => {
-        const action = { 
-            type: 'USERREADING_DELETEFALSE' 
+        const action = {
+            type: 'USERREADING_DELETEFALSE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userReadingdelete: false
         });
     });
-    
+
     it('should check USERHOSTEL_READING_DELETETRUE', () => {
-        const action = { 
+        const action = {
             type: 'USERHOSTEL_READING_DELETETRUE'
-         };
-    
+        };
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userHosteldelete: true
         });
     });
-    
+
     it('should check USERHOSTEL_READING_DELETEFALSE', () => {
-        const action = { 
-            type: 'USERHOSTEL_READING_DELETEFALSE' 
+        const action = {
+            type: 'USERHOSTEL_READING_DELETEFALSE'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             userHosteldelete: false
         });
     });
-    
+
     it('should check UPDATE_USERSLIST_TRUE', () => {
         const action = {
-             type: 'UPDATE_USERSLIST_TRUE' 
-            };
-    
+            type: 'UPDATE_USERSLIST_TRUE'
+        };
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             isUsersListTrue: 3
         });
     });
-    
+
     it('should check UPDATE_USERSLIST_FALSE', () => {
         const action = {
-             type: 'UPDATE_USERSLIST_FALSE' 
-            };
-    
+            type: 'UPDATE_USERSLIST_FALSE'
+        };
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             isUsersListTrue: 1
         });
     });
-    
+
     it('should check HOSTEL_ID_LIST', () => {
         const action = {
             type: 'HOSTEL_ID_LIST',
-            payload: 
-            { 
-             statusCode: 200
-             }
+            payload:
+            {
+                statusCode: 200
+            }
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             hostelListNewDetails: action.payload,
             statusCodeForhostelListNewDetails: 200
         });
     });
-    
+
     it('should check CLEAR_HOSTEL_ID_LIST', () => {
-        const action = { 
-            type: 'CLEAR_HOSTEL_ID_LIST' 
+        const action = {
+            type: 'CLEAR_HOSTEL_ID_LIST'
         };
-    
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             statusCodeForhostelListNewDetails: 0
         });
     });
-    
+
     it('should check CLEAR_HOSTEL_LIST', () => {
-        const action = { 
+        const action = {
             type: 'CLEAR_HOSTEL_LIST'
-         };
-    
+        };
+
         expect(UserListReducer(initialState, action)).toStrictEqual({
             ...initialState,
             hostelList: [],
             hostelListNewDetails: []
         });
     });
-    
+
 
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(UserListReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
+
+
+
+    it('it should check ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR', () => {
+        const action = {
+            type: 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR',
+            payload: "already checkout date added"
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: 'already checkout date added',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+
+    it('it should check CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR', () => {
+        const action = {
+            type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR',
+            payload: ""
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+    it('it should check EDIT_CONFIRM_CHECK_OUT_CUSTOMER', () => {
+        const action = {
+            type: 'EDIT_CONFIRM_CHECK_OUT_CUSTOMER',
+            payload: {
+                statusCode: 200
+            }
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 200,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+    it('it should check CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER', () => {
+        const action = {
+            type: 'CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER',
+            payload: ""
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+    it('it should check EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', () => {
+        const action = {
+            type: 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR',
+            payload: 'Some error occurred while editing confirm checkout'
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: 'Some error occurred while editing confirm checkout',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+
+    it('it should check CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', () => {
+        const action = {
+            type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR',
+            payload: ''
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+
+    it('it should check KYC_VERIFY_NEW', () => {
+        const action = {
+            type: 'KYC_VERIFY_NEW',
+            payload: {
+                response: { kyc: 'verified', name: 'Prem' },
+                statusCode: 200
+            }
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            statusCodeforverifyKYC: 200,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0,
+            kycverifynew: { kyc: 'verified', name: 'Prem' },
+
+        });
+    });
+
+
+
+    it('it should check REMOVE_KYC_VERIFY_NEW', () => {
+        const action = {
+            type: 'REMOVE_KYC_VERIFY_NEW',
+            payload: ""
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+
+
+    it('it should check KYC_CUSTOMER_DETAILS', () => {
+        const action = {
+            type: 'KYC_CUSTOMER_DETAILS',
+            payload: {
+                response: { customer: 'muthu', kycStatus: 'Pending' },
+                statusCode: 200,
+            },
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: { customer: 'muthu', kycStatus: 'Pending' },
+            statusCodeForCustomerDetails: 200,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+
+
+    it('it should check REMOVEKYC_CUSTOMER_DETAILS', () => {
+        const action = {
+            type: 'REMOVEKYC_CUSTOMER_DETAILS',
+            payload: {
+                statusCode: 0,
+            },
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            KycCustomerDetails: {},
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+            KYCStatusCode: 0
+        });
+    });
+
+
+
+
+    it('it should check KYC_NOT_ADDED', () => {
+        const action = {
+            type: 'KYC_NOT_ADDED',
+            payload: {
+                response: { name: 'Test User', status: 'KYC not done' },
+                statusCode: 201
+            }
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            KycCustomerDetails: { name: 'Test User', status: 'KYC not done' },
+            KYCStatusCode: 201,
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+        });
+    });
+
+
+    it('it should check REMOVE_KYC_NOT_ADDED', () => {
+        const action = {
+            type: 'REMOVE_KYC_NOT_ADDED',
+            payload: {
+                statusCode: 0
+            }
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            KycCustomerDetails: {},
+            KYCStatusCode: 0,
+            Users: [],
+            addUser: [],
+            errorMessage: {},
+            hostelList: [],
+            roomCount: [],
+            billPaymentHistory: [],
+            number_of_floor: '',
+            roomdetails: [],
+            message: {},
+            roomFullCheck: [],
+            beddetails: [],
+            UserListStatusCode: 0,
+            bedCount: [],
+            createFloorMessage: '',
+            statusCodeForAddUser: '',
+            errormessage: {},
+            CheckOut: [],
+            checkOutStatusCode: 0,
+            hosteListStatusCode: 0,
+            customerdetails: [],
+            amnetieshistory: [],
+            amnitiesnamelist: [],
+            addUserAmnities: '',
+            usermessage: '',
+            statusCustomerAddUser: 0,
+            CustomerdetailsgetStatuscode: 0,
+            AmentiesHistorygetStatuscode: 0,
+            bednumberdetails: [],
+            statushostelbedstatuscode: '',
+            kycValidateSendOtpSuccess: 0,
+            deleteFloorSuccessStatusCode: 0,
+            Kyc_Ref_Id: '',
+            kycValidateOtpVerifySuccess: 0,
+            createFloorSuccessStatusCode: 0,
+            countrycode: [],
+            noHosteListStatusCode: 0,
+            alreadyFloorHere: '',
+            deleteFloorError: '',
+            deleteRoomError: '',
+            phoneError: '',
+            emailError: '',
+            getWalkInStatusCode: 0,
+            WalkInCustomerList: [],
+            NoDataWalkInCustomer: '',
+            NoDataWalkInCustomerStatusCode: 0,
+            addWalkInCustomerStatusCode: 0,
+            alreadyHere: '',
+            deleteWalkInCustomerStatusCode: 0,
+            GetCheckOutCustomerStatusCode: 0,
+            CheckOutCustomerList: [],
+            addCheckoutCustomerStatusCode: 0,
+            deleteCheckoutCustomerStatusCode: 0,
+            errorMessageAddCheckOut: '',
+            availableCheckOutCustomerList: [],
+            exportDetails: [],
+            statusCodeForExportDetails: 0,
+            exportAssetsDetail: [],
+            statusCodeforExportAssetsCode: 0,
+            exportEbDetails: [],
+            statusCodeForExportEb: 0,
+            exportExpenceDetails: [],
+            statusCodeForExportExpence: 0,
+            exportComplianceDetails: [],
+            statusCodeForExportcompliance: 0,
+            exportBookingDetails: [],
+            statusCodeForExportBooking: 0,
+            exportWalkinDetails: [],
+            statusCodeForExportWalkin: 0,
+            exportCheckoutDetails: [],
+            statusCodeForExportCheckout: 0,
+            statusCodegetConfirmCheckout: 0,
+            GetconfirmcheckoutBillDetails: [],
+            GetconfirmcheckoutUserDetails: '',
+            statusCodeAddConfirmCheckout: 0,
+            reassignbeddetails: [],
+            statusCodeForReassinBed: 0,
+            statusCodeForCustomerCoatact: 0,
+            customerContact: [],
+            customerAllDetails: [],
+            statusCodeForCustomerAllDetails: 0,
+            deleteContact: [],
+            statusCodeDeleteContact: 0,
+            hotelDetailsinPg: [],
+            noAllHosteListStatusCode: 0,
+            statuscodeForhotelDetailsinPg: 0,
+            generateAdvance: [],
+            statusCodeForGenerateAdvance: 0,
+            statusCodeForUploadDocument: 0,
+            uploaddocu: [],
+            statusCodeForOtherDocu: 0,
+            otherUploaddocu: [],
+            adharuploadfileError: '',
+            statuscodeForAdharFileError: 0,
+            NoUserListStatusCode: 0,
+            userRoomfor: null,
+            userProfilebill: null,
+            deleteCustomerSuccessStatusCode: 0,
+            userReading: null,
+            userHostelRead: null,
+            userReadingdelete: null,
+            userHosteldelete: null,
+            isUsersListTrue: 1,
+            hostelListNewDetails: [],
+            statusCodeForhostelListNewDetails: 0,
+            generateError: '',
+            contactError: '',
+            checkoutcustomeEmpty: 0,
+            conformChekoutError: '',
+            statusCodeConformEdit: 0,
+            conformChekoutEditError: '',
+            kycverifynew: {},
+            statusCodeforverifyKYC: 0,
+            statusCodeForCustomerDetails: 0,
+            kycnotadded: '',
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 })

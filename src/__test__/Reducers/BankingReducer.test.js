@@ -2,6 +2,33 @@ import BankingReducer, { initialState } from "../../Redux/Reducer/BankingReducer
 
 describe('it should check banking reducers', () => {
 
+
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            statusCodeForAddBanking: 0,
+            bankingList: [],
+            statusCodeForBankingNoData: 0,
+            statusCodeForGetBanking: 0,
+            statusCodeForDefaultAccount: 0,
+            statusCodeForAddBankingAmount: 0,
+            editTransaction: [],
+            statusEditTrasactionCode: 0,
+            statusCodeDeleteBank: 0,
+            statusCodeForDeleteTrans: 0,
+            bankingError: ''
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = BankingReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
+
+
+
     it('it should check for ADD_USER_BANKING', () => {
         const action = {
             type: 'ADD_USER_BANKING',
@@ -245,7 +272,7 @@ describe('it should check banking reducers', () => {
     })
 
 
-    
+
     it('it should check for  NO_BANKING', () => {
         const action = {
             type: 'NO_BANKING',
@@ -265,7 +292,7 @@ describe('it should check banking reducers', () => {
     it('it should check for  CLEAR_NO_BANKING', () => {
         const action = {
             type: 'CLEAR_NO_BANKING',
-           
+
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
@@ -277,12 +304,12 @@ describe('it should check banking reducers', () => {
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(BankingReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
 
