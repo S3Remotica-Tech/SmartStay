@@ -134,25 +134,35 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     setDescription(e.target.value);
     setError("");
   };
+const handlePassword = (e) => {
+  const newPassword = e.target.value;
+  setPassword(newPassword);
+  setError("");
 
-  const handlePassword = (e) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-    setError("");
+  const hasUppercase = /[A-Z]/.test(newPassword);
+  const hasNumber = /[0-9]/.test(newPassword);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
 
+  let errorMessage = "";
 
-    const hasUppercase = /[A-Z]/.test(newPassword);
-    const hasNumber = /[0-9]/.test(newPassword);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+  if (!hasUppercase) {
+    errorMessage += "At least 1 capital letter\n";
+  }
+  if (!hasNumber) {
+    errorMessage += "At least 1 number\n";
+  }
+  if (!hasSpecialChar) {
+    errorMessage += "At least 1 special character\n";
+  }
 
-    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setPasswordError(
-        "Password must include at least 1 capital letter, 1 number, and 1 special character."
-      );
-    } else {
-      setPasswordError("");
-    }
-  };
+  if (errorMessage) {
+    setPasswordError(errorMessage.trim());
+  } else {
+    setPasswordError("");
+  }
+};
+
+  
 
   const handleCloseForm = () => {
     setAddUserForm(false);
@@ -228,11 +238,24 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       setRoleError("Please Select Role");
       isValid = false;
     }
-
-    if (!editDetails && !password) {
+  
+      if (!editDetails) {
+    if (!password) {
       setPasswordError("Please Enter Password");
       isValid = false;
+    } else {
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+        setPasswordError(
+          "Please Enter correct Password"
+        );
+        isValid = false;
+      }
     }
+  }
 
     const hasChanges =
       name !== initialState.name ||
