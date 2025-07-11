@@ -27,7 +27,7 @@ import paymentForm from "../Assets/Images/landingpageimages/frampayment.png";
 import Backpayment from "../Assets/Images/landingpageimages/paymentnature.png";
 import paymentCard from "../Assets/Images/landingpageimages/paymentsuccess.png";
 import iconpng from "../Assets/Images/landingpageimages/Icon.png";
-import line from "../Assets/Images/landingpageimages/Line.png";
+import line from "../Assets/Images/landingpageimages/line.png";
 import TopCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 
 
