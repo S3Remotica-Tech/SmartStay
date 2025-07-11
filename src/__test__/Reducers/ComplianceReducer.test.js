@@ -2,22 +2,71 @@ import ComplianceReducer, { initialState } from "../../Redux/Reducer/ComplianceR
 
 describe('It should check compliance reducer', () => {
 
+
+   it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+             Compliance: [],
+    filterOptions: [],
+    message: [],
+    statusCodeForAddCompliance: 0,
+    messageShow: false,
+    errorMessage: '',
+    VendorList: [],
+    addVendorSuccessStatusCode: 0,
+    getVendorStatusCode: 0,
+    deleteVendorStatusCode: 0,
+    alreadyVendorHere: '',
+    alreadyVendorEmailError: '',
+    complianceChangeRes: "",
+    complianceChangeStatus: 0,
+    complianceChangeError: '',
+    noVendorStatusCode: 0,
+    deleteCompliance: [],
+    statusCodeForDeleteCompliance: 0,
+    statusCodeCompliance: 0,
+    complianceAssignChangeRes: "",
+    complianceAssignChangeError: "",
+    complianceAssignChangeStatus: 0,
+    getComplianceComments: [],
+    statusCodeForGetComplianceComment: 0,
+    AddComplianceComment: [],
+    statusCodeForAddComplianceComment: 0
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = ComplianceReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
+
+
+
+
+
+
+
     it('it should check for COMPLIANCE_LIST', () => {
         const action = {
             type: 'COMPLIANCE_LIST',
             payload: {
                 response: [],
+                filterOptions:[],
                 statusCode: 200
             }
         }
-        expect(ComplianceReducer(initialState, action)).toStrictEqual({
-            ...initialState,
-            Compliance: [],
-            statusCodeCompliance: 200,
+        const newState = ComplianceReducer(initialState, action);
+  console.log('👉 newState:', newState);
+   expect(newState).toStrictEqual({
+    ...initialState,
+    Compliance: [],
+    statusCodeCompliance: 200,
+    filterOptions: [],
+  });
 
-
-
-        })
+       
     })
 
 

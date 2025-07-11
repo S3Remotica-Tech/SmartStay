@@ -2,6 +2,68 @@ import CreateAccountReducer, { initialState } from "../../Redux/Reducer/CreateAc
 
 describe('It should check create account reducer', () => {
 
+
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            id: 0,
+            statusCodeTwo: 0,
+            EmailId: '',
+            Password: '',
+            MobileNo: '',
+            Name: '',
+            errorMessage: '',
+            accountMgs: {},
+            IsEnable: '',
+            accountList: [],
+            statusCodeForAccount: 0,
+            statusCodeCreateAccount: 0,
+            toTriggerProfile: false,
+            statusCodeForAccountList: 0,
+            statuscodeforUpdateprofile: 0,
+            message: '',
+            emailError: '',
+            mobileError: '',
+            email_mobile_Error: '',
+            passwordDoesnotMatchError: '',
+            networkError: ''
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = CreateAccountReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
+
+ it('it should check for NETWORK_ERROR', () => {
+        const action = {
+            type: 'NETWORK_ERROR',
+            payload: "error message"
+        }
+        expect(CreateAccountReducer(initialState, action)).toStrictEqual({
+            ...initialState,
+            networkError: 'error message',
+
+        })
+    })
+
+ it('it should check for CLEAR_NETWORK_ERROR', () => {
+        const action = {
+            type: 'CLEAR_NETWORK_ERROR',
+            payload: ""
+        }
+        expect(CreateAccountReducer(initialState, action)).toStrictEqual({
+            ...initialState,
+            networkError: ''
+
+        })
+    })
+
+
+
+
     it('it should check for ERROR', () => {
         const action = {
             type: 'ERROR',
@@ -297,7 +359,7 @@ describe('It should check create account reducer', () => {
         })
     })
 
-   
+
     it('it should check for   CLEAR_PASSWORD_DOESNT_ERROR', () => {
         const action = {
             type: 'CLEAR_PASSWORD_DOESNT_ERROR',
@@ -315,12 +377,12 @@ describe('It should check create account reducer', () => {
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(CreateAccountReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
 

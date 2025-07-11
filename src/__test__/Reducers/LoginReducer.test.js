@@ -2,6 +2,49 @@ import SmartStayReducer, { initialState } from "../../Redux/Reducer/smartStayRed
 
 describe('it should check login reducers', () => {
 
+
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            id: 0,
+            email_Id: '',
+            password: '',
+            isLoggedIn: false,
+            errorEmail: '',
+            errorPassword: '',
+            errorMessage: '',
+            statusCode: 0,
+            loginInformation: [],
+            otpSuccessStatusCode: 0,
+            sendOtpValue: [],
+            OtpVerifyStatusCode: 0,
+            JWTtoken: '',
+            Notification: [],
+            UpdateNotificationMessage: '',
+            twoStepOtpError: '',
+            selectedHostel_Id: '',
+            Settings_Hostel_Id: '',
+            IsVisible: null,
+            errorStatusCode: 0,
+            errorPasswordStatusCode: 0,
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = SmartStayReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
+
+
+
+
+
+
+
+
+
     it('it should check for STORE_HOSTEL_DATA', () => {
         const action = {
             type: 'STORE_HOSTEL_DATA',
@@ -157,7 +200,7 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
             ...initialState,
             statusCode: 0,
-                   })
+        })
     })
 
 
@@ -165,13 +208,18 @@ describe('it should check login reducers', () => {
     it('it should check for ERROR_EMAIL', () => {
         const action = {
             type: 'ERROR_EMAIL',
-            payload: "enter valid email"
+            payload: {
+                response: "enter valid email",
+                statusCode: 200
+            }
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-           ...initialState,
+            ...initialState,
             errorEmail: 'enter valid email',
-                  })
+            errorStatusCode: 200
+
+        })
     })
 
 
@@ -182,22 +230,26 @@ describe('it should check login reducers', () => {
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-          ...initialState,
+            ...initialState,
             errorEmail: '',
-                   })
+        })
     })
 
 
     it('it should check for ERROR_PASSWORD', () => {
         const action = {
             type: 'ERROR_PASSWORD',
-            payload: "enter valid password"
+            payload: {
+                response: "enter valid password",
+                statusCode: 200
+            }
 
         }
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
-           ...initialState,
+            ...initialState,
             errorPassword: 'enter valid password',
-                 })
+            errorPasswordStatusCode: 200,
+        })
     })
 
     it('it should check for CLEAR_PASSWORD_ERROR', () => {
@@ -209,7 +261,7 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
             ...initialState,
             errorPassword: '',
-                   })
+        })
     })
 
 
@@ -222,7 +274,7 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer(initialState, action)).toStrictEqual({
             ...initialState,
             isLoggedIn: true,
-           
+
         })
     })
 
@@ -237,7 +289,7 @@ describe('it should check login reducers', () => {
             ...initialState,
             isLoggedIn: false,
             selectedHostel_Id: null
-                   })
+        })
     })
 
 
@@ -259,7 +311,7 @@ describe('it should check login reducers', () => {
             ...initialState,
             loginInformation: [],
             otpSuccessStatusCode: 200,
-            
+
         })
     })
 
@@ -273,7 +325,7 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer({ ...initialState, otpSuccessStatusCode: 200 }, action)).toStrictEqual({
             ...initialState,
             otpSuccessStatusCode: 0,
-                   })
+        })
     })
 
 
@@ -297,7 +349,7 @@ describe('it should check login reducers', () => {
             sendOtpValue: [],
             OtpVerifyStatusCode: 200,
             JWTtoken: 'token',
-                   })
+        })
     })
 
 
@@ -310,7 +362,7 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer({ ...initialState, OtpVerifyStatusCode: 200 }, action)).toStrictEqual({
             ...initialState,
             OtpVerifyStatusCode: 0,
-                   })
+        })
     })
 
 
@@ -325,7 +377,7 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             Notification: [],
-                   })
+        })
     })
 
 
@@ -343,7 +395,7 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             UpdateNotificationMessage: 'some notification',
-                   })
+        })
     })
 
 
@@ -366,7 +418,7 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             twoStepOtpError: 'error for otp code',
-                    })
+        })
     })
 
 
@@ -378,18 +430,18 @@ describe('it should check login reducers', () => {
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             twoStepOtpError: '',
-                    })
+        })
     })
 
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(SmartStayReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
 })
