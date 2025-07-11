@@ -120,7 +120,7 @@ const handleFeatureClick = (section) => {
 />
 
 
-  {/* Right-side double lines */}
+  
   <img
   src={line}
   alt="decorative-line"
@@ -274,45 +274,58 @@ const handleFeatureClick = (section) => {
        
        
 
-       
-        <div
-          style={{
-            flex: "1 1 460px",
-            backgroundImage: `url(${Backgrey})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            borderRadius: "20px",
-            padding: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            minHeight: "420px",
-          }}
-        >
-          <img className="fade-in-up"
-            src={Frame}
-            alt="E-Sign Card"
-            style={{
-              width: "100%",
-              maxWidth: "360px",
-              borderRadius: "12px",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-            }}
-          />
+<div
+  style={{
+    flex: "1 1 460px",
+    backgroundImage: `url(${Backgrey})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    borderRadius: "20px",
+    padding: "20px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    minHeight: "420px",
+  }}
+>
+  
+  <div
+    style={{
+      position: "relative",
+      width: "100%",
+      maxWidth: "360px",
+    }}
+  >
+  
+    <img
+      className="fade-in-up img-fluid"
+      src={Frame}
+      alt="E-Sign Card"
+      style={{
+        width: "100%",
+        borderRadius: "12px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+      }}
+    />
 
-          <img className="fade-in-down"
-            src={Group}
-            alt="Signature Overlay"
-            style={{
-              position: "absolute",
-              bottom: "70px",
-              right: "70px",
-              height:150
-             
-            }}
-          />
-        </div>
+   
+    <img
+      className="fade-in-down img-fluid"
+      src={Group}
+      alt="Signature Overlay"
+      style={{
+        position: "absolute",
+        bottom: "9%",
+        right: "-10%",  
+        width: "200px",
+        height: "auto",
+      }}
+    />
+  </div>
+</div>
+
+
 
 
          <div style={{ flex: "1 1 500px", paddingRight: "10px" }} >
@@ -454,47 +467,60 @@ const handleFeatureClick = (section) => {
           </ul>
         </div>
 
-       
-        <div
-          style={{
-            flex: "1 1 460px",
-            backgroundImage: `url(${Backblue})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            borderRadius: "20px",
-            padding: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            minHeight: "420px",
-          }}
-        >
-          <img
-            src={Form2}
-            className="fade-in-up"
-            alt="E-Sign Card"
-            style={{
-              width: "100%",
-              maxWidth: "360px",
-              borderRadius: "12px",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-            }}
-          />
 
-          <img
-            src={form3}
-            className="fade-in-down"
-            alt="Signature Overlay"
-            style={{
-              position: "absolute",
-              bottom: "68px",
-              right: "80px",
-              width: "270px",
-              height: "100px",
-            }}
-          />
-        </div>
+
+<div
+  style={{
+    flex: "1 1 460px",
+    backgroundImage: `url(${Backblue})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    borderRadius: "20px",
+    padding: "20px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    minHeight: "420px",
+  }}
+>
+  
+  <div
+    style={{
+      position: "relative",
+      width: "100%",
+      maxWidth: "360px",
+    }}
+  >
+  
+    <img
+      className="fade-in-up img-fluid"
+      src={Form2}
+      alt="E-Sign Card"
+      style={{
+        width: "100%",
+        borderRadius: "12px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+      }}
+    />
+
+   
+    <img
+      className="fade-in-down img-fluid"
+      src={form3}
+      alt="Signature Overlay"
+      style={{
+        position: "absolute",
+        bottom: "10%",
+        right: "-10%",  
+        width: "300px",
+        height: "auto",
+      }}
+    />
+  </div>
+</div>
+       
+      
       </div>
     </div>
 
@@ -518,47 +544,57 @@ const handleFeatureClick = (section) => {
       }}
     >
       
-     <div
+  
+<div
   style={{
     flex: "1 1 460px",
     backgroundImage: `url(${Backpayment})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundPosition: "center",
     borderRadius: "20px",
-    padding: "30px 20px",
+    padding: "20px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
-    minHeight: "460px", 
+    minHeight: "420px",
   }}
 >
-  <img
-    src={paymentForm}
-    alt="Payment Form"
+  
+  <div
     style={{
+      position: "relative",
       width: "100%",
       maxWidth: "360px",
-      borderRadius: "16px",
-    
     }}
-  />
+  >
+  
+    <img
+      className="fade-in-up img-fluid"
+      src={paymentForm}
+      alt="E-Sign Card"
+      style={{
+        width: "100%",
+        borderRadius: "12px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+      }}
+    />
 
-  <img
-    src={paymentCard}
-    alt="Payment Overlay"
-    style={{
-      position: "absolute",
-      bottom: "30px",
-      right: "70px",
-      width: "140px",
-      height: "120px",
-    }}
-  />
+   
+    <img
+      className="fade-in-down img-fluid"
+      src={paymentCard}
+      alt="Signature Overlay"
+      style={{
+        position: "absolute",
+        bottom: "0%",
+        right: "-10%",  
+        width: "150px",
+        height: "auto",
+      }}
+    />
+  </div>
 </div>
-
-
      
       <div style={{ flex: "1 1 500px", paddingRight: "10px" }}>
         <p
@@ -700,43 +736,59 @@ const handleFeatureClick = (section) => {
         </div>
 
         
+       
+
+
         <div
-          style={{
-            flex: "1 1 460px",
-            backgroundImage: `url(${Backtenant})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            borderRadius: "20px",
-            padding: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            minHeight: "420px",
-          }}
-        >
-          <img
-            src={tenantform}
-            alt="Tenant Form"
-            style={{
-              width: "100%",
-              maxWidth: "360px",
-              borderRadius: "12px",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
-            }}
-          />
-          <img
-            src={Notification}
-            alt="Notification Pop"
-            style={{
-              position: "absolute",
-              top: "145px",
-              right: "60px",
-              width: "220px",
-              height: "130px",
-            }}
-          />
-        </div>
+  style={{
+    flex: "1 1 460px",
+    backgroundImage: `url(${Backtenant})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    borderRadius: "20px",
+    padding: "20px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    minHeight: "420px",
+  }}
+>
+  
+  <div
+    style={{
+      position: "relative",
+      width: "100%",
+      maxWidth: "360px",
+    }}
+  >
+  
+    <img
+      className="fade-in-up img-fluid"
+      src={tenantform}
+      alt="E-Sign Card"
+      style={{
+        width: "100%",
+        borderRadius: "12px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+      }}
+    />
+
+   
+    <img
+      className="fade-in-down img-fluid"
+      src={Notification}
+      alt="Signature Overlay"
+      style={{
+        position: "absolute",
+        bottom: "48%",
+        right: "-8%",  
+        width: "300px",
+        height: "auto",
+      }}
+    />
+  </div>
+</div>
       </div>
     </div>
 
@@ -761,47 +813,58 @@ const handleFeatureClick = (section) => {
       }}
     >
       
+    
+
      <div
   style={{
     flex: "1 1 460px",
     backgroundImage: `url(${recureBack})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundPosition: "center",
     borderRadius: "20px",
-    padding: "30px 20px",
+    padding: "20px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
-    minHeight: "460px", 
+    minHeight: "420px",
   }}
 >
-  <img
-    src={recureForm}
-    alt="Payment Form"
+  
+  <div
     style={{
+      position: "relative",
       width: "100%",
       maxWidth: "360px",
-      borderRadius: "16px",
-    
     }}
-  />
+  >
+  
+    <img
+      className="fade-in-up img-fluid"
+      src={recureForm}
+      alt="E-Sign Card"
+      style={{
+        width: "100%",
+        borderRadius: "12px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.1)",
+      }}
+    />
 
-  <img
-    src={recureCard}
-    alt="Payment Overlay"
-    style={{
-      position: "absolute",
-      bottom: "365px",
-      right: "70px",
-      width: "auto",
-      height: "50",
-    }}
-  />
+   
+    <img
+      className="fade-in-down img-fluid"
+      src={recureCard}
+      alt="Signature Overlay"
+      style={{
+        position: "absolute",
+        bottom: "68%",
+        right: "-8%",  
+        width: "300px",
+        height: "auto",
+      }}
+    />
+  </div>
 </div>
-
-
     
       <div style={{ flex: "1 1 500px", paddingRight: "10px" }}>
         <p
