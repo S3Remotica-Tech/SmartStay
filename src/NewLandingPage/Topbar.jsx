@@ -8,7 +8,8 @@ import Startup from "./Startup";
 import StatsSection from "./StatSection";
 import TestimonialSlider from "./ImageSlider";
 import Getanswer from "./Getanswer";
-import KeyFeatures from "./Keyfeature";
+// import KeyFeatures from "./Keyfeature";
+import KeyFeaturesNew from "./KeyFeaturesNew";
 import Logo from "../Assets/Images/New_images/Smartstay_LOGO.svg";
 import RightArrow from "../Assets/Images/landingpageimages/right_arrow.png";
 import Contact from "./Contact";
@@ -205,7 +206,7 @@ function FrontPage() {
 
       {activeSection === "keyFeature" && (
         <Element name="keyFeature" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
-          <KeyFeatures />
+          <KeyFeaturesNew />
           <SmartStaySection />
           <Getanswer />
         </Element>

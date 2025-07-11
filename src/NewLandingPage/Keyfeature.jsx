@@ -7,10 +7,11 @@ import Hostel from "../Assets/Images/landingpageimages/sm_hostel.png";
 import Lists from "../Assets/Images/landingpageimages/list.svg";
 
 const features = [
-  { id: 1, name: "Room Management", icon: Roommangement, alt: "Room management feature of SmartStay hostel booking software with live occupancy tracking", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "SmartStay room layout dashboard for hostel booking, bed occupancy, and PG allocation by floor" },
-  { id: 2, name: "Customer Management", icon: Custommangement, alt: "	Customer management feature in SmartStay hostel and PG management software", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "SmartStay customer management dashboard for PGs and hostels showing bed allocation and floor-wise occupancy" },
-  { id: 3, name: "Inventory Management", icon: Report, alt: "Inventory tracking for PG hostels using SmartStay software", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "SmartStay inventory management software dashboard to track hostel beds, room status, and PG occupancy" },
-  { id: 4, name: "Vendor Management", icon: Report, alt: "Vendor management system for PG and hostel operations in SmartStay platform", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "Vendor management dashboard in SmartStay hostel software showing room layout and PG service tracking" },
+  { id: 1, name: "KYC Verification", icon: Roommangement, alt: "Room management feature of SmartStay hostel booking software with live occupancy tracking", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "SmartStay room layout dashboard for hostel booking, bed occupancy, and PG allocation by floor" },
+  { id: 2, name: "E-Sign for Agreements", icon: Custommangement, alt: "	Customer management feature in SmartStay hostel and PG management software", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "SmartStay customer management dashboard for PGs and hostels showing bed allocation and floor-wise occupancy" },
+  { id: 3, name: "Payment Automation", icon: Report, alt: "Inventory tracking for PG hostels using SmartStay software", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "SmartStay inventory management software dashboard to track hostel beds, room status, and PG occupancy" },
+  { id: 4, name: "Recurring Invoices", icon: Report, alt: "Vendor management system for PG and hostel operations in SmartStay platform", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "Vendor management dashboard in SmartStay hostel software showing room layout and PG service tracking" },
+  { id: 5, name: "Notification Alerts", icon: Report, alt: "Vendor management system for PG and hostel operations in SmartStay platform", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "Vendor management dashboard in SmartStay hostel software showing room layout and PG service tracking" },
 ];
 
 const KeyFeatures = () => {
@@ -97,10 +98,10 @@ const KeyFeatures = () => {
         </div>
 
 
-        <div className={`position-sticky top-10 w-100  p-4 ${hideTopbar ? "d-none" : "d-block"}`} style={{ zIndex: 1000, transition: "0.3s ease-in-out" }}>
-          <Row className="justify-content-center ms-2 me-2 g-2">
+        <div className={`position-sticky top-10 w-100  pb-4 ${hideTopbar ? "d-none" : "d-block"}`} style={{ zIndex: 1000, transition: "0.3s ease-in-out" }}>
+          <Row className="justify-content-center  g-4">
             {features.map((feature, index) => (
-              <Col xs={12} sm={6} md={3} key={feature.index} className="d-flex">
+              <Col xs={12} sm={6} md={2} key={feature.index} className="d-flex">
                 <div className="w-100">
                   <Button
                     variant="light"
@@ -108,7 +109,7 @@ const KeyFeatures = () => {
                     style={{
                       borderRadius: "20px",
                       border: activeFeature === feature.index ? "2px solid rgba(30, 69, 225, 1)" : "2px solid transparent",
-                      color: activeFeature === feature.index ? "rgba(30, 69, 225, 1)" : "#6c757d",
+                      color: activeFeature === feature.index ? "rgba(30, 69, 225, 1)" : "#6c757d", whiteSpace:"nowrap",fontSize:14
                     }}
                     onClick={() => handleScrollToFeature(index)}
                   >

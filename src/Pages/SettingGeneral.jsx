@@ -1696,11 +1696,12 @@ function SettingGeneral() {
                 </div>
               )}
               {phoneAlready && (
-                <div style={{ color: "red" }}>
+                <div style={{ color: "red", marginTop: "-14px" }}>
                   <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
                 </div>
               )}
+              
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
