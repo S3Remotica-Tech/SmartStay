@@ -1115,7 +1115,7 @@ useEffect(() => {
               </div>
             </Modal.Body>
             {isChangedError && (
-              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center mt-4">
+              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center mt-3 mb-4">
                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"

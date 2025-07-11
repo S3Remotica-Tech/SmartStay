@@ -816,7 +816,7 @@ function BankingAddForm(props) {
 
               </div>
 {isChangedError && (
-                  <div style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
+                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
                     <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
                   </div>
@@ -1045,7 +1045,7 @@ function BankingAddForm(props) {
 
               </div>
 {isChangedError && (
-                  <div style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
+                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
                     <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
                   </div>
@@ -1169,7 +1169,7 @@ function BankingAddForm(props) {
 
               </div>
 {isChangedError && (
-                  <div style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
+                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
                     <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
                   </div>

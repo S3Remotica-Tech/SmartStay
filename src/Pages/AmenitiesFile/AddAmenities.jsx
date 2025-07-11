@@ -356,7 +356,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
               </div>
             )}
             {isChangedError && (
-              <div className="d-flex justify-content-center align-items-center">
+              <div className="d-flex justify-content-center align-items-center mt-1 mb-2">
                 <MdError style={{ color: "red", fontSize: "13px", marginBottom: '2px' }} />
                 <label
                   className="mb-0"
