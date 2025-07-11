@@ -15,7 +15,7 @@ import { MdError } from "react-icons/md";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import Select from "react-select";
-import moment from "moment";
+
 
 function AddCustomer({ show, handleClosing, currentItem }) {
   const state = useSelector((state) => state);
@@ -48,6 +48,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const countryCode = "91"
   const [emailError, setEmailError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
 
   const firstnameRef = useRef(null);
@@ -116,7 +117,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       setFile(null);
       setRoomRent("");
       setAdvanceAmount("");
-
+      setJoingDateErrmsg("")
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
@@ -323,6 +324,26 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       setDateError("Please Select a Date");
       hasError = true;
       if (!firstInvalidRef) firstInvalidRef = dateRef;
+    }
+
+    if (selectedDate) {
+      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const JoinDate = new Date(selectedDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const JoinDateOnly = new Date(JoinDate.toDateString());
+        if (JoinDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          if (dateRef.current) {
+            dateRef.current.focus();
+             hasError = true;
+            return
+          }
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
     }
 
     if (!AdvanceAmount) {
@@ -1059,6 +1080,16 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           setStateName(selectedOption?.value);
                           setStateNameError("")
                         }}
+                         onInputChange={(inputValue, { action }) => {
+                              if (action === "input-change") {
+                                const lettersOnly = inputValue.replace(
+                                  /[^a-zA-Z\s]/g,
+                                  ""
+                                );
+                                return lettersOnly;
+                              }
+                              return inputValue;
+                            }}
                         value={
                           state_name ? { value: state_name, label: state_name } : null
                         }
@@ -1115,7 +1146,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       />
                     </Form.Group>
 
-                    {state_nameError && (
+                    {!state_name && state_nameError && (
                       <div style={{ color: "red" }}>
                         <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                         <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
@@ -1143,21 +1174,9 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           onChange={(date) => {
                             setDateError('');
                             setSelectedDate(date ? date.toDate() : null);
+                            setJoingDateErrmsg("")
                           }}
                           getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-
-                          disabledDate={(current) => {
-                            const hotelData = state.UsersList?.hotelDetailsinPg;
-                            if (!Array.isArray(hotelData) || hotelData.length === 0 || !hotelData[0]?.create_At) {
-                              return false;
-                            }
-
-                            const createDate = moment(hotelData[0].create_At, "YYYY-MM-DD");
-                            if (!createDate.isValid()) return false;
-
-                            return current && current.isBefore(createDate, "day");
-                          }}
-
 
                         />
                       </div>
@@ -1177,12 +1196,17 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         >
                           {dateError}
                         </label>
-
-
-
-
                       </div>
                     )}
+
+                      {joiningDateErrmsg.trim() !== "" && (
+                                        <div className="d-flex align-items-center">
+                                           <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {joiningDateErrmsg}
+                                          </label>
+                                        </div>
+                                      )}
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
