@@ -15,7 +15,7 @@ import { MdError } from "react-icons/md";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import Select from "react-select";
-import moment from "moment";
+
 
 function AddCustomer({ show, handleClosing, currentItem }) {
   const state = useSelector((state) => state);
@@ -335,9 +335,8 @@ function AddCustomer({ show, handleClosing, currentItem }) {
         const JoinDateOnly = new Date(JoinDate.toDateString());
         if (JoinDateOnly < HostelCreateDateOnly) {
           setJoingDateErrmsg('Before Hostel Create date not allowed');
-          if (!focusedRef.current && dateRef.current) {
+          if (dateRef.current) {
             dateRef.current.focus();
-            focusedRef.current = true;
              hasError = true;
             return
           }
