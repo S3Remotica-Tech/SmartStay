@@ -2,6 +2,31 @@ import AssetReducer, { initialState } from "../../Redux/Reducer/AssetReducer";
 
 describe('it should check assets reducers', () => {
 
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            assetList: [],
+            getAssetStatusCode: 0,
+            addAssetStatusCode: 0,
+            deleteAssetStatusCode: 0,
+            GetRoomList: [],
+            addAssignAssetStatusCode: 0,
+            alreadySerialNumberHere: '',
+            alreadyAssetNameHere: '',
+            NoDataAssetStatusCode: 0,
+            getRoomStatusCode: 0,
+            bankAmountError: '',
+            assetError: ''
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = AssetReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
+
     it('it should check for ASSET_LIST', () => {
         const action = {
             type: 'ASSET_LIST',
@@ -257,15 +282,56 @@ describe('it should check assets reducers', () => {
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(AssetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
 
 
+    it('It should be ASSET_ERROR', () => {
+        const action = {
+            type: 'ASSET_ERROR',
+            payload: 'already here'
+        }
+        expect(AssetReducer({ ...initialState}, action )).toStrictEqual({
+            assetList: [],
+            getAssetStatusCode: 0,
+            addAssetStatusCode: 0,
+            deleteAssetStatusCode: 0,
+            GetRoomList: [],
+            addAssignAssetStatusCode: 0,
+            alreadySerialNumberHere: '',
+            alreadyAssetNameHere: '',
+            NoDataAssetStatusCode: 0,
+            getRoomStatusCode: 0,
+            bankAmountError: '',
+            assetError: 'already here'
+        })
+    })
+
+    it('It should be CLEAR_ASSET_ERROR', () => {
+        const action = {
+            type: 'CLEAR_ASSET_ERROR',
+            payload: ''
+        }
+        expect(AssetReducer({ ...initialState }, action)).toStrictEqual({
+            assetList: [],
+            getAssetStatusCode: 0,
+            addAssetStatusCode: 0,
+            deleteAssetStatusCode: 0,
+            GetRoomList: [],
+            addAssignAssetStatusCode: 0,
+            alreadySerialNumberHere: '',
+            alreadyAssetNameHere: '',
+            NoDataAssetStatusCode: 0,
+            getRoomStatusCode: 0,
+            bankAmountError: '',
+            assetError: ''
+        })
+    })
 
 })

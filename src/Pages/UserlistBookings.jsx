@@ -2501,12 +2501,7 @@ const pageOptions = [
             </Row>
 
 
-            {formError && (
-              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red", fontFamily: "Gilroy" }}>
-                <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                <span style={{ fontSize: "12px" }}>{formError}</span>
-              </div>
-            )}
+          
 
           </div>
 
@@ -2546,10 +2541,19 @@ const pageOptions = [
             ></div>
           </div>
         }
+
+        
         <Modal.Footer
           className="d-flex align-items-center justify-content-center"
           style={{ border: "none" }}
         >
+
+            {formError && (
+              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red", fontFamily: "Gilroy" }}>
+                <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                <span style={{ fontSize: "12px" }}>{formError}</span>
+              </div>
+            )}
           <Button
             variant="primary"
             type="submit"

@@ -5,6 +5,36 @@ import ForgetReducer, { initialState } from "../../Redux/Reducer/ForgetReducer"
 
 describe('It should check forgot reducer', () => {
 
+
+
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            Pass: '',
+            errorMessage: '',
+            errorPassword: '',
+            OTP: '',
+            OtpError: '',
+            emailError: '',
+            statusCode: 0,
+            status_Code: 0,
+            status_Emai_Error: 0,
+            sendEmailError: '',
+            sendEmailStatusCode: '',
+            status_codes: 0,
+            EmailErrorStatusCode: 0,
+            otpVerify: '',
+            statusCodeForgotOtp: 0,
+            otpInvalidError: '',
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = ForgetReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
     it('it should check for ERROR', () => {
         const action = {
             type: 'ERROR',
@@ -126,7 +156,7 @@ describe('It should check forgot reducer', () => {
         expect(ForgetReducer({ ...initialState, EmailErrorStatusCode: 201 }, action)).toStrictEqual({
             ...initialState,
             EmailErrorStatusCode: 0,
-                    })
+        })
     })
 
     it('It should check for  OTP_ERROR', () => {
@@ -139,7 +169,7 @@ describe('It should check forgot reducer', () => {
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             OtpError: 'otp error',
-           
+
         })
     })
 
@@ -158,7 +188,7 @@ describe('It should check forgot reducer', () => {
             ...initialState,
             sendEmailError: '',
             sendEmailStatusCode: 200,
-           
+
         })
     })
 
@@ -172,7 +202,7 @@ describe('It should check forgot reducer', () => {
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             sendEmailStatusCode: 0,
-         
+
         })
     })
 
@@ -189,7 +219,7 @@ describe('It should check forgot reducer', () => {
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             statusCodeForgotOtp: 200,
-            
+
         })
     })
 
@@ -201,7 +231,7 @@ describe('It should check forgot reducer', () => {
         expect(ForgetReducer({ ...initialState, statusCodeForgotOtp: 200 }, action)).toStrictEqual({
             ...initialState,
             statusCodeForgotOtp: 0,
-           
+
         })
     })
 
@@ -238,12 +268,12 @@ describe('It should check forgot reducer', () => {
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(ForgetReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
 

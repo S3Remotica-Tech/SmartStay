@@ -3,6 +3,34 @@ import BookingReducer, { initialState } from "../../Redux/Reducer/BookingReducer
 
 describe('It should be check booking reducer', () => {
 
+    it('it should check for RESET_ALL', () => {
+
+        const modifyState = {
+            addBookind: [],
+            statusCodeForAddBooking: 0,
+            CustomerBookingList: [],
+            statusCodeGetBooking: 0,
+            bookingError: "",
+            deleteBooking: [],
+            statusCodeForDeleteBooking: "",
+            assignBookingUser: [],
+            statusCodeForAssignBooking: 0,
+            bookingPhoneError: "",
+            bookingEmailError: "",
+            availableBedBooking: [],
+            statusCodeForBedBooking: "",
+            ErrorAssignBooking: ""
+        }
+        const action = {
+            type: 'RESET_ALL',
+
+        }
+        const result = BookingReducer(modifyState, action);
+        expect(result).toStrictEqual(initialState);
+    })
+
+
+
     it('it should check for ADD_USER_BOOKING', () => {
         const action = {
             type: 'ADD_USER_BOOKING',
@@ -215,12 +243,12 @@ describe('It should be check booking reducer', () => {
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(BookingReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
 
