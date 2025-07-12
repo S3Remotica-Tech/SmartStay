@@ -621,31 +621,6 @@ function SettingAmenities({ hostelid }) {
 
 
 
-                    // <div
-                    //     style={{
-                    //         textAlign: "center",
-                    //         marginTop: 90,
-                    //         height: '30vh',
-                    //         display: "flex",
-                    //         flexDirection: "column",
-                    //         alignItems: "center",
-
-                    //     }}
-                    // >
-                    //     <img src={EmptyState} alt="emptystate" />
-                    //     <div
-                    //         className="pb-1"
-                    //         style={{
-                    //             fontWeight: 600,
-                    //             fontFamily: "Gilroy",
-                    //             fontSize: 18,
-                    //             color: "rgba(75, 75, 75, 1)",
-                    //         }}
-                    //     >
-                    //         No Amenities available
-                    //     </div>
-
-                    // </div>
 
 
 
