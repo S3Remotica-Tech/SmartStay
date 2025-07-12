@@ -429,7 +429,7 @@ function CreateAccountPage() {
                       size="lg" type="text" placeholder="Enter Last Name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: lastName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
                 </div>
-                <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12" data-testid='email-container'>
                   <Form.Group controlId="formGridEmail">
                     <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                     <Form.Control size="lg"
@@ -442,7 +442,7 @@ function CreateAccountPage() {
                   </Form.Group>
 
                   {emailError && (
-                    <div className="d-flex align-items-center p-1">
+                    <div className="d-flex align-items-center p-1" data-testid='email-error'>
                       <MdError style={{ color: "red", marginRight: '5px' }} />
                       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {emailError}
@@ -514,7 +514,7 @@ function CreateAccountPage() {
                   </Form.Group>
 
                   {phoneError && (
-                    <div className="d-flex align-items-center p-1">
+                    <div className="d-flex align-items-center p-1" data-testid="mobile-error">
                       <MdError style={{ color: "red", marginRight: '5px' }} />
                       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {phoneError}
@@ -662,7 +662,7 @@ function CreateAccountPage() {
                   </InputGroup>
 
                   {confirmPasswordError && (
-                    <div className="d-flex align-items-center p-1">
+                    <div className="d-flex align-items-center p-1" data-testid="conpassword-error">
                       <MdError style={{ color: "red", marginRight: '5px' }} />
                       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {confirmPasswordError}
@@ -687,7 +687,7 @@ function CreateAccountPage() {
 
 
                 {bothPasswordError && (
-                  <div className="d-flex align-items-center p-1">
+                  <div className="d-flex align-items-center p-1" data-testid="bothpassowrd-error">
                     <MdError style={{ color: "red", marginRight: '5px' }} />
                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                       {bothPasswordError}
