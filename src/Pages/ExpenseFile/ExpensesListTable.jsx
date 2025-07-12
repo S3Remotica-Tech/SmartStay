@@ -218,7 +218,7 @@ const options = state.AssetList.assetList.map((view) => ({
                   backgroundColor: "#F9F9F9",
                   position: "fixed",
                    top: showAbove
-    ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 20
+    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
     : popupPosition.top - 35,
                   left: popupPosition.left,
                   width: 160,

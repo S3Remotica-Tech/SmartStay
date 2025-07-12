@@ -621,35 +621,36 @@ function SettingAmenities({ hostelid }) {
 
 
 
-                    <div
-                        style={{
-                            textAlign: "center",
-                            marginTop: 90,
-                            height: '30vh',
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-
-                        }}
-                    >
-                        <img src={EmptyState} alt="emptystate" />
-                        <div
-                            className="pb-1"
-                            style={{
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                fontSize: 18,
-                                color: "rgba(75, 75, 75, 1)",
-                            }}
-                        >
-                            No Amenities available
-                        </div>
-
-                    </div>
 
 
 
-
+  <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            marginTop:90,
+              paddingLeft: "0px", 
+            }}
+          >
+            <div style={{ textAlign: "center" }}>
+              <img
+                src={EmptyState}
+                alt="emptystate"
+                style={{ maxWidth: "250px" }}
+              />
+              <div
+                style={{
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 18,
+                  color: "rgba(75, 75, 75, 1)",
+                }}
+              >
+                 No Amenities available
+              </div>
+            </div>
+          </div>
 
                     }
                 </div>
