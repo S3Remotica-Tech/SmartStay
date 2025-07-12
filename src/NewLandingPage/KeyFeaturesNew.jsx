@@ -698,7 +698,7 @@ const handleFeatureClick = (section) => {
           </p>
 
           <h2 style={{ fontSize: "32px", fontWeight: "700", marginBottom: "16px", fontFamily:"Montserrat" }}>
-            Tenant Notification Alerts
+            Tenant Notification Alert
           </h2>
 
           <p
