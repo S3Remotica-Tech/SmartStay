@@ -179,7 +179,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       try {
         dispatch({
           type: "SET_TRIGGER_SOURCE",
-          payload: "bill",
+          payload: "whatsapp",
         });
         dispatch({
           type: "INVOICEPDF",
