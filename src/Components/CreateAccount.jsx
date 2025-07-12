@@ -245,7 +245,7 @@ function CreateAccountPage() {
 
     let hasError = false;
 
-    if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
+    if (!firstName && !phoneNo && !emailID && !password && !confirmpassword) {
       setAllError('Please enter all mandatory fields');
       hasError = true;
     }
@@ -266,10 +266,7 @@ function CreateAccountPage() {
       }
     }
 
-    if (!countryCode) {
-      setCountryCodeError('Please Select Country Code');
-      hasError = true;
-    }
+    
 
     if (!phoneNo) {
       setPhoneError('Please Enter Mobile No');
@@ -386,7 +383,7 @@ function CreateAccountPage() {
 
               <div className="d-flex gap-1 mb-1" style={{ curser: "pointer" }}>
 
-                <img src={Logo} alt="Company Logo" style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClick} />
+                <img src={Logo} alt="Company Logo" style={{ height: 25, width: 25, cursor: "pointer" }} data-testid="navigate-landingpage" onClick={handleLogoClick} />
 
                 <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }} onClick={handleLogoClick}>
                   Smartstay</label></div>
@@ -472,6 +469,7 @@ function CreateAccountPage() {
                     <InputGroup >
                       <Form.Select
                         value={countryCode}
+                        data-testid="countrycode-error"
                         id="vendor-select-create_account"
                         style={{
                           border: "1px solid rgba(224, 236, 255, 1)",
@@ -524,14 +522,14 @@ function CreateAccountPage() {
 
 
 
-                  {countryCodeError && (
+                  {/* {countryCodeError && (
                     <div className="d-flex align-items-center p-1">
                       <MdError style={{ color: "red", marginRight: '5px' }} />
                       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {countryCodeError}
                       </label>
                     </div>
-                  )}
+                  )} */}
 
 
                   {state.createAccount?.mobileError ? <div className='d-flex align-items-center p-1'>
@@ -567,7 +565,7 @@ function CreateAccountPage() {
                         borderRight: "none"
                       }}
                     />
-                    <InputGroup.Text onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+                    <InputGroup.Text data-testid="togglepassword" onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
                       {showPassword ? (
                         <Eye size="20" color="rgba(30, 69, 225, 1)" />
                       ) : (
@@ -650,7 +648,7 @@ function CreateAccountPage() {
                         borderRight: "none"
                       }}
                     />
-                    <InputGroup.Text onClick={toggleConfirmPasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
+                    <InputGroup.Text data-testid="toggleconfirmpassword" onClick={toggleConfirmPasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(224, 236, 255, 1)", cursor: "pointer" }}>
                       {showConfirmPassword ? (
                         <Eye size="20" color="rgba(30, 69, 225, 1)" />
                       ) : (
@@ -676,7 +674,7 @@ function CreateAccountPage() {
 
 
                 {allError && (
-                  <div className="d-flex align-items-center p-1">
+                  <div className="d-flex align-items-center p-1" data-testid="allmandatoryerror">
                     <MdError style={{ color: "red", marginRight: '5px' }} />
                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                       {allError}
@@ -715,7 +713,7 @@ function CreateAccountPage() {
 
 
 
-                {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
+                {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1' data-testid="network-error">
                   <MdError style={{ color: "red", marginRight: '5px' }} />
                   <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                 </div>
@@ -728,7 +726,7 @@ function CreateAccountPage() {
 
               </div>
               <div className="mt-3 mb-2">
-                <label style={{ fontSize: 14, fontWeight: 400, fontFamily: "Montserrat" }}>Already have an account?<span onClick={() => handleLoginPage()} className="ms-2 create-account-hover" style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
+                <label style={{ fontSize: 14, fontWeight: 400, fontFamily: "Montserrat" }}>Already have an account?<span onClick={() => handleLoginPage()}  data-testid="navigate-login" className="ms-2 create-account-hover" style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(30, 69, 225, 1)", cursor: "pointer" }}>Sign in</span> </label>
               </div>
 
             </div>

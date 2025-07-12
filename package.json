@@ -95,7 +95,7 @@
     "build:qa": "vite build --mode qa",
     "lint": "eslint . --max-warnings 0",
     "preview": "vite preview",
-    "test": "jest --coverage"
+    "test": "vitest --coverage"
   },
   "eslintConfig": {
     "extends": [
