@@ -35,7 +35,7 @@ import TopCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 
 const KeyFeaturesNew = () => {
   const [activeSection, setActiveSection] = useState("kyc");
-    const [animate, setAnimate] = useState(false);
+   
 
 
 const kycRef = useRef(null);
@@ -50,8 +50,7 @@ const recureRef = useRef(null)
 
 const handleFeatureClick = (section) => {
   setActiveSection(section);
-   setAnimate(false);
-      setTimeout(() => setAnimate(true), 10);
+ 
 
  
   const el = document.querySelector(`[data-feature="${section}"]`);
