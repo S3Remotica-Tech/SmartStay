@@ -35,7 +35,7 @@ import TopCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 
 const KeyFeaturesNew = () => {
   const [activeSection, setActiveSection] = useState("kyc");
-    const [animate, setAnimate] = useState(false);
+   
 
 
 const kycRef = useRef(null);
@@ -50,8 +50,7 @@ const recureRef = useRef(null)
 
 const handleFeatureClick = (section) => {
   setActiveSection(section);
-   setAnimate(false);
-      setTimeout(() => setAnimate(true), 10);
+ 
 
  
   const el = document.querySelector(`[data-feature="${section}"]`);
@@ -302,7 +301,7 @@ const handleFeatureClick = (section) => {
   >
   
     <img
-    
+
       src={Frame}
       alt="E-Sign Card"
       style={{
@@ -314,7 +313,7 @@ const handleFeatureClick = (section) => {
 
    
     <img
-     className={`tab-content-wrapper ${animate ? "fade-slide-in-up" : ""}`}
+
       src={Group}
       alt="Signature Overlay"
       style={{
@@ -698,7 +697,7 @@ const handleFeatureClick = (section) => {
           </p>
 
           <h2 style={{ fontSize: "32px", fontWeight: "700", marginBottom: "16px", fontFamily:"Montserrat" }}>
-            Tenant Notification Alerts
+            Tenant Notification Alert
           </h2>
 
           <p
