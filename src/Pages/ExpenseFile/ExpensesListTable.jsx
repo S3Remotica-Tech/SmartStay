@@ -252,7 +252,7 @@ const options = state.AssetList.assetList.map((view) => ({
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
                     cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                    pointerEvents: props.expenceDeletePermission ? "none" : "auto",
+                    // pointerEvents: props.expenceDeletePermission ? "none" : "auto",
                     opacity: props.expenceDeletePermission ? 0.5 : 1,
                   }}
                 >
@@ -289,7 +289,7 @@ const options = state.AssetList.assetList.map((view) => ({
                     width: "100%",
                     padding: "8px 10px",
                     cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
-                    pointerEvents: props.expenceEditPermission ? "none" : "auto",
+                    // pointerEvents: props.expenceEditPermission ? "none" : "auto",
                     opacity: props.expenceEditPermission ? 0.5 : 1,
                   }}
                 >
@@ -332,7 +332,7 @@ const options = state.AssetList.assetList.map((view) => ({
                     borderBottomLeftRadius: 10,
                     borderBottomRightRadius: 10,
                     cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                    pointerEvents: props.expenceDeletePermission ? "none" : "auto",
+                    // pointerEvents: props.expenceDeletePermission ? "none" : "auto",
                     opacity: props.expenceDeletePermission ? 0.5 : 1,
                   }}
                 >

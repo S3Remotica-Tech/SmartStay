@@ -48,7 +48,7 @@ function Asset() {
   const [filterexcelprice, setFilterExcelPrice] = useState('')
 
 
-  
+
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -153,40 +153,46 @@ function Asset() {
 
 
 
-useEffect(()=>{
-  if(state?.login?.planStatus === 0){
-     setAssetPermissionError("");
+  useEffect(() => {
+    if (state?.login?.planStatus === 0) {
+      setAssetPermissionError("");
       setAssetAddPermission("Permission Denied");
-       setAssetEditPermission("Permission Denied");
-        setAssetDeletePermission("Permission Denied");
-   
-  }
+      setAssetEditPermission("Permission Denied");
+      setAssetDeletePermission("Permission Denied");
 
-},[state?.login?.planStatus])
+    } else if (state?.login?.planStatus === 1) {
+      setAssetPermissionError("");
+      setAssetAddPermission("");
+      setAssetEditPermission("");
+      setAssetDeletePermission("");
+    }
+
+  }, [state?.login?.planStatus, state.login?.selectedHostel_Id])
 
 
 
 
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.is_owner === 0 &&
       assetrolePermission[0]?.role_permissions[8]?.per_view === 1
     ) {
       setAssetPermissionError("");
-    } else {
+    } else if (assetrolePermission[0]?.is_owner === 0 &&
+      assetrolePermission[0]?.role_permissions[8]?.per_view === 0) {
       setAssetPermissionError("Permission Denied");
     }
   }, [assetrolePermission]);
 
 
-
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.is_owner === 0 &&
       assetrolePermission[0]?.role_permissions[8]?.per_create === 1
     ) {
       setAssetAddPermission("");
-    } else {
+    } else if (assetrolePermission[0]?.is_owner === 0 &&
+      assetrolePermission[0]?.role_permissions[8]?.per_create === 0) {
       setAssetAddPermission("Permission Denied");
     }
   }, [assetrolePermission]);
@@ -194,21 +200,23 @@ useEffect(()=>{
 
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.is_owner === 0 &&
       assetrolePermission[0]?.role_permissions[8]?.per_delete === 1
     ) {
       setAssetDeletePermission("");
-    } else {
+    } else if (assetrolePermission[0]?.is_owner === 0 &&
+      assetrolePermission[0]?.role_permissions[8]?.per_delete === 0) {
       setAssetDeletePermission("Permission Denied");
     }
   }, [assetrolePermission]);
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.is_owner === 0 &&
       assetrolePermission[0]?.role_permissions[8]?.per_edit === 1
     ) {
       setAssetEditPermission("");
-    } else {
+    } else if (assetrolePermission[0]?.is_owner === 0 &&
+      assetrolePermission[0]?.role_permissions[8]?.per_edit === 0) {
       setAssetEditPermission("Permission Denied");
     }
   }, [assetrolePermission]);
@@ -631,22 +639,22 @@ useEffect(()=>{
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-                <div
-                  style={{
-                    color: "red",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    marginTop: "1rem",
-                  }}
-                >
-                  <MdError size={20} />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
-                </div>
-          
+              <div
+                style={{
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <MdError size={20} />
+                <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
+              </div>
+
             </div>
           </>
-        ) : 
+        ) :
           <div className='container p-0 ' style={{ marginTop: 7 }}>
             <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
               style={{
@@ -1121,11 +1129,11 @@ useEffect(()=>{
                         borderRadius: "5px",
                         fontSize: "14px",
                         color: "#1E45E1",
-                       fontWeight: 600,
+                        fontWeight: 600,
                         cursor: "pointer",
                         fontFamily: "Gilroy",
                         boxShadow: "0 0 0 1px #1E45E1",
-                         width:90,
+                        width: 90,
                       }),
                       menu: (base) => ({
                         ...base,

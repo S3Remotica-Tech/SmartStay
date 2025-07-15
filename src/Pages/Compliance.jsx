@@ -81,8 +81,9 @@ const Compliance = () => {
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
 
 
-const filterOptions = useSelector((state) => state.ComplianceList.filterOptions);
+  const filterOptions = useSelector((state) => state.ComplianceList.filterOptions);
 
+  console.log("setComplianceEditPermission]", complianceEditPermission, "complianceAddPermission", complianceAddPermission, "complianceDeletePermission", complianceDeletePermission)
 
 
 
@@ -182,13 +183,34 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
     setComplianceRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
+
+  useEffect(() => {
+    if (state?.login?.planStatus === 0) {
+      setCompliancePermissionError("");
+      setComplianceAddPermission("Permission Denied");
+      setComplianceEditPermission("Permission Denied");
+      setComplianceDeletePermission("Permission Denied");
+
+    } else if (state?.login?.planStatus === 1) {
+      setCompliancePermissionError("");
+      setComplianceAddPermission("");
+      setComplianceEditPermission("");
+      setComplianceDeletePermission("");
+    }
+
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
+
+
+
+
   useEffect(() => {
     if (
-      compliancerolePermission[0]?.is_owner === 1 ||
+      compliancerolePermission[0]?.is_owner === 0 &&
       compliancerolePermission[0]?.role_permissions[13]?.per_view === 1
     ) {
       setCompliancePermissionError("");
-    } else {
+    } else if (compliancerolePermission[0]?.is_owner === 0 &&
+      compliancerolePermission[0]?.role_permissions[13]?.per_view === 0) {
       setCompliancePermissionError("Permission Denied");
     }
   }, [compliancerolePermission]);
@@ -197,11 +219,12 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
 
   useEffect(() => {
     if (
-      compliancerolePermission[0]?.is_owner === 1 ||
+      compliancerolePermission[0]?.is_owner === 0 &&
       compliancerolePermission[0]?.role_permissions[13]?.per_create === 1
     ) {
       setComplianceAddPermission("");
-    } else {
+    } else if (compliancerolePermission[0]?.is_owner === 0 &&
+      compliancerolePermission[0]?.role_permissions[13]?.per_create === 0) {
       setComplianceAddPermission("Permission Denied");
     }
   }, [compliancerolePermission]);
@@ -209,21 +232,24 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
 
   useEffect(() => {
     if (
-      compliancerolePermission[0]?.is_owner === 1 ||
+      compliancerolePermission[0]?.is_owner === 0 &&
       compliancerolePermission[0]?.role_permissions[13]?.per_delete === 1
     ) {
       setComplianceDeletePermission("");
-    } else {
+    } else if (compliancerolePermission[0]?.is_owner === 0 &&
+      compliancerolePermission[0]?.role_permissions[13]?.per_delete === 0) {
       setComplianceDeletePermission("Permission Denied");
     }
   }, [compliancerolePermission]);
+
   useEffect(() => {
     if (
-      compliancerolePermission[0]?.is_owner === 1 ||
+      compliancerolePermission[0]?.is_owner === 0 &&
       compliancerolePermission[0]?.role_permissions[13]?.per_edit === 1
     ) {
       setComplianceEditPermission("");
-    } else {
+    } else if (compliancerolePermission[0]?.is_owner === 0 &&
+      compliancerolePermission[0]?.role_permissions[13]?.per_edit === 0) {
       setComplianceEditPermission("Permission Denied");
     }
   }, [compliancerolePermission]);
@@ -333,11 +359,11 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
 
 
   const handleItemsPerPageChange = (selectedOption) => {
-  if (selectedOption) {
-    setItemsPerPage(Number(selectedOption.value));
-    setCurrentPage(1);
-  }
-};
+    if (selectedOption) {
+      setItemsPerPage(Number(selectedOption.value));
+      setCurrentPage(1);
+    }
+  };
 
 
   const handlePageChange = (pageNumber) => {
@@ -1061,7 +1087,7 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
 
                       <div className='me-2' style={{ paddingRight: 4 }}>
                         <Button
-                          disabled={complianceAddPermission}
+                          disabled={complianceAddPermission || state?.login?.planStatus === 0}
                           onClick={handleShow}
                           style={{
                             fontSize: 13, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 8,
@@ -1086,7 +1112,7 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
                   }}>
                   {currentItems.length > 0 && currentItems.map((complaints) => (
                     <div key={complaints.ID} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-                      <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission} />
+                      <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission} disableActions={state?.login?.planStatus === 0} />
                     </div>
                   ))
                   }
@@ -1135,7 +1161,7 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
                       <Select
                         options={pageSizeOptions}
                         value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
-                       onChange={handleItemsPerPageChange}
+                        onChange={handleItemsPerPageChange}
                         placeholder="Items per page"
                         classNamePrefix="custom"
                         menuPlacement="auto"
@@ -1152,7 +1178,7 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
                             border: "1px solid #1E45E1",
                             boxShadow: "0 0 0 1px #1E45E1",
                             cursor: "pointer",
-                             width:90,
+                            width: 90,
                           }),
                           menu: (base) => ({
                             ...base,

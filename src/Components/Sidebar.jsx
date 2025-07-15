@@ -412,7 +412,7 @@ useEffect(() => {
       }
     }
   }
-}, [state?.login?.selectedHostel_Id]);
+}, [state.login?.selectedHostel_Id]);
 
 
 
