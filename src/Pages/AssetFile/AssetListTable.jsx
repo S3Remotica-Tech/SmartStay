@@ -476,7 +476,8 @@ AssetListTable.propTypes = {
   item: PropTypes.func.isRequired,
   assetAddPermission: PropTypes.func.isRequired,
   assetEditPermission: PropTypes.func.isRequired,
-  assetDeletePermission: PropTypes.func.isRequired
+  assetDeletePermission: PropTypes.func.isRequired,
+  disableActions: PropTypes.func.isRequired
 };
 
 export default AssetListTable
