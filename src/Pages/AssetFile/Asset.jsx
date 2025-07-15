@@ -21,6 +21,7 @@ function Asset() {
 
 
   const state = useSelector(state => state)
+  console.log("Asset",state)
   const dispatch = useDispatch();
   const { RangePicker } = DatePicker;
   const [getData, setGetData] = useState([])
@@ -133,9 +134,22 @@ function Asset() {
 
 
 
+const [selectedHostelDetails, setSelectedHostelDetails] = useState(null);
 
+useEffect(() => {
+  const selectedHostelId = state.login.selectedHostel_Id;
 
+  const hostelDetails =
+    state.createAccount.accountList?.[0]?.plan_data?.[0]?.hostel_details ?? [];
 
+  const matchedHostel = hostelDetails.find(
+    (hostel) => hostel.id === selectedHostelId
+  );
+
+  setSelectedHostelDetails(matchedHostel);
+}, [state.login.selectedHostel_Id, state.createAccount.accountList]);
+
+console.log("selectedHostelDetails",selectedHostelDetails.status)
 
   useEffect(() => {
     setAssetRolePermission(state.createAccount.accountList);

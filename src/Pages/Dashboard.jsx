@@ -107,21 +107,21 @@ function Dashboard() {
   }, [state?.createAccount?.accountList[0]?.plan_data]);
 
   useEffect(() => {
-    if (accountList?.length > 0 && accountList[0]?.plan_end) {
-      const planEndDate = new Date(accountList[0].plan_end);
-      const currentDate = new Date();
-      const diffInDays = Math.floor(
-        (planEndDate - currentDate) / (1000 * 60 * 60 * 24)
-      );
+  if (accountList?.length > 0 && accountList[0]?.plan_end) {
+    const planEndDate = new Date(accountList[0].plan_end);
+    const currentDate = new Date();
 
-      setDaysLeft(diffInDays);
-      if (diffInDays <= 19) {
-        setShowWarning(true);
-      } else {
-        setShowWarning(false);
-      }
-    }
-  }, [accountList]);
+    const diffInDays = Math.ceil(
+      (planEndDate - currentDate) / (1000 * 60 * 60 * 24)
+    );
+
+    setDaysLeft(diffInDays);
+
+    setShowWarning(diffInDays <= 19);
+  }
+}, [accountList]);
+
+  
 
   const handleOkClick = () => {
     setShowWarning(false);
@@ -473,38 +473,55 @@ function Dashboard() {
   return (
     <>
       <div className="cotainer px-3 py-3">
-        <Marquee>
-
-          {showWarning && (
-            <div style={{ fontFamily: "Gilroy" }}
-              className="alert alert-warning mt-3 d-flex justify-content-between align-items-center"
-              role="alert"
-            >
-              {daysLeft > 0 ? (
-                <>
-                  ⚠️ Your plan will expire in {daysLeft} day
-                  {daysLeft > 1 ? "s" : ""}!
-                  <button style={{ fontFamily: "Gilroy" }}
-                    className="btn btn-sm btn-primary ms-3"
-                    onClick={handleOkClick}
-                  >
-                    OK
-                  </button>
-                </>
-              ) : (
-                <>
-                  ❌ Your plan has expired!
-                  <button style={{ fontFamily: "Gilroy" }}
-                    className="btn btn-sm btn-primary ms-3"
-                    onClick={handleOkClick}
-                  >
-                    OK
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-        </Marquee>
+   {showWarning && (
+  <Marquee pauseOnHover gradient={false}>
+    <div
+      className="alert mt-3 d-flex justify-content-between align-items-center px-4 py-2 rounded-3"
+      style={{
+        backgroundColor: daysLeft > 0 ? "#fff3cd" : "#f8d7da",
+        color: daysLeft > 0 ? "#856404" : "#721c24",
+        border: `1px solid ${daysLeft > 0 ? "#ffeeba" : "#f5c6cb"}`,
+        fontFamily: "Gilroy",
+        width: "100%",
+        maxWidth: "900px",
+        margin: "auto",
+        fontSize: "16px",
+      }}
+      role="alert"
+    >
+      <div className="d-flex align-items-center">
+        {daysLeft > 0 ? (
+          <>
+            <MdWarningAmber size={24} color="#ffc107" style={{ marginRight: "8px" }} />
+            <span>
+              Your plan will expire in <strong>{daysLeft}</strong> day
+              {daysLeft > 1 ? "s" : ""}!
+            </span>
+          </>
+        ) : (
+          <>
+            <span style={{ fontSize: "20px", marginRight: "8px" }}>❌</span>
+            <span style={{ fontFamily: "Gilroy" }}>
+              <strong>Your plan has expired!</strong>
+            </span>
+          </>
+        )}
+      </div>
+      <button
+        className="btn btn-sm ms-3"
+        style={{
+          fontFamily: "Gilroy",
+          backgroundColor: daysLeft > 0 ? "#ffc107" : "#dc3545",
+          color: "#fff",
+          border: "none",
+        }}
+        onClick={handleOkClick}
+      >
+        OK
+      </button>
+    </div>
+  </Marquee>
+)}
         <TabContext value={value}>
           <div
             className="container-fluid "
