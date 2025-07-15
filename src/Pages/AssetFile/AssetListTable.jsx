@@ -106,6 +106,11 @@ function AssetListTable(props) {
     setShowDeleteAsset(false)
   }
 
+   const isDisabled = props.assetAddPermission || props.disableActions;
+  const isEditDisabled = props.assetEditPermission || props.disableActions;
+  const isDeleteDisabled = props.assetDeletePermission || props.disableActions || props.item.hostel_id;
+
+
   return (
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
@@ -236,18 +241,19 @@ function AssetListTable(props) {
                       zIndex: 1000,
                     }}
                   >
-                    <div style={{ backgroundColor: "#F9F9F9", width: "100%", borderRadius:10 }}>
+                    <div style={{ backgroundColor: "#F9F9F9", width: "100%", borderRadius: 10 }}>
 
                       <div
                         className="d-flex justify-content-start align-items-center gap-2"
                         onClick={() => {
-                          if (!props.assetAddPermission) {
+                          if (!isDisabled) {
                             handleAssignAsset(props.item);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.assetAddPermission)
+                          if (!isDisabled) {
                             e.currentTarget.style.backgroundColor = "#EDF2FF";
+                          }
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -256,9 +262,9 @@ function AssetListTable(props) {
                           padding: "8px 12px",
                           width: "100%",
                           backgroundColor: "#F9F9F9",
-                          cursor: props.assetAddPermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.assetAddPermission ? "none" : "auto",
-                          opacity: props.assetAddPermission ? 0.5 : 1,
+                          cursor: isDisabled ? "not-allowed" : "pointer",
+                          pointerEvents: isDisabled ? "none" : "auto",
+                          opacity: isDisabled ? 0.5 : 1,
                           borderTopLeftRadius: 10,
                           borderTopRightRadius: 10,
                         }}
@@ -266,7 +272,7 @@ function AssetListTable(props) {
                         <ProfileAdd size="16" color="#1E45E1" />
                         <label
                           style={{
-                            cursor: props.assetAddPermission ? "not-allowed" : "pointer",
+                            cursor: isDisabled ? "not-allowed" : "pointer",
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
@@ -281,22 +287,23 @@ function AssetListTable(props) {
                       <div
                         className="d-flex justify-content-start align-items-center gap-2"
                         onClick={() => {
-                          if (!props.assetEditPermission) {
+                          if (!isEditDisabled) {
                             handleEdit(props.item);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.assetEditPermission)
+                          if (!isEditDisabled) {
                             e.currentTarget.style.backgroundColor = "#EDF2FF";
+                          }
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
                         }}
                         style={{
                           backgroundColor: "#F9F9F9",
-                          cursor: props.assetEditPermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.assetEditPermission ? "none" : "auto",
-                          opacity: props.assetEditPermission ? 0.5 : 1,
+                          cursor: isEditDisabled ? "not-allowed" : "pointer",
+                          pointerEvents: isEditDisabled ? "none" : "auto",
+                          opacity: isEditDisabled ? 0.5 : 1,
                           padding: "8px 12px",
                           width: "100%",
 
@@ -309,7 +316,7 @@ function AssetListTable(props) {
                             fontWeight: 600,
                             fontFamily: "Gilroy, sans-serif",
                             color: "#222222",
-                            cursor: "pointer",
+                            cursor: isEditDisabled ? "not-allowed" : "pointer",
                           }}
                         >
                           Edit
@@ -319,54 +326,46 @@ function AssetListTable(props) {
                       <div
                         className="d-flex justify-content-start align-items-center gap-2"
                         onClick={() => {
-                          if (!props.assetDeletePermission && !props.item.hostel_id) {
+                          if (!isDeleteDisabled) {
                             handleShowDeleteAsset(props.item);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.assetDeletePermission && !props.item.hostel_id)
+                          if (!isDeleteDisabled) {
                             e.currentTarget.style.backgroundColor = "#FFF0F0";
+                          }
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
                         }}
                         style={{
                           backgroundColor: "#F9F9F9",
-                          cursor:
-                            props.assetDeletePermission || props.item.hostel_id
-                              ? "not-allowed"
-                              : "pointer",
-                          pointerEvents:
-                            props.assetDeletePermission || props.item.hostel_id
-                              ? "none"
-                              : "auto",
-                          opacity:
-                            props.assetDeletePermission || props.item.hostel_id ? 0.5 : 1,
+                          cursor: isDeleteDisabled ? "not-allowed" : "pointer",
+                          pointerEvents: isDeleteDisabled ? "none" : "auto",
+                          opacity: isDeleteDisabled ? 0.5 : 1,
                           padding: "8px 12px",
                           borderRadius: 6,
                           width: "100%",
 
                         }}
                       >
-                        <div>
-                          <Trash size="16" color="red" />
-                        </div>
-                        <div>
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#FF0000",
-                              cursor:
-                                props.assetDeletePermission || props.item.hostel_id
-                                  ? "not-allowed"
-                                  : "pointer",
-                            }}
-                          >
-                            Delete
-                          </label>
-                        </div>
+
+                        <Trash size="16" color="red" />
+
+
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy, sans-serif",
+                            color: "#FF0000",
+                             cursor: isDeleteDisabled ? "not-allowed" : "pointer",
+
+                          }}
+                        >
+                          Delete
+                        </label>
+
                       </div>
                     </div>
                   </div>

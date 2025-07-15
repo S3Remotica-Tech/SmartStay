@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { StoreSelectedHostelAction } from "../Redux/Action/smartStayAction";
+import { StoreSelectedHostelAction, setPlanStatus } from "../Redux/Action/smartStayAction";
 import "../Components/Sidebar.css";
 import Dashboards from "../Pages/Dashboard";
 import PgLists from "../Pages/PayingGuestFile/PgList";
@@ -52,6 +52,7 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
+
 
 
 function Sidebar() {
@@ -388,6 +389,42 @@ useEffect(() => {
 
   const handleMouseEnter = (icon) => setHoveredIcon(icon);
   const handleMouseLeave = () => setHoveredIcon(null);
+
+
+useEffect(() => {
+  if (state?.login?.selectedHostel_Id) {
+    const accountList = state.createAccount?.accountList;
+
+    if (
+      accountList &&
+      accountList.length > 0 &&
+      accountList[0]?.plan_data &&
+      accountList[0].plan_data.length > 0
+    ) {
+      const hostelDetails = accountList[0].plan_data[0].hostel_details;
+
+      const particularHostelPlan = hostelDetails?.find(
+        (view) => view.id === state.login.selectedHostel_Id
+      );
+
+      if (particularHostelPlan?.plan_status !== undefined) {
+        dispatch(setPlanStatus(particularHostelPlan.plan_status));
+      }
+    }
+  }
+}, [state?.login?.selectedHostel_Id]);
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>

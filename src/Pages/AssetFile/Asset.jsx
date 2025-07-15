@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import Select from "react-select";
+import { permission } from 'process';
 
 
 function Asset() {
@@ -46,6 +47,8 @@ function Asset() {
   const [ExcelDownloadDates, setExcelDownloadDates] = useState([])
   const [filterexcelprice, setFilterExcelPrice] = useState('')
 
+
+  
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -140,6 +143,30 @@ function Asset() {
   useEffect(() => {
     setAssetRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
+
+
+
+
+
+
+
+
+
+
+useEffect(()=>{
+  if(state?.login?.planStatus === 0){
+    alert("called")
+     setAssetPermissionError("");
+      setAssetAddPermission("Permission Denied");
+       setAssetEditPermission("Permission Denied");
+        setAssetDeletePermission("Permission Denied");
+   
+  }
+
+},[state?.login?.planStatus])
+
+
+
 
   useEffect(() => {
     if (
@@ -605,7 +632,6 @@ function Asset() {
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-              {assetpermissionError && (
                 <div
                   style={{
                     color: "red",
@@ -618,10 +644,10 @@ function Asset() {
                   <MdError size={20} />
                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
                 </div>
-              )}
+          
             </div>
           </>
-        ) :
+        ) : 
           <div className='container p-0 ' style={{ marginTop: 7 }}>
             <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
               style={{
@@ -857,7 +883,7 @@ function Asset() {
                 </div>
 
                 <div style={{ marginTop: 15, paddingRight: 4 }}>
-                  <Button disabled={assetAddPermission} onClick={handleShow}
+                  <Button disabled={assetAddPermission || state?.login?.planStatus === 0} onClick={handleShow}
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: "14px",
@@ -1019,7 +1045,7 @@ function Asset() {
                             sortedData && sortedData.length > 0 && (
                               <>
                                 {sortedData.map((item) => (
-                                  <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} />
+                                  <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} disableActions={state?.login?.planStatus === 0} />
                                 ))}
                               </>
                             )
