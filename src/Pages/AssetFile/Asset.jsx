@@ -155,7 +155,6 @@ function Asset() {
 
 useEffect(()=>{
   if(state?.login?.planStatus === 0){
-    alert("called")
      setAssetPermissionError("");
       setAssetAddPermission("Permission Denied");
        setAssetEditPermission("Permission Denied");

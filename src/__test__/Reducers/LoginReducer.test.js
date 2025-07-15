@@ -38,6 +38,21 @@ describe('it should check login reducers', () => {
 
 
 
+    it('should update planStatus in login reducer when SET_PLAN_STATUS is dispatched', () => {
+        const modifyState = {
+            ...initialState,
+            planStatus: null,
+        };
+
+        const action = {
+            type: 'SET_PLAN_STATUS',
+            payload: 1,
+        };
+
+        const result = SmartStayReducer(modifyState, action);
+
+        expect(result.planStatus).toBe(1);
+    });
 
 
 
