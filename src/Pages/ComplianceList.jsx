@@ -1887,5 +1887,6 @@ ComplianceList.propTypes = {
   onEditComplaints: PropTypes.func.isRequired,
   complianceEditPermission: PropTypes.func.isRequired,
   complianceDeletePermission: PropTypes.func.isRequired,
+  disableActions: PropTypes.func.isRequired
 };
 export default ComplianceList;
