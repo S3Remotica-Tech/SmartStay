@@ -108,22 +108,7 @@ function Dashboard() {
     }
   }, [state?.createAccount?.accountList[0]?.plan_data]);
 
-  // useEffect(() => {
-  //   if (accountList?.length > 0 && accountList[0]?.plan_end) {
-  //     const planEndDate = new Date(accountList[0].plan_end);
-  //     const currentDate = new Date();
-  //     const diffInDays = Math.floor(
-  //       (planEndDate - currentDate) / (1000 * 60 * 60 * 24)
-  //     );
-
-  //     setDaysLeft(diffInDays);
-  //     if (diffInDays <= 19) {
-  //       setShowWarning(true);
-  //     } else {
-  //       setShowWarning(false);
-  //     }
-  //   }
-  // }, [accountList]);
+  
 
 
   useEffect(() => {
@@ -269,7 +254,7 @@ function Dashboard() {
     setValue(newValue);
   };
 
-console.log("state",state)
+
 
   useEffect(() => {
     setRolePermission(state.createAccount.accountList);
@@ -521,8 +506,7 @@ console.log("state",state)
           </>
         ) : (
           <>
-            <span style={{ fontSize: "20px", marginRight: "8px" }}>❌</span>
-            <span style={{fontFamily: "Gilroy",}}>
+                       <span style={{fontFamily: "Gilroy",}}>
               <strong>Your plan has expired!</strong>
             </span>
           </>
