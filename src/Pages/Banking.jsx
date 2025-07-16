@@ -89,48 +89,113 @@ function Banking() {
     setBankingRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
-  useEffect(() => {
-    if (
-      bankingrolePermission[0]?.is_owner === 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_view === 1
-    ) {
-      setBankingPermissionError("");
-    } else {
-      setBankingPermissionError("Permission Denied");
-    }
-  }, [bankingrolePermission]);
+  // useEffect(() => {
+  //   if (
+  //     bankingrolePermission[0]?.is_owner === 1 ||
+  //     bankingrolePermission[0]?.role_permissions[16]?.per_view === 1
+  //   ) {
+  //     setBankingPermissionError("");
+  //   } else {
+  //     setBankingPermissionError("Permission Denied");
+  //   }
+  // }, [bankingrolePermission]);
 
-  useEffect(() => {
-    if (
-      bankingrolePermission[0]?.is_owner === 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_create === 1
-    ) {
-      setBankingAddPermission("");
-    } else {
-      setBankingAddPermission("Permission Denied");
-    }
-  }, [bankingrolePermission]);
 
-  useEffect(() => {
+
+
+   useEffect(() => {
+        if (
+          bankingrolePermission[0]?.is_owner === 0 &&
+          bankingrolePermission[0]?.role_permissions[16]?.per_view === 1
+        ) {
+          setBankingPermissionError("");
+        } else if (
+          bankingrolePermission[0]?.is_owner === 0 &&
+          bankingrolePermission[0]?.role_permissions[16]?.per_view === 0
+        ) {
+          setBankingPermissionError("Permission Denied");
+        }
+      }, [bankingrolePermission]);
+
+
+
+       useEffect(() => {
+          if (
+            bankingrolePermission[0]?.is_owner === 0 &&
+            bankingrolePermission[0]?.role_permissions[16]?.per_create === 1
+          ) {
+            setBankingAddPermission("");
+          } else if (bankingrolePermission[0]?.is_owner === 0 &&
+            bankingrolePermission[0]?.role_permissions[16]?.per_create === 0) {
+            setBankingAddPermission("Permission Denied");
+          }
+        }, [bankingrolePermission]);
+
+ 
+
+useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.is_owner === 0 &&
       bankingrolePermission[0]?.role_permissions[16]?.per_delete === 1
     ) {
       setBankingDeletePermission("");
-    } else {
+    } else if (bankingrolePermission[0]?.is_owner === 0 &&
+      bankingrolePermission[0]?.role_permissions[16]?.per_delete === 0) {
       setBankingDeletePermission("Permission Denied");
     }
   }, [bankingrolePermission]);
   useEffect(() => {
     if (
-      bankingrolePermission[0]?.is_owner === 1 ||
+      bankingrolePermission[0]?.is_owner === 0 &&
       bankingrolePermission[0]?.role_permissions[16]?.per_edit === 1
     ) {
       setBankingEditPermission("");
-    } else {
+    } else if (bankingrolePermission[0]?.is_owner === 0 &&
+      bankingrolePermission[0]?.role_permissions[16]?.per_edit === 0) {
       setBankingEditPermission("Permission Denied");
     }
   }, [bankingrolePermission]);
+
+
+
+  // useEffect(() => {
+  //   if (
+  //     bankingrolePermission[0]?.is_owner === 1 ||
+  //     bankingrolePermission[0]?.role_permissions[16]?.per_delete === 1
+  //   ) {
+  //     setBankingDeletePermission("");
+  //   } else {
+  //     setBankingDeletePermission("Permission Denied");
+  //   }
+  // }, [bankingrolePermission]);
+  // useEffect(() => {
+  //   if (
+  //     bankingrolePermission[0]?.is_owner === 1 ||
+  //     bankingrolePermission[0]?.role_permissions[16]?.per_edit === 1
+  //   ) {
+  //     setBankingEditPermission("");
+  //   } else {
+  //     setBankingEditPermission("Permission Denied");
+  //   }
+  // }, [bankingrolePermission]);
+
+
+
+   useEffect(() => {
+        if (state?.login?.planStatus === 0) {
+          setBankingPermissionError("");
+          setBankingAddPermission("Permission Denied");
+          setBankingEditPermission("Permission Denied");
+          setBankingDeletePermission("Permission Denied");
+    
+        } else if (state?.login?.planStatus === 1) {
+          setBankingPermissionError("");
+          setBankingAddPermission("");
+          setBankingEditPermission("");
+          setBankingDeletePermission("");
+        }
+    
+      }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
 
   useEffect(() => {
     if (hostel_id) {

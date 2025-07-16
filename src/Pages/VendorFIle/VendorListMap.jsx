@@ -185,7 +185,7 @@ function VendorListMap(props) {
                           width: "100%",
                           backgroundColor: "#F9F9F9",
                           cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.vendorEditPermission ? "none" : "auto",
+                         
                           opacity: props.vendorEditPermission ? 0.5 : 1,
                           borderTopLeftRadius: 10,
                           borderTopRightRadius: 10,

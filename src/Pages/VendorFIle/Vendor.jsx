@@ -50,51 +50,78 @@ function Vendor() {
     setVendorRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
-  useEffect(() => {
+
+
+   useEffect(() => {
+      if (
+        vendorrolePermission[0]?.is_owner === 0 &&
+        vendorrolePermission[0]?.role_permissions[14]?.per_view === 1
+      ) {
+        setVendorPermissionError("");
+      } else if (
+        vendorrolePermission[0]?.is_owner === 0 &&
+        vendorrolePermission[0]?.role_permissions[9]?.per_view === 0
+      ) {
+        setVendorPermissionError("Permission Denied");
+      }
+    }, [vendorrolePermission]);
+  
+
+ useEffect(() => {
     if (
-      vendorrolePermission[0]?.is_owner === 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_view === 1
-    ) {
-      setVendorPermissionError("");
-    } else {
-      setVendorPermissionError("Permission Denied");
-    }
-  }, [vendorrolePermission]);
-
-
-
-  useEffect(() => {
-    if (
-      vendorrolePermission[0]?.is_owner === 1 ||
+      vendorrolePermission[0]?.is_owner === 0 &&
       vendorrolePermission[0]?.role_permissions[9]?.per_create === 1
     ) {
       setVendorAddPermission("");
-    } else {
+    } else if (vendorrolePermission[0]?.is_owner === 0 &&
+      vendorrolePermission[0]?.role_permissions[9]?.per_create === 0) {
       setVendorAddPermission("Permission Denied");
     }
   }, [vendorrolePermission]);
 
 
-  useEffect(() => {
+ useEffect(() => {
     if (
-      vendorrolePermission[0]?.is_owner === 1 ||
+      vendorrolePermission[0]?.is_owner === 0 &&
       vendorrolePermission[0]?.role_permissions[9]?.per_delete === 1
     ) {
       setVendorDeletePermission("");
-    } else {
+    } else if (vendorrolePermission[0]?.is_owner === 0 &&
+      vendorrolePermission[0]?.role_permissions[9]?.per_delete === 0) {
       setVendorDeletePermission("Permission Denied");
     }
   }, [vendorrolePermission]);
   useEffect(() => {
     if (
-      vendorrolePermission[0]?.is_owner === 1 ||
+      vendorrolePermission[0]?.is_owner === 0 &&
       vendorrolePermission[0]?.role_permissions[9]?.per_edit === 1
     ) {
       setVendorEditPermission("");
-    } else {
+    } else if (vendorrolePermission[0]?.is_owner === 0 &&
+      vendorrolePermission[0]?.role_permissions[9]?.per_edit === 0) {
       setVendorEditPermission("Permission Denied");
     }
   }, [vendorrolePermission]);
+
+
+ 
+
+
+  useEffect(() => {
+      if (state?.login?.planStatus === 0) {
+        setVendorPermissionError("");
+        setVendorAddPermission("Permission Denied");
+        setVendorEditPermission("Permission Denied");
+        setVendorDeletePermission("Permission Denied");
+  
+      } else if (state?.login?.planStatus === 1) {
+        setVendorPermissionError("");
+        setVendorAddPermission("");
+        setVendorEditPermission("");
+        setVendorDeletePermission("");
+      }
+  
+    }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
 
   useEffect(() => {
     setLoading(true)
@@ -487,7 +514,9 @@ function Vendor() {
 
 
                   <div >
-                    <Button disabled={vendorAddPermission} onClick={handleShow} className="vendor-button"
+                    <Button 
+                    disabled={vendorAddPermission || state?.login?.planStatus === 0}
+                     onClick={handleShow} className="vendor-button"
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
