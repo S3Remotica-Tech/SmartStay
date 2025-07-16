@@ -1,4 +1,4 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { FormControl, InputGroup, Table, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -216,7 +216,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-
+  console.log("expencerolePermission", expencerolePermission)
 
 
   useEffect(() => {
@@ -224,7 +224,11 @@ function Expenses({ allPageHostel_Id }) {
       expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_view === 1
     ) {
-      setExpencePermissionError("");
+      if (state?.login?.planStatus === 1) {
+        setExpencePermissionError("");
+      } else if (state?.login?.planStatus === 0) {
+        setExpencePermissionError("Permission Denied");
+      }
     } else if (
       expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_view === 0
@@ -233,12 +237,20 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [expencerolePermission]);
 
+
+
+
   useEffect(() => {
     if (
       expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_create === 1
     ) {
-      setExpenceAddPermission("");
+      if (state?.login?.planStatus === 1) {
+        setExpenceAddPermission("");
+      } else if (state?.login?.planStatus === 0) {
+        setExpenceAddPermission("Permission Denied");
+      }
+
     } else if (expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_create === 0) {
       setExpenceAddPermission("Permission Denied");
@@ -250,18 +262,27 @@ function Expenses({ allPageHostel_Id }) {
       expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_delete === 1
     ) {
-      setExpenceDeletePermission("");
+      if (state?.login?.planStatus === 1) {
+        setExpenceDeletePermission("");
+      } else if (state?.login?.planStatus === 0) {
+        setExpenceDeletePermission("Permission Denied");
+      }
     } else if (expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_delete === 0) {
       setExpenceDeletePermission("Permission Denied");
     }
   }, [expencerolePermission]);
+
   useEffect(() => {
     if (
       expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_edit === 1
     ) {
-      setExpenceEditPermission("");
+      if (state?.login?.planStatus === 1) {
+        setExpenceEditPermission("");
+      } else if (state?.login?.planStatus === 0) {
+        setExpenceEditPermission("Permission Denied");
+      }
     } else if (expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_edit === 0) {
       setExpenceEditPermission("Permission Denied");
