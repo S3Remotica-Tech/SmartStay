@@ -104,11 +104,11 @@ function Sidebar() {
 
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
-          dispatch({ type: "HOSTELIDDETAILS" });
-              
-          setTimeout(() => {
+      dispatch({ type: "HOSTELIDDETAILS" });
+
+      setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
       }, 1000);
     }
@@ -391,28 +391,39 @@ useEffect(() => {
   const handleMouseLeave = () => setHoveredIcon(null);
 
 
-useEffect(() => {
-  if (state?.login?.selectedHostel_Id) {
-    const accountList = state.createAccount?.accountList;
+  useEffect(() => {
+    if (state?.login?.selectedHostel_Id) {
+      const accountList = state.createAccount?.accountList;
 
-    if (
-      accountList &&
-      accountList.length > 0 &&
-      accountList[0]?.plan_data &&
-      accountList[0].plan_data.length > 0
-    ) {
-      const hostelDetails = accountList[0].plan_data[0].hostel_details;
+      if (
+        accountList &&
+        accountList.length > 0 &&
+        accountList[0]?.plan_data &&
+        accountList[0].plan_data.length > 0
+      ) {
 
-      const particularHostelPlan = hostelDetails?.find(
-        (view) => view.id === state.login.selectedHostel_Id
-      );
+        if (accountList[0].plan_data[0]?.plan_type === "live") {
+          const hostelDetails = accountList[0].plan_data[0].hostel_details;
 
-      if (particularHostelPlan?.plan_status !== undefined) {
-        dispatch(setPlanStatus(particularHostelPlan.plan_status));
+          const particularHostelPlan = hostelDetails?.find(
+            (view) => view.id === state.login.selectedHostel_Id
+          );
+
+          if (particularHostelPlan?.plan_status !== "") {
+            dispatch(setPlanStatus(particularHostelPlan.plan_status));
+          }
+
+        } else if (accountList[0].plan_data[0]?.plan_type === "trail") {
+          const trailPlanStatus = accountList[0].plan_data[0]?.status
+          if (trailPlanStatus !== "") {
+            dispatch(setPlanStatus(trailPlanStatus));
+          }
+
+        }
+
       }
     }
-  }
-}, [state.login?.selectedHostel_Id]);
+  }, [state.login?.selectedHostel_Id]);
 
 
 
@@ -476,7 +487,7 @@ useEffect(() => {
               minWidth: 210,
             }}
           >
-           
+
             <div className="container" style={{ position: "relative" }}>
               <div
                 className="d-flex align-items-center justify-content-between"
@@ -568,7 +579,7 @@ useEffect(() => {
 
                   {isDropdownOpen && (
                     <div
-                    className="show-scrolls"
+                      className="show-scrolls"
                       style={{
                         position: "absolute",
                         top: "100%",
@@ -579,10 +590,10 @@ useEffect(() => {
                         borderRadius: "4px",
                         width: "100%",
                         zIndex: 10,
-                         maxHeight: "200px",        
-      overflowY: "auto",          
-      overflowX: "hidden", 
-                       
+                        maxHeight: "200px",
+                        overflowY: "auto",
+                        overflowX: "hidden",
+
                       }}
                     >
                       <ul style={{ margin: 0, padding: 0 }}>
@@ -1021,16 +1032,16 @@ useEffect(() => {
                   marginBottom: 12,
                 }}
               >
-                <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto" , gap:10}}>
+                <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto", gap: 10 }}>
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column", 
+                      flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "start",
-                      width: "fit-content", 
+                      width: "fit-content",
                       textAlign: "center",
-                      
+
                     }}
                   >
                     <Image
