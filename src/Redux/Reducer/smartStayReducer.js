@@ -21,10 +21,17 @@
    IsVisible: null,
    errorStatusCode: 0,
    errorPasswordStatusCode:0,
+    planStatus: null,
 
 }
 const SmartStayReducer = (state = initialState, action) => {
    switch (action.type) {
+
+       case "SET_PLAN_STATUS":
+      return {
+        ...state,
+        planStatus: action.payload,
+      };
       case "STORE_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: action.payload };
       case "CLEAR_HOSTEL_DATA":

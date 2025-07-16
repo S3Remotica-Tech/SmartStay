@@ -148,6 +148,10 @@ export const SettingsStoreSelectedHostelAction = (data) => {
 };
 
 
+export const setPlanStatus = (planStatus) => ({
+  type: "SET_PLAN_STATUS",
+  payload: planStatus,
+});
 
 
 

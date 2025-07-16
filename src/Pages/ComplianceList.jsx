@@ -446,6 +446,8 @@ const ComplianceList = (props) => {
 
   }, [state.createAccount?.networkError])
 
+  console.log("props", props)
+
 
 
   return (
@@ -604,18 +606,26 @@ const ComplianceList = (props) => {
                           <div style={{ width: "100%" }}>
                             <div
                               className="d-flex align-items-center"
-                              onClick={() => handleChangeStatusOpenClose(props.complaints)}
+                              onClick={() => {
+                                if (!props.disableActions) {
+                                  handleChangeStatusOpenClose(props.complaints)
+
+                                }
+                              }}
                               style={{
-                                cursor: "pointer",
+                                cursor: props.disableActions ? "not-allowed" : "pointer",
+                                opacity: props.disableActions ? 0.5 : 1,
                                 borderTopLeftRadius: 10,
                                 borderTopRightRadius: 10,
                                 backgroundColor: "#F9F9F9",
                                 padding: "8px 12px",
                                 width: "100%",
                               }}
-                              onMouseEnter={(e) =>
-                                (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                              }
+                              onMouseEnter={(e) => {
+                                if (!props.disableActions) {
+                                  (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                                }
+                              }}
                               onMouseLeave={(e) =>
                                 (e.currentTarget.style.backgroundColor = "transparent")
                               }
@@ -626,7 +636,7 @@ const ComplianceList = (props) => {
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  cursor: "pointer",
+                                  cursor: props.disableActions ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
                               >
@@ -636,15 +646,23 @@ const ComplianceList = (props) => {
 
                             <div
                               className="d-flex align-items-center"
-                              onClick={() => handleAssignOpenClose(props.complaints)}
+                              onClick={() => {
+                                if (!props.disableActions) {
+                                  handleAssignOpenClose(props.complaints)
+                                }
+                              }
+                              }
                               style={{
-                                cursor: "pointer",
+                                cursor: props.disableActions ? "not-allowed" : "pointer",
+                                opacity: props.disableActions ? 0.5 : 1,
                                 padding: "8px 12px",
                                 width: "100%",
                               }}
-                              onMouseEnter={(e) =>
-                                (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                              }
+                              onMouseEnter={(e) => {
+                                if (!props.disableActions) {
+                                  (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                                }
+                              }}
                               onMouseLeave={(e) =>
                                 (e.currentTarget.style.backgroundColor = "transparent")
                               }
@@ -655,7 +673,7 @@ const ComplianceList = (props) => {
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  cursor: "pointer",
+                                   cursor: props.disableActions ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
                               >
@@ -1068,64 +1086,64 @@ const ComplianceList = (props) => {
                     }}
                     className="m-0 p-0"
                   >
-                      <Modal.Header
+                    <Modal.Header
+                      style={{
+                        marginBottom: "10px",
+                        position: "relative",
+                        display: "flex",
+                        marginleft: "-15px"
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                          marginleft: "-15px",
+                        }}
+                      >
+                        <img
+                          src={profile}
+                          alt="Profile"
                           style={{
-                            marginBottom: "10px",
-                            position: "relative",
-                            display: "flex",
-                            marginleft: "-15px"
+                            cursor: "pointer",
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            marginRight: "10px",
                           }}
-                        >
-                          <div
+                        />
+                        <div style={{ flexGrow: 1 }}>
+                          <p
                             style={{
-                              display: "flex",
-                              alignItems: "center",
-                              width: "100%",
-                              marginleft: "-15px",
+                              margin: 0,
+                              fontSize: "16px",
+                              fontWeight: "bold",
+                              fontFamily: "Gilroy",
                             }}
                           >
-                            <img
-                              src={profile}
-                              alt="Profile"
-                              style={{
-                                cursor: "pointer",
-                                width: "40px",
-                                height: "40px",
-                                borderRadius: "50%",
-                                marginRight: "10px",
-                              }}
-                            />
-                            <div style={{ flexGrow: 1 }}>
-                              <p
-                                style={{
-                                  margin: 0,
-                                  fontSize: "16px",
-                                  fontWeight: "bold",
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                {name}
-                              </p>
-                              <p
-                                style={{
-                                  margin: 0,
-                                  fontSize: "14px",
-                                  color: "gray",
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                                {date}
-                              </p>
-                            </div>
-                          </div>
+                            {name}
+                          </p>
+                          <p
+                            style={{
+                              margin: 0,
+                              fontSize: "14px",
+                              color: "gray",
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            {date}
+                          </p>
+                        </div>
+                      </div>
 
 
-                          <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
-                            style={{ cursor: 'pointer' }} />
-                        </Modal.Header>
+                      <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
+                        style={{ cursor: 'pointer' }} />
+                    </Modal.Header>
                     <Modal.Body>
                       <div>
-                      
+
                       </div>
                       <div
                         style={{
@@ -1249,121 +1267,121 @@ const ComplianceList = (props) => {
                         )}
 
                       </div>
-                   
 
-                    {commentsLoading && <div
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                      }}
-                    >
-                      <div
+
+                      {commentsLoading && <div
                         style={{
-                          borderTop: '4px solid #1E45E1',
-                          borderRight: '4px solid transparent',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          animation: 'spin 1s linear infinite',
-                        }}
-                      ></div>
-                    </div>}
-
-
-
-
-                  
-
-                    {state.createAccount?.networkError ?
-                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                      </div>
-                      : null}
-
-                    <Modal.Footer style={{ border: "none" }} className="p-0">
-                      <div
-                        style={{
-                          marginTop: 15,
-                          position: "relative",
-                          display: "inline-block",
-                          width: "100%",
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'transparent',
+                          opacity: 0.75,
+                          zIndex: 10,
                         }}
                       >
-                        <Form.Control
-                          type="text"
-                          value={comments}
-                          onChange={(e) => handleComments(e)}
-                          className="input-field"
+                        <div
                           style={{
-                            border: "1px solid #E7E7E7",
-                            paddingTop: 6,
-                            paddingBottom: 6,
-                            paddingLeft: 16,
-                            width: "100%",
-                            height: "52px",
-                            fontFamily: "Gilroy",
-                            borderRadius: "12px",
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
                           }}
-                          placeholder="Post your reply here"
-                        />
-                        <div className="input-field"
-                          style={{
+                        ></div>
+                      </div>}
 
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            backgroundColor: "#1E45E1",
-                            border: "1px solid #E7E7E7",
-                            borderRadius: "60px",
-                            padding: "12px",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            cursor: "pointer",
 
-                          }}
-                          onClick={handleAddComment}
-                        >
-                          <img
-                            src={send}
-                            alt="Send"
-                            style={{
-                              width: "16px",
-                              height: "16px",
-                            }}
 
-                          />
+
+
+
+                      {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                          <MdError style={{ color: "red", marginRight: '5px' }} />
+                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                         </div>
-  
-                      </div>
-                     
-                    </Modal.Footer>
-                     {commentError && (
-                      <div className="ms-3 mt-0 mb-3" style={{ color: "red", textAlign: "start" }}>
-                        <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
-                        <span
+                        : null}
+
+                      <Modal.Footer style={{ border: "none" }} className="p-0">
+                        <div
                           style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
+                            marginTop: 15,
+                            position: "relative",
+                            display: "inline-block",
+                            width: "100%",
                           }}
                         >
-                          {commentError}
-                        </span>
-                      </div>
-                    )}
-                     </Modal.Body>
+                          <Form.Control
+                            type="text"
+                            value={comments}
+                            onChange={(e) => handleComments(e)}
+                            className="input-field"
+                            style={{
+                              border: "1px solid #E7E7E7",
+                              paddingTop: 6,
+                              paddingBottom: 6,
+                              paddingLeft: 16,
+                              width: "100%",
+                              height: "52px",
+                              fontFamily: "Gilroy",
+                              borderRadius: "12px",
+                            }}
+                            placeholder="Post your reply here"
+                          />
+                          <div className="input-field"
+                            style={{
+
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              backgroundColor: "#1E45E1",
+                              border: "1px solid #E7E7E7",
+                              borderRadius: "60px",
+                              padding: "12px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              cursor: "pointer",
+
+                            }}
+                            onClick={handleAddComment}
+                          >
+                            <img
+                              src={send}
+                              alt="Send"
+                              style={{
+                                width: "16px",
+                                height: "16px",
+                              }}
+
+                            />
+                          </div>
+
+                        </div>
+
+                      </Modal.Footer>
+                      {commentError && (
+                        <div className="ms-3 mt-0 mb-3" style={{ color: "red", textAlign: "start" }}>
+                          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {commentError}
+                          </span>
+                        </div>
+                      )}
+                    </Modal.Body>
                   </Modal.Dialog>
                 </Modal>
 
@@ -1605,10 +1623,10 @@ const ComplianceList = (props) => {
 
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group
-className="mb-2"
+                            className="mb-2"
                             controlId="exampleForm.ControlInput5"
                           >
-                            <Form.Label 
+                            <Form.Label
                               style={{
                                 fontSize: 14,
                                 color: "#222",
@@ -1701,7 +1719,7 @@ className="mb-2"
                               <div >
 
                                 <p className='text-start' style={{ fontSize: '12px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                                  {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom: 1 , fontSize:14}} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
+                                  {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom: 1, fontSize: 14 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
 
                                 </p>
                               </div>
@@ -1869,5 +1887,6 @@ ComplianceList.propTypes = {
   onEditComplaints: PropTypes.func.isRequired,
   complianceEditPermission: PropTypes.func.isRequired,
   complianceDeletePermission: PropTypes.func.isRequired,
+  disableActions: PropTypes.func.isRequired
 };
 export default ComplianceList;

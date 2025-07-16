@@ -88,7 +88,7 @@ function EB_Hostel() {
   const [formLoading, setFormLoading] = useState(false)
 
   const electricityPageOptions = [
-       { value: 10, label: "10" },
+    { value: 10, label: "10" },
     { value: 50, label: "50" },
     { value: 100, label: "100" },
   ];
@@ -169,45 +169,75 @@ function EB_Hostel() {
     setEbRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
+
+  useEffect(() => {
+    if (state?.login?.planStatus === 0) {
+      setEbPermissionError("");
+      setEbAddPermission("Permission Denied");
+      setEbDeletePermission("Permission Denied");
+      setEbEditPermission("Permission Denied");
+
+    } else if (state?.login?.planStatus === 1) {
+      setEbPermissionError("");
+      setEbAddPermission("");
+      setEbDeletePermission("");
+      setEbEditPermission("");
+    }
+
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (
-      ebrolePermission[0]?.is_owner === 1 ||
+      ebrolePermission[0]?.is_owner === 0 &&
       ebrolePermission[0]?.role_permissions[12]?.per_view === 1
     ) {
       setEbPermissionError("");
-    } else {
+    } else if (ebrolePermission[0]?.is_owner === 0 &&
+      ebrolePermission[0]?.role_permissions[12]?.per_view === 0) {
       setEbPermissionError("Permission Denied");
     }
   }, [ebrolePermission]);
 
   useEffect(() => {
-    if (
-      ebrolePermission[0]?.is_owner === 1 ||
-      ebrolePermission[0]?.role_permissions[12]?.per_create === 1
-    ) {
-      setEbAddPermission("");
-    } else {
-      setEbAddPermission("Permission Denied");
+    if (ebrolePermission[0]?.is_owner === 0) {
+      if (ebrolePermission[0]?.role_permissions[12]?.per_create === 1) {
+        setEbAddPermission("");
+      } else if (ebrolePermission[0]?.role_permissions[12]?.per_create === 0) {
+        setEbAddPermission("Permission Denied");
+      }
     }
+
   }, [ebrolePermission]);
 
   useEffect(() => {
     if (
-      ebrolePermission[0]?.is_owner === 1 ||
+      ebrolePermission[0]?.is_owner === 0 &&
       ebrolePermission[0]?.role_permissions[12]?.per_delete === 1
     ) {
       setEbDeletePermission("");
-    } else {
+    } else if (ebrolePermission[0]?.is_owner === 0 &&
+      ebrolePermission[0]?.role_permissions[12]?.per_delete === 0) {
       setEbDeletePermission("Permission Denied");
     }
   }, [ebrolePermission]);
+
+
+
   useEffect(() => {
     if (
-      ebrolePermission[0]?.is_owner === 1 ||
+      ebrolePermission[0]?.is_owner === 0 &&
       ebrolePermission[0]?.role_permissions[12]?.per_edit === 1
     ) {
       setEbEditPermission("");
-    } else {
+    } else if (ebrolePermission[0]?.is_owner === 0 &&
+      ebrolePermission[0]?.role_permissions[12]?.per_edit === 0) {
       setEbEditPermission("Permission Denied");
     }
   }, [ebrolePermission]);
@@ -226,6 +256,8 @@ function EB_Hostel() {
 
   const [electricityFilterd, setelectricityFilterd] = useState([]);
   const [electricityHostel, setelectricityHostel] = useState([]);
+
+  
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setCustomerLoader(true);
@@ -601,11 +633,11 @@ function EB_Hostel() {
   };
 
   const handleItemsPerPageChange = (selectedOption) => {
-  if (selectedOption) {
-    setElectricityrowsPerPage(Number(selectedOption.value));
-    setelectricitycurrentPage(1);
-  }
-};
+    if (selectedOption) {
+      setElectricityrowsPerPage(Number(selectedOption.value));
+      setelectricitycurrentPage(1);
+    }
+  };
 
   const totalPagesinvoice = Math.ceil(
     electricityFilterddata?.length / electricityrowsPerPage
@@ -1054,6 +1086,7 @@ function EB_Hostel() {
             <div className="me-2" style={{ paddingRight: 4 }}>
               {hostelBased === 1 ? (
                 <Button
+                  disabled={state?.login?.planStatus === 0}
                   onClick={handleHostelForm}
                   className="text-white"
                   style={{
@@ -1072,7 +1105,7 @@ function EB_Hostel() {
               ) : (
                 <Button
                   onClick={handleAddEbDetails}
-                  disabled={ebAddPermission}
+                  disabled={ebAddPermission || state?.login?.planStatus === 0}
                   className="text-white"
                   style={{
                     fontFamily: "Gilroy",
@@ -1592,7 +1625,7 @@ function EB_Hostel() {
                     </div>
                   )}
 
-                {electricityFilterddata?.length > 10  && (
+                {electricityFilterddata?.length > 10 && (
                   <nav
                     style={{
                       display: "flex",
@@ -1617,13 +1650,13 @@ function EB_Hostel() {
                             ? { value: electricityrowsPerPage, label: `${electricityrowsPerPage}` }
                             : null
                         }
-                       onChange={handleItemsPerPageChange}
+                        onChange={handleItemsPerPageChange}
                         placeholder="Items per page"
                         classNamePrefix="custom"
                         menuPlacement="auto"
                         noOptionsMessage={() => "No options"}
-                         styles={{
-                      control: (base) => ({
+                        styles={{
+                          control: (base) => ({
                             ...base,
                             height: "40px",
                             borderRadius: "6px",
@@ -1634,42 +1667,42 @@ function EB_Hostel() {
                             border: "1px solid #1E45E1",
                             boxShadow: "0 0 0 1px #1E45E1",
                             cursor: "pointer",
-                             width:90,
+                            width: 90,
                           }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "200px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#1E45E1",
-                        cursor: "pointer",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                        color:state.isFocused ? "#FFF": "#000",
-                      }),
-                    }}
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                            fontFamily: "Gilroy",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "200px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                            fontFamily: "Gilroy",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#1E45E1",
+                            cursor: "pointer",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            cursor: "pointer",
+                            backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                            color: state.isFocused ? "#FFF" : "#000",
+                          }),
+                        }}
                       />
                     </div>
 

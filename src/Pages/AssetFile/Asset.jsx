@@ -17,6 +17,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import Select from "react-select";
 
 
+
 function Asset() {
 
 
@@ -45,6 +46,8 @@ function Asset() {
   const [ExcelFilterDates, setExcelFilterDates] = useState([])
   const [ExcelDownloadDates, setExcelDownloadDates] = useState([])
   const [filterexcelprice, setFilterExcelPrice] = useState('')
+
+
 
 
   useEffect(() => {
@@ -141,26 +144,55 @@ function Asset() {
     setAssetRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    if (state?.login?.planStatus === 0) {
+      setAssetPermissionError("");
+      setAssetAddPermission("Permission Denied");
+      setAssetEditPermission("Permission Denied");
+      setAssetDeletePermission("Permission Denied");
+
+    } else if (state?.login?.planStatus === 1) {
+      setAssetPermissionError("");
+      setAssetAddPermission("");
+      setAssetEditPermission("");
+      setAssetDeletePermission("");
+    }
+
+  }, [state?.login?.planStatus, state.login?.selectedHostel_Id])
+
+
+
+
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.is_owner === 0 &&
       assetrolePermission[0]?.role_permissions[8]?.per_view === 1
     ) {
       setAssetPermissionError("");
-    } else {
+    } else if (assetrolePermission[0]?.is_owner === 0 &&
+      assetrolePermission[0]?.role_permissions[8]?.per_view === 0) {
       setAssetPermissionError("Permission Denied");
     }
   }, [assetrolePermission]);
 
 
-
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.is_owner === 0 &&
       assetrolePermission[0]?.role_permissions[8]?.per_create === 1
     ) {
       setAssetAddPermission("");
-    } else {
+    } else if (assetrolePermission[0]?.is_owner === 0 &&
+      assetrolePermission[0]?.role_permissions[8]?.per_create === 0) {
       setAssetAddPermission("Permission Denied");
     }
   }, [assetrolePermission]);
@@ -168,21 +200,23 @@ function Asset() {
 
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.is_owner === 0 &&
       assetrolePermission[0]?.role_permissions[8]?.per_delete === 1
     ) {
       setAssetDeletePermission("");
-    } else {
+    } else if (assetrolePermission[0]?.is_owner === 0 &&
+      assetrolePermission[0]?.role_permissions[8]?.per_delete === 0) {
       setAssetDeletePermission("Permission Denied");
     }
   }, [assetrolePermission]);
   useEffect(() => {
     if (
-      assetrolePermission[0]?.is_owner === 1 ||
+      assetrolePermission[0]?.is_owner === 0 &&
       assetrolePermission[0]?.role_permissions[8]?.per_edit === 1
     ) {
       setAssetEditPermission("");
-    } else {
+    } else if (assetrolePermission[0]?.is_owner === 0 &&
+      assetrolePermission[0]?.role_permissions[8]?.per_edit === 0) {
       setAssetEditPermission("Permission Denied");
     }
   }, [assetrolePermission]);
@@ -605,20 +639,19 @@ function Asset() {
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-              {assetpermissionError && (
-                <div
-                  style={{
-                    color: "red",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    marginTop: "1rem",
-                  }}
-                >
-                  <MdError size={20} />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
-                </div>
-              )}
+              <div
+                style={{
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <MdError size={20} />
+                <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
+              </div>
+
             </div>
           </>
         ) :
@@ -857,7 +890,7 @@ function Asset() {
                 </div>
 
                 <div style={{ marginTop: 15, paddingRight: 4 }}>
-                  <Button disabled={assetAddPermission} onClick={handleShow}
+                  <Button disabled={assetAddPermission || state?.login?.planStatus === 0} onClick={handleShow}
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: "14px",
@@ -1019,7 +1052,7 @@ function Asset() {
                             sortedData && sortedData.length > 0 && (
                               <>
                                 {sortedData.map((item) => (
-                                  <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} />
+                                  <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} disableActions={state?.login?.planStatus === 0} />
                                 ))}
                               </>
                             )
@@ -1096,11 +1129,11 @@ function Asset() {
                         borderRadius: "5px",
                         fontSize: "14px",
                         color: "#1E45E1",
-                       fontWeight: 600,
+                        fontWeight: 600,
                         cursor: "pointer",
                         fontFamily: "Gilroy",
                         boxShadow: "0 0 0 1px #1E45E1",
-                         width:90,
+                        width: 90,
                       }),
                       menu: (base) => ({
                         ...base,

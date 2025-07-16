@@ -56,11 +56,11 @@ function Expenses({ allPageHostel_Id }) {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
 
-const pageOptions = [
+  const pageOptions = [
     { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
 
 
@@ -197,45 +197,73 @@ const pageOptions = [
     setExpenceRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
+
+  useEffect(() => {
+    if (state?.login?.planStatus === 0) {
+      setExpencePermissionError("");
+      setExpenceAddPermission("Permission Denied");
+      setExpenceEditPermission("Permission Denied");
+      setExpenceDeletePermission("Permission Denied");
+
+    } else if (state?.login?.planStatus === 1) {
+      setExpencePermissionError("");
+      setExpenceAddPermission("");
+      setExpenceEditPermission("");
+      setExpenceDeletePermission("");
+    }
+
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
+
+
+
+
+
+
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_view === 1
     ) {
       setExpencePermissionError("");
-    } else {
+    } else if (
+      expencerolePermission[0]?.is_owner === 0 &&
+      expencerolePermission[0]?.role_permissions[14]?.per_view === 0
+    ) {
       setExpencePermissionError("Permission Denied");
     }
   }, [expencerolePermission]);
 
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_create === 1
     ) {
       setExpenceAddPermission("");
-    } else {
+    } else if (expencerolePermission[0]?.is_owner === 0 &&
+      expencerolePermission[0]?.role_permissions[14]?.per_create === 0) {
       setExpenceAddPermission("Permission Denied");
     }
   }, [expencerolePermission]);
 
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_delete === 1
     ) {
       setExpenceDeletePermission("");
-    } else {
+    } else if (expencerolePermission[0]?.is_owner === 0 &&
+      expencerolePermission[0]?.role_permissions[14]?.per_delete === 0) {
       setExpenceDeletePermission("Permission Denied");
     }
   }, [expencerolePermission]);
   useEffect(() => {
     if (
-      expencerolePermission[0]?.is_owner === 1 ||
+      expencerolePermission[0]?.is_owner === 0 &&
       expencerolePermission[0]?.role_permissions[14]?.per_edit === 1
     ) {
       setExpenceEditPermission("");
-    } else {
+    } else if (expencerolePermission[0]?.is_owner === 0 &&
+      expencerolePermission[0]?.role_permissions[14]?.per_edit === 0) {
       setExpenceEditPermission("Permission Denied");
     }
   }, [expencerolePermission]);
@@ -583,9 +611,9 @@ const pageOptions = [
   }, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
 
   const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(Number(selectedOption.value));
-  setCurrentPage(1);
-};
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
+  };
 
 
   const handlePageChange = (pageNumber) => {
@@ -839,6 +867,13 @@ const pageOptions = [
       }, 1000);
     }
   }, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
+
+
+
+
+
+
+
 
 
   return (
@@ -1226,13 +1261,14 @@ const pageOptions = [
                     alt="excel"
                     width={38}
                     height={38}
+
                     onClick={handleExpenceExcel}
                   />
                 </div>
 
                 <div className="me-2" style={{ marginTop: 7, paddingRight: 4 }}>
                   <Button
-                    disabled={expenceAddPermission}
+                    disabled={expenceAddPermission || state?.login?.planStatus === 0}
                     onClick={handleShow}
 
                     style={{
@@ -1516,8 +1552,8 @@ const pageOptions = [
                 position: "fixed",
                 bottom: "0px",
                 right: "0px",
-                left:0,
-                backgroundColor:"#fff",
+                left: 0,
+                backgroundColor: "#fff",
                 borderRadius: "5px",
                 zIndex: 1000,
               }}
@@ -1535,8 +1571,8 @@ const pageOptions = [
                   onChange={handleItemsPerPageChange}
                   placeholder="Items per page"
                   classNamePrefix="custom"
-                   menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
+                  menuPlacement="auto"
+                  noOptionsMessage={() => "No options"}
                   styles={{
                     control: (base) => ({
                       ...base,
@@ -1550,7 +1586,7 @@ const pageOptions = [
                       cursor: "pointer",
                       fontFamily: "Gilroy",
                       boxShadow: "0 0 0 1px #1E45E1",
-                       width:90,
+                      width: 90,
                     }),
                     menu: (base) => ({
                       ...base,

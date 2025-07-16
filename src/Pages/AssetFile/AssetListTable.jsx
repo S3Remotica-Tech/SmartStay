@@ -257,7 +257,7 @@ function AssetListTable(props) {
                           width: "100%",
                           backgroundColor: "#F9F9F9",
                           cursor: props.assetAddPermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.assetAddPermission ? "none" : "auto",
+                          // pointerEvents: props.assetAddPermission ? "none" : "auto",
                           opacity: props.assetAddPermission ? 0.5 : 1,
                           borderTopLeftRadius: 10,
                           borderTopRightRadius: 10,
@@ -295,7 +295,7 @@ function AssetListTable(props) {
                         style={{
                           backgroundColor: "#F9F9F9",
                           cursor: props.assetEditPermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.assetEditPermission ? "none" : "auto",
+                          // pointerEvents: props.assetEditPermission ? "none" : "auto",
                           opacity: props.assetEditPermission ? 0.5 : 1,
                           padding: "8px 12px",
                           width: "100%",
@@ -336,10 +336,10 @@ function AssetListTable(props) {
                             props.assetDeletePermission || props.item.hostel_id
                               ? "not-allowed"
                               : "pointer",
-                          pointerEvents:
-                            props.assetDeletePermission || props.item.hostel_id
-                              ? "none"
-                              : "auto",
+                          // pointerEvents:
+                          //   props.assetDeletePermission || props.item.hostel_id
+                          //     ? "none"
+                          //     : "auto",
                           opacity:
                             props.assetDeletePermission || props.item.hostel_id ? 0.5 : 1,
                           padding: "8px 12px",
