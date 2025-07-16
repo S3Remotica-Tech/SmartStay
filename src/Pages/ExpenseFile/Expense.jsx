@@ -68,7 +68,10 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
+  const [dates, setDates] = useState([]);
 
+
+  const [pickerKey, setPickerKey] = useState(0);
 
   const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -215,84 +218,128 @@ function Expenses({ allPageHostel_Id }) {
   }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
 
 
+ useEffect(() => {
+  const expensePermission = expencerolePermission[0]?.role_permissions?.find(
+    (perm) => perm.permission_name === "Expenses"
+  );
 
-  console.log("expencerolePermission", expencerolePermission)
-
-
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner === 0 &&
-      expencerolePermission[0]?.role_permissions[14]?.per_view === 1
-    ) {
-      if (state?.login?.planStatus === 1) {
-        setExpencePermissionError("");
-      } else if (state?.login?.planStatus === 0) {
-        setExpencePermissionError("Permission Denied");
-      }
-    } else if (
-      expencerolePermission[0]?.is_owner === 0 &&
-      expencerolePermission[0]?.role_permissions[14]?.per_view === 0
-    ) {
-      setExpencePermissionError("Permission Denied");
-    }
-  }, [expencerolePermission]);
+  const isOwner = expencerolePermission[0]?.is_owner === 0;
+  const planActive = state?.login?.planStatus === 1;
 
 
+ 
+  if (!expensePermission || !isOwner) return;
+
+  
+  if (expensePermission.per_view === 1 && planActive) {
+    setExpencePermissionError("");
+  } else {
+    setExpencePermissionError("Permission Denied");
+  }
+
+  
+  if (expensePermission.per_create === 1 && planActive) {
+    setExpenceAddPermission("");
+  } else {
+    setExpenceAddPermission("Permission Denied");
+  }
+
+ 
+  if (expensePermission.per_edit === 1 && planActive) {
+    setExpenceEditPermission("");
+  } else {
+    setExpenceEditPermission("Permission Denied");
+  }
+
+  if (expensePermission.per_delete === 1 && planActive) {
+    setExpenceDeletePermission("");
+  } else {
+    setExpenceDeletePermission("Permission Denied");
+  }
+}, [expencerolePermission, state?.login?.planStatus]);
 
 
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner === 0 &&
-      expencerolePermission[0]?.role_permissions[14]?.per_create === 1
-    ) {
-      if (state?.login?.planStatus === 1) {
-        setExpenceAddPermission("");
-      } else if (state?.login?.planStatus === 0) {
-        setExpenceAddPermission("Permission Denied");
-      }
 
-    } else if (expencerolePermission[0]?.is_owner === 0 &&
-      expencerolePermission[0]?.role_permissions[14]?.per_create === 0) {
-      setExpenceAddPermission("Permission Denied");
-    }
-  }, [expencerolePermission]);
+//   useEffect(() => {
+//  const expensePermission = expencerolePermission[0]?.role_permissions?.find(
+//     (perm) => perm.permission_name === "Expenses"
+//   );
+//     if (
+//       expencerolePermission[0]?.is_owner === 0 &&
+//       expensePermission?.per_view === 1
+//     ) {
+//       if (state?.login?.planStatus === 1) {
+//         setExpencePermissionError("");
+//       } else if (state?.login?.planStatus === 0) {
+//         setExpencePermissionError("Permission Denied");
+//       }
+//     } else if (
+//       expencerolePermission[0]?.is_owner === 0 &&
+//       expensePermission?.per_view === 0
+//     ) {
+//       setExpencePermissionError("Permission Denied");
+//     }
+//   }, [expencerolePermission]);
 
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner === 0 &&
-      expencerolePermission[0]?.role_permissions[14]?.per_delete === 1
-    ) {
-      if (state?.login?.planStatus === 1) {
-        setExpenceDeletePermission("");
-      } else if (state?.login?.planStatus === 0) {
-        setExpenceDeletePermission("Permission Denied");
-      }
-    } else if (expencerolePermission[0]?.is_owner === 0 &&
-      expencerolePermission[0]?.role_permissions[14]?.per_delete === 0) {
-      setExpenceDeletePermission("Permission Denied");
-    }
-  }, [expencerolePermission]);
+//   useEffect(() => {
+//      const expensePermission = expencerolePermission[0]?.role_permissions?.find(
+//     (perm) => perm.permission_name === "Expenses"
+//   );
+//     if (
+//       expencerolePermission[0]?.is_owner === 0 &&
+//       expensePermission?.per_create === 1
+//     ) {
+//       if (state?.login?.planStatus === 1) {
+//         setExpenceAddPermission("");
+//       } else if (state?.login?.planStatus === 0) {
+//         setExpenceAddPermission("Permission Denied");
+//       }
 
-  useEffect(() => {
-    if (
-      expencerolePermission[0]?.is_owner === 0 &&
-      expencerolePermission[0]?.role_permissions[14]?.per_edit === 1
-    ) {
-      if (state?.login?.planStatus === 1) {
-        setExpenceEditPermission("");
-      } else if (state?.login?.planStatus === 0) {
-        setExpenceEditPermission("Permission Denied");
-      }
-    } else if (expencerolePermission[0]?.is_owner === 0 &&
-      expencerolePermission[0]?.role_permissions[14]?.per_edit === 0) {
-      setExpenceEditPermission("Permission Denied");
-    }
-  }, [expencerolePermission]);
+//     } else if (expencerolePermission[0]?.is_owner === 0 &&
+//       expensePermission?.per_create === 0) {
+//       setExpenceAddPermission("Permission Denied");
+//     }
+//   }, [expencerolePermission]);
 
-  const [dates, setDates] = useState([]);
+//   useEffect(() => {
+//      const expensePermission = expencerolePermission[0]?.role_permissions?.find(
+//     (perm) => perm.permission_name === "Expenses"
+//   );
+//     if (
+//       expencerolePermission[0]?.is_owner === 0 &&
+//       expensePermission?.per_delete === 1
+//     ) {
+//       if (state?.login?.planStatus === 1) {
+//         setExpenceDeletePermission("");
+//       } else if (state?.login?.planStatus === 0) {
+//         setExpenceDeletePermission("Permission Denied");
+//       }
+//     } else if (expencerolePermission[0]?.is_owner === 0 &&
+//       expensePermission?.per_delete === 0) {
+//       setExpenceDeletePermission("Permission Denied");
+//     }
+//   }, [expencerolePermission]);
+
+//   useEffect(() => {
+//      const expensePermission = expencerolePermission[0]?.role_permissions?.find(
+//     (perm) => perm.permission_name === "Expenses"
+//   );
+//     if (
+//       expencerolePermission[0]?.is_owner === 0 &&
+//       expensePermission?.per_edit === 1
+//     ) {
+//       if (state?.login?.planStatus === 1) {
+//         setExpenceEditPermission("");
+//       } else if (state?.login?.planStatus === 0) {
+//         setExpenceEditPermission("Permission Denied");
+//       }
+//     } else if (expencerolePermission[0]?.is_owner === 0 &&
+//       expensePermission?.per_edit === 0) {
+//       setExpenceEditPermission("Permission Denied");
+//     }
+//   }, [expencerolePermission]);
 
 
-  const [pickerKey, setPickerKey] = useState(0);
 
   useEffect(() => {
     if (dates.length === 2) {

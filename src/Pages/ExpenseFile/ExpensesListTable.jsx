@@ -262,7 +262,7 @@ const options = state.AssetList.assetList.map((view) => ({
                       fontSize: 14,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      color: "#000000",
+                      color: props.expenceDeletePermission ? "#A9A9A9" : "#222222",
                       cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
                     }}
                   >

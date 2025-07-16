@@ -5,7 +5,6 @@ import { Table } from "react-bootstrap";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
-import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,7 +17,7 @@ import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle ,Edit, Trash } from "iconsax-react";
 import Select from "react-select";
 
 function EBHostelReading(props) {
@@ -50,7 +49,7 @@ function EBHostelReading(props) {
   ];
 
 
-
+console.log("ebpermissionError", props)
 
 
 
@@ -780,7 +779,7 @@ function EBHostelReading(props) {
                                               <div
                                                 className="d-flex justify-content-start align-items-center gap-2"
                                                 style={{
-                                                  cursor: "pointer",
+                                                  cursor: props.ebEditPermission ? "not-allowed":"pointer",
                                                   borderRadius: 6,
                                                   padding: "8px 12px",
                                                   width: "100%",
@@ -792,23 +791,19 @@ function EBHostelReading(props) {
                                                 onMouseLeave={(e) =>
                                                   (e.currentTarget.style.backgroundColor = "transparent")
                                                 }
-                                                onClick={() => handleEditEb(v)}
+                                                onClick={() => {if(!props.ebEditPermission){ handleEditEb(v)}}}
                                               >
-                                                <img
-                                                  src={Edit}
-                                                  alt="Edit"
-                                                  style={{
-                                                    height: 16,
-                                                    width: 16,
-                                                    filter: props.ebEditPermission ? "grayscale(100%)" : "none",
-                                                  }}
-                                                />
+                                                 <Edit
+                                                                                                  size="16"
+                                                                                                  color={ props.ebEditPermission ? "#A9A9A9" : "#1E45E1"}
+                                                                                                />
                                                 <label
                                                   style={{
                                                     fontSize: 14,
                                                     fontWeight: 500,
                                                     fontFamily: "Gilroy, sans-serif",
-                                                    color: "#222",
+                                                    color: props.ebEditPermission ? "#ccc" : "#222222",
+                                                      cursor: props.ebEditPermission ? "not-allowed":"pointer",
                                                   }}
                                                 >
                                                   Edit
@@ -818,7 +813,7 @@ function EBHostelReading(props) {
                                               <div
                                                 className="d-flex justify-content-start align-items-center gap-2"
                                                 style={{
-                                                  cursor: "pointer",
+                                                  cursor: props.ebDeletePermission  ? "not-allowed":"pointer",
                                                   borderRadius: 6,
                                                   padding: "8px 12px",
                                                   transition: "background-color 0.2s ease",
@@ -829,19 +824,19 @@ function EBHostelReading(props) {
                                                 onMouseLeave={(e) =>
                                                   (e.currentTarget.style.backgroundColor = "transparent")
                                                 }
-                                                onClick={() => handleDeleteEb(v)}
+                                                onClick={() => {if(!props.ebDeletePermission){handleDeleteEb(v)}}}
                                               >
-                                                <img
-                                                  src={Delete}
-                                                  alt="Delete"
-                                                  style={{ height: 16, width: 16 }}
-                                                />
+                                                 <Trash
+                                                                                                 size="16"
+                                                                                                 color={props.ebDeletePermission ? "#A9A9A9" : "red"}
+                                                                                               />
                                                 <label
                                                   style={{
                                                     fontSize: 14,
                                                     fontWeight: 500,
                                                     fontFamily: "Gilroy, sans-serif",
-                                                    color: "#222",
+                                                   color: props.ebDeletePermission ? "#ccc" : "#FF0000",
+                                                      cursor: props.ebDeletePermission  ? "not-allowed":"pointer",
                                                   }}
                                                 >
                                                   Delete
