@@ -204,55 +204,44 @@ const Compliance = () => {
 
 
   useEffect(() => {
-    if (
-      compliancerolePermission[0]?.is_owner === 0 &&
-      compliancerolePermission[0]?.role_permissions[13]?.per_view === 1
-    ) {
-      setCompliancePermissionError("");
-    } else if (compliancerolePermission[0]?.is_owner === 0 &&
-      compliancerolePermission[0]?.role_permissions[13]?.per_view === 0) {
-      setCompliancePermissionError("Permission Denied");
-    }
-  }, [compliancerolePermission]);
+  const compliancePermission = compliancerolePermission[0]?.role_permissions?.find(
+    (perm) => perm.permission_name === "Complaints"
+  );
+
+  const isOwner = compliancerolePermission[0]?.is_owner === 0;
+  const planActive = state?.login?.planStatus === 1;
+
+  if (!compliancePermission || !isOwner) return;
+
+ 
+  if (compliancePermission.per_view === 1 && planActive) {
+    setCompliancePermissionError("");
+  } else {
+    setCompliancePermissionError("Permission Denied");
+  }
+
+  
+  if (compliancePermission.per_create === 1 && planActive) {
+    setComplianceAddPermission("");
+  } else {
+    setComplianceAddPermission("Permission Denied");
+  }
+
+ 
+  if (compliancePermission.per_delete === 1 && planActive) {
+    setComplianceDeletePermission("");
+  } else {
+    setComplianceDeletePermission("Permission Denied");
+  }
 
 
+  if (compliancePermission.per_edit === 1 && planActive) {
+    setComplianceEditPermission("");
+  } else {
+    setComplianceEditPermission("Permission Denied");
+  }
+}, [compliancerolePermission, state?.login?.planStatus]);
 
-  useEffect(() => {
-    if (
-      compliancerolePermission[0]?.is_owner === 0 &&
-      compliancerolePermission[0]?.role_permissions[13]?.per_create === 1
-    ) {
-      setComplianceAddPermission("");
-    } else if (compliancerolePermission[0]?.is_owner === 0 &&
-      compliancerolePermission[0]?.role_permissions[13]?.per_create === 0) {
-      setComplianceAddPermission("Permission Denied");
-    }
-  }, [compliancerolePermission]);
-
-
-  useEffect(() => {
-    if (
-      compliancerolePermission[0]?.is_owner === 0 &&
-      compliancerolePermission[0]?.role_permissions[13]?.per_delete === 1
-    ) {
-      setComplianceDeletePermission("");
-    } else if (compliancerolePermission[0]?.is_owner === 0 &&
-      compliancerolePermission[0]?.role_permissions[13]?.per_delete === 0) {
-      setComplianceDeletePermission("Permission Denied");
-    }
-  }, [compliancerolePermission]);
-
-  useEffect(() => {
-    if (
-      compliancerolePermission[0]?.is_owner === 0 &&
-      compliancerolePermission[0]?.role_permissions[13]?.per_edit === 1
-    ) {
-      setComplianceEditPermission("");
-    } else if (compliancerolePermission[0]?.is_owner === 0 &&
-      compliancerolePermission[0]?.role_permissions[13]?.per_edit === 0) {
-      setComplianceEditPermission("Permission Denied");
-    }
-  }, [compliancerolePermission]);
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Edit from "../Assets/Images/edit-Complaints.svg";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
@@ -8,7 +7,6 @@ import User from "../Assets/Images/New_images/profile-picture.png";
 import Tickicon from "../Assets/Images/tick-circle.png";
 import Profile_add from "../Assets/Images/profile-add.png";
 import moment from "moment";
-import Delete from "../Assets/Images/New_images/trash.png";
 import ChangeStatusIcon from "../Assets/Images/ComplaintChangeStatusicon.svg";
 import AssignComplaintIcon from "../Assets/Images/profile-add-AssingnComplaint.svg";
 import CommentIcon from "../Assets/Images/Comment-icon-complaints page.svg";
@@ -21,7 +19,7 @@ import { MdError } from "react-icons/md";
 import PropTypes from "prop-types"
 import Select from "react-select";
 import "./ComplianceList.css";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle ,Edit, Trash} from "iconsax-react";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -614,6 +612,7 @@ const ComplianceList = (props) => {
                               }}
                               style={{
                                 cursor: props.disableActions ? "not-allowed" : "pointer",
+
                                 opacity: props.disableActions ? 0.5 : 1,
                                 borderTopLeftRadius: 10,
                                 borderTopRightRadius: 10,
@@ -638,6 +637,7 @@ const ComplianceList = (props) => {
                                   fontFamily: "Gilroy, sans-serif",
                                   cursor: props.disableActions ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
+                                   color:props.disableActions ? "#A9A9A9" : "#222222"
                                 }}
                               >
                                 Change Status
@@ -673,6 +673,7 @@ const ComplianceList = (props) => {
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
+                                  color:props.disableActions ? "#A9A9A9" : "#222222",
                                    cursor: props.disableActions ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
@@ -702,15 +703,10 @@ const ComplianceList = (props) => {
                                 (e.currentTarget.style.backgroundColor = "transparent")
                               }
                             >
-                              <img
-                                src={Edit}
-                                style={{
-                                  height: 16,
-                                  width: 16,
-                                  filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
-                                }}
-                                alt="Edit"
-                              />
+                               <Edit
+                                                  size="16"
+                                                  color={ props.complianceEditPermission ? "#A9A9A9" : "#1E45E1"}
+                                                />
                               <label
                                 style={{
                                   fontSize: 14,
@@ -744,15 +740,10 @@ const ComplianceList = (props) => {
                                 (e.currentTarget.style.backgroundColor = "transparent")
                               }
                             >
-                              <img
-                                src={Delete}
-                                style={{
-                                  height: 16,
-                                  width: 16,
-                                  filter: props.complianceDeletePermission ? "grayscale(100%)" : "none",
-                                }}
-                                alt="Delete"
-                              />
+                                <Trash
+                                                  size="16"
+                                                  color={props.complianceDeletePermission ? "#A9A9A9" : "red"}
+                                                />
                               <label
                                 style={{
                                   fontSize: 14,

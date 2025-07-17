@@ -171,55 +171,47 @@ function Asset() {
 
 
 
+useEffect(() => {
+  const assetPermission = assetrolePermission[0]?.role_permissions?.find(
+    (perm) => perm.permission_name === "Assets"
+  );
 
-  useEffect(() => {
-    if (
-      assetrolePermission[0]?.is_owner === 0 &&
-      assetrolePermission[0]?.role_permissions[8]?.per_view === 1
-    ) {
-      setAssetPermissionError("");
-    } else if (assetrolePermission[0]?.is_owner === 0 &&
-      assetrolePermission[0]?.role_permissions[8]?.per_view === 0) {
-      setAssetPermissionError("Permission Denied");
-    }
-  }, [assetrolePermission]);
+  const isOwner = assetrolePermission[0]?.is_owner === 0;
+  const planActive = state?.login?.planStatus === 1;
+
+  if (!assetPermission || !isOwner) return;
+
+ 
+  if (assetPermission.per_view === 1 && planActive) {
+    setAssetPermissionError("");
+  } else {
+    setAssetPermissionError("Permission Denied");
+  }
+
+  
+  if (assetPermission.per_create === 1 && planActive) {
+    setAssetAddPermission("");
+  } else {
+    setAssetAddPermission("Permission Denied");
+  }
+
+  if (assetPermission.per_edit === 1 && planActive) {
+    setAssetEditPermission("");
+  } else {
+    setAssetEditPermission("Permission Denied");
+  }
 
 
-  useEffect(() => {
-    if (
-      assetrolePermission[0]?.is_owner === 0 &&
-      assetrolePermission[0]?.role_permissions[8]?.per_create === 1
-    ) {
-      setAssetAddPermission("");
-    } else if (assetrolePermission[0]?.is_owner === 0 &&
-      assetrolePermission[0]?.role_permissions[8]?.per_create === 0) {
-      setAssetAddPermission("Permission Denied");
-    }
-  }, [assetrolePermission]);
+  if (assetPermission.per_delete === 1 && planActive) {
+    setAssetDeletePermission("");
+  } else {
+    setAssetDeletePermission("Permission Denied");
+  }
+}, [assetrolePermission, state?.login?.planStatus]);
 
 
-  useEffect(() => {
-    if (
-      assetrolePermission[0]?.is_owner === 0 &&
-      assetrolePermission[0]?.role_permissions[8]?.per_delete === 1
-    ) {
-      setAssetDeletePermission("");
-    } else if (assetrolePermission[0]?.is_owner === 0 &&
-      assetrolePermission[0]?.role_permissions[8]?.per_delete === 0) {
-      setAssetDeletePermission("Permission Denied");
-    }
-  }, [assetrolePermission]);
-  useEffect(() => {
-    if (
-      assetrolePermission[0]?.is_owner === 0 &&
-      assetrolePermission[0]?.role_permissions[8]?.per_edit === 1
-    ) {
-      setAssetEditPermission("");
-    } else if (assetrolePermission[0]?.is_owner === 0 &&
-      assetrolePermission[0]?.role_permissions[8]?.per_edit === 0) {
-      setAssetEditPermission("Permission Denied");
-    }
-  }, [assetrolePermission]);
+
+
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {

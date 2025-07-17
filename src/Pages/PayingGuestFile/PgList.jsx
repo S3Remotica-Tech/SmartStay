@@ -32,7 +32,7 @@ import './PgList.css';
 function PgList(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
- 
+
   const [showHostelDetails, setShowHostelDetails] = useState("");
   const [rolePermission, setRolePermission] = useState("");
   const [permissionError, setPermissionError] = useState("");
@@ -47,8 +47,8 @@ function PgList(props) {
 
   const popupRef = useRef(null);
 
- 
-  
+
+
 
   const [hidePgList, setHidePgList] = useState(true);
   const [floorClick, setFloorClick] = useState("");
@@ -93,7 +93,7 @@ function PgList(props) {
   }, [state?.login?.selectedHostel_Id]);
 
 
- 
+
 
   useEffect(() => {
     if (hostel_Id) {
@@ -110,18 +110,18 @@ function PgList(props) {
   }, [selectedHostel]);
 
 
- 
-   
-   
+
+
+
 
   useEffect(() => {
 
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-    
+
 
       setTimeout(() => {
-          setLoader(false);
-     
+        setLoader(false);
+
       }, 100)
 
       setFilteredData(state.UsersList.hotelDetailsinPg);
@@ -133,7 +133,7 @@ function PgList(props) {
 
   useEffect(() => {
     if (state.UsersList?.noAllHosteListStatusCode === 201) {
-        setLoader(false);
+      setLoader(false);
       setFilteredData([]);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
@@ -147,7 +147,7 @@ function PgList(props) {
     }
   }, [filteredData[0]]);
 
-  
+
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -173,7 +173,7 @@ function PgList(props) {
     ) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-    
+
 
 
       setShowFloor(false);
@@ -221,7 +221,7 @@ function PgList(props) {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "HOSTELLIST" });
-           setShowDelete(false);
+      setShowDelete(false);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
@@ -264,10 +264,10 @@ function PgList(props) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELIDDETAILS" });
       dispatch({ type: "HOSTELLIST" });
-           setShowAddPg(false);
+      setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
-        
+
       }, 1000);
 
       setTimeout(() => {
@@ -297,13 +297,13 @@ function PgList(props) {
     if (state.PgList.createPgStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-     
+
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
       }, 1000);
 
-     
+
     }
   }, [state.PgList.createPgStatusCode]);
 
@@ -324,7 +324,7 @@ function PgList(props) {
     }
   }, [state.UsersList.hotelDetailsinPg]);
 
- 
+
 
 
   useEffect(() => {
@@ -344,7 +344,7 @@ function PgList(props) {
         return item.floor_id === floorClick;
       }) || [];
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
-     
+
     }
   }, [state.UsersList.statuscodeForhotelDetailsinPg, showHostelDetails, floorClick]);
 
@@ -374,7 +374,7 @@ function PgList(props) {
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
 
-    
+
     }
 
   }, [state.UsersList?.statuscodeForhotelDetailsinPg])
@@ -389,7 +389,7 @@ function PgList(props) {
 
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-      
+
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
@@ -434,61 +434,63 @@ function PgList(props) {
 
 
   useEffect(() => {
-    if (
-      rolePermission[0]?.is_owner === 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_view === 1
-    ) {
+    if (state?.login?.planStatus === 0) {
       setPermissionError("");
-    } else {
-      setPermissionError("Permission Denied");
-    }
-  }, [rolePermission]);
-  useEffect(() => {
-
-    if (
-      rolePermission[0]?.is_owner === 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_create === 1
-    ) {
-      setAddPermissionError("");
-    } else {
       setAddPermissionError("Permission Denied");
-    }
-  }, [rolePermission]);
-  useEffect(() => {
-
-    if (
-      rolePermission[0]?.is_owner === 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_edit === 1
-    ) {
-      setEditPermissionError("");
-    } else {
       setEditPermissionError("Permission Denied");
-    }
-  }, [rolePermission]);
-  useEffect(() => {
-
-    if (
-      rolePermission[0]?.is_owner === 1 ||
-      rolePermission[0]?.role_permissions[3]?.per_delete === 1
-    ) {
-      setDeletePermissionError("");
-    } else {
       setDeletePermissionError("Permission Denied");
+
+    } else if (state?.login?.planStatus === 1) {
+      setPermissionError("");
+      setAddPermissionError("");
+      setEditPermissionError("");
+      setDeletePermissionError("");
     }
-  }, [rolePermission]);
+
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
+
+
+  useEffect(() => {
+  if (rolePermission[0]?.is_owner === 0) {
+    const rolesPermission = rolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Paying Guest"
+    );
+
+    const planActive = state?.login?.planStatus === 1;
+
+    if (rolesPermission) {
+      if (rolesPermission.per_view === 1 && planActive) {
+        setPermissionError("");
+      } else {
+        setPermissionError("Permission Denied");
+      }
+
+ 
+      if (rolesPermission.per_create === 1 && planActive) {
+        setAddPermissionError("");
+      } else {
+        setAddPermissionError("Permission Denied");
+      }
+
+ 
+      if (rolesPermission.per_edit === 1 && planActive) {
+        setEditPermissionError("");
+      } else {
+        setEditPermissionError("Permission Denied");
+      }
+
+
+      if (rolesPermission.per_delete === 1 && planActive) {
+        setDeletePermissionError("");
+      } else {
+        setDeletePermissionError("Permission Denied");
+      }
+    }
+  } 
+}, [rolePermission]);
 
 
 
-
-
-
-
-
-
-
-
-
-  
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -501,14 +503,14 @@ function PgList(props) {
       return item.id === selectedHostelId;
     });
     setSelectedHostel(true);
-   
+
     setShowHostelDetails(selected);
   };
 
 
 
 
-  
+
 
   const handleCloses = () => {
     setShowAddPg(false);
@@ -590,7 +592,7 @@ function PgList(props) {
     } else {
       setFilteredData(state.UsersList.hotelDetailsinPg);
     }
-   
+
   };
 
   const handleDropDown = (value) => {
@@ -610,7 +612,7 @@ function PgList(props) {
     } else {
       setFilteredData(state.UsersList.hotelDetailsinPg);
     }
-   
+
     setShowDropDown(false);
   };
 
@@ -627,7 +629,7 @@ function PgList(props) {
 
   const numberOfFloors =
     showHostelDetails && showHostelDetails?.floorDetails?.length;
-  
+
 
 
   const handlePrev = () => {
@@ -722,7 +724,7 @@ function PgList(props) {
       hostel_Id: hostel_Id,
       floor_Name: floorName,
     });
-   
+
   };
 
   const [update, setUpdate] = useState(false);
@@ -751,14 +753,14 @@ function PgList(props) {
               height: "100vh",
             }}
           >
-           
+
             <img
               src={EmptyState}
               alt="Empty State"
-              
+
             />
 
-           
+
             {permissionError && (
               <div
                 style={{
@@ -770,12 +772,12 @@ function PgList(props) {
                 }}
               >
                 <MdError size={20} />
-                <span  style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}>{permissionError}</span>
+                <span style={{
+                  fontSize: "12px",
+                  color: "red",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}>{permissionError}</span>
               </div>
             )}
           </div>
@@ -796,7 +798,7 @@ function PgList(props) {
                   backgroundColor: "#fff",
                 }}
               >
-               
+
 
                 <div className="pglistlable" style={{ marginTop: -5 }}>
                   <label
@@ -814,7 +816,7 @@ function PgList(props) {
                 <div className="d-flex justify-content-between flex-wrap align-items-center">
                   {!showFilter && (
                     <div className="me-3" onClick={handleShowSearch}>
-                     
+
                     </div>
                   )}
                   {showFilter && (
@@ -836,7 +838,7 @@ function PgList(props) {
                             fontSize: 15,
                             fontWeight: 500,
                             color: "#222",
-                            
+
                           }}
                           placeholder="Search..."
                         />
@@ -868,10 +870,10 @@ function PgList(props) {
                               className="show-scroll"
                               style={{
 
-                              
+
                                 width: 260,
                                 backgroundColor: "#fff",
-                                                               maxHeight: 174,
+                                maxHeight: 174,
                                 minHeight: 100,
                                 overflowY: "auto",
                                 padding: "5px 10px",
@@ -882,9 +884,9 @@ function PgList(props) {
                                 boxSizing: "border-box",
                               }}
                             >
-                             
+
                               <li
-                              
+
                                 onClick={() => {
                                   handleDropDown(filteredData[0].Name);
                                 }}
@@ -899,7 +901,7 @@ function PgList(props) {
                               >
                                 {filteredData[0].Name}
                               </li>
-                              
+
                             </ul>
                           </div>
                         )}
@@ -990,61 +992,61 @@ function PgList(props) {
               )}
               <div className="container mt-2 pg-card" style={{}}>
                 <div className="row row-gap-3">
-                
+
                   {filteredData?.length > 0 ? (
-  <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12">
-    <PayingHostel
-      OnSelectHostel={handleSelectedHostel}
-      onRowVisiblity={handleDisplayPgList}
-      OnEditHostel={handleEditHostel}
-      editPermissionError={editPermissionError}
-      deletePermissionError={deletePermissionError}
-      filteredData={filteredData}
-      handleShowsettingsPG={handleShowsettingsPG}
-    />
-  </div>
-) : (
-  !loader && filteredData?.length === 0 && (
-    <div
-      className="d-flex align-items-center justify-content-center fade-in"
-      style={{
-        width: "100%",
-        margin: "0px auto",
-        marginTop: 90,
-      }}
-    >
-      <div>
-        <div className="d-flex justify-content-center">
-          <img src={EmptyState} alt="Empty state" />
-        </div>
-        <div
-          className="pb-1 mt-1"
-          style={{
-            textAlign: "center",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: 18,
-            color: "rgba(75, 75, 75, 1)",
-          }}
-        >
-          No Paying Guest available
-        </div>
-        <div
-          className="pb-1 mt-1"
-          style={{
-            textAlign: "center",
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            fontSize: 14,
-            color: "rgba(75, 75, 75, 1)",
-          }}
-        >
-          There are no Paying Guest added.
-        </div>
-      </div>
-    </div>
-  )
-)}
+                    <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12">
+                      <PayingHostel
+                        OnSelectHostel={handleSelectedHostel}
+                        onRowVisiblity={handleDisplayPgList}
+                        OnEditHostel={handleEditHostel}
+                        editPermissionError={editPermissionError}
+                        deletePermissionError={deletePermissionError}
+                        filteredData={filteredData}
+                        handleShowsettingsPG={handleShowsettingsPG}
+                      />
+                    </div>
+                  ) : (
+                    !loader && filteredData?.length === 0 && (
+                      <div
+                        className="d-flex align-items-center justify-content-center fade-in"
+                        style={{
+                          width: "100%",
+                          margin: "0px auto",
+                          marginTop: 90,
+                        }}
+                      >
+                        <div>
+                          <div className="d-flex justify-content-center">
+                            <img src={EmptyState} alt="Empty state" />
+                          </div>
+                          <div
+                            className="pb-1 mt-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: 18,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            No Paying Guest available
+                          </div>
+                          <div
+                            className="pb-1 mt-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              fontSize: 14,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            There are no Paying Guest added.
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  )}
 
 
 
@@ -1054,38 +1056,38 @@ function PgList(props) {
               </div>
 
 
-                  <div className="mt-2 mb-2 d-flex justify-content-center w-100">
-                    {loader && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                          bottom: 0,
-                          left: '200px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          backgroundColor: 'transparent',
-                          opacity: 0.75,
-                          zIndex: 10,
-                        }}
-                      >
-                        <div
-                          style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                          }}
-                        ></div>
-                      </div>
-
-
-                    )}
+              <div className="mt-2 mb-2 d-flex justify-content-center w-100">
+                {loader && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
                   </div>
+
+
+                )}
+              </div>
 
             </>
           )}
@@ -1118,7 +1120,7 @@ function PgList(props) {
 
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="me-3">
-                  
+
                   </div>
 
                   <div style={{ marginTop: 5 }}>
@@ -1142,8 +1144,8 @@ function PgList(props) {
                 </div>
               </div>
 
-              <div className="show-scroll" 
-                            >
+              <div className="show-scroll"
+              >
                 {showHostelDetails?.floorDetails?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}
@@ -1354,7 +1356,7 @@ function PgList(props) {
                                       }}
                                     >
                                       <div>
-                                                                                <div
+                                        <div
                                           className="d-flex gap-2 align-items-center"
                                           onClick={
                                             !editPermissionError
@@ -1363,7 +1365,7 @@ function PgList(props) {
                                           }
                                           style={{
                                             padding: "8px 12px",
-                                             borderRadius: 6,
+                                            borderRadius: 6,
                                             width: "100%",
                                             pointerEvents: editPermissionError ? "none" : "auto",
                                             opacity: editPermissionError ? 0.5 : 1,
@@ -1388,10 +1390,10 @@ function PgList(props) {
                                           </span>
                                         </div>
 
-                                       
+
                                         <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
-                                      
+
                                         <div
                                           className="d-flex gap-2 align-items-center"
                                           onClick={
@@ -1402,7 +1404,7 @@ function PgList(props) {
                                           style={{
                                             padding: "8px 12px",
                                             width: "100%",
-                                             borderRadius: 6,
+                                            borderRadius: 6,
                                             pointerEvents: deletePermissionError ? "none" : "auto",
                                             opacity: deletePermissionError ? 0.5 : 1,
                                             cursor: deletePermissionError ? "not-allowed" : "pointer",
@@ -1439,7 +1441,7 @@ function PgList(props) {
                           <ParticularHostelDetails
                             floorID={floorClick}
                             hostel_Id={showHostelDetails.id}
-                                                       phoneNumber={showHostelDetails.hostel_PhoneNo}
+                            phoneNumber={showHostelDetails.hostel_PhoneNo}
                             editPermissionError={editPermissionError}
                             deletePermissionError={deletePermissionError}
                             addPermissionError={addPermissionError}

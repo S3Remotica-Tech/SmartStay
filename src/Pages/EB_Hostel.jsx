@@ -173,6 +173,7 @@ function EB_Hostel() {
   useEffect(() => {
     if (state?.login?.planStatus === 0) {
       setEbPermissionError("");
+      
       setEbAddPermission("Permission Denied");
       setEbDeletePermission("Permission Denied");
       setEbEditPermission("Permission Denied");
@@ -193,54 +194,46 @@ function EB_Hostel() {
 
 
 
-  useEffect(() => {
-    if (
-      ebrolePermission[0]?.is_owner === 0 &&
-      ebrolePermission[0]?.role_permissions[12]?.per_view === 1
-    ) {
-      setEbPermissionError("");
-    } else if (ebrolePermission[0]?.is_owner === 0 &&
-      ebrolePermission[0]?.role_permissions[12]?.per_view === 0) {
-      setEbPermissionError("Permission Denied");
-    }
-  }, [ebrolePermission]);
+ useEffect(() => {
+  const ebPermission = ebrolePermission[0]?.role_permissions?.find(
+    (perm) => perm.permission_name === "Electricity"
+  );
 
-  useEffect(() => {
-    if (ebrolePermission[0]?.is_owner === 0) {
-      if (ebrolePermission[0]?.role_permissions[12]?.per_create === 1) {
-        setEbAddPermission("");
-      } else if (ebrolePermission[0]?.role_permissions[12]?.per_create === 0) {
-        setEbAddPermission("Permission Denied");
-      }
-    }
+  const isOwner = ebrolePermission[0]?.is_owner === 0;
+  const planActive = state?.login?.planStatus === 1;
 
-  }, [ebrolePermission]);
+  console.log("isOwner",isOwner,"planActive",planActive)
 
-  useEffect(() => {
-    if (
-      ebrolePermission[0]?.is_owner === 0 &&
-      ebrolePermission[0]?.role_permissions[12]?.per_delete === 1
-    ) {
-      setEbDeletePermission("");
-    } else if (ebrolePermission[0]?.is_owner === 0 &&
-      ebrolePermission[0]?.role_permissions[12]?.per_delete === 0) {
-      setEbDeletePermission("Permission Denied");
-    }
-  }, [ebrolePermission]);
+  if (!ebPermission || !isOwner) return;
+
+ 
+  if (ebPermission.per_view === 1 && planActive) {
+    setEbPermissionError("");
+  } else {
+    setEbPermissionError("Permission Denied");
+  }
+
+  if (ebPermission.per_create === 1 && planActive) {
+    setEbAddPermission("");
+  } else {
+    setEbAddPermission("Permission Denied");
+  }
 
 
+  if (ebPermission.per_edit === 1 && planActive) {
+    setEbEditPermission("");
+  } else {
+    setEbEditPermission("Permission Denied");
+  }
 
-  useEffect(() => {
-    if (
-      ebrolePermission[0]?.is_owner === 0 &&
-      ebrolePermission[0]?.role_permissions[12]?.per_edit === 1
-    ) {
-      setEbEditPermission("");
-    } else if (ebrolePermission[0]?.is_owner === 0 &&
-      ebrolePermission[0]?.role_permissions[12]?.per_edit === 0) {
-      setEbEditPermission("Permission Denied");
-    }
-  }, [ebrolePermission]);
+  
+  if (ebPermission.per_delete === 1 && planActive) {
+    setEbDeletePermission("");
+  } else {
+    setEbDeletePermission("Permission Denied");
+  }
+}, [ebrolePermission, state?.login?.planStatus]);
+
 
   const handleChanges = (event, newValue) => {
     setLoader(false);
@@ -257,7 +250,7 @@ function EB_Hostel() {
   const [electricityFilterd, setelectricityFilterd] = useState([]);
   const [electricityHostel, setelectricityHostel] = useState([]);
 
-  
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setCustomerLoader(true);
@@ -1200,6 +1193,10 @@ function EB_Hostel() {
               filterStatus={filterStatus}
               setLoader={setLoader}
               loading={loader}
+                ebpermissionError={ebpermissionError}
+             ebAddPermission={ebAddPermission}
+            ebEditPermission={ebEditPermission}
+            ebDeletePermission={ebDeletePermission}
             />
 
             {ebpermissionError ? (
@@ -2269,6 +2266,9 @@ function EB_Hostel() {
             loading={loader}
             setLoader={setLoader}
             ebpermissionError={ebpermissionError}
+             ebAddPermission={ebAddPermission}
+            ebEditPermission={ebEditPermission}
+            ebDeletePermission={ebDeletePermission}
           />
         </TabPanel>
       </TabContext>
