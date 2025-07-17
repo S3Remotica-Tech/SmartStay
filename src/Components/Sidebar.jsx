@@ -402,23 +402,22 @@ function Sidebar() {
         accountList[0].plan_data.length > 0
       ) {
 
-        if (accountList[0].plan_data[0]?.plan_type === "live") {
-          const hostelDetails = accountList[0].plan_data[0].hostel_details;
 
-          const particularHostelPlan = hostelDetails?.find(
-            (view) => view.id === state.login.selectedHostel_Id
-          );
-
-          if (particularHostelPlan?.plan_status !== "") {
-            dispatch(setPlanStatus(particularHostelPlan.plan_status));
-          }
-
-        } else if (accountList[0].plan_data[0]?.plan_type === "trail") {
+        if (accountList[0].plan_data[0]?.plan_type === "trail") {
           const trailPlanStatus = accountList[0].plan_data[0]?.status
           if (trailPlanStatus !== "") {
             dispatch(setPlanStatus(trailPlanStatus));
           }
 
+        }
+        else {
+          const hostelDetails = accountList[0].plan_data[0].hostel_details;
+          const particularHostelPlan = hostelDetails?.find(
+            (view) => view.id === state.login.selectedHostel_Id
+          );
+          if (particularHostelPlan?.plan_status !== "") {
+            dispatch(setPlanStatus(particularHostelPlan.plan_status));
+          }
         }
 
       }
@@ -426,8 +425,8 @@ function Sidebar() {
   }, [state.login?.selectedHostel_Id]);
 
 
-
-
+//  need this console
+  console.log("state?.login?.planStatus",state?.login?.planStatus)
 
 
 
