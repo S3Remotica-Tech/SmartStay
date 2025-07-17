@@ -10,12 +10,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingAddForm from "./BankingAddForm";
-import Edit from "../Assets/Images/Edit-blue.png";
-import Delete from "../Assets/Images/Delete_red.png";
+
+
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, Edit, Trash  } from "iconsax-react";
 import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -89,48 +89,87 @@ function Banking() {
     setBankingRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
-  useEffect(() => {
-    if (
-      bankingrolePermission[0]?.is_owner === 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_view === 1
-    ) {
-      setBankingPermissionError("");
-    } else {
-      setBankingPermissionError("Permission Denied");
-    }
-  }, [bankingrolePermission]);
+ 
 
-  useEffect(() => {
-    if (
-      bankingrolePermission[0]?.is_owner === 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_create === 1
-    ) {
-      setBankingAddPermission("");
-    } else {
-      setBankingAddPermission("Permission Denied");
-    }
-  }, [bankingrolePermission]);
 
-  useEffect(() => {
-    if (
-      bankingrolePermission[0]?.is_owner === 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_delete === 1
-    ) {
-      setBankingDeletePermission("");
-    } else {
-      setBankingDeletePermission("Permission Denied");
+
+   useEffect(() => {
+       const isAdmin = bankingrolePermission[0]?.user_details?.user_type === "admin";
+       if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        setBankingPermissionError("");
+        setBankingAddPermission("Permission Denied");
+        setBankingEditPermission("Permission Denied");
+        setBankingDeletePermission("Permission Denied");
+  
+      } else if (state?.login?.planStatus === 1) {
+        setBankingPermissionError("");
+        setBankingAddPermission("");
+        setBankingEditPermission("");
+        setBankingDeletePermission("");
+      }
     }
-  }, [bankingrolePermission]);
-  useEffect(() => {
-    if (
-      bankingrolePermission[0]?.is_owner === 1 ||
-      bankingrolePermission[0]?.role_permissions[16]?.per_edit === 1
-    ) {
-      setBankingEditPermission("");
-    } else {
-      setBankingEditPermission("Permission Denied");
-    }
-  }, [bankingrolePermission]);
+  
+    }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,bankingrolePermission])
+
+
+
+     useEffect(() => {
+         const bankingPermission = bankingrolePermission[0]?.role_permissions?.find(
+           (perm) => perm.permission_name === "Banking"
+         );
+       
+         const isOwner = bankingrolePermission[0]?.user_details?.user_type === "staff";
+         const planActive = state?.login?.planStatus === 1;
+        
+         if (!bankingPermission || !isOwner) return;
+       
+         
+         if (bankingPermission.per_view === 1 && planActive) {
+           setBankingPermissionError("");
+         } else {
+           setBankingPermissionError("Permission Denied");
+         }
+       
+         
+         if (bankingPermission.per_create === 1 && planActive) {
+           setBankingAddPermission("");
+         } else {
+           setBankingAddPermission("Permission Denied");
+         }
+       
+        
+         if (bankingPermission.per_edit === 1 && planActive) {
+           setBankingEditPermission("");
+         } else {
+           setBankingEditPermission("Permission Denied");
+         }
+       
+         if (bankingPermission.per_delete === 1 && planActive) {
+           setBankingDeletePermission("");
+         } else {
+           setBankingDeletePermission("Permission Denied");
+         }
+       }, [bankingrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
+
+
+;
+
+  
+
+
+
+ 
+
+  
+
+
+
+
+
+
+      
+  
 
   useEffect(() => {
     if (hostel_id) {
@@ -925,12 +964,12 @@ function Banking() {
                               <div
                                 className="d-flex justify-content-start align-items-center gap-2"
                                 onClick={() => {
-                                  if (!bankingEditPermission) {
+                                  if (!bankingAddPermission) {
                                     handleOpenSelfTransfer(item);
                                   }
                                 }}
                                 onMouseEnter={(e) => {
-                                  if (!bankingEditPermission)
+                                  if (!bankingAddPermission)
                                     e.currentTarget.style.backgroundColor = "#EDF2FF";
                                 }}
                                 onMouseLeave={(e) => {
@@ -940,9 +979,9 @@ function Banking() {
                                   padding: "8px 12px",
                                   width: "100%",
                                   backgroundColor: "#F9F9F9",
-                                  cursor: bankingEditPermission ? "not-allowed" : "pointer",
-                                  pointerEvents: bankingEditPermission ? "none" : "auto",
-                                  opacity: bankingEditPermission ? 0.5 : 1,
+                                  cursor: bankingAddPermission ? "not-allowed" : "pointer",
+                                  pointerEvents: bankingAddPermission ? "none" : "auto",
+                                  opacity: bankingAddPermission ? 0.5 : 1,
                                   borderTopLeftRadius: 10,
                                   borderTopRightRadius: 10,
                                 }}
@@ -953,8 +992,9 @@ function Banking() {
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy, sans-serif",
-                                    color: "#000000",
-                                    cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                   
+                                      color: bankingAddPermission ? "#A9A9A9" : "#000000",
+                      cursor:bankingAddPermission ? "not-allowed" : "pointer",
                                     whiteSpace: "nowrap",
                                   }}
                                 >
@@ -987,14 +1027,18 @@ function Banking() {
                                   opacity: bankingEditPermission ? 0.5 : 1,
                                 }}
                               >
-                                <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
+                              
+                                 <Edit
+                                                    size="16"
+                                                    color={bankingEditPermission ? "#A9A9A9" : "#1E45E1"}
+                                                  />
                                 <label
                                   style={{
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy, sans-serif",
-                                    color: "#000000",
-                                    cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                   color: bankingEditPermission ? "#A9A9A9" : "#222222",
+                      cursor: bankingEditPermission ? "not-allowed" : "pointer",
                                   }}
                                 >
                                   Edit
@@ -1029,14 +1073,18 @@ function Banking() {
                                   borderBottomRightRadius: 10,
                                 }}
                               >
-                                <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
+                                {/* <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" /> */}
+                                 <Trash
+                                                    size="16"
+                                                    color={bankingDeletePermission ? "#A9A9A9" : "red"}
+                                                  />
                                 <label
                                   style={{
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy, sans-serif",
-                                    color: "#FF0000",
-                                    cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+                                     color: bankingDeletePermission ? "#A9A9A9" : "#FF0000",
+                      cursor:bankingDeletePermission ? "not-allowed" : "pointer",
                                   }}
                                 >
                                   Delete
