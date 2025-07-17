@@ -7,7 +7,6 @@ import User from "../Assets/Images/New_images/profile-picture.png";
 import Tickicon from "../Assets/Images/tick-circle.png";
 import Profile_add from "../Assets/Images/profile-add.png";
 import moment from "moment";
-import Delete from "../Assets/Images/New_images/trash.png";
 import ChangeStatusIcon from "../Assets/Images/ComplaintChangeStatusicon.svg";
 import AssignComplaintIcon from "../Assets/Images/profile-add-AssingnComplaint.svg";
 import CommentIcon from "../Assets/Images/Comment-icon-complaints page.svg";

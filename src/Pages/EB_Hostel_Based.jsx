@@ -5,7 +5,6 @@ import { Table } from "react-bootstrap";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
-import Delete from "../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
@@ -1445,6 +1444,7 @@ EBHostelReading.propTypes = {
   setLoader: PropTypes.func.isRequired,
   filterStatus: PropTypes.func.isRequired,
   ebpermissionError: PropTypes.func.isRequired,
+  ebDeletePermission: PropTypes.func.isRequired
 
 }
 export default EBHostelReading;
