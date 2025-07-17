@@ -185,6 +185,8 @@ const Compliance = () => {
 
 
   useEffect(() => {
+     const isAdmin = compliancerolePermission[0]?.user_details?.user_type === "admin";
+     if (isAdmin) {
     if (state?.login?.planStatus === 0) {
       setCompliancePermissionError("");
       setComplianceAddPermission("Permission Denied");
@@ -197,8 +199,9 @@ const Compliance = () => {
       setComplianceEditPermission("");
       setComplianceDeletePermission("");
     }
+  }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, compliancerolePermission])
 
 
 
@@ -208,7 +211,7 @@ const Compliance = () => {
     (perm) => perm.permission_name === "Complaints"
   );
 
-  const isOwner = compliancerolePermission[0]?.is_owner === 0;
+  const isOwner = compliancerolePermission[0]?.user_details?.user_type === "staff";
   const planActive = state?.login?.planStatus === 1;
 
   if (!compliancePermission || !isOwner) return;
@@ -240,7 +243,7 @@ const Compliance = () => {
   } else {
     setComplianceEditPermission("Permission Denied");
   }
-}, [compliancerolePermission, state?.login?.planStatus]);
+}, [compliancerolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id ]);
 
 
   useEffect(() => {
@@ -267,7 +270,7 @@ const Compliance = () => {
       setLoading(false)
     }
 
-  }, [state.login.selectedHostel_Id])
+  }, [state.login.selectedHostel_Id, state?.login?.selectedHostel_Id])
 
 
   useEffect(() => {

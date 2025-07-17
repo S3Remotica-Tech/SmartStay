@@ -63,7 +63,7 @@ function Expenses({ allPageHostel_Id }) {
   ];
 
 
-
+  console.log("expenceDeletePermission",expenceDeletePermission,"expenceEditPermission",expenceEditPermission)
 
 
 
@@ -202,6 +202,8 @@ function Expenses({ allPageHostel_Id }) {
 
 
   useEffect(() => {
+     const isAdmin = expencerolePermission[0]?.user_details?.user_type === "admin";
+     if (isAdmin) {
     if (state?.login?.planStatus === 0) {
       setExpencePermissionError("");
       setExpenceAddPermission("Permission Denied");
@@ -214,8 +216,9 @@ function Expenses({ allPageHostel_Id }) {
       setExpenceEditPermission("");
       setExpenceDeletePermission("");
     }
+  }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,expencerolePermission])
 
 
 
@@ -226,6 +229,7 @@ function Expenses({ allPageHostel_Id }) {
     (perm) => perm.permission_name === "Expenses"
   );
 
+  
   const isOwner = expencerolePermission[0]?.user_details?.user_type === "staff";
   const planActive = state?.login?.planStatus === 1;
  
@@ -235,6 +239,7 @@ function Expenses({ allPageHostel_Id }) {
   if (expensePermission.per_view === 1 && planActive) {
     setExpencePermissionError("");
   } else {
+
     setExpencePermissionError("Permission Denied");
   }
 
@@ -257,7 +262,7 @@ function Expenses({ allPageHostel_Id }) {
   } else {
     setExpenceDeletePermission("Permission Denied");
   }
-}, [expencerolePermission, state?.login?.planStatus]);
+}, [expencerolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
 
 
 

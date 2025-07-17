@@ -171,6 +171,8 @@ function EB_Hostel() {
 
 
   useEffect(() => {
+ const isAdmin = ebrolePermission[0]?.user_details?.user_type === "admin";
+     if (isAdmin) {
     if (state?.login?.planStatus === 0) {
       setEbPermissionError("");
       
@@ -184,8 +186,9 @@ function EB_Hostel() {
       setEbDeletePermission("");
       setEbEditPermission("");
     }
+  }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, ebrolePermission])
 
 
 
@@ -199,11 +202,10 @@ function EB_Hostel() {
     (perm) => perm.permission_name === "Electricity"
   );
 
-  const isOwner = ebrolePermission[0]?.is_owner === 0;
+  const isOwner = ebrolePermission[0]?.user_details?.user_type === "staff";
   const planActive = state?.login?.planStatus === 1;
 
-  console.log("isOwner",isOwner,"planActive",planActive)
-
+  
   if (!ebPermission || !isOwner) return;
 
  
@@ -232,7 +234,7 @@ function EB_Hostel() {
   } else {
     setEbDeletePermission("Permission Denied");
   }
-}, [ebrolePermission, state?.login?.planStatus]);
+}, [state?.login?.planStatus, state?.login?.selectedHostel_Id, ebrolePermission]);
 
 
   const handleChanges = (event, newValue) => {

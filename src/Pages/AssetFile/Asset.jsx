@@ -154,6 +154,8 @@ function Asset() {
 
 
   useEffect(() => {
+    const isAdmin = assetrolePermission[0]?.user_details?.user_type === "admin";
+     if (isAdmin) {
     if (state?.login?.planStatus === 0) {
       setAssetPermissionError("");
       setAssetAddPermission("Permission Denied");
@@ -166,8 +168,9 @@ function Asset() {
       setAssetEditPermission("");
       setAssetDeletePermission("");
     }
+  }
 
-  }, [state?.login?.planStatus, state.login?.selectedHostel_Id])
+  }, [state?.login?.planStatus, state.login?.selectedHostel_Id, assetrolePermission])
 
 
 
@@ -176,7 +179,7 @@ useEffect(() => {
     (perm) => perm.permission_name === "Assets"
   );
 
-  const isOwner = assetrolePermission[0]?.is_owner === 0;
+  const isOwner = assetrolePermission[0]?.user_details?.user_type === "staff";
   const planActive = state?.login?.planStatus === 1;
 
   if (!assetPermission || !isOwner) return;
@@ -207,7 +210,7 @@ useEffect(() => {
   } else {
     setAssetDeletePermission("Permission Denied");
   }
-}, [assetrolePermission, state?.login?.planStatus]);
+}, [assetrolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
 
 
 
