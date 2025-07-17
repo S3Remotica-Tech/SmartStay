@@ -225,6 +225,7 @@ const InvoiceTable = (props) => {
                         borderTopRightRadius: 10,
                         backgroundColor: "#F9F9F9",
                         padding: "8px 12px",
+                         opacity: props.billEditPermission ? 0.5 : 1,
                       }}
                       onClick={() => {
                         if (!props.billEditPermission) handleEdit(props);
@@ -250,7 +251,8 @@ const InvoiceTable = (props) => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color: props.billEditPermission ? "#ccc" : "#222",
+                          color:  "#222",
+                           cursor: props.billEditPermission ? "not-allowed" : "pointer",
                         }}
                       >
                         Edit
@@ -259,12 +261,14 @@ const InvoiceTable = (props) => {
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
-                      onClick={() => handleInvoicepdf(props.item)}
+                      onClick={() => {if (!props.billAddPermission) {handleInvoicepdf(props.item)}}}
                       style={{
-                        cursor: "pointer",
+                        cursor: props.billAddPermission ? "not-allowed" : "pointer",
                         padding: "8px 12px",
+                         opacity: props.billAddPermission ? 0.5 : 1,
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                      onMouseEnter={(e) => { 
+                      if (!props.billAddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF"}}
                       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
                     >
                       <img src={Download} alt="Download" style={{ height: 16, width: 16 }} />
@@ -274,6 +278,7 @@ const InvoiceTable = (props) => {
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
                           color: "#222",
+                           cursor: props.billAddPermission ? "not-allowed" : "pointer",
                         }}
                       >
                         Download
@@ -287,6 +292,7 @@ const InvoiceTable = (props) => {
                         style={{
                           cursor: props.billAddPermission ? "not-allowed" : "pointer",
                           padding: "8px 12px",
+                          opacity: props.billAddPermission ? 0.5 : 1,
                         }}
                         onClick={() => {
                           if (!props.billAddPermission) handleShowform(props);
@@ -312,7 +318,8 @@ const InvoiceTable = (props) => {
                             fontSize: 14,
                             fontWeight: 500,
                             fontFamily: "Gilroy, sans-serif",
-                            color: props.billAddPermission ? "#ccc" : "#222",
+                            color:  "#222",
+                             cursor: props.billAddPermission ? "not-allowed" : "pointer",
                           }}
                         >
                           Record Payment
@@ -328,6 +335,7 @@ const InvoiceTable = (props) => {
                         borderBottomLeftRadius: 10,
                         borderBottomRightRadius: 10,
                         padding: "8px 12px",
+                        opacity: props.billDeletePermission ? 0.5 : 1,
                       }}
                       onClick={() => {
                         if (!props.billDeletePermission) handleBillDelete(props);
@@ -353,7 +361,8 @@ const InvoiceTable = (props) => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color: props.billDeletePermission ? "#ccc" : "#FF0000",
+                          color:  "#FF0000",
+                           cursor: props.billDeletePermission ? "not-allowed" : "pointer",
                         }}
                       >
                         Delete

@@ -262,7 +262,7 @@ console.log("props",props)
                       fontSize: 14,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      color: props.expenceDeletePermission ? "#A9A9A9" : "#222222",
+                      color: "#222222",
                       cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
                     }}
                   >
@@ -294,14 +294,14 @@ console.log("props",props)
                 >
                   <Edit
                     size="16"
-                    color={props.expenceEditPermission ? "#A9A9A9" : "#1E45E1"}
+                    color={"#1E45E1"}
                   />
                   <label
                     style={{
                       fontSize: 14,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      color: props.expenceEditPermission ? "#A9A9A9" : "#222222",
+                      color:"#222222",
                       cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
                     }}
                   >
@@ -331,20 +331,19 @@ console.log("props",props)
                     borderBottomLeftRadius: 10,
                     borderBottomRightRadius: 10,
                     cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                    // pointerEvents: props.expenceDeletePermission ? "none" : "auto",
-                    opacity: props.expenceDeletePermission ? 0.5 : 1,
+                                      opacity: props.expenceDeletePermission ? 0.5 : 1,
                   }}
                 >
                   <Trash
                     size="16"
-                    color={props.expenceDeletePermission ? "#A9A9A9" : "red"}
+                    color={"red"}
                   />
                   <label
                     style={{
                       fontSize: 14,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      color: props.expenceDeletePermission ? "#A9A9A9" : "#FF0000",
+                      color: "#FF0000",
                       cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
                     }}
                   >
