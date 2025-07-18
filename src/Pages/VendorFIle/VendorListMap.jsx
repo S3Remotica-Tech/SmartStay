@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import Delete from "../../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
 import Vendors from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
-import { Edit } from "iconsax-react";
+import { Edit,Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import "./VendorListMap.css";
 import "./vendor.css";
@@ -191,14 +190,15 @@ function VendorListMap(props) {
                           borderTopRightRadius: 10,
                         }}
                       >
-                        <Edit size="16" color="#1E45E1" />
+                        <Edit size="16" color={props.vendorEditPermission ? "#A9A9A9" : "#1E45E1"} />
                         <label
                           style={{
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
-                            color: "#222222",
-                            cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+                            
+                             color: props.vendorEditPermission ? "#A9A9A9" : "#222222",
+                      cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
                           }}
                         >
                           Edit
@@ -236,18 +236,19 @@ function VendorListMap(props) {
                           borderBottomRightRadius: 10,
                         }}
                       >
-                        <img
-                          src={Delete}
-                          alt="Delete"
-                          style={{ height: 16, width: 16 }}
-                        />
+                       
+                         <Trash
+                                            size="16"
+                                            color={props.vendorDeletePermission ? "#A9A9A9" : "red"}
+                                          />
                         <label
                           style={{
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
-                            color: "#FF0000",
-                            cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+                           
+                            color: props.vendorDeletePermission ? "#A9A9A9" : "#FF0000",
+                      cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
                           }}
                         >
                           Delete

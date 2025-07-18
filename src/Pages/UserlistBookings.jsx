@@ -14,8 +14,7 @@ import {
 } from "react-bootstrap";
 import "./Userlistbooking.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Delete from "../Assets/Images/New_images/trash.png";
-import Edit from "../Assets/Images/New_images/edit.png";
+
 import "react-toastify/dist/ReactToastify.css";
 import BookingModal from "./Addbookingform";
 import AssignBooking from "./Assignbooking";
@@ -33,7 +32,8 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
+import { Edit,Trash } from "iconsax-react";
+import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Select from "react-select";
 
 function Booking(props) {
@@ -179,37 +179,59 @@ function Booking(props) {
   }, [state.Booking.statusCodeGetBooking]);
 
   useEffect(() => {
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[5]?.per_view === 1
-    ) {
-      setBookingPermissionError("");
-    } else {
-      setBookingPermissionError("Permission Denied");
+       const isAdmin = props.customerrolePermission[0]?.user_details?.user_type === "admin";
+       if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        setBookingPermissionError("");
+        setBookingEditPermissionError("Permission Denied");
+        setBookingDeletePermissionError("Permission Denied");
+  
+      } else if (state?.login?.planStatus === 1) {
+        setBookingPermissionError("");
+        setBookingEditPermissionError("");
+        setBookingDeletePermissionError("");
+      }
     }
-  }, [props.customerrolePermission]);
+  
+    }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,props.customerrolePermission])
 
-  useEffect(() => {
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[5]?.per_edit === 1
-    ) {
-      setBookingEditPermissionError("");
-    } else {
-      setBookingEditPermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
 
-  useEffect(() => {
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[5]?.per_delete === 1
-    ) {
-      setBookingDeletePermissionError("");
-    } else {
-      setBookingDeletePermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
+    useEffect(() => {
+         const BookingPermission = props.customerrolePermission[0]?.role_permissions?.find(
+           (perm) => perm.permission_name === "Bookings"
+         );
+       
+         const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
+         const planActive = state?.login?.planStatus === 1;
+        
+         if (!BookingPermission || !isOwner) return;
+       
+         
+         if (BookingPermission.per_view === 1 && planActive) {
+           setBookingPermissionError("");
+         } else {
+           setBookingPermissionError("Permission Denied");
+         }
+       
+         
+         
+       
+        
+         if (BookingPermission.per_edit === 1 && planActive) {
+           setBookingEditPermissionError("");
+         } else {
+           setBookingEditPermissionError("Permission Denied");
+         }
+       
+         if (BookingPermission.per_delete === 1 && planActive) {
+           setBookingDeletePermissionError("");
+         } else {
+           setBookingDeletePermissionError("Permission Denied");
+         }
+       }, [props.customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
+  
+
+  
 
   const MobileNumber = `${countryCode}${Phone}`;
 
@@ -1395,44 +1417,47 @@ const pageOptions = [
                                     }}
                                   >
 
-                                    <div
-                                      className="d-flex align-items-center"
-                                      onClick={() => {
-                                        if (!props.customerBookingAddPermission) {
-                                          handleCheckin(customer);
-                                        }
-                                      }}
-                                      style={{
-                                        cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
-                                        pointerEvents: props.customerBookingAddPermission ? "none" : "auto",
-                                        opacity: props.customerBookingAddPermission ? 0.5 : 1,
-                                        padding: "6px 8px",
-                                        borderRadius: 6,
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!props.customerBookingAddPermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "transparent";
-                                      }}
-                                    >
-                                      <img
-                                        src={check}
-                                        alt="Checkin icon"
-                                        style={{ height: 16, width: 16, marginRight: 8 }}
-                                      />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: "#222222",
-                                          cursor: "pointer",
-                                        }}
-                                      >
-                                        Check In
-                                      </label>
-                                    </div>
+                                 <div
+  className="d-flex align-items-center"
+  onClick={() => {
+    if (!props.customerBookingAddPermission) {
+      handleCheckin(customer);
+    }
+  }}
+  style={{
+    cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
+    opacity: props.customerBookingAddPermission ? 0.5 : 1,
+    padding: "6px 8px",
+    borderRadius: 6,
+    transition: "background-color 0.2s ease",
+  }}
+  onMouseEnter={(e) => {
+    if (!props.customerBookingAddPermission) {
+      e.currentTarget.style.backgroundColor = "#FFF3F3";
+    }
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = "transparent";
+  }}
+>
+  <img
+    src={check}
+    alt="Checkin icon"
+    style={{ height: 16, width: 16, marginRight: 8 }}
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.customerBookingAddPermission ? "#A9A9A9" : "#222222",
+      cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Check In
+  </label>
+</div>
+
 
                                     <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
@@ -1441,7 +1466,7 @@ const pageOptions = [
                                       onClick={() => handleEdit(customer)}
                                       style={{
                                         cursor: bookingEditPermissionError ? "not-allowed" : "pointer",
-                                        pointerEvents: bookingEditPermissionError ? "none" : "auto",
+                                        
                                         opacity: bookingEditPermissionError ? 0.5 : 1,
                                         padding: "6px 8px",
                                         borderRadius: 6,
@@ -1453,18 +1478,15 @@ const pageOptions = [
                                         e.currentTarget.style.backgroundColor = "transparent";
                                       }}
                                     >
-                                      <img
-                                        src={Edit}
-                                        alt="Edit icon"
-                                        style={{ height: 16, width: 16, marginRight: 8 }}
-                                      />
+                                     
+                                        <Edit size="16" color={bookingEditPermissionError ? "#A9A9A9" : "#1E45E1"} style={{marginRight: 8}}/>
                                       <label
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 500,
                                           fontFamily: "Gilroy, sans-serif",
-                                          color: "#222222",
-                                          cursor: "pointer",
+                                            color: bookingEditPermissionError ? "#A9A9A9" : "#222222",
+                      cursor: bookingEditPermissionError ? "not-allowed" : "pointer",
                                         }}
                                       >
                                         Edit
@@ -1482,7 +1504,7 @@ const pageOptions = [
                                       }}
                                       style={{
                                         cursor: bookingDeletePermissionError ? "not-allowed" : "pointer",
-                                        pointerEvents: bookingDeletePermissionError ? "none" : "auto",
+                                       
                                         opacity: bookingDeletePermissionError ? 0.5 : 1,
                                         padding: "6px 8px",
                                         borderRadius: 6,
@@ -1494,18 +1516,18 @@ const pageOptions = [
                                         e.currentTarget.style.backgroundColor = "transparent";
                                       }}
                                     >
-                                      <img
-                                        src={Delete}
-                                        alt="Delete icon"
-                                        style={{ height: 16, width: 16, marginRight: 8 }}
-                                      />
+                                     
+                                        <Trash
+                                                                                  size="16"
+                                                                                  color={bookingDeletePermissionError ? "#A9A9A9" : "red"}
+                                                                            style={{marginRight: 8}}    />
                                       <label
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 500,
                                           fontFamily: "Gilroy, sans-serif",
-                                          color: "#FF0000",
-                                          cursor: "pointer",
+                                           color: bookingDeletePermissionError ? "#A9A9A9" : "#FF0000",
+                      cursor: bookingDeletePermissionError ? "not-allowed" : "pointer",
                                         }}
                                       >
                                         Delete

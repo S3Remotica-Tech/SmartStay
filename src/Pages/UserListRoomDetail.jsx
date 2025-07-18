@@ -26,11 +26,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-import editliner from "../Assets/Images/Edit-blue.png";
 import upload from "../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
-import trash from "../Assets/Images/New_images/trash.png";
+import { Edit,Trash } from "iconsax-react";
 import docDown from "../Assets/Images/New_images/doc_download.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -1543,6 +1542,7 @@ function UserListRoomDetail(props) {
                           {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
                             <>
                               <Button
+                              disabled={props.customerAddPermission}
                                 type="primary"
                                 style={{
                                   borderRadius: "20px",
@@ -1553,6 +1553,7 @@ function UserListRoomDetail(props) {
                                   display: "flex",
                                   alignItems: "center",
                                   fontSize: "14px",
+                                  
                                 }}
                               >
                                 KYC Verified
@@ -1597,6 +1598,7 @@ function UserListRoomDetail(props) {
                             state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
                             <>
                               <Button
+                              disabled={props.customerAddPermission}
                                 type="primary"
                                 style={{
                                   borderRadius: "20px",
@@ -1631,7 +1633,9 @@ function UserListRoomDetail(props) {
 
                       <div
                         style={{
-                          cursor: "pointer",
+                        cursor: props.customerEditPermission
+                                          ? "not-allowed"
+                                          : "pointer",
                           height: 40,
                           width: 40,
                           borderRadius: 100,
@@ -1651,7 +1655,13 @@ function UserListRoomDetail(props) {
                         }}
                       >
                         <PiDotsThreeOutlineVerticalFill
-                          style={{ height: 20, width: 20 }}
+                           style={{
+                                          height: 20,
+                                          width: 20,
+                                          color: props.customerEditPermission
+                                            ? "#CCCCCC"
+                                            : "#000",
+                                        }}
                         />
                       </div>
                     </div>
@@ -2174,6 +2184,7 @@ function UserListRoomDetail(props) {
 
                                     <button
                                       className="btn"
+                                      disabled={props.customerAddPermission}
                                       style={{
                                         borderRadius: "10px",
                                         padding: "10px 20px",
@@ -2337,6 +2348,7 @@ function UserListRoomDetail(props) {
                                     </label>
                                     <button
                                       className="btn "
+                                       disabled={props.customerAddPermission}
                                       style={{
                                         borderRadius: "10px",
                                         padding: "10px 20px",
@@ -2514,6 +2526,7 @@ function UserListRoomDetail(props) {
                                         {!advanceDetail[0]?.inv_id && (
                                           <div className="col-sm-4 d-flex flex-column align-items-center">
                                             <Button
+                                             disabled={props.customerAddPermission}
                                               style={{
                                                 width: 102,
                                                 height: 31,
@@ -2616,6 +2629,7 @@ function UserListRoomDetail(props) {
                                       Additional Contact
                                     </div>
                                     <button
+                                     disabled={props.customerAddPermission}
                                       className="btn btn-link fw-medium text-decoration-none"
                                       style={{ fontSize: 14, fontFamily: "Gilroy" }}
                                       onClick={handleAdditionalForm}
@@ -2636,7 +2650,7 @@ function UserListRoomDetail(props) {
                                                 <div>
                                                   <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
                                                     Contact Info{" "}
-                                                    <img
+                                                    {/* <img
                                                       src={editliner}
                                                       alt="Edit Icon"
                                                       width={15}
@@ -2645,20 +2659,28 @@ function UserListRoomDetail(props) {
                                                       onClick={() =>
                                                         handleContactEdit(v)
                                                       }
-                                                    />
+                                                    /> */}
+                                                    <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"}  onClick={() => {
+                                              if (!props.customerEditPermission) {
+                                                handleContactEdit(v);
+                                              }
+                                            }}/>
 
-                                                    <img
-                                                      src={trash}
-                                                      alt="Trash Icon"
-                                                      width={15}
-                                                      style={{ cursor: "pointer" }}
-                                                      height={15}
-                                                      className="ms-2"
-
-                                                      onClick={() =>
-                                                        handleContactDelete(v)
-                                                      }
-                                                    />
+                                                   
+                         <Trash size="16"color={props.customerDeletePermission ? "#A9A9A9" : "red"} 
+                                                     
+                                                
+                                                     onClick={() => {
+                                              if (!props.customerDeletePermission) {
+                                                handleContactDelete(v);
+                                              }
+                                            }}
+                                                     style={{cursor: props.customerDeletePermission ? "not-allowed" : "pointer",}}  onMouseEnter={(e) => {
+                                              if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
+                                            }}/>
                                                   </label>
 
                                                   <div className="row mb-3 g-4">
@@ -2745,27 +2767,26 @@ function UserListRoomDetail(props) {
                                               <div key={index}>
                                                 <p className="mb-3">
                                                   Contact Info{" "}
-                                                  <img
-                                                    src={editliner}
-                                                    alt="Edit Icon"
-                                                    width={15}
-                                                    height={15}
-                                                    style={{ cursor: "pointer" }}
-                                                    onClick={() =>
-                                                      handleContactEdit(v)
-                                                    }
-                                                  />
-                                                  <img
-                                                    src={trash}
-                                                    alt="Trash Icon"
-                                                    width={15}
-                                                    height={15}
-                                                    style={{ cursor: "pointer" }}
-                                                    className="ms-2"
-                                                    onClick={() =>
-                                                      handleContactDelete(v)
-                                                    }
-                                                  />
+                                                  <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} style={{cursor:"pointer"}}  onClick={() => {
+                                              if (!props.customerEditPermission) {
+                                                handleContactEdit(v);
+                                              }
+                                            }}/>
+                                                 
+                                                     <Trash size="16"color={props.customerDeletePermission ? "#A9A9A9" : "red"} 
+                                                     
+                                                
+                                                     onClick={() => {
+                                              if (!props.customerDeletePermission) {
+                                                handleContactDelete(v);
+                                              }
+                                            }}
+                                                     style={{cursor: props.customerDeletePermission ? "not-allowed" : "pointer",marginLeft:10}}  onMouseEnter={(e) => {
+                                              if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
+                                            }}/>
                                                 </p>
 
                                                 <div className="row mb-3 g-8">
@@ -4833,6 +4854,7 @@ function UserListRoomDetail(props) {
                         handleEditHostelItem={handleEditHostelItem}
                         handleDeleteHostelItem={handleDeleteHostelItem}
                         handleDeleteRoomItem={handleDeleteRoomItem}
+                       
                       />
                     </TabPanel>
                     <TabPanel value="3">
@@ -4841,6 +4863,9 @@ function UserListRoomDetail(props) {
                         handleEditItem={handleEditItem}
                         handleDeleteItem={handleDeleteItem}
                         handleAddItem={handleAddItem}
+                         customerAdd= {props.customerAddPermission}
+                         customerEdit = {props.customerEditPermission}
+                         customerDelete = {props.customerDeletePermission}
                       />
                     </TabPanel>
 
@@ -4854,6 +4879,9 @@ function UserListRoomDetail(props) {
                         hostelName={props.hostelName}
                         sethosName={props.sethosName}
                         statusAmni={props.statusAmni}
+                         customerAdd= {props.customerAddPermission}
+                         customerEdit = {props.customerEditPermission}
+                         customerDelete = {props.customerDeletePermission}
                       />
                     </TabPanel>
                   </TabContext>
@@ -4882,7 +4910,8 @@ UserListRoomDetail.propTypes = {
   statusAmni: PropTypes.func.isRequired,
   handleBack: PropTypes.func.isRequired,
   roomDetail: PropTypes.func.isRequired,
-
+customerAddPermission: PropTypes.func.isRequired,
+  customerDeletePermission: PropTypes.func.isRequired,
   onEditRoomItem: PropTypes.func.isRequired,
   onEditHostelItem: PropTypes.func.isRequired,
   onDeleteHostelItem: PropTypes.func.isRequired,

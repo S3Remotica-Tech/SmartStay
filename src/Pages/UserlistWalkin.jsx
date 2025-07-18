@@ -4,8 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Table, Modal, Button } from "react-bootstrap";
 import "./UserlistWalkin.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Delete from "../Assets/Images/New_images/trash.png";
-import Edit from "../Assets/Images/Edit-blue.png";
+import { Edit,Trash } from "iconsax-react";
 import CustomerForm from "./UserlistWalkinForm";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,38 +28,58 @@ function UserlistWalkin(props) {
   const [walkInDeletePermissionError, setWalkInDeletePermissionError] =
     useState("");
 
-  useEffect(() => {
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_view === 1
-    ) {
-      setWalkInPermissionError("");
-    } else {
-      setWalkInPermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
 
-  useEffect(() => {
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_edit === 1
-    ) {
-      setWalkInEditPermissionError("");
-    } else {
-      setWalkInEditPermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
 
-  useEffect(() => {
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[7]?.per_delete === 1
-    ) {
-      setWalkInDeletePermissionError("");
-    } else {
-      setWalkInDeletePermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
+    useEffect(() => {
+           const isAdmin = props.customerrolePermission[0]?.user_details?.user_type === "admin";
+           if (isAdmin) {
+          if (state?.login?.planStatus === 0) {
+            setWalkInPermissionError("");
+            setWalkInEditPermissionError("Permission Denied");
+            setWalkInDeletePermissionError("Permission Denied");
+      
+          } else if (state?.login?.planStatus === 1) {
+            setWalkInPermissionError("");
+            setWalkInEditPermissionError("");
+            setWalkInDeletePermissionError("");
+          }
+        }
+      
+        }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,props.customerrolePermission])
+
+ useEffect(() => {
+          const WalkinPermission = props.customerrolePermission[0]?.role_permissions?.find(
+            (perm) => perm.permission_name === "Walk In"
+          );
+        
+          const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
+          const planActive = state?.login?.planStatus === 1;
+         
+          if (!WalkinPermission || !isOwner) return;
+        
+          
+          if (WalkinPermission.per_view === 1 && planActive) {
+            setWalkInPermissionError("");
+          } else {
+            setWalkInPermissionError("Permission Denied");
+          }
+        
+          
+          
+        
+         
+          if (WalkinPermission.per_edit === 1 && planActive) {
+            setWalkInEditPermissionError("");
+          } else {
+            setWalkInEditPermissionError("Permission Denied");
+          }
+        
+          if (WalkinPermission.per_delete === 1 && planActive) {
+            setWalkInDeletePermissionError("");
+          } else {
+            setWalkInDeletePermissionError("Permission Denied");
+          }
+        }, [props.customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
 
   const popupRef = useRef(null);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -768,10 +787,11 @@ const pageOptions = [
                                               if (!walkInEditPermissionError) {
                                                 handleEdit(v);
                                               }
+                                              
                                             }}
                                             style={{
                                               cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
-                                              pointerEvents: walkInEditPermissionError ? "none" : "auto",
+                                             
                                               opacity: walkInEditPermissionError ? 0.5 : 1,
                                               padding: "6px 8px",
                                               borderRadius: 6,
@@ -783,21 +803,14 @@ const pageOptions = [
                                               e.currentTarget.style.backgroundColor = "transparent";
                                             }}
                                           >
-                                            <img
-                                              src={Edit}
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                marginRight: 8,
-                                              }}
-                                              alt="Edit icon"
-                                            />
+                                             <Edit size="16" color={walkInEditPermissionError ? "#A9A9A9" : "#1E45E1"} style={{marginRight: 8}}/>
                                             <label
                                               style={{
                                                 fontSize: 14,
                                                 fontWeight: 500,
                                                 fontFamily: "Gilroy, sans-serif",
-                                                color: "#222222",
+                                                color: walkInEditPermissionError ? "#A9A9A9" : "#222222",
+                      cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
                                               }}
                                             >
                                               Edit
@@ -813,7 +826,7 @@ const pageOptions = [
                                             }}
                                             style={{
                                               cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
-                                              pointerEvents: walkInDeletePermissionError ? "none" : "auto",
+                                             
                                               opacity: walkInDeletePermissionError ? 0.5 : 1,
                                               padding: "6px 8px",
                                               borderRadius: 6,
@@ -825,21 +838,17 @@ const pageOptions = [
                                               e.currentTarget.style.backgroundColor = "transparent";
                                             }}
                                           >
-                                            <img
-                                              src={Delete}
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                marginRight: 8,
-                                              }}
-                                              alt="Delete icon"
-                                            />
+                                           <Trash
+                                                                                                                             size="16"
+                                                                                                                             color={walkInDeletePermissionError ? "#A9A9A9" : "red"}
+                                                                                                                       style={{marginRight: 8}}    />
                                             <label
                                               style={{
                                                 fontSize: 14,
                                                 fontWeight: 500,
                                                 fontFamily: "Gilroy, sans-serif",
-                                                color: "#FF0000",
+                                                 color: walkInDeletePermissionError ? "#A9A9A9" : "#FF0000",
+                      cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
                                               }}
                                             >
                                               Delete

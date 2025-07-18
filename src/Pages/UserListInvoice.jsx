@@ -174,7 +174,7 @@ const invoiceOptions = [
       <div className="d-flex justify-content-end col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <Button
           onClick={handleAddBill}
-
+disabled={props.customerAdd}
           style={{
             fontFamily: "Gilroy",
             fontSize: "14px",
@@ -689,12 +689,12 @@ const invoiceOptions = [
 
                                   <div
                                     onClick={() => {
-                                      if (!props.billEditPermission) {
+                                      if (!props.customerEdit) {
                                         handleEditBill(view);
                                       }
                                     }}
                                     onMouseEnter={(e) => {
-                                      if (!props.billEditPermission)
+                                      if (!props.customerEdit)
                                         e.currentTarget.style.backgroundColor = "#EDF2FF";
                                     }}
                                     onMouseLeave={(e) => {
@@ -707,9 +707,9 @@ const invoiceOptions = [
                                       padding: "8px 12px",
                                       width: "100%",
                                       backgroundColor: "#F9F9F9",
-                                      cursor: props.billEditPermission ? "not-allowed" : "pointer",
-                                      pointerEvents: props.billEditPermission ? "none" : "auto",
-                                      opacity: props.billEditPermission ? 0.5 : 1,
+                                      cursor: props.customerEdit ? "not-allowed" : "pointer",
+                                     
+                                      opacity: props.customerEdit ? 0.5 : 1,
                                       borderTopLeftRadius: 10,
                                       borderTopRightRadius: 10,
                                     }}
@@ -719,7 +719,7 @@ const invoiceOptions = [
                                       style={{
                                         height: 16,
                                         width: 16,
-                                        filter: props.billEditPermission ? "grayscale(100%)" : "none",
+                                        filter: props.customerEdit ? "grayscale(100%)" : "none",
                                       }}
                                       alt="Edit"
                                     />
@@ -728,8 +728,8 @@ const invoiceOptions = [
                                         fontSize: 14,
                                         fontWeight: 600,
                                         fontFamily: "Gilroy, sans-serif",
-                                        color: props.billEditPermission ? "#ccc" : "#222222",
-                                        cursor: props.billEditPermission ? "not-allowed" : "pointer",
+                                        color: props.customerEdit ? "#ccc" : "#222222",
+                                        cursor: props.customerEdit ? "not-allowed" : "pointer",
                                       }}
                                     >
                                       Edit
@@ -742,12 +742,12 @@ const invoiceOptions = [
 
                                   <div
                                     onClick={() => {
-                                      if (!props.billDeletePermission) {
+                                      if (!props.customerDelete) {
                                         handleDeleteBill(view);
                                       }
                                     }}
                                     onMouseEnter={(e) => {
-                                      if (!props.billDeletePermission)
+                                      if (!props.customerDelete)
                                         e.currentTarget.style.backgroundColor = "#FFF0F0";
                                     }}
                                     onMouseLeave={(e) => {
@@ -760,9 +760,8 @@ const invoiceOptions = [
                                       padding: "8px 12px",
                                       width: "100%",
                                       backgroundColor: "#F9F9F9",
-                                      cursor: props.billDeletePermission ? "not-allowed" : "pointer",
-                                      pointerEvents: props.billDeletePermission ? "none" : "auto",
-                                      opacity: props.billDeletePermission ? 0.5 : 1,
+                                      cursor: props.customerDelete ? "not-allowed" : "pointer",
+                                      opacity: props.customerDelete ? 0.5 : 1,
                                       borderBottomLeftRadius: 10,
                                       borderBottomRightRadius: 10,
                                     }}
@@ -772,7 +771,7 @@ const invoiceOptions = [
                                       style={{
                                         height: 16,
                                         width: 16,
-                                        filter: props.billDeletePermission ? "grayscale(100%)" : "none",
+                                        filter: props.customerDelete ? "grayscale(100%)" : "none",
                                       }}
                                       alt="Delete"
                                     />
@@ -781,8 +780,8 @@ const invoiceOptions = [
                                         fontSize: 14,
                                         fontWeight: 600,
                                         fontFamily: "Gilroy, sans-serif",
-                                        color: props.billDeletePermission ? "#ccc" : "#FF0000",
-                                        cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+                                        color: props.customerDelete ? "#ccc" : "#FF0000",
+                                        cursor: props.customerDelete ? "not-allowed" : "pointer",
                                       }}
                                     >
                                       Delete
@@ -981,10 +980,11 @@ const invoiceOptions = [
 UserListInvoice.propTypes = {
   handleEditItem: PropTypes.func.isRequired,
   handleDeleteItem: PropTypes.func.isRequired,
-  billEditPermission: PropTypes.func.isRequired,
-  billDeletePermission: PropTypes.func.isRequired,
+  customerEdit: PropTypes.func.isRequired,
+  customerDelete: PropTypes.func.isRequired,
   handleAddItem: PropTypes.func.isRequired,
   id: PropTypes.func.isRequired,
+   customerAdd: PropTypes.func.isRequired,
 };
 
 export default UserListInvoice;

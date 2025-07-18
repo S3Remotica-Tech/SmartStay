@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 ,Trash} from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -29,7 +29,6 @@ import Addbooking from "./Addbookingform";
 import CheckOutForm from "./UserListCheckoutForm";
 import UserlistWalkinForm from "./UserlistWalkinForm";
 import Edit from "../Assets/Images/Edit-blue.png";
-import Delete from "../Assets/Images/Delete_red.png";
 import addcircle from "../Assets/Images/New_images/add-circle.png";
 import searchteam from "../Assets/Images/New_images/Search Team.png";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -68,7 +67,7 @@ function UserList(props) {
   const [customerpermissionError, setCustomerPermissionError] = useState("");
   const [customerAddPermission, setCustomerAddPermission] = useState("");
   const [customerDeletePermission, setCustomerDeletePermission] =
-    useState(false);
+    useState("");
   const [customerEditPermission, setCustomerEditPermission] = useState("");
   const [customerBookingAddPermission, setCustomerBookingAddPermission] =
     useState("");
@@ -912,79 +911,138 @@ function UserList(props) {
     setCustomerRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
-  useEffect(() => {
-    if (
-      customerrolePermission[0]?.is_owner === 1 ||
-      customerrolePermission[0]?.role_permissions[4]?.per_view === 1
-    ) {
+
+ useEffect(() => {
+     const isAdmin = customerrolePermission[0]?.user_details?.user_type === "admin";
+     if (isAdmin) {
+    if (state?.login?.planStatus === 0) {
       setCustomerPermissionError("");
-    } else {
-      setCustomerPermissionError("Permission Denied");
-    }
-  }, [customerrolePermission]);
-
-  useEffect(() => {
-    if (
-      customerrolePermission[0]?.is_owner === 1 ||
-      customerrolePermission[0]?.role_permissions[4]?.per_create === 1
-    ) {
-      setCustomerAddPermission("");
-    } else {
       setCustomerAddPermission("Permission Denied");
-    }
-  }, [customerrolePermission]);
-  useEffect(() => {
-    if (
-      customerrolePermission[0]?.is_owner === 1 ||
-      customerrolePermission[0]?.role_permissions[4]?.per_edit === 1
-    ) {
-      setCustomerEditPermission("");
-    } else {
       setCustomerEditPermission("Permission Denied");
+      setCustomerDeletePermission("Permission Denied");
+      setCustomerBookingAddPermission("Permission Denied")
+      setCustomerCheckoutAddPermission("Permission Denied")
+      setCustomerWalkInAddPermission("Permission Denied")
+
+    } else if (state?.login?.planStatus === 1) {
+      setCustomerPermissionError("");
+      setCustomerAddPermission("");
+      setCustomerEditPermission("");
+      setCustomerDeletePermission("");
+      setCustomerBookingAddPermission("")
+       setCustomerCheckoutAddPermission("")
+       setCustomerWalkInAddPermission("")
     }
-  }, [customerrolePermission]);
-  useEffect(() => {
-    if (
-      customerrolePermission[0]?.is_owner === 1 ||
-      customerrolePermission[0]?.role_permissions[4]?.per_delete === 1
-    ) {
-      setCustomerDeletePermission(false);
-    } else {
-      setCustomerDeletePermission(true);
-    }
-  }, [customerrolePermission]);
+  }
+
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,customerrolePermission,value])
+  
+
+ 
+ useEffect(() => {
+     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
+       (perm) => perm.permission_name === "Customers"
+     );
+   
+     const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
+     const planActive = state?.login?.planStatus === 1;
+    
+     if (!CustomerPermission || !isOwner) return;
+   
+     
+     if (CustomerPermission.per_view === 1 && planActive) {
+       setCustomerPermissionError("");
+     } else {
+       setCustomerPermissionError("Permission Denied");
+     }
+   
+     
+     if (CustomerPermission.per_create === 1 && planActive) {
+       setCustomerAddPermission("");
+     } else {
+       setCustomerAddPermission("Permission Denied");
+     }
+   
+    
+     if (CustomerPermission.per_edit === 1 && planActive) {
+       setCustomerEditPermission("");
+     } else {
+       setCustomerEditPermission("Permission Denied");
+     }
+   
+     if (CustomerPermission.per_delete === 1 && planActive) {
+       setCustomerDeletePermission("");
+     } else {
+       setCustomerDeletePermission("Permission Denied");
+     }
+   }, [customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
+
+
+useEffect(() => {
+     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
+       (perm) => perm.permission_name === "Bookings"
+     );
+   
+     const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
+     const planActive = state?.login?.planStatus === 1;
+    
+     if (!CustomerPermission || !isOwner) return;
+   
+     
+     if (CustomerPermission.per_create === 1 && planActive) {
+       setCustomerBookingAddPermission("");
+     } else {
+       setCustomerBookingAddPermission("Permission Denied");
+     }
+   
+    
+     
+   
+   
+   }, [customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id,value]);
+
+
 
   useEffect(() => {
-    if (
-      customerrolePermission[0]?.is_owner === 1 ||
-      customerrolePermission[0]?.role_permissions[5]?.per_create === 1
-    ) {
-      setCustomerBookingAddPermission("");
-    } else {
-      setCustomerBookingAddPermission("Permission Denied");
-    }
-  }, [customerrolePermission]);
-
-  useEffect(() => {
-    if (
-      customerrolePermission[0]?.is_owner === 1 ||
-      customerrolePermission[0]?.role_permissions[7]?.per_create === 1
-    ) {
-      setCustomerWalkInAddPermission("");
-    } else {
-      setCustomerWalkInAddPermission("Permission Denied");
-    }
-  }, [customerrolePermission]);
-  useEffect(() => {
-    if (
-      customerrolePermission[0]?.is_owner === 1 ||
-      customerrolePermission[0]?.role_permissions[6]?.per_create === 1
-    ) {
-      setCustomerCheckoutAddPermission("");
-    } else {
-      setCustomerCheckoutAddPermission("Permission Denied");
-    }
-  }, [customerrolePermission]);
+     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
+       (perm) => perm.permission_name === "Walk In"
+     );
+   
+     const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
+     const planActive = state?.login?.planStatus === 1;
+    
+     if (!CustomerPermission || !isOwner) return;
+   
+     
+     if (CustomerPermission.per_create === 1 && planActive) {
+       setCustomerWalkInAddPermission("");
+     } else {
+       setCustomerWalkInAddPermission("Permission Denied");
+     }
+   
+    
+     
+   
+   
+   }, [customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id,value]);
+  
+   useEffect(() => {
+     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
+       (perm) => perm.permission_name === "Check out"
+     );
+   
+     const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
+     const planActive = state?.login?.planStatus === 1;
+    
+     if (!CustomerPermission || !isOwner) return;
+   
+     
+     if (CustomerPermission.per_create === 1 && planActive) {
+       setCustomerCheckoutAddPermission("");
+     } else {
+       setCustomerCheckoutAddPermission("Permission Denied");
+     }   
+   }, [customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id,value]);
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
@@ -3201,9 +3259,16 @@ function UserList(props) {
                                                 )}
 
                                                 {user.Bed && (
-                                                  <div
+                                                
+                                                    <div
                                                     className="d-flex align-items-center gap-2"
-                                                    onClick={() => handleCustomerCheckout(user)}
+                                                  
+                                                     onClick={() => {
+                                                    if (!customerAddPermission) {
+                                                      handleCustomerCheckout(user);
+                                                    }
+                                                  }}
+
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
                                                       cursor: customerAddPermission ? "not-allowed" : "pointer",
@@ -3211,11 +3276,10 @@ function UserList(props) {
                                                       padding: "8px 12px",
                                                       borderRadius: 6,
                                                       transition: "background 0.2s ease-in-out",
-                                                      pointerEvents: customerAddPermission ? "none" : "auto",
                                                     }}
                                                     onMouseEnter={(e) => {
                                                       if (!customerAddPermission) {
-                                                        e.currentTarget.style.backgroundColor = "#F0FFF4";
+                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
                                                       }
                                                     }}
                                                     onMouseLeave={(e) => {
@@ -3224,7 +3288,7 @@ function UserList(props) {
                                                   >
                                                     <img
                                                       src={addcircle}
-                                                      alt="Check-Out"
+                                                      alt="checkout"
                                                       style={{
                                                         width: 16,
                                                         height: 16,
@@ -3241,7 +3305,7 @@ function UserList(props) {
                                                         margin: 0,
                                                       }}
                                                     >
-                                                      Check-Out
+                                                     Check-Out
                                                     </label>
                                                   </div>
 
@@ -3250,7 +3314,12 @@ function UserList(props) {
                                                 {user.Bed && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
-                                                    onClick={() => { handleCustomerReAssign(user); }}
+                                                   
+                                                     onClick={() => {
+                                                    if (!customerAddPermission) {
+                                                      handleCustomerReAssign(user);
+                                                    }
+                                                  }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
@@ -3327,6 +3396,7 @@ function UserList(props) {
                                                       width: 16,
                                                       height: 16,
                                                       filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
                                                     }}
                                                   />
                                                   <label
@@ -3369,11 +3439,11 @@ function UserList(props) {
                                                     e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                   }}
                                                 >
-                                                  <img
-                                                    src={Delete}
-                                                    alt="Delete Icon"
-                                                    style={{ width: 16, height: 16 }}
-                                                  />
+                                                 
+                                                    <Trash
+                                                                                              size="16"
+                                                                                              color={customerDeletePermission ? "#A9A9A9" : "red"}
+                                                                                            />
                                                   <label
                                                     style={{
                                                       fontSize: 14,
@@ -3769,6 +3839,8 @@ function UserList(props) {
           hostelIds={hostelIds}
           handleAdhaarChange={handleAdhaarChange}
           customerEditPermission={customerEditPermission}
+          customerAddPermission = {customerAddPermission}
+          customerDeletePermission ={customerDeletePermission}
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
         />
