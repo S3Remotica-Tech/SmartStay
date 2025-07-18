@@ -787,6 +787,7 @@ const pageOptions = [
                                               if (!walkInEditPermissionError) {
                                                 handleEdit(v);
                                               }
+                                              
                                             }}
                                             style={{
                                               cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
