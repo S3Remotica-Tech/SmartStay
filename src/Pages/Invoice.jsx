@@ -1251,21 +1251,34 @@ const InvoicePage = () => {
 
     const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+   
+if (selectedUser) {
+  const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+  const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+  const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
-      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
+ 
+  if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+    setInvoiceDateErrmsg("Before join date not allowed");
+    hasError = true;
+  }
 
-      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-        setInvoiceDueDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-    }
+ 
+  if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+    setInvoiceDueDateErrmsg("Before join date not allowed");
+    hasError = true;
+  }
+
+  
+  if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+    setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+    hasError = true;
+  }
+}
+
+
+
+
 
     if (hasError) {
       return;
@@ -1363,24 +1376,31 @@ const InvoicePage = () => {
 
     const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+   
 
-      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
+if (selectedUser) {
+  const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+  const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+  const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
-      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-        setInvoiceDueDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-    }
+  
+  if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+    setInvoiceDateErrmsg("Before join date not allowed");
+    hasError = true;
+  }
 
+ 
+  if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+    setInvoiceDueDateErrmsg("Before join date not allowed");
+    hasError = true;
+  }
 
-
+ 
+  if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+    setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+    hasError = true;
+  }
+}
     if (hasError) {
       return;
     }
@@ -1779,15 +1799,15 @@ const InvoicePage = () => {
     const isAdmin = billrolePermission[0]?.user_details?.user_type === "admin";
     if (isAdmin) {
       if (state?.login?.planStatus === 0) {
-        // bill
+       
         setBillPermissionError("");
         setBillAddPermission("Permission Denied");
         setBillEditPermission("Permission Denied");
         setBillDeletePermission("Permission Denied");
-        // recurring
+      
         setRecurringPermission("");
         setRecuringBillAddPermission("Permission Denied");
-        // receipt
+      
         setReceiptPermission("");
         setReceiptAddPermission("Permission Denied");
 
@@ -5637,7 +5657,7 @@ useEffect(() => {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12 me-4">
+            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 me-4">
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                 <Form.Label
                   style={{
@@ -5828,18 +5848,42 @@ useEffect(() => {
                 fontFamily: "Gilroy",
                 fontWeight: 500,
               }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
-              <div style={{ position: "relative", width: "100%" }}>
+              <div style={{ position: "relative", width: "100%" }} className="datepicker-wrapper">
 
-                <DatePicker
-                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={invoicedate ? dayjs(invoicedate) : null}
-                  onChange={(date) => handleInvoiceDate(date)}
-                  getPopupContainer={(triggerNode) =>
-                    triggerNode.closest(".datepicker-wrapper")
-                  }
-                />
+  <div
+  className="datepicker-wrapper"
+  style={{
+    position: "relative",
+    width: "100%",
+  }}
+>
+  <DatePicker
+    style={{
+      width: "100%",
+      height: 48,
+      cursor: "pointer",
+      fontFamily: "Gilroy",
+    }}
+    format="DD/MM/YYYY"
+    placeholder="DD/MM/YYYY"
+    value={invoicedate ? dayjs(invoicedate) : null}
+    onChange={(date) => handleInvoiceDate(date)}
+    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+    disabledDate={(current) =>
+      current && current > dayjs().endOf("day")
+    }
+    dropdownAlign={{
+      points: ["tl", "bl"],
+      offset: [0, 4], 
+    }}
+    popupStyle={{
+      marginRight: 0,
+      minWidth: "auto",
+    }}
+  />
+</div>
+
+
               </div>
 
               {invoicedateerrmsg.trim() !== "" && (
@@ -5875,16 +5919,32 @@ useEffect(() => {
                 fontWeight: 500,
               }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
-                <DatePicker
-                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={invoiceduedate ? dayjs(invoiceduedate) : null}
-                  onChange={(date) => handleDueDate(date)}
-                  getPopupContainer={(triggerNode) =>
-                    triggerNode.closest(".datepicker-wrapper")
-                  }
-                />
+                
+
+                 <DatePicker
+    style={{
+      width: "100%",
+      height: 48,
+      cursor: "pointer",
+      fontFamily: "Gilroy",
+    }}
+    format="DD/MM/YYYY"
+    placeholder="DD/MM/YYYY"
+   value={invoiceduedate ? dayjs(invoiceduedate) : null}
+     onChange={(date) => handleDueDate(date)}
+    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+    disabledDate={(current) =>
+      current && current > dayjs().endOf("day")
+    }
+    dropdownAlign={{
+      points: ["tl", "bl"],
+      offset: [0, 4], 
+    }}
+    popupStyle={{
+      marginRight: 0,
+      minWidth: "auto",
+    }}
+  />
               </div>
 
 

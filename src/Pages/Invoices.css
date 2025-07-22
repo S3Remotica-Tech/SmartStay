@@ -355,4 +355,7 @@ margin-left: 200px;
     max-height: 580px;
     overflow-y: auto;
   }  
-} 
+} .datepicker-wrapper {
+  overflow: visible; 
+  position: relative;
+}

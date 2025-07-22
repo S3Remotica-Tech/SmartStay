@@ -16,7 +16,7 @@ dayjs.extend(customParseFormat);
 function CustomerReAssign(props) {
   
   const state = useSelector((state) => state);
-  console.log("CustomerReAssign",state)
+ 
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateError, setDateError] = useState("");
@@ -57,7 +57,7 @@ dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: userId } });
 },[userId])
 
 const [lastDate, setLastDate] = useState("");
-console.log("userId",userId)
+
 useEffect(()=>{
 if(state.UsersList.CustomerdetailsgetStatuscode === 200){
   setTimeout(() => {
@@ -66,7 +66,7 @@ if(state.UsersList.CustomerdetailsgetStatuscode === 200){
 }
 
 },[state.UsersList.CustomerdetailsgetStatuscode])
-console.log("state.UsersList.CustomerdetailsgetStatuscode",state.UsersList.CustomerdetailsgetStatuscode)
+
 
  useEffect(() => {
   if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
@@ -263,7 +263,7 @@ if (selectedDate && props.reAssignDetail.user_join_date) {
     lastDateOnly = new Date(last.getFullYear(), last.getMonth(), last.getDate());
 
     if (selectedDateOnly <= lastDateOnly) {
-      setDateError("Bills already generated up to this date");
+      setDateError("Billed up to this Date");
       hasError = true;
       return;
     }
@@ -924,6 +924,7 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".datepicker-wrapper")
                               }
+                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                             />
                           </div>
                             {dateError && (
