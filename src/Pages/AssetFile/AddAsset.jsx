@@ -187,34 +187,34 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, [state.AssetList.addAssetStatusCode]);
 
- 
+
 
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-   const handleModeOfPaymentChange = (selectedOption) => {
+  const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
- setIsChangedError("");
+    setIsChangedError("");
     setPaymentError("");
     setBankingError("")
     setModeOfPayment(selectedOption);
-   
-   
+
+
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
   };
 
-const labelMap = {
-  bank: "Bank",
-  upi: "UPI",
-  card: "Card",
-  cash: "Cash",
-};
+  const labelMap = {
+    bank: "Bank",
+    upi: "UPI",
+    card: "Card",
+    cash: "Cash",
+  };
 
-const paymentOptions = Array.isArray(bankking)
-  ? bankking.map((item) => ({
-      value: String(item.id), 
+  const paymentOptions = Array.isArray(bankking)
+    ? bankking.map((item) => ({
+      value: String(item.id),
       label: `${item.benificiary_name} - ${labelMap[item.type] || ""}`,
     }))
-  : [];
+    : [];
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
@@ -342,6 +342,7 @@ const paymentOptions = Array.isArray(bankking)
         productNameRef.current.focus();
         focusedRef.current = true;
       }
+      return
     }
 
     if (!modeOfPayment) {
@@ -350,6 +351,7 @@ const paymentOptions = Array.isArray(bankking)
         paymentRef.current.focus();
         focusedRef.current = true;
       }
+      return
     }
 
     if (!cleanedSerialNumber) {
@@ -358,6 +360,7 @@ const paymentOptions = Array.isArray(bankking)
         serialNumberRef.current.focus();
         focusedRef.current = true;
       }
+      return
     }
 
     if (!selectedDate) {
@@ -366,6 +369,7 @@ const paymentOptions = Array.isArray(bankking)
         dateRef.current.focus();
         focusedRef.current = true;
       }
+      return
     }
 
     const numericRegex = /^[0-9]+$/;
@@ -378,26 +382,26 @@ const paymentOptions = Array.isArray(bankking)
       }
       return;
     }
-    if (selectedDate) {
-      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-      if (selectedHostel) {
-        const HostelCreateDate = new Date(selectedHostel.create_At);
-        const AssetDate = new Date(selectedDate);
-        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-        const AssetDateOnly = new Date(AssetDate.toDateString());
-        if (AssetDateOnly < HostelCreateDateOnly) {
-          setJoingDateErrmsg('Before Hostel Create date not allowed');
-          if (!focusedRef.current && dateRef.current) {
-            dateRef.current.focus();
-            focusedRef.current = true;
+    // if (selectedDate) {
+    //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
+    //   if (selectedHostel) {
+    //     const HostelCreateDate = new Date(selectedHostel.create_At);
+    //     const AssetDate = new Date(selectedDate);
+    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+    //     const AssetDateOnly = new Date(AssetDate.toDateString());
+    //     if (AssetDateOnly < HostelCreateDateOnly) {
+    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
+    //       if (!focusedRef.current && dateRef.current) {
+    //         dateRef.current.focus();
+    //         focusedRef.current = true;
 
-            return
-          }
-        } else {
-          setJoingDateErrmsg('');
-        }
-      }
-    }
+    //         return
+    //       }
+    //     } else {
+    //       setJoingDateErrmsg('');
+    //     }
+    //   }
+    // }
 
 
 
@@ -478,7 +482,7 @@ const paymentOptions = Array.isArray(bankking)
   }, [state.AssetList?.alreadyAssetNameHere, state.AssetList?.alreadySerialNumberHere])
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -489,7 +493,7 @@ useEffect(() => {
   }, [state.createAccount?.networkError])
 
 
-
+console.log("asset",state)
 
 
 
@@ -541,27 +545,27 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                   {state.AssetList?.alreadyAssetNameHere} 
+                  {state.AssetList?.alreadyAssetNameHere}
                 </label>
               </div>
-             )} 
+            )}
 
             {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
               state.bankingDetails.bankingList.banks.length === 0 && (
-               <div className="d-flex align-items-center pt-2 ps-2">
-                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Please Create Banking before adding an asset
-                </label>
-              </div>
+                <div className="d-flex align-items-center pt-2 ps-2">
+                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                  <label
+                    className="mb-0"
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Please Create Banking before adding an asset
+                  </label>
+                </div>
               )}
 
 
@@ -605,7 +609,7 @@ useEffect(() => {
 
                   {assetError && (
                     <div className="d-flex align-items-center">
-                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -655,7 +659,7 @@ useEffect(() => {
 
                   {productNameError && (
                     <div className="d-flex align-items-center">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -684,7 +688,7 @@ useEffect(() => {
                         marginTop: 10
                       }}
                     >
-                      Vendor Name 
+                      Vendor Name
                     </Form.Label>
 
 
@@ -834,7 +838,7 @@ useEffect(() => {
 
                   {serialNumberError && (
                     <div className="d-flex align-items-center ">
-                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -900,6 +904,9 @@ useEffect(() => {
                           setJoingDateErrmsg('')
                           setSelectedDate(date ? date.toDate() : null);
                         }}
+
+                        disabledDate={(current) => current && current > dayjs().endOf("day")}
+
                         getPopupContainer={(triggerNode) =>
                           triggerNode.closest(".datepicker-wrapper")
                         }
@@ -925,7 +932,7 @@ useEffect(() => {
 
                   {joiningDateErrmsg.trim() !== "" && (
                     <div className="d-flex align-items-center">
-                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {joiningDateErrmsg}
                       </label>
@@ -968,7 +975,7 @@ useEffect(() => {
                   </Form.Group>
                   {priceError && (
                     <div className="d-flex align-items-center ">
-                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1008,77 +1015,77 @@ useEffect(() => {
                       </span>
                     </Form.Label>
 
-                  
 
 
-<Select
-  options={paymentOptions}
-  value={
-    paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
-  }
-  onChange={(selectedOption) =>
-    handleModeOfPaymentChange(selectedOption?.value)
-  }
-   onMenuOpen={() => setIsSelectOpen(true)}      
-  onMenuClose={() => setIsSelectOpen(false)} 
-  placeholder="Select Payment"
-  isDisabled={currentItem}
-  
-    styles={{
-                      control: (base) => ({
-                        ...base,
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                        fontFamily: "Gilroy",
-                        fontWeight: modeOfPayment ? 600 : 500,
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        boxShadow: "none",
-                        height: 48,
-                        cursor: "pointer",
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "80px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "lightblue" : "white",
-                        color: "#000",
-                        fontFamily: "Gilroy",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                    }}
-/>
+
+                    <Select
+                      options={paymentOptions}
+                      value={
+                        paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                      }
+                      onChange={(selectedOption) =>
+                        handleModeOfPaymentChange(selectedOption?.value)
+                      }
+                      onMenuOpen={() => setIsSelectOpen(true)}
+                      onMenuClose={() => setIsSelectOpen(false)}
+                      placeholder="Select Payment"
+                      isDisabled={currentItem}
+
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          fontSize: 14,
+                          color: "rgba(75, 75, 75, 1)",
+                          fontFamily: "Gilroy",
+                          fontWeight: modeOfPayment ? 600 : 500,
+                          border: "1px solid #D9D9D9",
+                          borderRadius: "8px",
+                          boxShadow: "none",
+                          height: 48,
+                          cursor: "pointer",
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #ced4da",
+                          fontFamily: "Gilroy",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          maxHeight: "80px",
+                          padding: 0,
+                          scrollbarWidth: "thin",
+                          overflowY: "auto",
+                          fontFamily: "Gilroy",
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#555",
+                          cursor: "pointer",
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          cursor: "pointer",
+                          backgroundColor: state.isFocused ? "lightblue" : "white",
+                          color: "#000",
+                          fontFamily: "Gilroy",
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+                        }),
+                      }}
+                    />
 
 
                   </Form.Group>
                   {paymentError && (
-                    <div className="d-flex align-items-center p-1 mb-2"  style={{marginTop: isSelectOpen ? 25 : 0,}}>
-                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                    <div className="d-flex align-items-center p-1 mb-2" style={{ marginTop: isSelectOpen ? 25 : 0, }}>
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1116,7 +1123,7 @@ useEffect(() => {
             </Modal.Body>
             {isChangedError && (
               <div ref={nochangeRef} className="d-flex align-items-center justify-content-center mt-3 mb-4">
-                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"
                   style={{
@@ -1158,17 +1165,17 @@ useEffect(() => {
                 ></div>
               </div>
             }
-            {state.createAccount?.networkError ? 
-                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                            </div>
-                                              : null}
-            
-           
+            {state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
 
 
-<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-3" style={{paddingBottom:20,  paddingTop: isSelectOpen ? 20 : 0, }}>
+
+
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-3" style={{ paddingBottom: 20, paddingTop: isSelectOpen ? 20 : 0, }}>
 
               <Button
                 onClick={handleAddAsset}
@@ -1184,8 +1191,8 @@ useEffect(() => {
               >
                 {currentItem ? "Save Changes" : "Add Asset"}
               </Button>
-              </div>
-          
+            </div>
+
           </Modal.Dialog>
         </Modal>
       </div>

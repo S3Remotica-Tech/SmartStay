@@ -54,6 +54,8 @@ const CheckOutForm = ({
 
 
 
+
+
   const handlecloseform = () => {
     handleClose();
     setSelectedCustomer("");
@@ -288,23 +290,23 @@ const CheckOutForm = ({
       return;
     }
 
-    const filteruserlist = state.UsersList.Users?.filter(
-      (u) => u.ID === selectedCustomer
+    const reqDate = new Date(
+      moment(checkOutrequestDate, "DD-MM-YYYY").format("YYYY-MM-DD")
+    );
+    const outDate = new Date(
+      moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD")
     );
 
-    const joining_Date = filteruserlist[0].user_join_date
+    reqDate.setHours(0, 0, 0, 0);
+    outDate.setHours(0, 0, 0, 0);
 
-    if (moment(checkOutrequestDate, "DD-MM-YYYY").isBefore(moment(joining_Date, "YYYY-MM-DD"))) {
-      setCheckOutRequestDateError("Before joining Date is not allowed");
+    if (outDate < reqDate) {
+      setCheckOutDateError("Before Request Date not allowed");
       return;
     }
 
-    if (moment(checkOutDate, "DD-MM-YYYY").isBefore(moment(joining_Date, "YYYY-MM-DD"))) {
-      setCheckOutDateError("Before joining Date is not allowed");
-      return;
-    }
 
-    
+
 
     const formatDateTocheckoutDate = (startdate) => {
       if (!startdate) return "";
@@ -546,21 +548,17 @@ const CheckOutForm = ({
     if (hasError) {
       return;
     }
-    const filterUserList = state.UsersList.Users?.filter(
-      (u) => u.ID === selectedCustomer
-    );
+   
+ const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
+const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
 
-    const joiningDate = filterUserList?.[0]?.user_join_date;
+if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
+  setCheckOutDateError("Before Request Date not allowed");
+  return;
+}
 
-    if (
-      joiningDate &&
-      moment(checkOutDate, "DD-MM-YYYY").isBefore(moment(joiningDate, "YYYY-MM-DD"))
-    ) {
-      setCheckOutDateError("Before join date not allowed");
-      return;
-    }
-
-    const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+   
 
     if (advanceamount) {
       const nonEmptyFields = fields.filter(
@@ -1072,9 +1070,9 @@ const CheckOutForm = ({
                             setIsChangedError("");
                             setCheckOutRequestDate(date ? date.toDate() : null);
                           }}
+                          disabledDate={(current) => current && current > dayjs().endOf("day")}
 
-
-                         getPopupContainer={() =>
+                          getPopupContainer={() =>
                             document.body
                           }
 
@@ -1142,17 +1140,7 @@ const CheckOutForm = ({
                             setIsChangedError("");
                             setCheckOutDate(date ? date.toDate() : null);
                           }}
-                          disabledDate={(current) => {
-                            if (!selectedCustomer) return false;
 
-                            const filteruserlist = state.UsersList.Users?.filter(
-                              (u) => u.ID === selectedCustomer
-                            );
-                            if (!filteruserlist?.length) return false;
-
-                            const joining_Date = moment(filteruserlist[0].user_join_date, "YYYY-MM-DD");
-                            return current && current.isBefore(joining_Date, "day");
-                          }}
                           getPopupContainer={() => document.body}
                         />
 
@@ -1466,7 +1454,7 @@ const CheckOutForm = ({
                           setIsChangedError("");
                           setCheckOutDate(date ? date.toDate() : null);
                         }}
-                       getPopupContainer={() => document.body}
+                        getPopupContainer={() => document.body}
                         disabled={conformEdit}
                       />
                     </div>
@@ -1479,7 +1467,7 @@ const CheckOutForm = ({
                         style={{
                           color: "red",
                           marginRight: "5px",
-                          fontSize: "14px",
+                          fontSize: "12px",
                         }}
                       />
                       <label

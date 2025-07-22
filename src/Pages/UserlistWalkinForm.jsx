@@ -153,45 +153,10 @@ function CustomerForm({ show, handleClose, initialData }) {
       return String(val).trim();
     };
 
-    const isChanged = initialData && (
-      name.trim() !== (initialData.first_name || '').trim() ||
-      lastname.trim() !== (initialData.last_name || '').trim() ||
-      email.trim() !== (initialData.email_Id || '').trim() ||
-      (`${countryCode}${mobile}` !== String(initialData.mobile_Number || '').trim()) ||
-      ((walkInDate && initialData.walk_In_Date) && moment(walkInDate).format('YYYY-MM-DD') !== moment(initialData.walk_In_Date).format('YYYY-MM-DD')) ||
-      house_no.trim() !== normalize(initialData.comments) ||
-      street.trim() !== normalize(initialData.area) ||
-      landmark.trim() !== normalize(initialData.landmark) ||
-      city.trim() !== normalize(initialData.city) ||
-      String(pincode).trim() !== String(initialData.pin_code || "").trim() ||
-      state_name.trim() !== normalize(initialData.state) ||
-      isFileChanged
-
-    );
+   
 
 
-
-
-    if (initialData && !isChanged) {
-      setIsChangedError("No Changes Detected");
-
-
-      setTimeout(() => {
-        if (noChangesRef.current) {
-          noChangesRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-          noChangesRef.current.focus();
-        }
-      }, 100);
-
-      return;
-    } else {
-      setIsChangedError("");
-    }
-
-
-
-
-    const focusedRef = { current: false };
+   const focusedRef = { current: false };
 
     if (!name) {
       setNameError('Please Enter First Name');
@@ -226,10 +191,12 @@ function CustomerForm({ show, handleClose, initialData }) {
 
     if (!countryCode) {
       setCountryCodeError('Please select Country Code');
+      
       if (!focusedRef.current && countryCodeRef.current) {
         countryCodeRef.current.focus();
         focusedRef.current = true;
       }
+       return
     }
 
     if (!walkInDate) {
@@ -238,32 +205,70 @@ function CustomerForm({ show, handleClose, initialData }) {
         walkInDateRef.current.focus();
         focusedRef.current = true;
       }
+       return
     }
-     if (walkInDate ) {
-      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-      if (selectedHostel) {
-        const HostelCreateDate = new Date(selectedHostel.create_At);
-        const WalkinDate = new Date(walkInDate);
-        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-        const WalkinDateOnly = new Date(WalkinDate.toDateString());
-        if (WalkinDateOnly < HostelCreateDateOnly) {
-          setJoingDateErrmsg('Before Hostel Create date not allowed');
-          if (!focusedRef.current && walkInDateRef.current) {
-        walkInDateRef.current.focus();
-        focusedRef.current = true;
+    //  if (walkInDate ) {
+    //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
+    //   if (selectedHostel) {
+    //     const HostelCreateDate = new Date(selectedHostel.create_At);
+    //     const WalkinDate = new Date(walkInDate);
+    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+    //     const WalkinDateOnly = new Date(WalkinDate.toDateString());
+    //     if (WalkinDateOnly < HostelCreateDateOnly) {
+    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
+    //       if (!focusedRef.current && walkInDateRef.current) {
+    //     walkInDateRef.current.focus();
+    //     focusedRef.current = true;
 
-        return
-      }
-        } else {
-          setJoingDateErrmsg('');
-        }
-      }
-    }
+    //     return
+    //   }
+    //     } else {
+    //       setJoingDateErrmsg('');
+    //     }
+    //   }
+    // }
 
 
     if (emailError) {
       return;
     }
+
+     const isChanged = initialData && (
+      name.trim() !== (initialData.first_name || '').trim() ||
+      lastname.trim() !== (initialData.last_name || '').trim() ||
+      email.trim() !== (initialData.email_Id || '').trim() ||
+      (`${countryCode}${mobile}` !== String(initialData.mobile_Number || '').trim()) ||
+      ((walkInDate && initialData.walk_In_Date) && moment(walkInDate).format('YYYY-MM-DD') !== moment(initialData.walk_In_Date).format('YYYY-MM-DD')) ||
+      house_no.trim() !== normalize(initialData.comments) ||
+      street.trim() !== normalize(initialData.area) ||
+      landmark.trim() !== normalize(initialData.landmark) ||
+      city.trim() !== normalize(initialData.city) ||
+      String(pincode).trim() !== String(initialData.pin_code || "").trim() ||
+      state_name.trim() !== normalize(initialData.state) ||
+      isFileChanged
+
+    );
+
+    if (initialData && !isChanged) {
+      setIsChangedError("No Changes Detected");
+
+
+      setTimeout(() => {
+        if (noChangesRef.current) {
+          noChangesRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          noChangesRef.current.focus();
+        }
+      }, 100);
+
+      return;
+    } else {
+      setIsChangedError("");
+    }
+
+
+
+
+ 
 
 
     const Mobile_Number = `${countryCode}${mobile}`
@@ -1092,6 +1097,8 @@ useEffect(() => {
                       setJoingDateErrmsg("")
                       setWalkInDate(date ? date.toDate() : null);
                     }}
+
+                     disabledDate={(current) => current && current > dayjs().endOf("day")}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                   />
                 </div>

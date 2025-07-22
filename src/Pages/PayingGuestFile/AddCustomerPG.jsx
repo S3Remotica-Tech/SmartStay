@@ -326,25 +326,25 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       if (!firstInvalidRef) firstInvalidRef = dateRef;
     }
 
-    if (selectedDate) {
-      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-      if (selectedHostel) {
-        const HostelCreateDate = new Date(selectedHostel.create_At);
-        const JoinDate = new Date(selectedDate);
-        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-        const JoinDateOnly = new Date(JoinDate.toDateString());
-        if (JoinDateOnly < HostelCreateDateOnly) {
-          setJoingDateErrmsg('Before Hostel Create date not allowed');
-          if (dateRef.current) {
-            dateRef.current.focus();
-             hasError = true;
-            return
-          }
-        } else {
-          setJoingDateErrmsg('');
-        }
-      }
-    }
+    // if (selectedDate) {
+    //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
+    //   if (selectedHostel) {
+    //     const HostelCreateDate = new Date(selectedHostel.create_At);
+    //     const JoinDate = new Date(selectedDate);
+    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+    //     const JoinDateOnly = new Date(JoinDate.toDateString());
+    //     if (JoinDateOnly < HostelCreateDateOnly) {
+    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
+    //       if (dateRef.current) {
+    //         dateRef.current.focus();
+    //          hasError = true;
+    //         return
+    //       }
+    //     } else {
+    //       setJoingDateErrmsg('');
+    //     }
+    //   }
+    // }
 
     if (!AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
@@ -493,8 +493,8 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
         <Modal.Dialog
           style={{
-             minWidth: 550,
-           
+            minWidth: 550,
+
             borderRadius: "30px",
           }}
           className="m-0 p-0"
@@ -842,7 +842,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           {state.UsersList.emailError}
                         </label>
                       </div>
-                     )}
+                    )}
                   </div>
 
 
@@ -962,7 +962,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group
-                     
+
                       controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label
@@ -1058,7 +1058,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group  controlId="exampleForm.ControlInput5">
+                    <Form.Group controlId="exampleForm.ControlInput5">
                       <Form.Label
                         style={{
                           fontFamily: "Gilroy",
@@ -1080,16 +1080,16 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           setStateName(selectedOption?.value);
                           setStateNameError("")
                         }}
-                         onInputChange={(inputValue, { action }) => {
-                              if (action === "input-change") {
-                                const lettersOnly = inputValue.replace(
-                                  /[^a-zA-Z\s]/g,
-                                  ""
-                                );
-                                return lettersOnly;
-                              }
-                              return inputValue;
-                            }}
+                        onInputChange={(inputValue, { action }) => {
+                          if (action === "input-change") {
+                            const lettersOnly = inputValue.replace(
+                              /[^a-zA-Z\s]/g,
+                              ""
+                            );
+                            return lettersOnly;
+                          }
+                          return inputValue;
+                        }}
                         value={
                           state_name ? { value: state_name, label: state_name } : null
                         }
@@ -1158,14 +1158,14 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group  controlId="purchaseDate">
+                    <Form.Group controlId="purchaseDate">
                       <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                         Joining Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
 
 
                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                        <DatePicker
+                        {/* <DatePicker
                           ref={dateRef}
                           style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                           format="DD/MM/YYYY"
@@ -1178,6 +1178,25 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                           }}
                           getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
 
+                        /> */}
+
+                        <DatePicker
+                          ref={dateRef}
+                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={selectedDate ? dayjs(selectedDate) : null}
+                          onChange={(date) => {
+                            setDateError('');
+                            setSelectedDate(date ? date.toDate() : null);
+                            setJoingDateErrmsg("");
+                          }}
+                          disabledDate={(current) => {
+                                                      return current && current > dayjs().endOf('day');
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest('.datepicker-wrapper')
+                          }
                         />
                       </div>
                     </Form.Group>
@@ -1199,14 +1218,14 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       </div>
                     )}
 
-                      {joiningDateErrmsg.trim() !== "" && (
-                                        <div className="d-flex align-items-center">
-                                           <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                            {joiningDateErrmsg}
-                                          </label>
-                                        </div>
-                                      )}
+                    {joiningDateErrmsg.trim() !== "" && (
+                      <div className="d-flex align-items-center">
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {joiningDateErrmsg}
+                        </label>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1367,7 +1386,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
-          </Modal>
+      </Modal>
     </div>
   );
 }

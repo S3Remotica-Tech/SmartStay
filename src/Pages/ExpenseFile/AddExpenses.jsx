@@ -230,22 +230,22 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-    if (selectedDate) {
-      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-      if (selectedHostel) {
-        const HostelCreateDate = new Date(selectedHostel.create_At);
-        const ExpenseDate = new Date(selectedDate);
-        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-        const ExpenseDateOnly = new Date(ExpenseDate.toDateString());
-        if (ExpenseDateOnly < HostelCreateDateOnly) {
-          setJoingDateErrmsg('Before Hostel Create date not allowed');
-          hasError = true;
+    // if (selectedDate) {
+    //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
+    //   if (selectedHostel) {
+    //     const HostelCreateDate = new Date(selectedHostel.create_At);
+    //     const ExpenseDate = new Date(selectedDate);
+    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+    //     const ExpenseDateOnly = new Date(ExpenseDate.toDateString());
+    //     if (ExpenseDateOnly < HostelCreateDateOnly) {
+    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
+    //       hasError = true;
 
-        } else {
-          setJoingDateErrmsg('');
-        }
-      }
-    }
+    //     } else {
+    //       setJoingDateErrmsg('');
+    //     }
+    //   }
+    // }
 
 
     if (!modeOfPayment) {
@@ -554,6 +554,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                         setJoingDateErrmsg("")
                         setSelectedDate(date ? date.toDate() : null);
                       }}
+                       disabledDate={(current) => current && current > dayjs().endOf("day")}
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
 
                     />
