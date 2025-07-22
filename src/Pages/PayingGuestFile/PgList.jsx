@@ -434,6 +434,8 @@ function PgList(props) {
 
 
   useEffect(() => {
+     const isAdmin = rolePermission[0]?.user_details?.user_type === "admin";
+     if (isAdmin) {
     if (state?.login?.planStatus === 0) {
       setPermissionError("");
       setAddPermissionError("Permission Denied");
@@ -446,12 +448,13 @@ function PgList(props) {
       setEditPermissionError("");
       setDeletePermissionError("");
     }
+  }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id])
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,rolePermission ])
 
 
   useEffect(() => {
-  if (rolePermission[0]?.is_owner === 0) {
+  if (rolePermission[0]?.user_details?.user_type === "staff") {
     const rolesPermission = rolePermission[0]?.role_permissions?.find(
       (perm) => perm.permission_name === "Paying Guest"
     );
@@ -487,7 +490,7 @@ function PgList(props) {
       }
     }
   } 
-}, [rolePermission]);
+}, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission]);
 
 
 

@@ -1774,64 +1774,137 @@ const InvoicePage = () => {
     setBillRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner === 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_view === 1
-    ) {
-      setBillPermissionError("");
-    } else {
-      setLoading(false)
-      setBillPermissionError("Permission Denied");
-    }
-  }, [billrolePermission]);
 
   useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner === 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_create === 1
-    ) {
+    const isAdmin = billrolePermission[0]?.user_details?.user_type === "admin";
+    if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        // bill
+        setBillPermissionError("");
+        setBillAddPermission("Permission Denied");
+        setBillEditPermission("Permission Denied");
+        setBillDeletePermission("Permission Denied");
+        // recurring
+        setRecurringPermission("");
+        setRecuringBillAddPermission("Permission Denied");
+        // receipt
+        setReceiptPermission("");
+        setReceiptAddPermission("Permission Denied");
+
+
+      } else if (state?.login?.planStatus === 1) {
+        setBillPermissionError("");
+        setBillAddPermission("");
+        setBillEditPermission("");
+        setBillDeletePermission("");
+        setRecuringBillAddPermission("");
+        setRecurringPermission("");
+        setReceiptPermission("");
+        setReceiptAddPermission("");
+      }
+    }
+
+  }, [state?.login?.planStatus, state.login?.selectedHostel_Id, billrolePermission])
+
+
+
+  useEffect(() => {
+    const billPermission = billrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Bills"
+    );
+
+    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!billPermission || !isOwner) return;
+
+
+    if (billPermission.per_view === 1 && planActive) {
+      setBillPermissionError("");
+    } else {
+      setLoading(false);
+      setBillPermissionError("Permission Denied");
+    }
+
+
+    if (billPermission.per_create === 1 && planActive) {
+      setBillAddPermission("");
+    } else {
+      setBillAddPermission("Permission Denied");
+    }
+
+
+    if (billPermission.per_edit === 1 && planActive) {
+      setBillEditPermission("");
+    } else {
+      setBillEditPermission("Permission Denied");
+    }
+
+    if (billPermission.per_delete === 1 && planActive) {
+      setBillDeletePermission("");
+    } else {
+      setBillDeletePermission("Permission Denied");
+    }
+  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+
+
+  useEffect(() => {
+    const billPermission = billrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Recuring Bills"
+    );
+
+    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!billPermission || !isOwner) return;
+
+    if (billPermission.per_create === 1 && planActive) {
       setRecuringBillAddPermission("");
     } else {
       setRecuringBillAddPermission("Permission Denied");
       setLoading(false)
     }
-  }, [billrolePermission]);
-
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner === 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_view === 1
-    ) {
+    if (billPermission.per_view === 1 && planActive) {
       setRecurringPermission("");
     } else {
       setRecurringPermission("Permission Denied");
       setLoading(false)
     }
-  }, [billrolePermission]);
+  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner === 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_view === 1
-    ) {
-      setReceiptPermission("");
-    } else {
-      setReceiptPermission("Permission Denied");
-      setLoading(false)
-    }
-  }, [billrolePermission]);
 
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner === 1 ||
-      billrolePermission[0]?.role_permissions[11]?.per_create === 1
-    ) {
-      setReceiptAddPermission("");
-    } else {
-      setReceiptAddPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
+
+
+useEffect(() => {
+   const receiptPermission = billrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Receipt"
+    );
+ 
+  const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
+  const planActive = state?.login?.planStatus === 1;
+
+  if (!receiptPermission || !isOwner) return;
+
+
+  if (receiptPermission.per_view === 1 && planActive) {
+    setReceiptPermission("");
+  } else {
+    setReceiptPermission("Permission Denied");
+    setLoading(false);
+  }
+
+
+  if (receiptPermission.per_create === 1 && planActive) {
+    setReceiptAddPermission("");
+  } else {
+    setReceiptAddPermission("Permission Denied");
+  }
+}, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+
+
+ 
 
 
 
@@ -1841,38 +1914,7 @@ const InvoicePage = () => {
     }
   }, [hostelId]);
 
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner === 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_create === 1
-    ) {
-      setBillAddPermission("");
-    } else {
-      setBillAddPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
 
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner === 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_delete === 1
-    ) {
-      setBillDeletePermission("");
-    } else {
-      setBillDeletePermission("Permission Denied");
-    }
-  }, [billrolePermission]);
-
-  useEffect(() => {
-    if (
-      billrolePermission[0]?.is_owner === 1 ||
-      billrolePermission[0]?.role_permissions[10]?.per_edit === 1
-    ) {
-      setBillEditPermission("");
-    } else {
-      setBillEditPermission("Permission Denied");
-    }
-  }, [billrolePermission]);
 
   useEffect(() => {
     if (
@@ -1915,7 +1957,7 @@ const InvoicePage = () => {
 
 
 
-   const sendWhatsAppMessage = async (type) => {
+  const sendWhatsAppMessage = async (type) => {
     const isInvoice = type === "invoice";
 
     const pdfUrl = isInvoice ? state.InvoiceList.invoicePDF : state.InvoiceList.ReceiptPDF;
@@ -1984,12 +2026,12 @@ const InvoicePage = () => {
     }
   };
 
- 
- 
+
+
   useEffect(() => {
     sendWhatsAppMessage("invoice");
   }, [state.InvoiceList?.statusCodeForPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
- 
+
   useEffect(() => {
     sendWhatsAppMessage("receipt");
   }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
@@ -2958,7 +3000,7 @@ const InvoicePage = () => {
                   <div className="text-center" style={{ paddingRight: 18 }} >
                     {value === "1" && (
                       <Button
-                        disabled={billAddPermission}
+                        disabled={billAddPermission || state?.login?.planStatus === 0}
                         onClick={handleManualShow}
 
                         style={{
@@ -4276,7 +4318,7 @@ const InvoicePage = () => {
                                           cursor: "pointer",
                                           fontFamily: "Gilroy",
                                           boxShadow: "0 0 0 1px #1E45E1",
-                                          width:90,
+                                          width: 90,
                                         }),
                                         menu: (base) => ({
                                           ...base,
@@ -4772,7 +4814,7 @@ const InvoicePage = () => {
                               cursor: "pointer",
                               fontFamily: "Gilroy",
                               boxShadow: "0 0 0 1px #1E45E1",
-                               width:90,
+                              width: 90,
                             }),
                             menu: (base) => ({
                               ...base,
@@ -5305,19 +5347,19 @@ const InvoicePage = () => {
 
                             {receiptdata.length > 10 && (
                               <nav
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "end",
-                                      padding: "10px",
-                                      position: "fixed",
-                                      bottom: "0px",
-                                      right: "0px",
-                                      left: 0,
-                                      backgroundColor: "#fff",
-                                      borderRadius: "5px",
-                                      zIndex: 1000,
-                                    }}
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "end",
+                                  padding: "10px",
+                                  position: "fixed",
+                                  bottom: "0px",
+                                  right: "0px",
+                                  left: 0,
+                                  backgroundColor: "#fff",
+                                  borderRadius: "5px",
+                                  zIndex: 1000,
+                                }}
                               >
 
                                 <div>
@@ -5328,24 +5370,24 @@ const InvoicePage = () => {
                                         ? { value: itemsperPage, label: `${itemsperPage}` }
                                         : null
                                     }
-                                        onChange={handleItemsPerPageReceipt}
-                                        placeholder="Rows per page"
-                                        classNamePrefix="custom"
-                                        menuPlacement="auto"
-                                        noOptionsMessage={() => "No options"}
-                                        styles={{
-                                          control: (base) => ({
-                                            ...base,
-                                            height: "40px",
-                                            borderRadius: "6px",
-                                            fontSize: "14px",
-                                            color: "#1E45E1",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 600,
-                                            border: "1px solid #1E45E1",
-                                            boxShadow: "0 0 0 1px #1E45E1",
-                                            cursor: "pointer",
-                                             width:90,
+                                    onChange={handleItemsPerPageReceipt}
+                                    placeholder="Rows per page"
+                                    classNamePrefix="custom"
+                                    menuPlacement="auto"
+                                    noOptionsMessage={() => "No options"}
+                                    styles={{
+                                      control: (base) => ({
+                                        ...base,
+                                        height: "40px",
+                                        borderRadius: "6px",
+                                        fontSize: "14px",
+                                        color: "#1E45E1",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 600,
+                                        border: "1px solid #1E45E1",
+                                        boxShadow: "0 0 0 1px #1E45E1",
+                                        cursor: "pointer",
+                                        width: 90,
                                       }),
                                       menu: (base) => ({
                                         ...base,

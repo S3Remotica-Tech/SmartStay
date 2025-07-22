@@ -48,7 +48,7 @@ function EBHostelReading(props) {
   ];
 
 
-console.log("ebpermissionError", props)
+
 
 
 

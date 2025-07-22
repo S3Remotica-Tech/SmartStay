@@ -723,7 +723,11 @@ const ComplianceList = (props) => {
 
                             <div
                               className="d-flex align-items-center"
-                              onClick={() => handleDeleteFormShow(props.complaints)}
+                              onClick={() =>{ if(!props.complianceDeletePermission){
+                                handleDeleteFormShow(props.complaints)
+                              }
+                            }
+                              }
                               style={{
                                 cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
                                 padding: "8px 12px",

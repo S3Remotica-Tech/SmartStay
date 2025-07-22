@@ -35,27 +35,45 @@ const Receipt = (props) => {
   }
 
 
-  useEffect(() => {
-    if (
-      props.billrolePermission[0]?.is_owner === 1 ||
-      props.billrolePermission[0]?.role_permissions[11]?.per_delete === 1
-    ) {
-      setReceiptDeletePermission("");
-    } else {
-      setReceiptDeletePermission("Permission Denied");
+useEffect(() => {
+    const isAdmin = props.billrolePermission[0]?.user_details?.user_type === "admin";
+    if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+       setReceiptDeletePermission("Permission Denied");
+        setReceiptEditPermission("Permission Denied");
+      } else if (state?.login?.planStatus === 1) {
+        setReceiptDeletePermission("");
+        setReceiptEditPermission("");
+      }
     }
-  }, [props.billrolePermission]);
 
-  useEffect(() => {
-    if (
-      props.billrolePermission[0]?.is_owner === 1 ||
-      props.billrolePermission[0]?.role_permissions[11]?.per_edit === 1
-    ) {
-      setReceiptEditPermission("");
-    } else {
-      setReceiptEditPermission("Permission Denied");
-    }
-  }, [props.billrolePermission]);
+  }, [state?.login?.planStatus, state.login?.selectedHostel_Id, props.billrolePermission])
+
+
+ useEffect(() => {
+  const receiptPermission = props.billrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Receipt"
+    );
+  const isOwner = props.billrolePermission[0]?.user_details?.user_type === "staff";
+  const planActive = state?.login?.planStatus === 1;
+
+  if (!receiptPermission || !isOwner) return;
+
+ 
+  if (receiptPermission.per_delete === 1 && planActive) {
+    setReceiptDeletePermission("");
+  } else {
+    setReceiptDeletePermission("Permission Denied");
+  }
+
+ 
+  if (receiptPermission.per_edit === 1 && planActive) {
+    setReceiptEditPermission("");
+  } else {
+    setReceiptEditPermission("Permission Denied");
+  }
+}, [props.billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
 
 
    
@@ -222,7 +240,7 @@ const Receipt = (props) => {
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
                       cursor: receiptEditPermission ? "not-allowed" : "pointer",
-                      opacity: receiptEditPermission ? 0.6 : 1,
+                      opacity: receiptEditPermission ? 0.5 : 1,
                       borderTopLeftRadius: 10,
                         borderTopRightRadius: 10,
                         backgroundColor: "#F9F9F9",
@@ -248,7 +266,7 @@ const Receipt = (props) => {
                       style={{
                         height: 16,
                         width: 16,
-                        filter: receiptEditPermission ? "grayscale(100%)" : "none",
+                        
                       }}
                     />
                     <label
@@ -256,7 +274,7 @@ const Receipt = (props) => {
                         fontSize: 14,
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
-                        color: receiptEditPermission ? "#ccc" : "#222222",
+                        color:  "#222222",
                         cursor: receiptEditPermission ? "not-allowed" : "pointer",
                       }}
                     >
@@ -269,8 +287,8 @@ const Receipt = (props) => {
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
                       cursor: receiptdeletePermission ? "not-allowed" : "pointer",
-                      opacity: receiptdeletePermission ? 0.6 : 1,
-                      padding: "8px 12px",
+                        opacity: receiptdeletePermission  ? 0.5 : 1,
+                                        padding: "8px 12px",
                        width:"100%"
                     }}
                     onClick={() => {
@@ -292,15 +310,14 @@ const Receipt = (props) => {
                       style={{
                         height: 16,
                         width: 16,
-                        filter: receiptdeletePermission ? "grayscale(100%)" : "none",
-                      }}
+                                              }}
                     />
                     <label
                       style={{
                         fontSize: 14,
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
-                        color: receiptdeletePermission ? "#ccc" : "#FF0000",
+                        color:"#FF0000",
                         cursor: receiptdeletePermission ? "not-allowed" : "pointer",
                       }}
                     >
@@ -312,13 +329,15 @@ const Receipt = (props) => {
                   <div
                     className="d-flex justify-content-start align-items-center gap-2 "
                     style={{
-                      cursor: "pointer",
+                      opacity: props.receiptaddPermission  ? 0.5 : 1,
+                      cursor: props.receiptaddPermission ? "not-allowed" : "pointer",
                       padding: "8px 12px",
                       width:"100%"
                     }}
-                    onClick={() => handleInvoicepdf(props.item)}
+                    onClick={() => {
+                      if(!props.receiptaddPermission) {handleInvoicepdf(props.item)}}}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = "#EDF2FF";
+                      if(!props.receiptaddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = "transparent";
@@ -331,7 +350,7 @@ const Receipt = (props) => {
                         fontWeight: 500,
                         fontFamily: "Gilroy, sans-serif",
                         color: "#222222",
-                        cursor: "pointer",
+                        cursor: props.receiptaddPermission ? "not-allowed" : "pointer",
                       }}
                     >
                       Download
@@ -444,6 +463,7 @@ const Receipt = (props) => {
 }
 Receipt.propTypes = {
   billrolePermission: PropTypes.func.isRequired,
+receiptaddPermission:  PropTypes.func.isRequired,
   onhandleEdit: PropTypes.func.isRequired,
   DisplayInvoice: PropTypes.func.isRequired,
   item: PropTypes.func.isRequired,
