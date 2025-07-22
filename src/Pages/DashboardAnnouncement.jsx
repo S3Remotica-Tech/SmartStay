@@ -12,11 +12,12 @@ import { Modal, Button, Form, FormControl, Image } from "react-bootstrap";
 import "./DashboardAnnouncement.css";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Delete from '../Assets/Images/New_images/trash.png';
-import { ArrowLeft2, ArrowRight2, CloseCircle, Edit } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2, CloseCircle, Edit,Trash } from 'iconsax-react';
 import LoaderComponent from "./LoaderComponent";
 import send from "../Assets/Images/send.svg";
-function DashboardAnnouncement() {
+import PropTypes from "prop-types";
+
+function DashboardAnnouncement(props) {
 
 
   const [filteredData, setFilteredData] = useState([]);
@@ -476,6 +477,7 @@ const pageSizeOptions = [
             marginRight: 10
           }}
           onClick={handleShowAnnouncement}
+          disabled={props.AnnouncementAddPermission}
           className="responsive-button"
         >
           +  Announcement
@@ -660,30 +662,47 @@ const pageSizeOptions = [
 
                                 <div
                                   className="d-flex gap-2 align-items-center "
-                                  style={{
-                                    width: "100%",
-                                    padding: "8px 12px",
-                                    transition: "background 0.2s ease-in-out",
-                                    borderTopLeftRadius: 10,
-                                    borderTopRightRadius: 10,
-                                  }}
-                                  onClick={() => handleEdit(data)}
-                                  onMouseEnter={(e) =>
-                                    (e.currentTarget.style.backgroundColor = "#F0F4FF")
-                                  }
-                                  onMouseLeave={(e) =>
-                                    (e.currentTarget.style.backgroundColor = "transparent")
-                                  }
-                                >
-                                  <Edit size="16" color="#1E45E1" />
+                                
+                                  
+
+
+                         onClick={() => {
+                          if (!props.AnnouncementEditPermission) {
+                            handleEdit(data);
+                          }
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!props.AnnouncementEditPermission)
+                            e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                        }}
+                      
+                              style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          padding: "8px 12px",
+                          width: "100%",
+                          backgroundColor: "#F9F9F9",
+                          cursor: props.AnnouncementEditPermission ? "not-allowed" : "pointer",
+                          pointerEvents: props.AnnouncementEditPermission ? "none" : "auto",
+                          opacity: props.AnnouncementEditPermission ? 0.5 : 1,
+                          borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
+                        }}  >
+                                  <Edit size="16"   color={props.AnnouncementEditPermission ? "#A9A9A9" : "#1E45E1"} />
                                   <label
                                     style={{
                                       fontSize: 14,
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      color: "#1E45E1",
+                                     
                                       marginBottom: 0,
-                                      cursor: "pointer",
+                                     
+                                        color: props.AnnouncementEditPermission ? "#A9A9A9" : "#222222",
+                      cursor: props.AnnouncementEditPermission ? "not-allowed" : "pointer",
                                     }}
                                   >
                                     Edit
@@ -696,36 +715,48 @@ const pageSizeOptions = [
 
                                 <div
                                   className="d-flex gap-2 align-items-center "
-                                  style={{
-                                    width: "100%",
-                                    padding: "8px 12px",
-                                    transition: "background 0.2s ease-in-out",
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-                                  }}
-                                  onClick={() => handleDelete(data)}
-                                  onMouseEnter={(e) =>
-                                    (e.currentTarget.style.backgroundColor = "#FFF3F3")
-                                  }
-                                  onMouseLeave={(e) =>
-                                    (e.currentTarget.style.backgroundColor = "transparent")
-                                  }
+                                 
+                                     onClick={() => {
+                          if (!props.AnnouncementDeletePermission) {
+                            handleDelete(data);
+                          }
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!props.AnnouncementDeletePermission)
+                            e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                        }}
+                      
+                              style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          padding: "8px 12px",
+                          width: "100%",
+                          backgroundColor: "#F9F9F9",
+                          cursor: props.AnnouncementDeletePermission ? "not-allowed" : "pointer",
+                          pointerEvents: props.AnnouncementDeletePermission ? "none" : "auto",
+                          opacity: props.AnnouncementDeletePermission ? 0.5 : 1,
+                          borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+                        }}
                                 >
-                                  <img
-                                    src={Delete}
-                                    alt="Delete"
-                                    style={{ height: 16, width: 16 }}
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      color: "#FF0000",
-                                      marginBottom: 0,
-                                      cursor: "pointer",
-                                    }}
-                                  >
+                                 
+                                    <Trash
+                                                      size="16"
+                                                      color={props.AnnouncementDeletePermission ? "#A9A9A9" : "red"}
+                                                    />
+                               
+                                   <label
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      color: props.AnnouncementDeletePermission ? "#A9A9A9" : "#FF0000",
+                      cursor: props.AnnouncementDeletePermission ? "not-allowed" : "pointer",
+                    }}>
                                     Delete
                                   </label>
                                 </div>
@@ -1459,33 +1490,41 @@ const pageSizeOptions = [
                 }}
                 placeholder="Post your reply here"
               />
-              <div className="input-field"
-                style={{
+              
+              <div
+  className="input-field"
+  style={{
+    position: "absolute",
+    right: "10px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    backgroundColor: "#1E45E1",
+    border: "1px solid #E7E7E7",
+    borderRadius: "60px",
+    padding: "12px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: props.AnnouncementAddPermission ? "not-allowed" : "pointer",
+    pointerEvents: props.AnnouncementAddPermission ? "none" : "auto",
+    opacity: props.AnnouncementAddPermission ? 0.5 : 1,
+  }}
+  onClick={() => {
+    if (!props.AnnouncementAddPermission) {
+      handleSendComments();
+    }
+  }}
+>
+  <img
+    src={send}
+    alt="Send"
+    style={{
+      width: "16px",
+      height: "16px",
+    }}
+  />
+</div>
 
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  backgroundColor: "#1E45E1",
-                  border: "1px solid #E7E7E7",
-                  borderRadius: "60px",
-                  padding: "12px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  cursor: "pointer",
-                }}
-                onClick={handleSendComments} >
-                <img
-                  src={send}
-                  alt="Send"
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-
-                />
-              </div>
             </div>
 
 
@@ -1868,5 +1907,12 @@ const pageSizeOptions = [
     </>
   );
 }
+DashboardAnnouncement.propTypes = {
+  AnnouncementEditPermission: PropTypes.func.isRequired,
+  AnnouncementDeletePermission: PropTypes.func.isRequired,
+   AnnouncementAddPermission: PropTypes.func.isRequired,
+ 
+
+};
 
 export default DashboardAnnouncement;

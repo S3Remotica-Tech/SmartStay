@@ -50,51 +50,71 @@ function Vendor() {
     setVendorRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
+
+
+ 
+
   useEffect(() => {
-    if (
-      vendorrolePermission[0]?.is_owner === 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_view === 1
-    ) {
+     const isAdmin = vendorrolePermission[0]?.user_details?.user_type === "admin";
+     if (isAdmin) {
+    if (state?.login?.planStatus === 0) {
       setVendorPermissionError("");
-    } else {
-      setVendorPermissionError("Permission Denied");
-    }
-  }, [vendorrolePermission]);
-
-
-
-  useEffect(() => {
-    if (
-      vendorrolePermission[0]?.is_owner === 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_create === 1
-    ) {
-      setVendorAddPermission("");
-    } else {
       setVendorAddPermission("Permission Denied");
-    }
-  }, [vendorrolePermission]);
-
-
-  useEffect(() => {
-    if (
-      vendorrolePermission[0]?.is_owner === 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_delete === 1
-    ) {
-      setVendorDeletePermission("");
-    } else {
-      setVendorDeletePermission("Permission Denied");
-    }
-  }, [vendorrolePermission]);
-  useEffect(() => {
-    if (
-      vendorrolePermission[0]?.is_owner === 1 ||
-      vendorrolePermission[0]?.role_permissions[9]?.per_edit === 1
-    ) {
-      setVendorEditPermission("");
-    } else {
       setVendorEditPermission("Permission Denied");
+      setVendorDeletePermission("Permission Denied");
+
+    } else if (state?.login?.planStatus === 1) {
+      setVendorPermissionError("");
+      setVendorAddPermission("");
+      setVendorEditPermission("");
+      setVendorDeletePermission("");
     }
-  }, [vendorrolePermission]);
+  }
+
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,vendorrolePermission])
+
+
+    useEffect(() => {
+     const vendorPermission = vendorrolePermission[0]?.role_permissions?.find(
+       (perm) => perm.permission_name === "Vendor"
+     );
+   
+     const isOwner = vendorrolePermission[0]?.user_details?.user_type === "staff";
+     const planActive = state?.login?.planStatus === 1;
+    
+     if (!vendorPermission || !isOwner) return;
+   
+     
+     if (vendorPermission.per_view === 1 && planActive) {
+       setVendorPermissionError("");
+     } else {
+       setVendorPermissionError("Permission Denied");
+     }
+   
+     
+     if (vendorPermission.per_create === 1 && planActive) {
+       setVendorAddPermission("");
+     } else {
+       setVendorAddPermission("Permission Denied");
+     }
+   
+    
+     if (vendorPermission.per_edit === 1 && planActive) {
+       setVendorEditPermission("");
+     } else {
+       setVendorEditPermission("Permission Denied");
+     }
+   
+     if (vendorPermission.per_delete === 1 && planActive) {
+       setVendorDeletePermission("");
+     } else {
+       setVendorDeletePermission("Permission Denied");
+     }
+   }, [vendorrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
+ 
+
+
+ 
 
   useEffect(() => {
     setLoading(true)
@@ -426,9 +446,7 @@ function Vendor() {
 
                           <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
                             <ul className='show-scroll' style={{
-                              // position: 'absolute',
-                              // top: '50px',
-                              // left: 0,
+                            
                               width: 235,
                               backgroundColor: '#fff',
                               maxHeight: "174px",

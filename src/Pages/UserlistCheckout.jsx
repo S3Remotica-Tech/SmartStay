@@ -4,8 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import Addbtn from "../Assets/Images/New_images/add-circle.png"
-import Delete from "../Assets/Images/New_images/trash.png";
-import Edit from "../Assets/Images/edit_blue.svg";
+import { Edit,Trash } from "iconsax-react";
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -45,43 +44,57 @@ function CheckOut(props) {
   const [cofirmForm, setConfirmForm] = useState(false)
 
 
-
-
-
-  useEffect(() => {
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[6]?.per_view === 1
-    ) {
-      setcheckOutPermissionError("");
-    } else {
-      setcheckOutPermissionError("Permission Denied");
+ useEffect(() => {
+       const isAdmin = props.customerrolePermission[0]?.user_details?.user_type === "admin";
+       if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        setcheckOutPermissionError("");
+        setcheckOutEditPermissionError("Permission Denied");
+        setcheckOutDeletePermissionError("Permission Denied");
+  
+      } else if (state?.login?.planStatus === 1) {
+        setcheckOutPermissionError("");
+        setcheckOutEditPermissionError("");
+        setcheckOutDeletePermissionError("");
+      }
     }
-  }, [props.customerrolePermission]);
+  
+    }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,props.customerrolePermission])
 
-  useEffect(() => {
-
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[6]?.per_edit === 1
-    ) {
-      setcheckOutEditPermissionError("");
-    } else {
-      setcheckOutEditPermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
-
-  useEffect(() => {
-
-    if (
-      props.customerrolePermission[0]?.is_owner === 1 ||
-      props.customerrolePermission[0]?.role_permissions[6]?.per_delete === 1
-    ) {
-      setcheckOutDeletePermissionError("");
-    } else {
-      setcheckOutDeletePermissionError("Permission Denied");
-    }
-  }, [props.customerrolePermission]);
+useEffect(() => {
+         const checkoutPermission = props.customerrolePermission[0]?.role_permissions?.find(
+           (perm) => perm.permission_name === "Bookings"
+         );
+       
+         const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
+         const planActive = state?.login?.planStatus === 1;
+        
+         if (!checkoutPermission || !isOwner) return;
+       
+         
+         if (checkoutPermission.per_view === 1 && planActive) {
+           setcheckOutPermissionError("");
+         } else {
+           setcheckOutPermissionError("Permission Denied");
+         }
+       
+         
+         
+       
+        
+         if (checkoutPermission.per_edit === 1 && planActive) {
+           setcheckOutEditPermissionError("");
+         } else {
+           setcheckOutEditPermissionError("Permission Denied");
+         }
+       
+         if (checkoutPermission.per_delete === 1 && planActive) {
+           setcheckOutDeletePermissionError("");
+         } else {
+           setcheckOutDeletePermissionError("Permission Denied");
+         }
+       }, [props.customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
+  
 
 
   useEffect(() => {
@@ -838,128 +851,180 @@ const pageOptions = [
                                         borderRadius: 12,
                                         display: "flex",
                                         flexDirection: "column",
-                                                                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                          
                                         zIndex: 10,
                                       }}
                                     >
                                       {checkout.isActive !== 0 && (
-                                        <div
-                                          className="d-flex align-items-center mb-2"
-                                          onClick={() => {
-                                            if (!checkOutEditPermissionError) {
-                                              handleConfirmCheckout(checkout);
-                                            }
-                                          }}
-                                          style={{
-                                            cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
-                                            pointerEvents: checkOutEditPermissionError ? "none" : "auto",
-                                            opacity: checkOutEditPermissionError ? 0.5 : 1,
-                                            padding: "6px 8px",
-                                            borderRadius: 6,
-                                          }}
-                                          onMouseEnter={(e) => {
-                                            if (!checkOutEditPermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                          }}
-                                          onMouseLeave={(e) => {
-                                            e.currentTarget.style.backgroundColor = "transparent";
-                                          }}
-                                        >
-                                          <img
-                                            src={Addbtn}
-                                            alt="checkout icon"
-                                            style={{ height: 16, width: 16, marginRight: 8 }}
-                                          />
-                                          <label
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy, sans-serif",
-                                            }}
-                                          >
-                                            Confirm Check-Out
-                                          </label>
-                                        </div>
+                      //                   <div
+                      //                     className="d-flex align-items-center mb-2"
+                      //                     onClick={() => {
+                      //                       if (!props.customerCheckoutPermission) {
+                      //                         handleConfirmCheckout(checkout);
+                      //                       }
+                      //                     }}
+                      //                     style={{
+                      //                       cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
+                      //                       pointerEvents: props.customerCheckoutPermission ? "none" : "auto",
+                      //                       opacity: props.customerCheckoutPermission ? 0.5 : 1,
+                      //                       padding: "6px 8px",
+                      //                       borderRadius: 6,
+                      //                     }}
+                      //                     onMouseEnter={(e) => {
+                      //                       if (!props.customerCheckoutPermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                      //                     }}
+                      //                     onMouseLeave={(e) => {
+                      //                       e.currentTarget.style.backgroundColor = "transparent";
+                      //                     }}
+                      //                   >
+                      //                     <img
+                      //                       src={Addbtn}
+                      //                       alt="checkout icon"
+                      //                       style={{ height: 16, width: 16, marginRight: 8 }}
+                      //                     />
+                      //                     <label
+                      //                       style={{
+                      //                         fontSize: 14,
+                      //                         fontWeight: 600,
+                      //                         fontFamily: "Gilroy, sans-serif",
+                      //                           color: props.customerCheckoutPermission ? "#A9A9A9" : "#222222",
+                      // cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
+                      //                       }}
+                      //                     >
+                      //                       Confirm Check-Out
+                      //                     </label>
+                      //                   </div>
+<div
+  className="d-flex align-items-center mb-2"
+  onClick={() => {
+    if (!props.customerCheckoutPermission) {
+      handleConfirmCheckout(checkout);
+    }
+  }}
+  style={{
+    cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
+    opacity: props.customerCheckoutPermission ? 0.5 : 1,
+    padding: "6px 8px",
+    borderRadius: 6,
+    transition: "background-color 0.2s ease",
+  }}
+  onMouseEnter={(e) => {
+    if (!props.customerCheckoutPermission) {
+      e.currentTarget.style.backgroundColor = "#FFF3F3";
+    }
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = "transparent";
+  }}
+>
+  <img
+    src={Addbtn}
+    alt="checkout icon"
+    style={{ height: 16, width: 16, marginRight: 8 }}
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+      color: props.customerCheckoutPermission ? "#A9A9A9" : "#222222",
+      cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
+    }}
+  >
+    Confirm Check-Out
+  </label>
+</div>
+
+
                                       )}
 
-                                      <div
-                                        className="d-flex align-items-center mb-2"
-                                        onClick={() => {
-                                          if (!checkOutEditPermissionError) {
-                                            if (checkout.isActive === 1) {
-                                              handleEdit(checkout);
-                                            } else {
-                                              handleConformEdit(checkout);
-                                            }
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
-                                          pointerEvents: checkOutEditPermissionError ? "none" : "auto",
-                                          opacity: checkOutEditPermissionError ? 0.5 : 1,
-                                          padding: "6px 8px",
-                                          borderRadius: 6,
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          if (!checkOutEditPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.currentTarget.style.backgroundColor = "transparent";
-                                        }}
-                                      >
-                                        <img
-                                          src={Edit}
-                                          alt="Edit icon"
-                                          style={{ height: 16, width: 16, marginRight: 8 }}
-                                        />
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy, sans-serif",
-                                            color: "#222222",
-                                          }}
-                                        >
-                                          Edit
-                                        </label>
-                                      </div>
+                                    <div
+  className="d-flex align-items-center mb-2"
+  onClick={() => {
+    if (!checkOutEditPermissionError) {
+      if (checkout.isActive === 1) {
+        handleEdit(checkout);
+      } else {
+        handleConformEdit(checkout);
+      }
+    }
+  }}
+  style={{
+    cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+    opacity: checkOutEditPermissionError ? 0.5 : 1,
+    transition: "background-color 0.2s ease",
+    padding: "6px 8px",
+    borderRadius: 6,
+  }}
+  onMouseEnter={(e) => {
+    if (!checkOutEditPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = "transparent";
+  }}
+>
+  <Edit
+    size="16"
+    color={checkOutEditPermissionError ? "#A9A9A9" : "#1E45E1"}
+    style={{ marginRight: 8 }}
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+      color: checkOutEditPermissionError ? "#A9A9A9" : "#222222",
+      cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
 
-                                      <div
-                                        className="d-flex align-items-center"
-                                        onClick={() => {
-                                          if (!checkOutDeletePermissionError) {
-                                            handleDelete(checkout);
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: checkOutDeletePermissionError ? "not-allowed" : "pointer",
-                                          pointerEvents: checkOutDeletePermissionError ? "none" : "auto",
-                                          opacity: checkOutDeletePermissionError ? 0.5 : 1,
-                                          padding: "6px 8px",
-                                          borderRadius: 6,
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          if (!checkOutDeletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.currentTarget.style.backgroundColor = "transparent";
-                                        }}
-                                      >
-                                        <img
-                                          src={Delete}
-                                          alt="Delete icon"
-                                          style={{ height: 16, width: 16, marginRight: 8 }}
-                                        />
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy, sans-serif",
-                                            color: "#FF0000",
-                                          }}
-                                        >
-                                          Delete
-                                        </label>
-                                      </div>
+
+                                     <div
+  className="d-flex align-items-center"
+  onClick={() => {
+    if (!checkOutDeletePermissionError) {
+      handleDelete(checkout);
+    }
+  }}
+  style={{
+    cursor: checkOutDeletePermissionError ? "not-allowed" : "pointer",
+    opacity: checkOutDeletePermissionError ? 0.5 : 1,
+    padding: "6px 8px",
+    borderRadius: 6,
+    transition: "background 0.2s ease-in-out",
+  }}
+  onMouseEnter={(e) => {
+    if (!checkOutDeletePermissionError) {
+      e.currentTarget.style.backgroundColor = "#FFF3F3";
+    }
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = "transparent";
+  }}
+>
+  <Trash
+    size="16"
+    color={checkOutDeletePermissionError ? "#A9A9A9" : "red"}
+    style={{ marginRight: 8 }}
+  />
+
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy, sans-serif",
+      color: checkOutDeletePermissionError ? "#A9A9A9" : "#FF0000",
+      cursor: checkOutDeletePermissionError ? "not-allowed" : "pointer",
+    }}
+  >
+    Delete
+  </label>
+</div>
+
                                     </div>
 
                                   )}
@@ -1271,7 +1336,7 @@ CheckOut.propTypes = {
   filterInput: PropTypes.func.isRequired,
   filteredUsers: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
-
+customerCheckoutPermission: PropTypes.func.isRequired,
   filterStatus: PropTypes.func.isRequired,
   resetPage: PropTypes.func.isRequired,
   checkoutDateRange: PropTypes.func.isRequired,

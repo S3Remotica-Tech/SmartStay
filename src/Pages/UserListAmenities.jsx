@@ -305,7 +305,12 @@ useEffect(() => {
                 }
               : null
           }
-          onChange={handleselect}
+          
+          onChange={(e) => {
+  if (!props.customerAdd) {
+    handleselect(e);
+  }
+}}
           options={state.UsersList?.customerdetails?.all_amenities?.map(
             (item) => ({
               value: item.Amnities_Id,
@@ -348,8 +353,9 @@ useEffect(() => {
             }),
             option: (base, state) => ({
               ...base,
-              cursor: "pointer",
+               cursor: props.customerAdd ? "not-allowed" : "pointer",
               backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+              opacity: props.customerAdd ? 0.5 : 1,
               color: "#000",
               fontFamily: "Gilroy",
             }),
@@ -1003,7 +1009,12 @@ useEffect(() => {
                       </td>
                       <td style={{ borderBottom: "1px solid #E8E8E8"}}>
                         <div
-                          onClick={() => handleEdit(v)}
+                          
+                            onClick={() => {
+                                              if (!props.customerAdd) {
+                                                handleEdit(v);
+                                              }
+                                            }}
                           style={{
                             cursor: "pointer",
                             height: 40,
@@ -1019,7 +1030,10 @@ useEffect(() => {
                           }}
                         >
                           <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20 }}
+                            style={{ height: 20, width: 20, color: props.customerAdd
+                                            ? "#CCCCCC"
+                                            : "#000",
+                                         }}
                           />
                         </div>
 
@@ -1208,5 +1222,6 @@ UserListAmenities.propTypes = {
   customerUser_Id: PropTypes.func.isRequired,
   hostelName: PropTypes.func.isRequired,
   id: PropTypes.func.isRequired,
+  customerAdd: PropTypes.func.isRequired,
 };
 export default UserListAmenities;
