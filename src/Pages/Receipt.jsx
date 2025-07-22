@@ -288,8 +288,7 @@ useEffect(() => {
                     style={{
                       cursor: receiptdeletePermission ? "not-allowed" : "pointer",
                         opacity: receiptdeletePermission  ? 0.5 : 1,
-                      opacity: receiptdeletePermission ? 0.6 : 1,
-                      padding: "8px 12px",
+                                        padding: "8px 12px",
                        width:"100%"
                     }}
                     onClick={() => {
@@ -464,6 +463,7 @@ useEffect(() => {
 }
 Receipt.propTypes = {
   billrolePermission: PropTypes.func.isRequired,
+receiptaddPermission:  PropTypes.func.isRequired,
   onhandleEdit: PropTypes.func.isRequired,
   DisplayInvoice: PropTypes.func.isRequired,
   item: PropTypes.func.isRequired,
