@@ -246,7 +246,7 @@ function Booking(props) {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEdit = (item) => {
-    console.log("item",item)
+   
     setFormEdit(true);
     if (item && item.id) {
       setFirstName(item.first_name || "");

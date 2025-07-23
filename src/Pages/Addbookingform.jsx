@@ -345,8 +345,8 @@ function BookingModal(props) {
     const isPincodeValid = validateAssignField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef);
     const isCityValid = validateAssignField(city, "City", cityRef, setCityError, focusedRef);
     const isStatenameValid = validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef);
-    const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setDateError, focusedRef);
-    const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setDateError, focusedRef);
+    const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
+    const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
     const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
 
 
@@ -405,23 +405,7 @@ function BookingModal(props) {
       }
       hasError = true;
     }
-    //  if (joiningDate ) {
-    //   const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
-    //   if (selectedHostel) {
-    //     const HostelCreateDate = new Date(selectedHostel.create_At);
-    //     const BookingJoiningDate = new Date(joiningDate);
-    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-    //     const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
-    //     if (BookingJoiningDateOnly < HostelCreateDateOnly) {
-    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
-    //       hasError = true;
-
-    //     } else {
-    //       setJoingDateErrmsg('');
-    //     }
-    //   }
-    // }
-
+   
     if (hasError) return;
     if (
       !isFirstnameValid ||
@@ -461,7 +445,7 @@ function BookingModal(props) {
       return;
     }
 
-    console.log("bookingFormattedDate",bookingFormattedDate)
+   
 
 
     dispatch({

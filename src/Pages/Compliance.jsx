@@ -83,7 +83,6 @@ const Compliance = () => {
 
   const filterOptions = useSelector((state) => state.ComplianceList.filterOptions);
 
-  console.log("setComplianceEditPermission]", complianceEditPermission, "complianceAddPermission", complianceAddPermission, "complianceDeletePermission", complianceDeletePermission)
 
 
 

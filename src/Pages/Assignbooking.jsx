@@ -127,6 +127,8 @@ function AssignBooking(props) {
     }
   };
 
+console.log("props.assignBooking",props.assignBooking.booking_date)
+
   const handleSubmit = (event) => {
     dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
     event.preventDefault();
@@ -162,14 +164,15 @@ function AssignBooking(props) {
       return;
     }
 
-    const bookingDate = props.assignBooking.createdat;
-    const formattedBookingDate = dayjs(bookingDate).format("YYYY-MM-DD");
+  const bookingDate = props.assignBooking.booking_date;
+const formattedBookingDate = dayjs(bookingDate).format("YYYY-MM-DD");
 
-
-    if (dayjs(formattedDate).isBefore(formattedBookingDate)) {
-      setDateError("Before booking date not allowed");
-      return;
-    }
+if (dayjs(formattedDate).isBefore(formattedBookingDate)) {
+  setDateError("Before Booking date not allowed");
+  return;
+} else {
+  setDateError("");
+}
 
 
 

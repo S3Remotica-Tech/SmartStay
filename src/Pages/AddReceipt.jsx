@@ -51,7 +51,7 @@ const AddReceiptForm = (props) => {
 
  
 
-console.log("customerinvoicefilter",customerinvoicefilter)
+
 
 
 
