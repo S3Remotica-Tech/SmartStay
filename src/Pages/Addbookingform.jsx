@@ -405,23 +405,7 @@ function BookingModal(props) {
       }
       hasError = true;
     }
-    //  if (joiningDate ) {
-    //   const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
-    //   if (selectedHostel) {
-    //     const HostelCreateDate = new Date(selectedHostel.create_At);
-    //     const BookingJoiningDate = new Date(joiningDate);
-    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-    //     const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
-    //     if (BookingJoiningDateOnly < HostelCreateDateOnly) {
-    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
-    //       hasError = true;
-
-    //     } else {
-    //       setJoingDateErrmsg('');
-    //     }
-    //   }
-    // }
-
+   
     if (hasError) return;
     if (
       !isFirstnameValid ||
@@ -461,7 +445,7 @@ function BookingModal(props) {
       return;
     }
 
-    console.log("bookingFormattedDate",bookingFormattedDate)
+   
 
 
     dispatch({
