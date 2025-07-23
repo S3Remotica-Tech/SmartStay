@@ -19,7 +19,9 @@ describe('It should be check booking reducer', () => {
             bookingEmailError: "",
             availableBedBooking: [],
             statusCodeForBedBooking: "",
-            ErrorAssignBooking: ""
+            ErrorAssignBooking: "",
+             ErrorAssignBookingDate: '',
+  ErrorAssignBookingMobile: ''
         }
         const action = {
             type: 'RESET_ALL',
@@ -224,6 +226,55 @@ describe('It should be check booking reducer', () => {
         })
     })
 
+
+ it('it should check for  ERROR_BOOKING_DATE', () => {
+        const action = {
+            type: 'ERROR_BOOKING_DATE',
+            payload: 'assign booking date error'
+
+        }
+        expect(BookingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            ErrorAssignBookingDate: "assign booking date error"
+        })
+    })
+
+it('it should check for  REMOVE_ERROR_BOOKING_DATE', () => {
+        const action = {
+            type: 'REMOVE_ERROR_BOOKING_DATE',
+            payload: ''
+
+        }
+        expect(BookingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            ErrorAssignBookingDate: ""
+        })
+    })
+
+it('it should check for  ALREADY_MOBILE_ERROR', () => {
+        const action = {
+            type: 'ALREADY_MOBILE_ERROR',
+            payload: 'assign booking mobile error'
+
+        }
+        expect(BookingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            ErrorAssignBookingMobile: "assign booking mobile error"
+        })
+    })
+
+
+it('it should check for  REMOVE_ALREADY_MOBILE_ERROR', () => {
+        const action = {
+            type: 'REMOVE_ALREADY_MOBILE_ERROR',
+            payload: ''
+
+        }
+        expect(BookingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            ErrorAssignBookingMobile: ""
+        })
+    })
 
     it('it should check for  BOOKING_BED_DETAILS', () => {
         const action = {

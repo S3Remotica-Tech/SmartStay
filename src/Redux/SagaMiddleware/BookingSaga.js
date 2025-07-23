@@ -166,14 +166,16 @@ function* handleDeleteBooking(action) {
         progress: undefined,
         style: toastStyle,
      });
-
-
-
    }
-   else {
+    else if(response.status === 201 || response.data.statusCode === 201 || response.data.status === 201) {
+      yield put ({type:'ERROR_BOOKING_DATE', payload:response.data.message})
+   }
+   else  if(response.status === 202 || response.data.statusCode === 202 || response.data.status === 202) {
       yield put ({type:'ERROR_ASSIGN_BOOKING', payload:response.data.message})
+   }else  if(response.status === 203 || response.data.statusCode === 203 || response.data.status === 203) {
+      yield put ({type:'ALREADY_MOBILE_ERROR', payload:response.data.message})
    }
-   if(response){
+     if(response){
       refreshToken(response)
    }
     }

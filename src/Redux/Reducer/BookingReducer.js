@@ -12,17 +12,19 @@ export const initialState = {
   bookingEmailError: "",
   availableBedBooking: [],
   statusCodeForBedBooking: "",
-  ErrorAssignBooking:""
+  ErrorAssignBooking: "",
+  ErrorAssignBookingDate: '',
+  ErrorAssignBookingMobile: ''
 };
 
 const BookingReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RESET_ALL':
-          return initialState;
+      return initialState;
     case "ADD_USER_BOOKING":
       return {
         ...state,
-              statusCodeForAddBooking: action.payload.statusCode,
+        statusCodeForAddBooking: action.payload.statusCode,
       };
 
     case "BOOKING_PHONE_ERROR":
@@ -49,32 +51,40 @@ const BookingReducer = (state = initialState, action) => {
     case "DELETE_BOOKING":
       return {
         ...state,
-               statusCodeForDeleteBooking: action.payload.statusCode,
+        statusCodeForDeleteBooking: action.payload.statusCode,
       };
     case "CLEAR_DELETE_BOOKING":
       return { ...state, statusCodeForDeleteBooking: 0 };
     case "ASSIGN_USER_BOOKING":
       return {
         ...state,
-                statusCodeForAssignBooking: action.payload.statusCode,
+        statusCodeForAssignBooking: action.payload.statusCode,
       };
     case "CLEAR_ASSIGN_USER_BOOKING":
       return { ...state, statusCodeForAssignBooking: 0 };
+    case "ERROR_BOOKING_DATE":
+      return { ...state, ErrorAssignBookingDate: action.payload };
+    case "REMOVE_ERROR_BOOKING_DATE":
+      return { ...state, ErrorAssignBookingDate: "" };
+case "ALREADY_MOBILE_ERROR":
+    return { ...state, ErrorAssignBookingMobile: action.payload };
+case "REMOVE_ALREADY_MOBILE_ERROR":
+    return { ...state, ErrorAssignBookingMobile: "" };
 
-      case "ERROR_ASSIGN_BOOKING":
-        return { ...state, ErrorAssignBooking: action.payload };
-        case "REMOVE_ERROR_ASSIGN_BOOKING":
-          return { ...state, ErrorAssignBooking: "" };
+    case "ERROR_ASSIGN_BOOKING":
+      return { ...state, ErrorAssignBooking: action.payload };
+    case "REMOVE_ERROR_ASSIGN_BOOKING":
+      return { ...state, ErrorAssignBooking: "" };
 
 
     case "BOOKING_BED_DETAILS":
       return {
         ...state,
-               statusCodeForBedBooking: action.payload.statusCode,
+        statusCodeForBedBooking: action.payload.statusCode,
       };
-      default:
-        return state;
+    default:
+      return state;
   }
- 
+
 };
 export default BookingReducer;
