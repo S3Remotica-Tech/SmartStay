@@ -533,22 +533,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
-            {state.AssetList?.alreadyAssetNameHere && (
-              <div className="d-flex align-items-center p-1 ms-1">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {state.AssetList?.alreadyAssetNameHere}
-                </label>
-              </div>
-            )}
+           
 
             {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
               state.bankingDetails.bankingList.banks.length === 0 && (
@@ -623,6 +608,24 @@ function StaticExample({ show, setShow, currentItem }) {
                       </label>
                     </div>
                   )}
+
+
+                   {state.AssetList?.alreadyAssetNameHere && (
+              <div className="d-flex align-items-center p-1 ms-1">
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {state.AssetList?.alreadyAssetNameHere}
+                </label>
+              </div>
+            )}
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"

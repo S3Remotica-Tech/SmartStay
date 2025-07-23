@@ -31,6 +31,8 @@ function AssignBooking(props) {
 
   useEffect(() => {
     dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
+    dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+    dispatch({ type: 'REMOVE_ALREADY_MOBILE_ERROR' })
   }, []);
   useEffect(() => {
     dispatch({
@@ -46,7 +48,9 @@ function AssignBooking(props) {
   const handleAssignClose = () => {
     setFormLoading(false)
     props.setModalType(false);
+    dispatch({ type: 'REMOVE_ALREADY_MOBILE_ERROR' })
     dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
+    dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
     setFloor("");
     setRoom("");
     setBed("");
@@ -127,10 +131,12 @@ function AssignBooking(props) {
     }
   };
 
-console.log("props.assignBooking",props.assignBooking.booking_date)
+
 
   const handleSubmit = (event) => {
     dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
+    dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+    dispatch({ type: 'REMOVE_ALREADY_MOBILE_ERROR' })
     event.preventDefault();
 
     const isFloorvalid = validateAssignField(floor, "floor");
@@ -164,15 +170,15 @@ console.log("props.assignBooking",props.assignBooking.booking_date)
       return;
     }
 
-  const bookingDate = props.assignBooking.booking_date;
-const formattedBookingDate = dayjs(bookingDate).format("YYYY-MM-DD");
+    const bookingDate = props.assignBooking.booking_date;
+    const formattedBookingDate = dayjs(bookingDate).format("YYYY-MM-DD");
 
-if (dayjs(formattedDate).isBefore(formattedBookingDate)) {
-  setDateError("Before Booking date not allowed");
-  return;
-} else {
-  setDateError("");
-}
+    if (dayjs(formattedDate).isBefore(formattedBookingDate)) {
+      setDateError("Before Booking date not allowed");
+      return;
+    } else {
+      setDateError("");
+    }
 
 
 
@@ -313,14 +319,14 @@ if (dayjs(formattedDate).isBefore(formattedBookingDate)) {
   };
 
 
-  useEffect(()=>{
-    if(state.Booking?.ErrorAssignBooking){
+  useEffect(() => {
+    if (state.Booking?.ErrorAssignBooking || state.Booking?.ErrorAssignBookingDate || state.Booking?.ErrorAssignBookingMobile) {
       setFormLoading(false)
     }
 
-  },[state.Booking?.ErrorAssignBooking])
+  }, [state.Booking?.ErrorAssignBooking, state.Booking?.ErrorAssignBookingDate, state.Booking?.ErrorAssignBookingMobile])
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -369,11 +375,11 @@ useEffect(() => {
         </Modal.Header>
 
         {state.Booking?.ErrorAssignBooking && (
-          <div style={{ color: "#D32F2F" }} className="ps-3 pt-3">
-            <MdError  style={{fontSize:14 , color:"red"}}/>
+          <div style={{ color: "red" }} className="ps-3 pt-3">
+            <MdError style={{ fontSize: 14, color: "red" }} />
             <span
               style={{
-                color: "#D32F2F",
+                color: "red",
                 fontSize: 12,
                 fontFamily: "Gilroy",
                 fontWeight: 500,
@@ -384,6 +390,23 @@ useEffect(() => {
                 {props?.assignBooking.email_id}
               </span>{" "}
               already exists. Please change email ID and move to check in
+            </span>
+          </div>
+        )}
+
+
+        {state.Booking?.ErrorAssignBookingMobile && (
+          <div style={{ color: "red" }} className="ps-3 pt-3">
+            <MdError style={{ fontSize: 14, color: "red" }} />
+            <span
+              style={{
+                color: "red",
+                fontSize: 12,
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}
+            >
+              {state.Booking?.ErrorAssignBookingMobile}
             </span>
           </div>
         )}
@@ -772,8 +795,9 @@ useEffect(() => {
                     onChange={(date) => {
                       setDateError("");
                       setJoiningDate(date ? date.toDate() : null);
+                      dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
                     }}
-                     disabledDate={(current) => current && current > dayjs().endOf("day")}
+                    disabledDate={(current) => current && current > dayjs().endOf("day")}
                     getPopupContainer={(triggerNode) =>
                       triggerNode.closest(".datepicker-wrapper")
                     }
@@ -801,6 +825,30 @@ useEffect(() => {
                   </span>
                 </div>
               )}
+              {state.Booking?.ErrorAssignBookingDate && (
+                <div style={{ color: "red" }}>
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {state.Booking?.ErrorAssignBookingDate}
+                  </span>
+                </div>
+              )}
+
+
+
             </Col>
           </Row>
 
@@ -837,7 +885,7 @@ useEffect(() => {
               </Form.Group>
               {advanceError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginBottom: "3px", fontSize:14 }} />
+                  <MdError style={{ marginBottom: "3px", fontSize: 14 }} />
                   <span
                     style={{
                       color: "red",
@@ -915,12 +963,12 @@ useEffect(() => {
           <Row></Row>
         </Modal.Body>
 
-  {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' , fontSize:14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+        {state.createAccount?.networkError ?
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+            <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+          : null}
 
         {formLoading &&
           <div
