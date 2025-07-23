@@ -339,21 +339,23 @@ function UserList(props) {
 
       const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
+   
+
     if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+  const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
+  const invoiceDate = dayjs(invoicedate).startOf("day");
+  const dueDate = dayjs(invoiceduedate).startOf("day");
 
-      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
+  if (invoiceDate.isBefore(joiningDate)) {
+    setInvoiceDateErrmsg("Before join date not allowed");
+    hasError = true;
+  }
 
-      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-        setInvoiceDueDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-    }
+  if (dueDate.isBefore(invoiceDate)) {
+    setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
+    hasError = true;
+  }
+}
 
     if (hasError || !isValid) return;
 
@@ -519,24 +521,25 @@ function UserList(props) {
 
     const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-    if (selectedUser) {
-      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
-
-      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-        setInvoiceDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-
-      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-        setInvoiceDueDateErrmsg("Before join date not allowed");
-        hasError = true;
-      }
-    }
+   
 
 
 
+if (selectedUser) {
+  const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
+  const invoiceDate = dayjs(invoicedate).startOf("day");
+  const dueDate = dayjs(invoiceduedate).startOf("day");
+
+  if (invoiceDate.isBefore(joiningDate)) {
+    setInvoiceDateErrmsg("Before join date not allowed");
+    hasError = true;
+  }
+
+  if (dueDate.isBefore(invoiceDate)) {
+    setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
+    hasError = true;
+  }
+}
 
 
 
@@ -1957,93 +1960,7 @@ useEffect(() => {
 
 
 
-  const customInvoiceDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
-
-  const customInvoiceDueDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+ 
   const customDateInput = (props) => {
     return (
       <div
@@ -4704,48 +4621,35 @@ useEffect(() => {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer" ,fontFamily: "Gilroy"}}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={invoicedate ? dayjs(invoicedate) : null}
+                  
+
+
+                                 <DatePicker
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                      }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                     value={invoicedate ? dayjs(invoicedate) : null}
                     onChange={(date) =>
                       handleInvoiceDate(date ? date.toDate() : null)
                     }
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                    dateFormat="dd/MM/yyyy"
-
-                    popperPlacement="top-start"
-                    popperClassName="custom-datepicker"
-                    appendTo={document.body}
-                    popperModifiers={[
-                      {
-                        name: "preventOverflow",
-                        options: {
-                          boundary: "window",
-                        },
-                      },
-                      {
-                        name: "flip",
-                        options: {
-                          fallbackPlacements: [],
-                        },
-                      },
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -13],
-                        },
-                      },
-                    ]}
-                    customInput={customInvoiceDateInput({
-                      value: invoicedate
-                        ? invoicedate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
+                      getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+                      disabledDate={(current) =>
+                        current && current > dayjs().endOf("day")
+                      }
+                      dropdownAlign={{
+                        points: ["tl", "bl"],
+                        offset: [0, 4], 
+                      }}
+                      popupStyle={{
+                        marginRight: 0,
+                        minWidth: "auto",
+                      }}
+                    />
                 </div>
               </Form.Group>
 
@@ -4793,49 +4697,33 @@ useEffect(() => {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  <DatePicker
-
-                    style={{ width: "100%", height: 48, cursor: "pointer" ,fontFamily: "Gilroy"}}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={invoiceduedate ? dayjs(invoiceduedate) : null}
+                 
+                                <DatePicker
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                      }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={invoiceduedate ? dayjs(invoiceduedate) : null}
                     onChange={(date) =>
                       handleDueDate(date ? date.toDate() : null)
                     }
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                    dateFormat="dd/MM/yyyy"
-                    popperPlacement="top-start"
-                    popperClassName="custom-datepicker"
-                    appendTo={document.body}
-                    popperModifiers={[
-                      {
-                        name: "preventOverflow",
-                        options: {
-                          boundary: "window",
-                        },
-                      },
-                      {
-                        name: "flip",
-                        options: {
-                          fallbackPlacements: [],
-                        },
-                      },
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -13],
-                        },
-                      },
-                    ]}
-                    minDate={null}
-                    customInput={customInvoiceDueDateInput({
-                      value: invoiceduedate
-                        ? invoiceduedate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
+                      getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+                      disabledDate={(current) =>
+                        current && current > dayjs().endOf("day")
+                      }
+                      dropdownAlign={{
+                        points: ["tl", "bl"],
+                        offset: [0, 4], 
+                      }}
+                      popupStyle={{
+                        marginRight: 0,
+                        minWidth: "auto",
+                      }}
+                    />
                 </div>
               </Form.Group>
 

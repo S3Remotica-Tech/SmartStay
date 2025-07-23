@@ -15,7 +15,7 @@ import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
-import dayjs from "dayjs";
+import dayjs from "dayjs"; 
 import { CloseCircle } from "iconsax-react";
 
 function UserlistForm(props) {
@@ -887,21 +887,29 @@ function UserlistForm(props) {
       if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
   const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
 
+  
   if (selectedUser) {
-    const CreateDate = dayjs(selectedUser.createdAt).startOf('day');
-    const InvoiceDate = dayjs(advanceDate).startOf('day');
-    const DueDate = dayjs(advanceDueDate).startOf('day');
+  const CreateDate = dayjs(selectedUser.createdAt).startOf('day');
+  const InvoiceDate = dayjs(advanceDate).startOf('day');
+  const DueDate = dayjs(advanceDueDate).startOf('day');
 
-    if (InvoiceDate.isBefore(CreateDate)) {
-      setAdvanceDateError("Before Join Date Not Allowed");
-      hasError = true;
-    }
-
-    if (DueDate.isBefore(CreateDate)) {
-      setAdvanceDueDateError("Before Join Date Not Allowed");
-      hasError = true;
-    }
+  if (InvoiceDate.isBefore(CreateDate)) {
+    setAdvanceDateError("Before Join Date Not Allowed");
+    hasError = true;
   }
+
+  if (DueDate.isBefore(CreateDate)) {
+    setAdvanceDueDateError("Before Join Date Not Allowed");
+    hasError = true;
+  }
+
+  
+  if (DueDate.isBefore(InvoiceDate)) {
+    setAdvanceDueDateError("Due Date cannot be before Invoice Date");
+    hasError = true;
+  }
+}
+
 }
 
 
@@ -2237,6 +2245,7 @@ useEffect(() => {
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".show-scroll") || document.body
                               }
+                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                             />
                           </div>
                         </Form.Group>
@@ -2550,6 +2559,7 @@ useEffect(() => {
                             triggerNode.closest(".datepicker-wrapper")
                           }
                           dropdownClassName="custom-datepicker-popup"
+                           disabledDate={(current) => current && current > dayjs().endOf("day")}
                         />
                       </div>
                     </Form.Group>

@@ -14,7 +14,9 @@ import { CloseCircle } from "iconsax-react";
 dayjs.extend(customParseFormat);
 
 function CustomerReAssign(props) {
+  
   const state = useSelector((state) => state);
+ 
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateError, setDateError] = useState("");
@@ -47,7 +49,52 @@ function CustomerReAssign(props) {
 
   }, [state.createAccount?.networkError])
 
+useEffect(()=>{
+  if(userId){
+dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: userId } });
+  }
+ 
+},[userId])
 
+const [lastDate, setLastDate] = useState("");
+
+useEffect(()=>{
+if(state.UsersList.CustomerdetailsgetStatuscode === 200){
+  setTimeout(() => {
+        dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
+      }, 500)
+}
+
+},[state.UsersList.CustomerdetailsgetStatuscode])
+
+
+ useEffect(() => {
+  if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+    const invoiceDetails = state.UsersList.customerdetails.invoice_details;
+
+    if (invoiceDetails && invoiceDetails.length > 0) {
+      const dates = invoiceDetails
+        .map(item => item.Date)
+        .filter(date => !!date);
+
+      if (dates.length > 0) {
+        const maxDate = new Date(Math.max(...dates.map(d => new Date(d))));
+        const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(maxDate.getMonth() + 1).padStart(2, "0")}-${maxDate.getFullYear()}`;
+        setLastDate(formatted);
+      } else {
+        setLastDate("");
+      }
+    } else {
+      setLastDate(""); 
+    }
+
+   
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' });
+    }, 1000);
+  }
+}, [state.UsersList.CustomerdetailsgetStatuscode]);
+  console.log("lastdate",lastDate)
 
   useEffect(() => {
     setCurrentFloor(props.reAssignDetail.Floor);
@@ -71,6 +118,9 @@ function CustomerReAssign(props) {
     setNewBed("");
     setNewRoomRent("");
     setSelectedDate("");
+    setLastDate("")
+    setUserId("")
+     dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
   };
 
   useEffect(() => {
@@ -184,21 +234,52 @@ function CustomerReAssign(props) {
     if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
 
 
-   if (selectedDate && props.reAssignDetail.user_join_date) {
+
+
+
+if (selectedDate && props.reAssignDetail.user_join_date) {
   const joiningDate = new Date(props.reAssignDetail.user_join_date);
   const selected = new Date(selectedDate);
+  const today = new Date();
 
   const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
   const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
+  const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
+  let lastDateOnly = null;
+  const hasLastDate = lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate);
+
+ 
   if (selectedDateOnly < joinDateOnly) {
     setDateError("Before Join Date Not Allowed");
     hasError = true;
     return;
-  } else {
-    setDateError("");
   }
+
+  
+  if (hasLastDate) {
+    const [dd, mm, yyyy] = lastDate.split("-");
+    const last = new Date(`${yyyy}-${mm}-${dd}`);
+    lastDateOnly = new Date(last.getFullYear(), last.getMonth(), last.getDate());
+
+    if (selectedDateOnly <= lastDateOnly) {
+      setDateError("Billed up to this Date");
+      hasError = true;
+      return;
+    }
+  }
+
+  
+  if (selectedDateOnly > todayOnly) {
+    setDateError("Future Date Not Allowed");
+    hasError = true;
+    return;
+  }
+
+ 
+  setDateError("");
 }
+
 
 
     if (hasError) return;
@@ -843,6 +924,7 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".datepicker-wrapper")
                               }
+                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                             />
                           </div>
                             {dateError && (

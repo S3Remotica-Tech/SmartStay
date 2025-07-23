@@ -1437,17 +1437,8 @@ function EBRoomReading(props) {
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     dropdownClassName="custom-datepicker-popup"
-                    disabledDate={(current) => {
-                      const Hostel = state.UsersList?.hotelDetailsinPg?.find(
-                        (u) => Number(u.id) === Number(state.login.selectedHostel_Id)
-                      );
-                      if (!Hostel || !Hostel.create_At) return false;
-
-                      const createDate = moment(Hostel.create_At, "YYYY-MM-DD");
-                      if (!createDate.isValid()) return false;
-
-                      return current && current.isBefore(createDate, "day");
-                    }}
+                   
+                     disabledDate={(current) => current && current > dayjs().endOf("day")}
                   />
 
                 </div>

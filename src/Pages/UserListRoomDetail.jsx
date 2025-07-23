@@ -1053,6 +1053,23 @@ function UserListRoomDetail(props) {
     } else {
       setAdvanceDueDateError("");
     }
+
+
+      if (advanceDate && advanceDueDate && advanceDetail[0]?.joining_Date) {
+    const joiningDate = dayjs(advanceDetail[0].joining_Date).startOf("day");
+    const invoiceDate = dayjs(advanceDate).startOf("day");
+    const dueDate = dayjs(advanceDueDate).startOf("day");
+
+    if (invoiceDate.isBefore(joiningDate)) {
+      setAdvanceDateError("Before Join Date Not Allowed");
+      hasError = true;
+    }
+
+    if (dueDate.isBefore(invoiceDate)) {
+      setAdvanceDueDateError("Due Date after Invoice Date only");
+      hasError = true;
+    }
+  }
     if (hasError) {
       return;
     }
@@ -4273,6 +4290,7 @@ function UserListRoomDetail(props) {
                                               ".datepicker-wrapper"
                                             )
                                           }
+                                          disabledDate={(current) => current && current > dayjs().endOf("day")}
                                         />
                                       </div>
                                     </Form.Group>
@@ -4709,6 +4727,7 @@ function UserListRoomDetail(props) {
                                           )
                                         }
                                         dropdownClassName="custom-datepicker-popup"
+                                        disabledDate={(current) => current && current > dayjs().endOf("day")}
                                       />
                                     </div>
                                   </Form.Group>
