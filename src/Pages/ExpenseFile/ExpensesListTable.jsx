@@ -170,7 +170,7 @@ const options = state.AssetList.assetList.map((view) => ({
 }));
 
 
-console.log("props",props)
+
   return (<>
     <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
 

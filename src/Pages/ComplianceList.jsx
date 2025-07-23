@@ -444,7 +444,7 @@ const ComplianceList = (props) => {
 
   }, [state.createAccount?.networkError])
 
-  console.log("props", props)
+
 
 
 

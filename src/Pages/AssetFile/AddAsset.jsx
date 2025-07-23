@@ -493,7 +493,7 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [state.createAccount?.networkError])
 
 
-console.log("asset",state)
+
 
 
 

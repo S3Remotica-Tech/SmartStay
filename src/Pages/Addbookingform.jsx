@@ -345,8 +345,8 @@ function BookingModal(props) {
     const isPincodeValid = validateAssignField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef);
     const isCityValid = validateAssignField(city, "City", cityRef, setCityError, focusedRef);
     const isStatenameValid = validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef);
-    const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setDateError, focusedRef);
-    const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setDateError, focusedRef);
+    const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
+    const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
     const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
 
 

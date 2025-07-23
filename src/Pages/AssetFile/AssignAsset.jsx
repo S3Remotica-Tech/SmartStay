@@ -66,7 +66,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [currentItem]);
 
 
-console.log("currentItem",currentItem.purchase_date)
+
 
   useEffect(() => {
     const closeButton = document.querySelector(
