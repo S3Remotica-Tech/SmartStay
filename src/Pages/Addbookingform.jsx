@@ -461,6 +461,7 @@ function BookingModal(props) {
       return;
     }
 
+    console.log("bookingFormattedDate",bookingFormattedDate)
 
 
     dispatch({

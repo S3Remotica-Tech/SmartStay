@@ -246,14 +246,17 @@ function Booking(props) {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEdit = (item) => {
+    console.log("item",item)
     setFormEdit(true);
     if (item && item.id) {
       setFirstName(item.first_name || "");
       setLastName(item.last_name || "");
       setJoiningDate(item.joining_date || "");
+
       setJoiningDate(
         item.joining_date ? moment(item.joining_date).toDate("") : null
       );
+      setBookingDate(item.booking_date  ? moment(item.booking_date).toDate("") : null )
       setFile(item.profile || "");
       setAmount(item.amount || "");
       setHostelIds(item.hostel_id || "");
@@ -278,6 +281,7 @@ function Booking(props) {
         Email: item.email_id || "",
         Address: item.address || "",
         joiningDate: item.joining_date || "",
+         bookingDate: item.booking_date || "", 
         amount: item.amount || "",
         paying: item.hostel_id || "",
         file: item.profile || "",
@@ -580,22 +584,7 @@ function Booking(props) {
       }
       hasError = true;
     }
-    // if (joiningDate) {
-    //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-    //   if (selectedHostel) {
-    //     const HostelCreateDate = new Date(selectedHostel.create_At);
-    //     const BookingJoiningDate = new Date(joiningDate);
-    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-    //     const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
-    //     if (BookingJoiningDateOnly < HostelCreateDateOnly) {
-    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
-    //       hasError = true;
-
-    //     } else {
-    //       setJoingDateErrmsg('');
-    //     }
-    //   }
-    // }
+   
 
     if (hasError) return;
 
@@ -623,26 +612,54 @@ function Booking(props) {
     };
 
 
-    const isChangedBed =
-      (initialStateAssign.joiningDate && joiningDate &&
-        moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
-        moment(joiningDate).format("YYYY-MM-DD")) ||
+    // const isChangedBed =
+    //   (initialStateAssign.joiningDate && joiningDate &&
+    //     moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
+    //     moment(joiningDate).format("YYYY-MM-DD")) ||
 
-      Number(amount) !== Number(initialStateAssign.amount) ||
-      String(firstName) !== String(initialStateAssign.firstName) ||
-      String(Email) !== String(initialStateAssign.Email) ||
-      Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-      String(lastName) !== String(initialStateAssign.lastName) ||
-      ((file instanceof File || file instanceof Blob) &&
-        file.name !== initialStateAssign.file?.name) ||
-      file !== initialStateAssign.file ||
-      String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
+    //   Number(amount) !== Number(initialStateAssign.amount) ||
+    //   String(firstName) !== String(initialStateAssign.firstName) ||
+    //   String(Email) !== String(initialStateAssign.Email) ||
+    //   Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+    //   String(lastName) !== String(initialStateAssign.lastName) ||
+    //   ((file instanceof File || file instanceof Blob) &&
+    //     file.name !== initialStateAssign.file?.name) ||
+    //   file !== initialStateAssign.file ||
+    //   String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
 
-      normalize(house_no) !== normalize(initialStateAssign.house_no) ||
-      normalize(street) !== normalize(initialStateAssign.street) ||
-      normalize(landmark) !== normalize(initialStateAssign.landmark) ||
-      city !== initialStateAssign.city ||
-      state_name !== initialStateAssign.state;
+    //   normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+    //   normalize(street) !== normalize(initialStateAssign.street) ||
+    //   normalize(landmark) !== normalize(initialStateAssign.landmark) ||
+    //   city !== initialStateAssign.city ||
+    //   state_name !== initialStateAssign.state;
+
+
+const isChangedBed =
+  (initialStateAssign.joiningDate && joiningDate &&
+    moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
+    moment(joiningDate).format("YYYY-MM-DD")) ||
+
+  (initialStateAssign.bookingDate && bookingDate &&
+    moment(initialStateAssign.bookingDate).format("YYYY-MM-DD") !==
+    moment(bookingDate).format("YYYY-MM-DD")) ||   
+
+  Number(amount) !== Number(initialStateAssign.amount) ||
+  String(firstName) !== String(initialStateAssign.firstName) ||
+  String(Email) !== String(initialStateAssign.Email) ||
+  Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+  String(lastName) !== String(initialStateAssign.lastName) ||
+  ((file instanceof File || file instanceof Blob) &&
+    file.name !== initialStateAssign.file?.name) ||
+  file !== initialStateAssign.file ||
+  String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
+  normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+  normalize(street) !== normalize(initialStateAssign.street) ||
+  normalize(landmark) !== normalize(initialStateAssign.landmark) ||
+  city !== initialStateAssign.city ||
+  state_name !== initialStateAssign.state;
+
+
+
 
     if (!isChangedBed) {
       setFormError("No Changes Detected");
@@ -1227,7 +1244,7 @@ function Booking(props) {
 
                         let formattedDate = `${day} ${formattedMonth} ${year}`;
 
-                        let createDated = new Date(customer.createdat);
+                        let createDated = new Date(customer.booking_date);
 
                         let day1 = createDated.getDate();
                         let month1 = createDated.getMonth();

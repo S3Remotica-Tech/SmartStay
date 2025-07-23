@@ -51,7 +51,7 @@ const AddReceiptForm = (props) => {
 
  
 
-
+console.log("customerinvoicefilter",customerinvoicefilter)
 
 
 
@@ -311,6 +311,22 @@ const paymentOptions = Array.isArray(bankking)
       setAllFieldErrmsg('Please Enter All Field')
       return;
     }
+
+    const selectedInvoice = customerinvoicefilter.find(
+      (item) => item.Invoices === invoicenumber
+    );
+
+    if (selectedInvoice) {
+      const invoiceDate = dayjs(selectedInvoice.Date).format("YYYY-MM-DD");
+      const formattedPaymentDate = dayjs(payment_date).format("YYYY-MM-DD");
+
+      if (dayjs(formattedPaymentDate).isBefore(invoiceDate)) {
+        setPaymentDateErrmsg("Before invoice date not allowed");
+        return;
+      }
+    }
+
+
     const formatDateToLocal = (date) => {
       if (!date) return "";
       const d = new Date(date);
