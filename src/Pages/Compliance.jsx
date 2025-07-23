@@ -1611,6 +1611,7 @@ const Compliance = () => {
                                     setJoingDateErrmsg('')
                                     setSelectedDate(date ? date.toDate() : null);
                                   }}
+                                   disabledDate={(current) => current && current > dayjs().endOf("day")}
                                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
 
                                 />

@@ -32,7 +32,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { Edit,Trash } from "iconsax-react";
+import { Edit, Trash } from "iconsax-react";
 import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Select from "react-select";
 
@@ -83,7 +83,8 @@ function Booking(props) {
   const [loader, setLoader] = useState(false)
   const [bookingLoading, setBookingLoading] = useState(false)
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
-
+  const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
+  const [bookingDate, setBookingDate] = useState(null);
 
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
@@ -153,8 +154,17 @@ function Booking(props) {
   const [customerBooking, setCustomerBooking] = useState([])
 
   const calledOnceRef = useRef(false);
+  const focusedRef = useRef(null);
+  const nochangeRef = useRef(null)
+  const firstNameRef = useRef(null);
+  const phoneRef = useRef(null);
+  const hostelRef = useRef(null);
+  const cityRef = useRef(null)
+  const stateRef = useRef(null)
+  const joiningDateRef = useRef(null)
+  const amountRef = useRef(null)
   const pincodeRef = useRef(null)
-  const focusedRef = useRef(null)
+  const bookingDateRef = useRef();
 
   useEffect(() => {
     if (state.login.selectedHostel_Id && !calledOnceRef.current) {
@@ -179,71 +189,74 @@ function Booking(props) {
   }, [state.Booking.statusCodeGetBooking]);
 
   useEffect(() => {
-       const isAdmin = props.customerrolePermission[0]?.user_details?.user_type === "admin";
-       if (isAdmin) {
+    const isAdmin = props.customerrolePermission[0]?.user_details?.user_type === "admin";
+    if (isAdmin) {
       if (state?.login?.planStatus === 0) {
         setBookingPermissionError("");
         setBookingEditPermissionError("Permission Denied");
         setBookingDeletePermissionError("Permission Denied");
-  
+
       } else if (state?.login?.planStatus === 1) {
         setBookingPermissionError("");
         setBookingEditPermissionError("");
         setBookingDeletePermissionError("");
       }
     }
-  
-    }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,props.customerrolePermission])
+
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, props.customerrolePermission])
 
 
-    useEffect(() => {
-         const BookingPermission = props.customerrolePermission[0]?.role_permissions?.find(
-           (perm) => perm.permission_name === "Bookings"
-         );
-       
-         const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
-         const planActive = state?.login?.planStatus === 1;
-        
-         if (!BookingPermission || !isOwner) return;
-       
-         
-         if (BookingPermission.per_view === 1 && planActive) {
-           setBookingPermissionError("");
-         } else {
-           setBookingPermissionError("Permission Denied");
-         }
-       
-         
-         
-       
-        
-         if (BookingPermission.per_edit === 1 && planActive) {
-           setBookingEditPermissionError("");
-         } else {
-           setBookingEditPermissionError("Permission Denied");
-         }
-       
-         if (BookingPermission.per_delete === 1 && planActive) {
-           setBookingDeletePermissionError("");
-         } else {
-           setBookingDeletePermissionError("Permission Denied");
-         }
-       }, [props.customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
-  
+  useEffect(() => {
+    const BookingPermission = props.customerrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Bookings"
+    );
 
-  
+    const isOwner = props.customerrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!BookingPermission || !isOwner) return;
+
+
+    if (BookingPermission.per_view === 1 && planActive) {
+      setBookingPermissionError("");
+    } else {
+      setBookingPermissionError("Permission Denied");
+    }
+
+
+
+
+
+    if (BookingPermission.per_edit === 1 && planActive) {
+      setBookingEditPermissionError("");
+    } else {
+      setBookingEditPermissionError("Permission Denied");
+    }
+
+    if (BookingPermission.per_delete === 1 && planActive) {
+      setBookingDeletePermissionError("");
+    } else {
+      setBookingDeletePermissionError("Permission Denied");
+    }
+  }, [props.customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+
+
 
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEdit = (item) => {
+    console.log("item",item)
     setFormEdit(true);
     if (item && item.id) {
       setFirstName(item.first_name || "");
       setLastName(item.last_name || "");
       setJoiningDate(item.joining_date || "");
+
       setJoiningDate(
         item.joining_date ? moment(item.joining_date).toDate("") : null
       );
+      setBookingDate(item.booking_date  ? moment(item.booking_date).toDate("") : null )
       setFile(item.profile || "");
       setAmount(item.amount || "");
       setHostelIds(item.hostel_id || "");
@@ -268,6 +281,7 @@ function Booking(props) {
         Email: item.email_id || "",
         Address: item.address || "",
         joiningDate: item.joining_date || "",
+         bookingDate: item.booking_date || "", 
         amount: item.amount || "",
         paying: item.hostel_id || "",
         file: item.profile || "",
@@ -432,9 +446,11 @@ function Booking(props) {
           setPhoneError("Please Enter Mobile Number");
           break;
         case "joiningDate":
-          setDateError("Please Enter Joining Date");
+          setJoingDateErrmsg("Please Select Joining Date");
           break;
-
+        case "bookingDate":
+          setBookingDateErrmsg("Please Select Booking Date");
+          break;
         case "amount":
           setamountError("Please Enter Amount");
           break;
@@ -455,9 +471,14 @@ function Booking(props) {
           break;
       }
       if (!focusedRef.current && ref?.current) {
-        ref.current.focus();
+        if (ref.current.input) {
+          ref.current.input.focus();
+        } else {
+          ref.current.focus();
+        }
         focusedRef.current = true;
       }
+
       return false;
     } else {
       switch (fieldName) {
@@ -468,6 +489,11 @@ function Booking(props) {
           setPhoneError("");
           break;
         case "joiningDate":
+          setJoingDateErrmsg("");
+          setDateError("");
+          break;
+        case "bookingDate":
+          setBookingDateErrmsg("")
           setDateError("");
           break;
         case "amount":
@@ -492,23 +518,28 @@ function Booking(props) {
       return true;
     }
   };
-  const nochangeRef = useRef(null)
+
+
+
+
+
+
 
   const handleSubmit = () => {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     dispatch({ type: "CLEAR_PHONE_ERROR" });
-
+    focusedRef.current = false;
 
     let hasError = false;
-    const isFirstnameValid = validateAssignField(firstName, "firstName");
-    const isphoneValid = validateAssignField(Phone, "phone");
-    const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
-    const isamountValid = validateAssignField(amount, "amount");
-
-    const isHostelValid = validateAssignField(HostelIds, "paying");
-    const isCityValid = validateAssignField(city, "City");
-    const isPincodeValid = validateAssignField(pincode, "Pincode");
-    const isStatenameValid = validateAssignField(state_name, "Statename");
+    const isFirstnameValid = validateAssignField(firstName, "firstName", focusedRef, firstNameRef);
+    const isphoneValid = validateAssignField(Phone, "phone", focusedRef, phoneRef);
+    const isHostelValid = validateAssignField(HostelIds, "paying", focusedRef, hostelRef);
+    const isPincodeValid = validateAssignField(pincode, "Pincode", focusedRef, pincodeRef);
+    const isCityValid = validateAssignField(city, "City", focusedRef, cityRef);
+    const isStatenameValid = validateAssignField(state_name, "Statename", focusedRef, stateRef);
+    const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate", focusedRef, joiningDateRef);
+    const isbookingDateValid = validateAssignField(bookingDate, "bookingDate", focusedRef, bookingDateRef);
+    const isamountValid = validateAssignField(amount, "amount", focusedRef, amountRef);
 
 
 
@@ -544,22 +575,16 @@ function Booking(props) {
       setEmailError("");
     }
 
-    if (joiningDate) {
-      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-      if (selectedHostel) {
-        const HostelCreateDate = new Date(selectedHostel.create_At);
-        const BookingJoiningDate = new Date(joiningDate);
-        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-        const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
-        if (BookingJoiningDateOnly < HostelCreateDateOnly) {
-          setJoingDateErrmsg('Before Hostel Create date not allowed');
-          hasError = true;
 
-        } else {
-          setJoingDateErrmsg('');
-        }
+    if (!bookingDate) {
+
+      if (!focusedRef.current && bookingDateRef?.current) {
+        bookingDateRef.current.focus();
+        focusedRef.current = true;
       }
+      hasError = true;
     }
+   
 
     if (hasError) return;
 
@@ -571,7 +596,8 @@ function Booking(props) {
       !isHostelValid ||
       !isCityValid ||
       !isPincodeValid ||
-      !isStatenameValid
+      !isStatenameValid ||
+      !isbookingDateValid
     ) {
       return;
     }
@@ -586,26 +612,54 @@ function Booking(props) {
     };
 
 
-    const isChangedBed =
-      (initialStateAssign.joiningDate && joiningDate &&
-        moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
-        moment(joiningDate).format("YYYY-MM-DD")) ||
+    // const isChangedBed =
+    //   (initialStateAssign.joiningDate && joiningDate &&
+    //     moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
+    //     moment(joiningDate).format("YYYY-MM-DD")) ||
 
-      Number(amount) !== Number(initialStateAssign.amount) ||
-      String(firstName) !== String(initialStateAssign.firstName) ||
-      String(Email) !== String(initialStateAssign.Email) ||
-      Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-      String(lastName) !== String(initialStateAssign.lastName) ||
-      ((file instanceof File || file instanceof Blob) &&
-        file.name !== initialStateAssign.file?.name) ||
-      file !== initialStateAssign.file ||
-      String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
+    //   Number(amount) !== Number(initialStateAssign.amount) ||
+    //   String(firstName) !== String(initialStateAssign.firstName) ||
+    //   String(Email) !== String(initialStateAssign.Email) ||
+    //   Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+    //   String(lastName) !== String(initialStateAssign.lastName) ||
+    //   ((file instanceof File || file instanceof Blob) &&
+    //     file.name !== initialStateAssign.file?.name) ||
+    //   file !== initialStateAssign.file ||
+    //   String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
 
-      normalize(house_no) !== normalize(initialStateAssign.house_no) ||
-      normalize(street) !== normalize(initialStateAssign.street) ||
-      normalize(landmark) !== normalize(initialStateAssign.landmark) ||
-      city !== initialStateAssign.city ||
-      state_name !== initialStateAssign.state;
+    //   normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+    //   normalize(street) !== normalize(initialStateAssign.street) ||
+    //   normalize(landmark) !== normalize(initialStateAssign.landmark) ||
+    //   city !== initialStateAssign.city ||
+    //   state_name !== initialStateAssign.state;
+
+
+const isChangedBed =
+  (initialStateAssign.joiningDate && joiningDate &&
+    moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
+    moment(joiningDate).format("YYYY-MM-DD")) ||
+
+  (initialStateAssign.bookingDate && bookingDate &&
+    moment(initialStateAssign.bookingDate).format("YYYY-MM-DD") !==
+    moment(bookingDate).format("YYYY-MM-DD")) ||   
+
+  Number(amount) !== Number(initialStateAssign.amount) ||
+  String(firstName) !== String(initialStateAssign.firstName) ||
+  String(Email) !== String(initialStateAssign.Email) ||
+  Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+  String(lastName) !== String(initialStateAssign.lastName) ||
+  ((file instanceof File || file instanceof Blob) &&
+    file.name !== initialStateAssign.file?.name) ||
+  file !== initialStateAssign.file ||
+  String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
+  normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+  normalize(street) !== normalize(initialStateAssign.street) ||
+  normalize(landmark) !== normalize(initialStateAssign.landmark) ||
+  city !== initialStateAssign.city ||
+  state_name !== initialStateAssign.state;
+
+
+
 
     if (!isChangedBed) {
       setFormError("No Changes Detected");
@@ -626,6 +680,8 @@ function Booking(props) {
 
 
     const formattedDate = moment(joiningDate).format("YYYY-MM-DD");
+    const formattedBookingDate = moment(bookingDate).format("YYYY-MM-DD");
+
 
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
@@ -635,6 +691,7 @@ function Booking(props) {
         f_name: firstName,
         l_name: lastName,
         joining_date: formattedDate,
+        booking_date: formattedBookingDate,
         amount: amount,
         hostel_id: HostelIds,
         mob_no: normalizedPhoneNumber,
@@ -689,6 +746,7 @@ function Booking(props) {
     setStreetError("");
     setHouse_NoError("");
     setJoingDateErrmsg('');
+    setBookingDateErrmsg('')
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
@@ -781,7 +839,7 @@ function Booking(props) {
       setBookingLoading(false)
       handleCloseForm();
       setJoingDateErrmsg('');
-
+      setBookingDateErrmsg('')
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -859,7 +917,7 @@ function Booking(props) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
- const handleItemsPerPageChange = (selectedOption) => {
+  const handleItemsPerPageChange = (selectedOption) => {
     setItemsPerPage(Number(selectedOption.value));
     setCurrentPage(1);
   };
@@ -867,7 +925,7 @@ function Booking(props) {
 
 
 
-const pageOptions = [
+  const pageOptions = [
     { value: 10, label: "10" },
     { value: 50, label: "50" },
     { value: 100, label: "100" },
@@ -1186,7 +1244,7 @@ const pageOptions = [
 
                         let formattedDate = `${day} ${formattedMonth} ${year}`;
 
-                        let createDated = new Date(customer.createdat);
+                        let createDated = new Date(customer.booking_date);
 
                         let day1 = createDated.getDate();
                         let month1 = createDated.getMonth();
@@ -1417,46 +1475,46 @@ const pageOptions = [
                                     }}
                                   >
 
-                                 <div
-  className="d-flex align-items-center"
-  onClick={() => {
-    if (!props.customerBookingAddPermission) {
-      handleCheckin(customer);
-    }
-  }}
-  style={{
-    cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
-    opacity: props.customerBookingAddPermission ? 0.5 : 1,
-    padding: "6px 8px",
-    borderRadius: 6,
-    transition: "background-color 0.2s ease",
-  }}
-  onMouseEnter={(e) => {
-    if (!props.customerBookingAddPermission) {
-      e.currentTarget.style.backgroundColor = "#FFF3F3";
-    }
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.backgroundColor = "transparent";
-  }}
->
-  <img
-    src={check}
-    alt="Checkin icon"
-    style={{ height: 16, width: 16, marginRight: 8 }}
-  />
-  <label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-      color: props.customerBookingAddPermission ? "#A9A9A9" : "#222222",
-      cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
-    }}
-  >
-    Check In
-  </label>
-</div>
+                                    <div
+                                      className="d-flex align-items-center"
+                                      onClick={() => {
+                                        if (!props.customerBookingAddPermission) {
+                                          handleCheckin(customer);
+                                        }
+                                      }}
+                                      style={{
+                                        cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
+                                        opacity: props.customerBookingAddPermission ? 0.5 : 1,
+                                        padding: "6px 8px",
+                                        borderRadius: 6,
+                                        transition: "background-color 0.2s ease",
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        if (!props.customerBookingAddPermission) {
+                                          e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                        }
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "transparent";
+                                      }}
+                                    >
+                                      <img
+                                        src={check}
+                                        alt="Checkin icon"
+                                        style={{ height: 16, width: 16, marginRight: 8 }}
+                                      />
+                                      <label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy, sans-serif",
+                                          color: props.customerBookingAddPermission ? "#A9A9A9" : "#222222",
+                                          cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
+                                        }}
+                                      >
+                                        Check In
+                                      </label>
+                                    </div>
 
 
                                     <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
@@ -1466,7 +1524,7 @@ const pageOptions = [
                                       onClick={() => handleEdit(customer)}
                                       style={{
                                         cursor: bookingEditPermissionError ? "not-allowed" : "pointer",
-                                        
+
                                         opacity: bookingEditPermissionError ? 0.5 : 1,
                                         padding: "6px 8px",
                                         borderRadius: 6,
@@ -1478,15 +1536,15 @@ const pageOptions = [
                                         e.currentTarget.style.backgroundColor = "transparent";
                                       }}
                                     >
-                                     
-                                        <Edit size="16" color={bookingEditPermissionError ? "#A9A9A9" : "#1E45E1"} style={{marginRight: 8}}/>
+
+                                      <Edit size="16" color={bookingEditPermissionError ? "#A9A9A9" : "#1E45E1"} style={{ marginRight: 8 }} />
                                       <label
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 500,
                                           fontFamily: "Gilroy, sans-serif",
-                                            color: bookingEditPermissionError ? "#A9A9A9" : "#222222",
-                      cursor: bookingEditPermissionError ? "not-allowed" : "pointer",
+                                          color: bookingEditPermissionError ? "#A9A9A9" : "#222222",
+                                          cursor: bookingEditPermissionError ? "not-allowed" : "pointer",
                                         }}
                                       >
                                         Edit
@@ -1504,7 +1562,7 @@ const pageOptions = [
                                       }}
                                       style={{
                                         cursor: bookingDeletePermissionError ? "not-allowed" : "pointer",
-                                       
+
                                         opacity: bookingDeletePermissionError ? 0.5 : 1,
                                         padding: "6px 8px",
                                         borderRadius: 6,
@@ -1516,18 +1574,18 @@ const pageOptions = [
                                         e.currentTarget.style.backgroundColor = "transparent";
                                       }}
                                     >
-                                     
-                                        <Trash
-                                                                                  size="16"
-                                                                                  color={bookingDeletePermissionError ? "#A9A9A9" : "red"}
-                                                                            style={{marginRight: 8}}    />
+
+                                      <Trash
+                                        size="16"
+                                        color={bookingDeletePermissionError ? "#A9A9A9" : "red"}
+                                        style={{ marginRight: 8 }} />
                                       <label
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 500,
                                           fontFamily: "Gilroy, sans-serif",
-                                           color: bookingDeletePermissionError ? "#A9A9A9" : "#FF0000",
-                      cursor: bookingDeletePermissionError ? "not-allowed" : "pointer",
+                                          color: bookingDeletePermissionError ? "#A9A9A9" : "#FF0000",
+                                          cursor: bookingDeletePermissionError ? "not-allowed" : "pointer",
                                         }}
                                       >
                                         Delete
@@ -1584,163 +1642,163 @@ const pageOptions = [
             {((props.search || props.filterStatus) ? props.filteredUsers?.length : customerBooking?.length) > 10 && (
 
 
-                <nav
+              <nav
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  padding: "10px",
+                  position: "fixed",
+                  bottom: "0",
+                  right: "0",
+                  left: 0,
+                  backgroundColor: "white",
+                  zIndex: "1000",
+                }}
+              >
+
+                <div>
+                  <Select
+                    options={pageOptions}
+                    value={
+                      itemsPerPage
+                        ? { value: itemsPerPage, label: `${itemsPerPage}` }
+                        : null
+                    }
+                    onChange={handleItemsPerPageChange}
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No options"}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        height: "40px",
+                        padding: "0 5px",
+                        border: "1px solid #1E45E1",
+                        borderRadius: "5px",
+                        fontSize: "14px",
+                        color: "#1E45E1",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                        boxShadow: "0 0 0 1px #1E45E1",
+                        width: 100,
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        maxHeight: "200px",
+                        overflowY: "auto",
+                        padding: 0,
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#1E45E1",
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                        color: state.isFocused ? "#fff" : "#000",
+                        cursor: "pointer",
+                      }),
+                    }}
+                  />
+                </div>
+
+
+                <ul
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "end",
-                    padding: "10px",
-                    position: "fixed",
-                    bottom: "0",
-                    right: "0",
-                    left: 0,
-                    backgroundColor: "white",
-                    zIndex: "1000",
+                    listStyleType: "none",
+                    margin: 0,
+                    padding: 0,
                   }}
                 >
 
-                  <div>
-                    <Select
-                      options={pageOptions}
-                      value={
-                        itemsPerPage
-                          ? { value: itemsPerPage, label: `${itemsPerPage}` }
-                          : null
-                      }
-                      onChange={handleItemsPerPageChange}
-                      classNamePrefix="custom"
-                      menuPlacement="auto"
-                      noOptionsMessage={() => "No options"}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "40px",
-                          padding: "0 5px",
-                          border: "1px solid #1E45E1",
-                          borderRadius: "5px",
-                          fontSize: "14px",
-                          color: "#1E45E1",
-                          fontWeight: 600,
-                          cursor: "pointer",
-                          fontFamily: "Gilroy",
-                          boxShadow: "0 0 0 1px #1E45E1",
-                          width: 100,
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#f8f9fa",
-                          border: "1px solid #ced4da",
-                          fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          maxHeight: "200px",
-                          overflowY: "auto",
-                          padding: 0,
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#1E45E1",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                          color: state.isFocused ? "#fff" : "#000",
-                          cursor: "pointer",
-                        }),
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                        cursor:
+                          currentPage === 1 ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
                       }}
-                    />
-                  </div>
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ArrowLeft2
+                        size="16"
+                        color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                      />
+                    </button>
+                  </li>
 
 
-                  <ul
+                  <li
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      listStyleType: "none",
-                      margin: 0,
-                      padding: 0,
+                      margin: "0 10px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
                     }}
                   >
-
-                    <li style={{ margin: "0 10px" }}>
-                      <button
-                        style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                          cursor:
-                            currentPage === 1 ? "not-allowed" : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      >
-                        <ArrowLeft2
-                          size="16"
-                          color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                        />
-                      </button>
-                    </li>
+                    {currentPage} of {totalPages}
+                  </li>
 
 
-                    <li
+                  <li style={{ margin: "0 10px" }}>
+                    <button
                       style={{
-                        margin: "0 10px",
-                        fontSize: "14px",
-                        fontWeight: "bold",
+                        padding: "5px",
+                        textDecoration: "none",
+                        color:
+                          currentPage === totalPages ? "#ccc" : "#1E45E1",
+                        cursor:
+                          currentPage === totalPages
+                            ? "not-allowed"
+                            : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
                       }}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
                     >
-                      {currentPage} of {totalPages}
-                    </li>
-
-
-                    <li style={{ margin: "0 10px" }}>
-                      <button
-                        style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color:
-                            currentPage === totalPages ? "#ccc" : "#1E45E1",
-                          cursor:
-                            currentPage === totalPages
-                              ? "not-allowed"
-                              : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                      >
-                        <ArrowRight2
-                          size="16"
-                          color={
-                            currentPage === totalPages ? "#ccc" : "#1E45E1"
-                          }
-                        />
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
-              )}
-            </div>
+                      <ArrowRight2
+                        size="16"
+                        color={
+                          currentPage === totalPages ? "#ccc" : "#1E45E1"
+                        }
+                      />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            )}
+          </div>
         </div>
       )}
 
@@ -1873,6 +1931,7 @@ const pageOptions = [
                   </Form.Label>
                   <Form.Control
                     type="text"
+                    ref={firstNameRef}
                     placeholder="Enter First Name"
                     style={{
                       fontSize: 16,
@@ -1964,6 +2023,7 @@ const pageOptions = [
                       value={Phone}
                       onChange={handlePhone}
                       type="text"
+                      ref={phoneRef}
                       placeholder="9876543210"
                       maxLength={10}
                       style={{
@@ -2236,6 +2296,7 @@ const pageOptions = [
                   </Form.Label>
                   <Form.Control
                     value={pincode}
+                    ref={pincodeRef}
                     onChange={(e) => handlePinCodeChange(e)}
                     type="tel"
                     maxLength={6}
@@ -2292,6 +2353,7 @@ const pageOptions = [
                     id="form-controls"
                     placeholder="Enter City"
                     value={city}
+                    ref={cityRef}
                     onChange={(e) => handleCity(e)}
                     style={{
                       fontSize: 16,
@@ -2337,6 +2399,7 @@ const pageOptions = [
                 </Form.Label>
 
                 <Select
+                  ref={stateRef}
                   options={indianStates}
                   onChange={(selectedOption) => {
                     setStateName(selectedOption?.value);
@@ -2433,13 +2496,14 @@ const pageOptions = [
                       fontWeight: 500,
                     }}
                   >
-                    Joining Date {" "}
+                    Expected Joining Date {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
 
                   </Form.Label>
 
                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                     <DatePicker
+                      ref={joiningDateRef}
                       style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", fontSize: 16 }}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
@@ -2471,7 +2535,7 @@ const pageOptions = [
 
 
                   {joiningDateErrmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center mt-1">
                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {joiningDateErrmsg}
@@ -2481,6 +2545,79 @@ const pageOptions = [
                 </Form.Group>
 
               </Col>
+
+
+              <Col md={6}>
+                <Form.Group controlId="">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Booking Date {" "}
+                    <span style={{ color: "red", fontSize: "20px" }}>
+                      {" "}
+                      *{" "}
+                    </span>
+                  </Form.Label>
+
+
+                  <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                    <DatePicker
+                      ref={bookingDateRef}
+                      style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={bookingDate ? dayjs(bookingDate) : null}
+                      onChange={(date) => {
+                        setDateError("");
+                        setBookingDate(date ? date.toDate() : null);
+                        setBookingDateErrmsg('');
+                      }}
+                      disabledDate={(current) => {
+                        return current && current > dayjs().endOf('day');
+                      }}
+                      getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+
+                    />
+                  </div>
+                </Form.Group>
+                {dateError && (
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: 12,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {dateError}
+                    </span>
+                  </div>
+                )}
+
+                {bookingDateErrmsg.trim() !== "" && (
+                  <div className="d-flex align-items-center mt-1">
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {bookingDateErrmsg}
+                    </label>
+                  </div>
+                )}
+              </Col>
+
+
+
+
+
+
+
+
               <Col md={6} >
                 <Form.Group className="mb-2">
                   <Form.Label
@@ -2499,6 +2636,7 @@ const pageOptions = [
                     id="form-controls"
                     placeholder="Enter amount"
                     value={amount}
+                    ref={amountRef}
                     onChange={(e) => handleAmount(e)}
                     style={{
                       fontSize: 16,
@@ -2523,7 +2661,7 @@ const pageOptions = [
             </Row>
 
 
-          
+
 
           </div>
 
@@ -2564,18 +2702,18 @@ const pageOptions = [
           </div>
         }
 
-        
+
         <Modal.Footer
           className="d-flex align-items-center justify-content-center"
           style={{ border: "none" }}
         >
 
-            {formError && (
-              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red", fontFamily: "Gilroy" }}>
-                <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                <span style={{ fontSize: "12px" }}>{formError}</span>
-              </div>
-            )}
+          {formError && (
+            <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red", fontFamily: "Gilroy" }}>
+              <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+              <span style={{ fontSize: "12px" }}>{formError}</span>
+            </div>
+          )}
           <Button
             variant="primary"
             type="submit"

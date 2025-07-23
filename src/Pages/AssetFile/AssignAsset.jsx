@@ -66,6 +66,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [currentItem]);
 
 
+console.log("currentItem",currentItem.purchase_date)
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -177,6 +178,24 @@ function StaticExample({ show, handleClose, currentItem }) {
       setDateError("Please select a Date");
       return;
     }
+
+
+if (currentItem?.purchase_date) {
+  const purchaseDate = new Date(currentItem.purchase_date);
+  const assignDate = new Date(selectedDate);
+
+ 
+  purchaseDate.setHours(0, 0, 0, 0);
+  assignDate.setHours(0, 0, 0, 0);
+
+  if (assignDate < purchaseDate) {
+    setDateError("Before purchase date not allowed");
+    return;
+  }
+}
+
+
+
 
     if (
       initialState.selectedDate instanceof Date &&
@@ -556,6 +575,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                         setNoChangeError('')
                         setSelectedDate(date ? date.toDate() : null);
                       }}
+                      disabledDate={(current) => current && current > dayjs().endOf("day")}
                       getPopupContainer={(triggerNode) =>
                         triggerNode.closest(".datepicker-wrapper")
                       }

@@ -783,17 +783,22 @@ const InvoicePage = () => {
   };
 
   const handleSaveInvoiceList = () => {
-    const formatpaiddate = formatDateForPayload(selectedDate);
+   const formatpaiddate = formatDateForPayload(selectedDate); 
+  const billDate = new Date(invoiceValue.Date);             
+  const paidDate = new Date(formatpaiddate);     
 
     if (!invoiceList.payableAmount) {
       setAmountErrmsg("Please Enter Amount");
     }
 
     if (!formatpaiddate) {
-      setDateErrmsg("Please Select Date");
-    } else {
-      setDateErrmsg("");
-    }
+    setDateErrmsg("Please Select Date");
+  } else if (paidDate < billDate) {
+    setDateErrmsg("Paid date should not be before Bill date");
+    return;
+  } else {
+    setDateErrmsg("");
+  }
 
     if (!invoiceList.transaction || invoiceList.transaction === "select") {
       setPaymodeErrmsg("Please Select Transaction Type");
@@ -2562,13 +2567,6 @@ useEffect(() => {
 
 
 
-
-
-
-
-
-
-
   return (
     <div style={{ height: "100vh", overflowY: "auto", }}>
       {showAllBill && (
@@ -3371,7 +3369,7 @@ useEffect(() => {
                                       }}
                                       placeholder="Enter Amount"
                                       value={invoiceList.balanceDue}
-                                      readOnly
+                                      disabled
                                     />
                                   </Form.Group>
                                 </div>
@@ -3502,11 +3500,7 @@ useEffect(() => {
                                             setAccountError("");
                                             setSelectedDate(date ? date.toDate() : null);
                                           }}
-                                          disabledDate={(current) => {
-                                            const selectedUser = state.UsersList?.Users.find((u) => u.ID === invoiceValue.ID);
-                                            const joiningDate = moment(selectedUser.user_join_date, "YYYY-MM-DD");
-                                            return current && current.isBefore(joiningDate, "day");
-                                          }}
+                                           disabledDate={(current) => current && current > dayjs().endOf("day")}
                                           getPopupContainer={(triggerNode) =>
                                             triggerNode.closest(".show-scroll") || document.body
                                           }

@@ -29,10 +29,8 @@ export async function CreateAccountAction(params) {
         "Content-type": "multipart/form-data",
       },
       timeout: 100000000,
-           onUploadProgress: (event) => {
-             console.log(event);
-             
-              }
+          
+      
     });
     return response.data;
   } catch (error) {
@@ -54,10 +52,7 @@ export async function UpdateProfile (params) {
   formData.append("phone", params.phone);
   formData.append("email_id", params.email_id);
   formData.append("address", params.address);
-  // formData.append("Country", params.Country);
-  // formData.append("City", params.City);
-  // formData.append("State", params.State);
-  formData.append("id", params.id);
+   formData.append("id", params.id);
   formData.append("profile", params.profile);
   
   try {
@@ -66,18 +61,14 @@ export async function UpdateProfile (params) {
         "Content-type": "multipart/form-data",
       },
       timeout: 100000000,
-           onUploadProgress: (event) => {
-            console.log(event);
-              }
+        
     });
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);
          }
 
-  // return await AxiosConfig.post('/update_account_details',datum,{
-  //   data:datum
-  // })
+  
 }
 
 export async function UpdatePassword (datum) {
@@ -85,7 +76,7 @@ export async function UpdatePassword (datum) {
     data:datum
   })
 }
-//update password
+
 
 
 
@@ -133,7 +124,7 @@ export async function UpdateNotification(message) {
 
 
 export const StoreSelectedHostelAction = (data) => {
-  console.log("StoreSelectedHostelAction",data)
+ 
   return {
     type: "STORE_HOSTEL_DATA", 
     payload: data,          

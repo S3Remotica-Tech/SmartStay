@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 
 function* handleGetAsset(action) {
    const response = yield call(GetAsset, action.payload);
-   
+
    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.data.statusCode} })
+      yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.data.statusCode } })
    }
-   else if (response.status === 201 || response.statusCode === 201){
+   else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'NO_ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
    }
    if (response) {
@@ -21,56 +21,55 @@ function* handleGetAsset(action) {
 
 
 function* handleAddAsset(action) {
-   try{
-   const response = yield call(AddAsset, action.payload);
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center", 
-      padding: "10px",
-     
-    };
+   try {
+      const response = yield call(AddAsset, action.payload);
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ADD_ASSET', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
-      toast.success(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      };
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'ADD_ASSET', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'SERIAL_NUMBER_ERROR', payload: response.data.message })
+      } else if (response.status === 202 || response.statusCode === 202) {
+         yield put({ type: 'ASSET_NAME_ERROR', payload: response.data.message })
+      }
+      else if (response.status === 203 || response.data.statusCode === 203) {
+         yield put({ type: 'BANK_AMOUNT_ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
+
+
 
    }
-   else  if(response.status === 201 || response.statusCode === 201) {
-            yield put ({type:'SERIAL_NUMBER_ERROR', payload:response.data.message})
-   } else  if(response.status === 202 || response.statusCode === 202) {
-     
-      yield put ({type:'ASSET_NAME_ERROR', payload:response.data.message})
-  }
-  else  if(response.status === 203 || response.data.statusCode === 203) {
-   yield put ({type:'BANK_AMOUNT_ERROR', payload:response.data.message})
-}
-   if (response) {
-      refreshToken(response)
-   }
-
-
-
-   }
-catch (error) {
+   catch (error) {
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -96,13 +95,13 @@ function* handleDeleteAsset(action) {
       fontSize: 14,
       textAlign: "start",
       display: "flex",
-      alignItems: "center", 
+      alignItems: "center",
       padding: "10px",
-     
-    };
+
+   };
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'DELETE_ASSET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-  
+
       toast.success('Deleted successfully!', {
          position: "bottom-center",
          autoClose: 2000,
@@ -113,11 +112,11 @@ function* handleDeleteAsset(action) {
          draggable: true,
          progress: undefined,
          style: toastStyle,
-       });
-  
-  
-  
-  
+      });
+
+
+
+
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -145,52 +144,52 @@ function* handleGetHostelRooms(action) {
 }
 
 function* handleAssignAsset(action) {
-   try{
-   const response = yield call(AssignAsset, action.payload);
+   try {
+      const response = yield call(AssignAsset, action.payload);
 
 
 
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center", 
-      padding: "10px",
-     
-    };
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ASSIGN_ASSET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-      toast.success(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-       });
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'ASSIGN_ASSET', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
 
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'ASSET_ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if(response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ASSET_ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
-}
-catch (error) {
+   catch (error) {
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {

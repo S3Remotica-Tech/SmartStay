@@ -770,6 +770,7 @@ useEffect(() => {
                       setDateError("");
                       setJoiningDate(date ? date.toDate() : null);
                     }}
+                     disabledDate={(current) => current && current > dayjs().endOf("day")}
                     getPopupContainer={(triggerNode) =>
                       triggerNode.closest(".datepicker-wrapper")
                     }

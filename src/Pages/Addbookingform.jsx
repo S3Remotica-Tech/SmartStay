@@ -30,6 +30,7 @@ function BookingModal(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [joiningDate, setJoiningDate] = useState(null);
+  const [bookingDate, setBookingDate] = useState(null);
   const [amount, setAmount] = useState("");
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
@@ -54,7 +55,7 @@ function BookingModal(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [formLoading, setFormLoading] = useState(false)
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
-
+  const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
 
   const firstnameRef = useRef();
   const phoneRef = useRef();
@@ -63,6 +64,7 @@ function BookingModal(props) {
   const stateRef = useRef();
   const dateRef = useRef();
   const amountRef = useRef();
+  const bookingDateRef = useRef();
 
 
 
@@ -113,11 +115,11 @@ function BookingModal(props) {
   ];
 
 
-  
 
-   useEffect(() => {
-     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id  } })
-    }, []);
+
+  useEffect(() => {
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+  }, []);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -293,6 +295,9 @@ function BookingModal(props) {
         case "joiningDate":
           setError("Please Select Joining Date");
           break;
+        case "bookingDate":
+          setError("Please Select Booking Date");
+          break;
         case "amount":
           setError("Please Enter Amount");
           break;
@@ -341,9 +346,8 @@ function BookingModal(props) {
     const isCityValid = validateAssignField(city, "City", cityRef, setCityError, focusedRef);
     const isStatenameValid = validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef);
     const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setDateError, focusedRef);
+    const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setDateError, focusedRef);
     const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
-
-
 
 
 
@@ -365,14 +369,18 @@ function BookingModal(props) {
       setPhoneError("");
     }
 
- if (pincode && pincode.length !== 6) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    if (!focusedRef.current && pincodeRef?.current) {
-      pincodeRef.current.focus();
-      focusedRef.current = true;
+
+
+
+
+    if (pincode && pincode.length !== 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focusedRef.current && pincodeRef?.current) {
+        pincodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
@@ -389,23 +397,30 @@ function BookingModal(props) {
       setEmailError("");
     }
 
-    
-     if (joiningDate ) {
-      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
-      if (selectedHostel) {
-        const HostelCreateDate = new Date(selectedHostel.create_At);
-        const BookingJoiningDate = new Date(joiningDate);
-        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-        const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
-        if (BookingJoiningDateOnly < HostelCreateDateOnly) {
-          setJoingDateErrmsg('Before Hostel Create date not allowed');
-          hasError = true;
-      
-        } else {
-          setJoingDateErrmsg('');
-        }
+    if (!bookingDate) {
+
+      if (!focusedRef.current && bookingDateRef?.current) {
+        bookingDateRef.current.focus();
+        focusedRef.current = true;
       }
+      hasError = true;
     }
+    //  if (joiningDate ) {
+    //   const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+    //   if (selectedHostel) {
+    //     const HostelCreateDate = new Date(selectedHostel.create_At);
+    //     const BookingJoiningDate = new Date(joiningDate);
+    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+    //     const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
+    //     if (BookingJoiningDateOnly < HostelCreateDateOnly) {
+    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
+    //       hasError = true;
+
+    //     } else {
+    //       setJoingDateErrmsg('');
+    //     }
+    //   }
+    // }
 
     if (hasError) return;
     if (
@@ -415,23 +430,39 @@ function BookingModal(props) {
       !isAmountValid ||
       !isCityValid ||
       !isPincodeValid ||
-      !isStatenameValid
+      !isStatenameValid ||
+      !isBookingDateValid
     ) {
       return;
     }
 
-    
+
 
     let formattedDate = null;
+     let bookingFormattedDate = null;
     try {
       const date = new Date(joiningDate);
       date.setDate(date.getDate() + 1);
       formattedDate = date.toISOString().split("T")[0];
     } catch (error) {
       console.error("Error formatting date:", error);
-      setDateError("Date is Required");
+      setDateError("Please Select Date");
       return;
     }
+
+
+    try {
+      const date = new Date(bookingDate);
+      date.setDate(date.getDate() + 1);
+      bookingFormattedDate = date.toISOString().split("T")[0];
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      setDateError("Please Select Date");
+      return;
+    }
+
+    console.log("bookingFormattedDate",bookingFormattedDate)
+
 
     dispatch({
       type: "ADD_BOOKING",
@@ -439,6 +470,7 @@ function BookingModal(props) {
         f_name: firstName,
         l_name: lastName,
         joining_date: formattedDate,
+        booking_date:  bookingFormattedDate,
         amount: amount,
         hostel_id: state.login.selectedHostel_Id,
         mob_no: MobileNumber,
@@ -461,6 +493,7 @@ function BookingModal(props) {
     setLastName("");
     setAmount("");
     setJoiningDate("");
+    setBookingDate("")
     setPhone("");
     setHouseNo("")
     setStreet("")
@@ -505,7 +538,7 @@ function BookingModal(props) {
   };
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -1091,7 +1124,7 @@ useEffect(() => {
               </Form.Group>
               {cityError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px",marginBottom:"2px" }} />
+                  <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "2px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                 </div>
               )}
@@ -1187,7 +1220,7 @@ useEffect(() => {
 
             {!state_name && state_nameError && (
               <div style={{ color: "red" }}>
-                <MdError style={{ fontSize: "13px", marginRight: "5px",marginBottom:"2px" }} />
+                <MdError style={{ fontSize: "13px", marginRight: "5px", marginBottom: "2px" }} />
                 <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {state_nameError}
                 </span>
@@ -1197,7 +1230,7 @@ useEffect(() => {
 
 
 
-          <Row className="">
+          <Row className="pt-1">
             <Col md={6}>
               <Form.Group controlId="purchaseDate">
                 <Form.Label
@@ -1208,7 +1241,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Joining Date {" "}
+                  Expected Joining Date {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}
@@ -1219,7 +1252,7 @@ useEffect(() => {
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                   <DatePicker
                     ref={dateRef}
-                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={joiningDate ? dayjs(joiningDate) : null}
@@ -1228,8 +1261,9 @@ useEffect(() => {
                       setJoiningDate(date ? date.toDate() : null);
                       setJoingDateErrmsg('');
                     }}
+                  
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                   
+
                   />
                 </div>
               </Form.Group>
@@ -1249,15 +1283,80 @@ useEffect(() => {
                 </div>
               )}
 
-                {joiningDateErrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {joiningDateErrmsg}
-                        </label>
-                          </div>
-                       )}
+              {joiningDateErrmsg.trim() !== "" && (
+                <div className="d-flex align-items-center">
+                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {joiningDateErrmsg}
+                  </label>
+                </div>
+              )}
             </Col>
+
+            <Col md={6}>
+              <Form.Group controlId="">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Booking Date {" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {" "}
+                    *{" "}
+                  </span>
+                </Form.Label>
+
+
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                  <DatePicker
+                    ref={bookingDateRef}
+                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={bookingDate ? dayjs(bookingDate) : null}
+                    onChange={(date) => {
+                      setDateError("");
+                      setBookingDate(date ? date.toDate() : null);
+                      setBookingDateErrmsg('');
+                    }}
+                    disabledDate={(current) => {
+                      return current && current > dayjs().endOf('day');
+                    }}
+                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+
+                  />
+                </div>
+              </Form.Group>
+              {dateError && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {dateError}
+                  </span>
+                </div>
+              )}
+
+              {bookingDateErrmsg.trim() !== "" && (
+                <div className="d-flex align-items-center">
+                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    {bookingDateErrmsg}
+                  </label>
+                </div>
+              )}
+            </Col>
+
 
             <Col md={6}>
               <Form.Group className="">
@@ -1318,12 +1417,12 @@ useEffect(() => {
 
 
 
-          {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-0'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+        {state.createAccount?.networkError ?
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-0'>
+            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+          : null}
 
         {formLoading &&
           <div

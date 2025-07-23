@@ -88,16 +88,11 @@ function CustomerCheckout(props) {
       return
     }
 
-    const joiningDate = props.data.user_join_date
-
-    const formattedJoiningDate = dayjs(joiningDate).format("YYYY-MM-DD");
-
-
-    if (dayjs(formattedDate).isBefore(formattedJoiningDate)) {
-      setJoiningError('Check-out before joining date not allowed');
-      return;
-    }
-
+    
+ if (dayjs(formattedDate).isBefore(dayjs(formattedrequestDate))) {
+    setCheckOutDateError('Before Request Date not allowed');
+    return;
+  }
     if (props.uniqueostel_Id && formattedDate && formattedrequestDate) {
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER', payload: {
@@ -200,6 +195,7 @@ useEffect(() => {
                                 calculateDateDifference(selectedDate, date);
                                 setCheckOutRequestDateError('')
                               }}
+                                disabledDate={(current) => current && current > dayjs().endOf("day")}
                               getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                             />
                           </div>
@@ -240,6 +236,7 @@ useEffect(() => {
                                 setCheckOutDateError('');
                                 setJoiningError('')
                               }}
+                              
                               getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                             />
                           </div>
