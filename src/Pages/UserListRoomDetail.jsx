@@ -1198,22 +1198,7 @@ function UserListRoomDetail(props) {
       setDateError("");
     }
 
-     if (selectedDate && props.userDetails[0].User_Id) {
-      const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.userDetails[0].User_Id);
-      if (selectedUser) {
-        const CreateDate = new Date(selectedUser.createdAt);
-        const AssignDate = new Date(selectedDate);
-        const CreaeteDateOnly = new Date(CreateDate.toDateString());
-        const AssignDateOnly = new Date(AssignDate.toDateString());
-        if (AssignDateOnly < CreaeteDateOnly) {
-          setJoingDateErrmsg('Before Create Date Not Allowed');
-         return
-        } else {
-          setJoingDateErrmsg('');
-        }
-      }
-    }
-
+   
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Please Enter Valid Rent Amount");
       return;

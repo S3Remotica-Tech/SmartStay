@@ -17,6 +17,8 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs"; 
 import { CloseCircle } from "iconsax-react";
+import {JoininDatecustomer} from "../Redux/Action/smartStayAction";
+
 
 function UserlistForm(props) {
   const [id, setId] = useState("");
@@ -264,6 +266,8 @@ function UserlistForm(props) {
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
   }, []);
+
+ 
 
   const validateAssignField = (value, fieldName) => {
     if (
@@ -683,6 +687,7 @@ function UserlistForm(props) {
   };
 
   useEffect(() => { }, [props.showMenu]);
+ 
 
   const handleSaveUserlistAddUser = async () => {
     if (!validateAssignField(Floor, "Floor"));
@@ -728,21 +733,7 @@ function UserlistForm(props) {
     }
 
 
-       if (selectedDate && props.EditObj.User_Id) {
-      const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
-      if (selectedUser) {
-        const CreateDate = new Date(selectedUser.createdAt);
-        const AssignDate = new Date(selectedDate);
-        const CreaeteDateOnly = new Date(CreateDate.toDateString());
-        const AssignDateOnly = new Date(AssignDate.toDateString());
-        if (AssignDateOnly < CreaeteDateOnly) {
-          setJoingDateErrmsg('Before Create Date Not Allowed');
-         return
-        } else {
-          setJoingDateErrmsg('');
-        }
-      }
-    }
+  
 
     if (
       Floor !== "Selected Floor" &&
@@ -795,21 +786,7 @@ function UserlistForm(props) {
       return;
     }
 
-       if (selectedDate && props.EditObj.User_Id) {
-      const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
-      if (selectedUser) {
-        const CreateDate = new Date(selectedUser.createdAt);
-        const AssignDate = new Date(selectedDate);
-        const CreaeteDateOnly = new Date(CreateDate.toDateString());
-        const AssignDateOnly = new Date(AssignDate.toDateString());
-        if (AssignDateOnly <= CreaeteDateOnly) {
-          setJoingDateErrmsg('Before Create Date Not Allowed');
-         return
-        } else {
-          setJoingDateErrmsg('');
-        }
-      }
-    }
+    
 
 
 
@@ -884,33 +861,39 @@ function UserlistForm(props) {
            
     
 
-      if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
-  const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
 
-  
+if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
+  const selectedUser = state.UsersList.Users.find(
+    item => item.User_Id === props.EditObj.User_Id
+  );
+
   if (selectedUser) {
-  const CreateDate = dayjs(selectedUser.createdAt).startOf('day');
-  const InvoiceDate = dayjs(advanceDate).startOf('day');
-  const DueDate = dayjs(advanceDueDate).startOf('day');
+    const CreateDate = dayjs(state.login.joiningDate).startOf('day'); 
+    
+   
+    const InvoiceDate = dayjs(advanceDate).startOf('day');
+    
+    const DueDate = dayjs(advanceDueDate).startOf('day');
+    const Today = dayjs().startOf('day');
 
-  if (InvoiceDate.isBefore(CreateDate)) {
-    setAdvanceDateError("Before Join Date Not Allowed");
-    hasError = true;
-  }
+   
+    if (InvoiceDate.isBefore(CreateDate)) {
+     
+      setAdvanceDateError("Before joining date not allowed");
+      hasError = true;
+    } else if (InvoiceDate.isAfter(Today)) {
+      setAdvanceDateError("Invoice date cannot be a future date");
+      hasError = true;
+    }
 
-  if (DueDate.isBefore(CreateDate)) {
-    setAdvanceDueDateError("Before Join Date Not Allowed");
-    hasError = true;
-  }
-
-  
-  if (DueDate.isBefore(InvoiceDate)) {
-    setAdvanceDueDateError("Due Date cannot be before Invoice Date");
-    hasError = true;
+   
+    if (DueDate.isBefore(InvoiceDate)) {
+      setAdvanceDueDateError("Due date cannot be before invoice date");
+      hasError = true;
+    }
   }
 }
 
-}
 
 
 
@@ -2241,6 +2224,8 @@ useEffect(() => {
                                 setDateError("");
                                 setSelectedDate(date ? date.toDate() : null);
                                 setJoingDateErrmsg('')
+                              
+                                 dispatch(JoininDatecustomer(date ? date.toDate() : null));
                               }}
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".show-scroll") || document.body

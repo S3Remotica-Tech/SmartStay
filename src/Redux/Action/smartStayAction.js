@@ -146,3 +146,7 @@ export const setPlanStatus = (planStatus) => ({
 
 
 
+export const JoininDatecustomer = (joiningdate) => ({
+  type: "SET_JOINING_DATE",
+  payload: joiningdate,
+});

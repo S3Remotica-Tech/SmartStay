@@ -22,6 +22,7 @@
    errorStatusCode: 0,
    errorPasswordStatusCode:0,
     planStatus: null,
+    joiningDate:""
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -32,6 +33,13 @@ const SmartStayReducer = (state = initialState, action) => {
         ...state,
         planStatus: action.payload,
       };
+
+       case "SET_JOINING_DATE":
+      return {
+        ...state,
+        joiningDate: action.payload,
+      };
+
       case "STORE_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: action.payload };
       case "CLEAR_HOSTEL_DATA":
