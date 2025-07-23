@@ -39,7 +39,6 @@ import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { CloseCircle } from "iconsax-react";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import moment from "moment";
 function EB_Hostel() {
 
 
