@@ -2261,7 +2261,7 @@ const EmailInputRef = useRef(null);
                     }}
                   >
                     Pincode {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                   
                   </Form.Label>
                   <Form.Control
                     value={pincode}
@@ -2315,7 +2315,7 @@ const EmailInputRef = useRef(null);
                     }}
                   >
                     Town/City {" "}
-                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                   
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -2364,7 +2364,7 @@ const EmailInputRef = useRef(null);
                   }}
                 >
                   State {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                 
                 </Form.Label>
 
                 <Select
