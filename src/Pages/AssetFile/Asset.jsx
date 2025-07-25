@@ -154,63 +154,65 @@ function Asset() {
 
 
   useEffect(() => {
-    const isAdmin = assetrolePermission[0]?.user_details?.user_type === "admin";
-     if (isAdmin) {
-    if (state?.login?.planStatus === 0) {
-      setAssetPermissionError("");
-      setAssetAddPermission("Permission Denied");
-      setAssetEditPermission("Permission Denied");
-      setAssetDeletePermission("Permission Denied");
 
-    } else if (state?.login?.planStatus === 1) {
-      setAssetPermissionError("");
-      setAssetAddPermission("");
-      setAssetEditPermission("");
-      setAssetDeletePermission("");
+    const userType = assetrolePermission[0]?.user_details?.user_type;
+    const isAdmin = userType === "admin" || userType === "agent";
+    if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        setAssetPermissionError("");
+        setAssetAddPermission("Permission Denied");
+        setAssetEditPermission("Permission Denied");
+        setAssetDeletePermission("Permission Denied");
+
+      } else if (state?.login?.planStatus === 1) {
+        setAssetPermissionError("");
+        setAssetAddPermission("");
+        setAssetEditPermission("");
+        setAssetDeletePermission("");
+      }
     }
-  }
 
   }, [state?.login?.planStatus, state.login?.selectedHostel_Id, assetrolePermission])
 
 
 
-useEffect(() => {
-  const assetPermission = assetrolePermission[0]?.role_permissions?.find(
-    (perm) => perm.permission_name === "Assets"
-  );
+  useEffect(() => {
+    const assetPermission = assetrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Assets"
+    );
 
-  const isOwner = assetrolePermission[0]?.user_details?.user_type === "staff";
-  const planActive = state?.login?.planStatus === 1;
+    const isOwner = assetrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
 
-  if (!assetPermission || !isOwner) return;
-
- 
-  if (assetPermission.per_view === 1 && planActive) {
-    setAssetPermissionError("");
-  } else {
-    setAssetPermissionError("Permission Denied");
-  }
-
-  
-  if (assetPermission.per_create === 1 && planActive) {
-    setAssetAddPermission("");
-  } else {
-    setAssetAddPermission("Permission Denied");
-  }
-
-  if (assetPermission.per_edit === 1 && planActive) {
-    setAssetEditPermission("");
-  } else {
-    setAssetEditPermission("Permission Denied");
-  }
+    if (!assetPermission || !isOwner) return;
 
 
-  if (assetPermission.per_delete === 1 && planActive) {
-    setAssetDeletePermission("");
-  } else {
-    setAssetDeletePermission("Permission Denied");
-  }
-}, [assetrolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
+    if (assetPermission.per_view === 1 && planActive) {
+      setAssetPermissionError("");
+    } else {
+      setAssetPermissionError("Permission Denied");
+    }
+
+
+    if (assetPermission.per_create === 1 && planActive) {
+      setAssetAddPermission("");
+    } else {
+      setAssetAddPermission("Permission Denied");
+    }
+
+    if (assetPermission.per_edit === 1 && planActive) {
+      setAssetEditPermission("");
+    } else {
+      setAssetEditPermission("Permission Denied");
+    }
+
+
+    if (assetPermission.per_delete === 1 && planActive) {
+      setAssetDeletePermission("");
+    } else {
+      setAssetDeletePermission("Permission Denied");
+    }
+  }, [assetrolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
 
 
 

@@ -916,7 +916,8 @@ if (selectedUser) {
 
 
  useEffect(() => {
-     const isAdmin = customerrolePermission[0]?.user_details?.user_type === "admin";
+  const userType = customerrolePermission[0]?.user_details?.user_type;
+const isAdmin = userType === "admin" || userType === "agent";
      if (isAdmin) {
     if (state?.login?.planStatus === 0) {
       setCustomerPermissionError("");
