@@ -419,7 +419,7 @@ console.log("currentItems",currentItems)
       textOverflow: "ellipsis",
     }}
   >
-    Room No {room.Room_Name}
+    {room.Room_Name}
   </div>
   <div
     style={{
