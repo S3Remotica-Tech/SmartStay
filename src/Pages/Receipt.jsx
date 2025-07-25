@@ -36,7 +36,8 @@ const Receipt = (props) => {
 
 
 useEffect(() => {
-    const isAdmin = props.billrolePermission[0]?.user_details?.user_type === "admin";
+ const userType = props.billrolePermission[0]?.user_details?.user_type;
+const isAdmin = userType === "admin" || userType === "agent";
     if (isAdmin) {
       if (state?.login?.planStatus === 0) {
        setReceiptDeletePermission("Permission Denied");

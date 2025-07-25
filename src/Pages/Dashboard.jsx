@@ -268,7 +268,8 @@ function Dashboard() {
 
 
  useEffect(() => {
-     const isAdmin = rolePermission[0]?.user_details?.user_type === "admin";
+ const userType = rolePermission[0]?.user_details?.user_type 
+     const isAdmin = userType   === "admin" ||  userType   === "agent" ;
      if (isAdmin) {
     if (state?.login?.planStatus === 0) {
       setPermissionError("");
@@ -289,20 +290,7 @@ function Dashboard() {
 
       
 
-       useEffect(() => {
-     const isAdmin = rolePermission[0]?.user_details?.user_type === "admin";
-     if (isAdmin) {
-    if (state?.login?.planStatus === 0) {
-      setPermissionError("");
-     
-
-    } else if (state?.login?.planStatus === 1) {
-      setPermissionError("");
-    
-    }
-  }
-
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,rolePermission])
+   
       
    useEffect(() => {
        const DashboardPermission = rolePermission[0]?.role_permissions?.find(
