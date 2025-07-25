@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Profiles from "../Assets/Images/New_images/profile-picture.png";
-import leftarrow from "../Assets/Images/arrow-left.png";
+import Profiles from "../../Assets/Images/New_images/profile-picture.png";
+import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
 import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
-import Group from "../Assets/Images/Group.png";
+import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
-import Money from "../Assets/Images/New_images/Money.png";
+import Money from "../../Assets/Images/New_images/Money.png";
 import Carousel from "react-bootstrap/Carousel";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Plus from "../Assets/Images/New_images/add-circle.png";
+import Plus from "../../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -26,20 +26,20 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-import upload from "../Assets/Images/New_images/upload.png";
+import upload from "../../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Edit,Trash } from "iconsax-react";
-import docDown from "../Assets/Images/New_images/doc_download.png";
+import docDown from "../../Assets/Images/New_images/doc_download.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
-import timehalf from "../Assets/Images/New_images/time-half past.png";
+import timehalf from "../../Assets/Images/New_images/time-half past.png";
 import html2canvas from "html2canvas";
-import adhar from "../Assets/Images/New_images/aadharimg.png"
+import adhar from "../../Assets/Images/New_images/aadharimg.png"
 
 
 
@@ -390,6 +390,7 @@ function UserListRoomDetail(props) {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditUser = (item) => {
+  
     if (item[0].ID) {
       const sanitize = (value) => {
         return value === null ||
@@ -836,15 +837,7 @@ function UserListRoomDetail(props) {
         case "Hostel ID":
           setHostelIdError("Please Select Hostel ID");
           break;
-        case "City":
-          setCityError("Please Enter City");
-          break;
-        case "Pincode":
-          setPincodeError("Please Enter Pincode");
-          break;
-        case "Statename":
-          setStateNameError("Please Select State");
-          break;
+        
         default:
           break;
       }
@@ -872,15 +865,7 @@ function UserListRoomDetail(props) {
       case "Hostel ID":
         setHostelIdError("");
         break;
-      case "City":
-        setCityError("");
-        break;
-      case "Pincode":
-        setPincodeError("");
-        break;
-      case "Statename":
-        setStateNameError("");
-        break;
+   
       default:
         break;
     }
@@ -921,9 +906,7 @@ function UserListRoomDetail(props) {
     if (!validateField(firstname, "First Name", focusedRef, firstnameRef)) return;
     if (!validateField(Phone, "Phone Number", focusedRef, phoneRef)) return;
     if (!validateField(hostel_Id, "Hostel ID", focusedRef, hostelRef)) return;
-    if (!validateField(city, "City", focusedRef, cityRef)) return;
-    if (!validateField(pincode, "Pincode", focusedRef, pincodeRef)) return;
-    if (!validateField(state_name, "Statename", focusedRef, stateRef)) return;
+    
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG");
@@ -937,19 +920,22 @@ function UserListRoomDetail(props) {
       setPhoneErrorMessage("");
     }
 
-    const cleanedPincode = String(pincode || "").trim();
+  
+const cleanedPincode = String(pincode || "").trim();
 
-    if (!/^\d{6}$/.test(cleanedPincode)) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focusedRef.current && pincodeRef?.current) {
-        pincodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else {
-      setPincodeError("");
-    }
 
+if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+  setPincodeError("Pin Code Must Be Exactly 6 Digits");
+
+  if (!focusedRef.current && pincodeRef?.current) {
+    pincodeRef.current.focus();
+    focusedRef.current = true;
+  }
+
+  hasError = true;
+} else {
+  setPincodeError("");
+}
     if (Email && !["n/a", "na"].includes(Email.toLowerCase().trim())) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
@@ -1029,6 +1015,15 @@ function UserListRoomDetail(props) {
   const handlegenerateForm = () => {
     seGenerateForm(true);
   };
+
+
+    useEffect(() => {
+      if (state.UsersList.phoneError) {
+        setFormLoading(false)
+        setLoading(false)
+        setPhoneError(state.UsersList.phoneError);
+      }
+    }, [state.UsersList.phoneError]);
 
   const handleCloseGenerateFormShow = () => {
     seGenerateForm(false);
@@ -2088,41 +2083,68 @@ function UserListRoomDetail(props) {
                                           color="#1E45E1"
                                           style={{ marginBottom: "2px" }}
                                         />
-                                        {(customerDetails[0].Address ||
-                                          customerDetails[0].area ||
-                                          customerDetails[0].landmark ||
-                                          customerDetails[0].city ||
-                                          customerDetails[0].pincode ||
-                                          customerDetails[0].state) && (
-                                            <div
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy",
-                                                lineHeight: "1.5em",
-                                              }}
-                                            >
-                                              {(customerDetails[0].Address || customerDetails[0].area) && (
-                                                <>
-                                                  {customerDetails[0].Address ? customerDetails[0].Address + ", " : ""}
-                                                  {customerDetails[0].area || ""}
-                                                  <br />
-                                                </>
-                                              )}
+                                      
+ 
 
-                                              {(customerDetails[0].landmark ||
-                                                customerDetails[0].city ||
-                                                customerDetails[0].pincode ||
-                                                customerDetails[0].state) && (
-                                                  <>
-                                                    {customerDetails[0].landmark ? customerDetails[0].landmark + ", " : ""}
-                                                    {customerDetails[0].city ? customerDetails[0].city + ", " : ""}
-                                                    {customerDetails[0].pincode ? customerDetails[0].pincode + " - " : ""}
-                                                    {customerDetails[0].state || ""}
-                                                  </>
-                                                )}
-                                            </div>
-                                          )}
+{(
+  customerDetails[0]?.Address ||
+  customerDetails[0]?.area ||
+  customerDetails[0]?.landmark ||
+  (customerDetails[0]?.city && customerDetails[0].city !== "undefined" && customerDetails[0].city !== "null" && customerDetails[0].city !== 0) ||
+  customerDetails[0]?.pincode ||
+  (customerDetails[0]?.state && customerDetails[0].state !== "undefined" && customerDetails[0].state !== "null" && customerDetails[0].state !== 0)
+) ? (
+  <div
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      lineHeight: "1.5em",
+    }}
+  >
+    {(customerDetails[0]?.Address || customerDetails[0]?.area) && (
+      <>
+        {customerDetails[0]?.Address ? `${customerDetails[0].Address}, ` : ""}
+        {customerDetails[0]?.area ?? ""}
+        <br />
+      </>
+    )}
+
+    {(customerDetails[0]?.landmark ||
+      customerDetails[0]?.city ||
+      customerDetails[0]?.pincode ||
+      customerDetails[0]?.state) && (
+      <>
+        {customerDetails[0]?.landmark ? `${customerDetails[0].landmark}, ` : ""}
+
+        {(customerDetails[0]?.city &&
+          customerDetails[0].city !== "undefined" &&
+          customerDetails[0].city !== "null" &&
+          customerDetails[0].city !== 0) ? `${customerDetails[0].city}, ` : ""}
+
+        {customerDetails[0]?.pincode ? `${customerDetails[0].pincode} - ` : ""}
+
+        {(customerDetails[0]?.state &&
+          customerDetails[0].state !== "undefined" &&
+          customerDetails[0].state !== "null" &&
+          customerDetails[0].state !== 0) ? customerDetails[0].state : ""}
+      </>
+    )}
+  </div>
+) : (
+  <div
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      lineHeight: "1.5em",
+    }}
+  >
+    No address found
+  </div>
+)}
+
+
 
 
                                       </div>
@@ -3514,14 +3536,7 @@ function UserListRoomDetail(props) {
                                           }}
                                         >
                                           Pincode { " "}
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            *
-                                          </span>
+                                         
                                         </Form.Label>
                                         <Form.Control
                                           value={pincode}
@@ -3580,15 +3595,7 @@ function UserListRoomDetail(props) {
                                           }}
                                         >
                                           Town/City {" "}
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            {" "}
-                                            *{" "}
-                                          </span>
+                                       
                                         </Form.Label>
                                         <FormControl
                                           type="text"
@@ -3647,15 +3654,7 @@ function UserListRoomDetail(props) {
                                           }}
                                         >
                                           State
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            {" "}
-                                            *{" "}
-                                          </span>
+                                         
                                         </Form.Label>
 
                                         <Select
@@ -3663,6 +3662,7 @@ function UserListRoomDetail(props) {
                                           ref={stateRef}
                                           onChange={(selectedOption) => {
                                             setStateName(selectedOption?.value);
+                                            setFormError("")
                                           }}
                                           onInputChange={(inputValue, { action }) => {
                                             if (action === "input-change") {

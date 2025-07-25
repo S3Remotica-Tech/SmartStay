@@ -8,7 +8,7 @@ import { Edit,Trash } from "iconsax-react";
 import CustomerForm from "./UserlistWalkinForm";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";
-import Emptystate from "../Assets/Images/Empty-State.jpg";
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { MdError } from "react-icons/md";

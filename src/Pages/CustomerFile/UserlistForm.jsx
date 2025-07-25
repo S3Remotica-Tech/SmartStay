@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, FormControl } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
-import "../Pages/UserList.css";
+import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
 import { InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Plus from "../Assets/Images/New_images/add-circle.png";
+import Plus from "../../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
@@ -17,7 +17,7 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs"; 
 import { CloseCircle } from "iconsax-react";
-import {JoininDatecustomer} from "../Redux/Action/smartStayAction";
+import {JoininDatecustomer} from "../../Redux/Action/smartStayAction";
 
 
 function UserlistForm(props) {
@@ -552,15 +552,7 @@ function UserlistForm(props) {
         case "Hostel ID":
           setError("Please Select PG");
           break;
-        case "City":
-          setError("Please Enter City");
-          break;
-        case "Pincode":
-          setError("Please Enter Pincode");
-          break;
-        case "Statename":
-          setError("Please Select State");
-          break;
+       
         default:
           break;
       }
@@ -587,9 +579,7 @@ function UserlistForm(props) {
 
     if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
     if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
-    if (!validateField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef)) hasError = true;
-    if (!validateField(city, "City", cityRef, setCityError, focusedRef)) hasError = true;
-    if (!validateField(state_name, "Statename", stateRef, setStateNameError, focusedRef)) hasError = true;
+   
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a Valid PG");
@@ -1570,9 +1560,7 @@ useEffect(() => {
                             }}
                           >
                             Pincode
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              *
-                            </span>
+                           
                           </Form.Label>
                           <Form.Control
                             value={pincode}
@@ -1633,10 +1621,7 @@ useEffect(() => {
                             }}
                           >
                             Town/City{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
+                           
                           </Form.Label>
                           <FormControl
                             type="text"
@@ -1692,10 +1677,7 @@ useEffect(() => {
                             }}
                           >
                             State
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
+                          
                           </Form.Label>
 
                           <Select

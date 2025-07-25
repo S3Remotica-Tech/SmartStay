@@ -10,9 +10,9 @@ import {
   ArrowLeft2,
   ArrowRight2, ArrowUp2, ArrowDown2
 } from "iconsax-react";
-import Edit from '../Assets/Images/Edit-blue.png';
-import Delete from '../Assets/Images/Delete_red.png';
-import Emptystate from "../Assets/Images/Empty-State.jpg";
+import Edit from '../../Assets/Images/Edit-blue.png';
+import Delete from '../../Assets/Images/Delete_red.png';
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import Select from "react-select";
 
 

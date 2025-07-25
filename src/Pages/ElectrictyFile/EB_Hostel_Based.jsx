@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
-import emptyimg from "../Assets/Images/New_images/empty_image.png";
+import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import Button from "react-bootstrap/Button";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";

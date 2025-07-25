@@ -5,8 +5,8 @@ import { StoreSelectedHostelAction, setPlanStatus } from "../Redux/Action/smartS
 import "../Components/Sidebar.css";
 import Dashboards from "../Pages/Dashboard";
 import PgLists from "../Pages/PayingGuestFile/PgList";
-import UserLists from "../Pages/UserList";
-import EbHostel from "../Pages/EB_Hostel";
+import UserLists from "../Pages/CustomerFile/UserList";
+import EbHostel from "../Pages/ElectrictyFile/EB_Hostel";
 import Invoices from "../Pages/Invoice";
 import Compliances from "../Pages/Compliance";
 import Report from "../Reports/Reports";

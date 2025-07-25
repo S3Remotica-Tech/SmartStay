@@ -14,8 +14,8 @@ import { CloseCircle } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-import Plus from "../Assets/Images/New_images/addplus-circle.svg";
-import Profile2 from "../Assets/Images/New_images/profile-picture.png";
+import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
+import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
 import PropTypes from "prop-types";
@@ -130,6 +130,9 @@ function BookingModal(props) {
   useEffect(() => {
     if (state.Booking.bookingPhoneError) {
       setFormLoading(false)
+         if (phoneInputRef.current) {
+      phoneInputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
       setTimeout(() => {
         dispatch({ type: "CLEAR_PHONE_ERROR" });
       }, 2000);
@@ -139,6 +142,9 @@ function BookingModal(props) {
   useEffect(() => {
     if (state.Booking.bookingEmailError) {
       setFormLoading(false)
+      if (EmailInputRef.current) {
+      EmailInputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
       }, 2000);
@@ -194,7 +200,8 @@ function BookingModal(props) {
 
 
 
-
+const phoneInputRef = useRef(null);
+const EmailInputRef = useRef(null);
 
   const handlePhone = (e) => {
     const input = e.target.value.replace(/\D/g, "");
@@ -293,7 +300,7 @@ function BookingModal(props) {
           setError("Please Enter Mobile Number");
           break;
         case "joiningDate":
-          setError("Please Select Joining Date");
+          setError("Please Select Expected  Date");
           break;
         case "bookingDate":
           setError("Please Select Booking Date");
@@ -301,15 +308,7 @@ function BookingModal(props) {
         case "amount":
           setError("Please Enter Amount");
           break;
-        case "City":
-          setError("Please Enter City");
-          break;
-        case "Pincode":
-          setError("Please Enter Pincode");
-          break;
-        case "Statename":
-          setError("Please Select State");
-          break;
+       
         case "Email":
           setError("Please Enter Email");
           break;
@@ -342,9 +341,6 @@ function BookingModal(props) {
 
     const isFirstnameValid = validateAssignField(firstName, "firstName", firstnameRef, setfirstNameError, focusedRef);
     const isPhoneValid = validateAssignField(Phone, "Phone", phoneRef, setPhoneError, focusedRef);
-    const isPincodeValid = validateAssignField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef);
-    const isCityValid = validateAssignField(city, "City", cityRef, setCityError, focusedRef);
-    const isStatenameValid = validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef);
     const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
     const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
     const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
@@ -412,9 +408,6 @@ function BookingModal(props) {
       !isPhoneValid ||
       !isJoiningDateValid ||
       !isAmountValid ||
-      !isCityValid ||
-      !isPincodeValid ||
-      !isStatenameValid ||
       !isBookingDateValid
     ) {
       return;
@@ -804,7 +797,7 @@ function BookingModal(props) {
                   </div>
                 )}
                 {state.Booking.bookingPhoneError && (
-                  <div style={{ color: "red" }}>
+                  <div style={{ color: "red" }} ref={phoneInputRef}>
                     <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                     <span
                       style={{
@@ -879,7 +872,7 @@ function BookingModal(props) {
                 </div>
               )}
               {state?.Booking?.bookingEmailError && (
-                <div style={{ color: "red" }}>
+                <div ref={EmailInputRef} style={{ color: "red" }}>
                   <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
@@ -1031,7 +1024,7 @@ function BookingModal(props) {
                   }}
                 >
                   Pincode {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                 
                 </Form.Label>
                 <Form.Control
                   value={pincode}
@@ -1085,7 +1078,7 @@ function BookingModal(props) {
                   }}
                 >
                   Town/City {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1127,7 +1120,7 @@ function BookingModal(props) {
                   lineHeight: "normal",
                 }}
               >
-                State {" "} <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                State {" "} 
               </Form.Label>
 
               <Select

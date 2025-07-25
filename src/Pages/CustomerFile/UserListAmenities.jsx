@@ -7,7 +7,7 @@ import { MdError } from "react-icons/md";
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
-import cross from "../Assets/Images/cross.png";
+import cross from "../../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
