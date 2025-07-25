@@ -350,7 +350,7 @@ const pageSizeOptions = [
     };
   }, []);
 
-console.log("currentItems",currentItems)
+
   return (
     <>
 

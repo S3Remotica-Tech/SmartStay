@@ -1238,7 +1238,10 @@ const EmailInputRef = useRef(null);
                       setJoiningDate(date ? date.toDate() : null);
                       setJoingDateErrmsg('');
                     }}
-                  
+                                      disabledDate={(current) => {
+                      
+                      return current && current < dayjs().startOf('day');
+                    }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
 
                   />
