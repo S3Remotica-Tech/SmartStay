@@ -5928,9 +5928,7 @@ useEffect(() => {
    value={invoiceduedate ? dayjs(invoiceduedate) : null}
      onChange={(date) => handleDueDate(date)}
     getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-    disabledDate={(current) =>
-      current && current > dayjs().endOf("day")
-    }
+    
     dropdownAlign={{
       points: ["tl", "bl"],
       offset: [0, 4], 

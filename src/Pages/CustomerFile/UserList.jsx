@@ -4713,9 +4713,7 @@ useEffect(() => {
                       handleDueDate(date ? date.toDate() : null)
                     }
                       getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-                      disabledDate={(current) =>
-                        current && current > dayjs().endOf("day")
-                      }
+                    
                       dropdownAlign={{
                         points: ["tl", "bl"],
                         offset: [0, 4], 
