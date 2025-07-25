@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, FormControl } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
-import "../Pages/UserList.css";
+import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
 import { InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Plus from "../Assets/Images/New_images/add-circle.png";
+import Plus from "../../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
@@ -17,7 +17,7 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs"; 
 import { CloseCircle } from "iconsax-react";
-import {JoininDatecustomer} from "../Redux/Action/smartStayAction";
+import {JoininDatecustomer} from "../../Redux/Action/smartStayAction";
 
 
 function UserlistForm(props) {

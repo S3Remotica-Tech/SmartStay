@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
-import Emptystate from "../Assets/Images/Empty-State.jpg";
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import Select from "react-select";
 function UserEb(props) {
   const state = useSelector(state => state)

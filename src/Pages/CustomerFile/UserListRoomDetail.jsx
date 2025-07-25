@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Profiles from "../Assets/Images/New_images/profile-picture.png";
-import leftarrow from "../Assets/Images/arrow-left.png";
+import Profiles from "../../Assets/Images/New_images/profile-picture.png";
+import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
 import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
-import Group from "../Assets/Images/Group.png";
+import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
-import Money from "../Assets/Images/New_images/Money.png";
+import Money from "../../Assets/Images/New_images/Money.png";
 import Carousel from "react-bootstrap/Carousel";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Plus from "../Assets/Images/New_images/add-circle.png";
+import Plus from "../../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -26,20 +26,20 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-import upload from "../Assets/Images/New_images/upload.png";
+import upload from "../../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Edit,Trash } from "iconsax-react";
-import docDown from "../Assets/Images/New_images/doc_download.png";
+import docDown from "../../Assets/Images/New_images/doc_download.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
-import timehalf from "../Assets/Images/New_images/time-half past.png";
+import timehalf from "../../Assets/Images/New_images/time-half past.png";
 import html2canvas from "html2canvas";
-import adhar from "../Assets/Images/New_images/aadharimg.png"
+import adhar from "../../Assets/Images/New_images/aadharimg.png"
 
 
 
