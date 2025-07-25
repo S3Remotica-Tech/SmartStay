@@ -342,7 +342,7 @@ function StaticExample({ show, setShow, currentItem }) {
         productNameRef.current.focus();
         focusedRef.current = true;
       }
-      return
+      
     }
 
     if (!modeOfPayment) {
@@ -351,7 +351,7 @@ function StaticExample({ show, setShow, currentItem }) {
         paymentRef.current.focus();
         focusedRef.current = true;
       }
-      return
+      
     }
 
     if (!cleanedSerialNumber) {
@@ -360,7 +360,7 @@ function StaticExample({ show, setShow, currentItem }) {
         serialNumberRef.current.focus();
         focusedRef.current = true;
       }
-      return
+      
     }
 
     if (!selectedDate) {
@@ -369,7 +369,7 @@ function StaticExample({ show, setShow, currentItem }) {
         dateRef.current.focus();
         focusedRef.current = true;
       }
-      return
+     
     }
 
     const numericRegex = /^[0-9]+$/;
@@ -382,26 +382,7 @@ function StaticExample({ show, setShow, currentItem }) {
       }
       return;
     }
-    // if (selectedDate) {
-    //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-    //   if (selectedHostel) {
-    //     const HostelCreateDate = new Date(selectedHostel.create_At);
-    //     const AssetDate = new Date(selectedDate);
-    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-    //     const AssetDateOnly = new Date(AssetDate.toDateString());
-    //     if (AssetDateOnly < HostelCreateDateOnly) {
-    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
-    //       if (!focusedRef.current && dateRef.current) {
-    //         dateRef.current.focus();
-    //         focusedRef.current = true;
-
-    //         return
-    //       }
-    //     } else {
-    //       setJoingDateErrmsg('');
-    //     }
-    //   }
-    // }
+   
 
 
 

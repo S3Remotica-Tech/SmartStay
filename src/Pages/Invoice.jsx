@@ -1801,7 +1801,8 @@ if (selectedUser) {
 
 
   useEffect(() => {
-    const isAdmin = billrolePermission[0]?.user_details?.user_type === "admin";
+   const userType = billrolePermission[0]?.user_details?.user_type;
+const isAdmin = userType === "admin" || userType === "agent";
     if (isAdmin) {
       if (state?.login?.planStatus === 0) {
        
