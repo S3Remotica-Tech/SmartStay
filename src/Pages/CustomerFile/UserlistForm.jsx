@@ -552,15 +552,7 @@ function UserlistForm(props) {
         case "Hostel ID":
           setError("Please Select PG");
           break;
-        case "City":
-          setError("Please Enter City");
-          break;
-        case "Pincode":
-          setError("Please Enter Pincode");
-          break;
-        case "Statename":
-          setError("Please Select State");
-          break;
+       
         default:
           break;
       }
@@ -587,9 +579,7 @@ function UserlistForm(props) {
 
     if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
     if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
-    if (!validateField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef)) hasError = true;
-    if (!validateField(city, "City", cityRef, setCityError, focusedRef)) hasError = true;
-    if (!validateField(state_name, "Statename", stateRef, setStateNameError, focusedRef)) hasError = true;
+   
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a Valid PG");
@@ -1570,9 +1560,7 @@ useEffect(() => {
                             }}
                           >
                             Pincode
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              *
-                            </span>
+                           
                           </Form.Label>
                           <Form.Control
                             value={pincode}
@@ -1633,10 +1621,7 @@ useEffect(() => {
                             }}
                           >
                             Town/City{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
+                           
                           </Form.Label>
                           <FormControl
                             type="text"
@@ -1692,10 +1677,7 @@ useEffect(() => {
                             }}
                           >
                             State
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
+                          
                           </Form.Label>
 
                           <Select

@@ -446,7 +446,7 @@ function Booking(props) {
           setPhoneError("Please Enter Mobile Number");
           break;
         case "joiningDate":
-          setJoingDateErrmsg("Please Select Joining Date");
+          setJoingDateErrmsg("Please Select Expected Date");
           break;
         case "bookingDate":
           setBookingDateErrmsg("Please Select Booking Date");
@@ -454,15 +454,7 @@ function Booking(props) {
         case "amount":
           setamountError("Please Enter Amount");
           break;
-        case "City":
-          setCityError("Please Enter City");
-          break;
-        case "Pincode":
-          setPincodeError("Please Enter Pincode");
-          break;
-        case "Statename":
-          setStateNameError("Please Select State");
-          break;
+        
         case "Email":
           setEmailError("Please Enter Email");
           break;
@@ -499,15 +491,7 @@ function Booking(props) {
         case "amount":
           setamountError("");
           break;
-        case "City":
-          setCityError("");
-          break;
-        case "Pincode":
-          setPincodeError("");
-          break;
-        case "Statename":
-          setStateNameError("");
-          break;
+      
         case "Email":
           setEmailError("");
           break;
@@ -534,9 +518,6 @@ function Booking(props) {
     const isFirstnameValid = validateAssignField(firstName, "firstName", focusedRef, firstNameRef);
     const isphoneValid = validateAssignField(Phone, "phone", focusedRef, phoneRef);
     const isHostelValid = validateAssignField(HostelIds, "paying", focusedRef, hostelRef);
-    const isPincodeValid = validateAssignField(pincode, "Pincode", focusedRef, pincodeRef);
-    const isCityValid = validateAssignField(city, "City", focusedRef, cityRef);
-    const isStatenameValid = validateAssignField(state_name, "Statename", focusedRef, stateRef);
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate", focusedRef, joiningDateRef);
     const isbookingDateValid = validateAssignField(bookingDate, "bookingDate", focusedRef, bookingDateRef);
     const isamountValid = validateAssignField(amount, "amount", focusedRef, amountRef);
@@ -594,9 +575,7 @@ function Booking(props) {
       !isamountValid ||
       !isphoneValid ||
       !isHostelValid ||
-      !isCityValid ||
-      !isPincodeValid ||
-      !isStatenameValid ||
+     
       !isbookingDateValid
     ) {
       return;
@@ -612,26 +591,7 @@ function Booking(props) {
     };
 
 
-    // const isChangedBed =
-    //   (initialStateAssign.joiningDate && joiningDate &&
-    //     moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
-    //     moment(joiningDate).format("YYYY-MM-DD")) ||
-
-    //   Number(amount) !== Number(initialStateAssign.amount) ||
-    //   String(firstName) !== String(initialStateAssign.firstName) ||
-    //   String(Email) !== String(initialStateAssign.Email) ||
-    //   Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-    //   String(lastName) !== String(initialStateAssign.lastName) ||
-    //   ((file instanceof File || file instanceof Blob) &&
-    //     file.name !== initialStateAssign.file?.name) ||
-    //   file !== initialStateAssign.file ||
-    //   String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
-
-    //   normalize(house_no) !== normalize(initialStateAssign.house_no) ||
-    //   normalize(street) !== normalize(initialStateAssign.street) ||
-    //   normalize(landmark) !== normalize(initialStateAssign.landmark) ||
-    //   city !== initialStateAssign.city ||
-    //   state_name !== initialStateAssign.state;
+   
 
 
 const isChangedBed =
@@ -710,7 +670,7 @@ const isChangedBed =
 
     setBookingLoading(true)
 
-    setFormEdit(false);
+    
   };
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -783,20 +743,29 @@ const isChangedBed =
 
 
 
-
+const phoneInputRef = useRef(null);
+const EmailInputRef = useRef(null);
 
   useEffect(() => {
     if (state?.Booking?.bookingPhoneError) {
       setBookingLoading(false)
+   
+       if (phoneInputRef.current) {
+      phoneInputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_PHONE_ERROR" });
-      }, 2000);
+      }, 5000);
     }
   }, [state?.Booking?.bookingPhoneError]);
 
   useEffect(() => {
     if (state?.Booking?.bookingEmailError) {
       setBookingLoading(false)
+        if (EmailInputRef.current) {
+      EmailInputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
       }, 2000);
@@ -2061,7 +2030,7 @@ const isChangedBed =
                     </div>
                   )}
                   {state?.Booking?.bookingPhoneError && (
-                    <div style={{ color: "red" }}>
+                    <div style={{ color: "red" ,marginTop:"-18px"}} ref={phoneInputRef}>
                       <MdError style={{ marginRight: "5px", fontSize: 14 }} />
                       <span
                         style={{
@@ -2135,22 +2104,21 @@ const isChangedBed =
                       </span>
                     </div>
                   )}
-                  {state?.Booking?.bookingEmailError && (
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {" "}
-                        {state?.Booking?.bookingEmailError}
-                      </span>
-                    </div>
-                  )}
+                   {state?.Booking?.bookingEmailError && (
+                                 <div className="mb-4" style={{ color: "red"}} ref={EmailInputRef}>
+                                   <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
+                                   <span
+                                     style={{
+                                       color: "red",
+                                       fontSize: 12,
+                                       fontFamily: "Gilroy",
+                                       fontWeight: 500,
+                                     }}
+                                   >
+                                     {state?.Booking?.bookingEmailError}
+                                   </span>
+                                 </div>
+                               )}
                 </Form.Group>
 
               </Col>
@@ -2403,6 +2371,7 @@ const isChangedBed =
                   options={indianStates}
                   onChange={(selectedOption) => {
                     setStateName(selectedOption?.value);
+                    setFormError("")
                   }}
                   value={
                     state_name ? { value: state_name, label: state_name } : null
