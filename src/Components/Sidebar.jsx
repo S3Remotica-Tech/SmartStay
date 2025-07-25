@@ -427,13 +427,6 @@ function Sidebar() {
 
 
 
-console.log("state.login?.plan_status",state.login?.planStatus)
-
-
-
-
-
-
   return (
     <>
       <Container fluid className="p-0">
