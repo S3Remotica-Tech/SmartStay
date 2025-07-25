@@ -19,6 +19,13 @@ import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 import Select from "react-select";
+import availabeimg from "../../Assets/Images/New_images/available-circle.png";
+import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
+import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
+import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
+import orangedot from "../../Assets/Images/New_images/orangedot.png";
+import reddot from "../../Assets/Images/New_images/reddot.png";
+import bluedot from "../../Assets/Images/New_images/bluedot.png";
 
 
 
@@ -346,11 +353,11 @@ const pageSizeOptions = [
     };
   }, []);
 
-
+console.log("currentItems",currentItems)
   return (
     <>
 
-      <div className=''>
+      <div >
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
           {loader && <div
@@ -382,18 +389,59 @@ const pageSizeOptions = [
         </div>
 
         <div className='container show-scroll'
-          style={{ maxHeight: "400px", overflowY: "auto" }}>
-          <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
-            {currentItems.length > 0 && currentItems.map((room) => (
+          style={{ maxHeight: "400px", overflowY: "auto",marginTop:"-25px" }}>
+          <div className='row mt-4 mb-2  row-gap-3' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
+            {currentItems.length > 0 && currentItems.map((room,index) => (
               <>
 
 
-                <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
+                <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center ' >
 
-                  <Card className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 100 }}>
+                  <Card className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 120 }}>
                     <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
-                      <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
+                      {/* <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" , textWrap:"wrap"}} title={room.Room_Name}>
                         Room No {room.Room_Name}
+                       
+                        <p style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400, color: "#7C7C7C", marginBottom: 0 }}>
+  {Array.isArray(room.bed_details) ? `${room.bed_details.length} sharing` : '0 sharing'}
+</p>
+                      </div> */}
+ <div style={{ width: "110px" }}>
+  <div
+    title={`Room No ${room.Room_Name}`}
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      color: "rgba(34, 34, 34, 1)",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    }}
+  >
+    Room No {room.Room_Name}
+  </div>
+  <div
+    style={{
+      fontSize: 12,
+      fontFamily: "Gilroy",
+      fontWeight: 400,
+      color: "#7C7C7C",
+      marginTop: "-2px",
+    }}
+  >
+    {Array.isArray(room.bed_details)
+      ? `${room.bed_details.length} sharing`
+      : "0 sharing"}
+  </div>
+</div>
+
+
+
+                      <div className="d-flex flex-row justify-content-end ms-2 mt-1" style={{backgroundColor:"white",borderRadius:10,height:27,paddingLeft:5,paddingRight:5}}>
+                      <p style={{margin:5,fontFamily:"Gilroy",fontSize:10,fontWeight:500,whiteSpace:"nowrap"}}><img className="me-1 mb-1" src={orangedot} alt="available"  /> No Overview</p>
+                      <p style={{margin:5,fontFamily:"Gilroy",fontSize:10,fontWeight:500,whiteSpace:"nowrap"}}><img className="me-1 mb-1" src={reddot} alt="notice"  /> No Notice Period</p>
+                       <p style={{margin:5,fontFamily:"Gilroy",fontSize:10,fontWeight:500,whiteSpace:"nowrap"}}><img className="me-1 mb-1" src={bluedot} alt="recerved" />No recerved</p>
                       </div>
                       <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
@@ -504,7 +552,7 @@ const pageSizeOptions = [
                       <div className='row row-gap-3 g-0 show-scroll' style={{maxHeight: 240, overflowY:"scroll"}}>
                         {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details && room.bed_details.map((bed) => (
                           <div key={bed.id} className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
-                            <div className='d-flex flex-column align-items-center' style={{ width: "100%",  }}>
+                            {/* <div className='d-flex flex-column align-items-center' style={{ width: "100%",  }}>
 
                               <OverlayTrigger variant="secondary"
                                 placement="top"
@@ -525,7 +573,58 @@ const pageSizeOptions = [
                               </OverlayTrigger>
 
                               <div className="pt-2" style={{ color: "#000", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }} >{bed.bed_no}</div>
-                            </div>
+                            </div> */}
+                            <div className='d-flex flex-column align-items-center' style={{ width: "100%" }}>
+  <div style={{ position: "relative", width: 34, height: 41 }}>
+    {/* Bed image */}
+    <OverlayTrigger
+      variant="secondary"
+      placement="top"
+      overlay={
+        <Tooltip variant="secondary" id={`tooltip-top`}>
+          {bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}
+        </Tooltip>
+      }
+    >
+      <img className='mt-1'
+        src={bed.isfilled ? Green : White}
+        alt='bedd'
+        style={{ height: 41, width: 34, cursor: "pointer" }}
+        onClick={() => handleDeleteBedConfirmation(bed, room)}
+      />
+    </OverlayTrigger>
+
+    {/* Notice icon on top-right */}
+    {bed.isfilled ? (
+      <img
+        src={overdueimg}
+        alt="notice"
+        height={20}
+        width={20}
+        style={{
+          position: "absolute",
+          top: 1,
+          right: -10,
+        }}
+        className="me-1 mb-1"
+      />
+    ): (null)}
+  </div>
+
+  
+  <div
+    className="pt-2"
+    style={{
+      color: "#000",
+      fontSize: 12,
+      fontWeight: 600,
+      fontFamily: "Montserrat",
+    }}
+  >
+   {bed.bed_no}
+  </div>
+</div>
+
                           </div>
                         ))}
 

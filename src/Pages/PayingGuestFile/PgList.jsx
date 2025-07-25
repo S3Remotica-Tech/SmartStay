@@ -26,6 +26,11 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteFloor from "./DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
+import availabeimg from "../../Assets/Images/New_images/available-circle.png";
+import occubiedimg from "../../Assets/Images/New_images/occubied-circle.png";
+import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
+import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
+import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import { MdError } from "react-icons/md";
 import './PgList.css';
 
@@ -1155,303 +1160,285 @@ function PgList(props) {
                     onSelect={(k) => setKey(k)}
                     id="vertical-tabs-example"
                   >
-                    <Row className="g-0">
-                      <Col
-                        sm={12}
-                        xs={12}
-                        md={2}
-                        lg={2}
-                        className="d-flex justify-content-start"
-                      >
-                        <div style={{ position: "fixed" }}>
-                          <div className="d-flex justify-content-center">
-                            <div
-                              onClick={handlePrev}
-                              disabled={visibleRange[0] === 0}
-                              style={{
-                                border: "1px solid rgba(239, 239, 239, 1)",
-                                width: "fit-content",
-                                borderRadius: 50,
-                                cursor: "pointer",
-                                padding: 3,
-                              }}
-                            >
-                              <ArrowUp2
-                                size="32"
-                                color={
-                                  visibleRange[0] === 0
-                                    ? "rgba(156, 156, 156, 1)"
-                                    : "#000000"
-                                }
-                                variant="Bold"
-                              />
-                            </div>
-                          </div>
+                 <Row className="g-0">
+  {/* Floor Sidebar */}
+  <Col xs={12} md={1} className="mb-3 mb-md-0">
+    <div style={{ position: "sticky", top: 80, zIndex: 10 }}>
+      <div className="d-flex justify-content-center mb-2">
+        <div
+          onClick={handlePrev}
+          disabled={visibleRange[0] === 0}
+          style={{
+            border: "1px solid rgba(239, 239, 239, 1)",
+            width: "fit-content",
+            borderRadius: 50,
+            cursor: "pointer",
+            padding: 3,
+          }}
+        >
+          <ArrowUp2
+            size="32"
+            color={
+              visibleRange[0] === 0 ? "rgba(156, 156, 156, 1)" : "#000000"
+            }
+            variant="Bold"
+          />
+        </div>
+      </div>
 
-                          <Nav variant="" className="flex-column">
-                            {showHostelDetails.floorDetails.map(
-                              (floor, index) =>
-                                index >= visibleRange[0] &&
-                                index <= visibleRange[1] && (
-                                  <Nav.Item
-                                    key={floor.floor_id}
-                                    onClick={() =>
-                                      handleFloorClick(
-                                        floor.floor_id,
-                                        floor.floor_name
-                                      )
-                                    }
-                                    className={`mb-3 mt-2 d-flex justify-content-center a
-                              lign-items-center  ${Number(floorClick) === Number(floor.floor_id)
-                                        ? "active-floor"
-                                        : "Navs-Item"
-                                      }`}
-                                    style={{
-                                      border: "1px solid rgba(156, 156, 156, 1)",
-                                      borderRadius: 16,
-                                      height: 95,
-                                      width: 95,
-                                      overflowY: "auto",
-                                    }}
-                                  >
-                                    <Nav.Link
-                                      className="text-center Paying-Guest"
-                                      style={{ padding: "unset" }}
-                                    >
-                                      <div
-                                        className={
-                                          Number(floorClick) ===
-                                            Number(floor.floor_id)
-                                            ? "ActiveNumberFloor"
-                                            : "UnActiveNumberFloor"
-                                        }
-                                        style={{
-                                          fontSize: 32,
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 600,
-                                          textTransform: "capitalize",
-                                          height: "fit-content",
-                                        }}
-                                      >
-                                        {floor.floor_name
-                                          ? isNaN(floor.floor_name)
-                                            ? floor.floor_name.charAt(0)
-                                            : floor.floor_name
-                                          : floor.floor.id
-                                        }
-                                      </div>
-                                      <div
-                                        className={
-                                          Number(floorClick) ===
-                                            Number(floor.floor_id)
-                                            ? "ActiveFloortext"
-                                            : "UnActiveFloortext"
-                                        }
-                                        style={{
-                                          fontSize: 14,
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 600,
-                                          textTransform: "capitalize",
-                                          wordBreak: "break-word",
-                                          whiteSpace: "normal",
-                                          overflowWrap: "break-word",
-                                          width: "100%",
-                                          textAlign: "center",
-                                          padding: "1px 16px ",
-                                        }}
-                                      >
-                                        {typeof floor.floor_name === "string" &&
-                                          floor.floor_name.trim() !== "" &&
-                                          floor.floor_name !== "null"
-                                          ? isNaN(floor.floor_name)
-                                            ? floor.floor_name
-                                            : floor.floor_name
-                                          : floor.floor_id}
-                                      </div>
+      <Nav variant="" className="flex-column align-items-center">
+        {showHostelDetails.floorDetails.map((floor, index) =>
+          index >= visibleRange[0] && index <= visibleRange[1] ? (
+            <Nav.Item
+              key={floor.floor_id}
+              onClick={() =>
+                handleFloorClick(floor.floor_id, floor.floor_name)
+              }
+              className={`mb-3 d-flex justify-content-center align-items-center ${
+                Number(floorClick) === Number(floor.floor_id)
+                  ? "active-floor"
+                  : "Navs-Item"
+              }`}
+              style={{
+                border: "1px solid rgba(156, 156, 156, 1)",
+                borderRadius: 16,
+                height: 95,
+                width: 95,
+                overflowY: "auto",
+              }}
+            >
+              <Nav.Link
+                className="text-center Paying-Guest"
+                style={{ padding: "unset" }}
+              >
+                <div
+                  className={
+                    Number(floorClick) === Number(floor.floor_id)
+                      ? "ActiveNumberFloor"
+                      : "UnActiveNumberFloor"
+                  }
+                  style={{
+                    fontSize: 32,
+                    fontFamily: "Gilroy",
+                    fontWeight: 600,
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {floor.floor_name
+                    ? isNaN(floor.floor_name)
+                      ? floor.floor_name.charAt(0)
+                      : floor.floor_name
+                    : floor.floor_id}
+                </div>
+                <div
+                  className={
+                    Number(floorClick) === Number(floor.floor_id)
+                      ? "ActiveFloortext"
+                      : "UnActiveFloortext"
+                  }
+                  style={{
+                    fontSize: 14,
+                    fontFamily: "Gilroy",
+                    fontWeight: 600,
+                    wordBreak: "break-word",
+                    whiteSpace: "normal",
+                    overflowWrap: "break-word",
+                    width: "100%",
+                    textAlign: "center",
+                    padding: "1px 8px",
+                  }}
+                >
+                  {typeof floor.floor_name === "string" &&
+                  floor.floor_name.trim() !== "" &&
+                  floor.floor_name !== "null"
+                    ? floor.floor_name
+                    : floor.floor_id}
+                </div>
+              </Nav.Link>
+            </Nav.Item>
+          ) : null
+        )}
+      </Nav>
 
-                                    </Nav.Link>
-                                  </Nav.Item>
-                                )
-                            )}
-                          </Nav>
+      <div className="d-flex justify-content-center mt-2">
+        <div
+          onClick={handleNext}
+          disabled={visibleRange[1] === numberOfFloors - 1}
+          style={{
+            border: "1px solid rgba(239, 239, 239, 1)",
+            width: "fit-content",
+            borderRadius: 50,
+            padding: 3,
+            cursor: "pointer",
+          }}
+        >
+          <ArrowDown2
+            size="32"
+            color={
+              visibleRange[1] === numberOfFloors - 1
+                ? "rgba(156, 156, 156, 1)"
+                : "#000000"
+            }
+            variant="Bold"
+          />
+        </div>
+      </div>
+    </div>
+  </Col>
 
-                          <div className="d-flex justify-content-center">
-                            <div
-                              onClick={handleNext}
-                              disabled={
-                                key === (showHostelDetails.number_Of_Floor - 1).toString()
-                              }
-                              style={{
-                                border: "1px solid rgba(239, 239, 239, 1)",
-                                width: "fit-content",
-                                borderRadius: 50,
-                                padding: 3,
-                              }}
-                            >
-                              <ArrowDown2
-                                size="32"
-                                color={
-                                  visibleRange[1] === numberOfFloors - 1
-                                    ? "rgba(156, 156, 156, 1)"
-                                    : "#000000"
-                                }
-                                variant="Bold"
-                                style={{ cursor: "pointer" }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col sm={12} xs={12} md={10} lg={10}>
-                        <div className="container">
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div
-                              style={{
-                                fontSize: 20,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                textTransform: "capitalize",
-                              }}
-                            >
-                              {floorName !== null &&
-                                floorName !== undefined &&
-                                floorName.trim() !== ""
-                                ? floorName
-                                : ""}
-                            </div>
-                            <div>
-                              <div
-                                style={{
-                                  cursor: "pointer",
-                                  height: 40,
-                                  width: 40,
-                                  borderRadius: 100,
-                                  border: "1px solid #EFEFEF",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  position: "relative",
-                                  zIndex: showDots ? 1000 : "auto",
-                                  backgroundColor: showDots ? "#E7F1FF" : '#fff',
-                                }}
-                                onClick={() => handleShowDots()}
-                              >
-                                <PiDotsThreeOutlineVerticalFill
-                                  style={{ height: 20, width: 20 }}
-                                />
+  {/* Right Content Area */}
+  <Col xs={12} md={11} className="ps-md-4"  >
+    <div className="container">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div
+          style={{
+            fontSize: 20,
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            textTransform: "capitalize",
+          }}
+        >
+          {floorName && floorName.trim() !== "" ? floorName : ""}
+        </div>
 
-                                {showDots && (
-                                  <>
-                                    <div
-                                      ref={popupRef}
-                                      className="pg-card"
-                                      style={{
-                                        cursor: "pointer",
-                                        backgroundColor: "#fff",
-                                        position: "absolute",
-                                        right: 40,
-                                        top: 10,
-                                        border: "1px solid #E0E0E0",
-                                        borderRadius: 10,
-                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                        width: 140,
-                                        zIndex: 1000,
-                                      }}
-                                    >
-                                      <div>
-                                        <div
-                                          className="d-flex gap-2 align-items-center"
-                                          onClick={
-                                            !editPermissionError
-                                              ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
-                                              : undefined
-                                          }
-                                          style={{
-                                            padding: "8px 12px",
-                                            borderRadius: 6,
-                                            width: "100%",
-                                            pointerEvents: editPermissionError ? "none" : "auto",
-                                            opacity: editPermissionError ? 0.5 : 1,
-                                            cursor: editPermissionError ? "not-allowed" : "pointer",
-                                            transition: "background 0.2s ease-in-out",
-                                          }}
-                                          onMouseEnter={(e) =>
-                                            !editPermissionError && (e.currentTarget.style.backgroundColor = "#F0F4FF")
-                                          }
-                                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-                                        >
-                                          <Edit size="16" color={editPermissionError ? "#A0A0A0" : "#1E45E1"} />
-                                          <span
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              color: editPermissionError ? "#A0A0A0" : "#1E45E1",
-                                            }}
-                                          >
-                                            Edit
-                                          </span>
-                                        </div>
+        <div className="d-flex align-items-center gap-3">
+          <div className="d-flex flex-row flex-wrap">
+            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+              <img className="me-1 mb-1" src={availabeimg} alt="available" />
+              Available
+            </p>
+            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+              <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
+              Occupied
+            </p>
+            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+              <img className="me-1 mb-1" src={recerverimg} alt="reserved" />
+              Reserved
+            </p>
+            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+              <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
+              Overdue
+            </p>
+            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+              <img className="me-1 mb-1" src={noticeimg} alt="notice" />
+              Notice Period
+            </p>
+          </div>
 
+          {/* Dots Button */}
+          <div
+            style={{
+              cursor: "pointer",
+              height: 40,
+              width: 40,
+              borderRadius: 100,
+              border: "1px solid #EFEFEF",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
+              zIndex: showDots ? 1000 : "auto",
+              backgroundColor: showDots ? "#E7F1FF" : "#fff",
+            }}
+            onClick={handleShowDots}
+          >
+            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+            {showDots && (
+              <div
+                ref={popupRef}
+                className="pg-card"
+                style={{
+                  backgroundColor: "#fff",
+                  position: "absolute",
+                  right: 40,
+                  top: 10,
+                  border: "1px solid #E0E0E0",
+                  borderRadius: 10,
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                  width: 140,
+                  zIndex: 1000,
+                }}
+              >
+                <div>
+                  <div
+                    className="d-flex gap-2 align-items-center"
+                    onClick={
+                      !editPermissionError
+                        ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
+                        : undefined
+                    }
+                    style={{
+                      padding: "8px 12px",
+                      borderRadius: 6,
+                      pointerEvents: editPermissionError ? "none" : "auto",
+                      opacity: editPermissionError ? 0.5 : 1,
+                      cursor: editPermissionError ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    <Edit size="16" color={editPermissionError ? "#A0A0A0" : "#1E45E1"} />
+                    <span
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        color: editPermissionError ? "#A0A0A0" : "#1E45E1",
+                      }}
+                    >
+                      Edit
+                    </span>
+                  </div>
 
-                                        <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "4px 0" }} />
 
+                  <div
+                    className="d-flex gap-2 align-items-center"
+                    onClick={
+                      !deletePermissionError
+                        ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
+                        : undefined
+                    }
+                    style={{
+                      padding: "8px 12px",
+                      borderRadius: 6,
+                      pointerEvents: deletePermissionError ? "none" : "auto",
+                      opacity: deletePermissionError ? 0.5 : 1,
+                      cursor: deletePermissionError ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    <Trash size="16" color={deletePermissionError ? "#A0A0A0" : "#FF0000"} />
+                    <span
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        color: deletePermissionError ? "#A0A0A0" : "#FF0000",
+                      }}
+                    >
+                      Delete
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
 
-                                        <div
-                                          className="d-flex gap-2 align-items-center"
-                                          onClick={
-                                            !deletePermissionError
-                                              ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
-                                              : undefined
-                                          }
-                                          style={{
-                                            padding: "8px 12px",
-                                            width: "100%",
-                                            borderRadius: 6,
-                                            pointerEvents: deletePermissionError ? "none" : "auto",
-                                            opacity: deletePermissionError ? 0.5 : 1,
-                                            cursor: deletePermissionError ? "not-allowed" : "pointer",
-                                            transition: "background 0.2s ease-in-out",
-                                          }}
-                                          onMouseEnter={(e) =>
-                                            !deletePermissionError && (e.currentTarget.style.backgroundColor = "#FFF3F3")
-                                          }
-                                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-                                        >
-                                          <Trash size="16" color={deletePermissionError ? "#A0A0A0" : "#FF0000"} />
-                                          <span
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              color: deletePermissionError ? "#A0A0A0" : "#FF0000",
-                                            }}
-                                          >
-                                            Delete
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
+      </div>
+    </div>
 
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+    <Tab.Content>
+      <ParticularHostelDetails
+        floorID={floorClick}
+        hostel_Id={showHostelDetails.id}
+        phoneNumber={showHostelDetails.hostel_PhoneNo}
+        editPermissionError={editPermissionError}
+        deletePermissionError={deletePermissionError}
+        addPermissionError={addPermissionError}
+      />
+    </Tab.Content>
+  </Col>
+</Row>
 
-                        <Tab.Content>
-                          <ParticularHostelDetails
-                            floorID={floorClick}
-                            hostel_Id={showHostelDetails.id}
-                            phoneNumber={showHostelDetails.hostel_PhoneNo}
-                            editPermissionError={editPermissionError}
-                            deletePermissionError={deletePermissionError}
-                            addPermissionError={addPermissionError}
-                          />
-                        </Tab.Content>
-                      </Col>
-                    </Row>
                   </Tab.Container>
                 ) : (
                   <div
