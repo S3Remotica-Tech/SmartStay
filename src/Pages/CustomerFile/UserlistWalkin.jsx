@@ -128,6 +128,15 @@ useEffect(() => {
     }
   }, [state.UsersList.NoDataWalkInCustomerStatusCode]);
 
+    useEffect(() => {
+    if (state.UsersList.deleteWalkInCustomerStatusCode === 200) {
+         dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id },});
+      setShowDeleteModal(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_WALK_IN_CUSTOMER" });
+      }, 1000);
+    }
+  }, [state.UsersList.deleteWalkInCustomerStatusCode]);
   
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
