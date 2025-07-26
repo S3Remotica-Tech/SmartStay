@@ -296,29 +296,14 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     } else {
       setPhoneError("");
     }
-    if (!pincode) {
-      setPincodeError("Please Enter Pincode");
-      hasError = true;
-      if (!firstInvalidRef) firstInvalidRef = pincodeRef;
-    } else if (pincode.length > 0 && pincode.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      hasError = true;
-      if (!firstInvalidRef) firstInvalidRef = pincodeRef;
-    }
-
-    if (!city) {
-      setCityError("Please Enter City");
-      hasError = true;
-      if (!firstInvalidRef) firstInvalidRef = cityRef;
-    }
-
-
-
-    if (!state_name) {
-      setStateNameError("Please Select State");
-      hasError = true;
-      if (!firstInvalidRef) firstInvalidRef = stateRef;
-    }
+    if (pincode && pincode.length < 6) {
+    setPincodeError("Pin Code Must Be Exactly 6 Digits");
+    hasError = true;
+    if (!firstInvalidRef) firstInvalidRef = pincodeRef;
+  } else {
+    setPincodeError("");
+  }
+  
 
     if (!selectedDate) {
       setDateError("Please Select a Date");
@@ -326,25 +311,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       if (!firstInvalidRef) firstInvalidRef = dateRef;
     }
 
-    // if (selectedDate) {
-    //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
-    //   if (selectedHostel) {
-    //     const HostelCreateDate = new Date(selectedHostel.create_At);
-    //     const JoinDate = new Date(selectedDate);
-    //     const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
-    //     const JoinDateOnly = new Date(JoinDate.toDateString());
-    //     if (JoinDateOnly < HostelCreateDateOnly) {
-    //       setJoingDateErrmsg('Before Hostel Create date not allowed');
-    //       if (dateRef.current) {
-    //         dateRef.current.focus();
-    //          hasError = true;
-    //         return
-    //       }
-    //     } else {
-    //       setJoingDateErrmsg('');
-    //     }
-    //   }
-    // }
+   
 
     if (!AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
@@ -411,9 +378,6 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       phone &&
       AdvanceAmount &&
       RoomRent &&
-      city &&
-      pincode &&
-      state_name &&
       countryCode &&
       selectedDate
     ) {
@@ -974,7 +938,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         }}
                       >
                         Pincode{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        
                       </Form.Label>
                       <Form.Control
                         value={pincode}
@@ -1028,7 +992,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         }}
                       >
                         Town/City{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                       
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -1070,7 +1034,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         }}
                       >
                         State{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                        
                       </Form.Label>
 
                       <Select

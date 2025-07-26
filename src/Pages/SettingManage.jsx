@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import "../Pages/Dashboard.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import PayingGuest from "../Pages/PayingGuestFile/PayingGuestMap";
-import ParticularHostelDetails from "../Pages/PayingGuestFile/ParticularHostelDetails";
+import SettingParticular from "./PayingGuestFile/SettingPg";
 import AddPg from "../Pages/PayingGuestFile/AddPg";
 import AddFloor from "../Pages/PayingGuestFile/AddFloor";
 import "../Pages/PayingGuestFile/PgList.css";
@@ -1495,7 +1495,7 @@ function SettingManage() {
                         </div>
                     
                         <Tab.Content>
-                          <ParticularHostelDetails
+                          <SettingParticular
                             floorID={floorClick}
                             hostel_Id={showHostelDetails.id}
                             phoneNumber={showHostelDetails.hostel_PhoneNo}
