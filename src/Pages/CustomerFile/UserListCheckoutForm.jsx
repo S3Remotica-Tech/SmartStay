@@ -52,9 +52,12 @@ const CheckOutForm = ({
   const [formCheckoutLoading, setFormCheckoutLoading] = useState(false)
   const nochangeRef = useRef(null)
 
+  console.log("fields", fields)
 
-
-
+  const reasonOptions = [
+    { value: 'maintenance', label: 'Maintenance' },
+    { value: 'others', label: 'Others' },
+  ];
 
   const handlecloseform = () => {
     handleClose();
@@ -548,17 +551,17 @@ const CheckOutForm = ({
     if (hasError) {
       return;
     }
-   
- const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
-const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
-const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
 
-if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
-  setCheckOutDateError("Before Request Date not allowed");
-  return;
-}
+    const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+    const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
+    const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
 
-   
+    if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
+      setCheckOutDateError("Before Request Date not allowed");
+      return;
+    }
+
+
 
     if (advanceamount) {
       const nonEmptyFields = fields.filter(
@@ -826,7 +829,7 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
 
 
   const handleAddField = () => {
-    setFields([...fields, { reason: "", amount: "" }]);
+    setFields([...fields, { reason: "maintenance", amount: "" }]);
     setNoChangeMessage("")
     setConformCheckErr("")
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
@@ -1530,32 +1533,59 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
 
                 <div className="row align-items-center">
 
+
+
                   {fields.map((item, index) => {
                     const isHidden = index !== 0 && item.reason?.toLowerCase() === 'advance return';
                     if (isHidden) return null;
 
                     visibleIndex++;
 
-                    const isLastVisible = visibleIndex === fields.filter(f => f.reason?.toLowerCase() !== 'advance return' || fields.indexOf(f) === 0).length - 1;
+                    const visibleFields = fields.filter(
+                      (f, i) => f.reason?.toLowerCase() !== 'advance return' || i === 0
+                    );
+                    const isLastVisible = visibleIndex === visibleFields.length - 1;
 
                     return (
                       <React.Fragment key={index}>
                         <div className="col-lg-5 col-md-6 col-sm-12">
                           <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
-                            {index === 0 ? 'DueAmount ' : 'Reason'}
+                            {index === 0 ? 'DueAmount' : 'Reason'}
                           </label>
-                          <input
-                            type="text"
-                            id={`reason-${index}`}
-                            name={`reason-${index}`}
-                            placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
-                            value={item.reason}
-                            onChange={(e) => handleInputChange(index, "reason", e.target.value)}
-                            className="form-control"
-                            style={inputStyle}
-                            disabled={index === 0}
-                          />
+
+
+
+                          {index === 0 ? (
+                            <input
+                              type="text"
+                              id={`reason-${index}`}
+                              name={`reason-${index}`}
+                              placeholder="Due Reason"
+                              value={item.reason}
+                              onChange={(e) => handleInputChange(index, "reason", e.target.value)}
+                              className="form-control"
+                              style={inputStyle}
+                              disabled
+                            />
+                          ) : (
+                            <>
+
+
+
+                              {index !== 0 && (
+                                <input
+                                  type="text"
+                                  className="form-control mt-2"
+                                  placeholder="Enter custom reason"
+                                  onChange={(e) => handleInputChange(index, "reason", e.target.value)}
+                                  style={inputStyle}
+                                  value={item.reason}
+                                />
+                              )}
+                            </>
+                          )}
                         </div>
+
 
                         <div className="col-lg-5 col-md-6 col-sm-12">
                           <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
@@ -1573,6 +1603,7 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
                             disabled={index === 0}
                           />
                         </div>
+
 
                         <div
                           className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2"
@@ -1599,6 +1630,43 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
                             />
                           )}
                         </div>
+                      </React.Fragment>
+
+
+                    );
+                  })}
+
+
+
+                  {fields.map((item, index) => {
+                    const isMaintenanceAlreadySelected = fields.some((f, i) => f.reason === 'maintenance' && i !== index);
+                    const filteredOptions = reasonOptions.filter(
+                      option => option.value !== 'maintenance' || !isMaintenanceAlreadySelected
+                    );
+
+                    return (
+                      <React.Fragment key={index}>
+                        {index === 1 && (
+                          <Select
+                            id={`reason-select-${index}`}
+                            name={`reason-select-${index}`}
+                            options={filteredOptions}
+                            value={
+                              filteredOptions.find(option => option.value === item.reason) || null
+                            }
+                            onChange={(selectedOption) => {
+                              if (selectedOption.value === "others") {
+                                handleInputChange(index, "reason", "");
+                              } else {
+                                handleInputChange(index, "reason", selectedOption.value);
+                              }
+                            }}
+                            styles={{
+                              control: (base) => ({ ...base, ...inputStyle }),
+                            }}
+                            className="mt-4"
+                          />
+                        )}
                       </React.Fragment>
                     );
                   })}
