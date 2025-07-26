@@ -53,6 +53,7 @@ const CheckOutForm = ({
   const nochangeRef = useRef(null)
 
   console.log("fields", fields)
+  const [ showSelectedField, setShowSelectField] = useState(false)
 
   const reasonOptions = [
     { value: 'maintenance', label: 'Maintenance' },
@@ -829,7 +830,8 @@ const CheckOutForm = ({
 
 
   const handleAddField = () => {
-    setFields([...fields, { reason: "maintenance", amount: "" }]);
+    setShowSelectField(true)
+    // setFields([...fields, { reason: "maintenance", amount: "" }]);
     setNoChangeMessage("")
     setConformCheckErr("")
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
@@ -1655,12 +1657,33 @@ const CheckOutForm = ({
                               filteredOptions.find(option => option.value === item.reason) || null
                             }
                             onChange={(selectedOption) => {
-                              if (selectedOption.value === "others") {
-                                handleInputChange(index, "reason", "");
-                              } else {
-                                handleInputChange(index, "reason", selectedOption.value);
-                              }
-                            }}
+  const selectedValue = selectedOption.value;
+
+  // If selected is "others", show input box
+  if (selectedValue === "others") {
+    handleInputChange(index, "reason", "");
+  } else {
+    handleInputChange(index, "reason", selectedValue);
+
+    // If it's a valid selection, add a new field (only if it's the last visible)
+    const visibleFields = fields.filter(
+      (f, i) => f.reason?.toLowerCase() !== "advance return" || i === 0
+    );
+    const isLastField = index === visibleFields.length - 1;
+
+    if (isLastField) {
+      setFields((prevFields) => [...prevFields, { reason: "maintenance", amount: "" }]);
+    }
+  }
+}}
+
+                            // onChange={(selectedOption) => {
+                            //   if (selectedOption.value === "others") {
+                            //     handleInputChange(index, "reason", "");
+                            //   } else {
+                            //     handleInputChange(index, "reason", selectedOption.value);
+                            //   }
+                            // }}
                             styles={{
                               control: (base) => ({ ...base, ...inputStyle }),
                             }}
