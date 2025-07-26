@@ -3055,6 +3055,7 @@ useEffect(() => {
                           paddingLeft: 25,
                           marginTop: 18,
                           whiteSpace: "nowrap",
+                          marginLeft:10
                         }}
                       >
                         {" "}
@@ -4576,7 +4577,7 @@ useEffect(() => {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        There are no bills added{" "}
+                        There are no Recuring bills added{" "}
                       </div>
                     </div>
                   )}
@@ -5652,7 +5653,7 @@ useEffect(() => {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 me-4">
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                 <Form.Label
                   style={{
@@ -5778,7 +5779,7 @@ useEffect(() => {
               </Form.Group>
             </div>
 
-            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
               <Form.Group className="mb-1 mt-1" controlId="exampleForm.ControlInput1">
                 <Form.Label
                   style={{
@@ -5835,7 +5836,7 @@ useEffect(() => {
           </div>
 
           <div className="mb-4" style={{ display: "flex", flexDirection: "row", height: "100px" }}>
-            <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 me-4">
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
 
               <p className="mt-1 mb-1" style={{
                 fontSize: 14,
@@ -5906,7 +5907,7 @@ useEffect(() => {
               )}
             </div>
 
-            <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
               <p className="mt-1 mb-1" style={{
                 fontSize: 14,
                 color: "#222222",
@@ -6044,7 +6045,7 @@ useEffect(() => {
 
           )}
 
-          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3">
+          <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-3">
             <Form.Select
               className="border"
               style={{

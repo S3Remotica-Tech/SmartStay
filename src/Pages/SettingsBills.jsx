@@ -15,6 +15,8 @@ import Billsimage from "../Assets/Images/bill_settings.png";
 import EditICon from '../Assets/Images/edit_whiteicon.png'
 import Select from "react-select";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./SettingInvoice.css";
 import "./SettingsBills.css";
 
@@ -43,7 +45,6 @@ function SettingsBills() {
   const [checkboxOptions, setCheckboxOptions] = useState([]);
   const [notifications, setNotifications] = useState({});
   const [isOn, setIsOn] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
   const [recurring_bills, setRecuringBills] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [editErrmsg, setEditErrmessage] = useState("")
@@ -128,7 +129,15 @@ function SettingsBills() {
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
-      setShowPopup(true);
+       toast.error("Please add a hostel before adding Bills information.", {
+              hideProgressBar: true,
+              autoClose: 1500,
+              style: {
+                color: "#000",
+                borderBottom: "5px solid red",
+                fontFamily: "Gilroy",
+              },
+            });
       return;
     }
     setShowForm(true);
@@ -136,7 +145,6 @@ function SettingsBills() {
 
   const handleEdit = () => {
     if (!state.login.selectedHostel_Id) {
-      setShowPopup(true);
       return;
     }
 
@@ -637,16 +645,7 @@ function SettingsBills() {
         </div>
       </div>
 
-      {showPopup && (
-        <div className="d-flex flex-wrap">
-          <p
-            style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }}
-            className="col-12 col-sm-6 col-md-6 col-lg-9"
-          >
-            Please add a hostel before adding Invoice information.
-          </p>
-        </div>
-      )}
+     
 
       {showform ? (
         <div>
@@ -1571,7 +1570,6 @@ function SettingsBills() {
                         height: 45,
                         border: "2px solid #1E45E1",
                       }}
-                      disabled={showPopup}
                     >
                       + Recurring
                     </button>
@@ -1593,7 +1591,8 @@ function SettingsBills() {
 
                 
               </div>
-              <hr></hr>
+              {recurring_bills && Object.keys(recurring_bills).length > 0 && 
+              <hr></hr> }
 
               {recurring_bills && Object.keys(recurring_bills).length > 0 && (
                 <>

@@ -37,6 +37,8 @@ import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import {CloseCircle} from "iconsax-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import './SettingInvoice.css';
 
 function SettingInvoice({hostelid}) {
@@ -526,6 +528,15 @@ const handleTermsChange = (e) => {
   const handleShow = (type) => {
 
     if (!state.login.selectedHostel_Id) {
+  toast.error("Please add a hostel before adding Invoice information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
       return;
     }
     setIsVisible(true)
