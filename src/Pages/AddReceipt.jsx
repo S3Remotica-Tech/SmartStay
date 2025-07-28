@@ -293,7 +293,6 @@ const paymentOptions = Array.isArray(bankking)
 
     if (!invoicenumber && props.editvalue.type !== "checkout") {
       setInvoicenumberErrmsg("Please Select Invoice");
-      return;
     }
 
 
