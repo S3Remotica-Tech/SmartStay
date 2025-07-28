@@ -1043,6 +1043,7 @@ useEffect(() => {
 );
 
 const remainingAdvance = (parseFloat(AdvanceAmount) || 0) - totalDeductions;
+console.log("remainingAdvance",remainingAdvance)
 
   return (
     <div>

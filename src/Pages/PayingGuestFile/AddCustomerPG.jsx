@@ -537,13 +537,7 @@ setShowAddCustomer(false)
       updated[index].amount = value;
       setFields(updated);
     };
-    const totalDeductions = fields.reduce(
-    (acc, field) => acc + (parseFloat(field.amount) || 0),
-    0
-  );
   
-  const remainingAdvance = (parseFloat(AdvanceAmount) || 0) - totalDeductions;
-
   return (
     <>
     <div
