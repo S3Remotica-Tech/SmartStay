@@ -18,6 +18,8 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs"; 
 import { CloseCircle } from "iconsax-react";
 import {JoininDatecustomer} from "../../Redux/Action/smartStayAction";
+import Delete from "../../Assets/Images/New_images/trash.png";
+import PlusIcon from "../../Assets/Images/New_images/plusIcon.png";
 
 
 function UserlistForm(props) {
@@ -976,10 +978,71 @@ useEffect(() => {
     }
 
   }, [state.createAccount?.networkError])
+  const [showSelect, setShowSelect] = useState(false);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [fields, setFields] = useState([]);
+ 
 
 
 
+  const handleAddClick = () => {
+    setShowSelect(true); 
+  };
+  const [selectedOption, setSelectedOption] = useState(null);
+  const handleTypeSelect = (selectedOption) => {
+  if (!selectedOption) return;
 
+  const type = selectedOption.value;
+
+  if (type === "Maintenance" && selectedTypes.includes("Maintenance")) return;
+
+  const newField = {
+    type,
+    reason: type === "Maintenance" ? "Maintenance" : "",
+    amount: "",
+  };
+
+  setFields((prev) => [...prev, newField]);
+  setSelectedTypes((prev) => [...prev, type]);
+
+
+  setSelectedOption(null);
+};
+
+
+
+  const handleDeleteField = (index) => {
+  const removedType = fields[index].type;
+
+  
+  const updatedFields = [...fields];
+  updatedFields.splice(index, 1);
+  setFields(updatedFields);
+
+
+  if (removedType === "Maintenance" || removedType === "Others") {
+    setSelectedTypes((prev) => prev.filter((type) => type !== removedType));
+  }
+};
+
+
+  const handleReasonChange = (index, value) => {
+    const updated = [...fields];
+    updated[index].reason = value;
+    setFields(updated);
+  };
+
+  const handleAmountChange = (index, value) => {
+    const updated = [...fields];
+    updated[index].amount = value;
+    setFields(updated);
+  };
+  const totalDeductions = fields.reduce(
+  (acc, field) => acc + (parseFloat(field.amount) || 0),
+  0
+);
+
+const remainingAdvance = (parseFloat(AdvanceAmount) || 0) - totalDeductions;
 
   return (
     <div>
@@ -2245,116 +2308,220 @@ useEffect(() => {
                                                         </div>
                                                       )}
                       </div>
+                    
+    <div className="row align-items-end ms-1 me-1" style={{ paddingRight: 5, paddingLeft: 0 }}>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            Advance Amount
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            id="form-controls"
-                            placeholder="Enter Amount"
-                            value={AdvanceAmount}
-                            onChange={(e) => handleAdvanceAmount(e)}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                            }}
-                          />
-                        </Form.Group>
-                        {advanceAmountError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {advanceAmountError}
-                            </label>
-                          </div>
-                        )}
-                      </div>
+  {/* Advance Amount */}
+  <div className={`col-lg-${!showSelect ? "5" : "6"} col-md-${!showSelect ? "5" : "6"} col-sm-12`}>
+    <Form.Group>
+      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+        Advance Amount
+        <span style={{ color: "red", fontSize: "20px" }}> *</span>
+      </Form.Label>
+      <FormControl
+        type="text"
+        placeholder="Enter Amount"
+        value={AdvanceAmount}
+        onChange={handleAdvanceAmount}
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 50,
+          borderRadius: 8,
+        }}
+      />
+    </Form.Group>
+    {advanceAmountError && (
+      <div style={{ color: "red" }}>
+        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+        <label
+          className="mb-0"
+          style={{
+            color: "red",
+            fontSize: "12px",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+          }}
+        >
+          {advanceAmountError}
+        </label>
+      </div>
+    )}
+  </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-1">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            Rental Amount
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            id="form-controls"
-                            placeholder="Enter Amount"
-                            value={RoomRent}
-                            onChange={(e) => handleRoomRent(e)}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                            }}
-                          />
-                        </Form.Group>
-                        {roomrentError && (
-                          <div
-                            className="d-flex align-items-center justify-content-start"
-                            style={{ color: "red" }}
-                          >
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {roomrentError}
-                            </label>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+  {/* Rental Amount */}
+  <div className={`col-lg-${!showSelect ? "5" : "6"} col-md-${!showSelect ? "5" : "6"} col-sm-12`}>
+    <Form.Group>
+      <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+        Rental Amount
+        <span style={{ color: "red", fontSize: "20px" }}> *</span>
+      </Form.Label>
+      <FormControl
+        type="text"
+        placeholder="Enter Amount"
+        value={RoomRent}
+        onChange={handleRoomRent}
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 50,
+          borderRadius: 8,
+        }}
+      />
+    </Form.Group>
+    {roomrentError && (
+      <div className="d-flex align-items-center justify-content-start" style={{ color: "red" }}>
+        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+        <label
+          className="mb-0"
+          style={{
+            color: "red",
+            fontSize: "12px",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+          }}
+        >
+          {roomrentError}
+        </label>
+      </div>
+    )}
+  </div>
+
+  {/* Plus Icon – only if showSelect is false */}
+  {!showSelect && (
+    <div className="col-lg-2 col-md-2 col-sm-12 d-flex align-items-end mb-3">
+      <img
+        src={PlusIcon}
+        alt="plusicon"
+        onClick={handleAddClick}
+        width={25}
+        height={25}
+        style={{ cursor: "pointer" }}
+      />
+    </div>
+  )}
+
+</div>
+
+
+       </div>
+
+     {showSelect && (
+  <div className="mt-2">
+   
+    <Select
+  className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+  options={[
+    !selectedTypes.includes("Maintenance") && { value: "Maintenance", label: "Maintenance" },
+    { value: "Others", label: "Others" },
+  ].filter(Boolean)}
+  value={selectedOption} 
+  onChange={handleTypeSelect}
+  placeholder="Select Option"
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: 48,
+      borderRadius: 10,
+      cursor: "pointer",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      display: "inline-block",
+      fill: "currentColor",
+      lineHeight: 1,
+      stroke: "currentColor",
+      strokeWidth: 0,
+      cursor: "pointer",
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+      color: "#000",
+    }),
+  }}
+/>
+  </div>
+)}
+
+
+   
+      {fields.map((field, index) => (
+  <div className="row" key={index} style={{ alignItems: "center" }}>
+    {/* Reason Field */}
+    <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+      <Form.Group className="mb-1">
+        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+          Reason <span style={{ color: "red", fontSize: "20px" }}>*</span>
+        </Form.Label>
+        <FormControl
+          type="text"
+          placeholder="Enter Reason"
+          value={field.reason}
+          onChange={(e) => handleReasonChange(index, e.target.value)}
+          disabled={field.type === "Maintenance"}
+          style={{
+            fontSize: 16,
+            color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            height: 50,
+            borderRadius: 8,
+          }}
+        />
+      </Form.Group>
+    </div>
+
+    {/* Amount Field */}
+    <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+      <Form.Group className="mb-1">
+        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+          Amount <span style={{ color: "red", fontSize: "20px" }}>*</span>
+        </Form.Label>
+        <FormControl
+          type="text"
+          placeholder="Enter Amount"
+          value={field.amount}
+          onChange={(e) => handleAmountChange(index, e.target.value)}
+          style={{
+            fontSize: 16,
+            color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            height: 50,
+            borderRadius: 8,
+          }}
+        />
+      </Form.Group>
+    </div>
+
+   
+    <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex align-items-end mt-4">
+      
+      <img src={Delete} alt="delete" height={20} width={20}  onClick={() => handleDeleteField(index)} style={{cursor:'pointer'}}/>
+
+    </div>
+  </div>
+))}
+
+
                   </div>
 
  {state.createAccount?.networkError ?
@@ -2365,8 +2532,11 @@ useEffect(() => {
                         : null}
           
 
+ 
 
+   
 
+     
 
                   <Button
                     className="w-100"

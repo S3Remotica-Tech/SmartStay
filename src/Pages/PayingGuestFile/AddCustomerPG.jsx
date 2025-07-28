@@ -15,9 +15,12 @@ import { MdError } from "react-icons/md";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import Select from "react-select";
+import Delete from "../../Assets/Images/New_images/trash.png";
+import PlusIcon from "../../Assets/Images/New_images/plusIcon.png";
 
 
-function AddCustomer({ show, handleClosing, currentItem }) {
+
+function AddCustomer({ setShowAddCustomer , show, currentItem , onclickdata}) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -50,6 +53,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
+ 
 
   const firstnameRef = useRef(null);
   const phoneRef = useRef(null);
@@ -108,7 +112,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      handleClosing();
+      handleCloseAddCustomer();
       setFormLoading(false);
       setFirstname("");
       setLastname("");
@@ -264,6 +268,16 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
   };
 
+const handleCloseAddCustomer =()=>{
+  setShowAddCustomer(false)
+}
+
+
+
+ 
+
+
+
   const handleAddCustomerDetails = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
@@ -381,34 +395,55 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       countryCode &&
       selectedDate
     ) {
-      dispatch({
-        type: "ADDUSER",
-        payload: {
+    
+
+      const data = {
           profile: file,
-          firstname: firstname,
-          lastname: lastname,
-          Phone: mobileNumber,
-          Email: email,
-          hostel_Id: Hostel_Id,
+  firstname: firstname, 
+    lastname: lastname, 
+      phone: mobileNumber, 
+        countryCode: countryCode, 
+          Email: email, 
+          Hostel_Id:Hostel_Id,
           Floor: Floor_Id,
           Rooms: Room_Id,
           Bed: Bed_Id,
+          HostelName:filterData_Hostel_Name[0]?.Name,
           Address: house_no,
           area: street,
           landmark: landmark,
           city: city,
           pincode: pincode,
           state: state_name,
-          HostelName: filterData_Hostel_Name[0]?.Name,
-          AdvanceAmount: AdvanceAmount,
+          selectedDate:selectedDate,
+            AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           joining_date: formattedSelectedDate,
-        },
-      });
-      setFormLoading(true)
+      }
+
+      
+      
+      
+
+onclickdata(data)
+setShowAddCustomer(false)
+
+
+
+
     }
   };
 
+
+  
+
+
+   
+  
+
+
+
+  
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     if (!/^\d*$/.test(roomRentValue)) {
@@ -444,7 +479,73 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
   }, [state.createAccount?.networkError])
+   const [showSelect, setShowSelect] = useState(false);
+    const [selectedTypes, setSelectedTypes] = useState([]);
+    const [fields, setFields] = useState([]);
+    
+  
+  
+  
+ 
+  
+    const handleAddClick = () => {
+      setShowSelect(true); 
+    };
+    const [selectedOption, setSelectedOption] = useState(null);
+    const handleTypeSelect = (selectedOption) => {
+    if (!selectedOption) return;
+  
+    const type = selectedOption.value;
+  
+    if (type === "Maintenance" && selectedTypes.includes("Maintenance")) return;
+  
+    const newField = {
+      type,
+      reason: type === "Maintenance" ? "Maintenance" : "",
+      amount: "",
+    };
+  
+    setFields((prev) => [...prev, newField]);
+    setSelectedTypes((prev) => [...prev, type]);
+  
+    
+    setSelectedOption(null);
+  };
+  
+ 
+  
+    const handleDeleteField = (index) => {
+    const removedType = fields[index].type; 
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setFields(updatedFields);
+  
+    if (removedType === "Maintenance" || removedType === "Others") {
+      setSelectedTypes((prev) => prev.filter((type) => type !== removedType));
+    }
+  };
+  
+  
+    const handleReasonChange = (index, value) => {
+      const updated = [...fields];
+      updated[index].reason = value;
+      setFields(updated);
+    };
+  
+    const handleAmountChange = (index, value) => {
+      const updated = [...fields];
+      updated[index].amount = value;
+      setFields(updated);
+    };
+    const totalDeductions = fields.reduce(
+    (acc, field) => acc + (parseFloat(field.amount) || 0),
+    0
+  );
+  
+  const remainingAdvance = (parseFloat(AdvanceAmount) || 0) - totalDeductions;
+
   return (
+    <>
     <div
       className="modal show"
       style={{
@@ -453,7 +554,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
         fontFamily: "Gilroy,sans-serif",
       }}
     >
-      <Modal show={show} onHide={handleClosing} centered backdrop="static" dialogClassName="custom-modals-style" >
+      <Modal show={show} onHide={handleCloseAddCustomer} centered backdrop="static" dialogClassName="custom-modals-style" >
 
         <Modal.Dialog
           style={{
@@ -475,7 +576,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
             >
               Add an customer
             </div>
-            <CloseCircle size="24" color="#000" onClick={handleClosing} style={{ cursor: "pointer" }} />
+            <CloseCircle size="24" color="#000" onClick={handleCloseAddCustomer} style={{ cursor: "pointer" }} />
           </Modal.Header>
           <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 me-3">
             <div className="d-flex align-items-center">
@@ -1021,7 +1122,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     )}
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group controlId="exampleForm.ControlInput5">
                       <Form.Label
                         style={{
@@ -1191,8 +1292,8 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       </div>
                     )}
                   </div>
-
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+   <div className="row align-items-end ms-1 me-1" style={{ paddingRight: 5, paddingLeft: 0 }}>
+                  <div className={`col-lg-${!showSelect ? "5" : "6"} col-md-${!showSelect ? "5" : "6"} col-sm-12`}>
                     <Form.Group >
                       <Form.Label
                         style={{
@@ -1243,7 +1344,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       </div>
                     )}
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div className={`col-lg-${!showSelect ? "5" : "6"} col-md-${!showSelect ? "5" : "6"} col-sm-12`}>
                     <Form.Group >
                       <Form.Label
                         style={{
@@ -1293,7 +1394,127 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       </div>
                     )}
                   </div>
+
+                   {!showSelect && (
+                      <div className="col-lg-2 col-md-2 col-sm-12 d-flex align-items-end mb-3">
+                        <img
+                          src={PlusIcon}
+                          alt="plusicon"
+                          onClick={handleAddClick}
+                          width={25}
+                          height={25}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </div>
+                    )}
+                    </div>
                 </div>
+    {showSelect && (
+  <div className="mt-2">
+   
+    <Select
+  className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+  options={[
+    !selectedTypes.includes("Maintenance") && { value: "Maintenance", label: "Maintenance" },
+    { value: "Others", label: "Others" },
+  ].filter(Boolean)}
+  value={selectedOption} 
+  onChange={handleTypeSelect}
+  placeholder="Select Option"
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: 48,
+      borderRadius: 10,
+      cursor: "pointer",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      display: "inline-block",
+      fill: "currentColor",
+      lineHeight: 1,
+      stroke: "currentColor",
+      strokeWidth: 0,
+      cursor: "pointer",
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+      color: "#000",
+    }),
+  }}
+/>
+  </div>
+)}
+
+
+   
+      {fields.map((field, index) => (
+  <div className="row" key={index} style={{ alignItems: "center" }}>
+    {/* Reason Field */}
+    <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+      <Form.Group className="mb-1">
+        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+          Reason <span style={{ color: "red", fontSize: "20px" }}>*</span>
+        </Form.Label>
+        <FormControl
+          type="text"
+          placeholder="Enter Reason"
+          value={field.reason}
+          onChange={(e) => handleReasonChange(index, e.target.value)}
+          disabled={field.type === "Maintenance"}
+          style={{
+            fontSize: 16,
+            color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            height: 50,
+            borderRadius: 8,
+          }}
+        />
+      </Form.Group>
+    </div>
+
+    {/* Amount Field */}
+    <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+      <Form.Group className="mb-1">
+        <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+          Amount <span style={{ color: "red", fontSize: "20px" }}>*</span>
+        </Form.Label>
+        <FormControl
+          type="text"
+          placeholder="Enter Amount"
+          value={field.amount}
+          onChange={(e) => handleAmountChange(index, e.target.value)}
+          style={{
+            fontSize: 16,
+            color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            height: 50,
+            borderRadius: 8,
+          }}
+        />
+      </Form.Group>
+    </div>
+
+   
+    <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex align-items-end mt-4">
+      
+      <img src={Delete} alt="delete" height={20} width={20}  onClick={() => handleDeleteField(index)} style={{cursor:'pointer'}}/>
+
+    </div>
+  </div>
+))}
 
 
               </div>
@@ -1352,15 +1573,20 @@ function AddCustomer({ show, handleClosing, currentItem }) {
         </Modal.Dialog>
       </Modal>
     </div>
+
+      
+
+    </>
   );
 }
 
 AddCustomer.propTypes = {
   currentItem: PropTypes.func.isRequired,
-  handleClosing: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+   setShowAddCustomer: PropTypes.func.isRequired,
+  onclickdata: PropTypes.func.isRequired,
 
 };
 export default AddCustomer;
