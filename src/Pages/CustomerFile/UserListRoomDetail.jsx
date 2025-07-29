@@ -118,8 +118,7 @@ function UserListRoomDetail(props) {
 
   const [fields, setFields] = useState([]);
 
-  console.log("fields", fields)
-
+ 
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
@@ -330,7 +329,7 @@ function UserListRoomDetail(props) {
 
   const handleShowEditBed = (item) => {
 
-    console.log("item", item)
+  
 
 
     if (item[0].ID) {
@@ -399,7 +398,7 @@ function UserListRoomDetail(props) {
       if (item[0]?.reasonData && Array.isArray(item[0].reasonData)) {
         const formattedFields = item[0]?.reasonData?.map((entry) => {
           const isCustom = String(entry.reason_name) !== "maintenance";
-          console.log("isCustom", isCustom)
+      
           return {
             reason_name: entry.reason,
             amount: entry.amount || "",
@@ -409,7 +408,6 @@ function UserListRoomDetail(props) {
         });
 
 
-        console.log("formattedFields", formattedFields)
         setFields(formattedFields);
         setInitialReasonFields(formattedFields);
       }
