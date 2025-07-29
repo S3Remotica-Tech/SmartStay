@@ -113,6 +113,7 @@ function UserListRoomDetail(props) {
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
   const [customerDetails, setCustomerDetails] = useState([])
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
+  const [generateFormAdvance,setGenerateFormAdvance] = useState(false)
 
 
 
@@ -120,7 +121,12 @@ function UserListRoomDetail(props) {
 
   const [loading, setLoading] = useState(false)
 
-
+  const handleOpenAdvance =()=>{
+    setGenerateFormAdvance(true)
+  }
+const handleCloseGenerateAdvance =()=>{
+  setGenerateFormAdvance(false)
+}
 
 
   const indianStates = [
@@ -1003,6 +1009,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
       paid_advance: paid_advance,
       paid_rent: paid_rent,
       ID: id,
+      
     };
     dispatch({
       type: "ADDUSER",
@@ -1253,8 +1260,57 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
     } else {
       setFormError("");
     }
+    handleOpenAdvance()
 
-    dispatch({
+    // dispatch({
+    //   type: "ADDUSER",
+    //   payload: {
+    //     profile: file,
+    //     firstname,
+    //     lastname,
+    //     Phone,
+    //     Email,
+    //     Address,
+    //     area: street,
+    //     landmark,
+    //     city,
+    //     pincode,
+    //     state: state_name,
+    //     AadharNo,
+    //     PancardNo,
+    //     licence,
+    //     HostelName,
+    //     hostel_Id,
+    //     Floor,
+    //     Rooms: RoomId,
+    //     Bed: BedId,
+    //     joining_date: formattedDate,
+    //     AdvanceAmount,
+    //     RoomRent,
+    //     BalanceDue,
+    //     PaymentType,
+    //     paid_advance,
+    //     paid_rent,
+    //     ID: id,
+    //      isadvance: 1,
+    //     invoice_date: formattedDate,
+    //     due_date: formattedDate,
+    //   },
+    // });
+    setLoading(true)
+    setFormShow(false);
+    dispatch({ type: "INVOICELIST" });
+  };
+
+
+  const handleSaveButton = ()=>{
+     const formattedDate = selectedDate
+      ? dayjs(selectedDate).format("YYYY-MM-DD")
+      : null;
+      
+    
+
+     dispatch({
       type: "ADDUSER",
       payload: {
         profile: file,
@@ -1284,12 +1340,12 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
         paid_advance,
         paid_rent,
         ID: id,
+         isadvance: 1,
+        invoice_date: formattedDate,
+        due_date: formattedDate,
       },
     });
-    setLoading(true)
-    setFormShow(false);
-    dispatch({ type: "INVOICELIST" });
-  };
+  }
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
@@ -1322,6 +1378,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
       setAdvanceDetail(state.UsersList.customerdetails.data);
     }
   }, [state.UsersList.customerdetails.data]);
+  console.log("advanceDetail",advanceDetail)
 
   const [uploadError, setUploadError] = useState("");
 
@@ -4842,6 +4899,244 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                 onClick={handleGenerateAdvance}
                               >
                                 Generate Advance
+                              </Button>
+                            </div>
+
+                          </div>
+                        </Modal.Body>
+
+                       
+                      </Modal.Dialog>
+                    </Modal>
+
+
+
+
+                    <Modal
+                      show={generateFormAdvance}
+                      onHide={handleCloseGenerateAdvance}
+                      backdrop="static"
+                      centered
+                    >
+                      <Modal.Dialog
+                        style={{
+                          maxWidth: 666,
+                          paddingRight: "10px",
+                          borderRadius: "30px",
+                        }}
+                        className="m-0 p-0"
+                      >
+                        <Modal.Body style={{ marginTop: -30 }}>
+                          <div className="d-flex align-items-center">
+                            <div className="container">
+                              <div className="row mb-3"></div>
+
+                              <Modal.Header style={{ position: "relative" }}>
+                                <div
+                                  style={{
+                                    fontSize: 20,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Generate Advance
+                                </div>
+
+                                <CloseCircle
+                                  size="24"
+                                  color="#000"
+                                  onClick={handleCloseGenerateAdvance}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </Modal.Header>
+
+                              <div className="row mb-3">
+                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <Form.Group
+                                    className="mb-2"
+                                    controlId="checkoutDate"
+                                  >
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      Invoice Date {" "}
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        *
+                                      </span>
+                                    </Form.Label>
+
+                                    <div
+                                      className="datepicker-wrapper"
+                                      style={{
+                                        position: "relative",
+                                        width: "100%",
+                                      }}
+                                    >
+                                      <DatePicker
+                                        style={{
+                                          width: "100%",
+                                          height: 48,
+                                          cursor: "pointer",
+                                        }}
+                                        format="DD/MM/YYYY"
+                                        placeholder="DD/MM/YYYY"
+                                        value={
+                                          advanceDate
+                                            ? dayjs(advanceDate)
+                                            : null
+                                        }
+                                        onChange={(date) => {
+                                          setAdvanceDateError("");
+                                          setAdvanceDate(
+                                            date ? date.toDate() : null
+                                          );
+                                        }}
+                                        getPopupContainer={(triggerNode) =>
+                                          triggerNode.closest(
+                                            ".datepicker-wrapper"
+                                          )
+                                        }
+                                        dropdownClassName="custom-datepicker-popup"
+                                        disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                      />
+                                    </div>
+                                  </Form.Group>
+                                  {advanceDateError && (
+                                    <div
+                                      style={{
+                                        color: "red",
+                                        marginTop: "-7px",
+                                      }}
+                                    >
+                                      <MdError
+                                        style={{
+                                          fontSize: "13px",
+                                          marginRight: "5px",
+                                        }}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {advanceDateError}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <Form.Group
+                                    className="mb-2"
+                                    controlId="checkoutDate"
+                                  >
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      Due Date {" "}
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        *
+                                      </span>
+                                    </Form.Label>
+
+                                    <div
+                                      className="datepicker-wrapper"
+                                      style={{
+                                        position: "relative",
+                                        width: "100%",
+                                      }}
+                                    >
+                                      <DatePicker
+                                        style={{
+                                          width: "100%",
+                                          height: 48,
+                                          cursor: "pointer",
+                                        }}
+                                        format="DD/MM/YYYY"
+                                        placeholder="DD/MM/YYYY"
+                                        value={
+                                          advanceDueDate
+                                            ? dayjs(advanceDueDate)
+                                            : null
+                                        }
+                                        onChange={(date) => {
+                                          setAdvanceDueDateError("");
+                                          setAdvanceDueDate(
+                                            date ? date.toDate() : null
+                                          );
+                                        }}
+                                        getPopupContainer={(triggerNode) =>
+                                          triggerNode.closest(
+                                            ".datepicker-wrapper"
+                                          )
+                                        }
+                                        dropdownClassName="custom-datepicker-popup"
+                                      />
+                                    </div>
+                                  </Form.Group>
+                                  {advanceDueDateError && (
+                                    <div
+                                      style={{
+                                        color: "red",
+                                        marginTop: "-7px",
+                                      }}
+                                    >
+                                      <MdError
+                                        style={{
+                                          fontSize: "13px",
+                                          marginRight: "5px",
+                                        }}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {advanceDueDateError}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              <Button
+                                className="w-100"
+                                style={{
+                                  backgroundColor: "#1E45E1",
+                                  fontWeight: 600,
+                                  height: 50,
+                                  borderRadius: 12,
+                                  fontSize: 16,
+                                  fontFamily: "Montserrat",
+                                }}
+                                onClick={handleSaveButton}
+                              >
+                                save
                               </Button>
                             </div>
 

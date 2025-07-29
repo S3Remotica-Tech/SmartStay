@@ -419,6 +419,7 @@ const handleCloseAddCustomer =()=>{
             AdvanceAmount: AdvanceAmount,
           RoomRent: RoomRent,
           joining_date: formattedSelectedDate,
+          reason:fields
       }
 
       
@@ -433,18 +434,7 @@ setShowAddCustomer(false)
 
     }
   };
-
-
-  
-
-
-   
-  
-
-
-
-  
-  const handleRoomRent = (e) => {
+ const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     if (!/^\d*$/.test(roomRentValue)) {
       return;
@@ -501,7 +491,7 @@ setShowAddCustomer(false)
   
     const newField = {
       type,
-      reason: type === "Maintenance" ? "Maintenance" : "",
+      reason_name: type === "Maintenance" ? "Maintenance" : "",
       amount: "",
     };
   
@@ -528,7 +518,7 @@ setShowAddCustomer(false)
   
     const handleReasonChange = (index, value) => {
       const updated = [...fields];
-      updated[index].reason = value;
+      updated[index].reason_name = value;
       setFields(updated);
     };
   
@@ -1459,7 +1449,7 @@ setShowAddCustomer(false)
         <FormControl
           type="text"
           placeholder="Enter Reason"
-          value={field.reason}
+          value={field.reason_name}
           onChange={(e) => handleReasonChange(index, e.target.value)}
           disabled={field.type === "Maintenance"}
           style={{

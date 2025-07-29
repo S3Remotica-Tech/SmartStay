@@ -489,8 +489,18 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                             <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
                               <td>{index + 1}</td>
                               <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>{item.invoice_id}</td>
-                              <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>{item.am_name}</td>
-                              <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>Rs. {item.amount}</td>
+                  <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>
+  <div>
+    {item.am_name}
+  </div>
+  {invoice_details.invoice_type === "advance" && item.am_name !== "Advance" && (
+    <div style={{ fontSize: '12px', marginTop: '2px', color: '#666' }}>
+    <p>(Refundable Amount)</p>  
+    </div>
+  )}
+</td>
+  
+                              <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>Rs. {item.amount} </td>
                             </tr>
                           ))}
                         </tbody>
@@ -509,8 +519,22 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           </p>
                         </div>
                       )}
+{invoice_details.invoice_type === "advance" ? (
+    <div className="mt-3 ms-auto me-5" style={{ minWidth: '200px' }}>
+        <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payable Amount</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
+                        </div>
+                        <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Refundable</span>
+                          <span className="me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs.{invoice_details?.non_refundable_amount}</span>
+                        </div>
+                      
+                     
+                      </div>
 
-                      <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
+):(
+  <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
                         <div className="d-flex justify-content-between py-1">
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
                           <span className="me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 0.00</span>
@@ -524,6 +548,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
                         </div>
                       </div>
+)}
+                    
                     </div>
 
                   </div>

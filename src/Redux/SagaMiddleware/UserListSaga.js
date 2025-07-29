@@ -262,6 +262,7 @@ function* handleRoomsDetails(ID) {
 function* handleAddUser(datum) {
    try {
       const response = yield call(addUser, datum.payload);
+      console.log("handleAddUser",response)
 
       if (response.statusCode === 200 || response.status === 200) {
          yield put({
