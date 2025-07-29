@@ -18,10 +18,9 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
-import Delete from "../../Assets/Images/New_images/trash.png";
-import PlusIcon from "../../Assets/Images/New_images/plusIcon.png";
+import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import { Tabs, Tab } from "react-bootstrap";
+
 
 function UserlistForm(props) {
   const [id, setId] = useState("");
@@ -86,11 +85,11 @@ function UserlistForm(props) {
 
 
 
- const [showSelect, setShowSelect] = useState(false);
-  const [selectedTypes, setSelectedTypes] = useState([]);
+ 
+ 
   const [fields, setFields] = useState([]);
 
- console.log("fields",fields)
+
 
 
 
@@ -161,6 +160,14 @@ function UserlistForm(props) {
       }
     }
   };
+
+
+  const handleRemoveField = (index) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setFields(updatedFields);
+  };
+
 
   const options = {
     dateFormat: "Y/m/d",
@@ -851,7 +858,7 @@ function UserlistForm(props) {
           payable_rent: payableamount,
           isadvance: 0,
           ID: props.edit === "Edit" ? id : "",
-          reasons:formattedReasons,
+          reasons: formattedReasons,
         },
       });
       setLoading(true)
@@ -863,7 +870,7 @@ function UserlistForm(props) {
 
 
 
- 
+
 
 
 
@@ -941,29 +948,21 @@ function UserlistForm(props) {
     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
 
 
-const formattedReasons = fields.map((item) => {
-        let reason_name = "";
+    const formattedReasons = fields.map((item) => {
+      let reason_name = "";
 
-        if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-          reason_name = item.customReason || item["custom Reason"] || "";
-        } else {
-          reason_name = item.reason || item.reason_name || "";
-        }
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
 
-        return {
-          reason_name,
-          amount: item.amount || "",
-          showInput: !!item.showInput
-        };
-      });
-
-
-console.log("formattedReasons",formattedReasons)
-
-
-
-
-
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
 
 
 
@@ -1001,7 +1000,7 @@ console.log("formattedReasons",formattedReasons)
         invoice_date: formattedAdvanceDate,
         due_date: formattedAdvanceDateDue,
         ID: props.edit === "Edit" ? id : "",
-        reasons:formattedReasons
+        reasons: formattedReasons
       },
     });
     setLoading(true)
@@ -1041,68 +1040,19 @@ console.log("formattedReasons",formattedReasons)
     }
 
   }, [state.createAccount?.networkError])
+
+
+
+  
  
 
 
-  const handleAddClick = () => {
-    setShowSelect(true);
-  };
-  const [selectedOption, setSelectedOption] = useState(null);
-  const handleTypeSelect = (selectedOption) => {
-    if (!selectedOption) return;
-
-    const type = selectedOption.value;
-
-    if (type === "Maintenance" && selectedTypes.includes("Maintenance")) return;
-
-    const newField = {
-      type,
-      reason: type === "Maintenance" ? "Maintenance" : "",
-      amount: "",
-    };
-
-    setFields((prev) => [...prev, newField]);
-    setSelectedTypes((prev) => [...prev, type]);
 
 
-    setSelectedOption(null);
-  };
+  
+ 
 
-
-
-
-  const handleDeleteField = (index) => {
-    const removedType = fields[index].type;
-
-
-    const updatedFields = [...fields];
-    updatedFields.splice(index, 1);
-    setFields(updatedFields);
-
-
-    if (removedType === "Maintenance" || removedType === "Others") {
-      setSelectedTypes((prev) => prev.filter((type) => type !== removedType));
-    }
-  };
-
-
-  const handleReasonChange = (index, value) => {
-    const updated = [...fields];
-    updated[index].reason = value;
-    setFields(updated);
-  };
-
-  const handleAmountChange = (index, value) => {
-    const updated = [...fields];
-    updated[index].amount = value;
-    setFields(updated);
-  };
-  const totalDeductions = fields.reduce(
-    (acc, field) => acc + (parseFloat(field.amount) || 0),
-    0
-  );
-
-  const remainingAdvance = (parseFloat(AdvanceAmount) || 0) - totalDeductions;
+  
 
 
   const reasonOptions = [
@@ -2446,7 +2396,7 @@ console.log("formattedReasons",formattedReasons)
 
                         <div className="row align-items-end ms-1 me-1" style={{ paddingRight: 5, paddingLeft: 0 }}>
 
-                          {/* Advance Amount */}
+                         
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                             <Form.Group>
                               <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
@@ -2488,7 +2438,7 @@ console.log("formattedReasons",formattedReasons)
                             )}
                           </div>
 
-                          {/* Rental Amount */}
+                          
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                             <Form.Group>
                               <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
@@ -2531,18 +2481,7 @@ console.log("formattedReasons",formattedReasons)
                           </div>
 
 
-                          {/* {!showSelect && (
-                          <div className="col-lg-2 col-md-2 col-sm-12 d-flex align-items-end mb-3">
-                            <img
-                              src={PlusIcon}
-                              alt="plusicon"
-                              onClick={handleAddClick}
-                              width={25}
-                              height={25}
-                              style={{ cursor: "pointer" }}
-                            />
-                          </div>
-                        )} */}
+                        
 
                         </div>
 
@@ -2589,11 +2528,11 @@ console.log("formattedReasons",formattedReasons)
 
 
                         {fields.map((item, index) => {
-                          const selectedOption = reasonOptions.find((option) => option.value === item.reason);
+                         
 
                           return (
                             <div className="row px-4 mb-3" key={index}>
-                              <div className="col-md-6">
+                              <div className="col-md-5">
 
 
                                 {!item.showInput ? (
@@ -2686,8 +2625,8 @@ console.log("formattedReasons",formattedReasons)
                                 )}
                               </div>
 
-                              {/* Amount input */}
-                              <div className="col-md-6">
+                           
+                              <div className="col-md-5">
 
                                 <input
                                   type="text"
@@ -2708,6 +2647,20 @@ console.log("formattedReasons",formattedReasons)
 
                                 />
                               </div>
+
+
+                              <div className="col-md-2 d-flex justify-content-center align-items-center">
+                         
+                                {index !== 0 && (
+                                  <Trash
+                                    size="20"
+                                    color="red"
+                                    variant="Bold"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleRemoveField(index)}
+                                  />
+                                )}
+                              </div>
                             </div>
                           );
                         })}
@@ -2721,136 +2674,8 @@ console.log("formattedReasons",formattedReasons)
 
 
 
-                      {/* 
-                    {showSelect && (
-
-                      <>
-
-
-
-                        <div className="mt-3" >
-
-                          <Select
-                            className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                            options={[
-                              !selectedTypes.includes("Maintenance") && { value: "Maintenance", label: "Maintenance" },
-                              { value: "Others", label: "Others" },
-                            ].filter(Boolean)}
-                            value={selectedOption}
-                            onChange={handleTypeSelect}
-                            placeholder="Select Option"
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                height: 48,
-                                borderRadius: 10,
-                                cursor: "pointer",
-                                fontFamily: "Gilroy"
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                display: "inline-block",
-                                fill: "currentColor",
-                                lineHeight: 1,
-                                stroke: "currentColor",
-                                strokeWidth: 0,
-                                cursor: "pointer",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                color: "#000",
-                                fontFamily: "Gilroy"
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy",
-                              }),
-                            }}
-                          />
-                        </div>
-                      </>
-                    )} */}
-
-
-                      {/* 
-                    {fields.map((field, index) => (
-                      <div className="row" key={index} style={{ alignItems: "center" }}>
-                       
-                        <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                          <Form.Group className="mb-1">
-                            <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                              Reason <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                            </Form.Label>
-                            <FormControl
-                              type="text"
-                              placeholder="Enter Reason"
-                              value={field.reason}
-                              onChange={(e) => handleReasonChange(index, e.target.value)}
-                              disabled={field.type === "Maintenance"}
-                              style={{
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                                border: "1px solid #D9D9D9",
-                                height: 50,
-                                borderRadius: 8,
-                              }}
-                            />
-                          </Form.Group>
-                        </div>
-
-                 
-                        <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                          <Form.Group className="mb-1">
-                            <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                              Amount <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                            </Form.Label>
-                            <FormControl
-                              type="text"
-                              placeholder="Enter Amount"
-                              value={field.amount}
-                              onChange={(e) => handleAmountChange(index, e.target.value)}
-                              style={{
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                                border: "1px solid #D9D9D9",
-                                height: 50,
-                                borderRadius: 8,
-                              }}
-                            />
-                          </Form.Group>
-                        </div>
-
-
-                        <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex align-items-end mt-4">
-
-                          <img src={Delete} alt="delete" height={20} width={20} onClick={() => handleDeleteField(index)} style={{ cursor: 'pointer' }} />
-
-                        </div>
-                      </div>
-                    ))} */}
+                   
+                   
 
 
                     </div>
@@ -2883,39 +2708,39 @@ console.log("formattedReasons",formattedReasons)
 
 
 
-                  activeTab === "short" && (
-  <div
-    style={{
-      height: "400px",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "#f2f6fc",
-      borderRadius: "10px",
-      marginTop: "20px",
-      marginRight: "0",
-      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-      border: "1px dashed #b0c4de",
-    }}
-  >
-    <div style={{ textAlign: "center" }}>
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-        alt="Coming Soon"
-        width="80"
-        height="80"
-        style={{ marginBottom: "15px", opacity: 0.7 }}
-      />
-     
-      <p style={{ color: "#7a7a7a", fontSize: "14px" , fontFamily:"Gilroy"}}>Coming Soon. Stay tuned!</p>
-    </div>
-  </div>
+                    activeTab === "short" && (
+                      <div
+                        style={{
+                          height: "400px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "#f2f6fc",
+                          borderRadius: "10px",
+                          marginTop: "20px",
+                          marginRight: "0",
+                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                          border: "1px dashed #b0c4de",
+                        }}
+                      >
+                        <div style={{ textAlign: "center" }}>
+                          <img
+                            src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+                            alt="Coming Soon"
+                            width="80"
+                            height="80"
+                            style={{ marginBottom: "15px", opacity: 0.7 }}
+                          />
 
-  )
+                          <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                        </div>
+                      </div>
+
+                    )
 
 
 
-                    }
+                  }
 
 
 
