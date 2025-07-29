@@ -15,8 +15,7 @@ import { MdError } from "react-icons/md";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import Select from "react-select";
-import Delete from "../../Assets/Images/New_images/trash.png";
-import PlusIcon from "../../Assets/Images/New_images/plusIcon.png";
+
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Trash } from 'iconsax-react';
 
@@ -491,64 +490,9 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
     }
 
   }, [state.createAccount?.networkError])
-  const [showSelect, setShowSelect] = useState(false);
-  const [selectedTypes, setSelectedTypes] = useState([]);
+  
   const [fields, setFields] = useState([]);
-
-
-
-
-
-
-  const handleAddClick = () => {
-    setShowSelect(true);
-  };
-  const [selectedOption, setSelectedOption] = useState(null);
-  const handleTypeSelect = (selectedOption) => {
-    if (!selectedOption) return;
-
-    const type = selectedOption.value;
-
-    if (type === "Maintenance" && selectedTypes.includes("Maintenance")) return;
-
-    const newField = {
-      type,
-      reason_name: type === "Maintenance" ? "Maintenance" : "",
-      amount: "",
-    };
-
-    setFields((prev) => [...prev, newField]);
-    setSelectedTypes((prev) => [...prev, type]);
-
-
-    setSelectedOption(null);
-  };
-
-
-
-  const handleDeleteField = (index) => {
-    const removedType = fields[index].type;
-    const updatedFields = [...fields];
-    updatedFields.splice(index, 1);
-    setFields(updatedFields);
-
-    if (removedType === "Maintenance" || removedType === "Others") {
-      setSelectedTypes((prev) => prev.filter((type) => type !== removedType));
-    }
-  };
-
-
-  const handleReasonChange = (index, value) => {
-    const updated = [...fields];
-    updated[index].reason_name = value;
-    setFields(updated);
-  };
-
-  const handleAmountChange = (index, value) => {
-    const updated = [...fields];
-    updated[index].amount = value;
-    setFields(updated);
-  };
+ 
 
 
   const reasonOptions = [
@@ -585,7 +529,11 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
   };
 
 
-
+ const handleRemoveField = (index) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setFields(updatedFields);
+  };
 
 
 
@@ -1448,7 +1396,7 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
 
 
 
-                    <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2 ms-2">
+                    <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-5 ms-2">
 
                       <div className="d-flex justify-content-between align-items-center p-4">
                         <div>
