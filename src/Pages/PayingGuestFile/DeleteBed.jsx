@@ -106,6 +106,7 @@ setAdvanceForm(false)
     setActionType(type);   
   };
 
+
   const handleSaveCustomer = () => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
@@ -162,6 +163,8 @@ if (due.isBefore(invoice, 'day')) {
     const formattedSelectedDate = incrementDateAndFormat(user_details.joining_date);
     const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
+
+   
   
     dispatch({
       type: "ADDUSER",
@@ -188,9 +191,11 @@ if (due.isBefore(invoice, 'day')) {
         isadvance: 1,
         invoice_date: formattedAdvanceDate,
         due_date: formattedAdvanceDateDue,
+        reasons:user_details.reason
       },
     });
   };
+ 
 
   useEffect(() => {
     if (state.PgList?.deleteBedError) {
