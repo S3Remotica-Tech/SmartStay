@@ -440,7 +440,7 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
         AdvanceAmount: AdvanceAmount,
         RoomRent: RoomRent,
         joining_date: formattedSelectedDate,
-        reason: formattedReasons
+        reasons: formattedReasons
       }
 
 

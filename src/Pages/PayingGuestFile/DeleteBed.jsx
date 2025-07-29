@@ -30,6 +30,9 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
    const [user_details , setUserDetails] = useState('')
   const { bed, room } = deleteBedDetails
 
+
+console.log("user_details",user_details)
+
   const [advanceDate, setAdvanceDate] = useState(null);
     const [advanceDueDate, setAdvanceDueDate] = useState(null);
     const [advanceDateError, setAdvanceDateError] = useState("");
@@ -191,7 +194,7 @@ if (due.isBefore(invoice, 'day')) {
         isadvance: 1,
         invoice_date: formattedAdvanceDate,
         due_date: formattedAdvanceDateDue,
-        reasons:user_details.reason
+        reasons:user_details.reasons
       },
     });
   };

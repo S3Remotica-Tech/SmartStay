@@ -118,7 +118,7 @@ function UserListRoomDetail(props) {
 
   const [fields, setFields] = useState([]);
 
- 
+
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
@@ -329,7 +329,7 @@ function UserListRoomDetail(props) {
 
   const handleShowEditBed = (item) => {
 
-  
+
 
 
     if (item[0].ID) {
@@ -397,8 +397,8 @@ function UserListRoomDetail(props) {
 
       if (item[0]?.reasonData && Array.isArray(item[0].reasonData)) {
         const formattedFields = item[0]?.reasonData?.map((entry) => {
-          const isCustom = String(entry.reason_name) !== "maintenance";
-      
+          const isCustom = String(entry.reason) !== "maintenance";
+
           return {
             reason_name: entry.reason,
             amount: entry.amount || "",
@@ -407,9 +407,9 @@ function UserListRoomDetail(props) {
           };
         });
 
-
+        // setInitialReasonFields(formattedFields);
         setFields(formattedFields);
-        setInitialReasonFields(formattedFields);
+
       }
 
 
@@ -423,17 +423,6 @@ function UserListRoomDetail(props) {
         AdvanceAmount: item[0].AdvanceAmount || "",
         RoomRent: item[0].RoomRent || "",
       });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -519,9 +508,33 @@ function UserListRoomDetail(props) {
   };
 
 
+  useEffect(() => {
+    if (Bednum) {
+      if (Bednum[0]?.reasonData && Array.isArray(Bednum[0].reasonData)) {
+        const formattedFields = Bednum[0]?.reasonData?.map((entry) => {
+          const isCustom = String(entry.reason) !== "maintenance";
+
+          return {
+            reason: entry.reason,
+            amount: entry.amount || "",
+            showInput: isCustom,
+            customReason: isCustom ? entry.reason : "",
+          };
+        });
+
+        setInitialReasonFields(JSON.parse(JSON.stringify(formattedFields)));
+
+      }
+    }
+  }, [Bednum]);
 
 
 
+
+
+
+
+  console.log("Fieldsssssss", fields)
 
 
 
@@ -1230,6 +1243,7 @@ function UserListRoomDetail(props) {
 
 
 
+  console.log("initialReasonFields", initialReasonFields)
 
 
   const handleSaveUserlistAddUser = () => {
@@ -1301,13 +1315,26 @@ function UserListRoomDetail(props) {
       formattedDate !== initialFormattedDate ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
-   const isReasonChanged = JSON.stringify(fields) !== JSON.stringify(initialReasonFields);
 
 
-   if (!isChangedBed && !isReasonChanged) {
-  setFormError("No Changes Detected");
-  return;
-} else {
+
+    const normalizeFields = (arr) =>
+      arr.map(({ reason, amount, customReason, showInput }) => ({
+        reason,
+        amount: String(amount).trim(),
+        customReason,
+        showInput,
+      }));
+
+    const isReasonChanged =
+      JSON.stringify(normalizeFields(fields)) !==
+      JSON.stringify(normalizeFields(initialReasonFields));
+
+
+    if (!isChangedBed && !isReasonChanged) {
+      setFormError("No Changes Detected");
+      return;
+    } else {
       setFormError("");
     }
 
@@ -4660,7 +4687,7 @@ function UserListRoomDetail(props) {
                                             {!item.showInput ? (
                                               <Select
                                                 options={reasonOptions}
-                                                value={reasonOptions.find((opt) => opt.value === item.reason) || null}
+                                                value={reasonOptions.find((opt) => opt.value === item.reason_name) || null}
                                                 onChange={(selectedOption) => {
                                                   const selectedValue = selectedOption.value;
 
