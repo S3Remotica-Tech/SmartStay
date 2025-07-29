@@ -2,12 +2,14 @@ import AxiosConfig from "../../WebService/AxiosConfig"
 
 
 export async function userlist(users) {
-    return await AxiosConfig.post('/users/user-list',users,{
-      data:users
-    })
-  }
+  return await AxiosConfig.post('/users/user-list', users, {
+    data: users
+  })
+}
 
 export async function addUser(params) {
+
+  console.log("params",params)
 
   const formData = new FormData();
   if (params.profile) formData.append("profile", params.profile);
@@ -24,16 +26,16 @@ export async function addUser(params) {
   if (params.Phone) formData.append("Phone", params.Phone)
   if (params.HostelName) formData.append("HostelName", params.HostelName)
   if (params.joining_date) formData.append("joining_date", params.joining_date)
-  if(params.Floor) formData.append("Floor" ,params.Floor)
-  if(params.Rooms) formData.append("Rooms" ,params.Rooms)
-  if(params.Bed) formData.append("Bed" ,params.Bed)
-  if(params.AdvanceAmount) formData.append("AdvanceAmount" ,params.AdvanceAmount)
-  if(params.RoomRent) formData.append("RoomRent" ,params.RoomRent)
-    if(params.isadvance) formData.append("isadvance" ,params.isadvance)
-      if(params.due_date) formData.append("due_date" ,params.due_date)
-        if(params.invoice_date) formData.append("invoice_date" ,params.invoice_date)
-  if(params.ID) formData.append("ID", params.ID)
-  if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
+  if (params.Floor) formData.append("Floor", params.Floor)
+  if (params.Rooms) formData.append("Rooms", params.Rooms)
+  if (params.Bed) formData.append("Bed", params.Bed)
+  if (params.AdvanceAmount) formData.append("AdvanceAmount", params.AdvanceAmount)
+  if (params.RoomRent) formData.append("RoomRent", params.RoomRent)
+  if (params.isadvance) formData.append("isadvance", params.isadvance)
+  if (params.due_date) formData.append("due_date", params.due_date)
+  if (params.invoice_date) formData.append("invoice_date", params.invoice_date)
+  if (params.ID) formData.append("ID", params.ID)
+ if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
 
 
   try {
@@ -55,117 +57,117 @@ export async function addUser(params) {
 
 
 export async function hostelList(hosteldetails) {
-  return await AxiosConfig.post('/list/hostel-list',hosteldetails,{
-    data:hosteldetails
+  return await AxiosConfig.post('/list/hostel-list', hosteldetails, {
+    data: hosteldetails
   })
 }
 
-export async function roomsCount(floorAndHostelID){
-  return await AxiosConfig.post('/list/numberOf-Rooms',floorAndHostelID,{
-    data:floorAndHostelID
+export async function roomsCount(floorAndHostelID) {
+  return await AxiosConfig.post('/list/numberOf-Rooms', floorAndHostelID, {
+    data: floorAndHostelID
   })
 }
 
 export async function hosteliddetail(datum) {
-  return await AxiosConfig.post('/floor_list', datum,{
-    data:datum
+  return await AxiosConfig.post('/floor_list', datum, {
+    data: datum
   })
 }
 export async function userBillPaymentHistory() {
-  return await AxiosConfig.get('/user-list/bill-payment',{
+  return await AxiosConfig.get('/user-list/bill-payment', {
   })
 }
 export async function createFloor(id) {
-  return await AxiosConfig.post('/floor/create-floor', id,{
-    data:id
+  return await AxiosConfig.post('/floor/create-floor', id, {
+    data: id
   })
 }
 
-export async function roomFullCheck(roomCheck){
-  return await AxiosConfig.post('/check/room-full',roomCheck,{
-    data:roomCheck
+export async function roomFullCheck(roomCheck) {
+  return await AxiosConfig.post('/check/room-full', roomCheck, {
+    data: roomCheck
   })
 }
 
 
 export async function checkOutUser(check) {
-  return await AxiosConfig.post('/checkout/checkout-user', check,{
-    data:check
+  return await AxiosConfig.post('/checkout/checkout-user', check, {
+    data: check
   })
 }
 
-export async function deleteFloor(hosteID){
-return await AxiosConfig.post('/delete/delete-floor',hosteID,{
-  data:hosteID
-})
-}
-
-export async function deleteRoom(roomDetails){
-  return await AxiosConfig.post('/delete/delete-room',roomDetails,{
-    data:roomDetails
+export async function deleteFloor(hosteID) {
+  return await AxiosConfig.post('/delete/delete-floor', hosteID, {
+    data: hosteID
   })
 }
 
-export async function deleteBed(bedDetails){
-  return await AxiosConfig.post('/delete/delete-bed',bedDetails,{
-    data:bedDetails
+export async function deleteRoom(roomDetails) {
+  return await AxiosConfig.post('/delete/delete-room', roomDetails, {
+    data: roomDetails
+  })
+}
+
+export async function deleteBed(bedDetails) {
+  return await AxiosConfig.post('/delete/delete-bed', bedDetails, {
+    data: bedDetails
   })
 }
 
 
 
 
-export async function CustomerDetails (datum) {
-  return await AxiosConfig.post('/customer_details',datum,{
-    data:datum
+export async function CustomerDetails(datum) {
+  return await AxiosConfig.post('/customer_details', datum, {
+    data: datum
   })
 }
 
-export async function amenitieshistory (datum) {
-  return await AxiosConfig.post('/user_amenities_history',datum,{
-    data:datum
+export async function amenitieshistory(datum) {
+  return await AxiosConfig.post('/user_amenities_history', datum, {
+    data: datum
   })
 }
 
 export async function amnitiesnameList() {
-  return await AxiosConfig.get('/list/AmnitiesName',{
+  return await AxiosConfig.get('/list/AmnitiesName', {
   })
 }
-export async function amenitieAddUser (datum) {
-  return await AxiosConfig.post('/add/amenity-history',datum,{
-    data:datum
+export async function amenitieAddUser(datum) {
+  return await AxiosConfig.post('/add/amenity-history', datum, {
+    data: datum
   })
 }
 
 
-export async function beddetailsNumber (bednum) {
-  return await AxiosConfig.post('/bed_details',bednum,{
-    data:bednum
+export async function beddetailsNumber(bednum) {
+  return await AxiosConfig.post('/bed_details', bednum, {
+    data: bednum
   })
 }
 
 export async function KYCValidate(adhar) {
-  return await AxiosConfig.post('/aadhar_verify_otp',adhar,{
-    data:adhar
+  return await AxiosConfig.post('/aadhar_verify_otp', adhar, {
+    data: adhar
   })
 }
 
 export async function KYCValidateOtpVerify(adhar) {
-  return await AxiosConfig.post('aadhaar_otp_verification',adhar,{
-    data:adhar
+  return await AxiosConfig.post('aadhaar_otp_verification', adhar, {
+    data: adhar
   })
 }
 
 export async function countrylist() {
-  return await AxiosConfig.get('/conutry_list',{
+  return await AxiosConfig.get('/conutry_list', {
   })
 }
 
 
 
 export async function getWalkInCustomer(walk) {
-  return await AxiosConfig.post('/get_walkin-customer',walk,{
-    data:walk
+  return await AxiosConfig.post('/get_walkin-customer', walk, {
+    data: walk
   })
 }
 
@@ -190,8 +192,8 @@ export async function AddWalkInCustomer(params) {
   if (params.email_Id) formData.append("email_Id", params.email_Id)
   if (params.mobile_Number) formData.append("mobile_Number", params.mobile_Number)
   if (params.walk_In_Date) formData.append("walk_In_Date", params.walk_In_Date)
-  if(params.comments) formData.append("comments" ,params.comments)
-  if(params.id) formData.append("id", params.id)
+  if (params.comments) formData.append("comments", params.comments)
+  if (params.id) formData.append("id", params.id)
 
 
   try {
@@ -211,8 +213,8 @@ export async function AddWalkInCustomer(params) {
 }
 
 export async function DeleteWalkInCustomer(walk) {
-  return await AxiosConfig.post('/delete_walkin-customer',walk,{
-    data:walk
+  return await AxiosConfig.post('/delete_walkin-customer', walk, {
+    data: walk
   })
 }
 
@@ -221,95 +223,95 @@ export async function DeleteWalkInCustomer(walk) {
 
 
 export async function getCheckOutCustomer(datum) {
-  return await AxiosConfig.post('/checkout_list',datum,{
-    data:datum
+  return await AxiosConfig.post('/checkout_list', datum, {
+    data: datum
   })
 }
 
- 
+
 
 
 
 
 
 export async function AddCheckOutCustomer(checkout) {
-  return await AxiosConfig.post('/user_check_out',checkout,{
-    data:checkout
+  return await AxiosConfig.post('/user_check_out', checkout, {
+    data: checkout
   })
 }
 
 
 
 export async function GetConfirmCheckOut(checkout) {
-  return await AxiosConfig.post('/get/confirm_checkout',checkout,{
-    data:checkout
+  return await AxiosConfig.post('/get/confirm_checkout', checkout, {
+    data: checkout
   })
 }
 
 export async function AddConfirmCheckOut(checkout) {
-  return await AxiosConfig.post('/add/confirm_checkout',checkout,{
-    data:checkout
+  return await AxiosConfig.post('/add/confirm_checkout', checkout, {
+    data: checkout
   })
 }
 
 
 export async function EditConfirmCheckOut(checkout) {
-  return await AxiosConfig.post('/edit/confirm_checkout',checkout,{
-    data:checkout
+  return await AxiosConfig.post('/edit/confirm_checkout', checkout, {
+    data: checkout
   })
 }
 
 
 export async function DeleteCheckOutCustomer(checkout) {
-  return await AxiosConfig.post('/delete_check_out',checkout,{
-    data:checkout
+  return await AxiosConfig.post('/delete_check_out', checkout, {
+    data: checkout
   })
 }
 
 
 
 export async function AvailableCheckOutCustomer(checkout) {
-  return await AxiosConfig.post('/available_checkout_users',checkout,{
-    data:checkout
+  return await AxiosConfig.post('/available_checkout_users', checkout, {
+    data: checkout
   })
 }
 
 export async function exportDetails(datum) {
-  return await AxiosConfig.post('/export_details',datum,{
-    data:datum
+  return await AxiosConfig.post('/export_details', datum, {
+    data: datum
   })
 }
 
 
 export async function customerReAssignBed(datum) {
-  return await AxiosConfig.post('/users/reassign_bed',datum,{
-    data:datum
+  return await AxiosConfig.post('/users/reassign_bed', datum, {
+    data: datum
   })
 }
 
 export async function customerAddContact(datum) {
-  return await AxiosConfig.post('/contacts/add_contact',datum,{
-    data:datum
+  return await AxiosConfig.post('/contacts/add_contact', datum, {
+    data: datum
   })
 }
 
 export async function customerAllContact(datum) {
-  return await AxiosConfig.post('/users/all_contacts',datum,{
-    data:datum
+  return await AxiosConfig.post('/users/all_contacts', datum, {
+    data: datum
   })
 }
 
 
-export async function deleteContact(contact){
-  return await AxiosConfig.post('/contacts/delete_contact',contact,{
-    data:contact
+export async function deleteContact(contact) {
+  return await AxiosConfig.post('/contacts/delete_contact', contact, {
+    data: contact
   })
 }
 
 
-export async function generateAdvance(datum){
-  return await AxiosConfig.post('/generate/advance_invoice',datum,{
-    data:datum
+export async function generateAdvance(datum) {
+  return await AxiosConfig.post('/generate/advance_invoice', datum, {
+    data: datum
   })
 }
 
@@ -341,13 +343,13 @@ export async function uploadDocument(params) {
 
 
 
-export async function deleteCustomer(contact){
-  return await AxiosConfig.post('/users/delete',contact,{
-    data:contact
+export async function deleteCustomer(contact) {
+  return await AxiosConfig.post('/users/delete', contact, {
+    data: contact
   })
 }
 export async function hostelDetailsId() {
-  return await AxiosConfig.get('/list/hosteldetails',{
+  return await AxiosConfig.get('/list/hosteldetails', {
   })
 }
 
