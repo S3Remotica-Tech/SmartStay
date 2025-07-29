@@ -33,6 +33,7 @@ export async function addUser(params) {
       if(params.due_date) formData.append("due_date" ,params.due_date)
         if(params.invoice_date) formData.append("invoice_date" ,params.invoice_date)
   if(params.ID) formData.append("ID", params.ID)
+  if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
 
 
   try {
