@@ -29,7 +29,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import upload from "../../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
-import { Edit,Trash } from "iconsax-react";
+import { Edit, Trash } from "iconsax-react";
 import docDown from "../../Assets/Images/New_images/doc_download.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -41,6 +41,7 @@ import timehalf from "../../Assets/Images/New_images/time-half past.png";
 import html2canvas from "html2canvas";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
 
+import addcircle from "../../Assets/Images/New_images/add-circle.png";
 
 
 
@@ -113,20 +114,27 @@ function UserListRoomDetail(props) {
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
   const [customerDetails, setCustomerDetails] = useState([])
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
-  const [generateFormAdvance,setGenerateFormAdvance] = useState(false)
+  const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
 
+  const [fields, setFields] = useState([]);
 
+  console.log("fields", fields)
+
+  const reasonOptions = [
+    { value: "maintenance", label: "Maintenance" },
+    { value: "others", label: "Others" },
+  ];
 
   const [formLoading, setFormLoading] = useState(false)
 
   const [loading, setLoading] = useState(false)
 
-  const handleOpenAdvance =()=>{
+  const handleOpenAdvance = () => {
     setGenerateFormAdvance(true)
   }
-const handleCloseGenerateAdvance =()=>{
-  setGenerateFormAdvance(false)
-}
+  const handleCloseGenerateAdvance = () => {
+    setGenerateFormAdvance(false)
+  }
 
 
   const indianStates = [
@@ -317,8 +325,14 @@ const handleCloseGenerateAdvance =()=>{
   }, [selectedDate]);
 
   const [activeRow, setActiveRow] = useState(null);
+  const [initialReasonFields, setInitialReasonFields] = useState([]);
+
 
   const handleShowEditBed = (item) => {
+
+    console.log("item", item)
+
+
     if (item[0].ID) {
       if (activeRow === item[0].ID) {
         setActiveRow(null);
@@ -381,6 +395,28 @@ const handleCloseGenerateAdvance =()=>{
       setPaidAdvance(item[0].paid_advance || "");
       setPaidrent(item[0].paid_rent || "");
 
+
+      if (item[0]?.reasonData && Array.isArray(item[0].reasonData)) {
+        const formattedFields = item[0]?.reasonData?.map((entry) => {
+          const isCustom = String(entry.reason_name) !== "maintenance";
+          console.log("isCustom", isCustom)
+          return {
+            reason_name: entry.reason,
+            amount: entry.amount || "",
+            showInput: isCustom,
+            customReason: isCustom ? entry.reason : "",
+          };
+        });
+
+
+        console.log("formattedFields", formattedFields)
+        setFields(formattedFields);
+        setInitialReasonFields(formattedFields);
+      }
+
+
+
+
       setInitialStateAssign({
         Floor: item[0].Floor || "",
         Rooms: item[0].room_id || "",
@@ -389,6 +425,20 @@ const handleCloseGenerateAdvance =()=>{
         AdvanceAmount: item[0].AdvanceAmount || "",
         RoomRent: item[0].RoomRent || "",
       });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       seteditMode(true);
     }
   };
@@ -396,7 +446,7 @@ const handleCloseGenerateAdvance =()=>{
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditUser = (item) => {
-  
+
     if (item[0].ID) {
       const sanitize = (value) => {
         return value === null ||
@@ -843,7 +893,7 @@ const handleCloseGenerateAdvance =()=>{
         case "Hostel ID":
           setHostelIdError("Please Select Hostel ID");
           break;
-        
+
         default:
           break;
       }
@@ -871,7 +921,7 @@ const handleCloseGenerateAdvance =()=>{
       case "Hostel ID":
         setHostelIdError("");
         break;
-   
+
       default:
         break;
     }
@@ -912,7 +962,7 @@ const handleCloseGenerateAdvance =()=>{
     if (!validateField(firstname, "First Name", focusedRef, firstnameRef)) return;
     if (!validateField(Phone, "Phone Number", focusedRef, phoneRef)) return;
     if (!validateField(hostel_Id, "Hostel ID", focusedRef, hostelRef)) return;
-    
+
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG");
@@ -926,22 +976,22 @@ const handleCloseGenerateAdvance =()=>{
       setPhoneErrorMessage("");
     }
 
-  
-const cleanedPincode = String(pincode || "").trim();
+
+    const cleanedPincode = String(pincode || "").trim();
 
 
-if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-  setPincodeError("Pin Code Must Be Exactly 6 Digits");
+    if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
 
-  if (!focusedRef.current && pincodeRef?.current) {
-    pincodeRef.current.focus();
-    focusedRef.current = true;
-  }
+      if (!focusedRef.current && pincodeRef?.current) {
+        pincodeRef.current.focus();
+        focusedRef.current = true;
+      }
 
-  hasError = true;
-} else {
-  setPincodeError("");
-}
+      hasError = true;
+    } else {
+      setPincodeError("");
+    }
     if (Email && !["n/a", "na"].includes(Email.toLowerCase().trim())) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
@@ -1009,7 +1059,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
       paid_advance: paid_advance,
       paid_rent: paid_rent,
       ID: id,
-      
+
     };
     dispatch({
       type: "ADDUSER",
@@ -1024,13 +1074,13 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
   };
 
 
-    useEffect(() => {
-      if (state.UsersList.phoneError) {
-        setFormLoading(false)
-        setLoading(false)
-        setPhoneError(state.UsersList.phoneError);
-      }
-    }, [state.UsersList.phoneError]);
+  useEffect(() => {
+    if (state.UsersList.phoneError) {
+      setFormLoading(false)
+      setLoading(false)
+      setPhoneError(state.UsersList.phoneError);
+    }
+  }, [state.UsersList.phoneError]);
 
   const handleCloseGenerateFormShow = () => {
     seGenerateForm(false);
@@ -1057,21 +1107,21 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
     }
 
 
-      if (advanceDate && advanceDueDate && advanceDetail[0]?.joining_Date) {
-    const joiningDate = dayjs(advanceDetail[0].joining_Date).startOf("day");
-    const invoiceDate = dayjs(advanceDate).startOf("day");
-    const dueDate = dayjs(advanceDueDate).startOf("day");
+    if (advanceDate && advanceDueDate && advanceDetail[0]?.joining_Date) {
+      const joiningDate = dayjs(advanceDetail[0].joining_Date).startOf("day");
+      const invoiceDate = dayjs(advanceDate).startOf("day");
+      const dueDate = dayjs(advanceDueDate).startOf("day");
 
-    if (invoiceDate.isBefore(joiningDate)) {
-      setAdvanceDateError("Before Join Date Not Allowed");
-      hasError = true;
-    }
+      if (invoiceDate.isBefore(joiningDate)) {
+        setAdvanceDateError("Before Join Date Not Allowed");
+        hasError = true;
+      }
 
-    if (dueDate.isBefore(invoiceDate)) {
-      setAdvanceDueDateError("Due Date after Invoice Date only");
-      hasError = true;
+      if (dueDate.isBefore(invoiceDate)) {
+        setAdvanceDueDateError("Due Date after Invoice Date only");
+        hasError = true;
+      }
     }
-  }
     if (hasError) {
       return;
     }
@@ -1180,9 +1230,9 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
     return true;
   };
 
-  
 
-  
+
+
 
   const handleSaveUserlistAddUser = () => {
     if (!validateAssignField(Floor, "Floor"));
@@ -1200,7 +1250,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
       setDateError("");
     }
 
-   
+
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Please Enter Valid Rent Amount");
       return;
@@ -1253,13 +1303,16 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
       formattedDate !== initialFormattedDate ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
+   const isReasonChanged = JSON.stringify(fields) !== JSON.stringify(initialReasonFields);
 
-    if (!isChangedBed) {
-      setFormError("No Changes Detected");
-      return;
-    } else {
+
+   if (!isChangedBed && !isReasonChanged) {
+  setFormError("No Changes Detected");
+  return;
+} else {
       setFormError("");
     }
+
     handleOpenAdvance()
 
     // dispatch({
@@ -1303,14 +1356,30 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
   };
 
 
-  const handleSaveButton = ()=>{
-     const formattedDate = selectedDate
+  const handleSaveButton = () => {
+    const formattedDate = selectedDate
       ? dayjs(selectedDate).format("YYYY-MM-DD")
       : null;
-      
-    
 
-     dispatch({
+
+    const formattedReasons = fields.map((item) => {
+      let reason_name = "";
+
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
+
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+
+    dispatch({
       type: "ADDUSER",
       payload: {
         profile: file,
@@ -1340,9 +1409,10 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
         paid_advance,
         paid_rent,
         ID: id,
-         isadvance: 1,
+        isadvance: 1,
         invoice_date: formattedDate,
         due_date: formattedDate,
+        reasons: formattedReasons
       },
     });
   }
@@ -1378,7 +1448,8 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
       setAdvanceDetail(state.UsersList.customerdetails.data);
     }
   }, [state.UsersList.customerdetails.data]);
-  console.log("advanceDetail",advanceDetail)
+
+
 
   const [uploadError, setUploadError] = useState("");
 
@@ -1511,6 +1582,43 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
 
   }, [state.createAccount?.networkError])
 
+
+  const handleAddField = () => {
+    setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
+  };
+
+  const handleInputChange = (index, field, value) => {
+    const updatedFields = [...fields];
+
+    if (field === "reason") {
+      if (value === "others") {
+        updatedFields[index].showInput = true;
+        updatedFields[index].reason_name = "others";
+        updatedFields[index].customReason = "";
+      } else {
+        updatedFields[index].showInput = false;
+        updatedFields[index].reason = value;
+        updatedFields[index].customReason = "";
+      }
+    } else if (field === "customReason") {
+      updatedFields[index].customReason = value;
+    } else {
+      updatedFields[index][field] = value;
+    }
+
+    setFields(updatedFields);
+  };
+
+
+  const handleRemoveField = (index) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setFields(updatedFields);
+  };
+
+
+
+
   return (
 
     <>
@@ -1596,7 +1704,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                           {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
                             <>
                               <Button
-                              disabled={props.customerAddPermission}
+                                disabled={props.customerAddPermission}
                                 type="primary"
                                 style={{
                                   borderRadius: "20px",
@@ -1607,7 +1715,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                   display: "flex",
                                   alignItems: "center",
                                   fontSize: "14px",
-                                  
+
                                 }}
                               >
                                 KYC Verified
@@ -1652,7 +1760,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                             state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
                             <>
                               <Button
-                              disabled={props.customerAddPermission}
+                                disabled={props.customerAddPermission}
                                 type="primary"
                                 style={{
                                   borderRadius: "20px",
@@ -1687,9 +1795,9 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
 
                       <div
                         style={{
-                        cursor: props.customerEditPermission
-                                          ? "not-allowed"
-                                          : "pointer",
+                          cursor: props.customerEditPermission
+                            ? "not-allowed"
+                            : "pointer",
                           height: 40,
                           width: 40,
                           borderRadius: 100,
@@ -1709,13 +1817,13 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                         }}
                       >
                         <PiDotsThreeOutlineVerticalFill
-                           style={{
-                                          height: 20,
-                                          width: 20,
-                                          color: props.customerEditPermission
-                                            ? "#CCCCCC"
-                                            : "#000",
-                                        }}
+                          style={{
+                            height: 20,
+                            width: 20,
+                            color: props.customerEditPermission
+                              ? "#CCCCCC"
+                              : "#000",
+                          }}
                         />
                       </div>
                     </div>
@@ -2015,40 +2123,40 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                   </div>
 
                                   <div className="row">
-                                  <div className="col-sm-4 d-flex flex-column align-items-start">
-  <p
-    style={{
-      fontSize: 12,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-    }}
-  >
-    Email ID
-  </p>
-  <div
-    style={{
-      display: "flex",
-      marginTop: "-10px",
-      gap: "6px",
-      width: "100%",
-    }}
-  >
-    <Sms size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
-    <span
-      style={{
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        wordBreak: "break-word",
-        overflowWrap: "break-word",
-        minWidth: 0,
-        marginTop:-3
-      }}
-    >
-      {item.Email}
-    </span>
-  </div>
-</div>
+                                    <div className="col-sm-4 d-flex flex-column align-items-start">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Email ID
+                                      </p>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          marginTop: "-10px",
+                                          gap: "6px",
+                                          width: "100%",
+                                        }}
+                                      >
+                                        <Sms size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            wordBreak: "break-word",
+                                            overflowWrap: "break-word",
+                                            minWidth: 0,
+                                            marginTop: -3
+                                          }}
+                                        >
+                                          {item.Email}
+                                        </span>
+                                      </div>
+                                    </div>
                                     <div
                                       className="col-sm-4 d-flex flex-column align-items-center"
                                       style={{ whiteSpace: "nowrap" }}
@@ -2140,66 +2248,66 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                           color="#1E45E1"
                                           style={{ marginBottom: "2px" }}
                                         />
-                                      
- 
 
-{(
-  customerDetails[0]?.Address ||
-  customerDetails[0]?.area ||
-  customerDetails[0]?.landmark ||
-  (customerDetails[0]?.city && customerDetails[0].city !== "undefined" && customerDetails[0].city !== "null" && customerDetails[0].city !== 0) ||
-  customerDetails[0]?.pincode ||
-  (customerDetails[0]?.state && customerDetails[0].state !== "undefined" && customerDetails[0].state !== "null" && customerDetails[0].state !== 0)
-) ? (
-  <div
-    style={{
-      fontSize: 14,
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      lineHeight: "1.5em",
-    }}
-  >
-    {(customerDetails[0]?.Address || customerDetails[0]?.area) && (
-      <>
-        {customerDetails[0]?.Address ? `${customerDetails[0].Address}, ` : ""}
-        {customerDetails[0]?.area ?? ""}
-        <br />
-      </>
-    )}
 
-    {(customerDetails[0]?.landmark ||
-      customerDetails[0]?.city ||
-      customerDetails[0]?.pincode ||
-      customerDetails[0]?.state) && (
-      <>
-        {customerDetails[0]?.landmark ? `${customerDetails[0].landmark}, ` : ""}
 
-        {(customerDetails[0]?.city &&
-          customerDetails[0].city !== "undefined" &&
-          customerDetails[0].city !== "null" &&
-          customerDetails[0].city !== 0) ? `${customerDetails[0].city}, ` : ""}
+                                        {(
+                                          customerDetails[0]?.Address ||
+                                          customerDetails[0]?.area ||
+                                          customerDetails[0]?.landmark ||
+                                          (customerDetails[0]?.city && customerDetails[0].city !== "undefined" && customerDetails[0].city !== "null" && customerDetails[0].city !== 0) ||
+                                          customerDetails[0]?.pincode ||
+                                          (customerDetails[0]?.state && customerDetails[0].state !== "undefined" && customerDetails[0].state !== "null" && customerDetails[0].state !== 0)
+                                        ) ? (
+                                          <div
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              lineHeight: "1.5em",
+                                            }}
+                                          >
+                                            {(customerDetails[0]?.Address || customerDetails[0]?.area) && (
+                                              <>
+                                                {customerDetails[0]?.Address ? `${customerDetails[0].Address}, ` : ""}
+                                                {customerDetails[0]?.area ?? ""}
+                                                <br />
+                                              </>
+                                            )}
 
-        {customerDetails[0]?.pincode ? `${customerDetails[0].pincode} - ` : ""}
+                                            {(customerDetails[0]?.landmark ||
+                                              customerDetails[0]?.city ||
+                                              customerDetails[0]?.pincode ||
+                                              customerDetails[0]?.state) && (
+                                                <>
+                                                  {customerDetails[0]?.landmark ? `${customerDetails[0].landmark}, ` : ""}
 
-        {(customerDetails[0]?.state &&
-          customerDetails[0].state !== "undefined" &&
-          customerDetails[0].state !== "null" &&
-          customerDetails[0].state !== 0) ? customerDetails[0].state : ""}
-      </>
-    )}
-  </div>
-) : (
-  <div
-    style={{
-      fontSize: 14,
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      lineHeight: "1.5em",
-    }}
-  >
-    No address found
-  </div>
-)}
+                                                  {(customerDetails[0]?.city &&
+                                                    customerDetails[0].city !== "undefined" &&
+                                                    customerDetails[0].city !== "null" &&
+                                                    customerDetails[0].city !== 0) ? `${customerDetails[0].city}, ` : ""}
+
+                                                  {customerDetails[0]?.pincode ? `${customerDetails[0].pincode} - ` : ""}
+
+                                                  {(customerDetails[0]?.state &&
+                                                    customerDetails[0].state !== "undefined" &&
+                                                    customerDetails[0].state !== "null" &&
+                                                    customerDetails[0].state !== 0) ? customerDetails[0].state : ""}
+                                                </>
+                                              )}
+                                          </div>
+                                        ) : (
+                                          <div
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              lineHeight: "1.5em",
+                                            }}
+                                          >
+                                            No address found
+                                          </div>
+                                        )}
 
 
 
@@ -2429,7 +2537,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                     </label>
                                     <button
                                       className="btn "
-                                       disabled={props.customerAddPermission}
+                                      disabled={props.customerAddPermission}
                                       style={{
                                         borderRadius: "10px",
                                         padding: "10px 20px",
@@ -2607,7 +2715,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                         {!advanceDetail[0]?.inv_id && (
                                           <div className="col-sm-4 d-flex flex-column align-items-center">
                                             <Button
-                                             disabled={props.customerAddPermission}
+                                              disabled={props.customerAddPermission}
                                               style={{
                                                 width: 102,
                                                 height: 31,
@@ -2710,7 +2818,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                       Additional Contact
                                     </div>
                                     <button
-                                     disabled={props.customerAddPermission}
+                                      disabled={props.customerAddPermission}
                                       className="btn btn-link fw-medium text-decoration-none"
                                       style={{ fontSize: 14, fontFamily: "Gilroy" }}
                                       onClick={handleAdditionalForm}
@@ -2741,27 +2849,27 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                                         handleContactEdit(v)
                                                       }
                                                     /> */}
-                                                    <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"}  onClick={() => {
-                                              if (!props.customerEditPermission) {
-                                                handleContactEdit(v);
-                                              }
-                                            }}/>
+                                                    <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} onClick={() => {
+                                                      if (!props.customerEditPermission) {
+                                                        handleContactEdit(v);
+                                                      }
+                                                    }} />
 
-                                                   
-                         <Trash size="16"color={props.customerDeletePermission ? "#A9A9A9" : "red"} 
-                                                     
-                                                
-                                                     onClick={() => {
-                                              if (!props.customerDeletePermission) {
-                                                handleContactDelete(v);
-                                              }
-                                            }}
-                                                     style={{cursor: props.customerDeletePermission ? "not-allowed" : "pointer",}}  onMouseEnter={(e) => {
-                                              if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "transparent";
-                                            }}/>
+
+                                                    <Trash size="16" color={props.customerDeletePermission ? "#A9A9A9" : "red"}
+
+
+                                                      onClick={() => {
+                                                        if (!props.customerDeletePermission) {
+                                                          handleContactDelete(v);
+                                                        }
+                                                      }}
+                                                      style={{ cursor: props.customerDeletePermission ? "not-allowed" : "pointer", }} onMouseEnter={(e) => {
+                                                        if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "transparent";
+                                                      }} />
                                                   </label>
 
                                                   <div className="row mb-3 g-4">
@@ -2848,26 +2956,26 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                               <div key={index}>
                                                 <p className="mb-3">
                                                   Contact Info{" "}
-                                                  <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} style={{cursor:"pointer"}}  onClick={() => {
-                                              if (!props.customerEditPermission) {
-                                                handleContactEdit(v);
-                                              }
-                                            }}/>
-                                                 
-                                                     <Trash size="16"color={props.customerDeletePermission ? "#A9A9A9" : "red"} 
-                                                     
-                                                
-                                                     onClick={() => {
-                                              if (!props.customerDeletePermission) {
-                                                handleContactDelete(v);
-                                              }
-                                            }}
-                                                     style={{cursor: props.customerDeletePermission ? "not-allowed" : "pointer",marginLeft:10}}  onMouseEnter={(e) => {
-                                              if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                            }}
-                                            onMouseLeave={(e) => {
-                                              e.currentTarget.style.backgroundColor = "transparent";
-                                            }}/>
+                                                  <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} style={{ cursor: "pointer" }} onClick={() => {
+                                                    if (!props.customerEditPermission) {
+                                                      handleContactEdit(v);
+                                                    }
+                                                  }} />
+
+                                                  <Trash size="16" color={props.customerDeletePermission ? "#A9A9A9" : "red"}
+
+
+                                                    onClick={() => {
+                                                      if (!props.customerDeletePermission) {
+                                                        handleContactDelete(v);
+                                                      }
+                                                    }}
+                                                    style={{ cursor: props.customerDeletePermission ? "not-allowed" : "pointer", marginLeft: 10 }} onMouseEnter={(e) => {
+                                                      if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "transparent";
+                                                    }} />
                                                 </p>
 
                                                 <div className="row mb-3 g-8">
@@ -3592,8 +3700,8 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Pincode { " "}
-                                         
+                                          Pincode {" "}
+
                                         </Form.Label>
                                         <Form.Control
                                           value={pincode}
@@ -3652,7 +3760,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                           }}
                                         >
                                           Town/City {" "}
-                                       
+
                                         </Form.Label>
                                         <FormControl
                                           type="text"
@@ -3711,7 +3819,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                           }}
                                         >
                                           State
-                                         
+
                                         </Form.Label>
 
                                         <Select
@@ -3916,592 +4024,784 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                                     style={{ cursor: "pointer" }}
                                   />
                                 </Modal.Header>
-
-                                <div className="row mb-3">
-                                  <div className="col-12">
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Floor {" "}
-                                      <span
+                                <div style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 me-1 mt-2 mb-1 ">
+                                  <div className="row mb-3 me-1">
+                                    <div className="col-12">
+                                      <Form.Label
                                         style={{
-                                          color: "red",
-                                          fontSize: "20px",
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
                                         }}
                                       >
-                                        {" "}
-                                        *{" "}
-                                      </span>
-                                    </Form.Label>
-
-                                    <Select
-                                      options={
-                                        state.UsersList?.hosteldetailslist?.map(
-                                          (u) => ({
-                                            value: u.floor_id,
-                                            label: u.floor_name,
-                                          })
-                                        ) || []
-                                      }
-                                      onChange={handleFloor}
-                                      value={
-                                        state.UsersList?.hosteldetailslist
-                                          ?.map((u) => ({
-                                            value: u.floor_id,
-                                            label: u.floor_name,
-                                          }))
-                                          .find(
-                                            (option) =>
-                                              String(option.value) ===
-                                              String(Floor)
-                                          ) || null
-                                      }
-                                      placeholder="Select a Floor"
-                                      classNamePrefix="custom"
-                                      menuPlacement="auto"
-                                      styles={{
-                                        control: (base) => ({
-                                          ...base,
-                                          height: "50px",
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: "8px",
-                                          fontSize: "16px",
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          paddingLeft: "10px",
-                                        }),
-                                        menu: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          border: "1px solid #ced4da",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          maxHeight: "120px",
-                                          padding: 0,
-                                          scrollbarWidth: "thin",
-                                          overflowY: "auto",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                          display: "inline-block",
-                                          fill: "currentColor",
-                                          lineHeight: 1,
-                                          stroke: "currentColor",
-                                          strokeWidth: 0,
-                                          cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                          display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                          ...base,
-                                          cursor: "pointer",
-                                          backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                          color: "#000",
-                                        }),
-                                      }}
-                                    />
-
-                                    {floorError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError
-                                          style={{
-                                            fontSize: "13px",
-                                            marginRight: "5px",
-                                            marginBottom: "2px",
-                                          }}
-                                        />
+                                        Floor {" "}
                                         <span
                                           style={{
-                                            fontSize: "12px",
                                             color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
+                                            fontSize: "20px",
                                           }}
                                         >
-                                          {floorError}
+                                          {" "}
+                                          *{" "}
                                         </span>
-                                      </div>
-                                    )}
-                                  </div>
+                                      </Form.Label>
 
-                                  <div className="col-12 mt-1">
-                                    <div className="mb-2">
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Room {" "}
-                                      <span
-                                        style={{
-                                          color: "red",
-                                          fontSize: "20px",
+                                      <Select
+                                        options={
+                                          state.UsersList?.hosteldetailslist?.map(
+                                            (u) => ({
+                                              value: u.floor_id,
+                                              label: u.floor_name,
+                                            })
+                                          ) || []
+                                        }
+                                        onChange={handleFloor}
+                                        value={
+                                          state.UsersList?.hosteldetailslist
+                                            ?.map((u) => ({
+                                              value: u.floor_id,
+                                              label: u.floor_name,
+                                            }))
+                                            .find(
+                                              (option) =>
+                                                String(option.value) ===
+                                                String(Floor)
+                                            ) || null
+                                        }
+                                        placeholder="Select a Floor"
+                                        classNamePrefix="custom"
+                                        menuPlacement="auto"
+                                        styles={{
+                                          control: (base) => ({
+                                            ...base,
+                                            height: "50px",
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px",
+                                            fontSize: "16px",
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                            paddingLeft: "10px",
+                                          }),
+                                          menu: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            border: "1px solid #ced4da",
+                                            fontFamily: "Gilroy",
+                                          }),
+                                          menuList: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            maxHeight: "120px",
+                                            padding: 0,
+                                            scrollbarWidth: "thin",
+                                            overflowY: "auto",
+                                            fontFamily: "Gilroy",
+                                          }),
+                                          placeholder: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                          }),
+                                          dropdownIndicator: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                            display: "inline-block",
+                                            fill: "currentColor",
+                                            lineHeight: 1,
+                                            stroke: "currentColor",
+                                            strokeWidth: 0,
+                                            cursor: "pointer",
+                                          }),
+                                          indicatorSeparator: () => ({
+                                            display: "none",
+                                          }),
+                                          option: (base, state) => ({
+                                            ...base,
+                                            cursor: "pointer",
+                                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                            color: "#000",
+                                          }),
                                         }}
-                                      >
-                                        {" "}
-                                        *{" "}
-                                      </span>
-                                    </Form.Label>
+                                      />
 
-                                    <Select
-                                      options={
-                                        state.UsersList?.roomdetails?.map(
-                                          (item) => ({
-                                            value: item.Room_Id,
-                                            label: item.Room_Name,
-                                          })
-                                        ) || []
-                                      }
-                                      onChange={handleRooms}
-                                      value={
-                                        state.UsersList?.roomdetails?.find(
-                                          (option) => option.Room_Id === RoomId
-                                        )
-                                          ? {
-                                            value: RoomId,
-                                            label:
-                                              state.UsersList.roomdetails.find(
-                                                (option) =>
-                                                  option.Room_Id === RoomId
-                                              )?.Room_Name,
+                                      {floorError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError
+                                            style={{
+                                              fontSize: "13px",
+                                              marginRight: "5px",
+                                              marginBottom: "2px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {floorError}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
+
+                                    <div className="col-12 mt-1">
+                                      <div className="mb-2">
+                                        <Form.Label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          Room {" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            {" "}
+                                            *{" "}
+                                          </span>
+                                        </Form.Label>
+
+                                        <Select
+                                          options={
+                                            state.UsersList?.roomdetails?.map(
+                                              (item) => ({
+                                                value: item.Room_Id,
+                                                label: item.Room_Name,
+                                              })
+                                            ) || []
                                           }
-                                          : null
-                                      }
-                                      placeholder="Select a Room"
-                                      classNamePrefix="custom"
-                                      menuPlacement="auto"
-                                      styles={{
-                                        control: (base) => ({
-                                          ...base,
-                                          height: "50px",
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: "8px",
-                                          fontSize: "16px",
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          paddingLeft: "10px",
-                                        }),
-                                        menu: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          border: "1px solid #ced4da",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          maxHeight: "120px",
-                                          padding: 0,
-                                          scrollbarWidth: "thin",
-                                          overflowY: "auto",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                          display: "inline-block",
-                                          fill: "currentColor",
-                                          lineHeight: 1,
-                                          stroke: "currentColor",
-                                          strokeWidth: 0,
-                                          cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                          display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                          ...base,
-                                          cursor: "pointer",
-                                          backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                          color: "#000",
-                                        }),
-                                      }}
-                                    />
-
-                                    {roomError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError
-                                          style={{
-                                            fontSize: "13px",
-                                            marginRight: "5px",
-                                            marginBottom: "2px",
+                                          onChange={handleRooms}
+                                          value={
+                                            state.UsersList?.roomdetails?.find(
+                                              (option) => option.Room_Id === RoomId
+                                            )
+                                              ? {
+                                                value: RoomId,
+                                                label:
+                                                  state.UsersList.roomdetails.find(
+                                                    (option) =>
+                                                      option.Room_Id === RoomId
+                                                  )?.Room_Name,
+                                              }
+                                              : null
+                                          }
+                                          placeholder="Select a Room"
+                                          classNamePrefix="custom"
+                                          menuPlacement="auto"
+                                          styles={{
+                                            control: (base) => ({
+                                              ...base,
+                                              height: "50px",
+                                              border: "1px solid #D9D9D9",
+                                              borderRadius: "8px",
+                                              fontSize: "16px",
+                                              color: "#4B4B4B",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              boxShadow: "none",
+                                              paddingLeft: "10px",
+                                            }),
+                                            menu: (base) => ({
+                                              ...base,
+                                              backgroundColor: "#f8f9fa",
+                                              border: "1px solid #ced4da",
+                                              fontFamily: "Gilroy",
+                                            }),
+                                            menuList: (base) => ({
+                                              ...base,
+                                              backgroundColor: "#f8f9fa",
+                                              maxHeight: "120px",
+                                              padding: 0,
+                                              scrollbarWidth: "thin",
+                                              overflowY: "auto",
+                                              fontFamily: "Gilroy",
+                                            }),
+                                            placeholder: (base) => ({
+                                              ...base,
+                                              color: "#555",
+                                            }),
+                                            dropdownIndicator: (base) => ({
+                                              ...base,
+                                              color: "#555",
+                                              display: "inline-block",
+                                              fill: "currentColor",
+                                              lineHeight: 1,
+                                              stroke: "currentColor",
+                                              strokeWidth: 0,
+                                              cursor: "pointer",
+                                            }),
+                                            indicatorSeparator: () => ({
+                                              display: "none",
+                                            }),
+                                            option: (base, state) => ({
+                                              ...base,
+                                              cursor: "pointer",
+                                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                              color: "#000",
+                                            }),
                                           }}
                                         />
+
+                                        {roomError && (
+                                          <div style={{ color: "red" }}>
+                                            <MdError
+                                              style={{
+                                                fontSize: "13px",
+                                                marginRight: "5px",
+                                                marginBottom: "2px",
+                                              }}
+                                            />
+                                            <span
+                                              style={{
+                                                fontSize: "12px",
+                                                color: "red",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                              }}
+                                            >
+                                              {roomError}
+                                            </span>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Bed {" "}
                                         <span
                                           style={{
-                                            fontSize: "12px",
                                             color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+
+                                      <Select
+                                        options={bedOptions}
+                                        value={bedOptions.find(
+                                          (opt) => opt.value === BedId
+                                        )}
+                                        onChange={(selectedOption) =>
+                                          handleBed({
+                                            target: {
+                                              value: selectedOption.value,
+                                            },
+                                          })
+                                        }
+                                        placeholder="Select a Bed"
+                                        classNamePrefix="custom"
+                                        menuPlacement="auto"
+                                        styles={{
+                                          control: (base) => ({
+                                            ...base,
+                                            height: "50px",
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px",
+                                            fontSize: "16px",
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                            paddingLeft: "10px",
+                                          }),
+                                          menu: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            border: "1px solid #ced4da",
+                                            fontFamily: "Gilroy",
+                                          }),
+                                          menuList: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            maxHeight: "120px",
+                                            padding: 0,
+                                            scrollbarWidth: "thin",
+                                            overflowY: "auto",
+                                            fontFamily: "Gilroy",
+                                          }),
+                                          placeholder: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                          }),
+                                          dropdownIndicator: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                            display: "inline-block",
+                                            fill: "currentColor",
+                                            lineHeight: 1,
+                                            stroke: "currentColor",
+                                            strokeWidth: 0,
+                                            cursor: "pointer",
+                                          }),
+                                          indicatorSeparator: () => ({
+                                            display: "none",
+                                          }),
+                                          option: (base, state) => ({
+                                            ...base,
+                                            cursor: "pointer",
+                                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                            color: "#000",
+                                          }),
+                                        }}
+                                      />
+
+                                      {bedError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError
+                                            style={{
+                                              fontSize: "13px",
+                                              marginRight: "5px",
+                                              marginBottom: "2px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {bedError}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
+
+                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                      <Form.Group className="mb-2">
+                                        <Form.Label
+                                          style={{
+                                            fontSize: 14,
+                                            color: "#222222",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                           }}
                                         >
-                                          {roomError}
-                                        </span>
-                                      </div>
-                                    )}
+                                          Joining Date {" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            *
+                                          </span>
+                                        </Form.Label>
+                                        <div
+                                          className="datepicker-wrapper"
+                                          style={{
+                                            position: "relative",
+                                            width: "100%",
+                                          }}
+                                        >
+                                          <DatePicker
+                                            style={{
+                                              width: "100%",
+                                              height: 48,
+                                              cursor: "pointer",
+                                              fontFamily: "Gilroy",
+                                            }}
+                                            format="DD/MM/YYYY"
+                                            placeholder="DD/MM/YYYY"
+                                            value={
+                                              selectedDate
+                                                ? dayjs(selectedDate)
+                                                : null
+                                            }
+                                            onChange={(date) => {
+                                              setDateError("");
+                                              setFormError("");
+                                              setJoingDateErrmsg('');
+                                              setSelectedDate(
+                                                date ? date.toDate() : null
+                                              );
+                                            }}
+                                            getPopupContainer={(triggerNode) =>
+                                              triggerNode.closest(
+                                                ".datepicker-wrapper"
+                                              )
+                                            }
+                                            disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                          />
+                                        </div>
+                                      </Form.Group>
+
+                                      {dateError && (
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            marginTop: "-7px",
+                                          }}
+                                        >
+                                          <MdError
+                                            style={{
+                                              fontSize: "13px",
+                                              marginRight: "5px",
+                                              marginBottom: "2px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {dateError}
+                                          </span>
+                                        </div>
+                                      )}
+
+
+                                      {joiningDateErrmsg.trim() !== "" && (
+                                        <div className="d-flex align-items-center">
+                                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                            {joiningDateErrmsg}
+                                          </label>
+                                        </div>
+                                      )}
+                                    </div>
+
+                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                      <Form.Group className="">
+                                        <Form.Label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          Advance Amount {" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            {" "}
+                                            *{" "}
+                                          </span>
+                                        </Form.Label>
+                                        <FormControl
+                                          type="text"
+                                          id="form-controls"
+                                          placeholder="Enter Amount"
+                                          value={AdvanceAmount}
+                                          onChange={(e) => handleAdvanceAmount(e)}
+                                          style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                            border: "1px solid #D9D9D9",
+                                            height: 50,
+
+                                            borderRadius: 8,
+                                          }}
+                                        />
+                                      </Form.Group>
+                                      {advanceAmountError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError
+                                            style={{
+                                              fontSize: "13px",
+                                              marginRight: "5px",
+                                              marginBottom: "2px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {advanceAmountError}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                      <Form.Group className="mb-3">
+                                        <Form.Label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          Rental Amount {" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            {" "}
+                                            *{" "}
+                                          </span>
+                                        </Form.Label>
+                                        <FormControl
+                                          type="text"
+                                          id="form-controls"
+                                          placeholder="Enter Amount"
+                                          value={RoomRent}
+                                          onChange={(e) => handleRoomRent(e)}
+                                          style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                            border: "1px solid #D9D9D9",
+                                            height: 50,
+                                            borderRadius: 8,
+                                          }}
+                                        />
+                                      </Form.Group>
+                                      {roomrentError && (
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            marginTop: "-15px",
+                                          }}
+                                        >
+                                          <MdError
+                                            style={{
+                                              fontSize: "13px",
+                                              marginRight: "5px",
+                                              marginBottom: "2px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {roomrentError}
+                                          </span>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
 
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Bed {" "}
-                                      <span
-                                        style={{
-                                          color: "red",
-                                          fontSize: "20px",
-                                        }}
-                                      >
-                                        {" "}
-                                        *{" "}
-                                      </span>
-                                    </Form.Label>
+                                  <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
-                                    <Select
-                                      options={bedOptions}
-                                      value={bedOptions.find(
-                                        (opt) => opt.value === BedId
-                                      )}
-                                      onChange={(selectedOption) =>
-                                        handleBed({
-                                          target: {
-                                            value: selectedOption.value,
-                                          },
-                                        })
-                                      }
-                                      placeholder="Select a Bed"
-                                      classNamePrefix="custom"
-                                      menuPlacement="auto"
-                                      styles={{
-                                        control: (base) => ({
-                                          ...base,
-                                          height: "50px",
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: "8px",
-                                          fontSize: "16px",
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          paddingLeft: "10px",
-                                        }),
-                                        menu: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          border: "1px solid #ced4da",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          maxHeight: "120px",
-                                          padding: 0,
-                                          scrollbarWidth: "thin",
-                                          overflowY: "auto",
-                                          fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                          display: "inline-block",
-                                          fill: "currentColor",
-                                          lineHeight: 1,
-                                          stroke: "currentColor",
-                                          strokeWidth: 0,
-                                          cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                          display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                          ...base,
-                                          cursor: "pointer",
-                                          backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                          color: "#000",
-                                        }),
-                                      }}
-                                    />
-
-                                    {bedError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError
+                                    <div className="d-flex justify-content-between align-items-center p-4">
+                                      <div>
+                                        <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
+                                      </div>
+                                      <div>
+                                        <Button
+                                          onClick={handleAddField}
                                           style={{
-                                            fontSize: "13px",
-                                            marginRight: "5px",
-                                            marginBottom: "2px",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
                                             fontFamily: "Gilroy",
-                                            fontWeight: 500,
+                                            fontSize: "14px",
+                                            backgroundColor: "#1E45E1",
+                                            color: "white",
+                                            fontWeight: 600,
+                                            borderRadius: "10px",
+                                            padding: "6px 15px",
+                                            marginBottom: "10px",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "6px",
                                           }}
                                         >
-                                          {bedError}
-                                        </span>
+                                          <img
+                                            src={addcircle}
+                                            alt="Assign Bed"
+                                            style={{
+                                              height: 16,
+                                              width: 16,
+                                              filter: "brightness(0) invert(1)",
+                                            }}
+                                          />
+                                          Add
+                                        </Button>
+
                                       </div>
-                                    )}
+                                    </div>
+
+
+
+                                    {fields.map((item, index) => {
+
+
+                                      return (
+                                        <div className="row px-4 mb-3" key={index}>
+                                          <div className="col-md-5">
+
+
+                                            {!item.showInput ? (
+                                              <Select
+                                                options={reasonOptions}
+                                                value={reasonOptions.find((opt) => opt.value === item.reason) || null}
+                                                onChange={(selectedOption) => {
+                                                  const selectedValue = selectedOption.value;
+
+                                                  if (selectedValue === "others") {
+                                                    handleInputChange(index, "reason", "others");
+                                                  } else {
+                                                    handleInputChange(index, "reason", selectedValue);
+                                                  }
+                                                }}
+                                                isDisabled={item.reason === "maintenance"}
+                                                menuPlacement="auto"
+                                                styles={{
+                                                  control: (base) => ({
+                                                    ...base,
+                                                    height: "50px",
+                                                    border: "1px solid #D9D9D9",
+                                                    borderRadius: "8px",
+                                                    fontSize: "16px",
+                                                    color: "#4B4B4B",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                    boxShadow: "none",
+                                                  }),
+                                                  menu: (base) => ({
+                                                    ...base,
+                                                    backgroundColor: "#f8f9fa",
+                                                    border: "1px solid #ced4da",
+                                                    fontFamily: "Gilroy",
+                                                  }),
+                                                  menuList: (base) => ({
+                                                    ...base,
+                                                    backgroundColor: "#f8f9fa",
+                                                    maxHeight: "120px",
+                                                    padding: 0,
+                                                    scrollbarWidth: "thin",
+                                                    overflowY: "auto",
+                                                    fontFamily: "Gilroy",
+                                                  }),
+                                                  placeholder: (base) => ({
+                                                    ...base,
+                                                    color: "#555",
+                                                  }),
+                                                  dropdownIndicator: (base) => ({
+                                                    ...base,
+                                                    color: "#555",
+                                                    display: "inline-block",
+                                                    fill: "currentColor",
+                                                    lineHeight: 1,
+                                                    stroke: "currentColor",
+                                                    strokeWidth: 0,
+                                                    cursor: "pointer",
+                                                  }),
+                                                  indicatorSeparator: () => ({
+                                                    display: "none",
+                                                  }),
+                                                  option: (base, state) => ({
+                                                    ...base,
+                                                    cursor: "pointer",
+                                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                                    color: "#000",
+                                                  }),
+                                                }}
+                                              />
+                                            ) : (
+                                              <>
+                                                <input
+                                                  type="text"
+                                                  className="form-control"
+                                                  placeholder="Enter custom reason"
+                                                  disabled={item.customReason === "maintenance"}
+                                                  value={item.customReason || ""}
+                                                  onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                                                  style={{
+                                                    fontSize: 16,
+                                                    color: "#4B4B4B",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                    boxShadow: "none",
+                                                    border: "1px solid #D9D9D9",
+                                                    height: 50,
+                                                    borderRadius: 8,
+                                                  }}
+                                                />
+                                              </>
+                                            )}
+                                          </div>
+
+
+                                          <div className="col-md-5">
+
+                                            <input
+                                              type="text"
+                                              placeholder="Enter amount"
+                                              value={item.amount}
+                                              onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                                              className="form-control"
+                                              style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                boxShadow: "none",
+                                                border: "1px solid #D9D9D9",
+                                                height: 50,
+                                                borderRadius: 8,
+                                              }}
+
+                                            />
+                                          </div>
+
+
+                                          <div className="col-md-2 d-flex justify-content-center align-items-center">
+
+                                            {index !== 0 && (
+                                              <Trash
+                                                size="20"
+                                                color="red"
+                                                variant="Bold"
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => handleRemoveField(index)}
+                                              />
+                                            )}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+
+
+
+
                                   </div>
 
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <Form.Group className="mb-2">
-                                      <Form.Label
-                                        style={{
-                                          fontSize: 14,
-                                          color: "#222222",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        Joining Date {" "}
-                                        <span
-                                          style={{
-                                            color: "red",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          *
-                                        </span>
-                                      </Form.Label>
-                                      <div
-                                        className="datepicker-wrapper"
-                                        style={{
-                                          position: "relative",
-                                          width: "100%",
-                                        }}
-                                      >
-                                        <DatePicker
-                                          style={{
-                                            width: "100%",
-                                            height: 48,
-                                            cursor: "pointer",
-                                            fontFamily: "Gilroy",
-                                          }}
-                                          format="DD/MM/YYYY"
-                                          placeholder="DD/MM/YYYY"
-                                          value={
-                                            selectedDate
-                                              ? dayjs(selectedDate)
-                                              : null
-                                          }
-                                          onChange={(date) => {
-                                            setDateError("");
-                                            setFormError("");
-                                            setJoingDateErrmsg('');
-                                            setSelectedDate(
-                                              date ? date.toDate() : null
-                                            );
-                                          }}
-                                          getPopupContainer={(triggerNode) =>
-                                            triggerNode.closest(
-                                              ".datepicker-wrapper"
-                                            )
-                                          }
-                                          disabledDate={(current) => current && current > dayjs().endOf("day")}
-                                        />
-                                      </div>
-                                    </Form.Group>
-
-                                    {dateError && (
-                                      <div
-                                        style={{
-                                          color: "red",
-                                          marginTop: "-7px",
-                                        }}
-                                      >
-                                        <MdError
-                                          style={{
-                                            fontSize: "13px",
-                                            marginRight: "5px",
-                                            marginBottom: "2px",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {dateError}
-                                        </span>
-                                      </div>
-                                    )}
 
 
-                                       {joiningDateErrmsg.trim() !== "" && (
-                                                                                            <div className="d-flex align-items-center">
-                                                                                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                                                              <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                                                                {joiningDateErrmsg}
-                                                                                              </label>
-                                                                                            </div>
-                                                                                          )}
-                                  </div>
-
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <Form.Group className="">
-                                      <Form.Label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Advance Amount {" "}
-                                        <span
-                                          style={{
-                                            color: "red",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          {" "}
-                                          *{" "}
-                                        </span>
-                                      </Form.Label>
-                                      <FormControl
-                                        type="text"
-                                        id="form-controls"
-                                        placeholder="Enter Amount"
-                                        value={AdvanceAmount}
-                                        onChange={(e) => handleAdvanceAmount(e)}
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 50,
-
-                                          borderRadius: 8,
-                                        }}
-                                      />
-                                    </Form.Group>
-                                    {advanceAmountError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError
-                                          style={{
-                                            fontSize: "13px",
-                                            marginRight: "5px",
-                                            marginBottom: "2px",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {advanceAmountError}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <Form.Group className="mb-3">
-                                      <Form.Label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Rental Amount {" "}
-                                        <span
-                                          style={{
-                                            color: "red",
-                                            fontSize: "20px",
-                                          }}
-                                        >
-                                          {" "}
-                                          *{" "}
-                                        </span>
-                                      </Form.Label>
-                                      <FormControl
-                                        type="text"
-                                        id="form-controls"
-                                        placeholder="Enter Amount"
-                                        value={RoomRent}
-                                        onChange={(e) => handleRoomRent(e)}
-                                        style={{
-                                          fontSize: 16,
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          border: "1px solid #D9D9D9",
-                                          height: 50,
-                                          borderRadius: 8,
-                                        }}
-                                      />
-                                    </Form.Group>
-                                    {roomrentError && (
-                                      <div
-                                        style={{
-                                          color: "red",
-                                          marginTop: "-15px",
-                                        }}
-                                      >
-                                        <MdError
-                                          style={{
-                                            fontSize: "13px",
-                                            marginRight: "5px",
-                                            marginBottom: "2px",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {roomrentError}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
                                 </div>
+
+
+
+
                                 {state.createAccount?.networkError ?
                                   <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
                                     <MdError style={{ color: "red", marginRight: '5px' }} />
@@ -4587,7 +4887,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
 
 
 
-                     
+
                       </Modal.Dialog>
                     </Modal>
                     <Modal
@@ -4905,7 +5205,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                           </div>
                         </Modal.Body>
 
-                       
+
                       </Modal.Dialog>
                     </Modal>
 
@@ -5143,7 +5443,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                           </div>
                         </Modal.Body>
 
-                       
+
                       </Modal.Dialog>
                     </Modal>
                     <TabPanel value="2">
@@ -5153,7 +5453,7 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                         handleEditHostelItem={handleEditHostelItem}
                         handleDeleteHostelItem={handleDeleteHostelItem}
                         handleDeleteRoomItem={handleDeleteRoomItem}
-                       
+
                       />
                     </TabPanel>
                     <TabPanel value="3">
@@ -5162,9 +5462,9 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                         handleEditItem={handleEditItem}
                         handleDeleteItem={handleDeleteItem}
                         handleAddItem={handleAddItem}
-                         customerAdd= {props.customerAddPermission}
-                         customerEdit = {props.customerEditPermission}
-                         customerDelete = {props.customerDeletePermission}
+                        customerAdd={props.customerAddPermission}
+                        customerEdit={props.customerEditPermission}
+                        customerDelete={props.customerDeletePermission}
                       />
                     </TabPanel>
 
@@ -5178,9 +5478,9 @@ if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode))
                         hostelName={props.hostelName}
                         sethosName={props.sethosName}
                         statusAmni={props.statusAmni}
-                         customerAdd= {props.customerAddPermission}
-                         customerEdit = {props.customerEditPermission}
-                         customerDelete = {props.customerDeletePermission}
+                        customerAdd={props.customerAddPermission}
+                        customerEdit={props.customerEditPermission}
+                        customerDelete={props.customerDeletePermission}
                       />
                     </TabPanel>
                   </TabContext>
@@ -5209,7 +5509,7 @@ UserListRoomDetail.propTypes = {
   statusAmni: PropTypes.func.isRequired,
   handleBack: PropTypes.func.isRequired,
   roomDetail: PropTypes.func.isRequired,
-customerAddPermission: PropTypes.func.isRequired,
+  customerAddPermission: PropTypes.func.isRequired,
   customerDeletePermission: PropTypes.func.isRequired,
   onEditRoomItem: PropTypes.func.isRequired,
   onEditHostelItem: PropTypes.func.isRequired,

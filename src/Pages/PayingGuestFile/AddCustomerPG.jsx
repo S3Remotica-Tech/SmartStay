@@ -1392,13 +1392,13 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
                       </div>
 
 
-                    </div>
+                   
+ </div>
 
 
+                    <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="row mt-2 ms-2 me-5">
 
-                    <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-5 ms-2">
-
-                      <div className="d-flex justify-content-between align-items-center p-4">
+                      <div className="d-flex justify-content-between align-items-center p-2 me-2" >
                         <div>
                           <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
                         </div>
