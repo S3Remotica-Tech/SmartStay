@@ -86,7 +86,11 @@ function UserlistForm(props) {
 
 
 
+ const [showSelect, setShowSelect] = useState(false);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [fields, setFields] = useState([]);
 
+ console.log("fields",fields)
 
 
 
@@ -794,6 +798,27 @@ function UserlistForm(props) {
         ? incrementDateAndFormat(selectedDate)
         : "";
 
+
+      const formattedReasons = fields.map((item) => {
+        let reason_name = "";
+
+        if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+          reason_name = item.customReason || item["custom Reason"] || "";
+        } else {
+          reason_name = item.reason || item.reason_name || "";
+        }
+
+        return {
+          reason_name,
+          amount: item.amount || "",
+          showInput: !!item.showInput
+        };
+      });
+
+
+
+
+
       dispatch({
         type: "ADDUSER",
         payload: {
@@ -826,6 +851,7 @@ function UserlistForm(props) {
           payable_rent: payableamount,
           isadvance: 0,
           ID: props.edit === "Edit" ? id : "",
+          reasons:formattedReasons,
         },
       });
       setLoading(true)
@@ -834,6 +860,14 @@ function UserlistForm(props) {
     }
     dispatch({ type: "INVOICELIST" });
   };
+
+
+
+ 
+
+
+
+
 
   const handleSaveAdvance = () => {
     let hasError = false;
@@ -906,6 +940,33 @@ function UserlistForm(props) {
     const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
 
+
+const formattedReasons = fields.map((item) => {
+        let reason_name = "";
+
+        if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+          reason_name = item.customReason || item["custom Reason"] || "";
+        } else {
+          reason_name = item.reason || item.reason_name || "";
+        }
+
+        return {
+          reason_name,
+          amount: item.amount || "",
+          showInput: !!item.showInput
+        };
+      });
+
+
+console.log("formattedReasons",formattedReasons)
+
+
+
+
+
+
+
+
     dispatch({
       type: "ADDUSER",
       payload: {
@@ -940,6 +1001,7 @@ function UserlistForm(props) {
         invoice_date: formattedAdvanceDate,
         due_date: formattedAdvanceDateDue,
         ID: props.edit === "Edit" ? id : "",
+        reasons:formattedReasons
       },
     });
     setLoading(true)
@@ -979,11 +1041,7 @@ function UserlistForm(props) {
     }
 
   }, [state.createAccount?.networkError])
-  const [showSelect, setShowSelect] = useState(false);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const [fields, setFields] = useState([]);
-
-
+ 
 
 
   const handleAddClick = () => {
@@ -1055,7 +1113,7 @@ function UserlistForm(props) {
 
 
   const handleAddField = () => {
-    setFields([...fields, { reason: "", amount: "", showInput: false }]);
+    setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
   };
 
   const handleInputChange = (index, field, value) => {
@@ -1064,7 +1122,7 @@ function UserlistForm(props) {
     if (field === "reason") {
       if (value === "others") {
         updatedFields[index].showInput = true;
-        updatedFields[index].reason = "others";
+        updatedFields[index].reason_name = "others";
         updatedFields[index].customReason = "";
       } else {
         updatedFields[index].showInput = false;
