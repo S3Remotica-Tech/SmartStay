@@ -574,8 +574,8 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
               </div>
               <CloseCircle size="24" color="#000" onClick={handleCloseAddCustomer} style={{ cursor: "pointer" }} />
             </Modal.Header>
-            <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 me-3">
-              <div className="d-flex align-items-center">
+            <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 me-2">
+              <div className=" me-3">
                 <div>
 
 
@@ -1439,8 +1439,8 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
 
 
                         return (
-                          <div className="row px-4 mb-3" key={index}>
-                            <div className="col-md-5">
+                          <div className="row mb-3" key={index}>
+                            <div className="col-md-6">
 
 
                               {!item.showInput ? (
@@ -1534,7 +1534,7 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
                             </div>
 
 
-                            <div className="col-md-5">
+                            <div className="col-md-4">
 
                               <input
                                 type="text"
