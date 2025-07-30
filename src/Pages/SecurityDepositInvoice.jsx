@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
@@ -34,7 +33,6 @@ import paidfull from '../Assets/Images/New_images/paidfull.png'
 import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
 import received from '../Assets/Images/New_images/received.png'
 import Select from "react-select";
-// import uploadsett from "../Assets/Images/New_images/upload setting.png";
 import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -42,16 +40,12 @@ import {CloseCircle} from "iconsax-react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
-import './SettingInvoice.css';
-import NOCReceiptPdfTemplate from "./NocReceiptpdftemplate";
-import RentalReceiptPdfTemplate from "./RentalReceiptPdfTempate";
-import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
-import SecurityReceiptPdfTemplate from "./SecurityDepositReceipt";
-
-function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
 
 
-  const dispatch = useDispatch();
+
+   const SecurityDepositInvoiceTemplate = () => {
+
+ const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -154,9 +148,9 @@ setContactNumberForm(true)
  const defaultGradient = 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))';
 
   const [useGradient, setUseGradient] = useState(true);
-  const [color, setColor] = useState({ r: 30, g: 69, b: 225, a: 1 }); // fallback color
+  const [color, setColor] = useState({ r: 30, g: 69, b: 225, a: 1 }); 
 
-  const handleColorChange = (newColor) => {
+   const handleColorChange = (newColor) => {
     setColor(newColor);
     setUseGradient(false); // switch to solid color
   }
@@ -456,13 +450,13 @@ const handleTermsChange = (e) => {
    
   
  
-  useEffect(() => {
-    if (hostelid) {
-         setLoading(true)
-    dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
-    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-    }
-  }, [hostelid]);
+//   useEffect(() => {
+//     if (hostelid) {
+//          setLoading(true)
+//     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
+//     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+//     }
+//   }, [hostelid]);
 
 
 
@@ -525,16 +519,16 @@ const handleTermsChange = (e) => {
 
   
   
-    useEffect(() => {
-    if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
+//     useEffect(() => {
+//     if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
 
-    dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: hostelid} });
+//     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: hostelid} });
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
-      }, 1000);
-    }
-  }, [state.Settings.settingsAddInvoiceSucesscode]);
+//       setTimeout(() => {
+//         dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
+//       }, 1000);
+//     }
+//   }, [state.Settings.settingsAddInvoiceSucesscode]);
 
 
  
@@ -756,227 +750,11 @@ useEffect(() => {
 }, [showFullView]);
 
 
-  // bg color payload send data ==> 
-  //     background_color: {
-  //   r: color.r,
-  //   g: color.g,
-  //   b: color.b,
-  //   a: color.a
-  // },
-  // hex_color: hexValue 
 
-
-  return (
-    <div className="mt-4" style={{ position: "relative",paddingRight:11,paddingLeft:10 }}>
-
-
-      {loading &&
-        <div
-        style={{
-          position: 'fixed',
-          top: '48%',
-          left: '68%',
-          transform: 'translate(-50%, -50%)',
-          width: '100vw',
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'transparent',
-          zIndex: 1050,
-        }}
-      >
-        <div
-          style={{
-            borderTop: '4px solid #1E45E1',
-            borderRight: '4px solid transparent',
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            animation: 'spin 1s linear infinite',
-          }}
-        ></div>
-      </div>
-      }
-
-      {showform  &&
-
-      <>
-
-<div 
-  className="container-fluid sticky-top bg-white col-12 col-lg-12 col-md-6"
-  style={{
-    zIndex: 1000,
-    whiteSpace: "nowrap",
-    marginTop: -2
-  }}
->
-  <div className="row align-items-center mt-3">
-    
-    <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-start">
-      <h3
-        style={{
-          fontFamily: "Gilroy",
-          fontSize: 24,
-          color: "rgba(34, 34, 34, 1)",
-          fontWeight: 600,
-          whiteSpace: "nowrap"
-        }}
-      >
-        Customize Bill Templates
-      </h3>
-    </div>
-
-    
-{/* {showform  &&
-<div className="col-12 col-md-6 d-flex justify-content-md-end mt-2 mt-md-0">
-      <div className="me-3" style={{ width: "60%" }}>
-        <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-         <Select
-  placeholder="Select"
-  options={PdfOptions}
-  value={PdfOptions.find(opt => opt.value === selectedcard)}
-  onChange={(selected) => handleselectPdf(selected)}
-
- styles={{
-                                    control: (base) => ({
-                                        ...base,
-                                        borderColor: "#D1D5DB",
-                                        borderRadius: "8px",
-                                        padding: "4px",
-                                        boxShadow: "none",
-                                        cursor: "pointer",
-                                        "&:hover": { borderColor: "#666" },
-                                    }),
-                                    menu: (base) => ({
-                                        ...base,
-                                        maxHeight: PdfOptions.length > 3 ? "150px" : "auto",
-                                        overflowY: PdfOptions.length > 3 ? "auto" : "hidden",
-                                        borderRadius: "8px",
-                                        zIndex: 100,
-                                    }),
-                                    menuList: (base) => ({
-                                        ...base,
-                                        maxHeight: "150px",
-                                        overflowY: "auto",
-                                        padding: 0,
-                                        scrollbarWidth: "thin",
-                                        "&::-webkit-scrollbar": {
-                                            width: "6px",
-                                        },
-                                        "&::-webkit-scrollbar-thumb": {
-                                            backgroundColor: "#888",
-                                            borderRadius: "4px",
-                                        },
-                                        "&::-webkit-scrollbar-thumb:hover": {
-                                            backgroundColor: "#555",
-                                        },
-                                    }),
-                                    option: (base, state) => ({
-                                        ...base,
-                                        backgroundColor: state.isSelected
-                                            ? '#2563EB'
-                                            : state.isFocused
-                                                ? '#E0ECFF'
-                                                : '#FFFFFF',
-                                        color: state.isSelected ? '#FFFFFF' : '#000000',
-                                        padding: '12px 16px',
-                                        margin: 0,
-                                        borderRadius: 0,
-                                        cursor:'pointer'
-                                    }),
-                                    indicatorSeparator: () => ({ display: "none" }),
-                                }}
-/>
-
-        </Form.Group>
-      </div>
-<button
-  onClick={handleEdit}
-  style={{
-    fontFamily: "Gilroy",
-    fontSize: "14px",
-    backgroundColor: "#1E45E1",
-    color: "white",
-    fontWeight: 600,
-    borderRadius: "8px",
-    width: 146,
-    height: 45,
-    border: "2px solid #1E45E1",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "6px", 
-  }}
->
-  <img src={EditICon} alt="edit" style={{ height: 18 }}  className="me-2"/>
-  Edit
-</button>
-
-    </div>
-
-} */}
-    
-    
-  </div>
-</div>
-
-
- 
-
-    
-
-  
-      
-
-  <div   className="col-lg-12">
-  <div  style={{display:'flex', flexDirection:"row"}}>
-
-          <img
-                                      src={leftarrow}
-                                      alt="leftarrow"
-                                      width={20}
-                                      height={20}
-                                     onClick={handleCloseForm}
-                                      style={{ cursor: "pointer", marginLeft:'10px' , marginRight:'5px'  , marginTop:2 }}
-                                    />
-                                    <p style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600,}}>Global Bill Settings</p>
-        </div>
-
-
-        
-   <div className="d-flex flex-wrap gap-2 mb-3">
-  {PdfOptions.map((option) => (
-    <button
-      key={option.value}
-      style={{
-    borderRadius: '50rem',           
-    padding: '0.5rem 1.5rem',       
-    fontFamily: 'Gilroy',
-    fontSize: 14,
-    fontWeight: 600,
-    verticalAlign: 'middle',
-    letterSpacing: '0%',
-    lineHeight: '100%',
-    backgroundColor: selectedTab === option.value ? 'rgba(30, 69, 225, 1)' : 'transparent', 
-    color: selectedTab === option.value ? '#fff' : '#6c757d',                
-    border: '1px solid',
-    borderColor: selectedTab === option.value ? '#0d6efd' : '#6c757d'        
-  }}
-
-      onClick={() => setSelectedTab(option.value)}
-    >
-      {option.label}
-    </button>
-  ))}
-
- 
-</div>
-
-
-{selectedTab === "rental_invoice" && <>
-<div className="col-12 d-flex flex-row">
-<div className="col-lg-6 show-scroll" style={{ maxHeight: 450,
+    return(
+        <>
+        <div className="col-12 d-flex flex-row">
+<div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
 <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
@@ -995,7 +773,12 @@ useEffect(() => {
     marginBottom: '6px'
   }}>
     <label style={{ fontWeight: 600 }}>Contact Number</label>
-   <img  src={EditICon} onClick={handleShowContactNumberForm} style={{cursor:'pointer'}}/>
+    {/* <span style={{
+      cursor: 'pointer',
+      fontSize: '16px',
+      color: '#666'
+    }} onClick={handleShowContactNumberForm}>✎</span> */}
+    <img  src={EditICon} onClick={handleShowContactNumberForm} style={{cursor:'pointer'}}/>
   </div>
 
   <div style={{
@@ -1598,7 +1381,7 @@ useEffect(() => {
      <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16,  fontFamily: "sans-serif" }}>
       <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
 
-      <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
+      <RgbaColorPicker color={color} onChange={handleColorChange}style={{ width: "100%", }} />
 
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12 }}>
         <input value={hexValue} readOnly style={{ width: 80, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
@@ -1659,395 +1442,38 @@ useEffect(() => {
   </div>
 
   <div className="d-flex justify-content-end mt-2 col-lg-10">
-        <Button
-      style={{
-        width: 160,
-        height: 42,
-        borderRadius: 10,
-        padding: "8px 16px",
-        background: "#1E45E1",
-        color: "#FFFFFF",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-      }}
-    >
-      Save Template
-    </Button>
-  </div>
+          <Button
+        style={{
+          width: 160,
+          height: 42,
+          borderRadius: 10,
+          padding: "8px 16px",
+          background: "#1E45E1",
+          color: "#FFFFFF",
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          fontSize: "14px",
+        }}
+      >
+        Save Template
+      </Button>
+    </div>
 
 
 </div>
-<div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-lg-6" ref={cardRef} style={{ borderRadius:'8px' ,}} >
+<div className="receipt-container border ps-4 pe-4 pb-4 pt-4 col-lg-7" ref={cardRef} style={{ marginTop:'20px', borderRadius:'8px' ,}} >
        
-            <div className="d-flex justify-content-end ">
+       <div className="d-flex justify-content-end pe-2">
   <button
     className="btn btn-sm btn-outline-primary"
     onClick={() => setShowFullView(true)}
-    style={{height:25 , fontSize:8}}
   >
     🔍 Full View
   </button>
 </div>
 
-
        <div   ref={innerScrollRef}
-         className=" show-scroll col-lg-12  justify-content-center"
-         style={{
-           maxHeight: 470,
-           overflowY: "auto",
-           overflowX:'hidden',
-           borderBottomLeftRadius: "13px",
-           borderBottomRightRadius: "13px",
-         }}>
-                       
-       <div  className=" text-white  p-2 position-relative"
-        style={{ height:60,
-        // background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,
-            background: useGradient
-            ? defaultGradient
-            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-        }}>
-         <div className="d-flex justify-content-between align-items-center">
-         <div className="d-flex gap-2 mb-2 mb-lg-0">
-             <img src={ Logo} alt="logo" style={{ height: 30, width: 30 }} />
-             <div>
-               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-               <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
-             </div>
-           </div>
-       
-           <div>
-             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-              Royal Grand Hostel
-             </div>
-             <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
-             <>
-
-             9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
-      
-       </>
-       
-             </div>
-           </div>
-         </div>
-       </div>
-       
-       
-       <div className="container border shadow bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
-         <div className="text-center pt-1 pb-1">
-           <h5 style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
-            Payment Invoice
-            </h5>
-         </div>
-       
-       
-         <div className="row px-4 mt-1">
-           <div className="col-md-6 mb-1">
-             <p className="mb-1" style={{color:'rgba(48, 80, 210, 1)' , fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill to:</p>
-             <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}>Mr. <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',}}> Muthuraja M</span></p>
-                <p className="mb-1"><img src={Dial} alt="mob" />
-                                    <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(188, 188, 188, 1)',}}> 
-                                      +91 85647 85332
-                                                     </span>
-                                      </p>
-             <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> No 103 -02</p>
-             <div className="d-flex" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)' }}>
-         
-         <div className="me-2">
-           <img src={Locat} alt="local" />
-         </div>
-       
-         <div>
-          <p  style={{ fontSize: '9px',fontFamily: 'Gilroy',}}>
-            9, 8th Main Rd, Someshwara Nagar, <br></br>
-             Bengaluru, Karnataka 560011
-          </p>
-     
-         </div>
-       
-       </div>
-       
-       
-           </div>
-           <div className="col-md-6 mb-1 ps-5 ">
-             <div className="row">
-             
-               <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Invoice :</div>
-               <div className="col-6 text-start mt-1"   style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>#{`${prefix}-${suffix}`}</div>
-             
-               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>Invoice Date :</div>
-               <div className="col-6  text-start mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',    whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>31 March 2024</div>
-       
-               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Due date :</div>
-               <div className="col-6 text-start mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>31 March 2024</div>
-       
-               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Joining date :</div>
-               <div className="col-6 text-muted  text-start mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>05 Jan 2024</div>
-       
-               <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
-               <div className="col-6  text-muted text-start mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))',}}>Mar - June 2024</div>
-       
-
-             </div>
-           </div>
-         </div>
-       
-        
-         <div className="px-2 ">
-         <div className="table-responsive">
-           <table className="table text-center">
-             <thead
-               style={{
-                //  backgroundColor: "rgba(71, 104, 234, 1)",
-                   background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                 color: "white",
-               }}
-             >
-               <tr style={{padding:5}}>
-                 <th
-                   style={{
-                     borderTopLeftRadius: "12px",
-                     borderBottomLeftRadius: "12px",
-                     color: "rgba(255, 255, 255, 1)",
-                     fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600
-       
-                   }}
-                 >
-                   S.NO
-                 </th>
-                 <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
-                 <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
-                 <th
-                   style={{
-                     borderTopRightRadius: "12px",
-                     borderBottomRightRadius: "12px",
-                     color: "rgba(255, 255, 255, 1)",
-                     fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600
-                   }}
-                 >
-                   Amount / INR
-                 </th>
-               </tr>
-             </thead>
-             <tbody>
-      
-           <tr  style={{ borderBottom: "1px solid #dee2e6" , color: 'rgba(188, 188, 188, 1))' }}>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>1</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Room Rental</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 8000</td>
-           </tr>
-             <tr  style={{ borderBottom: "1px solid #dee2e6" }}>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>2</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Electricity</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 950</td>
-           </tr>
-        
-       </tbody>
-       
-           </table>
-         </div>
-       
-         <div className="d-flex flex-wrap align-items-start ">
-        
-           <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
-             <p className="mb-0" style={{fontSize:'9px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-               &quot;Your comfort is our priority –
-             </p>
-             <p className="mb-0" style={{fontSize:'9px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-               See you again at Smart Stay! &quot;
-             </p>
-           </div>
-      
-       
-         <div className=" ms-auto" style={{ minWidth: '200px' }}>
-           <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 1150.00</span>
-           </div>
-           <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 8950.00 </span>
-           </div>
-           <div className="d-flex justify-content-between fw-bold py-2">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: 10,100.00</span>
-           </div>
-         </div>
-       </div>
-       
-       </div>
-       
-       
-        
-       
-       </div>
-       <div className="px-4" style={{ marginTop: 10 }}>
-         <div className="row">
-           <div className="col-md-6 mb-3">
-             <h6  style={{
-               fontSize: '10px',
-               fontFamily: 'Gilroy',
-               fontWeight: 700,
-               color: 'rgba(30, 69, 225, 1)',
-               letterSpacing:'1px'
-               
-             }} 
-             >ACCOUNT DETAILS</h6>
-             <p className="mb-1" 
-            style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-             Account No : 87542310984</p>
-             <p className="mb-1"   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               IFSC Code : SBIN007195</p>
-             <p className="mb-1"   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               Bank Name: State Bank of India</p>
-             <p   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               UPI Details : Net Banking</p>
-           </div>
-       
-           <div className="col-md-2"></div>
-       
-           <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
-           <div className="d-flex justify-content-end mt-auto">
-               <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius:'2px' }} />
-             </div>
-             <div className="d-flex flex-row justify-content-end">
-               <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
-               <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-2" />
-               <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-2" />
-             </div>
-            
-           </div>
-         </div>
-       </div>
-       
-       
-       <div className="row justify-content-between mt-2 mb-4 px-4">
-         <div className="col-md-8">
-           <h4 style={{ fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
-           <p style={{ whiteSpace: "pre-line", fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
-             Tenants must pay all dues on or before the due date,<br></br>
-             maintain cleanliness, and follow PG rules;failure may lead<br></br>
-              to penalties or termination of stay.
-           </p>
-         </div>
-       
-         <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
-           <p  
-            style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
-             >Authorized Signature</p>
-         </div>
-       </div>
-       
-       
-       
-       <div className="ms-5 me-5">
-         <div
-           className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
-           style={{
-            //  backgroundColor: 'rgba(48, 80, 210, 1)',
-                    background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-             borderTopRightRadius: '38px',
-             borderTopLeftRadius: '38px',
-           }}
-         >
-           <p
-             className="mb-0"
-             style={{
-               fontSize: '10px',
-               fontFamily: 'Gilroy',
-               fontWeight: 600,
-               color: 'rgba(255, 255, 255, 1)',
-               
-             }}
-           >
-             Email : contact@royalgrandhostel.in
-           </p>
-           <p
-             className="mb-0"
-             style={{
-               fontSize: '10px',
-               fontFamily: 'Gilroy',
-               fontWeight: 600,
-               color: 'rgba(255, 255, 255, 1)',
-             }}
-           >
-           Contact : +91 88994 56611
-           </p>
-         </div>
-       </div>
-       
-       
-       </div>
-       
-       </div>
-        </div>
-
- {showFullView && (
-  <div
-    className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-    style={{
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      zIndex: 9999,
-      overflowY: 'auto',
-      marginLeft:'10%'
-    }}
-  >
-    <div
-      className="bg-white  rounded shadow"
-      style={{
-        width: '100%',
-        maxWidth: '900px',
-        minHeight: '90vh',
-        overflowY: 'auto',
-        position: 'relative',
-        borderRadius: '16px',
-      }}
-    >
-     <div
-  style={{
-    backgroundColor: '#333',
-    color: 'white',
-    padding: '8px 16px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  }}
->
-  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-    <span>1 / 1</span>
-    <span>|</span>
-    <div className="d-flex align-items-center" style={{ gap: '4px' }}>
-      <button className="btn btn-sm btn-light">−</button>
-      <span style={{ fontWeight: 'bold' }}>100%</span>
-      <button className="btn btn-sm btn-light">+</button>
-    </div>
-    <span>|</span>
-    <button className="btn btn-sm btn-light">🖥️</button>
-    <button className="btn btn-sm btn-light">↻</button>
-  </div>
-
-  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-    <button className="btn btn-sm btn-light">⬇</button>
-    <button className="btn btn-sm btn-light">🖨️</button>
-    <button
-      className="btn btn-sm btn-light"
-      onClick={() => setShowFullView(false)}
-    >
-      ❌
-    </button>
-  </div>
-</div> 
-
-<div>
-  <div className="receipt-container border ps-4 pe-4 pb-4 pt-4 col-lg-9  d-flex  justify-content-center" ref={cardRef} style={{marginTop:'20px', borderRadius:'8px' ,marginLeft:'10%'}} >
-       
-       
-       <div   ref={innerScrollRef}
-         className="border shadow show-scroll col-lg-11 justify-content-center"
+         className="border shadow show-scroll col-lg-12 justify-content-center"
          style={{
            maxHeight: 430,
            overflowY: "auto",
@@ -2056,10 +1482,8 @@ useEffect(() => {
            borderBottomRightRadius: "13px",
          }}>
                        
-       <div  className=" text-white  p-4 position-relative" style={{ height:100,
-        // background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,
-             background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-        }}>
+       <div  className=" text-white  p-4 position-relative" style={{ height:100,   
+        background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` ,}}>
          <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-3 mb-lg-0">
              <img src={ Logo} alt="logo" style={{ height: 40, width: 40 }} />
@@ -2090,7 +1514,7 @@ useEffect(() => {
        <div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",borderTopLeftRadius:'20px'}}>
          <div className="text-center pt-2 pb-1">
            <h5 style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
-            Payment Invoice
+           Security Deposit Invoice
             </h5>
          </div>
        
@@ -2152,8 +1576,7 @@ useEffect(() => {
            <table className="table text-center">
              <thead
                style={{
-                //  backgroundColor: "rgba(71, 104, 234, 1)",
-                   background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                  color: "white",
                }}
              >
@@ -2300,8 +1723,7 @@ useEffect(() => {
          <div
            className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
            style={{
-            //  backgroundColor: 'rgba(48, 80, 210, 1)',
-               background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+             background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
              borderTopRightRadius: '38px',
              borderTopLeftRadius: '38px',
            }}
@@ -2336,989 +1758,567 @@ useEffect(() => {
        </div>
        
        </div>
+
+       {showFullView && (
+  <div
+    className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+    style={{
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      zIndex: 9999,
+      overflowY: 'auto',
+      marginLeft:'10%'
+    }}
+  >
+    <div
+      className="bg-white  rounded shadow"
+      style={{
+        width: '100%',
+        maxWidth: '900px',
+        minHeight: '90vh',
+        overflowY: 'auto',
+        position: 'relative',
+        borderRadius: '16px',
+      }}
+    >
+     <div
+  style={{
+    backgroundColor: '#333',
+    color: 'white',
+    padding: '8px 16px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }}
+>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+    <span>1 / 1</span>
+    <span>|</span>
+    <div className="d-flex align-items-center" style={{ gap: '4px' }}>
+      <button className="btn btn-sm btn-light">−</button>
+      <span style={{ fontWeight: 'bold' }}>100%</span>
+      <button className="btn btn-sm btn-light">+</button>
+    </div>
+    <span>|</span>
+    <button className="btn btn-sm btn-light">🖥️</button>
+    <button className="btn btn-sm btn-light">↻</button>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <button className="btn btn-sm btn-light">⬇</button>
+    <button className="btn btn-sm btn-light">🖨️</button>
+    <button
+      className="btn btn-sm btn-light"
+      onClick={() => setShowFullView(false)}
+    >
+      ❌
+    </button>
+  </div>
 </div>
-   </div>
+
+
+      <div><div className="receipt-container border ps-4 pe-4 pb-4 pt-4 col-lg-9" ref={cardRef} style={{ marginTop:'20px', borderRadius:'8px' ,marginLeft:'10%'}} >
+       
+       
+        <div   ref={innerScrollRef}
+         className="border shadow show-scroll col-lg-11 justify-content-center"
+         style={{
+           maxHeight: 430,
+           overflowY: "auto",
+           overflowX:'hidden',
+           borderBottomLeftRadius: "13px",
+           borderBottomRightRadius: "13px",
+         }}>
+                       
+       <div  className=" text-white  p-4 position-relative" style={{ height:100,
+           background: useGradient
+            ? defaultGradient
+            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` ,}}>
+         <div className="d-flex justify-content-between align-items-center">
+         <div className="d-flex gap-2 mb-3 mb-lg-0">
+             <img src={ Logo} alt="logo" style={{ height: 40, width: 40 }} />
+             <div>
+               <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+               <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+             </div>
+           </div>
+       
+           <div>
+             <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
+              Royal Grand Hostel
+             </div>
+             <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+             <>
+
+             9, 8th Avenue Rd, Someshwara Nagar, <br />
+             Chennai, Tamilnadu - 600 056
+      
+       </>
+       
+             </div>
+           </div>
+         </div>
+       </div>
+       
+       
+       <div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",borderTopLeftRadius:'20px'}}>
+         <div className="text-center pt-2 pb-1">
+           <h5 style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
+            Security Deposit  Invoice
+            </h5>
+         </div>
+       
+       
+         <div className="row px-4 mt-3">
+           <div className="col-md-6 mb-3">
+             <p className="  mb-1" style={{color:'rgba(48, 80, 210, 1)' , fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill to:</p>
+             <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}>Mr. <span className="ms-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',}}> Muthuraja M</span></p>
+                <p className="mb-1"><img src={Dial} alt="mob" />
+                                    <span className="ms-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(188, 188, 188, 1)',}}> 
+                                      +91 85647 85332
+                                                     </span>
+                                      </p>
+             <p className="mb-1 me-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> No 103 -02</p>
+             <div className="d-flex" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)' }}>
+         
+         <div className="me-2">
+           <img src={Locat} alt="local" />
+         </div>
+       
+         <div>
+          <p  style={{ fontSize: '11px',fontFamily: 'Gilroy',}}>
+            9, 8th Main Rd, Someshwara Nagar, <br></br>
+             Bengaluru, Karnataka 560011
+          </p>
+     
+         </div>
+       
+       </div>
+       
+       
+           </div>
+           <div className="col-md-6 mb-3 ps-5 ">
+             <div className="row">
+             
+               <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Invoice :</div>
+               <div className="col-6 text-start mt-1"   style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>#{`${prefix}-${suffix}`}</div>
+             
+               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>Invoice Date :</div>
+               <div className="col-6  text-start mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',    whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>31 March 2024</div>
+       
+               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Due date :</div>
+               <div className="col-6 text-start mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>31 March 2024</div>
+       
+               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Joining date :</div>
+               <div className="col-6 text-muted  text-start mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>05 Jan 2024</div>
+       
+               <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
+               <div className="col-6  text-muted text-start mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))',}}>Mar - June 2024</div>
+       
+
+             </div>
+           </div>
+         </div>
+       
+        
+         <div className="px-4 pb-3">
+         <div className="table-responsive">
+           <table className="table text-center">
+             <thead
+               style={{
+                background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+                 color: "white",
+               }}
+             >
+               <tr>
+                 <th
+                   style={{
+                     borderTopLeftRadius: "12px",
+                     borderBottomLeftRadius: "12px",
+                     color: "rgba(255, 255, 255, 1)",
+                     fontSize:'11px' , fontFamily:'Gilroy', fontWeight:600
+       
+                   }}
+                 >
+                   S.NO
+                 </th>
+                 <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
+                 <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
+                 <th
+                   style={{
+                     borderTopRightRadius: "12px",
+                     borderBottomRightRadius: "12px",
+                     color: "rgba(255, 255, 255, 1)",
+                     fontSize:'11px' , fontFamily:'Gilroy', fontWeight:600
+                   }}
+                 >
+                   Amount / INR
+                 </th>
+               </tr>
+             </thead>
+             <tbody>
+      
+           <tr  style={{ borderBottom: "1px solid #dee2e6" , color: 'rgba(188, 188, 188, 1))' }}>
+             <td style={{color: 'rgba(188, 188, 188, 1))'}}>1</td>
+             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
+             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Room Rental</td>
+             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 8000</td>
+           </tr>
+             <tr  style={{ borderBottom: "1px solid #dee2e6" }}>
+             <td>2</td>
+             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
+             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Electricity</td>
+             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 950</td>
+           </tr>
+        
+       </tbody>
+       
+           </table>
+         </div>
+       
+         <div className="d-flex flex-wrap align-items-start mt-1">
+         {selectedcard === "paymentinvoice"  && (
+           <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
+             <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
+               &quot;Your comfort is our priority –
+             </p>
+             <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
+               See you again at Smart Stay! &quot;
+             </p>
+           </div>
+         )}
+       
+         <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
+           <div className="d-flex justify-content-between py-1">
+             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
+             <span className="me-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 1150.00</span>
+           </div>
+           <div className="d-flex justify-content-between py-1">
+             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
+             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 8950.00 </span>
+           </div>
+           <div className="d-flex justify-content-between fw-bold py-2">
+             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
+             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: 10,100.00</span>
+           </div>
+         </div>
+       </div>
+       
+       </div>
+       
+       
+        
+       
+       </div>
+       <div className="px-4" style={{ marginTop: 20 }}>
+         <div className="row">
+           <div className="col-md-6 mb-3">
+             <h6  style={{
+               fontSize: '11px',
+               fontFamily: 'Gilroy',
+               fontWeight: 700,
+               color: 'rgba(30, 69, 225, 1)',
+               letterSpacing:'1px'
+               
+             }} 
+             >ACCOUNT DETAILS</h6>
+             <p className="mb-1" 
+            style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+             Account No : 87542310984</p>
+             <p className="mb-1"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+               IFSC Code : SBIN007195</p>
+             <p className="mb-1"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+               Bank Name: State Bank of India</p>
+             <p   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+               UPI Details : Net Banking</p>
+           </div>
+       
+           <div className="col-md-2"></div>
+       
+           <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
+           <div className="d-flex justify-content-end mt-auto">
+               <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius:'2px' }} />
+             </div>
+             <div className="d-flex flex-row justify-content-end">
+               <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
+               <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-2" />
+               <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-2" />
+             </div>
+            
+           </div>
+         </div>
+       </div>
+       
+       
+       <div className="row justify-content-between mt-4 mb-4 px-4">
+         <div className="col-md-8">
+           <h4 style={{ fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
+           <p style={{ whiteSpace: "pre-line", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
+             Tenants must pay all dues on or before the due date,<br></br>
+             maintain cleanliness, and follow PG rules;failure may lead<br></br>
+              to penalties or termination of stay.
+           </p>
+         </div>
+       
+         <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+           <p  
+            style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
+             >Authorized Signature</p>
+         </div>
+       </div>
+       
+       
+       
+       <div className="ms-5 me-5">
+         <div
+           className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
+           style={{
+             background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+             borderTopRightRadius: '38px',
+             borderTopLeftRadius: '38px',
+           }}
+         >
+           <p
+             className="mb-0"
+             style={{
+               fontSize: '13px',
+               fontFamily: 'Gilroy',
+               fontWeight: 600,
+               color: 'rgba(255, 255, 255, 1)',
+               
+             }}
+           >
+             Email : contact@royalgrandhostel.in
+           </p>
+           <p
+             className="mb-0"
+             style={{
+               fontSize: '13px',
+               fontFamily: 'Gilroy',
+               fontWeight: 600,
+               color: 'rgba(255, 255, 255, 1)',
+             }}
+           >
+           Contact : +91 88994 56611
+           </p>
+         </div>
+       </div>
+       
+       
+       </div>
+       
+       </div></div>
+    </div>
   </div>
 )}
 
-</>}
-{selectedTab === "security_deposit_invoice" && 
-<><SecurityDepositInvoiceTemplate /> </>}
-
-{selectedTab === "rental_receipt" && 
-<> <RentalReceiptPdfTemplate/> </>
-}
-
-{selectedTab === "security_deposit_receipt" && 
-<>
-<SecurityReceiptPdfTemplate />
-</>
-}
-{selectedTab === "noc_receipt" &&
-<> <NOCReceiptPdfTemplate/> </>
-}
-
-
-
-  
-  
-                   
-                 
-       
-                
-               </div>
-      
-
-</>
-}
-
-
-   
-         {
-          cardshow &&
-<div>
-          <form>
-
-    {/* <img src={uploadsett} alt="upload" style={{ height: 30 }} /> */}
-
-  <div className="d-flex flex-column ms-3">
-    <span><a href="#" className="text-primary small">Choose file</a> <span >to Upload</span></span> 
-    <small className="text-muted">Must be in PNG Format (600px × 300px)</small>
-  </div>
-
-
-   
-
-    <div className="row mb-4 align-items-center">
-      <div className="col-md-4">
-        <label className="form-label fw-semibold">Contact Number</label>
-        <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{cursor:"pointer"}}/>
-          <label className="form-check-label small" htmlFor="customizeContact" style={{whiteSpace:"nowrap"}}>
-            Customize in Specific Templates
-          </label>
-        </div>
-      </div>
-      <div className="col-md-7">
-        <div className="input-group">
-          <span className="input-group-text">+91</span>
-          <input type="text" className="form-control" placeholder="9876543210" />
-        </div>
-      </div>
-    </div>
-
-    <div className="row mb-4 align-items-center">
-      <div className="col-md-4">
-        <label className="form-label fw-semibold">E-Mail Address</label>
-        <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeEmail" style={{cursor:"pointer"}} />
-          <label className="form-check-label small" htmlFor="customizeEmail" style={{whiteSpace:"nowrap"}}>
-            Customize in Specific Templates
-          </label>
-        </div>
-      </div>
-      <div className="col-md-7">
-        <input type="email" className="form-control" placeholder="example@email.com" />
-      </div>
-    </div>
-
-    <div className="row mb-4 align-items-center">
-      <div className="col-md-4">
-        <label className="form-label fw-semibold">Digital Signature Upload</label>
-        <div className="text-muted small">Add a respected person’s Signature</div>
-        <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeSignature" />
-          <label className="form-check-label small" htmlFor="customizeSignature" style={{whiteSpace:"nowrap"}}>
-            Customize in Specific Templates
-          </label>
-        </div>
-      </div>
-     <div className="col-md-7">
-  <div
-    className="border border-dashed rounded p-4 text-center"
-    style={{ minHeight: "100px" }}
-  >
-    {signaturePreview ? (
-      <img
-        src={signaturePreview}
-        alt="Signature"
-        style={{ maxHeight: "40px" }}
-      />
-    ) : (
-      <span className="text-muted small">No Signature Uploaded</span>
-    )}
-  </div>
-
-  <div className="mt-2 d-flex align-items-center justify-content-between">
-    <label className="text-primary small" style={{ cursor: "pointer" }}>
-      Choose file
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleFileSignatureChange}
-        style={{ display: "none" }}
-      />
-    </label>
-
-   
-        <div className="mt-2">
-           
-           
-            <a href="#" className="text-danger small mx-3 ms-5 text-end" style={{paddingLeft:70}}  onClick={handleClear}>Clear</a>
-            <span className="text-success small fw-semibold">Done</span>
-          </div>
-  
-     
-     
-  </div>
-</div>
-
-    </div>
-
-    <div className="row mt-4">
-      <div className="col-md-12 text-end">
-        <button className="btn btn-outline-dark me-2" type="button">Reset</button>
-        <button className="btn btn-primary me-2" type="submit">Save</button>
-       
-      </div>
-      <div className="text-end mt-3"> <button className="btn btn-primary" type="button" onClick={handleShow}>Go to Templates →</button></div>
-    </div>
-    
-  </form>
-</div>
-         }
-   
-        
-    
-  {
-    edit &&
-
-    (
-  <div>
-
-    <div  className="container justify-content-start  d-flex align-items-start"
-                                  style={{
-                                    position: "sticky",
-                                    top: 0,
-                                    left: 0,
-                                    width: "100%",
-                                    zIndex: 1000,
-                                    backgroundColor: "#FFFFFF",
-                                    height: "60px",
-                                    padding: "10px 5px",
-                                  }}
-                                >
-                                  <div style={{ position: "fixed" }}>
-                                    <img
-                                      src={leftarrow}
-                                      alt="leftarrow"
-                                      width={20}
-                                      height={20}
-                                      onClick={handleEditClose}
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontWeight: 500,
-                                        fontSize: "18px",
-                                        fontFamily: "Gilroy",
-                                        paddingLeft: "10px"
-                                      }}
-                                    >
-                                      {selectedcard === "paymentinvoice" && "Monthly Rental Invoice" }
-                                      {selectedcard === "despositinvoice" && "Security Deposit Invoice" }
-                                      {selectedcard === "payementreceipt" && "Monthly Rental Receipt" }
-                                      {selectedcard === "depositreceipt" && "Security Deposit Receipt" }
-                                      {selectedcard === "finalreceipt" && "Final Settlement Receipt" }
-                                    
-                                    </span>{" "}
-                                  </div>
-                                </div>
-   
-                              <div style={{overflowY:'auto', maxHeight:'500px' }}>
-    
-                                <div className="border p-3 mb-3" style={{borderRadius:'10px' ,minHeight:'100px', maxHeight:'auto', overflowY:'auto', }}>
-                                     <div style={{display:'flex', flexDirection:'row',justifyContent:'space-between'}}>
-                                    <div>
-                                     <p style={{ fontFamily: "Gilroy", fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 400,whiteSpace: "nowrap",}}>Account Details</p>
-                                      </div>
-                                      <div>
-                                        {
-                                          banking && banking.length > 0 && 
-
- <button
-    onClick={handleAddBankAccount}
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-        backgroundColor: "#1E45E1",
-        color: "white",
-        fontWeight: 400,
-        borderRadius: "12px",
-        width: 106,
-        height: 35,
-        border: "1px solid #1E45E1",
-      }}
-    >
-      Add
-    </button>
-                                        }
-
-                                      </div>
-                                       </div>
-
-                                      
-                                    <hr></hr>
-    <>
-      {banking && banking.length > 0 ? (
-        banking.map((bank) => (
-          <div
-            key={bank.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: 15,
-              cursor: "pointer",
-            }}
-            onClick={() => handleBankClick(bank.id)}
-          >
-            <input
-              type="radio"
-              name="bank"
-              checked={selectedBankId === bank.id}
-              onChange={() => handleBankClick(bank.id)}
-              style={{ accentColor: "#1E45E1", marginRight: 10, height:16, width:16 }}
-            />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  borderRadius: "50%",
-                  width: 30,
-                  height: 30,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <img  src={BankICon} alt="bankicon" height={17} width={17} className="mb-1"/>
-              </div>
-              <div>
-                <div style={{ fontWeight: 600, fontSize: 14, fontFamily: "Gilroy" }}>
-                  {bank.bank_name || "Bank Name"}
-                </div>
-                <div style={{ fontSize: 13, color: "grey", fontFamily: "Gilroy" }}>
-                  {bank.benificiary_name || "Beneficiary"} /{" "} Savings A/C
-                </div>
-              </div>
-            </div>
-          </div>
-        ))
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <p
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: 14,
-              fontWeight: 400,
-              color: "grey",
-              fontStyle: "normal",
-              lineHeight: "normal",
-            }}
-          >
-            No Bank accounts are there!
-          </p>
-          <button
-            onClick={handleAddBankAccount}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 400,
-              borderRadius: "12px",
-              width: 106,
-              height: 35,
-              border: "1px solid #1E45E1",
-            }}
-          >
-            Add
-          </button>
         </div>
 
-
-      )}
-    </>
-              
- {!selectedBankId &&  bankid_Error.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {bankid_Error}
-                                                </label>
-                                              </div>
-                                            )}
-                </div>
-
-                <div className="border p-3 mb-3" style={{borderRadius:'10px' , overflowY:'auto', }}>
-
-      <div>
-        <p  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-          Invoice No</p>
-        <hr></hr>
-      </div>
-
- <div className='d-flex row '>
-                        <div className='col-lg-6 col-md-6 col-sm-11 col-xs-11'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label
-                                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}
-                                >
-                                    Prefix
-                                </Form.Label>
-                                <Form.Control
-                                    style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                                    type="text"
-                                    placeholder="prefix"
-                                    value={prefix}
-                                    onChange={hanldePrefix}
-                                />
-        {prefix_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {prefix_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-
-                          </Form.Group>
-                        </div>
-
-                        <div className='col-lg-6 col-md-6 col-sm-11 col-xs-11'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  color:'rgba(34, 34, 34, 1)' ,fontStyle: 'normal', lineHeight: 'normal' }}
-                                >
-                                    Suffix
-                                </Form.Label>
-                                <Form.Control
-                                    style={{ padding: '10px', marginTop: '10px', fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                                    type="text"
-                                    placeholder="suffix"
-                                    value={suffix}
-                                    onChange={hanldeSuffix}
-                                />
-
-  {suffix_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {suffix_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-                            </Form.Group>
-                        </div>
-                    </div>
-
-                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                            >
-                                Preview
-                            </Form.Label>
-                            <Form.Control
-                                style={{ padding: '10px', marginTop: '10px', fontSize: 16,   color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                                type="text"
-                                placeholder="preview"
-                                value={`${prefix}-${suffix}`}
-                                readOnly
-                           
-                            />
-
-                            
-                        </Form.Group>
-                    </div>
-                  </div>
-
-                  <div className="border p-3 mb-3" style={{borderRadius:'10px' , overflowY:'auto', }}>
-
-      <div>
-        <p    style={{ fontFamily: 'Gilroy' , color:'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal' }}>
-          PG Tax Payable</p>
-        <hr></hr>
-      </div>
-
- <div className='d-flex row '>
-                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label
-                                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                                >
-                                    Add the Tax payable GST in Percentage %
-                                </Form.Label>
-                                <Form.Control
-                                    style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                                    type="text"
-                                    placeholder="12%"
-                                    value={tax}
-                                    onChange={handleTaxChange}
-                                />
-
-                                {tax_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {tax_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-                          </Form.Group>
-                        </div>
-
-                      
-                    </div>
-                   
-
-                    
-                  </div>
-
-                  
-                <div className="p-3 mb-3 border " style={{borderRadius:'10px'}}>
-          <h6   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-           Notes
-           </h6>
-           <hr />
-      <label className="form-label"  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)',fontStyle: 'normal', lineHeight: 'normal' }}>Add Notes</label>
-      <div className="position-relative">
-        <textarea
-          style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-          className="form-control pe-5" 
-          rows="4"    
-          placeholder='Add any message...'
-          value={notes}
-          onChange={handleNotesChange}
-        />
-        <img
-          src={TextAreaICon}
-          alt="textarea_icon"
-          style={{
-            position: "absolute",
-            right: "12px",
-            top: "12px",
-            color: "#666",
-            pointerEvents: "none",
-          }}
-        />
-      </div>
-       {notes_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {notes_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-    </div>
-
-                     <div className="p-3 mb-3 border " style={{borderRadius:'10px'}}>
-      <h6  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-        Terms & Condition</h6>
-      <hr />
-      <label className="form-label"                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-      >Add T&C</label>
-
-      <div className="position-relative">
-        <textarea
-          className="form-control pe-5" 
-          rows="4"
-          placeholder='Add any message...'
-          value={terms}
-          onChange={handleTermsChange}
-          style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-        />
-         <img
-          src={TextAreaICon}
-           alt="textarea-icon"
-          style={{
-            position: "absolute",
-            right: "12px",
-            top: "12px",
-            color: "#666",
-            pointerEvents: "none",
-          }}
-        />
-      </div>
-       {terms_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {terms_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-      
-    </div>
-
-    <div className="p-3 mb-3 border " style={{borderRadius:'10px'}}>
-      <h6                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)',fontStyle: 'normal', lineHeight: 'normal' }}>
-        Authorized Signature</h6>
-      <small className="text-muted"  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-      >Add a respected Persons Signature</small>
-
-      <div
-        className="rounded mt-2 d-flex justify-content-center align-items-center"
-        style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
-    borderColor: '#ced4da'}}
-      >
-        {signaturePreview ? (
-          <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
-        ) : (
-          <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-          >No signature uploaded</span>
-        )}
-      </div>
-
-      <div className="d-flex justify-content-between align-items-center mt-2">
-        <div>
-          <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
-            Choose file
-            <input
-              type="file"
-              accept="image/*"
-              className="d-none"
-              ref={fileInputRef}
-              onChange={handleFileSignatureChange}
-            />
-          </label>
-          <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload Image</span>
-        </div>
-        <div>
-          <button
-            className="btn btn-link text-decoration-none "
-            onClick={handleClear}
-            disabled={!signaturePreview}
-            style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 16, fontWeight: 400}}
-          >
-            Clear
-          </button>
-          <button
-            className="btn btn-link text-decoration-none "
-            disabled={!signaturePreview}
-            onClick={handleSignatureDone}
-            style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600}}
-          >
-            Done
-          </button>
-        </div>
-
-        
-      </div>
-        {signature_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {signature_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-    </div>
-
-     {editErrmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: 14,
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {editErrmsg}
-                                                </label>
-                                              </div>
-                                            )}
-
-    <div className="d-flex justify-content-end flex-wrap mt-3 ">
-    <button
-    
-    onClick={handleEditClose}
-    className="me-3 "
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-        backgroundColor: "white",
-        color: "rgba(75, 75, 75, 1)",
-        fontWeight: 400,
-        borderRadius: "12px",
-        width: 146,
-        height: 45,
-        border: "1px solid rgba(75, 75, 75, 1)",
-      
-      }}
-    >
-      Cancel
-    </button>
-  
-    <button
-    onClick={handleSaveInvoice}
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-        backgroundColor: "#1E45E1",
-        color: "white",
-        fontWeight: 400,
-        borderRadius: "12px",
-        width: 146,
-        height: 45,
-        border: "1px solid #1E45E1",
-      }}
-    >
-      Update
-    </button>
-  </div>
-       </div>           
-  </div>
-    )
-  }
-      
-  {bankaccountform && (
-                                                <div
-                                                  className="modal show"
-                                                  style={{
-                                                    display: "block",
-                                                    position: "initial",
-                                                    fontFamily: "Gilroy,sans-serif",
-                                                  }}
-                                                >
-                                                  <Modal
-                                                    show={bankaccountform}
-                                                    onHide={handleCloseBankAccount}
-                                                    centered
-                                                    backdrop="static"
-                                                    dialogClassName="custom-modal"
-                                                  >
-                                                    <Modal.Dialog
-                                                      style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-                                                      className="m-0 p-0"
-                                                    >
-                                                      <div>
-                                                        <Modal.Header
-                                                          style={{ position: "relative" }}
-                                                        >
-                                                          <div
-                                                            style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-                                                          >
-                                                         
-                                        
-                                                          Banking Details
-                                        
-                                        
-                                                          </div>
-                                                         
-                                                          <CloseCircle size="24" color="#000" onClick={handleCloseBankAccount} 
-                                                    style={{ cursor: 'pointer' }}/>
-                                        
-                                                         
-                                                        </Modal.Header>
-                                                      </div>
-                                                      <Modal.Body>
-                                        
-                                                        <div className="row ">
-                                        
-                                        
-                                        
-  <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                         Beneficiary Name   {" "}
-                        <span style={{  color: "red",  fontSize: "20px",}}>  {" "} *{" "} </span>
-                        </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                          type="text"
-                          placeholder="Enter Beneficiary Name"
-                          value={accountName}
-                          onChange={handleAccountName}
-                        />
- {accountNameError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                </div>
-              )}
-                      </Form.Group>
-
-                   
-                    </div>
-
-                      <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                          Bank Name
-                        </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                          type="text"
-                          placeholder="Enter Bank Name"
-                          value={bank_name}
-                          onChange={handleBankNameChange}
-                        />
-
-                          
-                      </Form.Group>
-
-                   
-                    </div>
-
-                                        
-                  <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1" >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                          Account Number
-                        </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                          type="text"
-                          placeholder="Enter Account Number"
-                          value={account_number}
-                          onChange={handleAccountNumberChange}
- 
-                        />
-
-                      
-                      </Form.Group>
-
-                   
-                    </div>
-
-
-                       <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                          IFSC Code
-                        </Form.Label> 
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                          type="text"
-                          placeholder="Enter IFSC Code"
-                          value={ifsccode}
-                         onChange={handleIfscCodeChange}
-                          
-                        />
-
-                          
-                      </Form.Group>
-
-                      
-                    </div>
-
-
-                  
-                   <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                          Description
-                        </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                          type="text"
-                          placeholder="Enter Description"
-                          value={description}
-                          onChange={(e) => handleDescription(e)}
-                        />
-
-                        
-                      </Form.Group>
-
-                   
-                    </div>
-    
-               
-
-
-                                        
-                                        
-                                        
-                                        
-                                                       
-                                        
-                                     
-                                        
-                                        
-                                        
-                                   
-                                                        </div>
-                                                      </Modal.Body>
-                                        
-                                        
-                                        
-                                        
-                                                      <Modal.Footer style={{ border: "none" }}>
-                                                        
-                                                        <Button
-                                                          className="w-100"
+         {bankaccountform && (
+                                                        <div
+                                                          className="modal show"
                                                           style={{
-                                                            backgroundColor: "#1E45E1",
-                                                            fontWeight: 500,
-                                                            height: 50,
-                                                            borderRadius: 12,
-                                                            fontSize: 16,
-                                                            fontFamily: "Gilroy",
-                                                            fontStyle: "normal",
-                                                            lineHeight: "normal",
-                                                            marginTop:"-15px"
+                                                            display: "block",
+                                                            position: "initial",
+                                                            fontFamily: "Gilroy,sans-serif",
                                                           }}
-                                                       onClick={handleSubmitBank}
                                                         >
-                                                          Save
-                                                         
-                                                        </Button>
-                                                      </Modal.Footer>
-                                                    </Modal.Dialog>
-                                                  </Modal>
-                                                </div>
-                                              )}
-
-
-
-
-     
-    </div>
-  );
-}
-SettingInvoice.propTypes = {
-  hostelid: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-}
-export default SettingInvoice;
+                                                          <Modal
+                                                            show={bankaccountform}
+                                                            onHide={handleCloseBankAccount}
+                                                            centered
+                                                            backdrop="static"
+                                                            dialogClassName="custom-modal"
+                                                          >
+                                                            <Modal.Dialog
+                                                              style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
+                                                              className="m-0 p-0"
+                                                            >
+                                                              <div>
+                                                                <Modal.Header
+                                                                  style={{ position: "relative" }}
+                                                                >
+                                                                  <div
+                                                                    style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
+                                                                  >
+                                                                 
+                                                
+                                                                  Banking Details
+                                                
+                                                
+                                                                  </div>
+                                                                 
+                                                                  <CloseCircle size="24" color="#000" onClick={handleCloseBankAccount} 
+                                                            style={{ cursor: 'pointer' }}/>
+                                                
+                                                                 
+                                                                </Modal.Header>
+                                                              </div>
+                                                              <Modal.Body>
+                                                
+                                                                <div className="row ">
+                                                
+                                                
+                                                
+          <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                              <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
+                              >
+                                <Form.Label
+                                  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                                 Beneficiary Name   {" "}
+                                <span style={{  color: "red",  fontSize: "20px",}}>  {" "} *{" "} </span>
+                                </Form.Label>
+                                <Form.Control
+                                  style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                                  type="text"
+                                  placeholder="Enter Beneficiary Name"
+                                  value={accountName}
+                                  onChange={handleAccountName}
+                                />
+         {accountNameError && (
+                        <div style={{ color: "red" }}>
+                          <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                          <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+                        </div>
+                      )}
+                              </Form.Group>
+        
+                           
+                            </div>
+        
+                              <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                              <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
+                              >
+                                <Form.Label
+                                  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                                  Bank Name
+                                </Form.Label>
+                                <Form.Control
+                                  style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                                  type="text"
+                                  placeholder="Enter Bank Name"
+                                  value={bank_name}
+                                  onChange={handleBankNameChange}
+                                />
+        
+                                  
+                              </Form.Group>
+        
+                           
+                            </div>
+        
+                                                
+                          <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                              <Form.Group className="mb-1" controlId="exampleForm.ControlInput1" >
+                                <Form.Label
+                                  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                                  Account Number
+                                </Form.Label>
+                                <Form.Control
+                                  style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                                  type="text"
+                                  placeholder="Enter Account Number"
+                                  value={account_number}
+                                  onChange={handleAccountNumberChange}
+         
+                                />
+        
+                              
+                              </Form.Group>
+        
+                           
+                            </div>
+        
+        
+                               <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                              <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                                <Form.Label
+                                  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                                  IFSC Code
+                                </Form.Label> 
+                                <Form.Control
+                                  style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                                  type="text"
+                                  placeholder="Enter IFSC Code"
+                                  value={ifsccode}
+                                 onChange={handleIfscCodeChange}
+                                  
+                                />
+        
+                                  
+                              </Form.Group>
+        
+                              
+                            </div>
+        
+        
+                          
+                           <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
+                              <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
+                              >
+                                <Form.Label
+                                  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                                  Description
+                                </Form.Label>
+                                <Form.Control
+                                  style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                                  type="text"
+                                  placeholder="Enter Description"
+                                  value={description}
+                                  onChange={(e) => handleDescription(e)}
+                                />
+        
+                                
+                              </Form.Group>
+        
+                           
+                            </div>
+            
+                       
+        
+        
+                                                
+                                                
+                                                
+                                                
+                                                               
+                                                
+                                             
+                                                
+                                                
+                                                
+                                           
+                                                                </div>
+                                                              </Modal.Body>
+                                                
+                                                
+                                                
+                                                
+                                                              <Modal.Footer style={{ border: "none" }}>
+                                                                
+                                                                <Button
+                                                                  className="w-100"
+                                                                  style={{
+                                                                    backgroundColor: "#1E45E1",
+                                                                    fontWeight: 500,
+                                                                    height: 50,
+                                                                    borderRadius: 12,
+                                                                    fontSize: 16,
+                                                                    fontFamily: "Gilroy",
+                                                                    fontStyle: "normal",
+                                                                    lineHeight: "normal",
+                                                                    marginTop:"-15px"
+                                                                  }}
+                                                               onClick={handleSubmitBank}
+                                                                >
+                                                                  Save
+                                                                 
+                                                                </Button>
+                                                              </Modal.Footer>
+                                                            </Modal.Dialog>
+                                                          </Modal>
+                                                        </div>
+                                                      )}
+        </>
+    )
+   }
+   export default SecurityDepositInvoiceTemplate;

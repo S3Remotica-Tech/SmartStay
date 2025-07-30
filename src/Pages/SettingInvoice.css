@@ -1,3 +1,13 @@
+/* Optional CSS if you're using a CSS file */
+.rgba-color-picker {
+  border: none;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
 @media (max-width: 450px) and (min-width: 250px) {
     .scroll-issue {
         margin-top: 20px;
