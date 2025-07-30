@@ -359,7 +359,7 @@ useEffect(() => {
     return(
         <>
         <div className="col-12 d-flex flex-row">
-<div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
+<div className="col-lg-6 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
 <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
@@ -1066,12 +1066,13 @@ useEffect(() => {
 
 
 </div>
-<div className="receipt-container border ps-4 pe-4 pb-4 pt-4 col-lg-7" ref={cardRef} style={{ marginTop:'20px', borderRadius:'8px' ,}} >
+<div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-lg-6" ref={cardRef} style={{  borderRadius:'8px' ,}} >
        
        <div className="d-flex justify-content-end pe-2">
   <button
     className="btn btn-sm btn-outline-primary"
-    onClick={() => setShowFullView(true)}
+    onClick={() => setShowFullView(true)} 
+     style={{height:25 , fontSize:8}}
   >
     🔍 Full View
   </button>
@@ -1080,29 +1081,29 @@ useEffect(() => {
        <div   ref={innerScrollRef}
          className="border shadow show-scroll col-lg-12 justify-content-center"
          style={{
-           maxHeight: 430,
+           maxHeight: 470,
            overflowY: "auto",
            overflowX:'hidden',
            borderBottomLeftRadius: "13px",
            borderBottomRightRadius: "13px",
          }}>
                        
-       <div  className=" text-white  p-4 position-relative" style={{ height:100,   
+       <div  className=" text-white  p-2 position-relative" style={{ height: 60,   
         background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` ,}}>
          <div className="d-flex justify-content-between align-items-center">
-         <div className="d-flex gap-2 mb-3 mb-lg-0">
-             <img src={ Logo} alt="logo" style={{ height: 40, width: 40 }} />
+         <div className="d-flex gap-2 mb-2 mb-lg-0">
+             <img src={ Logo} alt="logo" style={{ height: 30, width: 30 }} />
              <div>
-               <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-               <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+               <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
-             <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
+             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
               Royal Grand Hostel
              </div>
-             <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+             <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
              <>
 
              9, 8th Avenue Rd, Someshwara Nagar, <br />
@@ -1117,31 +1118,31 @@ useEffect(() => {
        
        
        <div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",borderTopLeftRadius:'20px'}}>
-         <div className="text-center pt-2 pb-1">
-           <h5 style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
+         <div className="text-center pt-1 pb-1">
+           <h5 style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
            Security Deposit Invoice
             </h5>
          </div>
        
        
-         <div className="row px-4 mt-3">
-           <div className="col-md-6 mb-3">
-             <p className="  mb-1" style={{color:'rgba(48, 80, 210, 1)' , fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill to:</p>
-             <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}>Mr. <span className="ms-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',}}> Muthuraja M</span></p>
+         <div className="row px-4 mt-1">
+           <div className="col-md-6 mb-1">
+             <p className="mb-1" style={{color:'rgba(48, 80, 210, 1)' , fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill to:</p>
+             <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}>Mr. <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',}}> Muthuraja M</span></p>
                 <p className="mb-1"><img src={Dial} alt="mob" />
-                                    <span className="ms-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(188, 188, 188, 1)',}}> 
+                                    <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(188, 188, 188, 1)',}}> 
                                       +91 85647 85332
                                                      </span>
                                       </p>
-             <p className="mb-1 me-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> No 103 -02</p>
-             <div className="d-flex" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)' }}>
+             <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> No 103 -02</p>
+             <div className="d-flex" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)' }}>
          
          <div className="me-2">
            <img src={Locat} alt="local" />
          </div>
        
          <div>
-          <p  style={{ fontSize: '11px',fontFamily: 'Gilroy',}}>
+          <p  style={{ fontSize: '9px',fontFamily: 'Gilroy',}}>
             9, 8th Main Rd, Someshwara Nagar, <br></br>
              Bengaluru, Karnataka 560011
           </p>
@@ -1152,23 +1153,23 @@ useEffect(() => {
        
        
            </div>
-           <div className="col-md-6 mb-3 ps-5 ">
+           <div className="col-md-6  ps-5 ">
              <div className="row">
              
-               <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Invoice :</div>
-               <div className="col-6 text-start mt-1"   style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>#{`${prefix}-${suffix}`}</div>
+               <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Invoice :</div>
+               <div className="col-6 text-start mt-1"   style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>#{`${prefix}-${suffix}`}</div>
              
-               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>Invoice Date :</div>
-               <div className="col-6  text-start mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',    whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>31 March 2024</div>
+               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>Invoice Date :</div>
+               <div className="col-6  text-start mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',    whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>31 March 2024</div>
        
-               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Due date :</div>
-               <div className="col-6 text-start mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>31 March 2024</div>
+               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Due date :</div>
+               <div className="col-6 text-start mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>31 March 2024</div>
        
-               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Joining date :</div>
-               <div className="col-6 text-muted  text-start mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>05 Jan 2024</div>
+               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Joining date :</div>
+               <div className="col-6 text-muted  text-start mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>05 Jan 2024</div>
        
-               <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
-               <div className="col-6  text-muted text-start mt-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))',}}>Mar - June 2024</div>
+               <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
+               <div className="col-6  text-muted text-start mt-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1))',}}>Mar - June 2024</div>
        
 
              </div>
@@ -1176,7 +1177,7 @@ useEffect(() => {
          </div>
        
         
-         <div className="px-4 pb-3">
+         <div className="px-2">
          <div className="table-responsive">
            <table className="table text-center">
              <thead
@@ -1191,20 +1192,20 @@ useEffect(() => {
                      borderTopLeftRadius: "12px",
                      borderBottomLeftRadius: "12px",
                      color: "rgba(255, 255, 255, 1)",
-                     fontSize:'11px' , fontFamily:'Gilroy', fontWeight:600
+                     fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600
        
                    }}
                  >
                    S.NO
                  </th>
-                 <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
-                 <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
+                 <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
+                 <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
                  <th
                    style={{
                      borderTopRightRadius: "12px",
                      borderBottomRightRadius: "12px",
                      color: "rgba(255, 255, 255, 1)",
-                     fontSize:'11px' , fontFamily:'Gilroy', fontWeight:600
+                     fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600
                    }}
                  >
                    Amount / INR
@@ -1214,16 +1215,16 @@ useEffect(() => {
              <tbody>
       
            <tr  style={{ borderBottom: "1px solid #dee2e6" , color: 'rgba(188, 188, 188, 1))' }}>
-             <td style={{color: 'rgba(188, 188, 188, 1))'}}>1</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Room Rental</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 8000</td>
+             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>1</td>
+             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
+             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Room Rental</td>
+             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 8000</td>
            </tr>
              <tr  style={{ borderBottom: "1px solid #dee2e6" }}>
-             <td>2</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Electricity</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 950</td>
+             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>2</td>
+             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
+             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Electricity</td>
+             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 950</td>
            </tr>
         
        </tbody>
@@ -1231,21 +1232,21 @@ useEffect(() => {
            </table>
          </div>
        
-         <div className="d-flex flex-wrap align-items-start mt-1">
+         <div className="d-flex flex-wrap align-items-start">
         
        
-         <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
+         <div className="ms-auto" style={{ minWidth: '200px' }}>
            <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-             <span className="me-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 1150.00</span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
+             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 1150.00</span>
            </div>
            <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 8950.00 </span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 8950.00 </span>
            </div>
            <div className="d-flex justify-content-between fw-bold py-2">
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: 10,100.00</span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: 10,100.00</span>
            </div>
          </div>
        </div>
@@ -1256,11 +1257,11 @@ useEffect(() => {
         
        
        </div>
-       <div className="px-4" style={{ marginTop: 20 }}>
+       <div className="px-4" style={{ marginTop: 10 }}>
          <div className="row">
            <div className="col-md-6 mb-3">
              <h6  style={{
-               fontSize: '11px',
+               fontSize: '10px',
                fontFamily: 'Gilroy',
                fontWeight: 700,
                color: 'rgba(30, 69, 225, 1)',
@@ -1269,13 +1270,13 @@ useEffect(() => {
              }} 
              >ACCOUNT DETAILS</h6>
              <p className="mb-1" 
-            style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+            style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
              Account No : 87542310984</p>
-             <p className="mb-1"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+             <p className="mb-1"   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
                IFSC Code : SBIN007195</p>
-             <p className="mb-1"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+             <p className="mb-1"   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
                Bank Name: State Bank of India</p>
-             <p   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+             <p   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
                UPI Details : Net Banking</p>
            </div>
        
@@ -1296,10 +1297,10 @@ useEffect(() => {
        </div>
        
        
-       <div className="row justify-content-between mt-4 mb-4 px-4">
+       <div className="row justify-content-between mt-2 mb-4 px-4">
          <div className="col-md-8">
-           <h4 style={{ fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
-           <p style={{ whiteSpace: "pre-line", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
+           <h4 style={{ fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
+           <p style={{ whiteSpace: "pre-line", fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
              Tenants must pay all dues on or before the due date,<br></br>
              maintain cleanliness, and follow PG rules;failure may lead<br></br>
               to penalties or termination of stay.
@@ -1308,7 +1309,7 @@ useEffect(() => {
        
          <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
            <p  
-            style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
+            style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
              >Authorized Signature</p>
          </div>
        </div>
@@ -1327,7 +1328,7 @@ useEffect(() => {
            <p
              className="mb-0"
              style={{
-               fontSize: '13px',
+               fontSize: '10px',
                fontFamily: 'Gilroy',
                fontWeight: 600,
                color: 'rgba(255, 255, 255, 1)',
