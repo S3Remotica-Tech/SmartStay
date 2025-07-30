@@ -1710,6 +1710,7 @@ function UserListRoomDetail(props) {
     }
 
     setFields(updatedFields);
+    setFormError("")
   };
 
 
