@@ -31,6 +31,8 @@ function SettingAllPages() {
   const [hostel_Id, setHostel_Id] = useState('')
   const [activePage, setActivePage] = useState("General");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isInvoiceAddMode, setIsInvoiceAddMode] = useState(false);
+
 
 
   useEffect(() => {
@@ -59,9 +61,28 @@ function SettingAllPages() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleAddInvoiceClick = () => {
+  setIsInvoiceAddMode(true);
+
+};
+
+
+
+
   return (
     <>
+          <div
+  className={`col-12 col-lg-12 col-md-9 ${
+    isInvoiceAddMode ? 'd-none d-md-block' : ''
+  }`}
+  style={{
+    overflowY: "auto",
+    height: "100vh",
+  }}
+>
       <div className="container-fluid">
+
+  
         <div className="row gap-0" style={{ position: "relative" }}>
 
           <div
@@ -71,13 +92,15 @@ function SettingAllPages() {
               padding: "10px",
 }}
           >
+
+
             <button
 
               onClick={handleToggleSidebar}
               className=""
               style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: "50%", color: "white", padding: 5 }}
             >
-              {isSidebarOpen ?
+              {isSidebarOpen  ?
                 <ArrowRight2
                   size="22"
                   color="#FFF"
@@ -87,12 +110,11 @@ function SettingAllPages() {
                   color="#FFF"
                 />
               }
-
-
             </button>
           </div>
 
-          <div className={`col-12 col-md-3    ${isSidebarOpen ? "d-block col-3" : "d-none  d-md-block"}`}
+          { !isInvoiceAddMode  && 
+ <div className={`col-12 col-md-3    ${isSidebarOpen  ? "d-block col-3" : "d-none  d-md-block"}`}
             style={{
               height: 600,
               position: "sticky",
@@ -100,7 +122,7 @@ function SettingAllPages() {
               top: 0,
               left: 0, transition: "all 0.3s ease-in-out",
               zIndex: 10,
-              backgroundColor: isSidebarOpen ? 'white' : 'transparent',
+              backgroundColor: isSidebarOpen  ? 'white' : 'transparent',
             }}
           >
             <div className="show-scrolls"
@@ -351,7 +373,7 @@ function SettingAllPages() {
                     cursor: "pointer",
                   }}
                 >
-                  Invoice
+                  Bill Templates
                   <img
                     src={activePage === "Invoice" ? blueArrow : blackArrow}
                     width={16}
@@ -518,12 +540,18 @@ function SettingAllPages() {
 
             </div>
           </div>
+          }
+
+         
 
 
 
 
           <div
-            className={`col-12 col-md-9 ${isSidebarOpen ? 'd-none d-md-block' : ''}`}
+     className={`col-12 ${
+  isSidebarOpen ? 'd-none d-md-block' : ''
+} ${isInvoiceAddMode ? 'col-md-12' : 'col-md-9'}`}
+
             style={{
               overflowY: "auto",
               height: "100vh",
@@ -538,7 +566,10 @@ function SettingAllPages() {
             {activePage === 'Electricity' && <SettingElectricity hostelid={hostel_Id} />}
             {activePage === 'Bills' && <SettingsBills hostelid={hostel_Id} />}
             {activePage === 'SettingsNotifications' && <SettingsNotifications hostelid={hostel_Id} />}
-            {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id} />}
+            {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id}  
+            handleAddInvoiceClick={handleAddInvoiceClick}
+            setIsInvoiceAddMode={setIsInvoiceAddMode}
+            setIsSidebarOpen={setIsSidebarOpen}/>}
             {activePage === 'Expenses' && <SettingExpenses hostelid={hostel_Id} />}
             {activePage === 'Complaints' && <SettingCompliance hostelid={hostel_Id} />}
             {activePage === 'Amenities' && <SettingAmenities hostelid={hostel_Id} />}
@@ -546,6 +577,7 @@ function SettingAllPages() {
             {activePage === 'Role' && <SettingNewRole hostelid={hostel_Id} />}
             {activePage === 'acrement' && <SettingAgreement hostelid={hostel_Id} />}
           </div>
+        </div>
         </div>
       </div>
     </>
