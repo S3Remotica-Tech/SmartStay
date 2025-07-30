@@ -135,6 +135,8 @@ function UserListRoomDetail(props) {
   }
   const handleCloseGenerateAdvance = () => {
     setGenerateFormAdvance(false)
+    setAdvanceDate("")
+    setAdvanceDueDate("")
   }
 
 
@@ -185,10 +187,12 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
+      handleCloseGenerateAdvance()
 
       const ParticularUserDetails = state.UsersList.Users.filter((item) => {
         return item.User_Id === props.customerUser_Id;
       });
+      
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
@@ -409,7 +413,7 @@ function UserListRoomDetail(props) {
           };
         });
 
-        // setInitialReasonFields(formattedFields);
+       
         setFields(formattedFields);
 
       }
@@ -536,7 +540,7 @@ function UserListRoomDetail(props) {
 
 
 
-  console.log("Fieldsssssss", fields)
+ 
 
 
 
@@ -1342,41 +1346,7 @@ function UserListRoomDetail(props) {
 
     handleOpenAdvance()
 
-    // dispatch({
-    //   type: "ADDUSER",
-    //   payload: {
-    //     profile: file,
-    //     firstname,
-    //     lastname,
-    //     Phone,
-    //     Email,
-    //     Address,
-    //     area: street,
-    //     landmark,
-    //     city,
-    //     pincode,
-    //     state: state_name,
-    //     AadharNo,
-    //     PancardNo,
-    //     licence,
-    //     HostelName,
-    //     hostel_Id,
-    //     Floor,
-    //     Rooms: RoomId,
-    //     Bed: BedId,
-    //     joining_date: formattedDate,
-    //     AdvanceAmount,
-    //     RoomRent,
-    //     BalanceDue,
-    //     PaymentType,
-    //     paid_advance,
-    //     paid_rent,
-    //     ID: id,
-    //      isadvance: 1,
-    //     invoice_date: formattedDate,
-    //     due_date: formattedDate,
-    //   },
-    // });
+  
     setLoading(true)
     setFormShow(false);
     dispatch({ type: "INVOICELIST" });
@@ -1461,6 +1431,90 @@ function UserListRoomDetail(props) {
         isadvance: 1,
         invoice_date: formattedDate,
         due_date: formattedDate,
+        reasons: formattedReasons
+      },
+    });
+  }
+
+
+
+
+  const handleCancelButton = () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
+    const formattedDate = selectedDate
+      ? dayjs(selectedDate).format("YYYY-MM-DD")
+      : null;
+
+
+    const formattedReasons = fields.map((item) => {
+      let reason_name = "";
+
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
+
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+    setErrors(newErrors)
+
+    if (hasReasonAmountError) return;
+
+
+    dispatch({
+      type: "ADDUSER",
+      payload: {
+        profile: file,
+        firstname,
+        lastname,
+        Phone,
+        Email,
+        Address,
+        area: street,
+        landmark,
+        city,
+        pincode,
+        state: state_name,
+        AadharNo,
+        PancardNo,
+        licence,
+        HostelName,
+        hostel_Id,
+        Floor,
+        Rooms: RoomId,
+        Bed: BedId,
+        joining_date: formattedDate,
+        AdvanceAmount,
+        RoomRent,
+        BalanceDue,
+        PaymentType,
+        paid_advance,
+        paid_rent,
+        ID: id,
+       
         reasons: formattedReasons
       },
     });
@@ -1844,7 +1898,7 @@ function UserListRoomDetail(props) {
 
                       <div
                         style={{
-                          cursor: props.customerEditPermission
+                          cursor: props.customerEditPermission && !customerDetails[0]?.Bed
                             ? "not-allowed"
                             : "pointer",
                           height: 40,
@@ -1860,7 +1914,7 @@ function UserListRoomDetail(props) {
                             activeRow === item.ID ? "#E7F1FF" : "white",
                         }}
                         onClick={() => {
-                          if (!props.customerEditPermission) {
+                          if (!props.customerEditPermission && customerDetails[0]?.Bed) {
                             handleShowEditBed(customerDetails);
                           }
                         }}
@@ -2064,7 +2118,7 @@ function UserListRoomDetail(props) {
                                       </p>
                                       <p
                                         onClick={() => {
-                                          if (!props.customerEditPermission) {
+                                          if (!props.customerEditPermission && item?.Bed) {
                                             handleShowEditBed(
                                               customerDetails
                                             );
@@ -2083,11 +2137,11 @@ function UserListRoomDetail(props) {
                                         <img
                                           src={Group}
                                           alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission
+                                          style={{ 
+                                            cursor: props.customerEditPermission || !item?.Bed
                                               ? "not-allowed"
                                               : "pointer",
-                                            filter: props.customerEditPermission
+                                            filter: props.customerEditPermission || !item?.Bed
                                               ? "grayscale(100%)"
                                               : "none",
                                           }}
@@ -2099,10 +2153,10 @@ function UserListRoomDetail(props) {
                                             fontWeight: 600,
                                             fontFamily: "Gilroy",
                                             marginTop: "-10px",
-                                            cursor: props.customerEditPermission
+                                            cursor: props.customerEditPermission || !item?.Bed
                                               ? "not-allowed"
                                               : "pointer",
-                                            color: props.customerEditPermission
+                                            color: props.customerEditPermission || !item?.Bed
                                               ? "#888888"
                                               : "#000000",
                                           }}
@@ -2123,17 +2177,17 @@ function UserListRoomDetail(props) {
                                       </p>
                                       <p
                                         onClick={() => {
-                                          if (!props.customerEditPermission) {
+                                          if (!props.customerEditPermission && item?.Bed) {
                                             handleShowEditBed(
                                               customerDetails
                                             );
                                           }
                                         }}
                                         style={{
-                                          cursor: props.customerEditPermission
+                                          cursor: props.customerEditPermission || !item?.Bed
                                             ? "not-allowed"
                                             : "pointer",
-                                          opacity: props.customerEditPermission
+                                          opacity: props.customerEditPermission || !item?.Bed
                                             ? 0.6
                                             : 1,
                                           marginTop: "-10px",
@@ -2143,10 +2197,10 @@ function UserListRoomDetail(props) {
                                           src={Group}
                                           alt="group"
                                           style={{
-                                            cursor: props.customerEditPermission
+                                            cursor: props.customerEditPermission || !item?.Bed
                                               ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission
+                                              : "pointer", 
+                                            filter: props.customerEditPermission || !item?.Bed
                                               ? "grayscale(100%)"
                                               : "none",
                                           }}
@@ -5520,7 +5574,7 @@ function UserListRoomDetail(props) {
                                 </div>
                               </div>
 
-                              <Button
+                              {/* <Button
                                 className="w-100"
                                 style={{
                                   backgroundColor: "#1E45E1",
@@ -5533,7 +5587,46 @@ function UserListRoomDetail(props) {
                                 onClick={handleSaveButton}
                               >
                                 save
-                              </Button>
+                              </Button> */}
+                              <div className="d-flex gap-2">
+  <Button
+    
+      variant="secondary"
+                      className="w-100"
+                      style={{
+                        height: 45,
+                        borderRadius: 12,
+                        fontSize: 15,
+                        fontWeight: 500,
+                        fontFamily: "Montserrat",
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                      }}
+    onClick={handleCancelButton}
+  >
+    Cancel
+  </Button>
+
+  <Button
+    className="w-100"
+    style={{
+      backgroundColor: "#1E45E1",
+      height: 45,
+                        borderRadius: 12,
+                        fontSize: 15,
+                        fontWeight: 600,
+                        fontFamily: "Montserrat",
+                        paddingLeft: 25,
+                        paddingRight: 25,
+    }}
+    
+     disabled={advanceDetail[0]?.inv_id}
+    onClick={handleSaveButton}
+  >
+    Save
+  </Button>
+</div>
+
                             </div>
 
                           </div>
