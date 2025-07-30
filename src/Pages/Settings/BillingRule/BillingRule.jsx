@@ -172,6 +172,7 @@ const [showShortStay, setShowShortStay] = useState(false);
                 Set up one-time or daily billing for short-term tenants.
               </Card.Text>
                <Button
+               disabled
                 onClick={handleShowShortStay}
                 style={{
                   marginTop: "10px",
@@ -184,7 +185,7 @@ const [showShortStay, setShowShortStay] = useState(false);
                    fontFamily:"Gilroy"
                 }}
               >
-                <FiSettings /> Setup Now
+                <FiSettings /> Coming Soon
               </Button>
             </Card.Body>
           </Card>
