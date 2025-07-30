@@ -85,7 +85,7 @@ const CheckOutForm = ({
     setNoChangeMessage("")
     setModeOfPaymentError("")
 
-    setFields([{ reason: "", amount: "" }]);
+    setFields([{ reason: "", amount: "",}]);
   }
 
 
@@ -194,31 +194,33 @@ const CheckOutForm = ({
   }, [dueamount]);
 
 
+console.log("data?.amenities",data?.amenities)
+useEffect(() => {
+  if (data?.amenities?.length > 0) {
+    let outstandingDueAmount = "";
+    const amenityFields = data.amenities
+      .filter(item => {
+        if (item.reason === "Outstanding Due") {
+          outstandingDueAmount = String(item.amount || "");
+          return false;
+        }
+        return true;
+      })
+      .map(item => ({
+        id: item?.id || "",                     
+        reason: item.reason || "",
+        amount: String(item.amount || "")
+      }));
 
-  useEffect(() => {
-    if (data?.amenities?.length > 0) {
-      let outstandingDueAmount = "";
-      const amenityFields = data.amenities
-        .filter(item => {
-          if (item.reason === "Outstanding Due") {
-            outstandingDueAmount = String(item.amount || "");
-            return false;
-          }
-          return true;
-        })
-        .map(item => ({
-          reason: item.reason || "",
-          amount: String(item.amount || ""),
-        }));
+    const dueAmountValue = outstandingDueAmount || String(dueamount || "");
 
-      const dueAmountValue = outstandingDueAmount || String(dueamount || "");
-
-      setFields([
-        { reason: "DueAmount", amount: dueAmountValue },
-        ...amenityFields,
-      ]);
-    }
-  }, [data?.amenities, dueamount]);
+    setFields([
+      { id: "", reason: "DueAmount", amount: dueAmountValue }, 
+      ...amenityFields,
+    ]);
+  }
+}, [data?.amenities, dueamount]);
+ 
 
   useEffect(() => {
 

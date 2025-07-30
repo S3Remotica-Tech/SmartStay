@@ -117,6 +117,7 @@ function UserListRoomDetail(props) {
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
 
   const [fields, setFields] = useState([]);
+  
 
 
   const reasonOptions = [
