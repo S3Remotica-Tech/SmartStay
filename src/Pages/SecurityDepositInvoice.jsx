@@ -16,15 +16,9 @@ import EditICon from '../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../Assets/Images/textarea.png'
 import BankICon from '../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
-import Rentalinvoice from '../Assets/Images/Rental_invoice.png';
-import SecurityDepositinvoice from '../Assets/Images/bill_settings.png';
-import RentalReceipt from '../Assets/Images/receipt-text.png';
-import DepositReceipt from '../Assets/Images/receipt-2.png';
-import FinalReceipt from '../Assets/Images/receipt-square.png';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import {CloseCircle} from "iconsax-react";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
 
@@ -54,7 +48,7 @@ import { RgbaColorPicker } from "react-colorful";
   const innerScrollRef = useRef(null);
 
   const [accountNameError, setaccountnameError] = useState("");
-  const [bankid_Error, setBankIdError] = useState("");
+//   const [bankid_Error, setBankIdError] = useState("");
   const [prefix_errmsg , setPrefixErrMsg] = useState('')
   const [suffix_errmsg , setSuffixErrMsg] = useState('')
   const [tax_errmsg , setTaxErrMsg] = useState('')
@@ -809,7 +803,7 @@ useEffect(() => {
   </div>
 
   {/* Validation Error */}
-  {!selectedBankId && bankid_Error.trim() !== '' && (
+  {/* {!selectedBankId && bankid_Error.trim() !== '' && (
     <div style={{ display: 'flex', alignItems: 'center', paddingTop: 8 }}>
       <MdError style={{ color: 'red', marginRight: 5, fontSize: 14 }} />
       <label
@@ -822,7 +816,7 @@ useEffect(() => {
         {bankid_Error}
       </label>
     </div>
-  )}
+  )} */}
 </div>
 
 

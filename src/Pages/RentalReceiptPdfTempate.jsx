@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../Pages/Settings.css";
-import {  useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import TextAreaICon from '../Assets/Images/textarea.png'
 import "react-datepicker/dist/react-datepicker.css";

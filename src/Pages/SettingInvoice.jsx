@@ -18,11 +18,6 @@ import EditICon from '../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../Assets/Images/textarea.png'
 import BankICon from '../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
-import Rentalinvoice from '../Assets/Images/Rental_invoice.png';
-import SecurityDepositinvoice from '../Assets/Images/bill_settings.png';
-import RentalReceipt from '../Assets/Images/receipt-text.png';
-import DepositReceipt from '../Assets/Images/receipt-2.png';
-import FinalReceipt from '../Assets/Images/receipt-square.png';
 // import uploadsett from "../Assets/Images/New_images/upload setting.png";
 import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
@@ -285,16 +280,16 @@ const handleTermsChange = (e) => {
 
 
   
-  const handleEdit = () => {
-    setShowForm(false);
-    setCardShow(false)
-    setEdit(true); 
+  // const handleEdit = () => {
+  //   setShowForm(false);
+  //   setCardShow(false)
+  //   setEdit(true); 
 
-    if(state.login.selectedHostel_Id){
-      setLoading(true)
-      dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
-    }
-  };
+  //   if(state.login.selectedHostel_Id){
+  //     setLoading(true)
+  //     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
+  //   }
+  // };
 
   const handleEditClose = () => {
     setShowForm(true);

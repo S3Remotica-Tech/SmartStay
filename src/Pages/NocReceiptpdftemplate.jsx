@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../Pages/Settings.css";
-import {  useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import Logo from '../Assets/Images/get.png'
 import TextAreaICon from '../Assets/Images/textarea.png'
