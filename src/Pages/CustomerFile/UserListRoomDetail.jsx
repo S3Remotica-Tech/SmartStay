@@ -117,6 +117,7 @@ function UserListRoomDetail(props) {
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
 
   const [fields, setFields] = useState([]);
+  
 
 
   const reasonOptions = [
@@ -407,7 +408,7 @@ function UserListRoomDetail(props) {
           };
         });
 
-       
+        // setInitialReasonFields(formattedFields);
         setFields(formattedFields);
 
       }
@@ -1340,7 +1341,41 @@ function UserListRoomDetail(props) {
 
     handleOpenAdvance()
 
-
+    // dispatch({
+    //   type: "ADDUSER",
+    //   payload: {
+    //     profile: file,
+    //     firstname,
+    //     lastname,
+    //     Phone,
+    //     Email,
+    //     Address,
+    //     area: street,
+    //     landmark,
+    //     city,
+    //     pincode,
+    //     state: state_name,
+    //     AadharNo,
+    //     PancardNo,
+    //     licence,
+    //     HostelName,
+    //     hostel_Id,
+    //     Floor,
+    //     Rooms: RoomId,
+    //     Bed: BedId,
+    //     joining_date: formattedDate,
+    //     AdvanceAmount,
+    //     RoomRent,
+    //     BalanceDue,
+    //     PaymentType,
+    //     paid_advance,
+    //     paid_rent,
+    //     ID: id,
+    //      isadvance: 1,
+    //     invoice_date: formattedDate,
+    //     due_date: formattedDate,
+    //   },
+    // });
     setLoading(true)
     setFormShow(false);
     dispatch({ type: "INVOICELIST" });
