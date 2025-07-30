@@ -115,6 +115,7 @@ function UserListRoomDetail(props) {
   const [customerDetails, setCustomerDetails] = useState([])
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
+  const [errors, setErrors] = useState([]);
 
   const [fields, setFields] = useState([]);
 
@@ -1382,6 +1383,11 @@ function UserListRoomDetail(props) {
 
 
   const handleSaveButton = () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
     const formattedDate = selectedDate
       ? dayjs(selectedDate).format("YYYY-MM-DD")
       : null;
@@ -1396,12 +1402,29 @@ function UserListRoomDetail(props) {
         reason_name = item.reason || item.reason_name || "";
       }
 
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
       return {
         reason_name,
         amount: item.amount || "",
         showInput: !!item.showInput
       };
     });
+
+    setErrors(newErrors)
+
+    if (hasReasonAmountError) return;
 
 
     dispatch({
@@ -4678,7 +4701,17 @@ function UserListRoomDetail(props) {
 
                                     {fields.map((item, index) => {
 
+                                      const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
 
+                                      const filteredOptions = reasonOptions.map((opt) => {
+                                        if (opt.value === "maintenance") {
+                                          return {
+                                            ...opt,
+                                            isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
+                                          };
+                                        }
+                                        return opt;
+                                      });
                                       return (
                                         <div className="row px-4 mb-3" key={index}>
                                           <div className="col-md-6">
@@ -4686,8 +4719,8 @@ function UserListRoomDetail(props) {
 
                                             {!item.showInput ? (
                                               <Select
-                                                options={reasonOptions}
-                                                value={reasonOptions.find((opt) => opt.value === item.reason_name) || null}
+                                                options={filteredOptions}
+                                                value={filteredOptions.find((opt) => opt.value === item.reason) || null}
                                                 onChange={(selectedOption) => {
                                                   const selectedValue = selectedOption.value;
 
@@ -4745,9 +4778,9 @@ function UserListRoomDetail(props) {
                                                   }),
                                                   option: (base, state) => ({
                                                     ...base,
-                                                    cursor: "pointer",
-                                                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                    color: "#000",
+                                                    cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                                    backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                                    color: state.isDisabled ? "#aaa" : "#000",
                                                   }),
                                                 }}
                                               />
@@ -4773,6 +4806,27 @@ function UserListRoomDetail(props) {
                                                 />
                                               </>
                                             )}
+
+                                            {errors[index]?.reason && (
+                                              <div className="d-flex align-items-center mt-1">
+                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {errors[index]?.reason}
+                                                </label>
+                                              </div>
+                                            )}
+
+
+
+
                                           </div>
 
 
@@ -4796,6 +4850,22 @@ function UserListRoomDetail(props) {
                                               }}
 
                                             />
+                                            {errors[index]?.amount && (
+                                              <div className="d-flex align-items-center mt-1">
+                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {errors[index]?.amount}
+                                                </label>
+                                              </div>
+                                            )}
                                           </div>
 
 

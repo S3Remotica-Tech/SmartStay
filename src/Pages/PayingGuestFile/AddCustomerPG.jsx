@@ -52,6 +52,7 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
+  const [errors, setErrors] = useState([]);
 
 
   const firstnameRef = useRef(null);
@@ -282,6 +283,9 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     let hasError = false;
     let firstInvalidRef = null;
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
     const Hostel_Id = currentItem.room.Hostel_Id;
     const Floor_Id = currentItem.room.Floor_Id;
     const Room_Id = currentItem.room.Room_Id;
@@ -386,25 +390,38 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
       return;
     }
 
-     const formattedReasons = fields.map((item) => {
-        let reason_name = "";
+    const formattedReasons = fields.map((item) => {
+      let reason_name = "";
 
-        if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-          reason_name = item.customReason || item["custom Reason"] || "";
-        } else {
-          reason_name = item.reason || item.reason_name || "";
-        }
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
 
-        return {
-          reason_name,
-          amount: item.amount || "",
-          showInput: !!item.showInput
-        };
-      });
-
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
 
 
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
 
+      newErrors.push(error);
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+    setErrors(newErrors)
+
+    if (hasReasonAmountError) return;
 
 
 
@@ -490,9 +507,9 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
     }
 
   }, [state.createAccount?.networkError])
-  
+
   const [fields, setFields] = useState([]);
- 
+
 
 
   const reasonOptions = [
@@ -508,6 +525,7 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
 
   const handleInputChange = (index, field, value) => {
     const updatedFields = [...fields];
+    const updatedErrors = [...errors];
 
     if (field === "reason") {
       if (value === "others") {
@@ -517,19 +535,29 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
       } else {
         updatedFields[index].showInput = false;
         updatedFields[index].reason = value;
+        updatedFields[index].reason_name = value;
         updatedFields[index].customReason = "";
       }
+
+
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
     } else if (field === "customReason") {
       updatedFields[index].customReason = value;
-    } else {
-      updatedFields[index][field] = value;
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      updatedFields[index].amount = value;
+
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
     }
 
     setFields(updatedFields);
+    setErrors(updatedErrors);
   };
 
 
- const handleRemoveField = (index) => {
+
+  const handleRemoveField = (index) => {
     const updatedFields = [...fields];
     updatedFields.splice(index, 1);
     setFields(updatedFields);
@@ -1392,8 +1420,8 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
                       </div>
 
 
-                   
- </div>
+
+                    </div>
 
 
                     <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="row mt-2 ms-2 me-5">
@@ -1436,7 +1464,17 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
 
 
                       {fields.map((item, index) => {
+                        const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
 
+                        const filteredOptions = reasonOptions.map((opt) => {
+                          if (opt.value === "maintenance") {
+                            return {
+                              ...opt,
+                              isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
+                            };
+                          }
+                          return opt;
+                        });
 
                         return (
                           <div className="row mb-3" key={index}>
@@ -1444,9 +1482,11 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
 
 
                               {!item.showInput ? (
+
+
                                 <Select
-                                  options={reasonOptions}
-                                  value={reasonOptions.find((opt) => opt.value === item.reason) || null}
+                                  options={filteredOptions}
+                                  value={filteredOptions.find((opt) => opt.value === item.reason) || null}
                                   onChange={(selectedOption) => {
                                     const selectedValue = selectedOption.value;
 
@@ -1504,9 +1544,9 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
                                     }),
                                     option: (base, state) => ({
                                       ...base,
-                                      cursor: "pointer",
-                                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                      color: "#000",
+                                      cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                      backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                      color: state.isDisabled ? "#aaa" : "#000",
                                     }),
                                   }}
                                 />
@@ -1531,10 +1571,29 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
                                   />
                                 </>
                               )}
+
+                              {errors[index]?.reason && (
+                                <div className="d-flex align-items-center mt-1">
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                  <label
+                                    className="mb-0"
+                                    style={{
+                                      color: "red",
+                                      fontSize: "12px",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                    }}
+                                  >
+                                    {errors[index]?.reason}
+                                  </label>
+                                </div>
+                              )}
+
+
                             </div>
 
 
-                            <div className="col-md-4">
+                            <div className="col-md-5">
 
                               <input
                                 type="text"
@@ -1554,10 +1613,30 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
                                 }}
 
                               />
+
+
+
+
+                              {errors[index]?.amount && (
+                                <div className="d-flex align-items-center mt-1">
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                  <label
+                                    className="mb-0"
+                                    style={{
+                                      color: "red",
+                                      fontSize: "12px",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                    }}
+                                  >
+                                    {errors[index]?.amount}
+                                  </label>
+                                </div>
+                              )}
                             </div>
 
 
-                            <div className="col-md-2 d-flex justify-content-center align-items-center">
+                            <div className="col-md-1 d-flex justify-content-center align-items-center">
 
                               {index !== 0 && (
                                 <Trash
