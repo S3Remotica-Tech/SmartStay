@@ -18,7 +18,7 @@ import EditICon from '../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../Assets/Images/textarea.png'
 import BankICon from '../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
-// import uploadsett from "../Assets/Images/New_images/upload setting.png";
+import uploadsett from "../Assets/Images/New_images/upload setting.png";
 import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -2231,117 +2231,305 @@ useEffect(() => {
    
          {
           cardshow &&
-<div>
-          <form>
-
-    {/* <img src={uploadsett} alt="upload" style={{ height: 30 }} /> */}
-
-  <div className="d-flex flex-column ms-3">
-    <span><button href="#" className="text-primary small">Choose file</button> <span >to Upload</span></span> 
-    <small className="text-muted">Must be in PNG Format (600px × 300px)</small>
+<div className="container py-4 ">
+  <h4 className=" mb-2"    style={{
+          fontFamily: "Gilroy",
+          fontSize: 22,
+          color: "rgba(34, 34, 34, 1)",
+          fontWeight: 600,
+          whiteSpace: "nowrap"
+        }}>Bill Template Manager</h4>
+        <h5 
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: 17,
+          color: "rgba(34, 34, 34, 1)",
+          fontWeight: 600,
+          whiteSpace: "nowrap"
+        }}
+        >Global Bill Settings</h5>
+        <div className="col-lg-8">
+  <p className="mb-4" style={{ 
+          // maxWidth: 100 , 
+          fontFamily: "Gilroy",
+          fontSize: 14,
+          color: "rgba(97, 97, 97, 1)",
+          fontWeight: 400,
+          // whiteSpace: "nowrap",
+          lineHeight:"20px", 
+          letterSpacing:'0%'
+  }}>
+    Add your basic billing details here. These will appear on all invoices unless you choose to customize them in individual templates.
+  </p>
   </div>
 
-
-   
-
+  <form>
+    {/* Hostel Logo */}
     <div className="row mb-4 align-items-center">
       <div className="col-md-4">
-        <label className="form-label fw-semibold">Contact Number</label>
+        <label className="form-label"
+         style={{
+          fontFamily: "Gilroy",
+          fontSize: 17,
+          color: "rgba(34, 34, 34, 1)",
+          fontWeight: 600,
+        }}
+        >Hostel/PG Logo</label>
+        <div className=" small"
+         style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(75, 75, 75, 1)",
+          fontWeight: 400,
+          whiteSpace: "nowrap"
+        }}
+        >This will appear in Bill Template</div>
         <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{cursor:"pointer"}}/>
-          <label className="form-check-label small" htmlFor="customizeContact" style={{whiteSpace:"nowrap"}}>
-            Customize in Specific Templates
-          </label>
+          <input className="form-check-input" type="checkbox" id="customizeLogo" style={{ cursor: "pointer" }} />
+          <label className="form-check-label small" htmlFor="customizeLogo"
+             style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(30, 69, 225, 1)",
+          fontStyle:'italic',
+          fontWeight: 400,
+          whiteSpace: "nowrap",
+          lineHeight:'13.76px'
+        }}
+          >Customize in Specific Templates</label>
         </div>
       </div>
-      <div className="col-md-7">
+      <div className="col-md-8">
+        <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
+          <img src={uploadsett} alt="upload" style={{ height: 30 }} />
+          <div className="d-flex flex-column ms-3">
+         <div>
+          <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
+            Choose file
+            <input
+              type="file"
+              accept="image/*"
+              className="d-none"
+              ref={fileInputRef}
+              onChange={handleFileSignatureChange}
+            />
+          </label>
+          <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload </span>
+        </div>
+            <small className="" 
+                    style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(75, 75, 75, 1)",
+          fontWeight: 400,
+          whiteSpace: "nowrap"
+        }}
+            >Must be in PNG Format (600px × 300px)</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Contact Number */}
+    <div className="row mb-4 align-items-center">
+      <div className="col-md-4">
+        <label className="form-label "
+          style={{
+          fontFamily: "Gilroy",
+          fontSize: 17,
+          color: "rgba(34, 34, 34, 1)",
+          fontWeight: 600,
+        }}
+        >Contact Number</label>
+        <div className="form-check mt-2">
+          <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{ cursor: "pointer" }} />
+          <label className="form-check-label small" htmlFor="customizeContact"
+              style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(30, 69, 225, 1)",
+          fontStyle:'italic',
+          fontWeight: 400,
+          whiteSpace: "nowrap",
+          lineHeight:'13.76px'
+        }}
+          >Customize in Specific Templates</label>
+        </div>
+      </div>
+      <div className="col-md-8">
         <div className="input-group">
           <span className="input-group-text">+91</span>
-          <input type="text" className="form-control" placeholder="9876543210" />
+          <input type="text" className="form-control" placeholder="9876543210"     
+          style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(75, 75, 75, 1)",
+          fontWeight: 400,
+          whiteSpace: "nowrap"
+        }}/>
         </div>
       </div>
     </div>
 
+    {/* Email Address */}
     <div className="row mb-4 align-items-center">
       <div className="col-md-4">
-        <label className="form-label fw-semibold">E-Mail Address</label>
+        <label className="form-label "
+           style={{
+          fontFamily: "Gilroy",
+          fontSize: 17,
+          color: "rgba(34, 34, 34, 1)",
+          fontWeight: 600,
+        }}
+         >E-Mail Address</label>
         <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeEmail" style={{cursor:"pointer"}} />
-          <label className="form-check-label small" htmlFor="customizeEmail" style={{whiteSpace:"nowrap"}}>
-            Customize in Specific Templates
-          </label>
+          <input className="form-check-input" type="checkbox" id="customizeEmail" style={{ cursor: "pointer" }} />
+          <label className="form-check-label small" htmlFor="customizeEmail"
+              style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(30, 69, 225, 1)",
+          fontStyle:'italic',
+          fontWeight: 400,
+          whiteSpace: "nowrap",
+          lineHeight:'13.76px'
+        }}
+          >Customize in Specific Templates</label>
         </div>
       </div>
-      <div className="col-md-7">
-        <input type="email" className="form-control" placeholder="example@email.com" />
+      <div className="col-md-8">
+        <input type="email" className="form-control" placeholder="example@email.com" 
+                style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(75, 75, 75, 1)",
+          fontWeight: 400,
+          whiteSpace: "nowrap"
+        }}
+        />
       </div>
     </div>
 
-    <div className="row mb-4 align-items-center">
+    {/* Digital Signature */}
+    <div className="row mb-2 align-items-center">
       <div className="col-md-4">
-        <label className="form-label fw-semibold">Digital Signature Upload</label>
-        <div className="text-muted small">Add a respected person’s Signature</div>
+        <label className="form-label "
+          style={{
+          fontFamily: "Gilroy",
+          fontSize: 17,
+          color: "rgba(34, 34, 34, 1)",
+          fontWeight: 600,
+        }}
+        >Digital Signature Upload</label>
+        <div className=" small"
+           style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(75, 75, 75, 1)",
+          fontWeight: 400,
+          whiteSpace: "nowrap"
+        }}
+        >Add a respected person’s Signature</div>
         <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeSignature" />
-          <label className="form-check-label small" htmlFor="customizeSignature" style={{whiteSpace:"nowrap"}}>
-            Customize in Specific Templates
-          </label>
+          <input className="form-check-input" type="checkbox" id="customizeSignature" style={{ cursor: "pointer" }} />
+          <label className="form-check-label small" htmlFor="customizeSignature"
+              style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(30, 69, 225, 1)",
+          fontStyle:'italic',
+          fontWeight: 400,
+          whiteSpace: "nowrap",
+          lineHeight:'13.76px'
+        }}
+          >Customize in Specific Templates</label>
         </div>
       </div>
-     <div className="col-md-7">
-  <div
-    className="border border-dashed rounded p-4 text-center"
-    style={{ minHeight: "100px" }}
-  >
-    {signaturePreview ? (
-      <img
-        src={signaturePreview}
-        alt="Signature"
-        style={{ maxHeight: "40px" }}
-      />
-    ) : (
-      <span className="text-muted small">No Signature Uploaded</span>
-    )}
-  </div>
-
-  <div className="mt-2 d-flex align-items-center justify-content-between">
-    <label className="text-primary small" style={{ cursor: "pointer" }}>
-      Choose file
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleFileSignatureChange}
-        style={{ display: "none" }}
-      />
-    </label>
-
-   
-        <div className="mt-2">
-           
-           
-            <button href="#" className="text-danger small mx-3 ms-5 text-end" style={{paddingLeft:70}}  onClick={handleClear}>Clear</button>
-            <span className="text-success small fw-semibold">Done</span>
-          </div>
-  
-     
-     
-  </div>
-</div>
-
-    </div>
-
-    <div className="row mt-4">
-      <div className="col-md-12 text-end">
-        <button className="btn btn-outline-dark me-2" type="button">Reset</button>
-        <button className="btn btn-primary me-2" type="submit">Save</button>
-       
+      <div className="col-md-8">
+           <div
+        className="rounded mt-2 d-flex justify-content-center align-items-center"
+        style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
+    borderColor: '#ced4da'}}
+      >
+        {signaturePreview ? (
+          <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+        ) : (
+          <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+          >No signature uploaded</span>
+        )}
       </div>
-      <div className="text-end mt-3"> <button className="btn btn-primary" type="button" onClick={handleShow}>Go to Templates →</button></div>
+
+      <div className="d-flex justify-content-between align-items-center mt-2">
+        <div>
+          <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
+            Choose file
+            <input
+              type="file"
+              accept="image/*"
+              className="d-none"
+              ref={fileInputRef}
+              onChange={handleFileSignatureChange}
+            />
+          </label>
+          <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload Image</span>
+        </div>
+        <div>
+          <button
+            className="btn btn-link text-decoration-none "
+            onClick={handleClear}
+            disabled={!signaturePreview}
+            style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 16, fontWeight: 400}}
+          >
+            Clear
+          </button>
+          <button
+            className="btn btn-link text-decoration-none "
+            disabled={!signaturePreview}
+            onClick={handleSignatureDone}
+            style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600}}
+          >
+            Done
+          </button>
+        </div>
+
+        
+      </div>
+        {signature_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {signature_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+      </div>
     </div>
-    
+
+    {/* Buttons */}
+    <div className="d-flex justify-content-end mt-1">
+      <button className="btn btn-outline-dark me-2" type="button">Reset</button>
+      <button className="btn btn-primary" type="submit">Save</button>
+    </div>
+    <div className="text-end mt-3">
+      <button className="btn btn-primary" type="button" onClick={handleShow}>Go to Templates →</button>
+    </div>
   </form>
 </div>
+
          }
    
         
