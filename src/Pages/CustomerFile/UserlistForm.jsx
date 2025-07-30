@@ -2532,7 +2532,7 @@ function UserlistForm(props) {
 
                           return (
                             <div className="row px-4 mb-3" key={index}>
-                              <div className="col-md-5">
+                              <div className="col-md-6">
 
 
                                 {!item.showInput ? (
@@ -2626,7 +2626,7 @@ function UserlistForm(props) {
                               </div>
 
                            
-                              <div className="col-md-5">
+                              <div className="col-md-4">
 
                                 <input
                                   type="text"

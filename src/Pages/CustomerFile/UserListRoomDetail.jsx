@@ -516,7 +516,7 @@ function UserListRoomDetail(props) {
           const isCustom = String(entry.reason) !== "maintenance";
 
           return {
-            reason: entry.reason,
+            reason_name: entry.reason,
             amount: entry.amount || "",
             showInput: isCustom,
             customReason: isCustom ? entry.reason : "",
@@ -1320,8 +1320,8 @@ function UserListRoomDetail(props) {
 
 
     const normalizeFields = (arr) =>
-      arr.map(({ reason, amount, customReason, showInput }) => ({
-        reason,
+      arr.map(({ reason_name, amount, customReason, showInput }) => ({
+        reason_name,
         amount: String(amount).trim(),
         customReason,
         showInput,
@@ -4682,7 +4682,7 @@ function UserListRoomDetail(props) {
 
                                       return (
                                         <div className="row px-4 mb-3" key={index}>
-                                          <div className="col-md-5">
+                                          <div className="col-md-6">
 
 
                                             {!item.showInput ? (
@@ -4777,7 +4777,7 @@ function UserListRoomDetail(props) {
                                           </div>
 
 
-                                          <div className="col-md-5">
+                                          <div className="col-md-4">
 
                                             <input
                                               type="text"
