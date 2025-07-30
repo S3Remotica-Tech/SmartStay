@@ -74,7 +74,7 @@ function UserlistForm(props) {
   const [formLoading, setFormLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
-
+  const [errors, setErrors] = useState([]);
   const [activeTab, setActiveTab] = useState("long");
   const firstnameRef = useRef(null);
   const phoneRef = useRef(null);
@@ -85,8 +85,8 @@ function UserlistForm(props) {
 
 
 
- 
- 
+
+
   const [fields, setFields] = useState([]);
 
 
@@ -694,6 +694,11 @@ function UserlistForm(props) {
 
 
   const handleSaveUserlistAddUser = async () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
     if (!validateAssignField(Floor, "Floor"));
     if (!validateAssignField(Rooms, "Rooms"));
     if (!validateAssignField(Bed, "Bed"));
@@ -735,7 +740,38 @@ function UserlistForm(props) {
       setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     }
+  fields.map((item) => {
+      let reason_name = "";
 
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
+
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+    setErrors(newErrors)
+
+    if (hasReasonAmountError) return;
 
 
 
@@ -753,6 +789,11 @@ function UserlistForm(props) {
   };
 
   const handleSaveUserlistAddUserButon = () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
     if (!validateAssignField(Floor, "Floor"));
     if (!validateAssignField(Rooms, "Rooms"));
     if (!validateAssignField(Bed, "Bed"));
@@ -815,6 +856,19 @@ function UserlistForm(props) {
           reason_name = item.reason || item.reason_name || "";
         }
 
+        const error = { reason: "", amount: "" };
+        if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+          error.amount = "Please enter amount";
+          hasReasonAmountError = true;
+        }
+
+
+        if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+          error.reason = "Please enter reason";
+          hasReasonAmountError = true;
+        }
+
+        newErrors.push(error);
         return {
           reason_name,
           amount: item.amount || "",
@@ -822,6 +876,9 @@ function UserlistForm(props) {
         };
       });
 
+      setErrors(newErrors)
+
+      if (hasReasonAmountError) return;
 
 
 
@@ -878,6 +935,9 @@ function UserlistForm(props) {
 
   const handleSaveAdvance = () => {
     let hasError = false;
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
 
     if (!advanceDate) {
       setAdvanceDateError("Please Select Invoice Date");
@@ -957,6 +1017,19 @@ function UserlistForm(props) {
         reason_name = item.reason || item.reason_name || "";
       }
 
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
       return {
         reason_name,
         amount: item.amount || "",
@@ -964,6 +1037,9 @@ function UserlistForm(props) {
       };
     });
 
+    setErrors(newErrors)
+
+    if (hasReasonAmountError) return;
 
 
     dispatch({
@@ -1043,16 +1119,16 @@ function UserlistForm(props) {
 
 
 
-  
- 
 
 
 
 
-  
- 
 
-  
+
+
+
+
+
 
 
   const reasonOptions = [
@@ -1068,6 +1144,7 @@ function UserlistForm(props) {
 
   const handleInputChange = (index, field, value) => {
     const updatedFields = [...fields];
+    const updatedErrors = [...errors];
 
     if (field === "reason") {
       if (value === "others") {
@@ -1077,15 +1154,24 @@ function UserlistForm(props) {
       } else {
         updatedFields[index].showInput = false;
         updatedFields[index].reason = value;
+        updatedFields[index].reason_name = value;
         updatedFields[index].customReason = "";
       }
+
+
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
     } else if (field === "customReason") {
       updatedFields[index].customReason = value;
-    } else {
-      updatedFields[index][field] = value;
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      updatedFields[index].amount = value;
+
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
     }
 
     setFields(updatedFields);
+    setErrors(updatedErrors);
   };
 
 
@@ -2396,7 +2482,7 @@ function UserlistForm(props) {
 
                         <div className="row align-items-end ms-1 me-1" style={{ paddingRight: 5, paddingLeft: 0 }}>
 
-                         
+
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                             <Form.Group>
                               <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
@@ -2438,7 +2524,7 @@ function UserlistForm(props) {
                             )}
                           </div>
 
-                          
+
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                             <Form.Group>
                               <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
@@ -2481,7 +2567,7 @@ function UserlistForm(props) {
                           </div>
 
 
-                        
+
 
                         </div>
 
@@ -2528,7 +2614,17 @@ function UserlistForm(props) {
 
 
                         {fields.map((item, index) => {
-                         
+                          const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
+
+                          const filteredOptions = reasonOptions.map((opt) => {
+                            if (opt.value === "maintenance") {
+                              return {
+                                ...opt,
+                                isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
+                              };
+                            }
+                            return opt;
+                          });
 
                           return (
                             <div className="row px-4 mb-3" key={index}>
@@ -2537,8 +2633,8 @@ function UserlistForm(props) {
 
                                 {!item.showInput ? (
                                   <Select
-                                    options={reasonOptions}
-                                    value={reasonOptions.find((opt) => opt.value === item.reason) || null}
+                                    options={filteredOptions}
+                                    value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
                                     onChange={(selectedOption) => {
                                       const selectedValue = selectedOption.value;
 
@@ -2596,9 +2692,9 @@ function UserlistForm(props) {
                                       }),
                                       option: (base, state) => ({
                                         ...base,
-                                        cursor: "pointer",
-                                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                        color: "#000",
+                                        cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                        backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                        color: state.isDisabled ? "#aaa" : "#000",
                                       }),
                                     }}
                                   />
@@ -2623,10 +2719,26 @@ function UserlistForm(props) {
                                     />
                                   </>
                                 )}
+                                {errors[index]?.reason && (
+                                  <div className="d-flex align-items-center mt-1">
+                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                    <label
+                                      className="mb-0"
+                                      style={{
+                                        color: "red",
+                                        fontSize: "12px",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {errors[index]?.reason}
+                                    </label>
+                                  </div>
+                                )}
                               </div>
 
-                           
-                              <div className="col-md-4">
+
+                              <div className="col-md-5">
 
                                 <input
                                   type="text"
@@ -2646,11 +2758,27 @@ function UserlistForm(props) {
                                   }}
 
                                 />
+                                {errors[index]?.amount && (
+                                  <div className="d-flex align-items-center mt-1">
+                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                    <label
+                                      className="mb-0"
+                                      style={{
+                                        color: "red",
+                                        fontSize: "12px",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {errors[index]?.amount}
+                                    </label>
+                                  </div>
+                                )}
                               </div>
 
 
-                              <div className="col-md-2 d-flex justify-content-center align-items-center">
-                         
+                              <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+
                                 {index !== 0 && (
                                   <Trash
                                     size="20"
@@ -2674,8 +2802,8 @@ function UserlistForm(props) {
 
 
 
-                   
-                   
+
+
 
 
                     </div>
