@@ -23,17 +23,6 @@ import SecurityDepositinvoice from '../Assets/Images/bill_settings.png';
 import RentalReceipt from '../Assets/Images/receipt-text.png';
 import DepositReceipt from '../Assets/Images/receipt-2.png';
 import FinalReceipt from '../Assets/Images/receipt-square.png';
-import LeftArrow from '../Assets/Images/New_images/arrow-leftblack.png';
-import mob from "../Assets/Images/New_images/Rectangle 77.png";
-import substrac from "../Assets/Images/New_images/Subtract.png";
-import frame from "../Assets/Images/New_images/FramePDF.png";
-import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
-import substracBlue from "../Assets/Images/New_images/location 03.png";
-import frameblue from "../Assets/Images/New_images/Frameblue.png";
-import paidfull from '../Assets/Images/New_images/paidfull.png'
-import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
-import received from '../Assets/Images/New_images/received.png'
-import Select from "react-select";
 // import uploadsett from "../Assets/Images/New_images/upload setting.png";
 import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
@@ -76,7 +65,6 @@ function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
 
   const [InvoiceList, setInvoiceList] = useState([]);
   
-  const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
   const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
@@ -583,7 +571,6 @@ const handleTermsChange = (e) => {
     }
     setIsInvoiceAddMode(true)
     setIsSidebarOpen(false)
-    setIsVisible(true)
     setSelectedard(type)
     setShowForm(true);
     setEdit(false);
