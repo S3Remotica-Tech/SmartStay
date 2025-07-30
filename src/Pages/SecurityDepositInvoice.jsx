@@ -275,39 +275,40 @@ const handleTermsChange = (e) => {
                  setIfscCode("")
                  setBankName("")
                  setDescription("")
+                 setBanking([])
                 }
 
-                 useEffect(() => {
-                    if(state.login.selectedHostel_Id){
-                    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-                    }
-                  }, [state.login.selectedHostel_Id]);
+                //  useEffect(() => {
+                //     if(state.login.selectedHostel_Id){
+                //     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+                //     }
+                //   }, [state.login.selectedHostel_Id]);
  
- useEffect(() => {
-    if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      setBanking(state.bankingDetails.bankingList.banks)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
-      }, 200);
-    }
-  }, [state.bankingDetails.statusCodeForGetBanking]);
+//  useEffect(() => {
+//     if (state.bankingDetails.statusCodeForGetBanking === 200) {
+//       setBanking(state.bankingDetails.bankingList.banks)
+//       setTimeout(() => {
+//         dispatch({ type: "CLEAR_BANKING_LIST" });
+//       }, 200);
+//     }
+//   }, [state.bankingDetails.statusCodeForGetBanking]);
 
                 
-     useEffect(() => {
-       if (state.bankingDetails.statusCodeForAddBanking === 200) {
-         setAccountName("")
-         setAccount_Number("")
-         setIfscCode("")
-         setBankName("")
-         setDescription("")
-         handleCloseBankAccount();
+    //  useEffect(() => {
+    //    if (state.bankingDetails.statusCodeForAddBanking === 200) {
+    //      setAccountName("")
+    //      setAccount_Number("")
+    //      setIfscCode("")
+    //      setBankName("")
+    //      setDescription("")
+    //      handleCloseBankAccount();
    
-         dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-         setTimeout(() => {
-           dispatch({ type: "CLEAR_ADD_USER_BANKING" });
-         }, 1000);
-       }
-     }, [state.bankingDetails.statusCodeForAddBanking]);
+    //      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    //      setTimeout(() => {
+    //        dispatch({ type: "CLEAR_ADD_USER_BANKING" });
+    //      }, 1000);
+    //    }
+    //  }, [state.bankingDetails.statusCodeForAddBanking]);
 
 
 
