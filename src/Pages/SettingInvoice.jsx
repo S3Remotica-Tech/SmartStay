@@ -91,44 +91,7 @@ setContactNumberForm(true)
   }
 
 
-  const CardItems = [
-    {
-     id:1, 
-     icon : Rentalinvoice, 
-     title : "Monthly Rental Invoice", 
-     type: 'paymentinvoice',
-     description : "Detailed monthly rent breakdown including utilities and service charges"
-    },
-     {
-     id:2, 
-     icon: SecurityDepositinvoice,
-     title: "Security Deposit Invoice",
-     type: 'despositinvoice',
-     description: "Detailed monthly rent breakdown including utilities and service charges."
-    },
-     {
-     id:3, 
-     icon : RentalReceipt, 
-     title : "Monthly Rental Receipt", 
-     type: 'payementreceipt',
-     description : "Detailed monthly rent breakdown including utilities and service charges"
-    },
-     {
-     id:4, 
-     icon: DepositReceipt,
-     title: "Security Deposit Receipt",
-     type: 'depositreceipt',
-     description: "Detailed monthly rent breakdown including utilities and service charges."
-    },
-     {
-     id:5, 
-     icon : FinalReceipt, 
-     title : "Final Settlement Receipt", 
-     type:'finalreceipt', 
-     description : "Detailed monthly rent breakdown including utilities and service charges"
-    },
-     
-  ]
+ 
 
 
   const PdfOptions = [
@@ -142,14 +105,12 @@ setContactNumberForm(true)
  const defaultGradient = 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))';
 
   const [useGradient, setUseGradient] = useState(true);
-  const [color, setColor] = useState({ r: 30, g: 69, b: 225, a: 1 }); // fallback color
-
+  const [color, setColor] = useState({ r: 30, g: 69, b: 225, a: 1 }); 
   const handleColorChange = (newColor) => {
     setColor(newColor);
-    setUseGradient(false); // switch to solid color
+    setUseGradient(false); 
   }
 
-  // Preset colors (18 colors for 2 rows of 9 each)
   const presetColors = [
     "#F44336", "#FF9800", "#FFEB3B", "#795548", "#8BC34A", "#4CAF50", "#E91E63", "#9C27B0", "#9C00FF",
     "#03A9F4", "#00BCD4", "#C8E6C9", "#000000", "#616161", "#9E9E9E", "#FFFFFF", "#AAAAAA", "#FF69B4"
@@ -158,9 +119,7 @@ setContactNumberForm(true)
   const hexValue = `#${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1).toUpperCase()}`;
   const alphaValue = Math.round(color.a * 100);
 
-  const handleselectPdf = (selected) => {
-    setSelectedard(selected.value); 
-  };
+ 
 
 
  
@@ -815,94 +774,7 @@ useEffect(() => {
     </div>
 
     
-{/* {showform  &&
-<div className="col-12 col-md-6 d-flex justify-content-md-end mt-2 mt-md-0">
-      <div className="me-3" style={{ width: "60%" }}>
-        <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-         <Select
-  placeholder="Select"
-  options={PdfOptions}
-  value={PdfOptions.find(opt => opt.value === selectedcard)}
-  onChange={(selected) => handleselectPdf(selected)}
 
- styles={{
-                                    control: (base) => ({
-                                        ...base,
-                                        borderColor: "#D1D5DB",
-                                        borderRadius: "8px",
-                                        padding: "4px",
-                                        boxShadow: "none",
-                                        cursor: "pointer",
-                                        "&:hover": { borderColor: "#666" },
-                                    }),
-                                    menu: (base) => ({
-                                        ...base,
-                                        maxHeight: PdfOptions.length > 3 ? "150px" : "auto",
-                                        overflowY: PdfOptions.length > 3 ? "auto" : "hidden",
-                                        borderRadius: "8px",
-                                        zIndex: 100,
-                                    }),
-                                    menuList: (base) => ({
-                                        ...base,
-                                        maxHeight: "150px",
-                                        overflowY: "auto",
-                                        padding: 0,
-                                        scrollbarWidth: "thin",
-                                        "&::-webkit-scrollbar": {
-                                            width: "6px",
-                                        },
-                                        "&::-webkit-scrollbar-thumb": {
-                                            backgroundColor: "#888",
-                                            borderRadius: "4px",
-                                        },
-                                        "&::-webkit-scrollbar-thumb:hover": {
-                                            backgroundColor: "#555",
-                                        },
-                                    }),
-                                    option: (base, state) => ({
-                                        ...base,
-                                        backgroundColor: state.isSelected
-                                            ? '#2563EB'
-                                            : state.isFocused
-                                                ? '#E0ECFF'
-                                                : '#FFFFFF',
-                                        color: state.isSelected ? '#FFFFFF' : '#000000',
-                                        padding: '12px 16px',
-                                        margin: 0,
-                                        borderRadius: 0,
-                                        cursor:'pointer'
-                                    }),
-                                    indicatorSeparator: () => ({ display: "none" }),
-                                }}
-/>
-
-        </Form.Group>
-      </div>
-<button
-  onClick={handleEdit}
-  style={{
-    fontFamily: "Gilroy",
-    fontSize: "14px",
-    backgroundColor: "#1E45E1",
-    color: "white",
-    fontWeight: 600,
-    borderRadius: "8px",
-    width: 146,
-    height: 45,
-    border: "2px solid #1E45E1",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "6px", 
-  }}
->
-  <img src={EditICon} alt="edit" style={{ height: 18 }}  className="me-2"/>
-  Edit
-</button>
-
-    </div>
-
-} */}
     
     
   </div>
@@ -967,7 +839,7 @@ useEffect(() => {
            overflowY: "auto",
            overflowX:'hidden',}}>
 <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
-<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>Fill the form with details you'd like to customize.</p>
+<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
 
   <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
 
@@ -982,7 +854,7 @@ useEffect(() => {
     marginBottom: '6px'
   }}>
     <label style={{ fontWeight: 600 }}>Contact Number</label>
-   <img  src={EditICon} onClick={handleShowContactNumberForm} style={{cursor:'pointer'}}/>
+   <img  src={EditICon} onClick={handleShowContactNumberForm} alt="editicon" style={{cursor:'pointer'}}/>
   </div>
 
   <div style={{
@@ -1117,6 +989,7 @@ useEffect(() => {
         fontFamily: "Gilroy",
         fontSize: "14px",
       }}
+      // onClick={handleEdit}
     >
       Edit Anyway
     </Button>
@@ -1127,7 +1000,7 @@ useEffect(() => {
  <div className="border p-3 mb-3 col-lg-10" style={{borderRadius:'10px' , overflowY:'auto', }}>
 
       <div>
-        <p  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+        <p onClick={handleEditClose}  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
           Invoice No</p>
         <hr></hr>
       </div>
@@ -2369,7 +2242,7 @@ useEffect(() => {
     {/* <img src={uploadsett} alt="upload" style={{ height: 30 }} /> */}
 
   <div className="d-flex flex-column ms-3">
-    <span><a href="#" className="text-primary small">Choose file</a> <span >to Upload</span></span> 
+    <span><button href="#" className="text-primary small">Choose file</button> <span >to Upload</span></span> 
     <small className="text-muted">Must be in PNG Format (600px × 300px)</small>
   </div>
 
@@ -2452,7 +2325,7 @@ useEffect(() => {
         <div className="mt-2">
            
            
-            <a href="#" className="text-danger small mx-3 ms-5 text-end" style={{paddingLeft:70}}  onClick={handleClear}>Clear</a>
+            <button href="#" className="text-danger small mx-3 ms-5 text-end" style={{paddingLeft:70}}  onClick={handleClear}>Clear</button>
             <span className="text-success small fw-semibold">Done</span>
           </div>
   
@@ -3307,5 +3180,7 @@ SettingInvoice.propTypes = {
   hostelid: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  setIsInvoiceAddMode: PropTypes.func.isRequired,
+  setIsSidebarOpen: PropTypes.func.isRequired,
 }
 export default SettingInvoice;

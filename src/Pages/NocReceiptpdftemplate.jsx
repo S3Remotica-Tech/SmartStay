@@ -17,7 +17,6 @@ import { RgbaColorPicker } from "react-colorful";
   const NOCReceiptPdfTemplate = () => {
 
 
-           const state = useSelector((state) => state);
           
            const cardRef = useRef(null);
            const innerScrollRef = useRef(null);
@@ -111,22 +110,12 @@ import { RgbaColorPicker } from "react-colorful";
                   overflowY: "auto",
                   overflowX:'hidden',}}>
        <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
-       <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>Fill the form with details you'd like to customize.</p>
+       <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
        
-        
-       
-       
-        
-       
-                         
-       
-        
+    
        
        
-       
-       
-       
-                                     <div className="p-3 mb-3 border col-lg-10" style={{borderRadius:'10px'}}>
+            <div className="p-3 mb-3 border col-lg-10" style={{borderRadius:'10px'}}>
                  <h6   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
                   Notes
                   </h6>

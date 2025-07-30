@@ -1,28 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../Pages/Settings.css";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import TextAreaICon from '../Assets/Images/textarea.png'
 import "react-datepicker/dist/react-datepicker.css";
-import Rentalinvoice from '../Assets/Images/Rental_invoice.png';
-import SecurityDepositinvoice from '../Assets/Images/bill_settings.png';
-import RentalReceipt from '../Assets/Images/receipt-text.png';
-import DepositReceipt from '../Assets/Images/receipt-2.png';
-import FinalReceipt from '../Assets/Images/receipt-square.png';
 import mob from "../Assets/Images/New_images/Rectangle 77.png";
 import substrac from "../Assets/Images/New_images/Subtract.png";
 import frame from "../Assets/Images/New_images/FramePDF.png";
 import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
 import received from '../Assets/Images/New_images/received.png'
 import Button from 'react-bootstrap/Button';
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
 
 
 const RentalReceiptPdfTemplate = () => {
 
-        const state = useSelector((state) => state);
        
         const cardRef = useRef(null);
         const innerScrollRef = useRef(null);
@@ -127,7 +120,7 @@ const RentalReceiptPdfTemplate = () => {
            overflowY: "auto",
            overflowX:'hidden',}}>
 <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
-<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>Fill the form with details you'd like to customize.</p>
+<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
 
  
 

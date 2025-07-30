@@ -16,7 +16,6 @@ import { RgbaColorPicker } from "react-colorful";
 
   const SecurityReceiptPdfTemplate = () => {
 
-        const state = useSelector((state) => state);
        
         const cardRef = useRef(null);
         const innerScrollRef = useRef(null);
@@ -109,7 +108,7 @@ import { RgbaColorPicker } from "react-colorful";
                   overflowY: "auto",
                   overflowX:'hidden',}}>
        <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
-       <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>Fill the form with details you'd like to customize.</p>
+       <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
        
         
        
@@ -445,7 +444,7 @@ import { RgbaColorPicker } from "react-colorful";
                                     <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>1</td>
                                     <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>INV-004</td>
                                     <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}> 
-                                     "Security Deposit (Advance)
+                                      {`Security Deposit (Advance)`}
                                       </td>
                                   
         <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}} >May 2025</td>

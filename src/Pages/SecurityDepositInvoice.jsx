@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import leftarrow from "../Assets/Images/arrow-left.png"
 import { MdError } from "react-icons/md";
 import Logo from '../Assets/Images/get.png'
 import Dial from '../Assets/Images/dial.png'
@@ -22,18 +21,6 @@ import SecurityDepositinvoice from '../Assets/Images/bill_settings.png';
 import RentalReceipt from '../Assets/Images/receipt-text.png';
 import DepositReceipt from '../Assets/Images/receipt-2.png';
 import FinalReceipt from '../Assets/Images/receipt-square.png';
-import LeftArrow from '../Assets/Images/New_images/arrow-leftblack.png';
-import mob from "../Assets/Images/New_images/Rectangle 77.png";
-import substrac from "../Assets/Images/New_images/Subtract.png";
-import frame from "../Assets/Images/New_images/FramePDF.png";
-import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
-import substracBlue from "../Assets/Images/New_images/location 03.png";
-import frameblue from "../Assets/Images/New_images/Frameblue.png";
-import paidfull from '../Assets/Images/New_images/paidfull.png'
-import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
-import received from '../Assets/Images/New_images/received.png'
-import Select from "react-select";
-import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import {CloseCircle} from "iconsax-react";
@@ -60,20 +47,11 @@ import { RgbaColorPicker } from "react-colorful";
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
-  const [editErrmsg , setEditErrMessage] = useState('')
-  const [showform, setShowForm] = useState(false);
+
   const [contactnumberform , setContactNumberForm] = useState(false)
-
-  const [edit, setEdit] = useState(false);
-  const [cardshow, setCardShow] = useState(true)
-  const [loading, setLoading] = useState(false)
-
-  const [InvoiceList, setInvoiceList] = useState([]);
   
-  const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
-  const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
 
   const [accountNameError, setaccountnameError] = useState("");
   const [bankid_Error, setBankIdError] = useState("");
@@ -82,8 +60,6 @@ import { RgbaColorPicker } from "react-colorful";
   const [tax_errmsg , setTaxErrMsg] = useState('')
   const [notes_errmsg , setNotesErrMsg] = useState('')
   const [terms_errmsg , setTermsErrMsg] = useState('')
-  const [signature_errmsg , setSignatureErrMsg] = useState('')
-  const [selectedTab, setSelectedTab] = useState("rental_invoice");
   const [showFullView, setShowFullView] = useState(false);
 
 
@@ -97,53 +73,10 @@ setContactNumberForm(true)
   }
 
 
-  const CardItems = [
-    {
-     id:1, 
-     icon : Rentalinvoice, 
-     title : "Monthly Rental Invoice", 
-     type: 'paymentinvoice',
-     description : "Detailed monthly rent breakdown including utilities and service charges"
-    },
-     {
-     id:2, 
-     icon: SecurityDepositinvoice,
-     title: "Security Deposit Invoice",
-     type: 'despositinvoice',
-     description: "Detailed monthly rent breakdown including utilities and service charges."
-    },
-     {
-     id:3, 
-     icon : RentalReceipt, 
-     title : "Monthly Rental Receipt", 
-     type: 'payementreceipt',
-     description : "Detailed monthly rent breakdown including utilities and service charges"
-    },
-     {
-     id:4, 
-     icon: DepositReceipt,
-     title: "Security Deposit Receipt",
-     type: 'depositreceipt',
-     description: "Detailed monthly rent breakdown including utilities and service charges."
-    },
-     {
-     id:5, 
-     icon : FinalReceipt, 
-     title : "Final Settlement Receipt", 
-     type:'finalreceipt', 
-     description : "Detailed monthly rent breakdown including utilities and service charges"
-    },
-     
-  ]
+  
 
 
-  const PdfOptions = [
-  { label: "Rental Invoice", value: "rental_invoice" },
-  { label: "Security Deposit Invoice", value: "security_deposit_invoice" },
-  { label: "Rental Receipt", value: "rental_receipt" },
-  { label: "Security Deposit Receipt", value: "security_deposit_receipt" },
-  { label: "NOC Receipt", value: "noc_receipt" }
-];
+
 
  const defaultGradient = 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))';
 
@@ -152,10 +85,9 @@ setContactNumberForm(true)
 
    const handleColorChange = (newColor) => {
     setColor(newColor);
-    setUseGradient(false); // switch to solid color
+    setUseGradient(false); 
   }
 
-  // Preset colors (18 colors for 2 rows of 9 each)
   const presetColors = [
     "#F44336", "#FF9800", "#FFEB3B", "#795548", "#8BC34A", "#4CAF50", "#E91E63", "#9C27B0", "#9C00FF",
     "#03A9F4", "#00BCD4", "#C8E6C9", "#000000", "#616161", "#9E9E9E", "#FFFFFF", "#AAAAAA", "#FF69B4"
@@ -164,9 +96,6 @@ setContactNumberForm(true)
   const hexValue = `#${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1).toUpperCase()}`;
   const alphaValue = Math.round(color.a * 100);
 
-  const handleselectPdf = (selected) => {
-    setSelectedard(selected.value); 
-  };
 
 
  
@@ -295,168 +224,6 @@ const handleTermsChange = (e) => {
   );
 
 
-    const fileInputRef = useRef(null);
-   const [signature, setSignature] = useState(null); 
-   const [signaturePreview, setSignaturePreview] = useState(null); 
-
-
- const handleFileSignatureChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    setSignature(file);
-    setSignaturePreview(URL.createObjectURL(file)); 
-    setSignatureErrMsg("");
-    setIsSignatureConfirmed(false);
-  }
-};
-
-
-  const handleClear = () => {
-    setSignature(null);
-    setSignaturePreview(null)
-    setSignatureErrMsg("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-
-  const handleSignatureDone = () => {
-  if (!signature) {
-    setSignatureErrMsg("Please select a signature file.");
-  } else {
-    setSignatureErrMsg("");
-    setIsSignatureConfirmed(true);
-  }
-};
-
-
-  
-  const handleEdit = () => {
-    setShowForm(false);
-    setCardShow(false)
-    setEdit(true); 
-
-    if(state.login.selectedHostel_Id){
-      setLoading(true)
-      dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
-    }
-  };
-
-  const handleEditClose = () => {
-    setShowForm(true);
-    setCardShow(false)
-    setEdit(false);
-    setPrefixErrMsg("");
-    setSuffixErrMsg("");
-    setTaxErrMsg("");
-    setNotesErrMsg("");
-    setTermsErrMsg("");
-    setAccount_Number("")
-    setSignatureErrMsg("")
-    setEditErrMessage("")
-    setIfscCode("")
-    setBankName("")
-    setPrefix("")
-    setSuffix("")
-    setTax("")
-    setSignature(null)
-    setSelectedBankId(null)
-    setSignaturePreview(null)
-    setBankIdError("")
-  }
-
-
-  useEffect(()=> {
-            if(InvoiceList?.invoiceSettings?.signatureFile && signature){
-                setIsSignatureConfirmed(true)
-                setSignatureErrMsg("")
-            }
-  },[signature])
-
-
-
-
-
-  const handleSaveInvoice = () => {
- if (
-  !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed || !selectedBankId
-) {
-  if (!prefix) setPrefixErrMsg("Please Enter Prefix");
-  if (!suffix) setSuffixErrMsg("Please Enter Suffix");
-  if (!tax) setTaxErrMsg("Please Enter Tax");
-  if (!notes) setNotesErrMsg("Please Enter Notes");
-  if (!terms) setTermsErrMsg("Please Enter Terms");
-  if(!selectedBankId)setBankIdError("Please Add or select bank")
-  if (!signature) {
-    setSignatureErrMsg("Please select signature");
-  } else if (!isSignatureConfirmed) {
-    setSignatureErrMsg("Please click Done after selecting a signature");
-  }
-  return;
-}
-
-
-  const currentData = {
-    prefix,
-    suffix,
-    tax,
-    notes: notes?.replace(/"/g, '') || '',
-    privacyPolicy: terms,
-    signatureFile: signature,
-    bankingId: Number(selectedBankId)
-  };
-
-  const originalData = {
-    prefix: InvoiceList?.invoiceSettings?.prefix || '',
-    suffix: InvoiceList?.invoiceSettings?.suffix || '',
-    tax: InvoiceList?.invoiceSettings?.tax || '',
-    notes: InvoiceList?.invoiceSettings?.notes?.replace(/"/g, '') || '',
-    privacyPolicy: InvoiceList?.invoiceSettings?.privacyPolicyHtml || '',
-    signatureFile: InvoiceList?.invoiceSettings?.signatureFile || '',
-    bankingId: Number(InvoiceList?.invoiceSettings?.bankingId || 0),
-  };
-
-  if (
-    InvoiceList?.invoiceSettings &&
-    JSON.stringify(currentData) === JSON.stringify(originalData)
-  ) {
-    setEditErrMessage("No changes detected");
-    setSignatureErrMsg("")
-    return;
-  }
-
-  if(selectedBankId){
-       dispatch({
-    type: "ADD_INVOICE_SETTINGS",
-    payload: {
-      hostelId: Number(state.login.selectedHostel_Id),
-      bank_id: Number(selectedBankId),
-      prefix,
-      suffix,
-      tax,
-      notes,
-      privacyPolicy: terms,
-      signature,
-    },
-  });
-  }
-
-
-};
-
-
-
-   
-  
- 
-//   useEffect(() => {
-//     if (hostelid) {
-//          setLoading(true)
-//     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
-//     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-//     }
-//   }, [hostelid]);
 
 
 
@@ -485,118 +252,17 @@ const handleTermsChange = (e) => {
   });
 
 
-      useEffect(() => {
-    if (state.Settings?.settingsInvoicegetSucesscode === 200) {
-        setLoading(false)
-      setInvoiceList(state.Settings.SettingsInvoice)
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_SETTINGSGETINVOICE_STATUS_CODE" });
-      }, 1000);
-    }
-  }, [state.Settings.settingsInvoicegetSucesscode]);
-
-
-    useEffect(() => {
-    if (state.Settings?.settingsInvoicegetErrorStatuscode === 201) {
-        setLoading(false)
-        setSelectedBankId(null)
-        setPrefix("")
-        setSuffix("")
-        setTax("")
-        setSignature(null)
-        setSignaturePreview(null)
-        setBankIdError("")
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE" });
-      }, 1000);
-    }
-  }, [state.Settings.settingsInvoicegetErrorStatuscode]);
+;
 
 
 
 
-  
-  
-//     useEffect(() => {
-//     if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
-
-//     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: hostelid} });
-
-//       setTimeout(() => {
-//         dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
-//       }, 1000);
-//     }
-//   }, [state.Settings.settingsAddInvoiceSucesscode]);
 
 
- 
 
   
 
  
-  
- 
-
-
-
-  useEffect(() => {
-    if (state.InvoiceList?.invoiceSettingsStatusCode === 200) {
-
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-      setSelectedDate('')
-      setInvoiceDueDate('')
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_INVOICE_SETTINS_STATUSCODE" });
-      }, 1000);
-    }
-  }, [state.InvoiceList]);
-
-
-
-
-  const [selectedcard, setSelectedard] = useState('')
-
-  
-
-  const handleShow = (type) => {
-
-    if (!state.login.selectedHostel_Id) {
-  toast.error("Please add a hostel before adding Invoice information.", {
-        hideProgressBar: true,
-        autoClose: 1500,
-        style: {
-          color: "#000",
-          borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
-        },
-      });
-      return;
-    }
-    setIsInvoiceAddMode(true)
-    setIsSidebarOpen(false)
-    setIsVisible(true)
-    setSelectedard(type)
-    setShowForm(true);
-    setEdit(false);
-    setCardShow(false)
-  };
-
-
-
-  const handleCloseForm = () => {
-    setShowForm(false);
-    setEdit(false);
-    setCardShow(true)
-    setSelectedard('')
-    setPrefix('')
-    setSelectedDate('')
-    setInvoiceDueDate('')
-    setIsInvoiceAddMode(false)
-    setIsSidebarOpen(true)
-  };
 
 
   const [bankaccountform , setBankAccountForm] = useState(false)
@@ -685,62 +351,6 @@ const handleTermsChange = (e) => {
 
 
 
- 
-
-
-      useEffect(()=> {
-             if(InvoiceList?.invoiceSettings){
-                   setPrefix(InvoiceList.invoiceSettings.prefix)
-                   setSuffix(InvoiceList.invoiceSettings.suffix)
-                   setNotes(InvoiceList.invoiceSettings.notes)
-                   setTax(InvoiceList.invoiceSettings.tax)
-                   setTerms(InvoiceList.invoiceSettings.privacyPolicyHtml)
-                   setSignature(InvoiceList.invoiceSettings.signatureFile || null)
-                   setSignaturePreview(InvoiceList.invoiceSettings.signatureFile || null)
-                   setNotes(InvoiceList.invoiceSettings.notes?.replace(/"/g, "") || "");
-
-    if (InvoiceList.invoiceSettings.bankingId) {
-      setSelectedBankId(InvoiceList.invoiceSettings.bankingId);
-    } else if (banking.length > 0) {
-      setSelectedBankId(banking[0].id); 
-    }
-             }
-     },[InvoiceList ,banking])
-
-
-
-useEffect(() => {
-  if (!InvoiceList?.invoiceSettings) return;
-
-  const currentData = {
-    prefix,
-    suffix,
-    tax,
-    notes: notes?.replace(/"/g, '') || '',
-    privacyPolicy: terms,
-    signatureFile: signature,
-    bankingId: Number(selectedBankId)
-  };
-
-  const originalData = {
-    prefix: InvoiceList.invoiceSettings.prefix || '',
-    suffix: InvoiceList.invoiceSettings.suffix || '',
-    tax: InvoiceList.invoiceSettings.tax || '',
-    notes: InvoiceList.invoiceSettings.notes?.replace(/"/g, '') || '',
-    privacyPolicy: InvoiceList.invoiceSettings.privacyPolicyHtml || '',
-    signatureFile: InvoiceList.invoiceSettings.signatureFile || '',
-    bankingId: Number(InvoiceList.invoiceSettings.bankingId || 0),
-  };
-
-  if (JSON.stringify(currentData) !== JSON.stringify(originalData)) {
-    setEditErrMessage('');
-  }
-}, [prefix, suffix, tax, notes, terms, signature, selectedBankId, InvoiceList]);
-
-
-
-
-
 useEffect(() => {
   if (showFullView) {
     document.body.style.overflow = 'hidden';
@@ -758,7 +368,7 @@ useEffect(() => {
            overflowY: "auto",
            overflowX:'hidden',}}>
 <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
-<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>Fill the form with details you'd like to customize.</p>
+<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
 
   <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
 
@@ -778,7 +388,7 @@ useEffect(() => {
       fontSize: '16px',
       color: '#666'
     }} onClick={handleShowContactNumberForm}>✎</span> */}
-    <img  src={EditICon} onClick={handleShowContactNumberForm} style={{cursor:'pointer'}}/>
+    <img  src={EditICon} onClick={handleShowContactNumberForm} style={{cursor:'pointer'}} alt="editicon"/>
   </div>
 
   <div style={{
@@ -1627,16 +1237,7 @@ useEffect(() => {
          </div>
        
          <div className="d-flex flex-wrap align-items-start mt-1">
-         {selectedcard === "paymentinvoice"  && (
-           <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
-             <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-               &quot;Your comfort is our priority –
-             </p>
-             <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-               See you again at Smart Stay! &quot;
-             </p>
-           </div>
-         )}
+        
        
          <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
            <div className="d-flex justify-content-between py-1">
@@ -1976,16 +1577,7 @@ useEffect(() => {
          </div>
        
          <div className="d-flex flex-wrap align-items-start mt-1">
-         {selectedcard === "paymentinvoice"  && (
-           <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
-             <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-               &quot;Your comfort is our priority –
-             </p>
-             <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-               See you again at Smart Stay! &quot;
-             </p>
-           </div>
-         )}
+       
        
          <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
            <div className="d-flex justify-content-between py-1">
