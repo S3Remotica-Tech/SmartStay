@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { Card, Button, Row, Col, Badge } from "react-bootstrap";
+import { Card, Button, Row, Col } from "react-bootstrap";
 import { BsShieldCheck, BsHourglassSplit } from "react-icons/bs"; 
 import { FiSettings } from "react-icons/fi";
 import LongStayRecurringModal from "./LongStay";

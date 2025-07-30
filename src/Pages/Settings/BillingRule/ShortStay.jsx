@@ -3,6 +3,7 @@ import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
+import PropTypes from "prop-types";
 
 function ShortStayRecurringModal({ handleClose, show }) {
 
@@ -62,7 +63,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
 
 
 
-  const isFromComplete = checkInFromHour && checkInFromMinute && checkInFromAmPm;
+
 
 
   const [checkOutEditing, setCheckOutEditing] = useState(false);
@@ -75,9 +76,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
   const [checkOutToMinute, setCheckOutToMinute] = useState("");
   const [checkOutToAmPm, setCheckOutToAmPm] = useState("");
 
-  const isCheckOutFromComplete = checkOutFromHour && checkOutFromMinute && checkOutFromAmPm;
-  const isCheckOutToComplete = checkOutToHour && checkOutToMinute && checkOutToAmPm;
-
+  
 
 
 
@@ -452,5 +451,10 @@ function ShortStayRecurringModal({ handleClose, show }) {
     </>
   );
 }
-
+ShortStayRecurringModal.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  
+  
+};
 export default ShortStayRecurringModal;

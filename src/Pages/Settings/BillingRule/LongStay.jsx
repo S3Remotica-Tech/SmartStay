@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Button, Form, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
+import PropTypes from "prop-types";
 
 
 function LongStayRecurringModal({ handleClose, show }) {
@@ -178,12 +179,10 @@ function LongStayRecurringModal({ handleClose, show }) {
     );
 }
 
-const selectStyle = {
-    height: 50,
-    borderRadius: 8,
-    border: "1px solid #D9D9D9",
-    fontSize: 16,
-    fontWeight: 500,
+LongStayRecurringModal.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  
+  
 };
-
 export default LongStayRecurringModal;
