@@ -22,6 +22,7 @@ import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 import SettingsBills from "./SettingsBills";
 import SettingsNotifications from "./SettingsNotifications";
 import SettingAgreement from "./SettingAgreement";
+import BillingRule from "./Settings/BillingRule/BillingRule";
 
 
 function SettingAllPages() {
@@ -333,6 +334,31 @@ function SettingAllPages() {
                     alt="Arrow Icon"
                   />
                 </p>
+                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+
+                <p
+
+                  onClick={() => handleTabClick('Billing_Rule')}
+                  style={{
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activePage === "Billing_Rule" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Billing Rule
+                  <img
+                    src={activePage === "Billing_Rule" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+                </p>
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
                 <p
@@ -564,6 +590,7 @@ function SettingAllPages() {
             {activePage === 'Subscription' && <SettingSubscription />}
             {activePage === 'Integration' && <SettingIntergration />}
             {activePage === 'Electricity' && <SettingElectricity hostelid={hostel_Id} />}
+            {activePage === 'Billing_Rule' && <BillingRule hostelid={hostel_Id} />}
             {activePage === 'Bills' && <SettingsBills hostelid={hostel_Id} />}
             {activePage === 'SettingsNotifications' && <SettingsNotifications hostelid={hostel_Id} />}
             {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id}  
