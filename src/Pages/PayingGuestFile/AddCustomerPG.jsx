@@ -1486,7 +1486,7 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
 
                                 <Select
                                   options={filteredOptions}
-                                  value={filteredOptions.find((opt) => opt.value === item.reason) || null}
+                                  value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
                                   onChange={(selectedOption) => {
                                     const selectedValue = selectedOption.value;
 
