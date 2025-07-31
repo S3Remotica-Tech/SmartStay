@@ -1,4 +1,18 @@
- 
+ .custom-switch-style .form-check-input {
+  background-color: #1E45E1 !important;
+  border-color: #1E45E1 !important;
+  padding: 10px 20px;
+}
+
+.custom-switch-style .form-check-input:checked {
+  background-color: #1E45E1 !important;
+  border-color: #1E45E1 !important;
+}
+
+.custom-switch-style .form-check-input:focus {
+  box-shadow: none;
+}
+
  
   
 .show-scroll::-webkit-scrollbar {
