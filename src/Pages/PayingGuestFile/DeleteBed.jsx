@@ -31,7 +31,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   const { bed, room } = deleteBedDetails
 
 
-console.log("user_details",user_details)
+
 
   const [advanceDate, setAdvanceDate] = useState(null);
     const [advanceDueDate, setAdvanceDueDate] = useState(null);
@@ -198,6 +198,47 @@ if (due.isBefore(invoice, 'day')) {
       },
     });
   };
+
+  const handleCancelCustomer =()=>{
+
+
+     const filterData_Hostel_Name = state.UsersList?.hostelListNewDetails?.data?.filter(view => view.id === user_details.Hostel_Id);
+       const incrementDateAndFormat = (date) => {
+    return moment(date).add(1, "day").format("YYYY-MM-DD");
+  };
+  
+    const mobileNumber = `${user_details.countryCode}${user_details.phone}`;
+    const formattedSelectedDate = incrementDateAndFormat(user_details.joining_date);
+    
+   
+  
+    dispatch({
+      type: "ADDUSER",
+      payload: {
+        profile: user_details.profile,
+        firstname: user_details.firstname.trim(),
+        lastname: user_details.lastname.trim(),
+        Phone: mobileNumber,
+        Email: user_details.Email,
+        hostel_Id: user_details.Hostel_Id,
+        Floor: user_details.Floor,
+        Rooms: user_details.Rooms,
+        Bed: user_details.Bed,
+        Address: user_details.Address,
+        area: user_details.area,
+        landmark: user_details.landmark,
+        city: user_details.city,
+        pincode:user_details.pincode,
+        state: user_details.state,
+        HostelName: filterData_Hostel_Name[0]?.Name,
+        AdvanceAmount: user_details.AdvanceAmount,
+        RoomRent: user_details.RoomRent,
+        joining_date: formattedSelectedDate,
+        isadvance: 0,
+        reasons:user_details.reasons
+      },
+    });
+  }
  
 
   useEffect(() => {
@@ -461,7 +502,7 @@ if (due.isBefore(invoice, 'day')) {
                             paddingLeft: 20,
                             paddingRight: 20,
                           }}
-                        
+                        onClick={handleCancelCustomer}
                         >
                           Cancel
                         </Button>
