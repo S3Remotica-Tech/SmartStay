@@ -90,7 +90,7 @@ function PgList(props) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id);
-      setSelectedHostel(false);
+      // setSelectedHostel(false);
       setFloorClick("");
       setFloorName("");
       setHidePgList(true);
@@ -116,7 +116,7 @@ function PgList(props) {
 
 
 
-
+console.log("selectedHostel",selectedHostel)
 
 
   useEffect(() => {
@@ -501,6 +501,22 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
 
+useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+    //  OnSelectHostel(state.login.state.login.selectedHostel_Id);
+    //  onRowVisiblity(false)
+
+ const selected = state.UsersList.hotelDetailsinPg?.find((item) => {
+      return item.id === state.login.selectedHostel_Id;
+    });
+    setSelectedHostel(true);
+
+    setShowHostelDetails(selected);
+
+    }
+  }, [state.login.selectedHostel_Id])
+
+
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -515,6 +531,7 @@ const isAdmin = userType === "admin" || userType === "agent";
     setSelectedHostel(true);
 
     setShowHostelDetails(selected);
+     setHidePgList(false);
   };
 
 
@@ -794,7 +811,7 @@ const isAdmin = userType === "admin" || userType === "agent";
         </>
       ) : (
         <div className="container">
-          {hidePgList && (
+          {/* {hidePgList && (
             <>
               <div
                 className="container justify-content-between d-flex align-items-center flex-wrap "
@@ -1100,7 +1117,7 @@ const isAdmin = userType === "admin" || userType === "agent";
               </div>
 
             </>
-          )}
+          )} */}
 
 
 
@@ -1108,12 +1125,12 @@ const isAdmin = userType === "admin" || userType === "agent";
             <div className="container mt-3">
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex align-items-center">
-                  <ArrowLeft
+                  {/* <ArrowLeft
                     size="32"
                     color="#222222"
                     onClick={handlebackToPG}
                     style={{ cursor: "pointer" }}
-                  />
+                  /> */}
 
                   <label
                     className="ms-4"
@@ -1146,7 +1163,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                         fontFamily: "Gilroy",
                       }}
                       disabled={addPermissionError}
-                      onClick={() => handleAddFloors(showHostelDetails.id)}
+                      onClick={() => handleAddFloors(state.login.selectedHostel_Id)}
                     >
                       +  Floor
                     </Button>
@@ -1431,7 +1448,7 @@ const isAdmin = userType === "admin" || userType === "agent";
     <Tab.Content>
       <ParticularHostelDetails
         floorID={floorClick}
-        hostel_Id={showHostelDetails.id}
+        hostel_Id={state.login.selectedHostelId}
         phoneNumber={showHostelDetails.hostel_PhoneNo}
         editPermissionError={editPermissionError}
         deletePermissionError={deletePermissionError}

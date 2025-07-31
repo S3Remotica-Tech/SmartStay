@@ -569,6 +569,11 @@ const InvoicePage = () => {
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
   const [invoiceDetails, setInvoiceDetails] = useState(false);
+  const [totalAmountPayable, setTotalAmountPayable] = useState(0);
+  const [nonRefundableAmount, setNonRefundableAmount] = useState(0);
+  const [refundableAmount, setRefundableAmount] = useState(0);
+
+
 
   const handleEditReceipt = (item) => {
     setShowAllBill(false);
@@ -682,7 +687,35 @@ const InvoicePage = () => {
     });
     setSelectedTypes(types);
 
-  }, [invoiceDetails]);
+
+
+
+
+
+  }, [invoiceDetails,]);
+
+
+  useEffect(() => {
+    const refundableNames = ["Advance Amount", "EB Amount", "Room Rent", "Advance", "EB", "Room Rent"];
+    let total = 0;
+    let nonRefundable = 0;
+
+    newRows.forEach((item) => {
+      const amt = parseFloat(item.amount) || 0;
+
+      if (refundableNames.includes(item.am_name)) {
+        total += amt;
+      }
+      if (!refundableNames.includes(item.am_name)) {
+        nonRefundable += amt;
+      }
+    });
+
+    setTotalAmountPayable(total);
+    setNonRefundableAmount(nonRefundable);
+    setRefundableAmount(total - nonRefundable);
+  }, [newRows]);
+
 
 
 
@@ -783,22 +816,22 @@ const InvoicePage = () => {
   };
 
   const handleSaveInvoiceList = () => {
-   const formatpaiddate = formatDateForPayload(selectedDate); 
-  const billDate = new Date(invoiceValue.Date);             
-  const paidDate = new Date(formatpaiddate);     
+    const formatpaiddate = formatDateForPayload(selectedDate);
+    const billDate = new Date(invoiceValue.Date);
+    const paidDate = new Date(formatpaiddate);
 
     if (!invoiceList.payableAmount) {
       setAmountErrmsg("Please Enter Amount");
     }
 
     if (!formatpaiddate) {
-    setDateErrmsg("Please Select Date");
-  } else if (paidDate < billDate) {
-    setDateErrmsg("Paid date should not be before Bill date");
-    return;
-  } else {
-    setDateErrmsg("");
-  }
+      setDateErrmsg("Please Select Date");
+    } else if (paidDate < billDate) {
+      setDateErrmsg("Paid date should not be before Bill date");
+      return;
+    } else {
+      setDateErrmsg("");
+    }
 
     if (!invoiceList.transaction || invoiceList.transaction === "select") {
       setPaymodeErrmsg("Please Select Transaction Type");
@@ -1256,30 +1289,30 @@ const InvoicePage = () => {
 
     const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-   
-if (selectedUser) {
-  const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-  const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-  const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
- 
-  if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-    setInvoiceDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
- 
-  if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-    setInvoiceDueDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
 
-  
-  if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
-    setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-    hasError = true;
-  }
-}
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+
+      if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+        setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+        hasError = true;
+      }
+    }
 
 
 
@@ -1381,31 +1414,31 @@ if (selectedUser) {
 
     const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-   
 
-if (selectedUser) {
-  const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-  const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-  const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
-  
-  if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-    setInvoiceDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
- 
-  if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-    setInvoiceDueDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
 
- 
-  if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
-    setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-    hasError = true;
-  }
-}
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+
+      if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+        setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+        hasError = true;
+      }
+    }
     if (hasError) {
       return;
     }
@@ -1801,19 +1834,19 @@ if (selectedUser) {
 
 
   useEffect(() => {
-   const userType = billrolePermission[0]?.user_details?.user_type;
-const isAdmin = userType === "admin" || userType === "agent";
+    const userType = billrolePermission[0]?.user_details?.user_type;
+    const isAdmin = userType === "admin" || userType === "agent";
     if (isAdmin) {
       if (state?.login?.planStatus === 0) {
-       
+
         setBillPermissionError("");
         setBillAddPermission("Permission Denied");
         setBillEditPermission("Permission Denied");
         setBillDeletePermission("Permission Denied");
-      
+
         setRecurringPermission("");
         setRecuringBillAddPermission("Permission Denied");
-      
+
         setReceiptPermission("");
         setReceiptAddPermission("Permission Denied");
 
@@ -1902,35 +1935,35 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
 
-useEffect(() => {
-   const receiptPermission = billrolePermission[0]?.role_permissions?.find(
+  useEffect(() => {
+    const receiptPermission = billrolePermission[0]?.role_permissions?.find(
       (perm) => perm.permission_name === "Receipt"
     );
- 
-  const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-  const planActive = state?.login?.planStatus === 1;
 
-  if (!receiptPermission || !isOwner) return;
+    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
 
-
-  if (receiptPermission.per_view === 1 && planActive) {
-    setReceiptPermission("");
-  } else {
-    setReceiptPermission("Permission Denied");
-    setLoading(false);
-  }
+    if (!receiptPermission || !isOwner) return;
 
 
-  if (receiptPermission.per_create === 1 && planActive) {
-    setReceiptAddPermission("");
-  } else {
-    setReceiptAddPermission("Permission Denied");
-  }
-}, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+    if (receiptPermission.per_view === 1 && planActive) {
+      setReceiptPermission("");
+    } else {
+      setReceiptPermission("Permission Denied");
+      setLoading(false);
+    }
+
+
+    if (receiptPermission.per_create === 1 && planActive) {
+      setReceiptAddPermission("");
+    } else {
+      setReceiptAddPermission("Permission Denied");
+    }
+  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
 
- 
+
 
 
 
@@ -3055,7 +3088,7 @@ useEffect(() => {
                           paddingLeft: 25,
                           marginTop: 18,
                           whiteSpace: "nowrap",
-                          marginLeft:10
+                          marginLeft: 10
                         }}
                       >
                         {" "}
@@ -3522,7 +3555,7 @@ useEffect(() => {
                                             setAccountError("");
                                             setSelectedDate(date ? date.toDate() : null);
                                           }}
-                                           disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                          disabledDate={(current) => current && current > dayjs().endOf("day")}
                                           getPopupContainer={(triggerNode) =>
                                             triggerNode.closest(".show-scroll") || document.body
                                           }
@@ -5846,38 +5879,38 @@ useEffect(() => {
               }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }} className="datepicker-wrapper">
 
-  <div
-  className="datepicker-wrapper"
-  style={{
-    position: "relative",
-    width: "100%",
-  }}
->
-  <DatePicker
-    style={{
-      width: "100%",
-      height: 48,
-      cursor: "pointer",
-      fontFamily: "Gilroy",
-    }}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-    value={invoicedate ? dayjs(invoicedate) : null}
-    onChange={(date) => handleInvoiceDate(date)}
-    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-    disabledDate={(current) =>
-      current && current > dayjs().endOf("day")
-    }
-    dropdownAlign={{
-      points: ["tl", "bl"],
-      offset: [0, 4], 
-    }}
-    popupStyle={{
-      marginRight: 0,
-      minWidth: "auto",
-    }}
-  />
-</div>
+                <div
+                  className="datepicker-wrapper"
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                  }}
+                >
+                  <DatePicker
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                    }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={invoicedate ? dayjs(invoicedate) : null}
+                    onChange={(date) => handleInvoiceDate(date)}
+                    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+                    disabledDate={(current) =>
+                      current && current > dayjs().endOf("day")
+                    }
+                    dropdownAlign={{
+                      points: ["tl", "bl"],
+                      offset: [0, 4],
+                    }}
+                    popupStyle={{
+                      marginRight: 0,
+                      minWidth: "auto",
+                    }}
+                  />
+                </div>
 
 
               </div>
@@ -5915,30 +5948,30 @@ useEffect(() => {
                 fontWeight: 500,
               }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
-                
 
-                 <DatePicker
-    style={{
-      width: "100%",
-      height: 48,
-      cursor: "pointer",
-      fontFamily: "Gilroy",
-    }}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-   value={invoiceduedate ? dayjs(invoiceduedate) : null}
-     onChange={(date) => handleDueDate(date)}
-    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-    
-    dropdownAlign={{
-      points: ["tl", "bl"],
-      offset: [0, 4], 
-    }}
-    popupStyle={{
-      marginRight: 0,
-      minWidth: "auto",
-    }}
-  />
+
+                <DatePicker
+                  style={{
+                    width: "100%",
+                    height: 48,
+                    cursor: "pointer",
+                    fontFamily: "Gilroy",
+                  }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={invoiceduedate ? dayjs(invoiceduedate) : null}
+                  onChange={(date) => handleDueDate(date)}
+                  getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+
+                  dropdownAlign={{
+                    points: ["tl", "bl"],
+                    offset: [0, 4],
+                  }}
+                  popupStyle={{
+                    marginRight: 0,
+                    minWidth: "auto",
+                  }}
+                />
               </div>
 
 
@@ -5968,8 +6001,57 @@ useEffect(() => {
             </div>
           </div>
 
+          <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-3">
+            <Form.Select
+              className="border"
+              style={{
+                fontSize: 16,
+                color: "#4B4B4B",
+                fontFamily: "Gilroy",
+                lineHeight: "18.83px",
+                fontWeight: 500,
+                boxShadow: "none",
+                border: "1px solid #D9D9D9",
+                padding: "12px 10px ",
+                borderRadius: 8,
+                cursor: "pointer"
+              }}
+              value={dropdownValue}
+              onChange={(e) => handleRowTypeSelect(e.target.value)}
+            >
+              <option value="" disabled>Select Item Type</option>
+              {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
+              {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
+              <option value="Other">Other</option>
+            </Form.Select>
 
-          {Array.isArray(newRows) && newRows.length > 0 && (
+
+            {tableErrmsg.trim() !== "" && (
+              <div>
+                <p
+                  style={{
+                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "left", fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {tableErrmsg !== " " && (
+                    <MdError
+                      style={{
+                        fontSize: "14px",
+                        color: "red",
+                        marginRight: "3px",
+                        marginBottom: "3px",
+
+                      }}
+                    />
+                  )}{" "}
+                  {tableErrmsg}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {Array.isArray(newRows) && newRows.length > 0 && (<>
             <div className="mt-3" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
 
               <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
@@ -6036,64 +6118,79 @@ useEffect(() => {
                   </tbody>
                 </Table>
               </div>
+
+
+
             </div>
 
+            {
+              invoiceDetails?.action === "advance" ?
+                <div className="row mt-3">
+                  <div className="col-md-6 offset-md-5">
+                    <div className=" ">
+
+                      <div className="row">
+                        <div className="col-lg-6">
+                          <label className="" style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }} >
+                            Payable Amount:
+                          </label>
+                        </div>
+                        <div className="col-lg-6">
+                          <label className="" style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Rs.{totalAmountPayable}
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="row mt-1">
+                        <div className="col-lg-6">
+                          <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Non Refundable:
+                          </label>
+                        </div>
+                        <div className="col-lg-6">
+                          <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Rs. {nonRefundableAmount}
+                          </label>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-lg-6">
+                          <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Refundable Amount:
+                          </label>
+                        </div>
+                        <div className="col-lg-6">
+                          <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Rs.{refundableAmount}
+                          </label>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+                :
+                <div className="row mt-3">
+                  <div className="col-md-6 offset-md-6">
+                    {Array.isArray(newRows) && newRows.length > 0 && (
+                      <h5 style={{ fontFamily: "Gilroy" }}>
+                        Total Amount ₹{totalAmount}
+                      </h5>
+                    )}
+                  </div>
+                </div>
+            }
 
 
 
+          </>
 
 
           )}
 
-          <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-3">
-            <Form.Select
-              className="border"
-              style={{
-                fontSize: 16,
-                color: "#4B4B4B",
-                fontFamily: "Gilroy",
-                lineHeight: "18.83px",
-                fontWeight: 500,
-                boxShadow: "none",
-                border: "1px solid #D9D9D9",
-                padding: "12px 10px ",
-                borderRadius: 8,
-                cursor: "pointer"
-              }}
-              value={dropdownValue}
-              onChange={(e) => handleRowTypeSelect(e.target.value)}
-            >
-              <option value="" disabled>Select Item Type</option>
-              {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
-              {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
-              <option value="Other">Other</option>
-            </Form.Select>
 
-
-            {tableErrmsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{
-                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "left", fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {tableErrmsg !== " " && (
-                    <MdError
-                      style={{
-                        fontSize: "14px",
-                        color: "red",
-                        marginRight: "3px",
-                        marginBottom: "3px",
-
-                      }}
-                    />
-                  )}{" "}
-                  {tableErrmsg}
-                </p>
-              </div>
-            )}
-          </div>
 
 
           <div>
@@ -6170,11 +6267,7 @@ useEffect(() => {
 
 
           <div style={{ float: "right", marginRight: "130px" }}>
-            {Array.isArray(newRows) && newRows.length > 0 && (
-              <h5 style={{ fontFamily: "Gilroy" }}>
-                Total Amount ₹{totalAmount}
-              </h5>
-            )}
+
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
               className="w-100 mt-3 mb-2"
