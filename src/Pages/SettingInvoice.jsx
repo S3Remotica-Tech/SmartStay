@@ -32,6 +32,7 @@ import RentalReceiptPdfTemplate from "./RentalReceiptPdfTempate";
 import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
 import SecurityReceiptPdfTemplate from "./SecurityDepositReceipt";
 
+
 function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
 
 
@@ -74,12 +75,31 @@ function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
   const [signature_errmsg , setSignatureErrMsg] = useState('')
   const [selectedTab, setSelectedTab] = useState("rental_invoice");
   const [showFullView, setShowFullView] = useState(false);
+  const [mobilenum,setMobileNum] = useState("")
+  const [MobileError,setMobileError] = useState("")
 
 
 
   const handleShowContactNumberForm = () => {
 setContactNumberForm(true)
   }
+
+const handleMobile = (e) => {
+  const input = e.target.value.replace(/\D/g, ""); 
+  setMobileNum(input);
+
+  if (input.length === 0) {
+    setMobileError("");
+  } else if (input.length < 10) {
+    setMobileError(" Please Enter Valid Mobile Number");
+  } else if (input.length === 10) {
+    setMobileError("");
+  } else if (input.length > 10) {
+    setMobileError(" Please Enter Valid Mobile Number");
+  }
+};
+
+
 
   const handleCloseContactNumberForm = () => {
     setContactNumberForm(false)
@@ -280,16 +300,7 @@ const handleTermsChange = (e) => {
 
 
   
-  // const handleEdit = () => {
-  //   setShowForm(false);
-  //   setCardShow(false)
-  //   setEdit(true); 
-
-  //   if(state.login.selectedHostel_Id){
-  //     setLoading(true)
-  //     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
-  //   }
-  // };
+ 
 
   const handleEditClose = () => {
     setShowForm(true);
@@ -697,14 +708,7 @@ useEffect(() => {
 }, [showFullView]);
 
 
-  // bg color payload send data ==> 
-  //     background_color: {
-  //   r: color.r,
-  //   g: color.g,
-  //   b: color.b,
-  //   a: color.a
-  // },
-  // hex_color: hexValue 
+   
 
 
   return (
@@ -783,7 +787,7 @@ useEffect(() => {
   
       
 
-  <div   className="col-lg-12">
+  <div   className="col-lg-11">
   <div  style={{display:'flex', flexDirection:"row"}}>
 
           <img
@@ -883,6 +887,7 @@ useEffect(() => {
 
     <input
       type="tel"
+     
       placeholder="9876543210"
       style={{
         border: 'none',
@@ -894,7 +899,9 @@ useEffect(() => {
         fontWeight: 'inherit',
       }}
     />
+      
   </div>
+   
 </div>
 
 
@@ -984,7 +991,7 @@ useEffect(() => {
         fontFamily: "Gilroy",
         fontSize: "14px",
       }}
-      // onClick={handleEdit}
+      
     >
       Edit Anyway
     </Button>
@@ -1558,7 +1565,7 @@ useEffect(() => {
                        
        <div  className=" text-white  p-2 position-relative"
         style={{ height:60,
-        // background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,
+        
             background: useGradient
             ? defaultGradient
             : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
@@ -1655,7 +1662,7 @@ useEffect(() => {
            <table className="table text-center">
              <thead
                style={{
-                //  backgroundColor: "rgba(71, 104, 234, 1)",
+               
                    background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                  color: "white",
                }}
@@ -1803,7 +1810,7 @@ useEffect(() => {
          <div
            className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
            style={{
-            //  backgroundColor: 'rgba(48, 80, 210, 1)',
+           
                     background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
              borderTopRightRadius: '38px',
              borderTopLeftRadius: '38px',
@@ -1912,7 +1919,7 @@ useEffect(() => {
          }}>
                        
        <div  className=" text-white  p-4 position-relative" style={{ height:100,
-        // background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,
+       
              background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
         }}>
          <div className="d-flex justify-content-between align-items-center">
@@ -2007,7 +2014,7 @@ useEffect(() => {
            <table className="table text-center">
              <thead
                style={{
-                //  backgroundColor: "rgba(71, 104, 234, 1)",
+              
                    background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                  color: "white",
                }}
@@ -2155,7 +2162,7 @@ useEffect(() => {
          <div
            className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
            style={{
-            //  backgroundColor: 'rgba(48, 80, 210, 1)',
+           
                background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
              borderTopRightRadius: '38px',
              borderTopLeftRadius: '38px',
@@ -2231,31 +2238,59 @@ useEffect(() => {
    
          {
           cardshow &&
-<div className="container py-4 ">
-  <h4 className=" mb-2"    style={{
-          fontFamily: "Gilroy",
-          fontSize: 22,
-          color: "rgba(34, 34, 34, 1)",
-          fontWeight: 600,
-          whiteSpace: "nowrap"
-        }}>Bill Template Manager</h4>
-        <h5 
-        style={{
-          fontFamily: "Gilroy",
-          fontSize: 17,
-          color: "rgba(34, 34, 34, 1)",
-          fontWeight: 600,
-          whiteSpace: "nowrap"
-        }}
-        >Global Bill Settings</h5>
+<div className=" py-2 col-md-11">
+ 
+         <div
+    className="bg-white"
+    style={{
+      position: "sticky",
+      top: 0,
+      zIndex: 10,
+      paddingBottom: "10px",
+      backgroundColor: "white",
+      height:75
+    }}
+  >
+    <h4
+      className="mb-2"
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 22,
+        color: "rgba(34, 34, 34, 1)",
+        fontWeight: 600,
+        whiteSpace: "nowrap",
+      }}
+    >
+      Bill Template Manager
+    </h4>
+    <h5
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 17,
+        color: "rgba(34, 34, 34, 1)",
+        fontWeight: 600,
+        whiteSpace: "nowrap",
+      }}
+    >
+      Global Bill Settings
+    </h5>
+  </div>
+  <div
+    style={{
+      maxHeight: "calc(100vh - 130px)",
+      overflowY: "auto",
+      paddingRight: "10px",
+      paddingTop: "10px",
+    }}
+  >
         <div className="col-lg-8">
   <p className="mb-4" style={{ 
-          // maxWidth: 100 , 
+        
           fontFamily: "Gilroy",
           fontSize: 14,
           color: "rgba(97, 97, 97, 1)",
           fontWeight: 400,
-          // whiteSpace: "nowrap",
+         
           lineHeight:"20px", 
           letterSpacing:'0%'
   }}>
@@ -2264,7 +2299,7 @@ useEffect(() => {
   </div>
 
   <form>
-    {/* Hostel Logo */}
+  
     <div className="row mb-4 align-items-center">
       <div className="col-md-4">
         <label className="form-label"
@@ -2299,7 +2334,7 @@ useEffect(() => {
           >Customize in Specific Templates</label>
         </div>
       </div>
-      <div className="col-md-8">
+      <div className="col-md-7">
         <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
           <img src={uploadsett} alt="upload" style={{ height: 30 }} />
           <div className="d-flex flex-column ms-3">
@@ -2330,7 +2365,7 @@ useEffect(() => {
       </div>
     </div>
 
-    {/* Contact Number */}
+  
     <div className="row mb-4 align-items-center">
       <div className="col-md-4">
         <label className="form-label "
@@ -2340,7 +2375,7 @@ useEffect(() => {
           color: "rgba(34, 34, 34, 1)",
           fontWeight: 600,
         }}
-        >Contact Number</label>
+        >Contact Number...........</label>
         <div className="form-check mt-2">
           <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{ cursor: "pointer" }} />
           <label className="form-check-label small" htmlFor="customizeContact"
@@ -2356,19 +2391,82 @@ useEffect(() => {
           >Customize in Specific Templates</label>
         </div>
       </div>
-      <div className="col-md-8">
-        <div className="input-group">
-          <span className="input-group-text">+91</span>
-          <input type="text" className="form-control" placeholder="9876543210"     
-          style={{
-          fontFamily: "Gilroy",
-          fontSize: 12,
-          color: "rgba(75, 75, 75, 1)",
-          fontWeight: 400,
-          whiteSpace: "nowrap"
-        }}/>
-        </div>
-      </div>
+    
+      <div className="col-md-7">
+  <div
+    className="input-group"
+    style={{
+      border: "1px solid #E5E5E5",
+      borderRadius: 12,
+      overflow: "hidden",
+    height:45
+    }}
+  >
+    <select
+      className="form-select"
+      style={{
+        maxWidth: 70,
+        border: "none",
+        fontFamily: "Gilroy",
+        fontSize: 12,
+        color: "#4B4B4B",
+        fontWeight: 400,
+        backgroundColor: "transparent",
+        paddingLeft: 10,
+        paddingRight: 5,
+        appearance: "none",
+        WebkitAppearance: "none",
+      }}
+      defaultValue="+91"
+    >
+      <option value="+91">+91</option>
+      <option value="+1">+1</option>
+      <option value="+44">+44</option>
+     
+    </select>
+
+    <input
+       type="text"
+       value={mobilenum}
+      onChange={handleMobile}
+      className="form-control"
+      placeholder="9876543210"
+        maxLength={10}
+      style={{
+        border: "none",
+        fontFamily: "Gilroy",
+        fontSize: 12,
+        color: "rgba(75, 75, 75, 1)",
+        fontWeight: 400,
+        borderRadius:8,
+         outline: "none",
+    boxShadow: "none", 
+      }}
+    />
+
+  </div>
+     {MobileError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {MobileError}
+                              </span>
+                            </div>
+                          )}
+</div>
+
     </div>
 
     {/* Email Address */}
@@ -2397,14 +2495,15 @@ useEffect(() => {
           >Customize in Specific Templates</label>
         </div>
       </div>
-      <div className="col-md-8">
+      <div className="col-md-7">
         <input type="email" className="form-control" placeholder="example@email.com" 
                 style={{
           fontFamily: "Gilroy",
           fontSize: 12,
           color: "rgba(75, 75, 75, 1)",
           fontWeight: 400,
-          whiteSpace: "nowrap"
+          whiteSpace: "nowrap",
+          height:45
         }}
         />
       </div>
@@ -2445,7 +2544,7 @@ useEffect(() => {
           >Customize in Specific Templates</label>
         </div>
       </div>
-      <div className="col-md-8">
+      <div className="col-md-7">
            <div
         className="rounded mt-2 d-flex justify-content-center align-items-center"
         style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
@@ -2520,16 +2619,16 @@ useEffect(() => {
     </div>
 
     {/* Buttons */}
-    <div className="d-flex justify-content-end mt-1">
+    <div className="d-flex justify-content-end mt-1 me-5" style={{paddingRight:10}}>
       <button className="btn btn-outline-dark me-2" type="button">Reset</button>
       <button className="btn btn-primary" type="submit">Save</button>
     </div>
-    <div className="text-end mt-3">
+    <div className="text-end mt-3 me-5" style={{paddingRight:10}}>
       <button className="btn btn-primary" type="button" onClick={handleShow}>Go to Templates →</button>
     </div>
   </form>
 </div>
-
+</div>
          }
    
         

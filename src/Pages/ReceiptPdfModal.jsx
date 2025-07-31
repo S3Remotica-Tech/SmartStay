@@ -480,7 +480,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
                         <div className="d-flex justify-content-end py-2 fw-bold">
-                          <div className="w-50 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500, color: '#1E1E1E', }}>Refundable Total</div>
+                          <div className="w-50 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500, color: '#1E1E1E', }}>Refundabled Total</div>
                           <div className="w-25 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#1E1E1E', }}>Rs: {receiptDataNew?.advance_return}</div>
                         </div>
                       </div>
