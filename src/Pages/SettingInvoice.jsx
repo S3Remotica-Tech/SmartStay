@@ -13,12 +13,18 @@ import Barcode from '../Assets/Images/invoice_barcode.svg'
 import Gpay from '../Assets/Images/gpay.png'
 import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
+import Topbottom from '../Assets/Images/cancel_presentation.png';
+import left85arrow from '../Assets/Images/arrow85.png';
+import printdown from '../Assets/Images/printericon.png';
+import downloadicon from '../Assets/Images/pdfdown.png'; 
+import CloseIcon from '../Assets/Images/close_icon.png';
 import Questionimage from '../Assets/Images/question.png';
 import EditICon from '../Assets/Images/New_images/edit.png';
 import TextAreaICon from '../Assets/Images/textarea.png'
 import BankICon from '../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
 import uploadsett from "../Assets/Images/New_images/upload setting.png";
+import ZoomImage from '../Assets/Images/zoom.png'
 import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -830,7 +836,7 @@ useEffect(() => {
 
 {selectedTab === "rental_invoice" && <>
 <div className="col-12 d-flex flex-row">
-<div className="col-lg-6 show-scroll" style={{ maxHeight: 450,
+<div className="col-lg-4 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
 <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
@@ -990,6 +996,12 @@ useEffect(() => {
     </Button>
   </Modal.Footer>
 </Modal>
+
+
+<div>
+  <p                                     style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}>Form Specific Details</p>
+  <p                                     style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}>Fill the form with details you'd like to customize.</p>
+</div>
 
 
  <div className="border p-3 mb-3 col-lg-10" style={{borderRadius:'10px' , overflowY:'auto', }}>
@@ -1289,60 +1301,91 @@ useEffect(() => {
 
 
  <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
-
-      <div>
-        <p    style={{ fontFamily: 'Gilroy' , color:'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal' }}>
-         Upload QR</p>
-        <hr></hr>
-      </div>
-
- <div className='d-flex row '>
-                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label
-                                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                                >
-                                    Valid UPI QR Code for Payment Easy
-                                </Form.Label>
-                                <Form.Control
-                                    style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                                    type="text"
-                                    placeholder="12%"
-                                    value={tax}
-                                    onChange={handleTaxChange}
-                                />
-
-                                {tax_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {tax_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-                          </Form.Group>
-                        </div>
-
-                      
-                    </div>
-                   
-
+ 
+       <div>
+         <p    style={{ fontFamily: 'Gilroy' , color:'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal' }}>
+          Upload QR</p>
+         <hr></hr>
+       </div>
+ 
+  <p style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400, color:'rgba(75, 75, 75, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
+   Valid UPI QR Code for Payment Easy</p>
+ <div className="col-12">
+         <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
+           <img src={uploadsett} alt="upload" style={{ height: 30 }} />
+           <div className="d-flex flex-column ms-3">
+          <div>
+           <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
+             Choose file
+             <input
+               type="file"
+               accept="image/*"
+               className="d-none"
+               // ref={fileInputRef}
+               // onChange={handleFileSignatureChange}
+             />
+           </label>
+           <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload </span>
+         </div>
+             <small className="" 
+                     style={{
+           fontFamily: "Gilroy",
+           fontSize: 12,
+           color: "rgba(75, 75, 75, 1)",
+           fontWeight: 400,
+           whiteSpace: "nowrap"
+         }}
+             >JPG SVG PNG(150px × 150px)</small>
+           </div>
+         </div>
+       </div>
+  {/* <div className='d-flex row '>
+                         <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                 <Form.Label
+                                     style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+                                 >
+                                     Valid UPI QR Code for Payment Easy
+                                 </Form.Label>
+                                 <Form.Control
+                                     style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
+                                     type="text"
+                                     placeholder="12%"
+                                     value={tax}
+                                     onChange={handleTaxChange}
+                                 />
+ 
+                                 {tax_errmsg.trim() !== "" && (
+                                               <div className="d-flex align-items-center p-1">
+                                                 <MdError
+                                                   style={{
+                                                     color: "red",
+                                                     marginRight: "5px",
+                                                     fontSize: "14px",
+                                                   }}
+                                                 />
+                                                 <label
+                                                   className="mb-0"
+                                                   style={{
+                                                     color: "red",
+                                                     fontSize: "12px",
+                                                     fontFamily: "Gilroy",
+                                                     fontWeight: 500,
+                                                   }}
+                                                 >
+                                                   {tax_errmsg}
+                                                 </label>
+                                               </div>
+                                             )}
+                           </Form.Group>
+                         </div>
+ 
+                       
+                     </div> */}
                     
-                  </div>
+ 
+                     
+                   </div>
 
 
                               <div className="p-3 mb-3 border col-lg-10" style={{borderRadius:'10px'}}>
@@ -1533,15 +1576,17 @@ useEffect(() => {
 
 
 </div>
-<div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-lg-6" ref={cardRef} style={{ borderRadius:'8px' ,}} >
+<div className="col-lg-8 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
+  <div className="d-flex justify-content-center">
+<div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius:'8px' ,backgroundColor:'white' }} >
        
             <div className="d-flex justify-content-end ">
   <button
-    className="btn btn-sm btn-outline-primary"
+    className="btn btn-sm border bg-white"
     onClick={() => setShowFullView(true)}
-    style={{height:25 , fontSize:8}}
+    style={{height:25 , fontSize:8 , color: 'rgba(23, 23, 23, 1)'}}
   >
-    🔍 Full View
+    <img  src={ZoomImage} alt="zoom"/> Full View
   </button>
 </div>
 
@@ -1549,7 +1594,7 @@ useEffect(() => {
        <div   ref={innerScrollRef}
          className=" show-scroll col-lg-12  justify-content-center"
          style={{
-           maxHeight: 470,
+           maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',
            borderBottomLeftRadius: "13px",
@@ -1558,7 +1603,6 @@ useEffect(() => {
                        
        <div  className=" text-white  p-2 position-relative"
         style={{ height:60,
-        // background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,
             background: useGradient
             ? defaultGradient
             : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
@@ -1655,7 +1699,6 @@ useEffect(() => {
            <table className="table text-center">
              <thead
                style={{
-                //  backgroundColor: "rgba(71, 104, 234, 1)",
                    background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                  color: "white",
                }}
@@ -1803,8 +1846,7 @@ useEffect(() => {
          <div
            className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
            style={{
-            //  backgroundColor: 'rgba(48, 80, 210, 1)',
-                    background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+             background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
              borderTopRightRadius: '38px',
              borderTopLeftRadius: '38px',
            }}
@@ -1839,72 +1881,102 @@ useEffect(() => {
        </div>
        
        </div>
+       </div>
+        </div>
         </div>
 
  {showFullView && (
+  <>
   <div
     className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
     style={{
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      backgroundColor: 'rgba(90, 90, 90, 0.22)',
       zIndex: 9999,
       overflowY: 'auto',
-      marginLeft:'10%'
+      marginLeft:'10%', 
+      
     }}
   >
+    
     <div
-      className="bg-white  rounded shadow"
+      className="bg-white   shadow"
       style={{
         width: '100%',
         maxWidth: '900px',
         minHeight: '90vh',
         overflowY: 'auto',
         position: 'relative',
-        borderRadius: '16px',
+         borderTopLeftRadius: '16px',
+         borderTopRightRadius: '16px',
       }}
     >
-     <div
+      
+  <div
   style={{
-    backgroundColor: '#333',
-    color: 'white',
-    padding: '8px 16px',
+    backgroundColor: '#2C2C2C',
+    color: '#fff',
+    padding: '7px 20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    position:'relative',
+    borderTopLeftRadius: '16px',
+    borderTopRightRadius: '16px',
   }}
 >
-  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-    <span>1 / 1</span>
-    <span>|</span>
-    <div className="d-flex align-items-center" style={{ gap: '4px' }}>
-      <button className="btn btn-sm btn-light">−</button>
-      <span style={{ fontWeight: 'bold' }}>100%</span>
-      <button className="btn btn-sm btn-light">+</button>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' , marginLeft:25}}>
+    <span style={{ fontSize: '8px' }}>1 / 1</span>
+    <div style={{ borderLeft: '1px solid #555', height: '20px' }}></div>
+
+    <div className="d-flex align-items-center" style={{ gap: '3px' }}>
+      <button className="btn btn-sm text-white px-0 py-0 mb-1 me-1">−</button>
+      <span style={{ fontWeight: 'bold', fontSize: '8px' }}>100%</span>
+      <button className="btn btn-sm text-white px-0 py-0 mb-1 ms-1" >+</button>
     </div>
-    <span>|</span>
-    <button className="btn btn-sm btn-light">🖥️</button>
-    <button className="btn btn-sm btn-light">↻</button>
+
+    <div style={{ borderLeft: '1px solid #555', height: '20px' }}></div>
+
+    <button className="btn btn-sm  px-1 py-0 me-0"><img  src={Topbottom} alt="topbottom"/></button>
+    <button className="btn btn-sm px-1 py-0"><img  src={left85arrow} alt="left85arrow"/></button>
   </div>
 
-  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-    <button className="btn btn-sm btn-light">⬇</button>
-    <button className="btn btn-sm btn-light">🖨️</button>
-    <button
-      className="btn btn-sm btn-light"
-      onClick={() => setShowFullView(false)}
-    >
-      ❌
-    </button>
-  </div>
-</div> 
+  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+    <button className="btn btn-sm  px-2 py-0"><img  src={downloadicon} alt="topbottom"   style={{ width: '12px', height: '12px' }}/></button>
+    <button className="btn btn-sm  px-2 py-0"><img  src={printdown} alt="topbottom"   style={{ width: '12px', height: '12px' }}/></button>
+ <div
+          className="bg-white rounded-circle d-flex align-items-center justify-content-center"
+          onClick={() => setShowFullView(false)}
+          style={{
+            width: '30px',
+            height: '30px',
+            cursor: 'pointer',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+        
+          }}
+        >
+          <img
+            src={CloseIcon}
+            alt="Close"
+            style={{ width: '12px', height: '12px' }}
+          />
+        </div>
 
-<div>
-  <div className="receipt-container border ps-4 pe-4 pb-4 pt-4 col-lg-9  d-flex  justify-content-center" ref={cardRef} style={{marginTop:'20px', borderRadius:'8px' ,marginLeft:'10%'}} >
+  </div>
+
+   
+</div>
+
+
+ 
+
+<div className="d-flex justify-content-center">
+  <div className="receipt-container border ps-4 pe-4 pb-2 pt-2 mt-3 col-lg-8  " ref={cardRef} style={{ borderRadius:'8px' }} >
        
        
        <div   ref={innerScrollRef}
-         className="border shadow show-scroll col-lg-11 justify-content-center"
+         className="border shadow show-scroll col-lg-12 justify-content-center"
          style={{
-           maxHeight: 430,
+           maxHeight: 480,
            overflowY: "auto",
            overflowX:'hidden',
            borderBottomLeftRadius: "13px",
@@ -1912,7 +1984,6 @@ useEffect(() => {
          }}>
                        
        <div  className=" text-white  p-4 position-relative" style={{ height:100,
-        // background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,
              background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
         }}>
          <div className="d-flex justify-content-between align-items-center">
@@ -2007,7 +2078,6 @@ useEffect(() => {
            <table className="table text-center">
              <thead
                style={{
-                //  backgroundColor: "rgba(71, 104, 234, 1)",
                    background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                  color: "white",
                }}
@@ -2155,8 +2225,7 @@ useEffect(() => {
          <div
            className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
            style={{
-            //  backgroundColor: 'rgba(48, 80, 210, 1)',
-               background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+             background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
              borderTopRightRadius: '38px',
              borderTopLeftRadius: '38px',
            }}
@@ -2193,24 +2262,28 @@ useEffect(() => {
        </div>
 </div>
    </div>
+     
   </div>
+ 
+  </>
+  
 )}
 
 </>}
 {selectedTab === "security_deposit_invoice" && 
-<><SecurityDepositInvoiceTemplate /> </>}
+<><SecurityDepositInvoiceTemplate  hostelid = {hostelid}/> </>}
 
 {selectedTab === "rental_receipt" && 
-<> <RentalReceiptPdfTemplate/> </>
+<> <RentalReceiptPdfTemplate  hostelid = {hostelid}/> </>
 }
 
 {selectedTab === "security_deposit_receipt" && 
 <>
-<SecurityReceiptPdfTemplate />
+<SecurityReceiptPdfTemplate   hostelid = {hostelid}/>
 </>
 }
 {selectedTab === "noc_receipt" &&
-<> <NOCReceiptPdfTemplate/> </>
+<> <NOCReceiptPdfTemplate  hostelid = {hostelid}/> </>
 }
 
 
@@ -2250,12 +2323,10 @@ useEffect(() => {
         >Global Bill Settings</h5>
         <div className="col-lg-8">
   <p className="mb-4" style={{ 
-          // maxWidth: 100 , 
           fontFamily: "Gilroy",
           fontSize: 14,
           color: "rgba(97, 97, 97, 1)",
           fontWeight: 400,
-          // whiteSpace: "nowrap",
           lineHeight:"20px", 
           letterSpacing:'0%'
   }}>
@@ -2264,7 +2335,6 @@ useEffect(() => {
   </div>
 
   <form>
-    {/* Hostel Logo */}
     <div className="row mb-4 align-items-center">
       <div className="col-md-4">
         <label className="form-label"
@@ -2330,7 +2400,6 @@ useEffect(() => {
       </div>
     </div>
 
-    {/* Contact Number */}
     <div className="row mb-4 align-items-center">
       <div className="col-md-4">
         <label className="form-label "
@@ -2371,7 +2440,6 @@ useEffect(() => {
       </div>
     </div>
 
-    {/* Email Address */}
     <div className="row mb-4 align-items-center">
       <div className="col-md-4">
         <label className="form-label "
@@ -2410,7 +2478,6 @@ useEffect(() => {
       </div>
     </div>
 
-    {/* Digital Signature */}
     <div className="row mb-2 align-items-center">
       <div className="col-md-4">
         <label className="form-label "
@@ -2519,7 +2586,6 @@ useEffect(() => {
       </div>
     </div>
 
-    {/* Buttons */}
     <div className="d-flex justify-content-end mt-1">
       <button className="btn btn-outline-dark me-2" type="button">Reset</button>
       <button className="btn btn-primary" type="submit">Save</button>
