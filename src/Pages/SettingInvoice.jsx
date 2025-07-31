@@ -999,8 +999,9 @@ useEffect(() => {
 
 
 <div>
-  <p                                     style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}>Form Specific Details</p>
-  <p                                     style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}>Fill the form with details you'd like to customize.</p>
+  <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 600,  fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}>Form Specific Details</p>
+  <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}>
+   {`Fill the form with details you'd like to customize.`}</p>
 </div>
 
 
