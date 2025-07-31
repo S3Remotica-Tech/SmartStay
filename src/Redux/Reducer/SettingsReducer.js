@@ -79,6 +79,10 @@ export const initialState = {
   SettingsInvoice : [],
   settingsInvoicegetSucesscode : 0,
   settingsInvoicegetErrorStatuscode : 0,
+  settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+ 
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -473,6 +477,24 @@ case "PLAN-EXPIRED":
       return {...state, settingsInvoicegetErrorStatuscode: action.payload.statusCode,};
     case "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE":
       return { ...state, settingsInvoicegetErrorStatuscode: 0 };    
+
+
+
+
+       case "ADD_GLOBAL_SETTINGS":
+      return {...state,  settingGlobalAddStatusCode: action.payload.statusCode,};
+    case "CLEAR_ADD_GLOBAL_SETTINGS":
+      return { ...state, settingGlobalAddStatusCode: 0 }; 
+
+
+       case "GET_GLOBAL_SETTING":
+      return {
+        ...state,
+        FetchGlobal: action.payload.response,
+        statusCodeForSettingFetch: action.payload.statusCode,
+      };
+    case "CLEAR_GET_GLOBAL_SETTING":
+      return { ...state, statusCodeForSettingFetch: 0 };
 
     default:
       return state; 

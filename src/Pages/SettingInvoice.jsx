@@ -83,12 +83,66 @@ function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
   const [showFullView, setShowFullView] = useState(false);
   const [mobilenum,setMobileNum] = useState("")
   const [MobileError,setMobileError] = useState("")
+  const[email,setEmail] = useState("")
+    const[emailError,setEmailError] = useState("")
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isCheckedmobile, setIsCheckedMobile] = useState(false); 
+    const [isCheckedEmail, setIsCheckedEmail] = useState(false); 
+      const [isCheckedLogo, setIsCheckedLogo] = useState(false); 
+      const [isCheckedSignature, setIsCheckedSignature] = useState(false); 
+      const[getData,setGetData] = useState("")
+      const [signature,setSignature] = useState(null)
+      const [signaturePreview,setSignaturePreview] = useState(null)
 
 
+
+      useEffect(()=>{
+        if(state.Settings.statusCodeForSettingFetch === 200){
+        setGetData(state.Settings.FetchGlobal.message)
+         setTimeout(() => {
+        dispatch({ type: "CLEAR_GET_GLOBAL_SETTING" });
+      }, 1000);
+        }
+
+      },[state.Settings.statusCodeForSettingFetch])
+      console.log("getData",getData)
+    
+useEffect(()=>{
+
+  if(getData){
+    setMobileNum(getData[0]?.common_contact_number)
+    setEmail(getData[0]?.common_email)
+    setSign(getData[0]?.common_digital_signature_url)
+    setSignPreview(getData[0]?.common_digital_signature_url)
+    setSelectedFile(getData[0]?.common_logo_url)
+    setIsCheckedLogo(getData[0]?.is_logo_specific_template)
+    setIsCheckedMobile(getData[0]?.is_contact_specific_template)
+    setIsCheckedEmail(getData[0]?.is_email_specific_template)
+    setIsCheckedSignature(getData[0]?.is_signature_specific_template)
+    
+
+  }
+
+},[getData])
+
+      useEffect(()=>{
+        if(state.Settings.settingGlobalAddStatusCode === 200){
+       dispatch({type:"FETCHSETTINGTEMP",payload:{hostel_Id:state.login.selectedHostel_Id}})
+         setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_GLOBAL_SETTINGS" });
+      }, 1000);
+        }
+
+      },[state.Settings.settingGlobalAddStatusCode])
+
+console.log("SettingInvoice",state)
 
   const handleShowContactNumberForm = () => {
 setContactNumberForm(true)
   }
+  useEffect(()=>{
+ dispatch({type:"FETCHSETTINGTEMP",payload:{hostel_Id:state.login.selectedHostel_Id}})
+},[state.login.selectedHostel_Id])
 
 const handleMobile = (e) => {
   const input = e.target.value.replace(/\D/g, ""); 
@@ -103,18 +157,58 @@ const handleMobile = (e) => {
   } else if (input.length > 10) {
     setMobileError(" Please Enter Valid Mobile Number");
   }
+  setFieldError("")
 };
 
+const handleEmail = (e) => {
+    const emailValue = e.target.value.toLowerCase();
+    setEmail(emailValue);
 
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(emailValue);
+    if (!emailValue) {
+      setEmailError("");
+     
+    } else if (!isValidEmail) {
+      
+      setEmailError("Please Enter  Valid Email Id");
+    } else {
+      setEmailError("");
+     
+    }
+     setFieldError("")
+   
+  };
 
   const handleCloseContactNumberForm = () => {
     setContactNumberForm(false)
   }
 
+const handleMobileCheckboxChange = (e) => {
+  const checked = e.target.checked;
+  setIsCheckedMobile(checked);
 
+}
+  console.log("Checkbox is checked:", isCheckedmobile);
+ const handleEmaiCheckboxChange = (e) => {
+  const checked = e.target.checked;
+  setIsCheckedEmail(checked);
+  
+}
+
+ const handleLogoCheckboxChange = (e) => {
+  const checked = e.target.checked;
+  setIsCheckedLogo(checked);
  
+};
 
 
+
+ const handleSignatureCheckboxChange = (e) => {
+  const checked = e.target.checked;
+  setIsCheckedSignature(checked);
+
+};
   const PdfOptions = [
   { label: "Rental Invoice", value: "rental_invoice" },
   { label: "Security Deposit Invoice", value: "security_deposit_invoice" },
@@ -270,24 +364,59 @@ const handleTermsChange = (e) => {
 
 
     const fileInputRef = useRef(null);
-   const [signature, setSignature] = useState(null); 
-   const [signaturePreview, setSignaturePreview] = useState(null); 
+   const [sign, setSign] = useState(null); 
+   const [signPreview, setSignPreview] = useState(null); 
+   
 
 
- const handleFileSignatureChange = (e) => {
+
+const handleFileSignatureChange = (e) => {
   const file = e.target.files[0];
   if (file) {
-    setSignature(file);
-    setSignaturePreview(URL.createObjectURL(file)); 
+    setSign(file); // For upload
+    setSignPreview(URL.createObjectURL(file)); // For preview
     setSignatureErrMsg("");
     setIsSignatureConfirmed(false);
+    setFieldError("");
   }
 };
 
 
+
+
+
+
+
+const [previewURL, setPreviewURL] = useState(null);
+const handleFileChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    console.log("Selected file:", file);
+    setSelectedFile(file);
+    setPreviewURL(URL.createObjectURL(file));
+    setFieldError("");
+  }
+};
+useEffect(() => {
+  return () => {
+    if (previewURL) {
+      URL.revokeObjectURL(previewURL);
+    }
+  };
+}, [previewURL]);
+
+// const handleFileChange = (e) => {
+//   const file = e.target.files[0];
+//   if (file) {
+//     console.log("Selected file:", file);
+//     setSelectedFile(file);
+//     setFieldError("")
+    
+//   }
+// };
   const handleClear = () => {
-    setSignature(null);
-    setSignaturePreview(null)
+    setSign(null);
+    setSignPreview(null)
     setSignatureErrMsg("");
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -308,28 +437,28 @@ const handleTermsChange = (e) => {
   
  
 
-  const handleEditClose = () => {
-    setShowForm(true);
-    setCardShow(false)
-    setEdit(false);
-    setPrefixErrMsg("");
-    setSuffixErrMsg("");
-    setTaxErrMsg("");
-    setNotesErrMsg("");
-    setTermsErrMsg("");
-    setAccount_Number("")
-    setSignatureErrMsg("")
-    setEditErrMessage("")
-    setIfscCode("")
-    setBankName("")
-    setPrefix("")
-    setSuffix("")
-    setTax("")
-    setSignature(null)
-    setSelectedBankId(null)
-    setSignaturePreview(null)
-    setBankIdError("")
-  }
+  // const handleEditClose = () => {
+  //   setShowForm(true);
+  //   setCardShow(false)
+  //   setEdit(false);
+  //   setPrefixErrMsg("");
+  //   setSuffixErrMsg("");
+  //   setTaxErrMsg("");
+  //   setNotesErrMsg("");
+  //   setTermsErrMsg("");
+  //   setAccount_Number("")
+  //   setSignatureErrMsg("")
+  //   setEditErrMessage("")
+  //   setIfscCode("")
+  //   setBankName("")
+  //   setPrefix("")
+  //   setSuffix("")
+  //   setTax("")
+  //   setSignature(null)
+  //   setSelectedBankId(null)
+  //   setSignaturePreview(null)
+  //   setBankIdError("")
+  // }
 
 
   useEffect(()=> {
@@ -652,24 +781,27 @@ const handleTermsChange = (e) => {
  
 
 
-      useEffect(()=> {
-             if(InvoiceList?.invoiceSettings){
-                   setPrefix(InvoiceList.invoiceSettings.prefix)
-                   setSuffix(InvoiceList.invoiceSettings.suffix)
-                   setNotes(InvoiceList.invoiceSettings.notes)
-                   setTax(InvoiceList.invoiceSettings.tax)
-                   setTerms(InvoiceList.invoiceSettings.privacyPolicyHtml)
-                   setSignature(InvoiceList.invoiceSettings.signatureFile || null)
-                   setSignaturePreview(InvoiceList.invoiceSettings.signatureFile || null)
-                   setNotes(InvoiceList.invoiceSettings.notes?.replace(/"/g, "") || "");
+    //   useEffect(()=> {
+    //          if(InvoiceList?.invoiceSettings){
+    //                setPrefix(InvoiceList.invoiceSettings.prefix)
+    //                setSuffix(InvoiceList.invoiceSettings.suffix)
+    //                setNotes(InvoiceList.invoiceSettings.notes)
+    //                setTax(InvoiceList.invoiceSettings.tax)
+    //                setTerms(InvoiceList.invoiceSettings.privacyPolicyHtml)
+    //                setSignature(InvoiceList.invoiceSettings.signatureFile || null)
+    //                setSignaturePreview(InvoiceList.invoiceSettings.signatureFile || null)
+    //                setNotes(InvoiceList.invoiceSettings.notes?.replace(/"/g, "") || "");
 
-    if (InvoiceList.invoiceSettings.bankingId) {
-      setSelectedBankId(InvoiceList.invoiceSettings.bankingId);
-    } else if (banking.length > 0) {
-      setSelectedBankId(banking[0].id); 
-    }
-             }
-     },[InvoiceList ,banking])
+    // if (InvoiceList.invoiceSettings.bankingId) {
+    //   setSelectedBankId(InvoiceList.invoiceSettings.bankingId);
+    // } else if (banking.length > 0) {
+    //   setSelectedBankId(banking[0].id); 
+    // }
+    //          }
+    //  },[InvoiceList ,banking])
+
+    //  console.log("signatureimaage", InvoiceList.invoiceSettings.signatureFile );
+     
 
 
 
@@ -714,7 +846,30 @@ useEffect(() => {
 }, [showFullView]);
 
 
-   
+
+
+const [fieldError,setFieldError] = useState("")
+
+const handleSaveTemplate = () => {
+ 
+  dispatch({
+    type: "ADDGLOBALSETTING",
+    payload: {
+      contact_number: mobilenum,
+      is_logo_specific_template: isCheckedLogo,
+      is_contact_specific_template: isCheckedmobile,
+      email: email,
+      is_email_specific_template: isCheckedEmail,
+      is_signature_specific_template: isCheckedSignature,
+      hostel_Id: Number(state.login.selectedHostel_Id),
+      logo_url: selectedFile,
+      digital_signature_url: sign
+    },
+  });
+  
+
+};
+
 
 
   return (
@@ -1015,7 +1170,9 @@ useEffect(() => {
  <div className="border p-3 mb-3 col-lg-10" style={{borderRadius:'10px' , overflowY:'auto', }}>
 
       <div>
-        <p onClick={handleEditClose}  style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+        <p 
+        // onClick={handleEditClose} 
+         style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
           Invoice No</p>
         <hr></hr>
       </div>
@@ -2349,6 +2506,9 @@ useEffect(() => {
       Global Bill Settings
     </h5>
   </div>
+
+
+
   <div
     style={{
       maxHeight: "calc(100vh - 130px)",
@@ -2369,8 +2529,27 @@ useEffect(() => {
     Add your basic billing details here. These will appear on all invoices unless you choose to customize them in individual templates.
   </p>
   </div>
-
-  <form>
+  {fieldError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {fieldError}
+                              </span>
+                            </div>
+                          )}
+  
     <div className="row mb-4 align-items-center">
       <div className="col-md-4">
         <label className="form-label"
@@ -2390,8 +2569,8 @@ useEffect(() => {
           whiteSpace: "nowrap"
         }}
         >This will appear in Bill Template</div>
-        <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeLogo" style={{ cursor: "pointer" }} />
+        <div className="form-check mt-0">
+          <input className="form-check-input" type="checkbox" id="customizeLogo" style={{ cursor: "pointer" }} checked={isCheckedLogo} onChange={handleLogoCheckboxChange}/>
           <label className="form-check-label small" htmlFor="customizeLogo"
              style={{
           fontFamily: "Gilroy",
@@ -2400,40 +2579,81 @@ useEffect(() => {
           fontStyle:'italic',
           fontWeight: 400,
           whiteSpace: "nowrap",
-          lineHeight:'13.76px'
+        
         }}
           >Customize in Specific Templates</label>
         </div>
       </div>
+     
       <div className="col-md-7">
-        <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
-          <img src={uploadsett} alt="upload" style={{ height: 30 }} />
-          <div className="d-flex flex-column ms-3">
-         <div>
-          <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
-            Choose file
-            <input
-              type="file"
-              accept="image/*"
-              className="d-none"
-              ref={fileInputRef}
-              onChange={handleFileSignatureChange}
-            />
-          </label>
-          <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload </span>
-        </div>
-            <small className="" 
-                    style={{
+ 
+  <div
+  className="d-flex align-items-center justify-content-center p-3 border rounded"
+  style={{ backgroundColor: "#f9f9f9" }}
+>
+   <img
+    src={
+      previewURL
+        ? previewURL
+        : getData[0]?.common_logo_url
+        ? getData[0]?.common_logo_url
+        : uploadsett
+    }
+    alt="logo-preview"
+    style={{ height: 30 }}
+  />
+
+ 
+ 
+
+
+  <div className="d-flex flex-column ms-3">
+    <div>
+      <label
+        style={{
+          cursor: "pointer",
+          color: "rgba(30, 69, 225, 1)",
           fontFamily: "Gilroy",
-          fontSize: 12,
-          color: "rgba(75, 75, 75, 1)",
+          fontSize: 14,
           fontWeight: 400,
-          whiteSpace: "nowrap"
         }}
-            >Must be in PNG Format (600px × 300px)</small>
-          </div>
-        </div>
-      </div>
+      >
+        Choose file
+        <input
+          type="file"
+          accept="image/*"
+          className="d-none"
+          onChange={handleFileChange}
+        />
+      </label>
+      <span
+        className="ms-1"
+        style={{
+          color: "rgba(22, 21, 28, 1)",
+          fontFamily: "Gilroy",
+          fontSize: 14,
+          fontWeight: 400,
+        }}
+      >
+        to Upload
+      </span>
+    </div>
+    <small
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 12,
+        color: "rgba(75, 75, 75, 1)",
+        fontWeight: 400,
+        whiteSpace: "nowrap",
+      }}
+    >
+      Must be in PNG Format (600px × 300px)
+    </small>
+  </div>
+</div>
+
+</div>
+
     </div>
 
     <div className="row mb-4 align-items-center">
@@ -2446,8 +2666,8 @@ useEffect(() => {
           fontWeight: 600,
         }}
         >Contact Number</label>
-        <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{ cursor: "pointer" }} />
+        <div className="form-check">
+          <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{ cursor: "pointer" }} checked={isCheckedmobile} onChange={handleMobileCheckboxChange}/>
           <label className="form-check-label small" htmlFor="customizeContact"
               style={{
           fontFamily: "Gilroy",
@@ -2456,7 +2676,7 @@ useEffect(() => {
           fontStyle:'italic',
           fontWeight: 400,
           whiteSpace: "nowrap",
-          lineHeight:'13.76px'
+          
         }}
           >Customize in Specific Templates</label>
         </div>
@@ -2549,8 +2769,8 @@ useEffect(() => {
           fontWeight: 600,
         }}
          >E-Mail Address</label>
-        <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeEmail" style={{ cursor: "pointer" }} />
+        <div className="form-check mb-3">
+          <input className="form-check-input" type="checkbox" id="customizeEmail" style={{ cursor: "pointer" }} checked={isCheckedEmail} onChange={handleEmaiCheckboxChange}/>
           <label className="form-check-label small" htmlFor="customizeEmail"
               style={{
           fontFamily: "Gilroy",
@@ -2559,13 +2779,15 @@ useEffect(() => {
           fontStyle:'italic',
           fontWeight: 400,
           whiteSpace: "nowrap",
-          lineHeight:'13.76px'
+          
         }}
           >Customize in Specific Templates</label>
         </div>
       </div>
       <div className="col-md-7">
         <input type="email" className="form-control" placeholder="example@email.com" 
+        value={email}
+        onChange={handleEmail}
                 style={{
           fontFamily: "Gilroy",
           fontSize: 12,
@@ -2575,7 +2797,30 @@ useEffect(() => {
           height:45
         }}
         />
+         {emailError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {emailError}
+                              </span>
+                            </div>
+                          )}
       </div>
+
+
+      
     </div>
 
     <div className="row mb-2 align-items-center">
@@ -2598,7 +2843,7 @@ useEffect(() => {
         }}
         >Add a respected person’s Signature</div>
         <div className="form-check mt-2">
-          <input className="form-check-input" type="checkbox" id="customizeSignature" style={{ cursor: "pointer" }} />
+          <input className="form-check-input" type="checkbox" id="customizeSignature" style={{ cursor: "pointer" }} checked={isCheckedSignature} onChange={handleSignatureCheckboxChange}/>
           <label className="form-check-label small" htmlFor="customizeSignature"
               style={{
           fontFamily: "Gilroy",
@@ -2613,18 +2858,53 @@ useEffect(() => {
         </div>
       </div>
       <div className="col-md-7">
-           <div
-        className="rounded mt-2 d-flex justify-content-center align-items-center"
-        style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
-    borderColor: '#ced4da'}}
-      >
-        {signaturePreview ? (
-          <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
-        ) : (
-          <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-          >No signature uploaded</span>
-        )}
-      </div>
+        <div
+  className="rounded mt-2 d-flex justify-content-center align-items-center"
+  style={{
+    height: '120px',
+    borderStyle: 'dotted',
+    borderWidth: '3px',
+    borderColor: '#ced4da',
+  }}
+>
+    {sign ? (
+  <img
+    src={signPreview}
+    alt="uploaded-signature"
+    style={{ maxHeight: '100%', maxWidth: '100%' }}
+  />
+) : getData[0]?.common_digital_signature_url &&
+   getData[0]?.common_digital_signature_url !== "null" &&
+   getData[0]?.common_digital_signature_url !== "" ? (
+  <img
+    src={getData[0]?.common_digital_signature_url}
+    alt="signature"
+    style={{ maxHeight: '100%', maxWidth: '100%' }}
+    onError={(e) => {
+      e.target.onerror = null;
+      e.target.style.display = 'none';
+    }}
+  />
+) : (
+  <span
+    className="text-muted"
+    style={{
+      fontFamily: 'Gilroy',
+      fontSize: 14,
+      fontWeight: 400,
+      color: 'rgba(34, 34, 34, 1)',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+    }}
+  >
+    No signature uploaded
+  </span>
+)}
+
+
+
+</div>
+
 
       <div className="d-flex justify-content-between align-items-center mt-2">
         <div>
@@ -2635,6 +2915,7 @@ useEffect(() => {
               accept="image/*"
               className="d-none"
               ref={fileInputRef}
+             
               onChange={handleFileSignatureChange}
             />
           </label>
@@ -2690,12 +2971,12 @@ useEffect(() => {
     <div className="d-flex justify-content-end mt-1 me-5" style={{paddingRight:10}}>
 
       <button className="btn btn-outline-dark me-2" type="button">Reset</button>
-      <button className="btn btn-primary" type="submit">Save</button>
+      <button className="btn btn-primary"  onClick={handleSaveTemplate}>Save</button>
     </div>
     <div className="text-end mt-3 me-5" style={{paddingRight:10}}>
       <button className="btn btn-primary" type="button" onClick={handleShow}>Go to Templates →</button>
     </div>
-  </form>
+ 
 </div>
 </div>
          }
@@ -2726,7 +3007,7 @@ useEffect(() => {
                                       alt="leftarrow"
                                       width={20}
                                       height={20}
-                                      onClick={handleEditClose}
+                                      // onClick={handleEditClose}
                                       style={{ cursor: "pointer" }}
                                     />
                                     <span
@@ -3181,12 +3462,40 @@ useEffect(() => {
         style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
     borderColor: '#ced4da'}}
       >
-        {signaturePreview ? (
-          <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
-        ) : (
-          <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-          >No signature uploaded</span>
-        )}
+      {/* {signaturePreview ? (
+  <img
+    src={signaturePreview}
+    alt="uploaded-signature"
+    style={{ maxHeight: '100%', maxWidth: '100%' }}
+  />
+) : getData[0]?.common_digital_signature_url &&
+   getData[0].common_digital_signature_url !== "null" &&
+   getData[0].common_digital_signature_url !== "" ? (
+  <img
+    src={getData[0].common_digital_signature_url}
+    alt="signature"
+    style={{ maxHeight: '100%', maxWidth: '100%' }}
+    onError={(e) => {
+      e.target.onerror = null;
+      e.target.style.display = 'none';
+    }}
+  />
+) : (
+  <span
+    className="text-muted"
+    style={{
+      fontFamily: 'Gilroy',
+      fontSize: 14,
+      fontWeight: 400,
+      color: 'rgba(34, 34, 34, 1)',
+      fontStyle: 'normal',
+      lineHeight: 'normal',
+    }}
+  >
+    No signature uploaded
+  </span>
+)} */}
+
       </div>
 
       <div className="d-flex justify-content-between align-items-center mt-2">
@@ -3274,7 +3583,7 @@ useEffect(() => {
     <div className="d-flex justify-content-end flex-wrap mt-3 ">
     <button
     
-    onClick={handleEditClose}
+    // onClick={handleEditClose}
     className="me-3 "
       style={{
         fontFamily: "Gilroy",
