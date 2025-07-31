@@ -79,6 +79,9 @@ export const initialState = {
   SettingsInvoice : [],
   settingsInvoicegetSucesscode : 0,
   settingsInvoicegetErrorStatuscode : 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -473,6 +476,16 @@ case "PLAN-EXPIRED":
       return {...state, settingsInvoicegetErrorStatuscode: action.payload.statusCode,};
     case "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE":
       return { ...state, settingsInvoicegetErrorStatuscode: 0 };    
+
+    case "ADD-BILLS-TEMPLATE":
+      return {...state,  settingsBillsAddTemplateSucesscode: action.payload.statusCode,};
+    case "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE":
+      return { ...state, settingsBillsAddTemplateSucesscode: 0 }; 
+
+    case "GET_TEMPLATELIST":
+      return {...state, settingsBillsTemplateList : action.payload.response, SettingsBilltemplategetsuccessCode: action.payload.statusCode,};
+    case "CLEAR_GET_TEMPLATELIST_STATUS_CODE":
+      return { ...state, SettingsBilltemplategetsuccessCode: 0 };     
 
     default:
       return state; 

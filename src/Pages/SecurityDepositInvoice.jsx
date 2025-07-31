@@ -56,7 +56,7 @@ import PropTypes from "prop-types";
   const innerScrollRef = useRef(null);
 
   const [accountNameError, setaccountnameError] = useState("");
-//   const [bankid_Error, setBankIdError] = useState("");
+  const [bankid_Error, setBankIdError] = useState("");
   const [prefix_errmsg , setPrefixErrMsg] = useState('')
   const [suffix_errmsg , setSuffixErrMsg] = useState('')
   const [tax_errmsg , setTaxErrMsg] = useState('')
@@ -64,17 +64,88 @@ import PropTypes from "prop-types";
   const [terms_errmsg , setTermsErrMsg] = useState('')
   const [showFullView, setShowFullView] = useState(false);
 
+  const [allowImageUpload, setAllowImageUpload] = useState(false);
+const [currentEditingField, setCurrentEditingField] = useState(null); // "contact" or "email"
+const [allowEditFields, setAllowEditFields] = useState({
+  contact: false,
+  email: false,
+  hostelLogo: false,
+  digitalSignature: false, 
+});
 
 
-  const handleShowContactNumberForm = () => {
-setContactNumberForm(true)
+
+  const handleShowContactNumberForm = (field) => {
+  setContactNumberForm(true);
+  setAllowImageUpload(false);
+  setCurrentEditingField(field);
+};
+
+  
+
+ const handleCloseContactNumberForm = () => {
+  setContactNumberForm(false);
+  setAllowImageUpload(false);
+  setAllowEditFields({
+    contact: false,
+    email: false,
+    hostelLogo: false,
+    digitalSignature: false,
+  });
+};
+
+
+const handleEditAnyway = () => {
+  setAllowImageUpload(true);
+  setAllowEditFields({
+    contact: true,
+    email: true,
+    hostelLogo: true,
+    digitalSignature: true,
+  });
+  setContactNumberForm(false); 
+};
+
+
+
+const [mobilenum,setMobileNum] = useState("")
+const [MobileError,setMobileError] = useState("")
+const[email,setEmail] = useState("")
+const[emailError,setEmailError] = useState("")
+
+const handleMobile = (e) => {
+  const input = e.target.value.replace(/\D/g, ""); 
+  setMobileNum(input);
+
+  if (input.length === 0) {
+    setMobileError("");
+  } else if (input.length < 10) {
+    setMobileError(" Please Enter Valid Mobile Number");
+  } else if (input.length === 10) {
+    setMobileError("");
+  } else if (input.length > 10) {
+    setMobileError(" Please Enter Valid Mobile Number");
   }
+};
 
-  const handleCloseContactNumberForm = () => {
-    setContactNumberForm(false)
-  }
+const handleEmail = (e) => {
+    const emailValue = e.target.value.toLowerCase();
+    setEmail(emailValue);
 
-
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(emailValue);
+    if (!emailValue) {
+      setEmailError("");
+     
+    } else if (!isValidEmail) {
+      
+      setEmailError("Please Enter  Valid Email Id");
+    } else {
+      setEmailError("");
+     
+    }
+   
+  };
   
 
 
@@ -226,6 +297,42 @@ const handleTermsChange = (e) => {
   );
 
 
+  
+      const fileInputRef = useRef(null);
+     const [signature, setSignature] = useState(null); 
+     const [signaturePreview, setSignaturePreview] = useState(null); 
+     const [ signature_errmsg, setSignatureErrMsg] = useState("")
+  
+   const handleFileSignatureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSignature(file);
+      setSignaturePreview(URL.createObjectURL(file)); 
+      setSignatureErrMsg("");
+      setIsSignatureConfirmed(false);
+    }
+  };
+  
+  
+    const handleClear = () => {
+      setSignature(null);
+      setSignaturePreview(null)
+      setSignatureErrMsg("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    };
+  
+  
+    const handleSignatureDone = () => {
+    if (!signature) {
+      setSignatureErrMsg("Please select a signature file.");
+    } else {
+      setSignatureErrMsg("");
+      setIsSignatureConfirmed(true);
+    }
+  };
+  
 
 
 
@@ -362,17 +469,216 @@ useEffect(() => {
 }, [showFullView]);
 
 
+  const [isEditable, setIsEditable] = useState(false);
+  const [logoPreview, setLogoPreview] = useState(null);
+  // const fileInputRef = useRef();
+
+  // const handleShowContactNumberForm = () => {
+  //   setIsEditable(true);
+  // };
+
+  const handleFileUploadHostel = (e) => {
+      if (!allowImageUpload) return;
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+
+   const [qrImage, setQrImage] = useState(null);
+  const qrFileInputRef = useRef(null);
+
+  const handleQrImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setQrImage(URL.createObjectURL(file));
+    }
+  };
+
+   const handleSaveTemplate = () => {
+//  if (
+//   !mobilenum || !email || !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed || !selectedBankId
+// ) {
+//   if (!mobilenum) setMobileError(" Please Enter Valid Mobile Number");;
+//   if (!email) setEmailError("Please Enter  Valid Email Id");
+//   if (!prefix) setPrefixErrMsg("Please Enter Prefix");
+//   if (!suffix) setSuffixErrMsg("Please Enter Suffix");
+//   if (!tax) setTaxErrMsg("Please Enter Tax");
+//   if (!notes) setNotesErrMsg("Please Enter Notes");
+//   if (!terms) setTermsErrMsg("Please Enter Terms");
+//   if(!selectedBankId)setBankIdError("Please Add or select bank")
+//   if (!signature) {
+//     setSignatureErrMsg("Please select signature");
+//   } else if (!isSignatureConfirmed) {
+//     setSignatureErrMsg("Please click Done after selecting a signature");
+//   }
+//   return;
+// }
+
+
+  // const currentData = {
+  //   prefix,
+  //   suffix,
+  //   tax,
+  //   notes: notes?.replace(/"/g, '') || '',
+  //   privacyPolicy: terms,
+  //   signatureFile: signature,
+  //   bankingId: Number(selectedBankId)
+  // };
+
+  // const originalData = {
+  //   prefix: InvoiceList?.invoiceSettings?.prefix || '',
+  //   suffix: InvoiceList?.invoiceSettings?.suffix || '',
+  //   tax: InvoiceList?.invoiceSettings?.tax || '',
+  //   notes: InvoiceList?.invoiceSettings?.notes?.replace(/"/g, '') || '',
+  //   privacyPolicy: InvoiceList?.invoiceSettings?.privacyPolicyHtml || '',
+  //   signatureFile: InvoiceList?.invoiceSettings?.signatureFile || '',
+  //   bankingId: Number(InvoiceList?.invoiceSettings?.bankingId || 0),
+  // };
+
+  // if (
+  //   InvoiceList?.invoiceSettings &&
+  //   JSON.stringify(currentData) === JSON.stringify(originalData)
+  // ) {
+  //   setEditErrMessage("No changes detected");
+  //   setSignatureErrMsg("")
+  //   return;
+  // }
+
+       dispatch({
+    type: "ADD_BILLS_TEMPLATE",
+    payload: {
+        hostel_Id: Number(state.login.selectedHostel_Id),
+        digital_signature_url: signature,
+        is_signature_specific_template: "true",
+        contact_number: mobilenum,
+        is_contact_specific_template: "true",
+        email: email,
+        is_email_specific_template: "true",
+        logo_url :'',
+        is_logo_specific_template :"false",
+        qr_url:qrImage,
+        prefix,
+        suffix,
+        tax,
+        notes,
+        terms_and_condition: terms,
+        banking_id: Number(selectedBankId),
+        template_theme: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    },
+  });
+  
+
+
+};
+
+const [BillsTemplateList , setBillsTemplateList] = useState([])
+
+ 
+useEffect(()=> {
+   dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+},[])
+
+    useEffect(() => {
+    if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
+
+  dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsBillsAddTemplateSucesscode]);
+
+    useEffect(() => {
+         if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+    setBillsTemplateList(state.Settings.settingsBillsTemplateList)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+
+
 
     return(
         <>
         <div className="col-12 d-flex flex-row">
-<div className="col-lg-4 show-scroll" style={{ maxHeight: 450,
+<div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
-<p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Form Specific Details</p>
-<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
+<p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
 
-  <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+   <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+    <div className="d-flex justify-content-end">
+                  <img src={EditICon}  onClick={ handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
+
+    </div>
+
+          <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '6px'
+            }}>
+              <label style={{ fontWeight: 600 }}>Hostel/PG Logo</label>
+            </div>
+  <div className="p-3 border rounded" style={{  backgroundColor: '#F0F3FF', textAlign: 'center' }}>
+   
+    {/* Image Preview */}
+    {logoPreview ? (
+      <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
+    ) : (
+      <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+    )}
+
+    {/* Upload Instruction & Input */}
+    <div>
+      <label
+        style={{
+          cursor: allowEditFields.hostelLogo ? 'pointer' : 'not-allowed',
+          color: allowEditFields.hostelLogo ? 'rgba(30, 69, 225, 1)' : '#999',
+          fontFamily: 'Gilroy',
+          fontSize: 12,
+          fontWeight: 400
+        }}
+      >
+        Choose file
+        <input
+          type="file"
+          accept="image/png"
+          className="d-none"
+          ref={fileInputRef}
+          onChange={handleFileUploadHostel}
+          disabled={!allowEditFields.hostelLogo}
+        />
+      </label>
+      <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>
+        to Upload
+      </span>
+    </div>
+
+    {/* File Format Info */}
+    <small
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 9,
+        color: "rgba(75, 75, 75, 1)",
+        fontWeight: 400,
+        display: "block",
+        marginTop: "5px"
+      }}
+    >
+      Must be in PNG Format (600px × 300px)
+    </small>
+  </div>
+
+    <div className=" p-3  col-lg-12" style={{borderRadius:'10px' , overflowY:'auto', }}>
 
     
  <div className='d-flex row '>
@@ -385,7 +691,6 @@ useEffect(() => {
     marginBottom: '6px'
   }}>
     <label style={{ fontWeight: 600 }}>Contact Number</label>
-    <img  src={EditICon} onClick={handleShowContactNumberForm} style={{cursor:'pointer'}} alt="editicon"/>
   </div>
 
   <div style={{
@@ -410,11 +715,14 @@ useEffect(() => {
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'right center',
       backgroundSize: '10px'
-    }}>
+    }}
+     disabled={!allowEditFields.contact}
+    >
       <option value="+91">+91</option>
       <option value="+1">+1</option>
       <option value="+44">+44</option>
       <option value="+971">+971</option>
+      
     </select>
 
     <input
@@ -429,8 +737,33 @@ useEffect(() => {
         fontSize: 'inherit',
         fontWeight: 'inherit',
       }}
+       value={mobilenum}
+       onChange={handleMobile}
+      maxLength={10}
+       disabled={!allowEditFields.contact}
     />
+   
   </div>
+   {MobileError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {MobileError}
+                              </span>
+                            </div>
+                          )}
 </div>
 
 
@@ -439,9 +772,171 @@ useEffect(() => {
 
                       
                     </div>
-                   
+                          
+                  </div>
 
-                    
+                    <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}> 
+ <div className='d-flex row '>
+                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+ <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '6px'
+  }}>
+    <label style={{ fontWeight: 600 }}>E-Mail Address</label>
+  </div>
+
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#F0F3FF',
+    borderRadius: '8px',
+    padding: '8px 12px',
+    border: '1px solid #E0E0E0',
+  }}>
+  
+
+    <input
+      type="tel"
+      placeholder="abc@gmail.com"
+      style={{
+        border: 'none',
+        backgroundColor: 'transparent',
+        outline: 'none',
+        marginLeft: '8px',
+        fontFamily: 'inherit',
+        fontSize: 'inherit',
+        fontWeight: 'inherit',
+      }}
+      disabled={!allowEditFields.email}
+      value={email}
+       onChange={handleEmail}
+    />
+   
+  </div>
+   {emailError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {emailError}
+                              </span>
+                            </div>
+                          )}
+</div>
+
+
+
+                        </div>
+
+                      
+                    </div>
+                          
+                  </div>
+
+                  <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+ <div className='d-flex row '>
+                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+ <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '6px'
+  }}>
+    <label style={{ fontWeight: 600 }}>Digital Signature Upload</label>
+  </div>
+
+      <div className="col-12">
+               <div
+            className="rounded mt-2 d-flex justify-content-center align-items-center"
+            style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
+        borderColor: '#ced4da'}}
+          >
+            {signaturePreview ? (
+              <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+            ) : (
+              <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+              >No signature uploaded</span>
+            )}
+          </div>
+    
+          <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
+            <div className="d-flex flex-row">
+              <label  style={{    cursor: allowEditFields.digitalSignature ? 'pointer' : 'not-allowed',
+    color: allowEditFields.digitalSignature ? 'rgba(30, 69, 225, 1)' : '#999', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>
+                Choose file
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="d-none"
+                  ref={fileInputRef}
+    onChange={handleFileSignatureChange}
+    disabled={!allowEditFields.digitalSignature}
+                />
+              </label>
+              <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>to Upload Image</span>
+            </div>
+            <div className="d-flex justify-content-end">
+              <button
+                className="btn btn-link text-decoration-none "
+                onClick={handleClear}
+                disabled={!signaturePreview}
+                style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}
+              >
+                Clear
+              </button>
+              <button
+                className="btn btn-link text-decoration-none "
+                disabled={!signaturePreview}
+                onClick={handleSignatureDone}
+                style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600}}
+              >
+                Done
+              </button>
+            </div>
+    
+            
+          </div>
+            {signature_errmsg.trim() !== "" && (
+                                                  <div className="d-flex align-items-center p-1">
+                                                    <MdError
+                                                      style={{
+                                                        color: "red",
+                                                        marginRight: "5px",
+                                                        fontSize: "14px",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      className="mb-0"
+                                                      style={{
+                                                        color: "red",
+                                                        fontSize: "12px",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 500,
+                                                      }}
+                                                    >
+                                                      {signature_errmsg}
+                                                    </label>
+                                                  </div>
+                                                )}
+          </div>
+</div>
+                        </div>  
+                    </div>        
                   </div>
                  <Modal
   show={contactnumberform}
@@ -520,12 +1015,18 @@ useEffect(() => {
         fontFamily: "Gilroy",
         fontSize: "14px",
       }}
+        onClick={handleEditAnyway}
+
     >
       Edit Anyway
     </Button>
   </Modal.Footer>
 </Modal>
+</div>
 
+
+<p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Form Specific Details</p>
+<p style={{ fontFamily: 'Gilroy', fontSize: 13, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
 
  <div className="border p-3 mb-3 col-lg-10" style={{borderRadius:'10px' , overflowY:'auto', }}>
 
@@ -804,54 +1305,131 @@ useEffect(() => {
     )}
   </div>
 
-  
+    {!selectedBankId && bankid_Error.trim() !== '' && (
+      <div style={{ display: 'flex', alignItems: 'center', paddingTop: 8 }}>
+        <MdError style={{ color: 'red', marginRight: 5, fontSize: 14 }} />
+        <label
+          style={{
+            color: 'red',
+            fontSize: 12,
+            fontWeight: 500,
+          }}
+        >
+          {bankid_Error}
+        </label>
+      </div>
+    )}
 </div>
 
-
- <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
-
+ <div className="border p-3 mb-3 col-lg-10" style={{ borderRadius: "10px", overflowY: "auto" }}>
       <div>
-        <p    style={{ fontFamily: 'Gilroy' , color:'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal' }}>
-         Upload QR</p>
-        <hr></hr>
+        <p
+          style={{
+            fontFamily: "Gilroy",
+            color: "rgba(34, 34, 34, 1)",
+            fontSize: 14,
+            fontWeight: 400,
+            fontStyle: "normal",
+            lineHeight: "normal",
+          }}
+        >
+          Upload QR
+        </p>
+        <hr />
       </div>
 
- <p style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400, color:'rgba(75, 75, 75, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-  Valid UPI QR Code for Payment Easy</p>
-<div className="col-12">
-        <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
-          <img src={uploadsett} alt="upload" style={{ height: 30 }} />
-          <div className="d-flex flex-column ms-3">
-         <div>
-          <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
-            Choose file
-            <input
-              type="file"
-              accept="image/*"
-              className="d-none"
-              // ref={fileInputRef}
-              // onChange={handleFileSignatureChange}
-            />
-          </label>
-          <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload </span>
-        </div>
-            <small className="" 
-                    style={{
+      <p
+        style={{
           fontFamily: "Gilroy",
           fontSize: 12,
-          color: "rgba(75, 75, 75, 1)",
           fontWeight: 400,
-          whiteSpace: "nowrap"
+          color: "rgba(75, 75, 75, 1)",
+          fontStyle: "normal",
+          lineHeight: "normal",
         }}
-            >JPG SVG PNG(150px × 150px)</small>
+      >
+        Valid UPI QR Code for Payment Easy
+      </p>
+
+      <div className="col-12">
+        <div
+          className="p-3 border rounded"
+          style={{ backgroundColor: "#f9f9f9", textAlign: "center" }}
+        >
+          {/* Image Preview */}
+          {qrImage ? (
+            <img
+              src={qrImage}
+              alt="QR Preview"
+              style={{
+                height: "150px",
+                width: "150px",
+                objectFit: "cover",
+                borderRadius: "8px",
+                marginBottom: "10px",
+                border: "1px solid #ddd",
+                backgroundColor: "#fff",
+              }}
+            />
+          ) : (
+            <img
+              src={uploadsett}
+              alt="upload"
+              style={{
+                height: 30,
+                marginBottom: "10px",
+              }}
+            />
+          )}
+
+          {/* Upload Label & Info */}
+          <div>
+            <label
+              style={{
+                cursor: "pointer",
+                color: "rgba(30, 69, 225, 1)",
+                fontFamily: "Gilroy",
+                fontSize: 12,
+                fontWeight: 400,
+              }}
+            >
+              Choose file
+              <input
+                type="file"
+                accept="image/*"
+                className="d-none"
+                ref={qrFileInputRef}
+                onChange={handleQrImageChange}
+              />
+            </label>
+            <span
+              className="ms-1"
+              style={{
+                color: "rgba(22, 21, 28, 1)",
+                fontFamily: "Gilroy",
+                fontSize: 12,
+                fontWeight: 400,
+              }}
+            >
+              to Upload
+            </span>
           </div>
+
+          <small
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: 9,
+              color: "rgba(75, 75, 75, 1)",
+              fontWeight: 400,
+              display: "block",
+              marginTop: "5px",
+            }}
+          >
+            JPG SVG PNG (150px × 150px)
+          </small>
         </div>
       </div>
-
-                   
-
-                    
-                  </div>
+    </div>
 
 
                               <div className="p-3 mb-3 border col-lg-10" style={{borderRadius:'10px'}}>
@@ -862,7 +1440,7 @@ useEffect(() => {
       <label className="form-label"  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)',fontStyle: 'normal', lineHeight: 'normal' }}>Add Notes</label>
       <div className="position-relative">
         <textarea
-          style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+          style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
           className="form-control pe-5" 
           rows="4"    
           placeholder='Add any message...'
@@ -919,7 +1497,7 @@ useEffect(() => {
           placeholder='Add any message...'
           value={terms}
           onChange={handleTermsChange}
-          style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+          style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400,color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
         />
          <img
           src={TextAreaICon}
@@ -960,24 +1538,24 @@ useEffect(() => {
 
 
      <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16,  fontFamily: "sans-serif" }}>
-      <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
+      <h6   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' , marginBottom: 12}}>Template Theme</h6>
 
       <RgbaColorPicker color={color} onChange={handleColorChange}style={{ width: "100%", }} />
 
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12 }}>
-        <input value={hexValue} readOnly style={{ width: 80, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-        <input value={color.r} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-        <input value={color.g} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-        <input value={color.b} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-        <input value={alphaValue} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
+        <input value={hexValue} readOnly style={{ width: 80, textAlign: "center", border: "1px solid #ccc", borderRadius: 4  , fontFamily: 'Gilroy', fontSize: 12, }} />
+        <input value={color.r} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 , fontFamily: 'Gilroy', fontSize: 12,}} />
+        <input value={color.g} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 , fontFamily: 'Gilroy', fontSize: 12,}} />
+        <input value={color.b} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 , fontFamily: 'Gilroy', fontSize: 12,}} />
+        <input value={alphaValue} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 , fontFamily: 'Gilroy', fontSize: 12,}} />
       </div>
 
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#555", marginTop: 4, marginBottom: 12 }}>
-        <span style={{ width: 80, textAlign: "center" }}>Hex</span>
-        <span style={{ width: 40, textAlign: "center" }}>R</span>
-        <span style={{ width: 40, textAlign: "center" }}>G</span>
-        <span style={{ width: 40, textAlign: "center" }}>B</span>
-        <span style={{ width: 40, textAlign: "center" }}>A</span>
+        <span style={{ width: 80, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12, }}>Hex</span>
+        <span style={{ width: 40, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12, }}>R</span>
+        <span style={{ width: 40, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12,}}>G</span>
+        <span style={{ width: 40, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12,}}>B</span>
+        <span style={{ width: 40, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12,}}>A</span>
       </div>
 
       <div style={{
@@ -1035,6 +1613,7 @@ useEffect(() => {
           fontFamily: "Gilroy",
           fontSize: "14px",
         }}
+        onClick={handleSaveTemplate}
       >
         Save Template
       </Button>
@@ -1043,7 +1622,7 @@ useEffect(() => {
 
 </div>
 
-<div className="col-lg-8 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
+<div className="col-lg-7 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
   <div className="d-flex justify-content-center">
 <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{  borderRadius:'8px' , backgroundColor:'white'}} >
        

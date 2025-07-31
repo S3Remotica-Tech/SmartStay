@@ -18,6 +18,10 @@ import left85arrow from '../Assets/Images/arrow85.png';
 import printdown from '../Assets/Images/printericon.png';
 import downloadicon from '../Assets/Images/pdfdown.png'; 
 import CloseIcon from '../Assets/Images/close_icon.png';
+import EditICon from '../Assets/Images/New_images/edit.png';
+import uploadsett from "../Assets/Images/New_images/upload setting.png";
+import Modal from 'react-bootstrap/Modal';
+import Questionimage from '../Assets/Images/question.png';
 
 
 const RentalReceiptPdfTemplate = () => {
@@ -83,6 +87,153 @@ const RentalReceiptPdfTemplate = () => {
         );
       
       
+               const [allowImageUpload, setAllowImageUpload] = useState(false);
+                const [currentEditingField, setCurrentEditingField] = useState(null); // "contact" or "email"
+                const [allowEditFields, setAllowEditFields] = useState({
+                  contact: false,
+                  email: false,
+                  hostelLogo: false,
+                  digitalSignature: false, 
+                });
+                 const [contactnumberform , setContactNumberForm] = useState(false)
+        
+                    const fileInputRef = useRef(null);
+                     const [signature, setSignature] = useState(null); 
+                     const [signaturePreview, setSignaturePreview] = useState(null); 
+                  
+                  
+                   const handleFileSignatureChange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setSignature(file);
+                      setSignaturePreview(URL.createObjectURL(file)); 
+                      setSignatureErrMsg("");
+                      setIsSignatureConfirmed(false);
+                    }
+                  };
+                  
+                  
+                    const handleClear = () => {
+                      setSignature(null);
+                      setSignaturePreview(null)
+                      setSignatureErrMsg("");
+                      if (fileInputRef.current) {
+                        fileInputRef.current.value = '';
+                      }
+                    };
+                  
+                  
+                    const handleSignatureDone = () => {
+                    if (!signature) {
+                      setSignatureErrMsg("Please select a signature file.");
+                    } else {
+                      setSignatureErrMsg("");
+                      setIsSignatureConfirmed(true);
+                    }
+                  };
+                
+                
+  const handleShowContactNumberForm = (field) => {
+  setContactNumberForm(true);
+  setAllowImageUpload(false);
+  setCurrentEditingField(field);
+};
+
+  
+
+ const handleCloseContactNumberForm = () => {
+  setContactNumberForm(false);
+  setAllowImageUpload(false);
+  setAllowEditFields({
+    contact: false,
+    email: false,
+    hostelLogo: false,
+    digitalSignature: false,
+  });
+};
+
+
+const handleEditAnyway = () => {
+  setAllowImageUpload(true);
+  setAllowEditFields({
+    contact: true,
+    email: true,
+    hostelLogo: true,
+    digitalSignature: true,
+  });
+  setContactNumberForm(false); 
+};
+                
+                
+                const [mobilenum,setMobileNum] = useState("")
+                const [MobileError,setMobileError] = useState("")
+                const[email,setEmail] = useState("")
+                const[emailError,setEmailError] = useState("")
+                
+                const handleMobile = (e) => {
+                  const input = e.target.value.replace(/\D/g, ""); 
+                  setMobileNum(input);
+                
+                  if (input.length === 0) {
+                    setMobileError("");
+                  } else if (input.length < 10) {
+                    setMobileError(" Please Enter Valid Mobile Number");
+                  } else if (input.length === 10) {
+                    setMobileError("");
+                  } else if (input.length > 10) {
+                    setMobileError(" Please Enter Valid Mobile Number");
+                  }
+                };
+                
+                const handleEmail = (e) => {
+                    const emailValue = e.target.value.toLowerCase();
+                    setEmail(emailValue);
+                
+                    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+                    const isValidEmail = emailRegex.test(emailValue);
+                    if (!emailValue) {
+                      setEmailError("");
+                     
+                    } else if (!isValidEmail) {
+                      
+                      setEmailError("Please Enter  Valid Email Id");
+                    } else {
+                      setEmailError("");
+                     
+                    }
+                   
+                  };
+              
+                const [isEditable, setIsEditable] = useState(false);
+                  const [logoPreview, setLogoPreview] = useState(null);
+                  // const fileInputRef = useRef();
+                
+                  // const handleShowContactNumberForm = () => {
+                  //   setIsEditable(true);
+                  // };
+                
+                  const handleFileUploadHostel = (e) => {
+                      if (!allowImageUpload) return;
+                    const file = e.target.files[0];
+                    if (file && file.type.startsWith("image/")) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setLogoPreview(reader.result);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  };
+        
+                  const [qrImage, setQrImage] = useState(null);
+                  const qrFileInputRef = useRef(null);
+                
+                  const handleQrImageChange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setQrImage(URL.createObjectURL(file));
+                    }
+                  };
+              
 
       
         useEffect(() => {
@@ -125,9 +276,424 @@ const RentalReceiptPdfTemplate = () => {
     return(
 <>
 <div className="col-12  d-flex flex-row">
-<div className="col-lg-4 show-scroll" style={{ maxHeight: 450,
+<div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
+
+
+            <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
+            
+ <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+   <div className="d-flex justify-content-end">
+                    <img src={EditICon}  onClick={ handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
+  
+      </div>
+          <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '6px'
+            }}>
+              <label style={{ fontWeight: 600 }}>Hostel/PG Logo</label>
+            </div>
+  <div className="p-3 border rounded" style={{ backgroundColor: '#f9f9f9', textAlign: 'center' }}>
+   
+    {/* Image Preview */}
+    {logoPreview ? (
+      <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
+    ) : (
+      <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+    )}
+
+    {/* Upload Instruction & Input */}
+    <div>
+      <label
+        style={{
+          cursor: allowEditFields.hostelLogo ? 'pointer' : 'not-allowed',
+          color: allowEditFields.hostelLogo ? 'rgba(30, 69, 225, 1)' : '#999',
+          fontFamily: 'Gilroy',
+          fontSize: 12,
+          fontWeight: 400
+        }}
+      >
+        Choose file
+        <input
+          type="file"
+          accept="image/png"
+          className="d-none"
+          ref={fileInputRef}
+          onChange={handleFileUploadHostel}
+          disabled={!allowEditFields.hostelLogo}
+        />
+      </label>
+      <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>
+        to Upload
+      </span>
+    </div>
+
+    {/* File Format Info */}
+    <small
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 9,
+        color: "rgba(75, 75, 75, 1)",
+        fontWeight: 400,
+        display: "block",
+        marginTop: "5px"
+      }}
+    >
+      Must be in PNG Format (600px × 300px)
+    </small>
+  </div>
+
+    <div className=" p-3  col-lg-12" style={{borderRadius:'10px' , overflowY:'auto', }}>
+
+    
+ <div className='d-flex row '>
+                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+ <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '6px'
+  }}>
+    <label style={{ fontWeight: 600 }}>Contact Number</label>
+  </div>
+
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#F0F3FF',
+    borderRadius: '8px',
+    padding: '8px 12px',
+    border: '1px solid #E0E0E0',
+  }}>
+    <select style={{
+      border: 'none',
+      backgroundColor: 'transparent',
+      fontFamily: 'inherit',
+      fontSize: 'inherit',
+      fontWeight: 'inherit',
+      appearance: 'none',
+      paddingRight: '16px',
+      cursor: 'pointer',
+      outline: 'none',
+      backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E")',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right center',
+      backgroundSize: '10px'
+    }}
+     disabled={!allowEditFields.contact}
+    >
+      <option value="+91">+91</option>
+      <option value="+1">+1</option>
+      <option value="+44">+44</option>
+      <option value="+971">+971</option>
+      
+    </select>
+
+    <input
+      type="tel"
+      placeholder="9876543210"
+      style={{
+        border: 'none',
+        backgroundColor: 'transparent',
+        outline: 'none',
+        marginLeft: '8px',
+        fontFamily: 'inherit',
+        fontSize: 'inherit',
+        fontWeight: 'inherit',
+      }}
+       value={mobilenum}
+       onChange={handleMobile}
+      maxLength={10}
+       disabled={!allowEditFields.contact}
+    />
+   
+  </div>
+   {MobileError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {MobileError}
+                              </span>
+                            </div>
+                          )}
+</div>
+
+
+
+                        </div>
+
+                      
+                    </div>
+                          
+                  </div>
+
+                    <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}> 
+ <div className='d-flex row '>
+                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+ <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '6px'
+  }}>
+    <label style={{ fontWeight: 600 }}>E-Mail Address</label>
+  </div>
+
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#F0F3FF',
+    borderRadius: '8px',
+    padding: '8px 12px',
+    border: '1px solid #E0E0E0',
+  }}>
+  
+
+    <input
+      type="tel"
+      placeholder="abc@gmail.com"
+      style={{
+        border: 'none',
+        backgroundColor: 'transparent',
+        outline: 'none',
+        marginLeft: '8px',
+        fontFamily: 'inherit',
+        fontSize: 'inherit',
+        fontWeight: 'inherit',
+      }}
+      disabled={!allowEditFields.email}
+      value={email}
+       onChange={handleEmail}
+    />
+   
+  </div>
+   {emailError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {emailError}
+                              </span>
+                            </div>
+                          )}
+</div>
+
+
+
+                        </div>
+
+                      
+                    </div>
+                          
+                  </div>
+
+                  <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+ <div className='d-flex row '>
+                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+ <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '6px'
+  }}>
+    <label style={{ fontWeight: 600 }}>Digital Signature Upload</label>
+  </div>
+
+      <div className="col-12">
+               <div
+            className="rounded mt-2 d-flex justify-content-center align-items-center"
+            style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
+        borderColor: '#ced4da'}}
+          >
+            {signaturePreview ? (
+              <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+            ) : (
+              <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+              >No signature uploaded</span>
+            )}
+          </div>
+    
+          <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
+            <div className="d-flex flex-row">
+              <label  style={{    cursor: allowEditFields.digitalSignature ? 'pointer' : 'not-allowed',
+    color: allowEditFields.digitalSignature ? 'rgba(30, 69, 225, 1)' : '#999', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>
+                Choose file
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="d-none"
+                  ref={fileInputRef}
+    onChange={handleFileSignatureChange}
+    disabled={!allowEditFields.digitalSignature}
+                />
+              </label>
+              <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>to Upload Image</span>
+            </div>
+            <div className="d-flex justify-content-end">
+              <button
+                className="btn btn-link text-decoration-none "
+                onClick={handleClear}
+                disabled={!signaturePreview}
+                style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}
+              >
+                Clear
+              </button>
+              <button
+                className="btn btn-link text-decoration-none "
+                disabled={!signaturePreview}
+                onClick={handleSignatureDone}
+                style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600}}
+              >
+                Done
+              </button>
+            </div>
+    
+            
+          </div>
+            {/* {signature_errmsg.trim() !== "" && (
+                                                  <div className="d-flex align-items-center p-1">
+                                                    <MdError
+                                                      style={{
+                                                        color: "red",
+                                                        marginRight: "5px",
+                                                        fontSize: "14px",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      className="mb-0"
+                                                      style={{
+                                                        color: "red",
+                                                        fontSize: "12px",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 500,
+                                                      }}
+                                                    >
+                                                      {signature_errmsg}
+                                                    </label>
+                                                  </div>
+                                                )} */}
+          </div>
+</div>
+                        </div>  
+                    </div>        
+                  </div>
+                 <Modal
+  show={contactnumberform}
+  onHide={handleCloseContactNumberForm}
+  centered
+  backdrop="static"
+  className="logout-card d-flex justify-content-center align-items-center"
+  dialogClassName="custom-modal-width" 
+>
+  <Modal.Header style={{ borderBottom: "none" }}>
+    <Modal.Title
+      style={{
+        fontSize: "18px",
+        fontFamily: "Gilroy",
+        textAlign: "center",
+        fontWeight: 600,
+        color: "#222222",
+        flex: 1,
+        paddingTop:'20px'
+      }}
+    >
+      <img src={Questionimage} alt="question" className="me-2" />
+      Override Global Value?
+    </Modal.Title>
+  </Modal.Header>
+
+  <Modal.Body
+    style={{
+      fontSize: 14,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      color: "#646464",
+      textAlign: "center",
+      paddingLeft: "20px",
+      paddingRight: "20px",
+    }}
+  >
+    You’re changing this field only for this bill. 
+    It won’t affect the main settings.
+  </Modal.Body>
+
+  <Modal.Footer
+    style={{
+      justifyContent: "center",
+      borderTop: "none",
+      paddingBottom:'20px'
+    }}
+  >
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 10,
+        padding: "12px 20px",
+        background: "#fff",
+        color: "rgba(111, 108, 143, 1)",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        marginRight: 10,
+      }}
+      className="border"
+      onClick={handleCloseContactNumberForm}
+    >
+      Cancel
+    </Button>
+    <Button
+      style={{
+        width: 160,
+        height: 52,
+        borderRadius: 10,
+        padding: "12px 20px",
+        background: "#1E45E1",
+        color: "#FFFFFF",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+      }}
+        onClick={handleEditAnyway}
+
+    >
+      Edit Anyway
+    </Button>
+  </Modal.Footer>
+</Modal>
+</div>
+
+
+
 <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Form Specific Details</p>
 <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
 
@@ -331,7 +897,7 @@ const RentalReceiptPdfTemplate = () => {
 
 </div>
  
- <div className="col-lg-8 d-flex justify-content-center"  style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
+ <div className="col-lg-7 d-flex justify-content-center"  style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
    <div className="d-flex justify-content-center">
   <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius:'8px' , backgroundColor:'white' }} >
             <div className="d-flex justify-content-end ">
