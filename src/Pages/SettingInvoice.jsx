@@ -85,7 +85,7 @@ setContactNumberForm(true)
   }
 
 const handleMobile = (e) => {
-  const input = e.target.value.replace(/\D/g, ""); // Remove non-digits
+  const input = e.target.value.replace(/\D/g, ""); 
   setMobileNum(input);
 
   if (input.length === 0) {
@@ -99,7 +99,7 @@ const handleMobile = (e) => {
   }
 };
 
-console.log("MobileError",MobileError)
+
 
   const handleCloseContactNumberForm = () => {
     setContactNumberForm(false)
@@ -300,16 +300,7 @@ const handleTermsChange = (e) => {
 
 
   
-  // const handleEdit = () => {
-  //   setShowForm(false);
-  //   setCardShow(false)
-  //   setEdit(true); 
-
-  //   if(state.login.selectedHostel_Id){
-  //     setLoading(true)
-  //     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
-  //   }
-  // };
+ 
 
   const handleEditClose = () => {
     setShowForm(true);
@@ -717,14 +708,7 @@ useEffect(() => {
 }, [showFullView]);
 
 
-  // bg color payload send data ==> 
-  //     background_color: {
-  //   r: color.r,
-  //   g: color.g,
-  //   b: color.b,
-  //   a: color.a
-  // },
-  // hex_color: hexValue 
+   
 
 
   return (
@@ -1007,7 +991,7 @@ useEffect(() => {
         fontFamily: "Gilroy",
         fontSize: "14px",
       }}
-      // onClick={handleEdit}
+      
     >
       Edit Anyway
     </Button>
@@ -1581,7 +1565,7 @@ useEffect(() => {
                        
        <div  className=" text-white  p-2 position-relative"
         style={{ height:60,
-        // background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,
+        
             background: useGradient
             ? defaultGradient
             : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
@@ -1678,7 +1662,7 @@ useEffect(() => {
            <table className="table text-center">
              <thead
                style={{
-                //  backgroundColor: "rgba(71, 104, 234, 1)",
+               
                    background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                  color: "white",
                }}
@@ -1826,7 +1810,7 @@ useEffect(() => {
          <div
            className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
            style={{
-            //  backgroundColor: 'rgba(48, 80, 210, 1)',
+           
                     background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
              borderTopRightRadius: '38px',
              borderTopLeftRadius: '38px',
@@ -1935,7 +1919,7 @@ useEffect(() => {
          }}>
                        
        <div  className=" text-white  p-4 position-relative" style={{ height:100,
-        // background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,
+       
              background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
         }}>
          <div className="d-flex justify-content-between align-items-center">
@@ -2030,7 +2014,7 @@ useEffect(() => {
            <table className="table text-center">
              <thead
                style={{
-                //  backgroundColor: "rgba(71, 104, 234, 1)",
+              
                    background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
                  color: "white",
                }}
@@ -2178,7 +2162,7 @@ useEffect(() => {
          <div
            className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
            style={{
-            //  backgroundColor: 'rgba(48, 80, 210, 1)',
+           
                background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
              borderTopRightRadius: '38px',
              borderTopLeftRadius: '38px',
@@ -2301,12 +2285,12 @@ useEffect(() => {
   >
         <div className="col-lg-8">
   <p className="mb-4" style={{ 
-          // maxWidth: 100 , 
+        
           fontFamily: "Gilroy",
           fontSize: 14,
           color: "rgba(97, 97, 97, 1)",
           fontWeight: 400,
-          // whiteSpace: "nowrap",
+         
           lineHeight:"20px", 
           letterSpacing:'0%'
   }}>
@@ -2455,8 +2439,8 @@ useEffect(() => {
         color: "rgba(75, 75, 75, 1)",
         fontWeight: 400,
         borderRadius:8,
-         outline: "none", // 👈 Remove blue focus border
-    boxShadow: "none", // 👈 Remove focus shadow (in Bootstrap)
+         outline: "none",
+    boxShadow: "none", 
       }}
     />
 
