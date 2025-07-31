@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
@@ -21,10 +22,17 @@ import Button from 'react-bootstrap/Button';
 import {CloseCircle} from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";
 import { RgbaColorPicker } from "react-colorful";
+import uploadsett from "../Assets/Images/New_images/upload setting.png";
+import ZoomImage from '../Assets/Images/zoom.png'
+import Topbottom from '../Assets/Images/cancel_presentation.png';
+import left85arrow from '../Assets/Images/arrow85.png';
+import printdown from '../Assets/Images/printericon.png';
+import downloadicon from '../Assets/Images/pdfdown.png'; 
+import CloseIcon from '../Assets/Images/close_icon.png';
+import PropTypes from "prop-types";
 
 
-
-   const SecurityDepositInvoiceTemplate = () => {
+   const SecurityDepositInvoiceTemplate = ({hostelid}) => {
 
  const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -275,40 +283,39 @@ const handleTermsChange = (e) => {
                  setIfscCode("")
                  setBankName("")
                  setDescription("")
-                 setBanking([])
                 }
 
-                //  useEffect(() => {
-                //     if(state.login.selectedHostel_Id){
-                //     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-                //     }
-                //   }, [state.login.selectedHostel_Id]);
+                 useEffect(() => {
+                    if(hostelid){
+                    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+                    }
+                  }, [hostelid]);
  
-//  useEffect(() => {
-//     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-//       setBanking(state.bankingDetails.bankingList.banks)
-//       setTimeout(() => {
-//         dispatch({ type: "CLEAR_BANKING_LIST" });
-//       }, 200);
-//     }
-//   }, [state.bankingDetails.statusCodeForGetBanking]);
+ useEffect(() => {
+    if (state.bankingDetails.statusCodeForGetBanking === 200) {
+      setBanking(state.bankingDetails.bankingList.banks)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForGetBanking]);
 
                 
-    //  useEffect(() => {
-    //    if (state.bankingDetails.statusCodeForAddBanking === 200) {
-    //      setAccountName("")
-    //      setAccount_Number("")
-    //      setIfscCode("")
-    //      setBankName("")
-    //      setDescription("")
-    //      handleCloseBankAccount();
+     useEffect(() => {
+       if (state.bankingDetails.statusCodeForAddBanking === 200) {
+         setAccountName("")
+         setAccount_Number("")
+         setIfscCode("")
+         setBankName("")
+         setDescription("")
+         handleCloseBankAccount();
    
-    //      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    //      setTimeout(() => {
-    //        dispatch({ type: "CLEAR_ADD_USER_BANKING" });
-    //      }, 1000);
-    //    }
-    //  }, [state.bankingDetails.statusCodeForAddBanking]);
+         dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelid} });
+         setTimeout(() => {
+           dispatch({ type: "CLEAR_ADD_USER_BANKING" });
+         }, 1000);
+       }
+     }, [state.bankingDetails.statusCodeForAddBanking]);
 
 
 
@@ -359,10 +366,10 @@ useEffect(() => {
     return(
         <>
         <div className="col-12 d-flex flex-row">
-<div className="col-lg-6 show-scroll" style={{ maxHeight: 450,
+<div className="col-lg-4 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
-<p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
+<p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Form Specific Details</p>
 <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
 
   <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
@@ -378,11 +385,6 @@ useEffect(() => {
     marginBottom: '6px'
   }}>
     <label style={{ fontWeight: 600 }}>Contact Number</label>
-    {/* <span style={{
-      cursor: 'pointer',
-      fontSize: '16px',
-      color: '#666'
-    }} onClick={handleShowContactNumberForm}>✎</span> */}
     <img  src={EditICon} onClick={handleShowContactNumberForm} style={{cursor:'pointer'}} alt="editicon"/>
   </div>
 
@@ -700,7 +702,6 @@ useEffect(() => {
   }}
   className="col-lg-10"
 >
-  {/* Fixed Header */}
   <div
     style={{
       display: 'flex',
@@ -803,21 +804,7 @@ useEffect(() => {
     )}
   </div>
 
-  {/* Validation Error */}
-  {/* {!selectedBankId && bankid_Error.trim() !== '' && (
-    <div style={{ display: 'flex', alignItems: 'center', paddingTop: 8 }}>
-      <MdError style={{ color: 'red', marginRight: 5, fontSize: 14 }} />
-      <label
-        style={{
-          color: 'red',
-          fontSize: 12,
-          fontWeight: 500,
-        }}
-      >
-        {bankid_Error}
-      </label>
-    </div>
-  )} */}
+  
 </div>
 
 
@@ -829,49 +816,38 @@ useEffect(() => {
         <hr></hr>
       </div>
 
- <div className='d-flex row '>
-                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label
-                                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                                >
-                                    Valid UPI QR Code for Payment Easy
-                                </Form.Label>
-                                <Form.Control
-                                    style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                                    type="text"
-                                    placeholder="12%"
-                                    value={tax}
-                                    onChange={handleTaxChange}
-                                />
+ <p style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400, color:'rgba(75, 75, 75, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
+  Valid UPI QR Code for Payment Easy</p>
+<div className="col-12">
+        <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
+          <img src={uploadsett} alt="upload" style={{ height: 30 }} />
+          <div className="d-flex flex-column ms-3">
+         <div>
+          <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
+            Choose file
+            <input
+              type="file"
+              accept="image/*"
+              className="d-none"
+              // ref={fileInputRef}
+              // onChange={handleFileSignatureChange}
+            />
+          </label>
+          <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload </span>
+        </div>
+            <small className="" 
+                    style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "rgba(75, 75, 75, 1)",
+          fontWeight: 400,
+          whiteSpace: "nowrap"
+        }}
+            >JPG SVG PNG(150px × 150px)</small>
+          </div>
+        </div>
+      </div>
 
-                                {tax_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {tax_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-                          </Form.Group>
-                        </div>
-
-                      
-                    </div>
                    
 
                     
@@ -1066,20 +1042,23 @@ useEffect(() => {
 
 
 </div>
-<div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-lg-6" ref={cardRef} style={{  borderRadius:'8px' ,}} >
+
+<div className="col-lg-8 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
+  <div className="d-flex justify-content-center">
+<div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{  borderRadius:'8px' , backgroundColor:'white'}} >
        
-       <div className="d-flex justify-content-end pe-2">
-  <button
-    className="btn btn-sm btn-outline-primary"
-    onClick={() => setShowFullView(true)} 
-     style={{height:25 , fontSize:8}}
-  >
-    🔍 Full View
-  </button>
-</div>
+          <div className="d-flex justify-content-end ">
+   <button
+     className="btn btn-sm border bg-white"
+     onClick={() => setShowFullView(true)}
+     style={{height:25 , fontSize:8 , color: 'rgba(23, 23, 23, 1)'}}
+   >
+     <img  src={ZoomImage} alt="zoom"/> Full View
+   </button>
+ </div>
 
        <div   ref={innerScrollRef}
-         className="border shadow show-scroll col-lg-12 justify-content-center"
+         className=" show-scroll col-lg-12 justify-content-center"
          style={{
            maxHeight: 470,
            overflowY: "auto",
@@ -1117,7 +1096,7 @@ useEffect(() => {
        </div>
        
        
-       <div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",borderTopLeftRadius:'20px'}}>
+       <div className="container border shadow bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
          <div className="text-center pt-1 pb-1">
            <h5 style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
            Security Deposit Invoice
@@ -1355,71 +1334,92 @@ useEffect(() => {
        </div>
        
        </div>
+       </div>
+       </div>
 
        {showFullView && (
   <div
     className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
     style={{
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      backgroundColor: 'rgba(90, 90, 90, 0.22)',
       zIndex: 9999,
       overflowY: 'auto',
       marginLeft:'10%'
     }}
   >
     <div
-      className="bg-white  rounded shadow"
+      className="bg-white shadow"
       style={{
         width: '100%',
         maxWidth: '900px',
         minHeight: '90vh',
         overflowY: 'auto',
         position: 'relative',
-        borderRadius: '16px',
+        borderTopLeftRadius: '16px',
+        borderTopRightRadius: '16px',
       }}
     >
      <div
   style={{
-    backgroundColor: '#333',
-    color: 'white',
-    padding: '8px 16px',
+     backgroundColor: '#2C2C2C',
+    color: '#fff',
+    padding: '7px 20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    position:'relative',
+    borderTopLeftRadius: '16px',
+    borderTopRightRadius: '16px',
   }}
 >
-  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-    <span>1 / 1</span>
-    <span>|</span>
-    <div className="d-flex align-items-center" style={{ gap: '4px' }}>
-      <button className="btn btn-sm btn-light">−</button>
-      <span style={{ fontWeight: 'bold' }}>100%</span>
-      <button className="btn btn-sm btn-light">+</button>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' , marginLeft:25}}>
+      <span style={{ fontSize: '8px' }}>1 / 1</span>
+      <div style={{ borderLeft: '1px solid #555', height: '20px' }}></div>
+  
+      <div className="d-flex align-items-center" style={{ gap: '3px' }}>
+        <button className="btn btn-sm text-white px-0 py-0 mb-1 me-1">−</button>
+        <span style={{ fontWeight: 'bold', fontSize: '8px' }}>100%</span>
+        <button className="btn btn-sm text-white px-0 py-0 mb-1 ms-1" >+</button>
+      </div>
+  
+      <div style={{ borderLeft: '1px solid #555', height: '20px' }}></div>
+  
+      <button className="btn btn-sm  px-1 py-0 me-0"><img  src={Topbottom} alt="topbottom"/></button>
+      <button className="btn btn-sm px-1 py-0"><img  src={left85arrow} alt="left85arrow"/></button>
     </div>
-    <span>|</span>
-    <button className="btn btn-sm btn-light">🖥️</button>
-    <button className="btn btn-sm btn-light">↻</button>
-  </div>
-
-  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-    <button className="btn btn-sm btn-light">⬇</button>
-    <button className="btn btn-sm btn-light">🖨️</button>
-    <button
-      className="btn btn-sm btn-light"
-      onClick={() => setShowFullView(false)}
-    >
-      ❌
-    </button>
-  </div>
+  
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <button className="btn btn-sm  px-2 py-0"><img  src={downloadicon} alt="topbottom"   style={{ width: '12px', height: '12px' }}/></button>
+      <button className="btn btn-sm  px-2 py-0"><img  src={printdown} alt="topbottom"   style={{ width: '12px', height: '12px' }}/></button>
+   <div
+            className="bg-white rounded-circle d-flex align-items-center justify-content-center"
+            onClick={() => setShowFullView(false)}
+            style={{
+              width: '30px',
+              height: '30px',
+              cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+          
+            }}
+          >
+            <img
+              src={CloseIcon}
+              alt="Close"
+              style={{ width: '12px', height: '12px' }}
+            />
+          </div>
+  
+    </div>
 </div>
 
 
-      <div><div className="receipt-container border ps-4 pe-4 pb-4 pt-4 col-lg-9" ref={cardRef} style={{ marginTop:'20px', borderRadius:'8px' ,marginLeft:'10%'}} >
+      <div className="d-flex justify-content-center"><div className="receipt-container border ps-5 pe-5 pb-2 pt-2 mt-3 col-lg-8" ref={cardRef} style={{ borderRadius:'8px' }} >
        
        
         <div   ref={innerScrollRef}
-         className="border shadow show-scroll col-lg-11 justify-content-center"
+         className="border shadow show-scroll col-lg-12 justify-content-center"
          style={{
-           maxHeight: 430,
+           maxHeight: 480,
            overflowY: "auto",
            overflowX:'hidden',
            borderBottomLeftRadius: "13px",
@@ -1908,5 +1908,9 @@ useEffect(() => {
                                                       )}
         </>
     )
+   }
+   SecurityDepositInvoiceTemplate.propTypes = {
+     hostelid: PropTypes.func.isRequired,
+
    }
    export default SecurityDepositInvoiceTemplate;
