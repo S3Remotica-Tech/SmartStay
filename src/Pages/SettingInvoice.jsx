@@ -2445,7 +2445,7 @@ useEffect(() => {
           color: "rgba(34, 34, 34, 1)",
           fontWeight: 600,
         }}
-        >Contact Number...........</label>
+        >Contact Number</label>
         <div className="form-check mt-2">
           <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{ cursor: "pointer" }} />
           <label className="form-check-label small" htmlFor="customizeContact"
