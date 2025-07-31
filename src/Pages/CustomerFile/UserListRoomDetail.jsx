@@ -4714,6 +4714,7 @@ function UserListRoomDetail(props) {
                                       )}
                                     </div>
                                   </div>
+                                  <fieldset disabled>
 
                                   <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
@@ -4945,7 +4946,7 @@ function UserListRoomDetail(props) {
 
 
                                   </div>
-
+</fieldset>
 
 
                                 </div>
@@ -4988,6 +4989,7 @@ function UserListRoomDetail(props) {
                                 )}
                                 <Button
                                   className="w-100"
+                                  disabled
                                   style={{
                                     backgroundColor: "#1E45E1",
                                     fontWeight: 600,
