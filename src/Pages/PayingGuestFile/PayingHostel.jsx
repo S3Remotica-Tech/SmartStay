@@ -32,9 +32,12 @@ function PayingHostel(props) {
   };
 
   const handleSelectedHostel = (selectedHostel) => {
+    console.log("selectedHostel", selectedHostel)
     props.OnSelectHostel(selectedHostel);
     props.onRowVisiblity(false);
   };
+
+  
 
   const handleDotsClick = () => {
     setShowDots(!showDots);
@@ -87,7 +90,7 @@ function PayingHostel(props) {
 
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
-     
+
       handleClose();
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
@@ -136,9 +139,9 @@ function PayingHostel(props) {
                     <Image
                       src={
                         props.filteredData[0]?.profile &&
-                        props.filteredData[0].profile !== "undefined" &&
-                        props.filteredData[0].profile !== null &&
-                        props.filteredData[0].profile !== "0"
+                          props.filteredData[0].profile !== "undefined" &&
+                          props.filteredData[0].profile !== null &&
+                          props.filteredData[0].profile !== "0"
                           ? props.filteredData[0].profile
                           : Vendors
                       }
@@ -443,7 +446,7 @@ function PayingHostel(props) {
                       }}
                     >
                       {props.filteredData[0]?.email_id &&
-                      props.filteredData[0]?.email_id !== "undefined"
+                        props.filteredData[0]?.email_id !== "undefined"
                         ? props.filteredData[0]?.email_id
                         : "N/A"}
                     </label>
@@ -549,26 +552,26 @@ function PayingHostel(props) {
                     props.filteredData[0]?.city ||
                     props.filteredData[0]?.pincode ||
                     props.filteredData[0]?.state) && (
-                    <>
-                      {props.filteredData[0]?.Address && (
-                        <>
-                          {props.filteredData[0].Address}
-                          {(props.filteredData[0].area || props.filteredData[0].city) && ", "}
-                        </>
-                      )}
-                      {props.filteredData[0]?.area && (
-                        <>
-                          {props.filteredData[0].area}
-                          {props.filteredData[0].city && ", "}
-                        </>
-                      )}
-                      {props.filteredData[0]?.landmark && <>{props.filteredData[0].landmark}</>}
-                      <br></br>
-                      {props.filteredData[0]?.city && <>{props.filteredData[0].city}</>}
-                      {props.filteredData[0]?.pin_code && <> - {props.filteredData[0].pin_code}</>}
-                      {props.filteredData[0]?.state && <>, {props.filteredData[0].state}</>}
-                    </>
-                  )}
+                      <>
+                        {props.filteredData[0]?.Address && (
+                          <>
+                            {props.filteredData[0].Address}
+                            {(props.filteredData[0].area || props.filteredData[0].city) && ", "}
+                          </>
+                        )}
+                        {props.filteredData[0]?.area && (
+                          <>
+                            {props.filteredData[0].area}
+                            {props.filteredData[0].city && ", "}
+                          </>
+                        )}
+                        {props.filteredData[0]?.landmark && <>{props.filteredData[0].landmark}</>}
+                        <br></br>
+                        {props.filteredData[0]?.city && <>{props.filteredData[0].city}</>}
+                        {props.filteredData[0]?.pin_code && <> - {props.filteredData[0].pin_code}</>}
+                        {props.filteredData[0]?.state && <>, {props.filteredData[0].state}</>}
+                      </>
+                    )}
                 </div>
               </div>
             </Card.Body>
