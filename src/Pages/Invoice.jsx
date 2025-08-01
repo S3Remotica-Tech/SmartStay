@@ -1571,25 +1571,25 @@ const InvoicePage = () => {
   const indexOfFirstItemRecure = indexOfLastItemRecure - itemsPage;
 
 
-  // const currentItem =
-  //   filterInput.length > 0
-  //     ? recurringbills
-  //     : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
-
-  const filteredBills = recurringbills.filter(
-    (bill) => bill.stay_type === (activeStay)
-  );
-
   const currentItem =
     filterInput.length > 0
-      ? filteredBills
-      : filteredBills.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+      ? recurringbills
+      : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+
+  // const filteredBills = recurringbills.filter(
+  //   (bill) => bill.stay_type === (activeStay)
+  // );
+
+  // const currentItem =
+  //   filterInput.length > 0
+  //     ? filteredBills
+  //     : filteredBills.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
 
 
 
   console.log("recurringbills", recurringbills)
 
-  console.log("filteredBills", filteredBills)
+  // console.log("filteredBills", filteredBills)
 
   const handlePageChangeRecure = (pageNumber) => {
     setCurrentRecurePage(pageNumber);
@@ -2332,7 +2332,7 @@ const InvoicePage = () => {
          payload: { hostel_id: hostelId , stay_type: activeStay},
       });
     }
-  }, [hostelId]);
+  }, [hostelId, activeStay]);
 
   useEffect(() => {
     if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
