@@ -94,6 +94,8 @@ function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
       const [signature,setSignature] = useState(null)
       const [signaturePreview,setSignaturePreview] = useState(null)
        const [savebuttonshow,setSavebuttonshow] = useState(false)
+       const [initialValues, setInitialValues] = useState({});
+const [noChangesDetectedMsg, setNoChangesDetectedMsg] = useState("");
 
 
 
@@ -106,30 +108,70 @@ function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
         }
 
       },[state.Settings.statusCodeForSettingFetch])
-      console.log("getData",getData)
+      
     
-useEffect(()=>{
+// useEffect(()=>{
 
-  if(getData){
-    setMobileNum(getData[0]?.common_contact_number)
-    setEmail(getData[0]?.common_email)
-    setSign(getData[0]?.common_digital_signature_url)
-    setSignPreview(getData[0]?.common_digital_signature_url)
+//   if(getData){
+//     setMobileNum(getData[0]?.common_contact_number)
+//     setEmail(getData[0]?.common_email)
+//     setSign(getData[0]?.common_digital_signature_url)
+//     setSignPreview(getData[0]?.common_digital_signature_url)
   
 
-    setIsCheckedLogo(getData[0]?.is_logo_specific_template)
-    setIsCheckedMobile(getData[0]?.is_contact_specific_template)
-    setIsCheckedEmail(getData[0]?.is_email_specific_template)
-    setIsCheckedSignature(getData[0]?.is_signature_specific_template)
+//     setIsCheckedLogo(getData[0]?.is_logo_specific_template)
+//     setIsCheckedMobile(getData[0]?.is_contact_specific_template)
+//     setIsCheckedEmail(getData[0]?.is_email_specific_template)
+//     setIsCheckedSignature(getData[0]?.is_signature_specific_template)
     
-  if(!previewURL){
-    setSelectedFile(getData[0]?.common_logo_url || null)
-    setPreviewURL(getData[0]?.common_logo_url || null)
-    }
-  }
+//   if(!previewURL){
+//     setSelectedFile(getData[0]?.common_logo_url || null)
+//     setPreviewURL(getData[0]?.common_logo_url || null)
+//     }
+//   }
 
-},[getData,state.login.selectedHostel_Id])
-console.log("getData[0]?.common_digital_signature_url",getData[0]?.common_digital_signature_url)
+//    setInitialValues(initial);
+//     setMobileNum(initial.mobilenum);
+//     setEmail(initial.email);
+//     setSign(initial.sign);
+//     setSignPreview(initial.sign);
+//     setSelectedFile(initial.selectedFile);
+//     setPreviewURL(initial.selectedFile);
+//     setIsCheckedLogo(initial.isCheckedLogo);
+//     setIsCheckedMobile(initial.isCheckedmobile);
+//     setIsCheckedEmail(initial.isCheckedEmail);
+//     setIsCheckedSignature(initial.isCheckedSignature);
+
+// },[getData,state.login.selectedHostel_Id])
+
+
+useEffect(() => {
+  if (getData && getData[0]) {
+    const initial = {
+      mobilenum: getData[0]?.common_contact_number || "",
+      email: getData[0]?.common_email || "",
+      sign: getData[0]?.common_digital_signature_url || null,
+      selectedFile: getData[0]?.common_logo_url || null,
+      isCheckedLogo: getData[0]?.is_logo_specific_template || false,
+      isCheckedmobile: getData[0]?.is_contact_specific_template || false,
+      isCheckedEmail: getData[0]?.is_email_specific_template || false,
+      isCheckedSignature: getData[0]?.is_signature_specific_template || false,
+    };
+
+    setInitialValues(initial);
+    setMobileNum(initial.mobilenum);
+    setEmail(initial.email);
+    setSign(initial.sign);
+    setSignPreview(initial.sign);
+    setSelectedFile(initial.selectedFile);
+    setPreviewURL(initial.selectedFile);
+    setIsCheckedLogo(initial.isCheckedLogo);
+    setIsCheckedMobile(initial.isCheckedmobile);
+    setIsCheckedEmail(initial.isCheckedEmail);
+    setIsCheckedSignature(initial.isCheckedSignature);
+  }
+}, [getData, state.login.selectedHostel_Id]);
+
 
       useEffect(()=>{
         if(state.Settings.settingGlobalAddStatusCode === 200){
@@ -142,7 +184,7 @@ console.log("getData[0]?.common_digital_signature_url",getData[0]?.common_digita
 
       },[state.Settings.settingGlobalAddStatusCode])
 
-console.log("SettingInvoice",state)
+
 
   const handleShowContactNumberForm = () => {
 setContactNumberForm(true)
@@ -166,6 +208,7 @@ const handleMobile = (e) => {
   }
   setFieldError("")
    setSavebuttonshow(true)
+   setNoChangesDetectedMsg(""); 
 };
 
 const handleEmail = (e) => {
@@ -186,6 +229,7 @@ const handleEmail = (e) => {
     }
      setFieldError("")
       setSavebuttonshow(true)
+      setNoChangesDetectedMsg(""); 
    
   };
 
@@ -197,13 +241,15 @@ const handleMobileCheckboxChange = (e) => {
   const checked = e.target.checked;
   setIsCheckedMobile(checked);
    setSavebuttonshow(true)
+   setNoChangesDetectedMsg(""); 
 
 }
-  console.log("Checkbox is checked:", isCheckedmobile);
+  
  const handleEmaiCheckboxChange = (e) => {
   const checked = e.target.checked;
   setIsCheckedEmail(checked);
    setSavebuttonshow(true)
+   setNoChangesDetectedMsg(""); 
   
 }
 
@@ -211,6 +257,7 @@ const handleMobileCheckboxChange = (e) => {
   const checked = e.target.checked;
   setIsCheckedLogo(checked);
    setSavebuttonshow(true)
+   setNoChangesDetectedMsg(""); 
  
 };
 
@@ -220,6 +267,7 @@ const handleMobileCheckboxChange = (e) => {
   const checked = e.target.checked;
   setIsCheckedSignature(checked);
    setSavebuttonshow(true)
+   setNoChangesDetectedMsg(""); 
 
 };
   const PdfOptions = [
@@ -393,6 +441,7 @@ const handleFileSignatureChange = (e) => {
     setFieldError("");
      setSavebuttonshow(true)
   }
+  setNoChangesDetectedMsg(""); 
 };
 
 
@@ -423,6 +472,7 @@ const handleFileChange = (e) => {
   } else {
     setFieldError("Please select a valid PNG or image file.");
   }
+  setNoChangesDetectedMsg(""); 
 };
 
 useEffect(() => {
@@ -441,25 +491,19 @@ useEffect(() => {
 //   };
 // }, [previewURL]);
 
-console.log("preview", previewURL , selectedFile);
 
 
-// const handleFileChange = (e) => {
-//   const file = e.target.files[0];
-//   if (file) {
-//     console.log("Selected file:", file);
-//     setSelectedFile(file);
-//     setFieldError("")
-    
-//   }
-// };
+
+
   const handleClear = () => {
-    setSign(null);
-    setSignPreview(null)
+    setSign("");
+    setSignPreview("")
     setSignatureErrMsg("");
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+  
+     setNoChangesDetectedMsg(""); 
   };
 
 
@@ -905,6 +949,23 @@ const handleSaveTemplate = () => {
     setEmailError("Please enter a valid email address.");
     return;
   }
+  const noChange =
+   mobilenum.trim() === String(initialValues.mobilenum).trim() &&
+    email === initialValues.email &&
+    sign === initialValues.sign &&
+    selectedFile === initialValues.selectedFile &&
+    isCheckedLogo === initialValues.isCheckedLogo &&
+    isCheckedmobile === initialValues.isCheckedmobile &&
+    isCheckedEmail === initialValues.isCheckedEmail &&
+    isCheckedSignature === initialValues.isCheckedSignature;
+
+  if (noChange) {
+    setNoChangesDetectedMsg("No changes detected.");
+    return;
+  } else {
+    setNoChangesDetectedMsg(""); 
+  }
+
  
   dispatch({
     type: "ADDGLOBALSETTING",
@@ -2940,18 +3001,10 @@ const handleReset=(()=>{
     borderColor: '#ced4da',
   }}
 >
-    {sign ? (
+{signPreview ? (
   <img
     src={signPreview}
     alt="uploaded-signature"
-    style={{ maxHeight: '100%', maxWidth: '100%' }}
-  />
-) : getData[0]?.common_digital_signature_url &&
-   getData[0]?.common_digital_signature_url !== "null" &&
-   getData[0]?.common_digital_signature_url !== "" ? (
-  <img
-    src={getData[0]?.common_digital_signature_url}
-    alt="signature"
     style={{ maxHeight: '100%', maxWidth: '100%' }}
     onError={(e) => {
       e.target.onerror = null;
@@ -2973,6 +3026,7 @@ const handleReset=(()=>{
     No signature uploaded
   </span>
 )}
+
 
 
 
@@ -3013,8 +3067,29 @@ const handleReset=(()=>{
           </button>
         </div>
 
+
         
       </div>
+      {noChangesDetectedMsg && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {noChangesDetectedMsg}
+                              </span>
+                            </div>
+                          )}
         {signature_errmsg.trim() !== "" && (
                                               <div className="d-flex align-items-center p-1">
                                                 <MdError
@@ -3631,7 +3706,7 @@ const handleReset=(()=>{
           <button
             className="btn btn-link text-decoration-none "
             onClick={handleClear}
-            disabled={!signaturePreview}
+            // disabled={!signaturePreview}
             style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 16, fontWeight: 400}}
           >
             Clear
