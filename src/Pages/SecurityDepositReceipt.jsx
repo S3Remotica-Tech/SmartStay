@@ -109,7 +109,7 @@ import Questionimage from '../Assets/Images/question.png';
               setSignature(file);
               setSignaturePreview(URL.createObjectURL(file)); 
               setSignatureErrMsg("");
-              setIsSignatureConfirmed(false);
+              setIsSignatureConfirmed(false)
             }
           };
           
