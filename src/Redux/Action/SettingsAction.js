@@ -256,6 +256,7 @@ export async function SettingsGetInvoice(Invoice) {
 }
 
 
+
 export async function AddBillTemplate(params) {
   const formData = new FormData();
 
@@ -301,5 +302,63 @@ export async function AddBillTemplate(params) {
 
 export async function getTemplateList(template) {
   return await AxiosConfig.post("/FetchTemplateListDetails", template);
+}
+
+
+
+
+
+
+
+export async function AddGlobalSettingTemplate(params) {
+  const formData = new FormData();
+
+  if (params.is_logo_specific_template !== undefined)
+    formData.append("is_logo_specific_template", JSON.stringify(params.is_logo_specific_template));
+
+  if (params.contact_number)
+    formData.append("contact_number", params.contact_number);
+
+  if (params.is_contact_specific_template !== undefined)
+    formData.append("is_contact_specific_template", JSON.stringify(params.is_contact_specific_template));
+
+  if (params.email)
+    formData.append("email", params.email);
+
+  if (params.is_email_specific_template !== undefined)
+    formData.append("is_email_specific_template", JSON.stringify(params.is_email_specific_template));
+
+  if (params.is_signature_specific_template !== undefined)
+    formData.append("is_signature_specific_template", JSON.stringify(params.is_signature_specific_template));
+
+  if (params.hostel_Id)
+    formData.append("hostel_Id", params.hostel_Id);
+
+  if (params.logo_url)formData.append("logo_url", params.logo_url);
+   
+
+  if (params.digital_signature_url)formData.append("digital_signature_url", params.digital_signature_url);
+
+  try {
+    const response = await AxiosConfig.post(
+      "/BillTemplateGlobalSetting",
+      formData,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+        timeout: 100000,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
+export async function SettingsGetGlobal(datum) {
+  return await AxiosConfig.post("/FetchTemplateList", datum, {
+    data: datum,
+  });
 }
 

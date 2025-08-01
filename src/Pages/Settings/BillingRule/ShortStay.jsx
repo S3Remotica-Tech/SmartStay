@@ -83,7 +83,7 @@ function ShortStayRecurringModal({ handleClose, show }) {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered>
+      <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Header style={{}}>
           <Modal.Title
             style={{

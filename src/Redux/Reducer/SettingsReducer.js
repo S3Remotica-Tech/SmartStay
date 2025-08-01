@@ -67,14 +67,15 @@ export const initialState = {
   toTriggerPDF: false,
   SubscriptionPDF: [],
   SubscriptionPdfSuccess: 0,
-  SettingsRecurringAddSuccess:0,
-  FrequencyTypeList : [],
+  SettingsRecurringAddSuccess: 0,
+  FrequencyTypeList: [],
   NotificationTypeList: [],
-  FrequncyTypegetSuccessCode: 0 ,
+  FrequncyTypegetSuccessCode: 0,
   NotificationypegetSuccessCode: 0,
-  SettingsBillsGetRecurring:[],
+  SettingsBillsGetRecurring: [],
   settingsBillsggetRecurrSucesscode: 0,
   settingsAddInvoiceSucesscode: 0,
+
   planExpired:'',
   SettingsInvoice : [],
   settingsInvoicegetSucesscode : 0,
@@ -83,12 +84,16 @@ export const initialState = {
   settingsBillsTemplateList : [],
   SettingsBilltemplategetsuccessCode : 0,
   SettingsBilltemplategetErrorCode : 0,
+  settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+ 
 };
 
 const SettingsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RESET_ALL':
-          return initialState;
+      return initialState;
     case "ERROR_USER":
       return { ...state, errorUser: action.payload.statusCode };
     case "REMOVE_ERROR_USER":
@@ -192,7 +197,7 @@ const SettingsReducer = (state = initialState, action) => {
       return { ...state, alreadytypeerror: "" };
 
 
-case "PLAN-EXPIRED":
+    case "PLAN-EXPIRED":
       return { ...state, planExpired: action.payload };
 
     case "CLEAR_PLAN-EXPIRED":
@@ -439,44 +444,70 @@ case "PLAN-EXPIRED":
       return { ...state, statusCodeForSubcripitionAllDetails: 0 };
 
     case "SUBSCRIPTION_PDF":
-      return {...state, SubscriptionPDF: action.payload.response, SubscriptionPdfSuccess: action.payload.statusCode,toTriggerPDF: false,};
+      return { ...state, SubscriptionPDF: action.payload.response, SubscriptionPdfSuccess: action.payload.statusCode, toTriggerPDF: false, };
     case "CLEAR_SUBSCRIPTION_PDF_STATUS_CODE":
       return { ...state, SubscriptionPdfSuccess: 0 };
 
     case "SETTINGSADDRECURRING":
-      return {...state,  SettingsRecurringAddSuccess: action.payload.statusCode,};
+      return { ...state, SettingsRecurringAddSuccess: action.payload.statusCode, };
     case "CLEAR_SETTINGSADDRECURRING_STATUS_CODE":
       return { ...state, SettingsRecurringAddSuccess: 0 };
 
     case "FREQUENCYTYPESLIST":
-      return {...state,  FrequencyTypeList : action.payload.response, FrequncyTypegetSuccessCode: action.payload.statusCode,};
+      return { ...state, FrequencyTypeList: action.payload.response, FrequncyTypegetSuccessCode: action.payload.statusCode, };
     case "CLEAR_FREQUENCYTYPESLIST_STATUS_CODE":
-      return { ...state, FrequncyTypegetSuccessCode: 0 };  
+      return { ...state, FrequncyTypegetSuccessCode: 0 };
 
     case "NOTIFICATIONTYPESLIST":
-      return {...state, NotificationTypeList : action.payload.response, NotificationypegetSuccessCode: action.payload.statusCode,};
+      return { ...state, NotificationTypeList: action.payload.response, NotificationypegetSuccessCode: action.payload.statusCode, };
     case "CLEAR_NOTIFICATIONTYPESLIST_STATUS_CODE":
-      return { ...state, NotificationypegetSuccessCode: 0 };  
+      return { ...state, NotificationypegetSuccessCode: 0 };
 
     case "SETTINGSGETRECURRING":
-      return {...state, SettingsBillsGetRecurring : action.payload.response, settingsBillsggetRecurrSucesscode: action.payload.statusCode,};
+      return { ...state, SettingsBillsGetRecurring: action.payload.response, settingsBillsggetRecurrSucesscode: action.payload.statusCode, };
     case "CLEAR_SETTINGSGETRECURRING_STATUS_CODE":
-      return { ...state, settingsBillsggetRecurrSucesscode: 0 };    
- 
+      return { ...state, settingsBillsggetRecurrSucesscode: 0 };
+
     case "ADDINVOICE_SETTINGS":
-      return {...state,  settingsAddInvoiceSucesscode: action.payload.statusCode,};
+      return { ...state, settingsAddInvoiceSucesscode: action.payload.statusCode, };
     case "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE":
-      return { ...state, settingsAddInvoiceSucesscode: 0 }; 
+      return { ...state, settingsAddInvoiceSucesscode: 0 };
 
     case "SETTINGSGETINVOICE":
-      return {...state, SettingsInvoice : action.payload.response, settingsInvoicegetSucesscode: action.payload.statusCode,};
+      return { ...state, SettingsInvoice: action.payload.response, settingsInvoicegetSucesscode: action.payload.statusCode, };
     case "CLEAR_SETTINGSGETINVOICE_STATUS_CODE":
-      return { ...state, settingsInvoicegetSucesscode: 0 };   
-      
+      return { ...state, settingsInvoicegetSucesscode: 0 };
+
     case "ERROR_SETTINGS_GETINVOICE":
-      return {...state, settingsInvoicegetErrorStatuscode: action.payload.statusCode,};
+      return { ...state, settingsInvoicegetErrorStatuscode: action.payload.statusCode, };
     case "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE":
-      return { ...state, settingsInvoicegetErrorStatuscode: 0 };    
+      return { ...state, settingsInvoicegetErrorStatuscode: 0 };
+
+    case 'RECURRINGOFF':
+      return { ...state, RecurringOffStatusCode: action.payload.statusCode};
+    case 'REMOVE_RECURRINGOFF':
+      return { ...state, RecurringOffStatusCode: 0 };
+
+
+
+
+
+
+
+       case "ADD_GLOBAL_SETTINGS":
+      return {...state,  settingGlobalAddStatusCode: action.payload.statusCode,};
+    case "CLEAR_ADD_GLOBAL_SETTINGS":
+      return { ...state, settingGlobalAddStatusCode: 0 }; 
+
+
+       case "GET_GLOBAL_SETTING":
+      return {
+        ...state,
+        FetchGlobal: action.payload.response,
+        statusCodeForSettingFetch: action.payload.statusCode,
+      };
+    case "CLEAR_GET_GLOBAL_SETTING":
+      return { ...state, statusCodeForSettingFetch: 0 };
 
     case "ADD-BILLS-TEMPLATE":
       return {...state,  settingsBillsAddTemplateSucesscode: action.payload.statusCode,};
@@ -495,7 +526,7 @@ case "PLAN-EXPIRED":
       return { ...state, SettingsBilltemplategetErrorCode: 0 };   
 
     default:
-      return state; 
+      return state;
   }
 };
 export default SettingsReducer;
