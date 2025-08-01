@@ -4,20 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import "../../Pages/Dashboard.css";
 import "sweetalert2/dist/sweetalert2.min.css";
-import PayingHostel from "./PayingHostel";
 import ParticularHostelDetails from "../../Pages/PayingGuestFile/ParticularHostelDetails";
 import AddPg from "./AddPg";
 import AddFloor from "./AddFloor";
 import "./PgList.css";
 import Nav from "react-bootstrap/Nav";
 import AddRoom from "./AddRoom";
-import { ArrowLeft } from "iconsax-react";
-import { FormControl, InputGroup } from "react-bootstrap";
 import PropTypes from "prop-types";
 import {
   ArrowUp2,
   ArrowDown2,
-  CloseCircle,
   Edit,
   Trash,
 } from "iconsax-react";
@@ -34,7 +30,7 @@ import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import { MdError } from "react-icons/md";
 import './PgList.css';
 
-function PgList(props) {
+function PgList() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
@@ -55,15 +51,15 @@ function PgList(props) {
 
 
 
-  const [hidePgList, setHidePgList] = useState(true);
+ 
   const [floorClick, setFloorClick] = useState("");
   const [floorName, setFloorName] = useState("");
-  const [selectedHostel, setSelectedHostel] = useState(false);
+  const [selectedHostel, setSelectedHostel] = useState(true);
 
   const [filteredData, setFilteredData] = useState([]);
 
-  const [loader, setLoader] = useState(false);
-  const [editHostelDetails, setEditHostelDetails] = useState("");
+ 
+
   const [showAddPg, setShowAddPg] = useState(false);
 
 
@@ -82,19 +78,14 @@ function PgList(props) {
     floorName: null,
   });
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showDropDown, setShowDropDown] = useState(false);
+  
   const [hostel_Id, setHostel_Id] = useState("")
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id);
-      // setSelectedHostel(false);
-      setFloorClick("");
-      setFloorName("");
-      setHidePgList(true);
-    }
+          }
   }, [state?.login?.selectedHostel_Id]);
 
 
@@ -102,7 +93,7 @@ function PgList(props) {
 
   useEffect(() => {
     if (hostel_Id) {
-      setLoader(true)
+  
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
     }
   }, [hostel_Id]);
@@ -112,11 +103,10 @@ function PgList(props) {
 
   useEffect(() => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
-  }, [selectedHostel]);
+  }, [selectedHostel, hostel_Id]);
 
 
 
-console.log("selectedHostel",selectedHostel)
 
 
   useEffect(() => {
@@ -124,10 +114,7 @@ console.log("selectedHostel",selectedHostel)
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
 
 
-      setTimeout(() => {
-        setLoader(false);
-
-      }, 100)
+    
 
       setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
@@ -138,8 +125,7 @@ console.log("selectedHostel",selectedHostel)
 
   useEffect(() => {
     if (state.UsersList?.noAllHosteListStatusCode === 201) {
-      setLoader(false);
-      setFilteredData([]);
+          setFilteredData([]);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
       }, 1000);
@@ -163,8 +149,7 @@ console.log("selectedHostel",selectedHostel)
 
   useEffect(() => {
     if (state.UsersList?.noHosteListStatusCode === 201) {
-      setLoader(false);
-      setTimeout(() => {
+           setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_STATUS_CODE" });
       }, 100);
     }
@@ -503,10 +488,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 useEffect(() => {
     if (state.login.selectedHostel_Id) {
-    //  OnSelectHostel(state.login.state.login.selectedHostel_Id);
-    //  onRowVisiblity(false)
-
- const selected = state.UsersList.hotelDetailsinPg?.find((item) => {
+    const selected = state.UsersList.hotelDetailsinPg?.find((item) => {
       return item.id === state.login.selectedHostel_Id;
     });
     setSelectedHostel(true);
@@ -514,7 +496,7 @@ useEffect(() => {
     setShowHostelDetails(selected);
 
     }
-  }, [state.login.selectedHostel_Id])
+  }, [state.login?.selectedHostel_Id, selectedHostel,state.UsersList.hotelDetailsinPg])
 
 
 
@@ -524,15 +506,7 @@ useEffect(() => {
     }
   };
 
-  const handleSelectedHostel = (selectedHostelId) => {
-    const selected = state.UsersList.hotelDetailsinPg?.find((item) => {
-      return item.id === selectedHostelId;
-    });
-    setSelectedHostel(true);
-
-    setShowHostelDetails(selected);
-     setHidePgList(false);
-  };
+  
 
 
 
@@ -549,15 +523,8 @@ useEffect(() => {
 
 
 
-  const handleShowsettingsPG = (settingNewDesign) => {
-    props.displaysettings(settingNewDesign);
-    dispatch({ type: 'MANAGE_PG' })
-  };
-
-  const handleDisplayPgList = (isVisible) => {
-    setHidePgList(isVisible);
-  };
-
+  
+ 
 
 
 
@@ -585,13 +552,7 @@ useEffect(() => {
     setShowRoom(false);
   };
 
-  const handlebackToPG = () => {
-    setSelectedHostel(false);
-    setFloorClick("");
-    setFloorName("");
-    setHidePgList(true);
-    setVisibleRange([0, 2])
-  };
+ 
 
   const handleDIsplayFloorClick = () => {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
@@ -602,55 +563,15 @@ useEffect(() => {
 
 
 
-  const handleInputChange = (e) => {
-    const searchItem = e.target.value;
-    setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.UsersList.hotelDetailsinPg &&
-        state.UsersList.hotelDetailsinPg.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
+ 
 
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setFilteredData(state.UsersList.hotelDetailsinPg);
-    }
-
-  };
-
-  const handleDropDown = (value) => {
-    const searchItem = value;
-    setSearchQuery(searchItem);
-    if (searchItem !== "") {
-      const filteredItems =
-        state.UsersList.hotelDetailsinPg &&
-        state.UsersList.hotelDetailsinPg.filter(
-          (user) =>
-            user.Name &&
-            user.Name.toLowerCase().includes(searchItem.toLowerCase())
-        );
-
-      setFilteredData(filteredItems);
-      setShowDropDown(true);
-    } else {
-      setFilteredData(state.UsersList.hotelDetailsinPg);
-    }
-
-    setShowDropDown(false);
-  };
+  
 
 
 
 
 
-  const handleEditHostel = (hostelDetails) => {
-    setShowAddPg(true);
-    setEditHostelDetails(hostelDetails);
-  };
+ 
 
 
 
@@ -729,17 +650,9 @@ useEffect(() => {
     hostel_Id: null,
     floor_Name: null,
   });
-  const [showFilter, setShowFilter] = useState(false);
 
-  const handleShowSearch = () => {
-    setShowFilter(!showFilter);
-  };
 
-  const handleCloseSearch = () => {
-    setShowFilter(false);
-    setFilteredData(state.UsersList.hotelDetailsinPg);
-    setSearchQuery("");
-  };
+ 
 
   const handleCloseDelete = () => setShowDelete(false);
 
@@ -811,327 +724,12 @@ useEffect(() => {
         </>
       ) : (
         <div className="container">
-          {/* {hidePgList && (
-            <>
-              <div
-                className="container justify-content-between d-flex align-items-center flex-wrap "
-                style={{
-                  height: 83,
-                  position: "sticky",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  zIndex: 1000,
-                  backgroundColor: "#fff",
-                }}
-              >
-
-
-                <div className="pglistlable" style={{ marginTop: -5 }}>
-                  <label
-                    style={{
-                      fontSize: 18,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    Paying Guest
-                  </label>
-                </div>
-
-                <div className="d-flex justify-content-between flex-wrap align-items-center">
-                  {!showFilter && (
-                    <div className="me-3" onClick={handleShowSearch}>
-
-                    </div>
-                  )}
-                  {showFilter && (
-                    <div className="me-3 flex flex-wrap" style={{ position: "relative" }}>
-                      <InputGroup style={{
-                        display: 'flex',
-                        flexWrap: 'nowrap',
-                        width: '100%',
-                      }}>
-                        <FormControl
-                          size="lg"
-                          value={searchQuery}
-                          onChange={handleInputChange}
-                          style={{
-                            width: 235,
-                            boxShadow: "none",
-                            borderColor: "lightgray",
-                            borderRight: "none",
-                            fontSize: 15,
-                            fontWeight: 500,
-                            color: "#222",
-
-                          }}
-                          placeholder="Search..."
-                        />
-                        <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
-                          <CloseCircle
-                            size="24"
-                            color="#222"
-                            onClick={handleCloseSearch}
-                          />
-                        </InputGroup.Text>
-                      </InputGroup>
-
-                      {filteredData[0]?.length > 0 &&
-                        searchQuery !== "" &&
-                        showDropDown && (
-                          <div
-                            style={{
-                              border: "1px solid #d9d9d9 ",
-                              position: "absolute",
-                              top: 50,
-                              left: 0,
-                              zIndex: 1000,
-                              padding: 10,
-                              borderRadius: 8,
-                              backgroundColor: "#fff",
-                            }}
-                          >
-                            <ul
-                              className="show-scroll"
-                              style={{
-
-
-                                width: 260,
-                                backgroundColor: "#fff",
-                                maxHeight: 174,
-                                minHeight: 100,
-                                overflowY: "auto",
-                                padding: "5px 10px",
-                                margin: "0",
-                                listStyleType: "none",
-
-                                borderRadius: 8,
-                                boxSizing: "border-box",
-                              }}
-                            >
-
-                              <li
-
-                                onClick={() => {
-                                  handleDropDown(filteredData[0].Name);
-                                }}
-                                style={{
-                                  padding: "10px",
-                                  cursor: "pointer",
-                                  borderBottom: "1px solid #dcdcdc",
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {filteredData[0].Name}
-                              </li>
-
-                            </ul>
-                          </div>
-                        )}
-                    </div>
-                  )}
-                  <div style={{ marginTop: 5 }}>
-                    <Button
-                      onClick={handleShowsettingsPG}
-                      disabled={addPermissionError}
-
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        fontWeight: 600,
-                        borderRadius: "8px",
-                        padding: "11px",
-                        paddingLeft: 30,
-                        paddingRight: 27,
-                        whiteSpace: "nowrap"
-
-                      }}
-                    >
-                      {" "}
-                      + Manage PG
-                    </Button>
-                  </div>
-
-
-                </div>
-              </div>
-
-              {searchQuery && (
-                <div
-                  className="container ms-4 mb-4"
-                  style={{ marginTop: "20px", fontWeight: 600, fontSize: 16 }}
-                >
-                  {filteredData[0]?.length > 0 ? (
-                    <span
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 16,
-                        color: "rgba(100, 100, 100, 1)",
-                      }}
-                    >
-                      {filteredData[0]?.length} result
-                      {filteredData[0]?.length > 1 ? "s" : ""} found for{" "}
-                      <span
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 16,
-                          color: "rgba(34, 34, 34, 1)",
-                        }}
-                      >
-                        &quot;${searchQuery}&quot;
-                      </span>
-                    </span>
-                  ) : (
-                    <span
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 16,
-                        color: "rgba(100, 100, 100, 1)",
-                      }}
-                    >
-                      No results found for{" "}
-                      <span
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 16,
-                          color: "rgba(34, 34, 34, 1)",
-                        }}
-                      >
-                        &quot;${searchQuery}&quot;
-                      </span>
-                    </span>
-                  )}
-                </div>
-              )}
-              <div className="container mt-2 pg-card" style={{}}>
-                <div className="row row-gap-3">
-
-                  {filteredData?.length > 0 ? (
-                    <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12">
-                      <PayingHostel
-                        OnSelectHostel={handleSelectedHostel}
-                        onRowVisiblity={handleDisplayPgList}
-                        OnEditHostel={handleEditHostel}
-                        editPermissionError={editPermissionError}
-                        deletePermissionError={deletePermissionError}
-                        filteredData={filteredData}
-                        handleShowsettingsPG={handleShowsettingsPG}
-                      />
-                    </div>
-                  ) : (
-                    !loader && filteredData?.length === 0 && (
-                      <div
-                        className="d-flex align-items-center justify-content-center fade-in"
-                        style={{
-                          width: "100%",
-                          margin: "0px auto",
-                          marginTop: 90,
-                        }}
-                      >
-                        <div>
-                          <div className="d-flex justify-content-center">
-                            <img src={EmptyState} alt="Empty state" />
-                          </div>
-                          <div
-                            className="pb-1 mt-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              fontSize: 18,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            No Paying Guest available
-                          </div>
-                          <div
-                            className="pb-1 mt-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              fontSize: 14,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            There are no Paying Guest added.
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  )}
-
-
-
-
-
-                </div>
-              </div>
-
-
-              <div className="mt-2 mb-2 d-flex justify-content-center w-100">
-                {loader && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: '200px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
-                  </div>
-
-
-                )}
-              </div>
-
-            </>
-          )} */}
-
-
-
+    
           {selectedHostel && (
             <div className="container mt-3">
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex align-items-center">
-                  {/* <ArrowLeft
-                    size="32"
-                    color="#222222"
-                    onClick={handlebackToPG}
-                    style={{ cursor: "pointer" }}
-                  /> */}
-
+                 
                   <label
                     className="ms-4"
                     style={{
@@ -1180,7 +778,7 @@ useEffect(() => {
                     id="vertical-tabs-example"
                   >
                  <Row className="g-0">
-  {/* Floor Sidebar */}
+ 
   <Col xs={12} md={1} className="mb-3 mb-md-0">
     <div style={{ position: "sticky", top: 80, zIndex: 10 }}>
       <div className="d-flex justify-content-center mb-2">
@@ -1305,7 +903,7 @@ useEffect(() => {
     </div>
   </Col>
 
-  {/* Right Content Area */}
+  
   <Col xs={12} md={11} className="ps-md-4"  >
     <div className="container">
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -1344,7 +942,7 @@ useEffect(() => {
             </p>
           </div>
 
-          {/* Dots Button */}
+    
           <div
             style={{
               cursor: "pointer",
@@ -1448,7 +1046,7 @@ useEffect(() => {
     <Tab.Content>
       <ParticularHostelDetails
         floorID={floorClick}
-        hostel_Id={state.login.selectedHostelId}
+        hostel_Id={state.login?.selectedHostel_Id}
         phoneNumber={showHostelDetails.hostel_PhoneNo}
         editPermissionError={editPermissionError}
         deletePermissionError={deletePermissionError}
@@ -1519,8 +1117,7 @@ useEffect(() => {
             <AddPg
               show={showAddPg}
               handleClose={handleCloses}
-              currentItem={editHostelDetails}
-              editPermissionError={editPermissionError}
+                   editPermissionError={editPermissionError}
               deletePermissionError={deletePermissionError}
               addPermissionError={addPermissionError}
             />

@@ -49,7 +49,6 @@ function ParticularHostelDetails(props) {
 
 
 
-
   const handleAddBed = (item, Room_Id) => {
     setShowBed(true)
     setDetails({ item, Room_Id });
@@ -82,7 +81,7 @@ function ParticularHostelDetails(props) {
     } else {
       setLoader(false)
     }
-  }, [props.hostel_Id, props.floorID])
+  }, [props.hostel_Id, props.floorID,state?.login?.selectedHostel_Id ])
 
 
 
