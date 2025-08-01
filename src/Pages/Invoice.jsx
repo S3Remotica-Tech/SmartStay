@@ -167,7 +167,19 @@ const InvoicePage = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [startDate, endDate] = dateRange;
+  const [checkedRows, setCheckedRows] = useState({});
 
+ const [activeStay, setActiveStay] = useState("Longstay");
+
+  const handleClick = (stayType) => {
+    setActiveStay(stayType);
+  };
+const handleToggle = (id) => {
+  setCheckedRows((prev) => ({
+    ...prev,
+    [id]: !prev[id],
+  }));
+};
 
   useEffect(() => {
 
@@ -783,22 +795,22 @@ const InvoicePage = () => {
   };
 
   const handleSaveInvoiceList = () => {
-   const formatpaiddate = formatDateForPayload(selectedDate); 
-  const billDate = new Date(invoiceValue.Date);             
-  const paidDate = new Date(formatpaiddate);     
+    const formatpaiddate = formatDateForPayload(selectedDate);
+    const billDate = new Date(invoiceValue.Date);
+    const paidDate = new Date(formatpaiddate);
 
     if (!invoiceList.payableAmount) {
       setAmountErrmsg("Please Enter Amount");
     }
 
     if (!formatpaiddate) {
-    setDateErrmsg("Please Select Date");
-  } else if (paidDate < billDate) {
-    setDateErrmsg("Paid date should not be before Bill date");
-    return;
-  } else {
-    setDateErrmsg("");
-  }
+      setDateErrmsg("Please Select Date");
+    } else if (paidDate < billDate) {
+      setDateErrmsg("Paid date should not be before Bill date");
+      return;
+    } else {
+      setDateErrmsg("");
+    }
 
     if (!invoiceList.transaction || invoiceList.transaction === "select") {
       setPaymodeErrmsg("Please Select Transaction Type");
@@ -1256,30 +1268,30 @@ const InvoicePage = () => {
 
     const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-   
-if (selectedUser) {
-  const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-  const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-  const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
- 
-  if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-    setInvoiceDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
- 
-  if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-    setInvoiceDueDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
 
-  
-  if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
-    setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-    hasError = true;
-  }
-}
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+
+      if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+        setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+        hasError = true;
+      }
+    }
 
 
 
@@ -1381,31 +1393,31 @@ if (selectedUser) {
 
     const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-   
 
-if (selectedUser) {
-  const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-  const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
-  const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
-  
-  if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
-    setInvoiceDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
 
- 
-  if (dayjs(formattedDueDate).isBefore(joiningDate)) {
-    setInvoiceDueDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
 
- 
-  if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
-    setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
-    hasError = true;
-  }
-}
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+
+      if (dayjs(formattedDueDate).isBefore(formattedInvoiceDate)) {
+        setInvoiceDueDateErrmsg("Due date cannot be before invoice date");
+        hasError = true;
+      }
+    }
     if (hasError) {
       return;
     }
@@ -1559,10 +1571,25 @@ if (selectedUser) {
   const indexOfFirstItemRecure = indexOfLastItemRecure - itemsPage;
 
 
-  const currentItem =
-    filterInput.length > 0
-      ? recurringbills
-      : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+  // const currentItem =
+  //   filterInput.length > 0
+  //     ? recurringbills
+  //     : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+
+  const filteredBills = recurringbills.filter(
+  (bill) => bill.stay_type === (activeStay === "Longstay" ? "long_stay" : "short_stay")
+);
+
+const currentItem =
+  filterInput.length > 0
+    ? filteredBills
+    : filteredBills.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+
+
+
+      console.log("recurringbills",recurringbills)
+
+
 
   const handlePageChangeRecure = (pageNumber) => {
     setCurrentRecurePage(pageNumber);
@@ -1602,9 +1629,23 @@ if (selectedUser) {
 
     return sorted;
   }, [currentItem, sortConfigRecure]);
+
+
+
+console.log("sortConfigRecure",sortConfigRecure)
+
+
+
+
+
+
+
   const handleSortRecure = (key, direction) => {
     setSortConfigRecure({ key, direction });
   };
+
+
+
   const totalPage = Math.ceil(recurringbills.length / itemsPage);
 
   const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
@@ -1801,19 +1842,19 @@ if (selectedUser) {
 
 
   useEffect(() => {
-   const userType = billrolePermission[0]?.user_details?.user_type;
-const isAdmin = userType === "admin" || userType === "agent";
+    const userType = billrolePermission[0]?.user_details?.user_type;
+    const isAdmin = userType === "admin" || userType === "agent";
     if (isAdmin) {
       if (state?.login?.planStatus === 0) {
-       
+
         setBillPermissionError("");
         setBillAddPermission("Permission Denied");
         setBillEditPermission("Permission Denied");
         setBillDeletePermission("Permission Denied");
-      
+
         setRecurringPermission("");
         setRecuringBillAddPermission("Permission Denied");
-      
+
         setReceiptPermission("");
         setReceiptAddPermission("Permission Denied");
 
@@ -1902,35 +1943,35 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
 
-useEffect(() => {
-   const receiptPermission = billrolePermission[0]?.role_permissions?.find(
+  useEffect(() => {
+    const receiptPermission = billrolePermission[0]?.role_permissions?.find(
       (perm) => perm.permission_name === "Receipt"
     );
- 
-  const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
-  const planActive = state?.login?.planStatus === 1;
 
-  if (!receiptPermission || !isOwner) return;
+    const isOwner = billrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
 
-
-  if (receiptPermission.per_view === 1 && planActive) {
-    setReceiptPermission("");
-  } else {
-    setReceiptPermission("Permission Denied");
-    setLoading(false);
-  }
+    if (!receiptPermission || !isOwner) return;
 
 
-  if (receiptPermission.per_create === 1 && planActive) {
-    setReceiptAddPermission("");
-  } else {
-    setReceiptAddPermission("Permission Denied");
-  }
-}, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+    if (receiptPermission.per_view === 1 && planActive) {
+      setReceiptPermission("");
+    } else {
+      setReceiptPermission("Permission Denied");
+      setLoading(false);
+    }
+
+
+    if (receiptPermission.per_create === 1 && planActive) {
+      setReceiptAddPermission("");
+    } else {
+      setReceiptAddPermission("Permission Denied");
+    }
+  }, [billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
 
- 
+
 
 
 
@@ -2586,6 +2627,8 @@ useEffect(() => {
 
 
 
+ 
+
 
 
   return (
@@ -3039,7 +3082,7 @@ useEffect(() => {
                         + Create Bill
                       </Button>
                     )}
-                    {value === "2" && (
+                    {/* {value === "2" && (
                       <Button
                         disabled={recuringbillAddPermission}
                         onClick={handleRecurrBillShow}
@@ -3061,7 +3104,7 @@ useEffect(() => {
                         {" "}
                         + Recurring Bill
                       </Button>
-                    )}
+                    )} */}
 
                     {value === "3" && (
                       <Button
@@ -3522,7 +3565,7 @@ useEffect(() => {
                                             setAccountError("");
                                             setSelectedDate(date ? date.toDate() : null);
                                           }}
-                                           disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                          disabledDate={(current) => current && current > dayjs().endOf("day")}
                                           getPopupContainer={(triggerNode) =>
                                             triggerNode.closest(".show-scroll") || document.body
                                           }
@@ -4549,7 +4592,48 @@ useEffect(() => {
                 </>
               ) : (
                 <>
+
+
+<div className="d-flex gap-3 align-items-center mt-5 mb-2">
+                        <button
+                          onClick={() => handleClick("Longstay")}
+                          style={{
+                            backgroundColor: activeStay === "Longstay" ? "#1E45E1" : "#fff",
+                            color: activeStay === "Longstay" ? "#fff" : "#1E1E1E",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            padding: "10px 20px",
+                            borderRadius: 20,
+                            border: activeStay === "Longstay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
+                            fontSize:14,
+                          }}
+                        >
+                          Longstay
+                        </button>
+
+                        <button
+                          onClick={() => handleClick("ShortStay")}
+                          style={{
+                            backgroundColor: activeStay === "ShortStay" ? "#1E45E1" : "#fff",
+                            color: activeStay === "ShortStay" ? "#fff" : "#1E1E1E",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            padding: "10px 20px",
+                            borderRadius: 20,
+                            border: activeStay === "ShortStay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
+                             fontSize:14,
+                          }}
+                        >
+                          ShortStay
+                        </button>
+                      </div>
+
+
+
+
                   {!recurLoader && sortedDataRecure.length === 0 && (
+              
+
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -4565,7 +4649,7 @@ useEffect(() => {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        No Recuring bills available{" "}
+                        No {activeStay} Recuring bills available{" "}
                       </div>
                       <div
                         className="pb-1"
@@ -4615,172 +4699,243 @@ useEffect(() => {
 
                   }
 
+
+
+
+
                   {sortedDataRecure && sortedDataRecure.length > 0 && (
+
+
+
+
+
+
+
+
                     <div
                       className=" booking-table-userlist  booking-table ms-2 me-4 mt-4"
                       style={{ paddingBottom: "20px", marginLeft: "-22px" }}
                     >
-                      <div
 
-                        className='show-scrolls '
-                        style={{
 
-                          height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "450px" : "auto",
-                          overflow: "auto",
-                          borderTop: "1px solid #E8E8E8",
-                          marginBottom: 20,
-                          marginTop: "20px",
-                          paddingRight: 0,
-                          paddingLeft: 0
 
-                        }}
-                      >
-                        <Table
+                    
 
-                          responsive="md"
+                      {activeStay === "Longstay" ? (
 
+
+                        <div
+
+                          className='show-scrolls '
                           style={{
-                            fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                            borderRadius: 0
+
+                            height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "450px" : "auto",
+                            overflow: "auto",
+                            borderTop: "1px solid #E8E8E8",
+                            marginBottom: 20,
+                            marginTop: "20px",
+                            paddingRight: 0,
+                            paddingLeft: 0
+
                           }}
                         >
-                          <thead style={{
-                            fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                            top: 0,
-                            zIndex: 1
-                          }}>
-                            <tr>
-                              <th
-                                style={{
-                                  textAlign: "start",
+                          <Table
 
-                                  paddingLeft: "20px",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 12,
-                                  fontWeight: 500,
+                            responsive="md"
 
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
-                                  Name</div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 12,
-                                  fontStyle: "normal",
-                                  fontWeight: 500,
-                                  whiteSpace: "nowrap"
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
-                                  Created</div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 12,
-                                  fontStyle: "normal",
-                                  fontWeight: 500,
-                                  whiteSpace: "nowrap"
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
-                                  Due Date</div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 12,
-                                  fontStyle: "normal",
-                                  fontWeight: 500,
-                                  whiteSpace: "nowrap"
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
-                                  Next Invoice Date</div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 12,
-                                  fontStyle: "normal",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div>
-                                  Amount</div>
-                              </th>
+                            style={{
+                              fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                              top: 0,
+                              zIndex: 1,
+                              borderRadius: 0
+                            }}
+                          >
+                            <thead style={{
+                              fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                              top: 0,
+                              zIndex: 1
+                            }}>
+                              <tr>
+                                <th
+                                  style={{
+                                    textAlign: "start",
 
-                              <th
-                                style={{
-                                  textAlign: "center",
-                                  fontFamily: "Gilroy",
-                                  color: "rgb(147, 147, 147)",
-                                  fontSize: 12,
-                                  fontWeight: 500,
-                                }}
-                              > Action</th>
-                            </tr>
-                          </thead>
-                          <tbody style={{ fontSize: "10px" }}>
+                                    paddingLeft: "20px",
+                                    fontFamily: "Gilroy",
+                                    color: "rgb(147, 147, 147)",
+                                    fontSize: 12,
+                                    fontWeight: 500,
+
+                                  }}
+                                >
+                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'asc')} style={{ cursor: "pointer" }} />
+                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'desc')} style={{ cursor: "pointer" }} />
+                                    </div>
+                                    Name</div>
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    fontFamily: "Gilroy",
+                                    color: "rgb(147, 147, 147)",
+                                    fontSize: 12,
+                                    fontStyle: "normal",
+                                    fontWeight: 500,
+                                    whiteSpace: "nowrap"
+                                  }}
+                                >
+                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'asc')} style={{ cursor: "pointer" }} />
+                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'desc')} style={{ cursor: "pointer" }} />
+                                    </div>
+                                    Created</div>
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    fontFamily: "Gilroy",
+                                    color: "rgb(147, 147, 147)",
+                                    fontSize: 12,
+                                    fontStyle: "normal",
+                                    fontWeight: 500,
+                                    whiteSpace: "nowrap"
+                                  }}
+                                >
+                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'asc')} style={{ cursor: "pointer" }} />
+                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'desc')} style={{ cursor: "pointer" }} />
+                                    </div>
+                                    Due Date</div>
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    fontFamily: "Gilroy",
+                                    color: "rgb(147, 147, 147)",
+                                    fontSize: 12,
+                                    fontStyle: "normal",
+                                    fontWeight: 500,
+                                    whiteSpace: "nowrap"
+                                  }}
+                                >
+                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'asc')} style={{ cursor: "pointer" }} />
+                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'desc')} style={{ cursor: "pointer" }} />
+                                    </div>
+                                    Next Invoice Date</div>
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    fontFamily: "Gilroy",
+                                    color: "rgb(147, 147, 147)",
+                                    fontSize: 12,
+                                    fontStyle: "normal",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                                    </div>
+                                    Amount</div>
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    fontFamily: "Gilroy",
+                                    color: "rgb(147, 147, 147)",
+                                    fontSize: 12,
+                                    fontStyle: "normal",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                                    Recurring</div>
+                                </th>
 
 
 
-                            {
-                              sortedDataRecure &&
-                              sortedDataRecure.length > 0 &&
-                              sortedDataRecure.map((item) => (
-                                <RecurringBillList
-                                  key={item.id}
-                                  item={item}
-                                  handleDeleteRecurringbills={
-                                    handleDeleteRecurringbills
-                                  }
-                                  recuringbillAddPermission={
-                                    recuringbillAddPermission
-                                  }
-                                  billrolePermission={billrolePermission}
-                                  OnHandleshowform={handleShowForm}
 
-                                />
-                              ))
-                            }
+                                <th
+                                  style={{
+                                    textAlign: "center",
+                                    fontFamily: "Gilroy",
+                                    color: "rgb(147, 147, 147)",
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                  }}
+                                > Action</th>
+                              </tr>
+                            </thead>
+                            <tbody style={{ fontSize: "10px" }}>
 
-                          </tbody>
-                        </Table>
-                      </div>
+
+
+                              {
+                                sortedDataRecure &&
+                                sortedDataRecure.length > 0 &&
+                                sortedDataRecure.map((item) => (
+                                  <RecurringBillList
+                                    key={item.id}
+                                    item={item}
+                                    checked={!!checkedRows[item.id]}
+                                    onToggle={() => handleToggle(item.id)}
+                                    handleDeleteRecurringbills={
+                                      handleDeleteRecurringbills
+                                    }
+                                    recuringbillAddPermission={
+                                      recuringbillAddPermission
+                                    }
+                                    billrolePermission={billrolePermission}
+                                    OnHandleshowform={handleShowForm}
+
+                                  />
+                                ))
+                              }
+
+                            </tbody>
+                          </Table>
+                        </div>
+                      ) :
+                        (
+                          <div
+                            style={{
+                              height: "400px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              backgroundColor: "#f2f6fc",
+                              borderRadius: "10px",
+                              marginTop: "20px",
+                              marginRight: "0",
+                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                              border: "1px dashed #b0c4de",
+                            }}
+                          >
+                            <div style={{ textAlign: "center" }}>
+                              <img
+                                src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+                                alt="Coming Soon"
+                                width="80"
+                                height="80"
+                                style={{ marginBottom: "15px", opacity: 0.7 }}
+                              />
+
+                              <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                            </div>
+                          </div>
+
+
+
+                        )}
                     </div>
                   )}
 
@@ -5846,38 +6001,38 @@ useEffect(() => {
               }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }} className="datepicker-wrapper">
 
-  <div
-  className="datepicker-wrapper"
-  style={{
-    position: "relative",
-    width: "100%",
-  }}
->
-  <DatePicker
-    style={{
-      width: "100%",
-      height: 48,
-      cursor: "pointer",
-      fontFamily: "Gilroy",
-    }}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-    value={invoicedate ? dayjs(invoicedate) : null}
-    onChange={(date) => handleInvoiceDate(date)}
-    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-    disabledDate={(current) =>
-      current && current > dayjs().endOf("day")
-    }
-    dropdownAlign={{
-      points: ["tl", "bl"],
-      offset: [0, 4], 
-    }}
-    popupStyle={{
-      marginRight: 0,
-      minWidth: "auto",
-    }}
-  />
-</div>
+                <div
+                  className="datepicker-wrapper"
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                  }}
+                >
+                  <DatePicker
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                    }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={invoicedate ? dayjs(invoicedate) : null}
+                    onChange={(date) => handleInvoiceDate(date)}
+                    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+                    disabledDate={(current) =>
+                      current && current > dayjs().endOf("day")
+                    }
+                    dropdownAlign={{
+                      points: ["tl", "bl"],
+                      offset: [0, 4],
+                    }}
+                    popupStyle={{
+                      marginRight: 0,
+                      minWidth: "auto",
+                    }}
+                  />
+                </div>
 
 
               </div>
@@ -5915,30 +6070,30 @@ useEffect(() => {
                 fontWeight: 500,
               }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
-                
 
-                 <DatePicker
-    style={{
-      width: "100%",
-      height: 48,
-      cursor: "pointer",
-      fontFamily: "Gilroy",
-    }}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-   value={invoiceduedate ? dayjs(invoiceduedate) : null}
-     onChange={(date) => handleDueDate(date)}
-    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-    
-    dropdownAlign={{
-      points: ["tl", "bl"],
-      offset: [0, 4], 
-    }}
-    popupStyle={{
-      marginRight: 0,
-      minWidth: "auto",
-    }}
-  />
+
+                <DatePicker
+                  style={{
+                    width: "100%",
+                    height: 48,
+                    cursor: "pointer",
+                    fontFamily: "Gilroy",
+                  }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={invoiceduedate ? dayjs(invoiceduedate) : null}
+                  onChange={(date) => handleDueDate(date)}
+                  getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+
+                  dropdownAlign={{
+                    points: ["tl", "bl"],
+                    offset: [0, 4],
+                  }}
+                  popupStyle={{
+                    marginRight: 0,
+                    minWidth: "auto",
+                  }}
+                />
               </div>
 
 

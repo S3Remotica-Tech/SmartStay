@@ -7,7 +7,7 @@ import LongStayRecurringModal from "./LongStay";
 import ShortStayRecurringModal from "./ShortStay";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowSwapHorizontal } from 'iconsax-react';
-
+import { FaCheck } from "react-icons/fa";
 
 
 function BillingRule() {
@@ -18,7 +18,7 @@ function BillingRule() {
   const [recurringBills, setRecuringBills] = useState("");
   const [checked, setChecked] = useState(true);
 
-const [formLoading, setFormLoading] = useState(true)
+  const [formLoading, setFormLoading] = useState(true)
   const [showShortStay, setShowShortStay] = useState(false);
   const [showLongStay, setShowLongStay] = useState(false);
 
@@ -29,8 +29,21 @@ const [formLoading, setFormLoading] = useState(true)
   const handleCloseShortStay = () => setShowShortStay(false);
 
 
+
   const handleToggle = () => {
     setChecked(!checked);
+    if (recurringBills) {
+      dispatch({
+        type: "SETTINGSADD_RECURRING",
+        payload: {
+          hostel_id: Number(state.login.selectedHostel_Id),
+          billingDateOfMonth: recurringBills?.billingDateOfMonth,
+          dueDateOfMonth: recurringBills?.dueDateOfMonth,
+          isActive: 0,
+          billFrequency:"Monthly"
+        },
+      })
+    }
   };
 
   useEffect(() => {
@@ -85,10 +98,10 @@ const [formLoading, setFormLoading] = useState(true)
 
 
 
- 
+
 
   return (
-    <div style={{position:"relative"}}>
+    <div style={{ position: "relative" }}>
       <div
         className="d-flex justify-content-start align-items-center"
         style={{
@@ -189,29 +202,18 @@ const [formLoading, setFormLoading] = useState(true)
                         <ArrowSwapHorizontal size="20" color="#fff" /> Configure
                       </Button>
 
-                      <div style={{ display: "flex", alignItems: "center", fontFamily: "sans-serif" }}>
-                        <span style={{ marginRight: 8, color: "#1E45E1", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16 }}>
+
+                      <div className="custom-toggle-wrapper"
+                        // onClick={handleToggle}
+                      >
+                        <span className={`custom-toggle-label ${checked ? "active" : ""}`}>
                           {checked ? "On" : "Off"}
                         </span>
-
-                        <Form.Check
-                          disabled
-                          type="switch"
-                          id="custom-switch"
-                          checked={checked}
-                          onChange={handleToggle}
-                          style={{
-                            position: "relative",
-                            width: 50,
-                            height: 3,
-                            boxShadow: "none",
-                            color: "#1E45E1",
-                          }}
-                          label=""
-                          className="custom-switch-style"
-                        />
-
-
+                        <div className={`custom-toggle-switch ${checked ? "on" : "off"}`}>
+                          <div className="custom-toggle-thumb">
+                            {checked && <FaCheck size={10} color="#1E1E1E" />}
+                          </div>
+                        </div>
                       </div>
 
 
@@ -326,33 +328,33 @@ const [formLoading, setFormLoading] = useState(true)
 
 
 
-                    {formLoading &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
-                        </div>
-                    }
+      {formLoading &&
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
 
 
     </div>

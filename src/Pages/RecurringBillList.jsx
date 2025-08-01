@@ -5,11 +5,11 @@ import Delete from '../Assets/Images/Delete_red.png';
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
-import {useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
+import { FaCheck } from "react-icons/fa";
 
 const RecurringBillList = (props) => {
- const state = useSelector((state) => state);
+  const state = useSelector((state) => state);
   const [recurringBillDeletePermission, setRecurringBillDeletePermission] = useState("")
   const [deleteShow, setDeleteShow] = useState(false)
 
@@ -22,14 +22,19 @@ const RecurringBillList = (props) => {
     setDeleteShow(false)
   }
 
- useEffect(() => {
-  const userType = props.billrolePermission[0]?.user_details?.user_type;
-const isAdmin = userType === "admin" || userType === "agent";
+
+
+
+
+
+  useEffect(() => {
+    const userType = props.billrolePermission[0]?.user_details?.user_type;
+    const isAdmin = userType === "admin" || userType === "agent";
     if (isAdmin) {
       if (state?.login?.planStatus === 0) {
-         setRecurringBillDeletePermission("Permission Denied");
+        setRecurringBillDeletePermission("Permission Denied");
       } else if (state?.login?.planStatus === 1) {
-       setRecurringBillDeletePermission("");
+        setRecurringBillDeletePermission("");
       }
     }
 
@@ -41,12 +46,12 @@ const isAdmin = userType === "admin" || userType === "agent";
     const billPermission = props.billrolePermission[0]?.role_permissions?.find(
       (perm) => perm.permission_name === "Recuring Bills"
     );
-  
+
     const isOwner = props.billrolePermission[0]?.user_details?.user_type === "staff";
     const planActive = state?.login?.planStatus === 1;
-  
+
     if (!billPermission || !isOwner) return;
-   
+
     if (billPermission.per_delete === 1 && planActive) {
       setRecurringBillDeletePermission("");
     } else {
@@ -54,7 +59,7 @@ const isAdmin = userType === "admin" || userType === "agent";
     }
   }, [props.billrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
- 
+
 
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -82,7 +87,7 @@ const isAdmin = userType === "admin" || userType === "agent";
   let Dated = new Date(props.item.invoice_date);
 
   let day = Dated.getDate();
-  let month = Dated.getMonth() + 1; 
+  let month = Dated.getMonth() + 1;
   let year = Dated.getFullYear();
 
   let formattedDate = `${day}/${month}/${year}`;
@@ -92,7 +97,7 @@ const isAdmin = userType === "admin" || userType === "agent";
   let dueDated = new Date(props.item.DueDate);
 
   let daydue = dueDated.getDate();
-  let monthdue = dueDated.getMonth() + 1; 
+  let monthdue = dueDated.getMonth() + 1;
   let yeardue = dueDated.getFullYear();
 
   let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
@@ -100,7 +105,7 @@ const isAdmin = userType === "admin" || userType === "agent";
   let nextinvoiceDated = new Date(props.item.next_invoice_date);
 
   let nextinvoiceday = nextinvoiceDated.getDate();
-  let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; 
+  let nextinvoicemonth = nextinvoiceDated.getMonth() + 1;
   let nextinvoiceyear = nextinvoiceDated.getFullYear();
 
   let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
@@ -120,9 +125,9 @@ const isAdmin = userType === "admin" || userType === "agent";
     };
   }, []);
 
-  
 
- 
+
+
 
 
   return (
@@ -134,20 +139,32 @@ const isAdmin = userType === "admin" || userType === "agent";
 
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", paddingTop: '18px', textAlign: "center", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
-         
+
             <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, cursor: "pointer" }}
 
             >{props.item.user_name}</div><br />
 
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px", marginLeft:6 }}>{formattedDate}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" , marginLeft:4 }}>{formattedDueDate}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{formattedNextInvoiceDate}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"> 
-          <div style={{marginLeft:6}}> ₹{props.item.total_amount.toLocaleString('en-IN')}</div>
-          </td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px", marginLeft: 6 }}>{formattedDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px", marginLeft: 4 }}>{formattedDueDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{formattedNextInvoiceDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{ marginLeft: 6 }}> ₹{props.item.total_amount.toLocaleString('en-IN')}</div>
+        </td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div className="custom-toggle-wrapper" onClick={props.onToggle}>
+            <span className={`custom-toggle-label ${props.checked ? "active" : ""}`}>
+              {props.checked ? "On" : "Off"}
+            </span>
+            <div className={`custom-toggle-switch ${props.checked ? "on" : "off"}`}>
+              <div className="custom-toggle-thumb">
+                {props.checked && <FaCheck size={10} color="#1E1E1E" />}
+              </div>
+            </div>
+          </div>
 
+        </td>
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
             <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
@@ -168,19 +185,20 @@ const isAdmin = userType === "admin" || userType === "agent";
                     borderRadius: 10,
                     display: "flex",
                     flexDirection: "column",
-                   
+
                     zIndex: showDots ? 1000 : "auto",
                   }}
                 >
-                  <div style={{ width: "100%" , borderRadius: 10,
-                       }}>
+                  <div style={{
+                    width: "100%", borderRadius: 10,
+                  }}>
                     <div
                       className={`d-flex justify-content-start align-items-center gap-2 ${recurringBillDeletePermission ? "disabled" : ""
                         }`}
                       style={{
                         cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
                         borderRadius: 10,
-                        padding:10,
+                        padding: 10,
                         opacity: recurringBillDeletePermission ? 0.5 : 1,
 
                       }}
@@ -203,7 +221,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                         style={{
                           height: 16,
                           width: 16,
-                          
+
                         }}
                       />
                       <label
@@ -211,7 +229,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color:  "#FF0000",
+                          color: "#FF0000",
                           cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
                         }}
                       >
@@ -319,7 +337,7 @@ const isAdmin = userType === "admin" || userType === "agent";
           </Button>
         </Modal.Footer>
       </Modal>
-      
+
 
     </>
   )
