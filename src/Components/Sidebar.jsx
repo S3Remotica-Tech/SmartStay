@@ -101,7 +101,11 @@ function Sidebar() {
     dispatch({ type: "HOSTELIDDETAILS" });
   }, []);
 
-
+ useEffect(() => {
+  if(state.login.selectedHostel_Id){
+    dispatch({ type: "ACCOUNTDETAILS" });
+  }
+  }, [state.login.selectedHostel_Id]);
 
 
   useEffect(() => {
@@ -391,38 +395,35 @@ function Sidebar() {
   const handleMouseLeave = () => setHoveredIcon(null);
 
 
-  useEffect(() => {
-    if (state?.login?.selectedHostel_Id) {
-      const accountList = state.createAccount?.accountList;
+ useEffect(() => {
+  if (state?.login?.selectedHostel_Id) {
+    const accountList = state.createAccount?.accountList;
 
-      if (
-        accountList &&
-        accountList.length > 0 &&
-        accountList[0]?.plan_data &&
-        accountList[0].plan_data.length > 0
-      ) {
-
-
-        if (accountList[0].plan_data[0]?.plan_type === "trail") {
-          const trailPlanStatus = accountList[0].plan_data[0]?.status
-          if (trailPlanStatus !== "") {
-            dispatch(setPlanStatus(trailPlanStatus));
-          }
-
+    if (
+      accountList &&
+      accountList.length > 0 &&
+      accountList[0]?.plan_data &&
+      accountList[0].plan_data.length > 0
+    ) {
+      if (accountList[0].plan_data[0]?.plan_type === "trail") {
+        const trailPlanStatus = accountList[0].plan_data[0]?.status;
+        if (trailPlanStatus !== "") {
+          dispatch(setPlanStatus(trailPlanStatus));
         }
-        else {
-          const hostelDetails = accountList[0].plan_data[0].hostel_details;
-          const particularHostelPlan = hostelDetails?.find(
-            (view) => view.id === state.login.selectedHostel_Id
-          );
-          if (particularHostelPlan?.plan_status !== "") {
-            dispatch(setPlanStatus(particularHostelPlan.plan_status));
-          }
-        }
+      } else {
+       const hostelDetails = accountList[0].plan_data[0]?.hostel_details || [];
 
+        const particularHostelPlan = hostelDetails?.find(
+          (view) => view.id === state.login.selectedHostel_Id
+        );
+
+        if (particularHostelPlan && particularHostelPlan.plan_status !== "") {
+          dispatch(setPlanStatus(particularHostelPlan.plan_status));
+        }
       }
     }
-  }, [state.login?.selectedHostel_Id]);
+  }
+}, [state.login?.selectedHostel_Id]);
 
 
 

@@ -1,12 +1,23 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 import PropTypes from "prop-types";
-
+import { MdError } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 
 function LongStayRecurringModal({ handleClose, show }) {
+
+
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+    const [billingDate, setBillingDate] = useState(null);
+    const [dueDate, setDueDate] = useState(null);
+    const [noticePeriod, setNoticePeriod] = useState(null);
+    const [errors, setErrors] = useState({});
+    const [formLoading, setFormLoading] = useState(false)
 
     const dayOptions = Array.from({ length: 31 }, (_, i) => ({
         value: (i + 1).toString().padStart(2, '0'),
@@ -67,6 +78,68 @@ function LongStayRecurringModal({ handleClose, show }) {
             display: "none",
         }),
     };
+
+
+
+
+    const handleSave = () => {
+        const newErrors = {};
+        if (!billingDate) {
+            newErrors.billingDate = "Please enter billing date of month";
+        }
+        if (!dueDate) {
+            newErrors.dueDate = "Please enter due date of month";
+        }
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+            dispatch({
+                type: "SETTINGSADD_RECURRING",
+                payload: {
+                    hostel_id: Number(state.login.selectedHostel_Id),
+                    billingDateOfMonth: parseInt(billingDate?.value, 10),
+                    dueDateOfMonth: parseInt(dueDate?.value, 10),
+                    isActive: 1,
+                    noticePeriod: parseInt(noticePeriod?.value, 10),
+                    billFrequency:"Monthly"
+                },
+            })
+            setFormLoading(false)
+        }
+    };
+
+
+
+
+
+    useEffect(() => {
+        if (state.Settings.SettingsRecurringAddSuccess === 200) {
+            setFormLoading(false)
+            handleClose()
+            dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_SETTINGSADDRECURRING_STATUS_CODE" });
+            }, 100);
+        }
+    }, [state.Settings.SettingsRecurringAddSuccess]);
+
+
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
+
+    }, [state.createAccount?.networkError])
+
+
+
+
+
+
     return (
         <>
 
@@ -75,6 +148,8 @@ function LongStayRecurringModal({ handleClose, show }) {
                 onHide={handleClose}
                 centered
                 style={{ fontFamily: "sans-serif" }}
+                backdrop="static"
+
             >
                 <Modal.Header style={{ border: "none" }}>
                     <Modal.Title
@@ -106,7 +181,33 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
                             }}>Billing Date of Month</Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Billing Date" />
+                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Billing Date"
+                            value={billingDate}
+                            onChange={(selected) => {
+                                setBillingDate(selected);
+                                setErrors((prev) => ({ ...prev, billingDate: "" }));
+                            }}
+
+
+                        />
+
+                        {errors.billingDate && (
+                            <div className="d-flex align-items-center mt-1">
+                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                <label
+                                    className="mb-0"
+                                    style={{
+                                        color: "red",
+                                        fontSize: "12px",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    {errors.billingDate}
+                                </label>
+                            </div>
+                        )}
+
                     </Form.Group>
 
                     <Form.Group controlId="dueDate" style={{ marginBottom: 16 }}>
@@ -117,7 +218,28 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
                             }}>Due Date of Month</Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Due Date" />
+                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Due Date"
+                            value={dueDate}
+                            onChange={(selected) => {
+                                setDueDate(selected);
+                                setErrors((prev) => ({ ...prev, dueDate: "" }));
+                            }} />
+                        {errors.dueDate && (
+                            <div className="d-flex align-items-center mt-1">
+                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                <label
+                                    className="mb-0"
+                                    style={{
+                                        color: "red",
+                                        fontSize: "12px",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    {errors.dueDate}
+                                </label>
+                            </div>
+                        )}
                     </Form.Group>
 
                     <Form.Group controlId="noticePeriod" style={{ marginBottom: 24 }}>
@@ -128,7 +250,11 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
                             }}>Notice Period</Form.Label>
-                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Notice Period" />
+                        <Select options={dayOptions} styles={selectStyle} placeholder="Select Notice Period"
+                            value={noticePeriod}
+                            onChange={(selected) => setNoticePeriod(selected)}
+
+                        />
                     </Form.Group>
 
                     <div
@@ -137,7 +263,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                             justifyContent: "end",
                             marginTop: 24,
                             gap: 5,
-                            marginRight:2
+                            marginRight: 2
                         }}
                     >
                         <Button
@@ -148,17 +274,14 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 borderRadius: 12,
                                 padding: "8px 35px",
                                 fontWeight: 400,
-                                                           fontFamily: "Gilroy",
+                                fontFamily: "Gilroy",
                                 color: '#4B4B4B'
                             }}
                         >
                             Cancel
                         </Button>
                         <Button
-                            onClick={() => {
-
-                                handleClose();
-                            }}
+                            onClick={handleSave}
                             style={{
                                 backgroundColor: "#1E45E1",
                                 borderRadius: 12,
@@ -173,6 +296,42 @@ function LongStayRecurringModal({ handleClose, show }) {
                         </Button>
                     </div>
 
+
+                    {formLoading &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+                    }
+                    {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                        </div>
+                        : null}
+
+
                 </Modal.Body>
             </Modal>
         </>
@@ -180,9 +339,9 @@ function LongStayRecurringModal({ handleClose, show }) {
 }
 
 LongStayRecurringModal.propTypes = {
-  handleClose: PropTypes.func.isRequired,
-  show: PropTypes.func.isRequired,
-  
-  
+    handleClose: PropTypes.func.isRequired,
+    show: PropTypes.func.isRequired,
+
+
 };
 export default LongStayRecurringModal;
