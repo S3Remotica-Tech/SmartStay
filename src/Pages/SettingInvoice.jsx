@@ -500,12 +500,12 @@ console.log("preview", previewURL , selectedFile);
   // }
 
 
-  useEffect(()=> {
-            if(InvoiceList?.invoiceSettings?.signatureFile && signature){
-                setIsSignatureConfirmed(true)
-                setSignatureErrMsg("")
-            }
-  },[signature])
+  // useEffect(()=> {
+  //           if(InvoiceList?.invoiceSettings?.signatureFile && signature){
+  //               setIsSignatureConfirmed(true)
+  //               setSignatureErrMsg("")
+  //           }
+  // },[signature])
 
 
 
@@ -890,7 +890,8 @@ useEffect(() => {
 const [fieldError,setFieldError] = useState("")
 
 const handleSaveTemplate = () => {
-  if(sign && !isSignatureConfirmed){
+  const hasSignatureInDB = !getData[0]?.common_digital_signature_url;
+  if(sign && !isSignatureConfirmed && hasSignatureInDB){
     setSignatureErrMsg("Please click Done after selecting a signature");
     return
   }
@@ -2585,13 +2586,14 @@ const handleReset=(()=>{
     }}
   >
         <div className="col-lg-8">
-  <p className="mb-4" style={{ 
+  <p className="mb-5" style={{ 
           fontFamily: "Gilroy",
           fontSize: 14,
           color: "rgba(97, 97, 97, 1)",
           fontWeight: 400,
           lineHeight:"20px", 
-          letterSpacing:'0%'
+          letterSpacing:'0%',
+          marginTop:"-10px"
   }}>
     Add your basic billing details here. These will appear on all invoices unless you choose to customize them in individual templates.
   </p>
@@ -2616,8 +2618,8 @@ const handleReset=(()=>{
                               </span>
                             </div>
                           )}
-  
-    <div className="row mb-4 align-items-center">
+  <div className="mb-5" style={{marginTop:"-25px"}}>
+    <div className="row mb-5 align-items-center">
       <div className="col-md-4">
         <label className="form-label"
          style={{
@@ -2726,7 +2728,7 @@ const handleReset=(()=>{
 
     </div>
 
-    <div className="row mb-4 align-items-center">
+    <div className="row mb-4 align-items-center" style={{marginTop:"-20px"}}>
       <div className="col-md-4">
         <label className="form-label "
           style={{
@@ -3037,7 +3039,7 @@ const handleReset=(()=>{
                                             )}
       </div>
     </div>
-
+</div>
 {
   savebuttonshow ?  (
  <div className="d-flex justify-content-end mt-1 me-5" style={{paddingRight:10}}>
@@ -3047,7 +3049,7 @@ const handleReset=(()=>{
     </div>
   ) :
   (
-        <div className="text-end mt-3 me-5" style={{ paddingRight: 10 }}>
+        <div className="text-end  me-5" style={{ paddingRight: 10}}>
       <button className="btn btn-primary" type="button" onClick={handleShow}>
         Go to Templates →
       </button>
