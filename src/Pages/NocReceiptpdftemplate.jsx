@@ -115,7 +115,7 @@ import Questionimage from '../Assets/Images/question.png';
                         const [signature, setSignature] = useState(null); 
                         const [signaturePreview, setSignaturePreview] = useState(null); 
                         const [ signature_errmsg, setSignatureErrMsg] = useState("")
-
+                        const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
                      
                       const handleFileSignatureChange = (e) => {
                        const file = e.target.files[0];

@@ -58,7 +58,6 @@ import PropTypes from "prop-types";
   const innerScrollRef = useRef(null);
 
   const [accountNameError, setaccountnameError] = useState("");
-  const [bankid_Error, setBankIdError] = useState("");
   const [prefix_errmsg , setPrefixErrMsg] = useState('')
   const [suffix_errmsg , setSuffixErrMsg] = useState('')
   const [tax_errmsg , setTaxErrMsg] = useState('')
@@ -303,7 +302,7 @@ const handleTermsChange = (e) => {
      const [signature, setSignature] = useState(null); 
      const [signaturePreview, setSignaturePreview] = useState(null); 
      const [signature_errmsg, setSignatureErrMsg] = useState("")
-      const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
+     const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
   
    const handleFileSignatureChange = (e) => {
     const file = e.target.files[0];
@@ -1463,20 +1462,7 @@ if (templateTheme && templateTheme.trim() !== '') {
     )}
   </div>
 
-    {!selectedBankId && bankid_Error.trim() !== '' && (
-      <div style={{ display: 'flex', alignItems: 'center', paddingTop: 8 }}>
-        <MdError style={{ color: 'red', marginRight: 5, fontSize: 14 }} />
-        <label
-          style={{
-            color: 'red',
-            fontSize: 12,
-            fontWeight: 500,
-          }}
-        >
-          {bankid_Error}
-        </label>
-      </div>
-    )}
+  
 </div>
 
  <div className="border p-3 mb-3 col-lg-10" style={{ borderRadius: "10px", overflowY: "auto" }}>
