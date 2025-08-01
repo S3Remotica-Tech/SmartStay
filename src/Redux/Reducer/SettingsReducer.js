@@ -80,11 +80,14 @@ export const initialState = {
   SettingsInvoice : [],
   settingsInvoicegetSucesscode : 0,
   settingsInvoicegetErrorStatuscode : 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
  
-
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -505,6 +508,22 @@ const SettingsReducer = (state = initialState, action) => {
       };
     case "CLEAR_GET_GLOBAL_SETTING":
       return { ...state, statusCodeForSettingFetch: 0 };
+
+    case "ADD-BILLS-TEMPLATE":
+      return {...state,  settingsBillsAddTemplateSucesscode: action.payload.statusCode,};
+    case "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE":
+      return { ...state, settingsBillsAddTemplateSucesscode: 0 }; 
+
+      
+    case "GET_TEMPLATELIST":
+      return {...state, settingsBillsTemplateList : action.payload.response, SettingsBilltemplategetsuccessCode: action.payload.statusCode,};
+    case "CLEAR_GET_TEMPLATELIST_STATUS_CODE":
+      return { ...state, SettingsBilltemplategetsuccessCode: 0 }; 
+      
+    case "ERROR_TEMPLATELIST":
+      return {...state,  SettingsBilltemplategetErrorCode: action.payload.statusCode,};
+    case "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE":
+      return { ...state, SettingsBilltemplategetErrorCode: 0 };   
 
     default:
       return state;

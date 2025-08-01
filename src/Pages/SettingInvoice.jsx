@@ -60,6 +60,7 @@ function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
   const [editErrmsg , setEditErrMessage] = useState('')
   const [showform, setShowForm] = useState(false);
   const [contactnumberform , setContactNumberForm] = useState(false)
+  const [editformErrmsg , setEditFormErrMessage] = useState('')
 
   const [edit, setEdit] = useState(false);
   const [cardshow, setCardShow] = useState(true)
@@ -186,17 +187,94 @@ useEffect(() => {
 
 
 
+    const [allowImageUpload, setAllowImageUpload] = useState(false);
+  const [allowEditFields, setAllowEditFields] = useState({
+    contact: false,
+    email: false,
+    hostelLogo: false,
+    digitalSignature: false, 
+  });
+
+
+
   const handleShowContactNumberForm = () => {
-setContactNumberForm(true)
+  setContactNumberForm(true);
+  setAllowImageUpload(false);
+};
+
+  
+
+ const handleCloseContactNumberForm = () => {
+  setContactNumberForm(false);
+  setAllowImageUpload(false);
+  setAllowEditFields({
+    contact: false,
+    email: false,
+    hostelLogo: false,
+    digitalSignature: false,
+  });
+};
+
+
+const handleEditAnyway = () => {
+  setAllowImageUpload(true);
+  setAllowEditFields({
+    contact: true,
+    email: true,
+    hostelLogo: true,
+    digitalSignature: true,
+  });
+  setContactNumberForm(false); 
+};
+   const [paymentmobilenum,setPaymentMobileNum] = useState("")
+   const [paymentMobileError,setPaymentMobileError] = useState("")
+   const[paymentinvoiceemail,setPaymentinvoiceEmail] = useState("")
+   const[paymentinvoiceemailError,setPaymentInvoiceEmailError] = useState("")
+
+    const handlePaymentinvoiceEmail = (e) => {
+                       const emailValue = e.target.value.toLowerCase();
+                       setPaymentinvoiceEmail(emailValue);
+                      setEditFormErrMessage("")
+                       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+                       const isValidEmail = emailRegex.test(emailValue);
+                       if (!emailValue) {
+                         setPaymentInvoiceEmailError("");
+                        
+                       } else if (!isValidEmail) {
+                         
+                         setPaymentInvoiceEmailError("Please Enter  Valid Email Id");
+                       } else {
+                         setPaymentInvoiceEmailError("");
+                        
+                       }
+                      
+                     };
+
+
+const handlePaymentInvoiceMobile = (e) => {
+  const input = e.target.value.replace(/\D/g, ""); 
+  setPaymentMobileNum(input);
+setEditFormErrMessage("")
+  if (input.length === 0) {
+    setPaymentMobileError("");
+  } else if (input.length < 10) {
+    setPaymentMobileError(" Please Enter Valid Mobile Number");
+  } else if (input.length === 10) {
+    setPaymentMobileError("");
+  } else if (input.length > 10) {
+    setPaymentMobileError(" Please Enter Valid Mobile Number");
   }
+
+};
+
   useEffect(()=>{
  dispatch({type:"FETCHSETTINGTEMP",payload:{hostel_Id:state.login.selectedHostel_Id}})
 },[state.login.selectedHostel_Id])
 
+
 const handleMobile = (e) => {
   const input = e.target.value.replace(/\D/g, ""); 
   setMobileNum(input);
-
   if (input.length === 0) {
     setMobileError("");
   } else if (input.length < 10) {
@@ -233,9 +311,7 @@ const handleEmail = (e) => {
    
   };
 
-  const handleCloseContactNumberForm = () => {
-    setContactNumberForm(false)
-  }
+  
 
 const handleMobileCheckboxChange = (e) => {
   const checked = e.target.checked;
@@ -285,6 +361,7 @@ const handleMobileCheckboxChange = (e) => {
   const handleColorChange = (newColor) => {
     setColor(newColor);
     setUseGradient(false); 
+    setEditFormErrMessage("")
   }
 
   const presetColors = [
@@ -339,7 +416,7 @@ const handleBankNameChange = (e) => {
 
 
     const handleSubmitBank = () => {
-
+   
     if (!accountName) {
       setaccountnameError("Please Enter Benificiary Name");
       return;
@@ -360,7 +437,7 @@ const handleBankNameChange = (e) => {
 const hanldePrefix = (e) => {
      const Value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
     setPrefix(Value)
-
+    setEditFormErrMessage("")
     if (Value.trim() !== "") {
     setPrefixErrMsg("");
   }
@@ -369,7 +446,7 @@ const hanldePrefix = (e) => {
 const hanldeSuffix = (e) => {
      const numericValue =  e.target.value.replace(/[^0-9]/g, ""); 
     setSuffix(numericValue)
-
+    setEditFormErrMessage("")
     if (numericValue.trim() !== "") {
     setSuffixErrMsg("");
   }
@@ -380,7 +457,7 @@ const hanldeSuffix = (e) => {
 
 const handleTaxChange = (e) => {
   const inputValue = e.target.value;
-
+  setEditFormErrMessage("")
   const formattedValue = inputValue
     .replace(/[^0-9.]/g, '')    
     .replace(/^([^.]*\.)|\./g, '$1'); 
@@ -396,7 +473,7 @@ const handleTaxChange = (e) => {
 const handleNotesChange = (e) => {
     const Value = e.target.value  
     setNotes(Value)
-
+    setEditFormErrMessage("")
     if (Value.trim() !== "") {
     setNotesErrMsg("");
   }
@@ -405,7 +482,7 @@ const handleNotesChange = (e) => {
 const handleTermsChange = (e) => {
     const Value = e.target.value  
     setTerms(Value)
-
+    setEditFormErrMessage("")
     if (Value.trim() !== "") {
     setTermsErrMsg("");
   }
@@ -423,6 +500,24 @@ const handleTermsChange = (e) => {
     'Tenants must pay all dues on or before the due date, maintain cleanliness, and follow PG rules; failure may lead to penalties or termination of stay.'
   );
 
+
+                       const [logoPreview, setLogoPreview] = useState(null);
+                       const [hostel_logo , setHostelLogo] = useState(null)
+                      
+                     
+                       const handleFileUploadHostel = (e) => {
+                           if (!allowImageUpload) return;
+                         const file = e.target.files[0];
+                         setEditFormErrMessage("")
+                         if (file && file.type.startsWith("image/")) {
+                           const reader = new FileReader();
+                           reader.onloadend = () => {
+                             setLogoPreview(reader.result);
+                           };
+                           reader.readAsDataURL(file);
+                         }
+                       };
+             
 
     const fileInputRef = useRef(null);
    const [sign, setSign] = useState(null); 
@@ -516,6 +611,44 @@ useEffect(() => {
   }
 };
 
+const rentalSignatureInputRef = useRef(null);
+const [rentalSignatureFile, setRentalSignatureFile] = useState(null); 
+const [rentalSignaturePreview, setRentalSignaturePreview] = useState(null); 
+const [rentalSignatureError, setRentalSignatureError] = useState(""); 
+const [isRentalSignatureConfirmed, setIsRentalSignatureConfirmed] = useState(false);
+
+
+const handleRentalSignatureChange = (e) => {
+  const file = e.target.files[0];
+  setEditFormErrMessage("")
+  if (file) {
+    setRentalSignatureFile(file);
+    setRentalSignaturePreview(URL.createObjectURL(file)); 
+    setRentalSignatureError("");
+    setIsRentalSignatureConfirmed(false);
+  }
+};
+
+const handleRentalSignatureClear = () => {
+  setEditFormErrMessage("")
+  setRentalSignatureFile(null);
+  setRentalSignaturePreview(null);
+  setRentalSignatureError("");
+  if (rentalSignatureInputRef.current) {
+    rentalSignatureInputRef.current.value = '';
+  }
+};
+
+const handleRentalSignatureDone = () => {
+
+  if (!rentalSignatureFile) {
+    setRentalSignatureError("Please select a signature file.");
+  } else {
+    setEditFormErrMessage("")
+    setRentalSignatureError("");
+    setIsRentalSignatureConfirmed(true);
+  }
+};
 
   
  
@@ -772,6 +905,7 @@ useEffect(() => {
     setInvoiceDueDate('')
     setIsInvoiceAddMode(false)
     setIsSidebarOpen(true)
+    setEditFormErrMessage("")
   };
 
 
@@ -917,6 +1051,208 @@ useEffect(() => {
 }, [prefix, suffix, tax, notes, terms, signature, selectedBankId, InvoiceList]);
 
 
+  const [qrImage, setQrImage] = useState(null);
+   const [qrimagepreview , setQRImagePreview] = useState(null)
+  const qrFileInputRef = useRef(null);
+
+  const handleQrImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setQRImagePreview(file)
+      setQrImage(URL.createObjectURL(file));
+    }
+  };
+
+
+   const handleSaveRentalTemplate = () => {
+  const currentTemplate = {
+    hostel_Id: Number(state.login.selectedHostel_Id),
+    id: RentalinvoiceTemplate.id,
+    digital_signature_url: signature,
+    is_signature_specific_template: RentalinvoiceTemplate.is_signature_specific_template,
+    contact_number: paymentmobilenum,
+    is_contact_specific_template: RentalinvoiceTemplate.is_contact_specific_template,
+    email: paymentinvoiceemail,
+    is_email_specific_template: RentalinvoiceTemplate.is_email_specific_template,
+    logo_url: hostel_logo,
+    is_logo_specific_template: RentalinvoiceTemplate.is_logo_specific_template,
+    qr_url: qrimagepreview,
+    prefix,
+    suffix,
+    tax,
+    notes,
+    terms_and_condition: terms,
+    banking_id: Number(selectedBankId),
+    template_theme: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+  };
+
+  const oldTemplate = {
+    hostel_Id: Number(state.login.selectedHostel_Id),
+    id: RentalinvoiceTemplate.id,
+    digital_signature_url: RentalinvoiceTemplate.digital_signature_url || null,
+    is_signature_specific_template: RentalinvoiceTemplate.is_signature_specific_template,
+    contact_number: RentalinvoiceTemplate.contact_number || '',
+    is_contact_specific_template: RentalinvoiceTemplate.is_contact_specific_template,
+    email: RentalinvoiceTemplate.email || '',
+    is_email_specific_template: RentalinvoiceTemplate.is_email_specific_template,
+    logo_url: RentalinvoiceTemplate.logo_url || null,
+    is_logo_specific_template: RentalinvoiceTemplate.is_logo_specific_template,
+    qr_url: RentalinvoiceTemplate.qr_url || null,
+    prefix: RentalinvoiceTemplate.prefix || '',
+    suffix: RentalinvoiceTemplate.suffix || '',
+    tax: RentalinvoiceTemplate.tax || '',
+    notes: RentalinvoiceTemplate.notes || '',
+    terms_and_condition: RentalinvoiceTemplate.terms_and_condition || '',
+    banking_id: Number(RentalinvoiceTemplate.banking_id || 0),
+    template_theme: RentalinvoiceTemplate.template_theme || '',
+  };
+
+  const isSame = JSON.stringify(currentTemplate) === JSON.stringify(oldTemplate);
+
+  if (isSame) {
+     setEditFormErrMessage("No changes detected");
+    setSignatureErrMsg("")
+    return;
+  }
+
+     if(RentalinvoiceTemplate.is_signature_specific_template === 1){
+    const Signatureverify = !RentalinvoiceTemplate.digital_signature_url
+
+  if (rentalSignatureFile && !isRentalSignatureConfirmed && Signatureverify){
+    setRentalSignatureError("Please click Done after selecting a signature");
+    return
+     }
+  }
+
+    if(RentalinvoiceTemplate.is_contact_specific_template === 1){
+         if (paymentmobilenum && paymentmobilenum.length < 10){
+         setPaymentMobileError(" Please Enter Valid Mobile Number");
+         return
+        }
+    else if (paymentmobilenum.length === 10){
+       setPaymentMobileError("");
+       }
+  }
+   
+  if(RentalinvoiceTemplate.is_email_specific_template === 1){
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(paymentinvoiceemail);
+    if (!paymentinvoiceemail) {
+      setPaymentInvoiceEmailError("");
+       } else if (!isValidEmail) {
+      setPaymentInvoiceEmailError("Please Enter  Valid Email Id");
+      } else {
+      setPaymentInvoiceEmailError("");
+    }
+  }
+
+
+     if( RentalinvoiceTemplate.id && state.login.selectedHostel_Id){
+       dispatch({
+    type: "ADD_BILLS_TEMPLATE",
+    payload: {
+        hostel_Id: Number(state.login.selectedHostel_Id),
+        id: RentalinvoiceTemplate.id , 
+        digital_signature_url: signature,
+        is_signature_specific_template: RentalinvoiceTemplate.is_signature_specific_template,
+        contact_number: paymentmobilenum,
+        is_contact_specific_template: RentalinvoiceTemplate.is_contact_specific_template,
+        email: paymentinvoiceemail,
+        is_email_specific_template: RentalinvoiceTemplate.is_email_specific_template,
+        logo_url : hostel_logo,
+        is_logo_specific_template :RentalinvoiceTemplate.is_logo_specific_template,
+        qr_url:qrimagepreview,
+        prefix,
+        suffix,
+        tax,
+        notes,
+        terms_and_condition: terms,
+        banking_id: Number(selectedBankId),
+        template_theme: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    },
+  });
+}
+  
+
+
+};
+
+const [BillsTemplateList , setBillsTemplateList] = useState([])
+
+ 
+useEffect(()=> {
+   if(state.login.selectedHostel_Id){
+  setLoading(false)
+   dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+   }
+},[])
+
+    useEffect(() => {
+    if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
+
+  dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsBillsAddTemplateSucesscode]);
+
+    useEffect(() => {
+         if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+    setBillsTemplateList(state.Settings.settingsBillsTemplateList)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+
+  
+
+  const RentalinvoiceTemplate = BillsTemplateList.find(
+  (template) => template.template_type === "Rental Invoice"
+);
+
+
+
+   useEffect(()=> {
+    if(RentalinvoiceTemplate) {
+      setLogoPreview(RentalinvoiceTemplate.logo_url || null)
+      setHostelLogo(RentalinvoiceTemplate.logo_url || null)
+      setPaymentMobileNum(RentalinvoiceTemplate.contact_number)
+      setPaymentinvoiceEmail(RentalinvoiceTemplate.email)
+      setPrefix(RentalinvoiceTemplate.prefix || '')
+      setSuffix(RentalinvoiceTemplate.suffix || '')
+      setSignature(RentalinvoiceTemplate.digital_signature_url || null)
+      setSignaturePreview(RentalinvoiceTemplate.digital_signature_url || null)
+      setTerms(RentalinvoiceTemplate.terms_and_condition || '')
+      setTax(RentalinvoiceTemplate.tax || '')
+      setSelectedBankId(RentalinvoiceTemplate.banking_id || null)
+      setQrImage(RentalinvoiceTemplate.qr_url || null)
+      setQRImagePreview(RentalinvoiceTemplate.qr_url || null)
+
+         const templateTheme = RentalinvoiceTemplate.template_theme;
+if (templateTheme && templateTheme.trim() !== '') {
+  if (templateTheme.includes('rgba')) {
+    const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
+    if (match) {
+      setColor({
+        r: parseInt(match[1]),
+        g: parseInt(match[2]),
+        b: parseInt(match[3]),
+        a: parseFloat(match[4]),
+      });
+      setUseGradient(false);
+    }
+  } else {
+    setUseGradient(true);
+  }
+} else {
+  setUseGradient(true);
+}
+    }
+
+   },[RentalinvoiceTemplate])
 
 
 
@@ -1062,10 +1398,6 @@ const handleReset=(()=>{
       </h3>
     </div>
 
-    
-
-    
-    
   </div>
 </div>
 
@@ -1111,8 +1443,11 @@ const handleReset=(()=>{
     border: '1px solid',
     borderColor: selectedTab === option.value ? '#0d6efd' : '#6c757d'        
   }}
-
-      onClick={() => setSelectedTab(option.value)}
+      onClick={() => {
+        setSelectedTab(option.value);
+        setEditFormErrMessage(""); 
+      }}
+      
     >
       {option.label}
     </button>
@@ -1124,169 +1459,438 @@ const handleReset=(()=>{
 
 {selectedTab === "rental_invoice" && <>
 <div className="col-12 d-flex flex-row">
-<div className="col-lg-4 show-scroll" style={{ maxHeight: 450,
+<div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
-<p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Inherited Global Details</p>
-<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
-
-  <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
-
-    
- <div className='d-flex row '>
-                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
- <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
-  <div style={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '6px'
-  }}>
-    <label style={{ fontWeight: 600 }}>Contact Number</label>
-   <img  src={EditICon} onClick={handleShowContactNumberForm} alt="editicon" style={{cursor:'pointer'}}/>
-  </div>
-
-  <div style={{
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#F0F3FF',
-    borderRadius: '8px',
-    padding: '8px 12px',
-    border: '1px solid #E0E0E0',
-  }}>
-    <select style={{
-      border: 'none',
-      backgroundColor: 'transparent',
-      fontFamily: 'inherit',
-      fontSize: 'inherit',
-      fontWeight: 'inherit',
-      appearance: 'none',
-      paddingRight: '16px',
-      cursor: 'pointer',
-      outline: 'none',
-      backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E")',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'right center',
-      backgroundSize: '10px'
-    }}>
-      <option value="+91">+91</option>
-      <option value="+1">+1</option>
-      <option value="+44">+44</option>
-      <option value="+971">+971</option>
-    </select>
-
-    <input
-      type="tel"
-     
-      placeholder="9876543210"
-      style={{
-        border: 'none',
-        backgroundColor: 'transparent',
-        outline: 'none',
-        marginLeft: '8px',
-        fontFamily: 'inherit',
-        fontSize: 'inherit',
-        fontWeight: 'inherit',
-      }}
-    />
-      
-  </div>
-   
-</div>
-
-
-
+             { (
+              RentalinvoiceTemplate?.is_signature_specific_template === 1 ||
+              RentalinvoiceTemplate?.is_contact_specific_template === 1 ||
+              RentalinvoiceTemplate?.is_email_specific_template === 1 ||
+              RentalinvoiceTemplate?.is_logo_specific_template === 1
+            ) && 
+            
+                        (
+                          <>
+                          <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
+            
+               <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+                <div className="d-flex justify-content-end">
+                              <img src={EditICon}  onClick={ handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
+            
+                </div>
+                {  RentalinvoiceTemplate?.is_logo_specific_template === 1  &&
+                <div>
+                      <div style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          marginBottom: '6px'
+                        }}>
+                          <label style={{ fontWeight: 600 }}>Hostel/PG Logo</label>
                         </div>
-
-                      
-                    </div>
-                   
-
-                    
-                  </div>
-                 <Modal
-  show={contactnumberform}
-  onHide={handleCloseContactNumberForm}
-  centered
-  backdrop="static"
-  className="logout-card d-flex justify-content-center align-items-center"
-  dialogClassName="custom-modal-width" 
->
-  <Modal.Header style={{ borderBottom: "none" }}>
-    <Modal.Title
-      style={{
-        fontSize: "18px",
-        fontFamily: "Gilroy",
-        textAlign: "center",
-        fontWeight: 600,
-        color: "#222222",
-        flex: 1,
-        paddingTop:'20px'
-      }}
-    >
-      <img src={Questionimage} alt="question" className="me-2" />
-      Override Global Value?
-    </Modal.Title>
-  </Modal.Header>
-
-  <Modal.Body
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      color: "#646464",
-      textAlign: "center",
-      paddingLeft: "20px",
-      paddingRight: "20px",
-    }}
-  >
-    You’re changing this field only for this bill. 
-    It won’t affect the main settings.
-  </Modal.Body>
-
-  <Modal.Footer
-    style={{
-      justifyContent: "center",
-      borderTop: "none",
-      paddingBottom:'20px'
-    }}
-  >
-    <Button
-      style={{
-        width: 160,
-        height: 52,
-        borderRadius: 10,
-        padding: "12px 20px",
-        background: "#fff",
-        color: "rgba(111, 108, 143, 1)",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-        marginRight: 10,
-      }}
-      className="border"
-      onClick={handleCloseContactNumberForm}
-    >
-      Cancel
-    </Button>
-    <Button
-      style={{
-        width: 160,
-        height: 52,
-        borderRadius: 10,
-        padding: "12px 20px",
-        background: "#1E45E1",
-        color: "#FFFFFF",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-      }}
-      
-    >
-      Edit Anyway
-    </Button>
-  </Modal.Footer>
-</Modal>
+              <div className="p-3 border rounded" style={{  backgroundColor: '#F0F3FF', textAlign: 'center' }}>
+               
+                {logoPreview ? (
+                  <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
+                ) : (
+                  <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+                )}
+            
+                <div>
+                  <label
+                    style={{
+                      cursor: allowEditFields.hostelLogo ? 'pointer' : 'not-allowed',
+                      color: allowEditFields.hostelLogo ? 'rgba(30, 69, 225, 1)' : '#999',
+                      fontFamily: 'Gilroy',
+                      fontSize: 12,
+                      fontWeight: 400
+                    }}
+                  >
+                    Choose file
+                    <input
+                      type="file"
+                      accept="image/png"
+                      className="d-none"
+                      ref={fileInputRef}
+                      onChange={handleFileUploadHostel}
+                      disabled={!allowEditFields.hostelLogo}
+                    />
+                  </label>
+                  <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>
+                    to Upload
+                  </span>
+                </div>
+            
+                <small
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: 9,
+                    color: "rgba(75, 75, 75, 1)",
+                    fontWeight: 400,
+                    display: "block",
+                    marginTop: "5px"
+                  }}
+                >
+                  Must be in PNG Format (600px × 300px)
+                </small>
+              </div>
+              </div>
+                }
+            
+              {  RentalinvoiceTemplate?.is_contact_specific_template === 1  &&
+                <div className=" p-3  col-lg-12" style={{borderRadius:'10px' , overflowY:'auto', }}>
+             <div className='d-flex row '>
+                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+             <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '6px'
+              }}>
+                <label style={{ fontWeight: 600 }}>Contact Number</label>
+              </div>
+            
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: '#F0F3FF',
+                borderRadius: '8px',
+                padding: '8px 12px',
+                border: '1px solid #E0E0E0',
+              }}>
+                <select style={{
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  fontFamily: 'inherit',
+                  fontSize: 'inherit',
+                  fontWeight: 'inherit',
+                  appearance: 'none',
+                  paddingRight: '16px',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E")',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right center',
+                  backgroundSize: '10px'
+                }}
+                 disabled={!allowEditFields.contact}
+                >
+                  <option value="+91">+91</option>
+                  <option value="+1">+1</option>
+                  <option value="+44">+44</option>
+                  <option value="+971">+971</option>
+                  
+                </select>
+            
+                <input
+                  type="tel"
+                  placeholder="9876543210"
+                  style={{
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    outline: 'none',
+                    marginLeft: '8px',
+                    fontFamily: 'inherit',
+                    fontSize: 'inherit',
+                    fontWeight: 'inherit',
+                  }}
+                   value={paymentmobilenum}
+                   onChange={handlePaymentInvoiceMobile}
+                  maxLength={10}
+                   disabled={!allowEditFields.contact}
+                />
+               
+              </div>
+               {paymentMobileError && (
+                                        <div style={{ color: "red",  }}>
+                                          {" "}
+                                          <MdError
+                                            style={{ fontSize: "13px", marginBottom: "2px" }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              marginRight: "3px"
+                                            }}
+                                          >
+                                            {" "}
+                                            {paymentMobileError}
+                                          </span>
+                                        </div>
+                                      )}
+            </div>
+            
+            
+            
+                                    </div>
+            
+                                  
+                                </div>       
+                              </div> }
+            
+            
+             {  RentalinvoiceTemplate?.is_email_specific_template === 1  &&
+                                <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}> 
+             <div className='d-flex row '>
+                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+             <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '6px'
+              }}>
+                <label style={{ fontWeight: 600 }}>E-Mail Address</label>
+              </div>
+            
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: '#F0F3FF',
+                borderRadius: '8px',
+                padding: '8px 12px',
+                border: '1px solid #E0E0E0',
+              }}>
+              
+            
+                <input
+                  type="tel"
+                  placeholder="abc@gmail.com"
+                  style={{
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    outline: 'none',
+                    marginLeft: '8px',
+                    fontFamily: 'inherit',
+                    fontSize: 'inherit',
+                    fontWeight: 'inherit',
+                  }}
+                  disabled={!allowEditFields.email}
+                  value={paymentinvoiceemail}
+                   onChange={handlePaymentinvoiceEmail}
+                />
+               
+              </div>
+               {paymentinvoiceemailError && (
+                                        <div style={{ color: "red",  }}>
+                                          {" "}
+                                          <MdError
+                                            style={{ fontSize: "13px", marginBottom: "2px" }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              marginRight: "3px"
+                                            }}
+                                          >
+                                            {" "}
+                                            {paymentinvoiceemailError}
+                                          </span>
+                                        </div>
+                                      )}
+            </div>
+            
+            
+            
+                                    </div>
+            
+                                  
+                                </div>
+                                      
+                              </div>
+               }
+                {  RentalinvoiceTemplate?.is_signature_specific_template  === 1  &&
+                              <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+             <div className='d-flex row '>
+                                    <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+             <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '6px'
+              }}>
+                <label style={{ fontWeight: 600 }}>Digital Signature Upload</label>
+              </div>
+            
+                  <div className="col-12">
+                           <div
+                        className="rounded mt-2 d-flex justify-content-center align-items-center"
+                        style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
+                    borderColor: '#ced4da'}}
+                      >
+                        {rentalSignaturePreview ? (
+                          <img src={rentalSignaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+                        ) : (
+                          <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+                          >No signature uploaded</span>
+                        )}
+                      </div>
+                
+                      <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
+                        <div className="d-flex flex-row">
+                          <label  style={{    cursor: allowEditFields.digitalSignature ? 'pointer' : 'not-allowed',
+                color: allowEditFields.digitalSignature ? 'rgba(30, 69, 225, 1)' : '#999', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>
+                            Choose file
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="d-none"
+                              ref={fileInputRef}
+                onChange={handleRentalSignatureChange}
+                disabled={!allowEditFields.digitalSignature}
+                            />
+                          </label>
+                          <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>to Upload Image</span>
+                        </div>
+                        <div className="d-flex justify-content-end">
+                          <button
+                            className="btn btn-link text-decoration-none "
+                            onClick={handleRentalSignatureClear}
+                            disabled={!rentalSignaturePreview}
+                            style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}
+                          >
+                            Clear
+                          </button>
+                          <button
+                            className="btn btn-link text-decoration-none "
+                            disabled={!rentalSignaturePreview}
+                            onClick={handleRentalSignatureDone}
+                            style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600}}
+                          >
+                            Done
+                          </button>
+                        </div>
+                
+                        
+                      </div>
+                        {rentalSignatureError.trim() !== "" && (
+                                                              <div className="d-flex align-items-center p-1">
+                                                                <MdError
+                                                                  style={{
+                                                                    color: "red",
+                                                                    marginRight: "5px",
+                                                                    fontSize: "14px",
+                                                                  }}
+                                                                />
+                                                                <label
+                                                                  className="mb-0"
+                                                                  style={{
+                                                                    color: "red",
+                                                                    fontSize: "12px",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                  }}
+                                                                >
+                                                                  {rentalSignatureError}
+                                                                </label>
+                                                              </div>
+                                                            )}
+                      </div>
+            </div>
+                                    </div>  
+                                </div>        
+                              </div>
+               }
+            
+                             <Modal
+              show={contactnumberform}
+              onHide={handleCloseContactNumberForm}
+              centered
+              backdrop="static"
+              className="logout-card d-flex justify-content-center align-items-center"
+              dialogClassName="custom-modal-width" 
+            >
+              <Modal.Header style={{ borderBottom: "none" }}>
+                <Modal.Title
+                  style={{
+                    fontSize: "18px",
+                    fontFamily: "Gilroy",
+                    textAlign: "center",
+                    fontWeight: 600,
+                    color: "#222222",
+                    flex: 1,
+                    paddingTop:'20px'
+                  }}
+                >
+                  <img src={Questionimage} alt="question" className="me-2" />
+                  Override Global Value?
+                </Modal.Title>
+              </Modal.Header>
+            
+              <Modal.Body
+                style={{
+                  fontSize: 14,
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  color: "#646464",
+                  textAlign: "center",
+                  paddingLeft: "20px",
+                  paddingRight: "20px",
+                }}
+              >
+                You’re changing this field only for this bill. 
+                It won’t affect the main settings.
+              </Modal.Body>
+            
+              <Modal.Footer
+                style={{
+                  justifyContent: "center",
+                  borderTop: "none",
+                  paddingBottom:'20px'
+                }}
+              >
+                <Button
+                  style={{
+                    width: 160,
+                    height: 52,
+                    borderRadius: 10,
+                    padding: "12px 20px",
+                    background: "#fff",
+                    color: "rgba(111, 108, 143, 1)",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    marginRight: 10,
+                  }}
+                  className="border"
+                  onClick={handleCloseContactNumberForm}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  style={{
+                    width: 160,
+                    height: 52,
+                    borderRadius: 10,
+                    padding: "12px 20px",
+                    background: "#1E45E1",
+                    color: "#FFFFFF",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                  }}
+                    onClick={handleEditAnyway}
+            
+                >
+                  Edit Anyway
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            </div>
+                          
+                          </>
+                        )
+            
+                        
+                        }
 
 
 <div>
@@ -1473,7 +2077,6 @@ const handleReset=(()=>{
   }}
   className="col-lg-10"
 >
-  {/* Fixed Header */}
   <div
     style={{
       display: 'flex',
@@ -1576,7 +2179,6 @@ const handleReset=(()=>{
     )}
   </div>
 
-  {/* Validation Error */}
   {!selectedBankId && bankid_Error.trim() !== '' && (
     <div style={{ display: 'flex', alignItems: 'center', paddingTop: 8 }}>
       <MdError style={{ color: 'red', marginRight: 5, fontSize: 14 }} />
@@ -1606,7 +2208,30 @@ const handleReset=(()=>{
    Valid UPI QR Code for Payment Easy</p>
  <div className="col-12">
          <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
-           <img src={uploadsett} alt="upload" style={{ height: 30 }} />
+             {qrImage ? (
+                      <img
+                        src={qrImage}
+                        alt="QR Preview"
+                        style={{
+                          height: "150px",
+                          width: "150px",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                          marginBottom: "10px",
+                          border: "1px solid #ddd",
+                          backgroundColor: "#fff",
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src={uploadsett}
+                        alt="upload"
+                        style={{
+                          height: 30,
+                          marginBottom: "10px",
+                        }}
+                      />
+                    )}
            <div className="d-flex flex-column ms-3">
           <div>
            <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
@@ -1615,8 +2240,8 @@ const handleReset=(()=>{
                type="file"
                accept="image/*"
                className="d-none"
-               // ref={fileInputRef}
-               // onChange={handleFileSignatureChange}
+               ref={qrFileInputRef}
+               onChange={handleQrImageChange}
              />
            </label>
            <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload </span>
@@ -1632,53 +2257,7 @@ const handleReset=(()=>{
              >JPG SVG PNG(150px × 150px)</small>
            </div>
          </div>
-       </div>
-  {/* <div className='d-flex row '>
-                         <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
-                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                 <Form.Label
-                                     style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                                 >
-                                     Valid UPI QR Code for Payment Easy
-                                 </Form.Label>
-                                 <Form.Control
-                                     style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
-                                     type="text"
-                                     placeholder="12%"
-                                     value={tax}
-                                     onChange={handleTaxChange}
-                                 />
- 
-                                 {tax_errmsg.trim() !== "" && (
-                                               <div className="d-flex align-items-center p-1">
-                                                 <MdError
-                                                   style={{
-                                                     color: "red",
-                                                     marginRight: "5px",
-                                                     fontSize: "14px",
-                                                   }}
-                                                 />
-                                                 <label
-                                                   className="mb-0"
-                                                   style={{
-                                                     color: "red",
-                                                     fontSize: "12px",
-                                                     fontFamily: "Gilroy",
-                                                     fontWeight: 500,
-                                                   }}
-                                                 >
-                                                   {tax_errmsg}
-                                                 </label>
-                                               </div>
-                                             )}
-                           </Form.Group>
-                         </div>
- 
-                       
-                     </div> */}
-                    
- 
-                     
+       </div>                    
                    </div>
 
 
@@ -1835,7 +2414,6 @@ const handleReset=(()=>{
 ))}
 
 <div
-  onClick={() => console.log("Current color clicked")}
   style={{
     width: 24,
     height: 24,
@@ -1850,6 +2428,30 @@ const handleReset=(()=>{
       </div>
   </div>
 
+  
+     {editformErrmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: 12,
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {editformErrmsg}
+                                                </label>
+                                              </div>
+                                            )}
+
   <div className="d-flex justify-content-end mt-2 col-lg-10">
         <Button
       style={{
@@ -1863,6 +2465,7 @@ const handleReset=(()=>{
         fontFamily: "Gilroy",
         fontSize: "14px",
       }}
+      onClick={handleSaveRentalTemplate}
     >
       Save Template
     </Button>
@@ -1870,7 +2473,7 @@ const handleReset=(()=>{
 
 
 </div>
-<div className="col-lg-8 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
+<div className="col-lg-7 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
   <div className="d-flex justify-content-center">
 <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius:'8px' ,backgroundColor:'white' }} >
        

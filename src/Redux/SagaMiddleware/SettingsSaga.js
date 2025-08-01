@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList , SubscriptionPdfDownload , SettingsAddRecurring , GetBillsFrequncyTypes , GetBillsNotificationTypes , SettingsGetRecurring , AddInvoiceSettings , SettingsGetInvoice,AddGlobalSettingTemplate,SettingsGetGlobal} from "../Action/SettingsAction"
+import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList , SubscriptionPdfDownload , SettingsAddRecurring , GetBillsFrequncyTypes , GetBillsNotificationTypes , SettingsGetRecurring , AddInvoiceSettings , SettingsGetInvoice , AddBillTemplate ,getTemplateList , AddGlobalSettingTemplate,SettingsGetGlobal} from "../Action/SettingsAction"
+
 
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
@@ -1326,12 +1327,12 @@ function* handleGetSettingsInvoice(action) {
 }
 
 
-function* handleAddIGlobalSettings(params) {
-   const response = yield call(AddGlobalSettingTemplate, params.payload);
-   console.log("handleAddIGlobalSettings",response)
+
+function* handleAddBillTemplateSettings(params) {
+   const response = yield call(AddBillTemplate, params.payload);
 
    if (response.successCode === 200 ||  response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ADD_GLOBAL_SETTINGS', payload: { response: response.data, statusCode: response.successCode || response.statusCode , message: response.message } })
+      yield put({ type: 'ADD-BILLS-TEMPLATE', payload: { response: response.data, statusCode: response.successCode || response.statusCode , message: response.message } })
      
       var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy", fontWeight: 600,  fontSize: 14,  textAlign: "start", display: "flex", alignItems: "center",  padding: "10px",  };
  toast.success(response.message, {  position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined,  style: toastStyle })
@@ -1343,6 +1344,42 @@ function* handleAddIGlobalSettings(params) {
    if (response) {
       refreshToken(response)
    }
+}
+
+
+function* handleGetTemplatelist(action) {
+   try{
+   const response = yield call(getTemplateList, action.payload);
+   
+
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'GET_TEMPLATELIST', payload: { response: response.data.message, statusCode: response.status || response.statusCode, message: response.data.message } })
+   } 
+   if (response.status === 500 || response.statusCode === 500) {
+      yield put({ type: 'ERROR_TEMPLATELIST', payload: {  statusCode: response.status || response.statusCode, message: response.data.message } })
+   }
+
+   else if (response.status === 401 || response.statusCode === 401) {
+      Swal.fire({
+         icon: 'warning',
+         title: 'Error',
+         text: response.data.message,
+      });
+   }
+   else {
+      yield put({ type: 'ERROR_TEMPLATE', payload: {statusCode: response.status || response.statusCode} })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+   }
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
+    }
 }
 
 
@@ -1362,13 +1399,33 @@ function* handleAddIGlobalSettings(params) {
 
 
 
+function* handleAddIGlobalSettings(params) {
+   const response = yield call(AddGlobalSettingTemplate, params.payload);
+   console.log("handleAddIGlobalSettings",response)
+ 
+   if (response.successCode === 200 ||  response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'ADD_GLOBAL_SETTINGS', payload: { response: response.data, statusCode: response.successCode || response.statusCode , message: response.message } })
+     
+      var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy", fontWeight: 600,  fontSize: 14,  textAlign: "start", display: "flex", alignItems: "center",  padding: "10px",  };
+ toast.success(response.message, {  position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined,  style: toastStyle })
+   }
+   
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+}
+
+
 function* handleGetGlobalSetting(user) {
    const response = yield call(SettingsGetGlobal, user.payload);
    console.log("handleGetGlobalSetting",response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'GET_GLOBAL_SETTING', payload: { response: response.data, statusCode: response.status } })
    }
-
+ 
    // else if (response.status === 201 || response.data.statusCode === 201) {
    //    yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.data.statusCode } })
    // }
@@ -1379,6 +1436,7 @@ function* handleGetGlobalSetting(user) {
       refreshToken(response)
    }
 }
+
 function refreshToken(response) {
 
    if (response.data && response.data.refresh_token) {
@@ -1434,7 +1492,10 @@ function* SettingsSaga() {
    yield takeEvery('SETTINGS_GET_RECURRING',handleGetSettingsRecurrringBill)
    yield takeEvery('ADD_INVOICE_SETTINGS',handleAddInvoiceSettings)
    yield takeEvery('SETTINGS_GET_INVOICE',handleGetSettingsInvoice)
+   yield takeEvery('ADD_BILLS_TEMPLATE',handleAddBillTemplateSettings)
+   yield takeEvery('GET_TEMPLATE_LIST',handleGetTemplatelist)
     yield takeEvery('ADDGLOBALSETTING',handleAddIGlobalSettings)
     yield takeEvery('FETCHSETTINGTEMP',handleGetGlobalSetting)
+
 }
 export default SettingsSaga;

@@ -49,6 +49,8 @@ import PropTypes from "prop-types";
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
+  const [loading, setLoading] = useState(false)
+  const [editErrmsg , setEditErrMessage] = useState('')
 
   const [contactnumberform , setContactNumberForm] = useState(false)
   
@@ -56,7 +58,6 @@ import PropTypes from "prop-types";
   const innerScrollRef = useRef(null);
 
   const [accountNameError, setaccountnameError] = useState("");
-//   const [bankid_Error, setBankIdError] = useState("");
   const [prefix_errmsg , setPrefixErrMsg] = useState('')
   const [suffix_errmsg , setSuffixErrMsg] = useState('')
   const [tax_errmsg , setTaxErrMsg] = useState('')
@@ -64,17 +65,86 @@ import PropTypes from "prop-types";
   const [terms_errmsg , setTermsErrMsg] = useState('')
   const [showFullView, setShowFullView] = useState(false);
 
+  const [allowImageUpload, setAllowImageUpload] = useState(false);
+const [allowEditFields, setAllowEditFields] = useState({
+  contact: false,
+  email: false,
+  hostelLogo: false,
+  digitalSignature: false, 
+});
+
 
 
   const handleShowContactNumberForm = () => {
-setContactNumberForm(true)
+  setContactNumberForm(true);
+  setAllowImageUpload(false);
+};
+
+  
+
+ const handleCloseContactNumberForm = () => {
+  setContactNumberForm(false);
+  setAllowImageUpload(false);
+  setAllowEditFields({
+    contact: false,
+    email: false,
+    hostelLogo: false,
+    digitalSignature: false,
+  });
+};
+
+
+const handleEditAnyway = () => {
+  setAllowImageUpload(true);
+  setAllowEditFields({
+    contact: true,
+    email: true,
+    hostelLogo: true,
+    digitalSignature: true,
+  });
+  setContactNumberForm(false); 
+};
+
+
+
+const [mobilenum,setMobileNum] = useState("")
+const [MobileError,setMobileError] = useState("")
+const[email,setEmail] = useState("")
+const[emailError,setEmailError] = useState("")
+
+const handleMobile = (e) => {
+  const input = e.target.value.replace(/\D/g, ""); 
+  setMobileNum(input);
+  setEditErrMessage("")
+  if (input.length === 0) {
+    setMobileError("");
+  } else if (input.length < 10) {
+    setMobileError(" Please Enter Valid Mobile Number");
+  } else if (input.length === 10) {
+    setMobileError("");
+  } else if (input.length > 10) {
+    setMobileError(" Please Enter Valid Mobile Number");
   }
+};
 
-  const handleCloseContactNumberForm = () => {
-    setContactNumberForm(false)
-  }
-
-
+const handleEmail = (e) => {
+    const emailValue = e.target.value.toLowerCase();
+    setEmail(emailValue);
+    setEditErrMessage("")
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(emailValue);
+    if (!emailValue) {
+      setEmailError("");
+     
+    } else if (!isValidEmail) {
+      
+      setEmailError("Please Enter  Valid Email Id");
+    } else {
+      setEmailError("");
+     
+    }
+   
+  };
   
 
 
@@ -88,6 +158,7 @@ setContactNumberForm(true)
    const handleColorChange = (newColor) => {
     setColor(newColor);
     setUseGradient(false); 
+     setEditErrMessage("")
   }
 
   const presetColors = [
@@ -162,7 +233,7 @@ const handleBankNameChange = (e) => {
 const hanldePrefix = (e) => {
      const Value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
     setPrefix(Value)
-
+     setEditErrMessage("")
     if (Value.trim() !== "") {
     setPrefixErrMsg("");
   }
@@ -171,7 +242,7 @@ const hanldePrefix = (e) => {
 const hanldeSuffix = (e) => {
      const numericValue =  e.target.value.replace(/[^0-9]/g, ""); 
     setSuffix(numericValue)
-
+     setEditErrMessage("")
     if (numericValue.trim() !== "") {
     setSuffixErrMsg("");
   }
@@ -182,7 +253,7 @@ const hanldeSuffix = (e) => {
 
 const handleTaxChange = (e) => {
   const inputValue = e.target.value;
-
+   setEditErrMessage("")
   const formattedValue = inputValue
     .replace(/[^0-9.]/g, '')    
     .replace(/^([^.]*\.)|\./g, '$1'); 
@@ -198,7 +269,7 @@ const handleTaxChange = (e) => {
 const handleNotesChange = (e) => {
     const Value = e.target.value  
     setNotes(Value)
-
+    setEditErrMessage("")
     if (Value.trim() !== "") {
     setNotesErrMsg("");
   }
@@ -207,7 +278,7 @@ const handleNotesChange = (e) => {
 const handleTermsChange = (e) => {
     const Value = e.target.value  
     setTerms(Value)
-
+    setEditErrMessage("")
     if (Value.trim() !== "") {
     setTermsErrMsg("");
   }
@@ -226,6 +297,46 @@ const handleTermsChange = (e) => {
   );
 
 
+  
+      const fileInputRef = useRef(null);
+     const [signature, setSignature] = useState(null); 
+     const [signaturePreview, setSignaturePreview] = useState(null); 
+     const [signature_errmsg, setSignatureErrMsg] = useState("")
+     const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
+  
+   const handleFileSignatureChange = (e) => {
+    const file = e.target.files[0];
+     setEditErrMessage("")
+    if (file) {
+      setSignature(file);
+      setSignaturePreview(URL.createObjectURL(file)); 
+      setSignatureErrMsg("");
+      setIsSignatureConfirmed(false);
+    }
+  };
+  
+  
+    const handleClear = () => {
+      setSignature(null);
+      setSignaturePreview(null)
+      setSignatureErrMsg("");
+       setEditErrMessage("")
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    };
+  
+  
+    const handleSignatureDone = () => {
+    if (!signature) {
+      setSignatureErrMsg("Please select a signature file.");
+    } else {
+       setEditErrMessage("")
+      setSignatureErrMsg("");
+      setIsSignatureConfirmed(true);
+    }
+  };
+  
 
 
 
@@ -272,6 +383,7 @@ const handleTermsChange = (e) => {
 
             const handleAddBankAccount = () => {
                setBankAccountForm(true)
+               setEditErrMessage("")
                    }
 
   
@@ -362,19 +474,359 @@ useEffect(() => {
 }, [showFullView]);
 
 
+  const [logoPreview, setLogoPreview] = useState(null);
+  const [hostel_logo , setHostelLogo] = useState(null)
+  
+
+  const handleFileUploadHostel = (e) => {
+      if (!allowImageUpload) return;
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+     
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result);
+      };
+      
+      reader.readAsDataURL(file);
+      setHostelLogo(file)
+    }
+  };
+
+
+   const [qrImage, setQrImage] = useState(null);
+   const [qrimagepreview , setQRImagePreview] = useState(null)
+  const qrFileInputRef = useRef(null);
+
+  const handleQrImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setQRImagePreview(file)
+      setQrImage(URL.createObjectURL(file));
+    }
+  };
+
+   const handleSaveTemplate = () => {
+
+  const currentTemplate = {
+    hostel_Id: Number(state.login.selectedHostel_Id),
+    id: securityDepositInvoiceTemplate.id,
+    digital_signature_url: signature,
+    is_signature_specific_template: securityDepositInvoiceTemplate.is_signature_specific_template,
+    contact_number: mobilenum,
+    is_contact_specific_template: securityDepositInvoiceTemplate.is_contact_specific_template,
+    email: email,
+    is_email_specific_template: securityDepositInvoiceTemplate.is_email_specific_template,
+    logo_url: hostel_logo,
+    is_logo_specific_template: securityDepositInvoiceTemplate.is_logo_specific_template,
+    qr_url: qrimagepreview,
+    prefix,
+    suffix,
+    tax,
+    notes,
+    terms_and_condition: terms,
+    banking_id: Number(selectedBankId),
+    template_theme: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+  };
+
+  const oldTemplate = {
+    hostel_Id: Number(state.login.selectedHostel_Id),
+    id: securityDepositInvoiceTemplate.id,
+    digital_signature_url: securityDepositInvoiceTemplate.digital_signature_url || null,
+    is_signature_specific_template: securityDepositInvoiceTemplate.is_signature_specific_template,
+    contact_number: securityDepositInvoiceTemplate.contact_number || '',
+    is_contact_specific_template: securityDepositInvoiceTemplate.is_contact_specific_template,
+    email: securityDepositInvoiceTemplate.email || '',
+    is_email_specific_template: securityDepositInvoiceTemplate.is_email_specific_template,
+    logo_url: securityDepositInvoiceTemplate.logo_url || null,
+    is_logo_specific_template: securityDepositInvoiceTemplate.is_logo_specific_template,
+    qr_url: securityDepositInvoiceTemplate.qr_url || null,
+    prefix: securityDepositInvoiceTemplate.prefix || '',
+    suffix: securityDepositInvoiceTemplate.suffix || '',
+    tax: securityDepositInvoiceTemplate.tax || '',
+    notes: securityDepositInvoiceTemplate.notes || '',
+    terms_and_condition: securityDepositInvoiceTemplate.terms_and_condition || '',
+    banking_id: Number(securityDepositInvoiceTemplate.banking_id || 0),
+    template_theme: securityDepositInvoiceTemplate.template_theme || '',
+  };
+
+  const isSame = JSON.stringify(currentTemplate) === JSON.stringify(oldTemplate);
+
+  if (isSame) {
+     setEditErrMessage("No changes detected");
+    setSignatureErrMsg("")
+    return;
+  }
+     
+  if(securityDepositInvoiceTemplate.is_signature_specific_template === 1){
+    const Signatureverify = !securityDepositInvoiceTemplate.digital_signature_url
+
+  if (signature && !isSignatureConfirmed && Signatureverify){
+    setSignatureErrMsg("Please click Done after selecting a signature");
+    return
+     }
+  }
+
+    if(securityDepositInvoiceTemplate.is_contact_specific_template === 1){
+         if (mobilenum && mobilenum.length < 10){
+         setMobileError(" Please Enter Valid Mobile Number");
+         return
+        }
+    else if (mobilenum.length === 10){
+       setMobileError("");
+       }
+  }
+   
+  if(securityDepositInvoiceTemplate.is_email_specific_template === 1){
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(email);
+    if (!email) {
+      setEmailError("");
+       } else if (!isValidEmail) {
+      setEmailError("Please Enter  Valid Email Id");
+      } else {
+      setEmailError("");
+    }
+  }
+
+
+     if( securityDepositInvoiceTemplate.id && state.login.selectedHostel_Id){
+      dispatch({
+    type: "ADD_BILLS_TEMPLATE",
+    payload: {
+        hostel_Id: Number(state.login.selectedHostel_Id),
+        id: securityDepositInvoiceTemplate.id , 
+        digital_signature_url: signature,
+        is_signature_specific_template: securityDepositInvoiceTemplate.is_signature_specific_template,
+        contact_number: mobilenum,
+        is_contact_specific_template: securityDepositInvoiceTemplate.is_contact_specific_template,
+        email: email,
+        is_email_specific_template: securityDepositInvoiceTemplate.is_email_specific_template,
+        logo_url : hostel_logo,
+        is_logo_specific_template :securityDepositInvoiceTemplate.is_logo_specific_template,
+        qr_url:qrimagepreview,
+        prefix,
+        suffix,
+        tax,
+        notes,
+        terms_and_condition: terms,
+        banking_id: Number(selectedBankId),
+        template_theme: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    },
+  });
+     }
+
+ 
+  
+
+
+};
+
+const [BillsTemplateList , setBillsTemplateList] = useState([])
+
+ 
+useEffect(()=> {
+   if(state.login.selectedHostel_Id){
+  setLoading(true)
+   dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+   }
+},[])
+
+    useEffect(() => {
+    if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
+
+  dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsBillsAddTemplateSucesscode]);
+
+    useEffect(() => {
+         if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+          
+    setBillsTemplateList(state.Settings.settingsBillsTemplateList)
+      setTimeout(() => {
+          setLoading(false)
+        dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
+      }, 500);
+    }
+  }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+
+        useEffect(() => {
+           if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {    
+           setTimeout(() => {
+             setLoading(false)
+             dispatch({ type: "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE" });
+        }, 500);
+      }
+    }, [state.Settings.SettingsBilltemplategetErrorCode]);
+
+  
+
+const securityDepositInvoiceTemplate = BillsTemplateList.find(
+  (template) => template.template_type === "Security Deposit Invoice"
+);
+
+
+ 
+
+   useEffect(()=> {
+    if(securityDepositInvoiceTemplate) {
+      setLogoPreview(securityDepositInvoiceTemplate.logo_url || null)
+      setHostelLogo(securityDepositInvoiceTemplate.logo_url || null)
+      setMobileNum(securityDepositInvoiceTemplate.contact_number)
+      setEmail(securityDepositInvoiceTemplate.email)
+      setPrefix(securityDepositInvoiceTemplate.prefix || '')
+      setSuffix(securityDepositInvoiceTemplate.suffix || '')
+      setSignature(securityDepositInvoiceTemplate.digital_signature_url || null)
+      setSignaturePreview(securityDepositInvoiceTemplate.digital_signature_url || null)
+      setTerms(securityDepositInvoiceTemplate.terms_and_condition || '')
+      setTax(securityDepositInvoiceTemplate.tax || '')
+      setSelectedBankId(securityDepositInvoiceTemplate.banking_id || null)
+      setQrImage(securityDepositInvoiceTemplate.qr_url || null)
+      setQRImagePreview(securityDepositInvoiceTemplate.qr_url || null)
+
+    const templateTheme = securityDepositInvoiceTemplate.template_theme;
+if (templateTheme && templateTheme.trim() !== '') {
+  if (templateTheme.includes('rgba')) {
+    const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
+    if (match) {
+      setColor({
+        r: parseInt(match[1]),
+        g: parseInt(match[2]),
+        b: parseInt(match[3]),
+        a: parseFloat(match[4]),
+      });
+      setUseGradient(false);
+    }
+  } else {
+    setUseGradient(true);
+  }
+} else {
+  setUseGradient(true);
+}
+
+    }
+
+   },[securityDepositInvoiceTemplate])
 
     return(
         <>
+
+            {loading &&
+        <div
+        style={{
+          position: 'fixed',
+          top: '48%',
+          left: '68%',
+          transform: 'translate(-50%, -50%)',
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+          zIndex: 1050,
+        }}
+      >
+        <div
+          style={{
+            borderTop: '4px solid #1E45E1',
+            borderRight: '4px solid transparent',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            animation: 'spin 1s linear infinite',
+          }}
+        ></div>
+      </div>
+      }
         <div className="col-12 d-flex flex-row">
-<div className="col-lg-4 show-scroll" style={{ maxHeight: 450,
+
+       
+<div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
-<p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Form Specific Details</p>
-<p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
 
-  <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+            { (
+  securityDepositInvoiceTemplate?.is_signature_specific_template === 1 ||
+  securityDepositInvoiceTemplate?.is_contact_specific_template === 1 ||
+  securityDepositInvoiceTemplate?.is_email_specific_template === 1 ||
+  securityDepositInvoiceTemplate?.is_logo_specific_template === 1
+) && 
 
-    
+            (
+              <>
+              <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
+
+   <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+    <div className="d-flex justify-content-end">
+                  <img src={EditICon}  onClick={ handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
+
+    </div>
+    {  securityDepositInvoiceTemplate?.is_logo_specific_template === 1  &&
+    <div>
+          <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '6px'
+            }}>
+              <label style={{ fontWeight: 600 }}>Hostel/PG Logo</label>
+            </div>
+  <div className="p-3 border rounded" style={{  backgroundColor: '#F0F3FF', textAlign: 'center' }}>
+   
+    {logoPreview ? (
+      <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
+    ) : (
+      <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+    )}
+
+    <div>
+      <label
+        style={{
+          cursor: allowEditFields.hostelLogo ? 'pointer' : 'not-allowed',
+          color: allowEditFields.hostelLogo ? 'rgba(30, 69, 225, 1)' : '#999',
+          fontFamily: 'Gilroy',
+          fontSize: 12,
+          fontWeight: 400
+        }}
+      >
+        Choose file
+        <input
+          type="file"
+          accept="image/png"
+          className="d-none"
+          ref={fileInputRef}
+          onChange={handleFileUploadHostel}
+          disabled={!allowEditFields.hostelLogo}
+        />
+      </label>
+      <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>
+        to Upload
+      </span>
+    </div>
+
+    <small
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 9,
+        color: "rgba(75, 75, 75, 1)",
+        fontWeight: 400,
+        display: "block",
+        marginTop: "5px"
+      }}
+    >
+      Must be in PNG Format (600px × 300px)
+    </small>
+  </div>
+  </div>
+    }
+
+  {  securityDepositInvoiceTemplate?.is_contact_specific_template === 1  &&
+    <div className=" p-3  col-lg-12" style={{borderRadius:'10px' , overflowY:'auto', }}>
  <div className='d-flex row '>
                         <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
  <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
@@ -385,7 +837,6 @@ useEffect(() => {
     marginBottom: '6px'
   }}>
     <label style={{ fontWeight: 600 }}>Contact Number</label>
-    <img  src={EditICon} onClick={handleShowContactNumberForm} style={{cursor:'pointer'}} alt="editicon"/>
   </div>
 
   <div style={{
@@ -410,11 +861,14 @@ useEffect(() => {
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'right center',
       backgroundSize: '10px'
-    }}>
+    }}
+     disabled={!allowEditFields.contact}
+    >
       <option value="+91">+91</option>
       <option value="+1">+1</option>
       <option value="+44">+44</option>
       <option value="+971">+971</option>
+      
     </select>
 
     <input
@@ -429,8 +883,106 @@ useEffect(() => {
         fontSize: 'inherit',
         fontWeight: 'inherit',
       }}
+       value={mobilenum}
+       onChange={handleMobile}
+      maxLength={10}
+       disabled={!allowEditFields.contact}
     />
+   
   </div>
+   {MobileError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {MobileError}
+                              </span>
+                            </div>
+                          )}
+</div>
+
+
+
+                        </div>
+
+                      
+                    </div>       
+                  </div> }
+
+
+ {  securityDepositInvoiceTemplate?.is_email_specific_template === 1  &&
+                    <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}> 
+ <div className='d-flex row '>
+                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+ <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '6px'
+  }}>
+    <label style={{ fontWeight: 600 }}>E-Mail Address</label>
+  </div>
+
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#F0F3FF',
+    borderRadius: '8px',
+    padding: '8px 12px',
+    border: '1px solid #E0E0E0',
+  }}>
+  
+
+    <input
+      type="tel"
+      placeholder="abc@gmail.com"
+      style={{
+        border: 'none',
+        backgroundColor: 'transparent',
+        outline: 'none',
+        marginLeft: '8px',
+        fontFamily: 'inherit',
+        fontSize: 'inherit',
+        fontWeight: 'inherit',
+      }}
+      disabled={!allowEditFields.email}
+      value={email}
+       onChange={handleEmail}
+    />
+   
+  </div>
+   {emailError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {emailError}
+                              </span>
+                            </div>
+                          )}
 </div>
 
 
@@ -439,10 +991,103 @@ useEffect(() => {
 
                       
                     </div>
-                   
-
-                    
+                          
                   </div>
+   }
+    {  securityDepositInvoiceTemplate?.is_signature_specific_template === 1  &&
+                  <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+ <div className='d-flex row '>
+                        <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+ <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '6px'
+  }}>
+    <label style={{ fontWeight: 600 }}>Digital Signature Upload</label>
+  </div>
+
+      <div className="col-12">
+               <div
+            className="rounded mt-2 d-flex justify-content-center align-items-center"
+            style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
+        borderColor: '#ced4da'}}
+          >
+            {signaturePreview ? (
+              <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+            ) : (
+              <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+              >No signature uploaded</span>
+            )}
+          </div>
+    
+          <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
+            <div className="d-flex flex-row">
+              <label  style={{    cursor: allowEditFields.digitalSignature ? 'pointer' : 'not-allowed',
+    color: allowEditFields.digitalSignature ? 'rgba(30, 69, 225, 1)' : '#999', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>
+                Choose file
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="d-none"
+                  ref={fileInputRef}
+    onChange={handleFileSignatureChange}
+    disabled={!allowEditFields.digitalSignature}
+                />
+              </label>
+              <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>to Upload Image</span>
+            </div>
+            <div className="d-flex justify-content-end">
+              <button
+                className="btn btn-link text-decoration-none "
+                onClick={handleClear}
+                disabled={!signaturePreview}
+                style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}
+              >
+                Clear
+              </button>
+              <button
+                className="btn btn-link text-decoration-none "
+                disabled={!signaturePreview}
+                onClick={handleSignatureDone}
+                style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600}}
+              >
+                Done
+              </button>
+            </div>
+    
+            
+          </div>
+            {signature_errmsg.trim() !== "" && (
+                                                  <div className="d-flex align-items-center p-1">
+                                                    <MdError
+                                                      style={{
+                                                        color: "red",
+                                                        marginRight: "5px",
+                                                        fontSize: "14px",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      className="mb-0"
+                                                      style={{
+                                                        color: "red",
+                                                        fontSize: "12px",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 500,
+                                                      }}
+                                                    >
+                                                      {signature_errmsg}
+                                                    </label>
+                                                  </div>
+                                                )}
+          </div>
+</div>
+                        </div>  
+                    </div>        
+                  </div>
+   }
+
                  <Modal
   show={contactnumberform}
   onHide={handleCloseContactNumberForm}
@@ -520,12 +1165,25 @@ useEffect(() => {
         fontFamily: "Gilroy",
         fontSize: "14px",
       }}
+        onClick={handleEditAnyway}
+
     >
       Edit Anyway
     </Button>
   </Modal.Footer>
 </Modal>
+</div>
+              
+              </>
+            )
 
+            
+            }
+
+
+
+<p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Form Specific Details</p>
+<p style={{ fontFamily: 'Gilroy', fontSize: 13, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
 
  <div className="border p-3 mb-3 col-lg-10" style={{borderRadius:'10px' , overflowY:'auto', }}>
 
@@ -807,51 +1465,113 @@ useEffect(() => {
   
 </div>
 
-
- <div className="border p-3 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
-
+ <div className="border p-3 mb-3 col-lg-10" style={{ borderRadius: "10px", overflowY: "auto" }}>
       <div>
-        <p    style={{ fontFamily: 'Gilroy' , color:'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal' }}>
-         Upload QR</p>
-        <hr></hr>
+        <p
+          style={{
+            fontFamily: "Gilroy",
+            color: "rgba(34, 34, 34, 1)",
+            fontSize: 14,
+            fontWeight: 400,
+            fontStyle: "normal",
+            lineHeight: "normal",
+          }}
+        >
+          Upload QR
+        </p>
+        <hr />
       </div>
 
- <p style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400, color:'rgba(75, 75, 75, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-  Valid UPI QR Code for Payment Easy</p>
-<div className="col-12">
-        <div className="d-flex align-items-center justify-content-center p-3 border rounded" style={{ backgroundColor: '#f9f9f9' }}>
-          <img src={uploadsett} alt="upload" style={{ height: 30 }} />
-          <div className="d-flex flex-column ms-3">
-         <div>
-          <label  style={{ cursor: 'pointer' , color:'rgba(30, 69, 225, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>
-            Choose file
-            <input
-              type="file"
-              accept="image/*"
-              className="d-none"
-              // ref={fileInputRef}
-              // onChange={handleFileSignatureChange}
-            />
-          </label>
-          <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400}}>to Upload </span>
-        </div>
-            <small className="" 
-                    style={{
+      <p
+        style={{
           fontFamily: "Gilroy",
           fontSize: 12,
-          color: "rgba(75, 75, 75, 1)",
           fontWeight: 400,
-          whiteSpace: "nowrap"
+          color: "rgba(75, 75, 75, 1)",
+          fontStyle: "normal",
+          lineHeight: "normal",
         }}
-            >JPG SVG PNG(150px × 150px)</small>
+      >
+        Valid UPI QR Code for Payment Easy
+      </p>
+
+      <div className="col-12">
+        <div
+          className="p-3 border rounded"
+          style={{ backgroundColor: "#f9f9f9", textAlign: "center" }}
+        >
+          {qrImage ? (
+            <img
+              src={qrImage}
+              alt="QR Preview"
+              style={{
+                height: "150px",
+                width: "150px",
+                objectFit: "cover",
+                borderRadius: "8px",
+                marginBottom: "10px",
+                border: "1px solid #ddd",
+                backgroundColor: "#fff",
+              }}
+            />
+          ) : (
+            <img
+              src={uploadsett}
+              alt="upload"
+              style={{
+                height: 30,
+                marginBottom: "10px",
+              }}
+            />
+          )}
+
+          <div>
+            <label
+              style={{
+                cursor: "pointer",
+                color: "rgba(30, 69, 225, 1)",
+                fontFamily: "Gilroy",
+                fontSize: 12,
+                fontWeight: 400,
+              }}
+            >
+              Choose file
+              <input
+                type="file"
+                accept="image/*"
+                className="d-none"
+                ref={qrFileInputRef}
+                onChange={handleQrImageChange}
+              />
+            </label>
+            <span
+              className="ms-1"
+              style={{
+                color: "rgba(22, 21, 28, 1)",
+                fontFamily: "Gilroy",
+                fontSize: 12,
+                fontWeight: 400,
+              }}
+            >
+              to Upload
+            </span>
           </div>
+
+          <small
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: 9,
+              color: "rgba(75, 75, 75, 1)",
+              fontWeight: 400,
+              display: "block",
+              marginTop: "5px",
+            }}
+          >
+            JPG SVG PNG (150px × 150px)
+          </small>
         </div>
       </div>
-
-                   
-
-                    
-                  </div>
+    </div>
 
 
                               <div className="p-3 mb-3 border col-lg-10" style={{borderRadius:'10px'}}>
@@ -862,7 +1582,7 @@ useEffect(() => {
       <label className="form-label"  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)',fontStyle: 'normal', lineHeight: 'normal' }}>Add Notes</label>
       <div className="position-relative">
         <textarea
-          style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+          style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
           className="form-control pe-5" 
           rows="4"    
           placeholder='Add any message...'
@@ -919,7 +1639,7 @@ useEffect(() => {
           placeholder='Add any message...'
           value={terms}
           onChange={handleTermsChange}
-          style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+          style={{ fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400,color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
         />
          <img
           src={TextAreaICon}
@@ -960,24 +1680,24 @@ useEffect(() => {
 
 
      <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16,  fontFamily: "sans-serif" }}>
-      <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
+      <h6   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' , marginBottom: 12}}>Template Theme</h6>
 
       <RgbaColorPicker color={color} onChange={handleColorChange}style={{ width: "100%", }} />
 
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12 }}>
-        <input value={hexValue} readOnly style={{ width: 80, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-        <input value={color.r} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-        <input value={color.g} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-        <input value={color.b} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
-        <input value={alphaValue} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 }} />
+        <input value={hexValue} readOnly style={{ width: 80, textAlign: "center", border: "1px solid #ccc", borderRadius: 4  , fontFamily: 'Gilroy', fontSize: 12, }} />
+        <input value={color.r} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 , fontFamily: 'Gilroy', fontSize: 12,}} />
+        <input value={color.g} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 , fontFamily: 'Gilroy', fontSize: 12,}} />
+        <input value={color.b} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 , fontFamily: 'Gilroy', fontSize: 12,}} />
+        <input value={alphaValue} readOnly style={{ width: 40, textAlign: "center", border: "1px solid #ccc", borderRadius: 4 , fontFamily: 'Gilroy', fontSize: 12,}} />
       </div>
 
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#555", marginTop: 4, marginBottom: 12 }}>
-        <span style={{ width: 80, textAlign: "center" }}>Hex</span>
-        <span style={{ width: 40, textAlign: "center" }}>R</span>
-        <span style={{ width: 40, textAlign: "center" }}>G</span>
-        <span style={{ width: 40, textAlign: "center" }}>B</span>
-        <span style={{ width: 40, textAlign: "center" }}>A</span>
+        <span style={{ width: 80, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12, }}>Hex</span>
+        <span style={{ width: 40, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12, }}>R</span>
+        <span style={{ width: 40, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12,}}>G</span>
+        <span style={{ width: 40, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12,}}>B</span>
+        <span style={{ width: 40, textAlign: "center" , fontFamily: 'Gilroy', fontSize: 12,}}>A</span>
       </div>
 
       <div style={{
@@ -1007,7 +1727,6 @@ useEffect(() => {
 ))}
 
 <div
-  onClick={() => console.log("Current color clicked")}
   style={{
     width: 24,
     height: 24,
@@ -1022,6 +1741,29 @@ useEffect(() => {
       </div>
   </div>
 
+   {editErrmsg.trim() !== "" && (
+                                                         <div className="d-flex align-items-center p-1">
+                                                           <MdError
+                                                             style={{
+                                                               color: "red",
+                                                               marginRight: "5px",
+                                                               fontSize: "14px",
+                                                             }}
+                                                           />
+                                                           <label
+                                                             className="mb-0"
+                                                             style={{
+                                                               color: "red",
+                                                               fontSize: "12px",
+                                                               fontFamily: "Gilroy",
+                                                               fontWeight: 500,
+                                                             }}
+                                                           >
+                                                             {editErrmsg}
+                                                           </label>
+                                                         </div>
+                                                       )}
+
   <div className="d-flex justify-content-end mt-2 col-lg-10">
           <Button
         style={{
@@ -1035,6 +1777,7 @@ useEffect(() => {
           fontFamily: "Gilroy",
           fontSize: "14px",
         }}
+        onClick={handleSaveTemplate}
       >
         Save Template
       </Button>
@@ -1043,7 +1786,7 @@ useEffect(() => {
 
 </div>
 
-<div className="col-lg-8 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
+<div className="col-lg-7 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
   <div className="d-flex justify-content-center">
 <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{  borderRadius:'8px' , backgroundColor:'white'}} >
        
@@ -1319,7 +2062,7 @@ useEffect(() => {
            <p
              className="mb-0"
              style={{
-               fontSize: '13px',
+               fontSize: '10px',
                fontFamily: 'Gilroy',
                fontWeight: 600,
                color: 'rgba(255, 255, 255, 1)',
