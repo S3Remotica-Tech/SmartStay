@@ -93,6 +93,7 @@ function SettingInvoice({hostelid , setIsInvoiceAddMode , setIsSidebarOpen}) {
       const[getData,setGetData] = useState("")
       const [signature,setSignature] = useState(null)
       const [signaturePreview,setSignaturePreview] = useState(null)
+       const [savebuttonshow,setSavebuttonshow] = useState(false)
 
 
 
@@ -114,19 +115,25 @@ useEffect(()=>{
     setEmail(getData[0]?.common_email)
     setSign(getData[0]?.common_digital_signature_url)
     setSignPreview(getData[0]?.common_digital_signature_url)
-    setSelectedFile(getData[0]?.common_logo_url)
+  
+
     setIsCheckedLogo(getData[0]?.is_logo_specific_template)
     setIsCheckedMobile(getData[0]?.is_contact_specific_template)
     setIsCheckedEmail(getData[0]?.is_email_specific_template)
     setIsCheckedSignature(getData[0]?.is_signature_specific_template)
     
-
+  if(!previewURL){
+    setSelectedFile(getData[0]?.common_logo_url || null)
+    setPreviewURL(getData[0]?.common_logo_url || null)
+    }
   }
 
-},[getData])
+},[getData,state.login.selectedHostel_Id])
+console.log("getData[0]?.common_digital_signature_url",getData[0]?.common_digital_signature_url)
 
       useEffect(()=>{
         if(state.Settings.settingGlobalAddStatusCode === 200){
+          setSavebuttonshow(false)
        dispatch({type:"FETCHSETTINGTEMP",payload:{hostel_Id:state.login.selectedHostel_Id}})
          setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_GLOBAL_SETTINGS" });
@@ -158,6 +165,7 @@ const handleMobile = (e) => {
     setMobileError(" Please Enter Valid Mobile Number");
   }
   setFieldError("")
+   setSavebuttonshow(true)
 };
 
 const handleEmail = (e) => {
@@ -177,6 +185,7 @@ const handleEmail = (e) => {
      
     }
      setFieldError("")
+      setSavebuttonshow(true)
    
   };
 
@@ -187,18 +196,21 @@ const handleEmail = (e) => {
 const handleMobileCheckboxChange = (e) => {
   const checked = e.target.checked;
   setIsCheckedMobile(checked);
+   setSavebuttonshow(true)
 
 }
   console.log("Checkbox is checked:", isCheckedmobile);
  const handleEmaiCheckboxChange = (e) => {
   const checked = e.target.checked;
   setIsCheckedEmail(checked);
+   setSavebuttonshow(true)
   
 }
 
  const handleLogoCheckboxChange = (e) => {
   const checked = e.target.checked;
   setIsCheckedLogo(checked);
+   setSavebuttonshow(true)
  
 };
 
@@ -207,6 +219,7 @@ const handleMobileCheckboxChange = (e) => {
  const handleSignatureCheckboxChange = (e) => {
   const checked = e.target.checked;
   setIsCheckedSignature(checked);
+   setSavebuttonshow(true)
 
 };
   const PdfOptions = [
@@ -378,6 +391,7 @@ const handleFileSignatureChange = (e) => {
     setSignatureErrMsg("");
     setIsSignatureConfirmed(false);
     setFieldError("");
+     setSavebuttonshow(true)
   }
 };
 
@@ -388,22 +402,47 @@ const handleFileSignatureChange = (e) => {
 
 
 const [previewURL, setPreviewURL] = useState(null);
+// const handleFileChange = (e) => {
+//   const file = e.target.files[0];
+//   if (file) {
+//     console.log("Selected file:", file);
+//     setSelectedFile(file);
+//     setPreviewURL(URL.createObjectURL(file));
+//     setFieldError("");
+//   }
+// };
+
 const handleFileChange = (e) => {
   const file = e.target.files[0];
-  if (file) {
-    console.log("Selected file:", file);
+  if (file && file.type.startsWith("image/")) {
+    const objectUrl = URL.createObjectURL(file);
     setSelectedFile(file);
-    setPreviewURL(URL.createObjectURL(file));
+    setPreviewURL(objectUrl);
     setFieldError("");
+     setSavebuttonshow(true)
+  } else {
+    setFieldError("Please select a valid PNG or image file.");
   }
 };
+
 useEffect(() => {
   return () => {
-    if (previewURL) {
-      URL.revokeObjectURL(previewURL);
-    }
+    if (previewURL) URL.revokeObjectURL(previewURL);
   };
 }, [previewURL]);
+
+
+
+// useEffect(() => {
+//   return () => {
+//     if (previewURL) {
+//       URL.revokeObjectURL(previewURL);
+//     }
+//   };
+// }, [previewURL]);
+
+console.log("preview", previewURL , selectedFile);
+
 
 // const handleFileChange = (e) => {
 //   const file = e.target.files[0];
@@ -425,7 +464,7 @@ useEffect(() => {
 
 
   const handleSignatureDone = () => {
-  if (!signature) {
+  if (!sign) {
     setSignatureErrMsg("Please select a signature file.");
   } else {
     setSignatureErrMsg("");
@@ -851,6 +890,20 @@ useEffect(() => {
 const [fieldError,setFieldError] = useState("")
 
 const handleSaveTemplate = () => {
+  if(sign && !isSignatureConfirmed){
+    setSignatureErrMsg("Please click Done after selecting a signature");
+    return
+  }
+   if (MobileError) {
+    setMobileError("Please enter a valid mobile number.");
+    return;
+  }
+
+  // Check email error
+  if (emailError) {
+    setEmailError("Please enter a valid email address.");
+    return;
+  }
  
   dispatch({
     type: "ADDGLOBALSETTING",
@@ -870,7 +923,21 @@ const handleSaveTemplate = () => {
 
 };
 
+const handleReset=(()=>{
+  setSelectedFile(null)
+  setSign(null)
+  setSignPreview(null)
+  setPreviewURL(null)
+  setMobileNum("")
+  setEmail("")
+  setIsCheckedMobile(false)
+  setIsCheckedEmail(false)
+  setIsCheckedLogo(false)
+  setIsCheckedSignature(false)
+  setEmailError("")
+  setMobileError("")
 
+})
 
   return (
     <div className="mt-4" style={{ position: "relative",paddingRight:11,paddingLeft:10 }}>
@@ -2569,7 +2636,7 @@ const handleSaveTemplate = () => {
           whiteSpace: "nowrap"
         }}
         >This will appear in Bill Template</div>
-        <div className="form-check mt-0">
+        <div className="form-check mt-2">
           <input className="form-check-input" type="checkbox" id="customizeLogo" style={{ cursor: "pointer" }} checked={isCheckedLogo} onChange={handleLogoCheckboxChange}/>
           <label className="form-check-label small" htmlFor="customizeLogo"
              style={{
@@ -2579,6 +2646,7 @@ const handleSaveTemplate = () => {
           fontStyle:'italic',
           fontWeight: 400,
           whiteSpace: "nowrap",
+          marginTop:"-30px"
         
         }}
           >Customize in Specific Templates</label>
@@ -2592,13 +2660,15 @@ const handleSaveTemplate = () => {
   style={{ backgroundColor: "#f9f9f9" }}
 >
    <img
-    src={
-      previewURL
-        ? previewURL
-        : getData[0]?.common_logo_url
-        ? getData[0]?.common_logo_url
-        : uploadsett
-    }
+    // src={
+    //   previewURL
+    //     ? previewURL
+    //     : getData[0]?.common_logo_url
+    //     ? getData[0]?.common_logo_url
+    //     : uploadsett
+    // }
+
+    src= {previewURL ? previewURL : uploadsett}
     alt="logo-preview"
     style={{ height: 30 }}
   />
@@ -2666,7 +2736,7 @@ const handleSaveTemplate = () => {
           fontWeight: 600,
         }}
         >Contact Number</label>
-        <div className="form-check">
+        <div className="form-check" style={{marginTop:"-10px"}}>
           <input className="form-check-input" type="checkbox" id="customizeContact" defaultChecked style={{ cursor: "pointer" }} checked={isCheckedmobile} onChange={handleMobileCheckboxChange}/>
           <label className="form-check-label small" htmlFor="customizeContact"
               style={{
@@ -2676,6 +2746,7 @@ const handleSaveTemplate = () => {
           fontStyle:'italic',
           fontWeight: 400,
           whiteSpace: "nowrap",
+          
           
         }}
           >Customize in Specific Templates</label>
@@ -2769,7 +2840,7 @@ const handleSaveTemplate = () => {
           fontWeight: 600,
         }}
          >E-Mail Address</label>
-        <div className="form-check mb-3">
+        <div className="form-check " style={{marginTop:"-10px"}}>
           <input className="form-check-input" type="checkbox" id="customizeEmail" style={{ cursor: "pointer" }} checked={isCheckedEmail} onChange={handleEmaiCheckboxChange}/>
           <label className="form-check-label small" htmlFor="customizeEmail"
               style={{
@@ -2824,7 +2895,7 @@ const handleSaveTemplate = () => {
     </div>
 
     <div className="row mb-2 align-items-center">
-      <div className="col-md-4">
+      <div className="col-md-4 mb-5" style={{marginTop:"-10px"}}>
         <label className="form-label "
           style={{
           fontFamily: "Gilroy",
@@ -2925,14 +2996,14 @@ const handleSaveTemplate = () => {
           <button
             className="btn btn-link text-decoration-none "
             onClick={handleClear}
-            disabled={!signaturePreview}
+            // disabled={signaturePreview}
             style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 16, fontWeight: 400}}
           >
             Clear
           </button>
           <button
             className="btn btn-link text-decoration-none "
-            disabled={!signaturePreview}
+            // disabled={!signaturePreview}
             onClick={handleSignatureDone}
             style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600}}
           >
@@ -2967,15 +3038,57 @@ const handleSaveTemplate = () => {
       </div>
     </div>
 
+{
+  savebuttonshow ?  (
+ <div className="d-flex justify-content-end mt-1 me-5" style={{paddingRight:10}}>
 
-    <div className="d-flex justify-content-end mt-1 me-5" style={{paddingRight:10}}>
-
-      <button className="btn btn-outline-dark me-2" type="button">Reset</button>
-      <button className="btn btn-primary"  onClick={handleSaveTemplate}>Save</button>
+      <button className="btn btn-outline-dark me-2" type="button" onClick={handleReset}>Reset</button>
+      <button className="btn btn-primary"  onClick={handleSaveTemplate}>{  state.Settings.FetchGlobal.message.length > 0 ? "Update": "Save"} </button>
     </div>
-    <div className="text-end mt-3 me-5" style={{paddingRight:10}}>
+  ) :
+  (
+        <div className="text-end mt-3 me-5" style={{ paddingRight: 10 }}>
+      <button className="btn btn-primary" type="button" onClick={handleShow}>
+        Go to Templates →
+      </button>
+    </div>
+  )
+  
+
+}
+   
+    {/* <div className="text-end mt-3 me-5" style={{paddingRight:10}}>
       <button className="btn btn-primary" type="button" onClick={handleShow}>Go to Templates →</button>
+    </div> */}
+    {/* {Array.isArray(state.Settings.FetchGlobal?.message) &&
+  state.Settings.FetchGlobal.message.length > 0 && (
+    <div className="text-end mt-3 me-5" style={{ paddingRight: 10 }}>
+      <button className="btn btn-primary" type="button" onClick={handleShow}>
+        Go to Templates →
+      </button>
     </div>
+)} */}
+{emailError && (
+                            <div style={{ color: "red",  }}>
+                              {" "}
+                              <MdError
+                                style={{ fontSize: "13px", marginBottom: "2px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  marginRight: "3px"
+                                }}
+                              >
+                                {" "}
+                                {emailError}
+                              </span>
+                            </div>
+                          )}
+
  
 </div>
 </div>

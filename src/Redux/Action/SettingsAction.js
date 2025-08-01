@@ -285,11 +285,10 @@ export async function AddGlobalSettingTemplate(params) {
   if (params.hostel_Id)
     formData.append("hostel_Id", params.hostel_Id);
 
-  if (params.logo_url)
-    formData.append("logo_url", params.logo_url);
+  if (params.logo_url)formData.append("logo_url", params.logo_url);
+   
 
-  if (params.digital_signature_url)
-    formData.append("digital_signature_url", params.digital_signature_url);
+  if (params.digital_signature_url)formData.append("digital_signature_url", params.digital_signature_url);
 
   try {
     const response = await AxiosConfig.post(
