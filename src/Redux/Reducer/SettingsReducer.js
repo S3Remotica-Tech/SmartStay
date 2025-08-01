@@ -75,11 +75,16 @@ export const initialState = {
   SettingsBillsGetRecurring: [],
   settingsBillsggetRecurrSucesscode: 0,
   settingsAddInvoiceSucesscode: 0,
-  planExpired: '',
-  SettingsInvoice: [],
-  settingsInvoicegetSucesscode: 0,
-  settingsInvoicegetErrorStatuscode: 0,
-  RecurringOffStatusCode: 0,
+
+  planExpired:'',
+  SettingsInvoice : [],
+  settingsInvoicegetSucesscode : 0,
+  settingsInvoicegetErrorStatuscode : 0,
+  settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+ 
+
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -482,6 +487,24 @@ const SettingsReducer = (state = initialState, action) => {
 
 
 
+
+
+
+
+       case "ADD_GLOBAL_SETTINGS":
+      return {...state,  settingGlobalAddStatusCode: action.payload.statusCode,};
+    case "CLEAR_ADD_GLOBAL_SETTINGS":
+      return { ...state, settingGlobalAddStatusCode: 0 }; 
+
+
+       case "GET_GLOBAL_SETTING":
+      return {
+        ...state,
+        FetchGlobal: action.payload.response,
+        statusCodeForSettingFetch: action.payload.statusCode,
+      };
+    case "CLEAR_GET_GLOBAL_SETTING":
+      return { ...state, statusCodeForSettingFetch: 0 };
 
     default:
       return state;
