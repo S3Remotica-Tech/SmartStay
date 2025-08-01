@@ -2022,6 +2022,7 @@ useEffect(() => {
   useEffect(() => {
       if (state.createAccount?.networkError) {
         setBillLoading(false)
+        setLoading(false)
         setTimeout(() => {
           dispatch({ type: 'CLEAR_NETWORK_ERROR' })
         }, 3000)

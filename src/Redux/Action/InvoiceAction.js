@@ -77,7 +77,7 @@ export async function AddRecurrBillsUsers(recurr) {
 }
 
 export async function GetRecurrBills(bills) {
-  return await AxiosConfig.post('/all_recuring_bills', bills, {  
+  return await AxiosConfig.post('/all_recuring_bills_stay_type', bills, {  
     data: bills
   })
 }

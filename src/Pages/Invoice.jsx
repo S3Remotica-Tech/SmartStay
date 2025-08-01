@@ -169,17 +169,17 @@ const InvoicePage = () => {
   const [startDate, endDate] = dateRange;
   const [checkedRows, setCheckedRows] = useState({});
 
- const [activeStay, setActiveStay] = useState("Longstay");
+  const [activeStay, setActiveStay] = useState("long_stay");
 
   const handleClick = (stayType) => {
     setActiveStay(stayType);
   };
-const handleToggle = (id) => {
-  setCheckedRows((prev) => ({
-    ...prev,
-    [id]: !prev[id],
-  }));
-};
+  const handleToggle = (id) => {
+    setCheckedRows((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   useEffect(() => {
 
@@ -1577,19 +1577,19 @@ const handleToggle = (id) => {
   //     : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
 
   const filteredBills = recurringbills.filter(
-  (bill) => bill.stay_type === (activeStay === "Longstay" ? "long_stay" : "short_stay")
-);
+    (bill) => bill.stay_type === (activeStay)
+  );
 
-const currentItem =
-  filterInput.length > 0
-    ? filteredBills
-    : filteredBills.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
-
-
-
-      console.log("recurringbills",recurringbills)
+  const currentItem =
+    filterInput.length > 0
+      ? filteredBills
+      : filteredBills.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
 
 
+
+  console.log("recurringbills", recurringbills)
+
+  console.log("filteredBills", filteredBills)
 
   const handlePageChangeRecure = (pageNumber) => {
     setCurrentRecurePage(pageNumber);
@@ -1632,7 +1632,7 @@ const currentItem =
 
 
 
-console.log("sortConfigRecure",sortConfigRecure)
+  console.log("sortConfigRecure", sortConfigRecure)
 
 
 
@@ -1734,7 +1734,7 @@ console.log("sortConfigRecure",sortConfigRecure)
       setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId },
+        payload: { hostel_id: hostelId , stay_type: activeStay},
       });
     }
 
@@ -2329,7 +2329,7 @@ console.log("sortConfigRecure",sortConfigRecure)
       setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId },
+         payload: { hostel_id: hostelId , stay_type: activeStay},
       });
     }
   }, [hostelId]);
@@ -2352,7 +2352,7 @@ console.log("sortConfigRecure",sortConfigRecure)
     ) {
       dispatch({
         type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId },
+         payload: { hostel_id: hostelId , stay_type: activeStay},
       });
       setRecurringBills(state.InvoiceList.RecurringBills);
 
@@ -2627,7 +2627,7 @@ console.log("sortConfigRecure",sortConfigRecure)
 
 
 
- 
+
 
 
 
@@ -4594,45 +4594,45 @@ console.log("sortConfigRecure",sortConfigRecure)
                 <>
 
 
-<div className="d-flex gap-3 align-items-center mt-5 mb-2">
-                        <button
-                          onClick={() => handleClick("Longstay")}
-                          style={{
-                            backgroundColor: activeStay === "Longstay" ? "#1E45E1" : "#fff",
-                            color: activeStay === "Longstay" ? "#fff" : "#1E1E1E",
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            padding: "10px 20px",
-                            borderRadius: 20,
-                            border: activeStay === "Longstay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
-                            fontSize:14,
-                          }}
-                        >
-                          Longstay
-                        </button>
+                  <div className="d-flex gap-3 align-items-center mt-5 ms-3 mb-2">
+                    <button
+                      onClick={() => handleClick("long_stay")}
+                      style={{
+                        backgroundColor: activeStay === "long_stay" ? "#1E45E1" : "#fff",
+                        color: activeStay === "long_stay" ? "#fff" : "#1E1E1E",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        padding: "10px 20px",
+                        borderRadius: 20,
+                        border: activeStay === "long_stay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
+                        fontSize: 14,
+                      }}
+                    >
+                      Long Stay
+                    </button>
 
-                        <button
-                          onClick={() => handleClick("ShortStay")}
-                          style={{
-                            backgroundColor: activeStay === "ShortStay" ? "#1E45E1" : "#fff",
-                            color: activeStay === "ShortStay" ? "#fff" : "#1E1E1E",
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            padding: "10px 20px",
-                            borderRadius: 20,
-                            border: activeStay === "ShortStay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
-                             fontSize:14,
-                          }}
-                        >
-                          ShortStay
-                        </button>
-                      </div>
-
-
+                    <button
+                      onClick={() => handleClick("short_stay")}
+                      style={{
+                        backgroundColor: activeStay === "short_stay" ? "#1E45E1" : "#fff",
+                        color: activeStay === "short_stay" ? "#fff" : "#1E1E1E",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        padding: "10px 20px",
+                        borderRadius: 20,
+                        border: activeStay === "short_stay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
+                        fontSize: 14,
+                      }}
+                    >
+                      Short Stay
+                    </button>
+                  </div>
 
 
-                  {!recurLoader && sortedDataRecure.length === 0 && (
-              
+
+
+                  {!recurLoader && sortedDataRecure.length === 0 && activeStay === 'long_stay' ? (
+
 
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
@@ -4664,7 +4664,37 @@ console.log("sortConfigRecure",sortConfigRecure)
                         There are no Recuring bills added{" "}
                       </div>
                     </div>
-                  )}
+                  ):  !recurLoader && sortedDataRecure.length === 0 && activeStay === 'short_stay' ?
+                   <div
+                            style={{
+                              height: "400px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              backgroundColor: "#f2f6fc",
+                              borderRadius: "10px",
+                              marginTop: "20px",
+                              marginRight: "10px",
+                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                              border: "1px dashed #b0c4de",
+                            }}
+                          >
+                            <div style={{ textAlign: "center" }}>
+                              <img
+                                src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+                                alt="Coming Soon"
+                                width="80"
+                                height="80"
+                                style={{ marginBottom: "15px", opacity: 0.7 }}
+                              />
+
+                              <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                            </div>
+                          </div>
+                  
+                  
+                 :
+                 "" }
 
 
 
@@ -4719,192 +4749,192 @@ console.log("sortConfigRecure",sortConfigRecure)
 
 
 
-                    
-
-                      {activeStay === "Longstay" ? (
 
 
-                        <div
+                      {/* {activeStay === "Longstay" ? ( */}
 
-                          className='show-scrolls '
+
+                      <div
+
+                        className='show-scrolls '
+                        style={{
+
+                          height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "450px" : "auto",
+                          overflow: "auto",
+                          borderTop: "1px solid #E8E8E8",
+                          marginBottom: 20,
+                          marginTop: "20px",
+                          paddingRight: 0,
+                          paddingLeft: 0
+
+                        }}
+                      >
+                        <Table
+
+                          responsive="md"
+
                           style={{
-
-                            height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "450px" : "auto",
-                            overflow: "auto",
-                            borderTop: "1px solid #E8E8E8",
-                            marginBottom: 20,
-                            marginTop: "20px",
-                            paddingRight: 0,
-                            paddingLeft: 0
-
+                            fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                            borderRadius: 0
                           }}
                         >
-                          <Table
+                          <thead style={{
+                            fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                            top: 0,
+                            zIndex: 1
+                          }}>
+                            <tr>
+                              <th
+                                style={{
+                                  textAlign: "start",
 
-                            responsive="md"
+                                  paddingLeft: "20px",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontWeight: 500,
 
-                            style={{
-                              fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                              top: 0,
-                              zIndex: 1,
-                              borderRadius: 0
-                            }}
-                          >
-                            <thead style={{
-                              fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                              top: 0,
-                              zIndex: 1
-                            }}>
-                              <tr>
-                                <th
-                                  style={{
-                                    textAlign: "start",
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Name</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Created</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Due Date</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Next Invoice Date</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Amount</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
 
-                                    paddingLeft: "20px",
-                                    fontFamily: "Gilroy",
-                                    color: "rgb(147, 147, 147)",
-                                    fontSize: 12,
-                                    fontWeight: 500,
-
-                                  }}
-                                >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'asc')} style={{ cursor: "pointer" }} />
-                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'desc')} style={{ cursor: "pointer" }} />
-                                    </div>
-                                    Name</div>
-                                </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    fontFamily: "Gilroy",
-                                    color: "rgb(147, 147, 147)",
-                                    fontSize: 12,
-                                    fontStyle: "normal",
-                                    fontWeight: 500,
-                                    whiteSpace: "nowrap"
-                                  }}
-                                >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'asc')} style={{ cursor: "pointer" }} />
-                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'desc')} style={{ cursor: "pointer" }} />
-                                    </div>
-                                    Created</div>
-                                </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    fontFamily: "Gilroy",
-                                    color: "rgb(147, 147, 147)",
-                                    fontSize: 12,
-                                    fontStyle: "normal",
-                                    fontWeight: 500,
-                                    whiteSpace: "nowrap"
-                                  }}
-                                >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'asc')} style={{ cursor: "pointer" }} />
-                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'desc')} style={{ cursor: "pointer" }} />
-                                    </div>
-                                    Due Date</div>
-                                </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    fontFamily: "Gilroy",
-                                    color: "rgb(147, 147, 147)",
-                                    fontSize: 12,
-                                    fontStyle: "normal",
-                                    fontWeight: 500,
-                                    whiteSpace: "nowrap"
-                                  }}
-                                >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'asc')} style={{ cursor: "pointer" }} />
-                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'desc')} style={{ cursor: "pointer" }} />
-                                    </div>
-                                    Next Invoice Date</div>
-                                </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    fontFamily: "Gilroy",
-                                    color: "rgb(147, 147, 147)",
-                                    fontSize: 12,
-                                    fontStyle: "normal",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'desc')} style={{ cursor: "pointer" }} />
-                                    </div>
-                                    Amount</div>
-                                </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    fontFamily: "Gilroy",
-                                    color: "rgb(147, 147, 147)",
-                                    fontSize: 12,
-                                    fontStyle: "normal",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
-
-                                    Recurring</div>
-                                </th>
+                                  Recurring</div>
+                              </th>
 
 
 
 
-                                <th
-                                  style={{
-                                    textAlign: "center",
-                                    fontFamily: "Gilroy",
-                                    color: "rgb(147, 147, 147)",
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                  }}
-                                > Action</th>
-                              </tr>
-                            </thead>
-                            <tbody style={{ fontSize: "10px" }}>
+                              <th
+                                style={{
+                                  textAlign: "center",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                }}
+                              > Action</th>
+                            </tr>
+                          </thead>
+                          <tbody style={{ fontSize: "10px" }}>
 
 
 
-                              {
-                                sortedDataRecure &&
-                                sortedDataRecure.length > 0 &&
-                                sortedDataRecure.map((item) => (
-                                  <RecurringBillList
-                                    key={item.id}
-                                    item={item}
-                                    checked={!!checkedRows[item.id]}
-                                    onToggle={() => handleToggle(item.id)}
-                                    handleDeleteRecurringbills={
-                                      handleDeleteRecurringbills
-                                    }
-                                    recuringbillAddPermission={
-                                      recuringbillAddPermission
-                                    }
-                                    billrolePermission={billrolePermission}
-                                    OnHandleshowform={handleShowForm}
+                            {
+                              sortedDataRecure &&
+                              sortedDataRecure.length > 0 &&
+                              sortedDataRecure.map((item) => (
+                                <RecurringBillList
+                                  key={item.id}
+                                  item={item}
+                                  checked={!!checkedRows[item.id]}
+                                  onToggle={() => handleToggle(item.id)}
+                                  handleDeleteRecurringbills={
+                                    handleDeleteRecurringbills
+                                  }
+                                  recuringbillAddPermission={
+                                    recuringbillAddPermission
+                                  }
+                                  billrolePermission={billrolePermission}
+                                  OnHandleshowform={handleShowForm}
 
-                                  />
-                                ))
-                              }
+                                />
+                              ))
+                            }
 
-                            </tbody>
-                          </Table>
-                        </div>
-                      ) :
+                          </tbody>
+                        </Table>
+                      </div>
+                      {/* ) :
                         (
                           <div
                             style={{
@@ -4935,7 +4965,7 @@ console.log("sortConfigRecure",sortConfigRecure)
 
 
 
-                        )}
+                        )} */}
                     </div>
                   )}
 
