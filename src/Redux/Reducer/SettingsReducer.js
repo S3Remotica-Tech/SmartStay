@@ -82,6 +82,7 @@ export const initialState = {
   settingsBillsAddTemplateSucesscode: 0,
   settingsBillsTemplateList : [],
   SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -482,10 +483,16 @@ case "PLAN-EXPIRED":
     case "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE":
       return { ...state, settingsBillsAddTemplateSucesscode: 0 }; 
 
+      
     case "GET_TEMPLATELIST":
       return {...state, settingsBillsTemplateList : action.payload.response, SettingsBilltemplategetsuccessCode: action.payload.statusCode,};
     case "CLEAR_GET_TEMPLATELIST_STATUS_CODE":
-      return { ...state, SettingsBilltemplategetsuccessCode: 0 };     
+      return { ...state, SettingsBilltemplategetsuccessCode: 0 }; 
+      
+    case "ERROR_TEMPLATELIST":
+      return {...state,  SettingsBilltemplategetErrorCode: action.payload.statusCode,};
+    case "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE":
+      return { ...state, SettingsBilltemplategetErrorCode: 0 };   
 
     default:
       return state; 

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../Pages/Settings.css";
 import { MdError } from "react-icons/md";
 import TextAreaICon from '../Assets/Images/textarea.png'
@@ -25,20 +26,22 @@ import Questionimage from '../Assets/Images/question.png';
 
   const SecurityReceiptPdfTemplate = () => {
 
-       
+       const dispatch = useDispatch();
+         const state = useSelector((state) => state);
         const cardRef = useRef(null);
         const innerScrollRef = useRef(null);
         const [showFullView, setShowFullView] = useState(false);
-      
+        const [loading, setLoading] = useState(false)
     
         const [notes_errmsg , setNotesErrMsg] = useState('')
         const [terms_errmsg , setTermsErrMsg] = useState('')
-
+        const [editErrmsg , setEditErrMessage] = useState('')
       
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
 
   const handleColorChange = (newColor) => {
     setColor(newColor); 
+    setEditErrMessage("")
   };
       
         const presetColors = [
@@ -58,7 +61,7 @@ import Questionimage from '../Assets/Images/question.png';
       const handleNotesChange = (e) => {
           const Value = e.target.value  
           setNotes(Value)
-      
+          setEditErrMessage("")
           if (Value.trim() !== "") {
           setNotesErrMsg("");
         }
@@ -67,7 +70,7 @@ import Questionimage from '../Assets/Images/question.png';
       const handleTermsChange = (e) => {
           const Value = e.target.value  
           setTerms(Value)
-      
+          setEditErrMessage("")
           if (Value.trim() !== "") {
           setTermsErrMsg("");
         }
@@ -86,7 +89,6 @@ import Questionimage from '../Assets/Images/question.png';
         );
 
           const [allowImageUpload, setAllowImageUpload] = useState(false);
-        const [currentEditingField, setCurrentEditingField] = useState(null); // "contact" or "email"
         const [allowEditFields, setAllowEditFields] = useState({
           contact: false,
           email: false,
@@ -98,7 +100,8 @@ import Questionimage from '../Assets/Images/question.png';
             const fileInputRef = useRef(null);
              const [signature, setSignature] = useState(null); 
              const [signaturePreview, setSignaturePreview] = useState(null); 
-          
+             const [ signature_errmsg, setSignatureErrMsg] = useState("")
+
           
            const handleFileSignatureChange = (e) => {
             const file = e.target.files[0];
@@ -131,10 +134,9 @@ import Questionimage from '../Assets/Images/question.png';
           };
         
         
-         const handleShowContactNumberForm = (field) => {
+         const handleShowContactNumberForm = () => {
   setContactNumberForm(true);
   setAllowImageUpload(false);
-  setCurrentEditingField(field);
 };
 
   
@@ -201,13 +203,8 @@ const handleEditAnyway = () => {
            
           };
       
-        const [isEditable, setIsEditable] = useState(false);
           const [logoPreview, setLogoPreview] = useState(null);
-          // const fileInputRef = useRef();
         
-          // const handleShowContactNumberForm = () => {
-          //   setIsEditable(true);
-          // };
         
           const handleFileUploadHostel = (e) => {
               if (!allowImageUpload) return;
@@ -221,15 +218,165 @@ const handleEditAnyway = () => {
             }
           };
 
-          const [qrImage, setQrImage] = useState(null);
-          const qrFileInputRef = useRef(null);
-        
-          const handleQrImageChange = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-              setQrImage(URL.createObjectURL(file));
-            }
-          };
+          
+      
+
+            const handleSaveTemplate = () => {
+
+const currentData = {
+    contact_number: mobilenum,
+    email: email,
+    digital_signature_url: signature || '',
+    notes: notes?.replace(/"/g, '') || '',
+    terms_and_condition: terms || '',
+    template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+  };
+
+  const originalData = {
+    contact_number: securityDepositReceiptTemplate.contact_number,
+    email: securityDepositReceiptTemplate.email,
+    digital_signature_url: securityDepositReceiptTemplate.digital_signature_url || '',
+    notes: securityDepositReceiptTemplate.notes?.replace(/"/g, '') || '',
+    terms_and_condition: securityDepositReceiptTemplate.terms_and_condition || '',
+    template_theme: securityDepositReceiptTemplate.template_theme || '',
+  };
+
+  if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
+    setEditErrMessage("No changes detected");
+    setSignatureErrMsg("");
+    return;
+  }
+
+   if(securityDepositReceiptTemplate.is_signature_specific_template === 1){
+    const Signatureverify = !securityDepositReceiptTemplate.digital_signature_url
+
+  if (signature && !isSignatureConfirmed && Signatureverify){
+    setSignatureErrMsg("Please click Done after selecting a signature");
+    return
+     }
+  }
+
+    if(securityDepositReceiptTemplate.is_contact_specific_template === 1){
+         if (mobilenum && mobilenum.length < 10){
+         setMobileError(" Please Enter Valid Mobile Number");
+         return
+        }
+    else if (mobilenum.length === 10){
+       setMobileError("");
+       }
+  }
+   
+  if(securityDepositReceiptTemplate.is_email_specific_template === 1){
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(email);
+    if (!email) {
+      setEmailError("");
+       } else if (!isValidEmail) {
+      setEmailError("Please Enter  Valid Email Id");
+      } else {
+      setEmailError("");
+    }
+  }
+    if( securityDepositReceiptTemplate.id && state.login.selectedHostel_Id){
+       dispatch({
+    type: "ADD_BILLS_TEMPLATE",
+    payload: {
+        hostel_Id: Number(state.login.selectedHostel_Id),
+         id: securityDepositReceiptTemplate.id , 
+        digital_signature_url: signature,
+        is_signature_specific_template: securityDepositReceiptTemplate.is_signature_specific_template,
+        contact_number: mobilenum,
+        is_contact_specific_template: securityDepositReceiptTemplate.is_contact_specific_template,
+        email: email,
+        is_email_specific_template: securityDepositReceiptTemplate.is_email_specific_template,
+        logo_url :'',
+        is_logo_specific_template :securityDepositReceiptTemplate.is_logo_specific_template,       
+        notes,
+        terms_and_condition: terms,
+        template_theme:  `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    },
+  });
+}
+  
+
+
+};
+
+const [BillsTemplateList , setBillsTemplateList] = useState([])
+
+ 
+useEffect(()=> {
+   if(state.login.selectedHostel_Id){
+  setLoading(true)
+   dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+   }
+},[])
+
+    useEffect(() => {
+    if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
+
+  dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsBillsAddTemplateSucesscode]);
+
+    useEffect(() => {
+         if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+            
+    setBillsTemplateList(state.Settings.settingsBillsTemplateList)
+      setTimeout(() => {
+        setLoading(false)
+        dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
+      }, 500);
+    }
+  }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+
+        useEffect(() => {
+           if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {    
+           setTimeout(() => {
+             setLoading(false)
+             dispatch({ type: "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE" });
+        }, 500);
+      }
+    }, [state.Settings.SettingsBilltemplategetErrorCode]);
+
+  
+
+const securityDepositReceiptTemplate = BillsTemplateList.find(
+  (template) => template.template_type === "Security Deposit Receipt"
+);
+
+
+
+
+   useEffect(()=> {
+    if(securityDepositReceiptTemplate) {
+      setLogoPreview(securityDepositReceiptTemplate.logo_url || null)
+      setMobileNum(securityDepositReceiptTemplate.contact_number)
+      setEmail(securityDepositReceiptTemplate.email)
+      setSignature(securityDepositReceiptTemplate.digital_signature_url || null)
+      setSignaturePreview(securityDepositReceiptTemplate.digital_signature_url || null)
+      setTerms(securityDepositReceiptTemplate.terms_and_condition || '')
+      setNotes(securityDepositReceiptTemplate.notes || '')
+
+         const templateTheme = securityDepositReceiptTemplate.template_theme;
+    if (templateTheme && templateTheme.includes('rgba')) {
+      const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.?\d+)\)/);
+      if (match) {
+        setColor({
+          r: parseInt(match[1]),
+          g: parseInt(match[2]),
+          b: parseInt(match[3]),
+          a: parseFloat(match[4]),
+        });
+      }
+    }
+    }
+
+   },[securityDepositReceiptTemplate])
       
 
       
@@ -262,17 +409,58 @@ const handleEditAnyway = () => {
     return(
 
         <div className="col-12 d-flex flex-row">
+
+           {loading &&
+        <div
+        style={{
+          position: 'fixed',
+          top: '48%',
+          left: '68%',
+          transform: 'translate(-50%, -50%)',
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+          zIndex: 1050,
+        }}
+      >
+        <div
+          style={{
+            borderTop: '4px solid #1E45E1',
+            borderRight: '4px solid transparent',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            animation: 'spin 1s linear infinite',
+          }}
+        ></div>
+      </div>
+      }
        <div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
                   overflowY: "auto",
                   overflowX:'hidden',}}>
 
 
-                    <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
-             <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
-              <div className="d-flex justify-content-end">
-                                  <img src={EditICon}  onClick={ handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
-                
-                    </div>
+                        { (
+              securityDepositReceiptTemplate?.is_signature_specific_template === 1 ||
+              securityDepositReceiptTemplate?.is_contact_specific_template === 1 ||
+              securityDepositReceiptTemplate?.is_email_specific_template === 1 ||
+              securityDepositReceiptTemplate?.is_logo_specific_template === 1
+            ) && 
+            
+                        (
+                          <>
+                          <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
+            
+               <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+                <div className="d-flex justify-content-end">
+                              <img src={EditICon}  onClick={ handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
+            
+                </div>
+                {  securityDepositReceiptTemplate?.is_logo_specific_template === 1  &&
+                <div>
                       <div style={{
                           display: 'flex',
                           justifyContent: 'space-between',
@@ -281,16 +469,14 @@ const handleEditAnyway = () => {
                         }}>
                           <label style={{ fontWeight: 600 }}>Hostel/PG Logo</label>
                         </div>
-              <div className="p-3 border rounded" style={{ backgroundColor: '#f9f9f9', textAlign: 'center' }}>
+              <div className="p-3 border rounded" style={{  backgroundColor: '#F0F3FF', textAlign: 'center' }}>
                
-                {/* Image Preview */}
                 {logoPreview ? (
                   <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
                 ) : (
                   <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
                 )}
             
-                {/* Upload Instruction & Input */}
                 <div>
                   <label
                     style={{
@@ -316,7 +502,6 @@ const handleEditAnyway = () => {
                   </span>
                 </div>
             
-                {/* File Format Info */}
                 <small
                   style={{
                     fontFamily: "Gilroy",
@@ -330,10 +515,11 @@ const handleEditAnyway = () => {
                   Must be in PNG Format (600px × 300px)
                 </small>
               </div>
+              </div>
+                }
             
+              {  securityDepositReceiptTemplate?.is_contact_specific_template === 1  &&
                 <div className=" p-3  col-lg-12" style={{borderRadius:'10px' , overflowY:'auto', }}>
-            
-                
              <div className='d-flex row '>
                                     <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
              <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
@@ -424,10 +610,11 @@ const handleEditAnyway = () => {
                                     </div>
             
                                   
-                                </div>
-                                      
-                              </div>
+                                </div>       
+                              </div> }
             
+            
+             {  securityDepositReceiptTemplate?.is_email_specific_template === 1  &&
                                 <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}> 
              <div className='d-flex row '>
                                     <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
@@ -499,7 +686,8 @@ const handleEditAnyway = () => {
                                 </div>
                                       
                               </div>
-            
+               }
+                {  securityDepositReceiptTemplate?.is_signature_specific_template  === 1  &&
                               <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}>
              <div className='d-flex row '>
                                     <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
@@ -564,7 +752,7 @@ const handleEditAnyway = () => {
                 
                         
                       </div>
-                        {/* {signature_errmsg.trim() !== "" && (
+                        {signature_errmsg.trim() !== "" && (
                                                               <div className="d-flex align-items-center p-1">
                                                                 <MdError
                                                                   style={{
@@ -585,12 +773,14 @@ const handleEditAnyway = () => {
                                                                   {signature_errmsg}
                                                                 </label>
                                                               </div>
-                                                            )} */}
+                                                            )}
                       </div>
             </div>
                                     </div>  
                                 </div>        
                               </div>
+               }
+            
                              <Modal
               show={contactnumberform}
               onHide={handleCloseContactNumberForm}
@@ -676,6 +866,12 @@ const handleEditAnyway = () => {
               </Modal.Footer>
             </Modal>
             </div>
+                          
+                          </>
+                        )
+            
+                        
+                        }
 
 
        <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Form Specific Details</p>
@@ -849,7 +1045,6 @@ const handleEditAnyway = () => {
        ))}
        
        <div
-         onClick={() => console.log("Current color clicked")}
          style={{
            width: 24,
            height: 24,
@@ -863,6 +1058,29 @@ const handleEditAnyway = () => {
        
              </div>
          </div>
+
+          {editErrmsg.trim() !== "" && (
+                                                              <div className="d-flex align-items-center p-1">
+                                                                <MdError
+                                                                  style={{
+                                                                    color: "red",
+                                                                    marginRight: "5px",
+                                                                    fontSize: "14px",
+                                                                  }}
+                                                                />
+                                                                <label
+                                                                  className="mb-0"
+                                                                  style={{
+                                                                    color: "red",
+                                                                    fontSize: "12px",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                  }}
+                                                                >
+                                                                  {editErrmsg}
+                                                                </label>
+                                                              </div>
+                                                            )}
        
         <div className="d-flex justify-content-end mt-2 col-lg-10">
                <Button
@@ -877,6 +1095,7 @@ const handleEditAnyway = () => {
                fontFamily: "Gilroy",
                fontSize: "14px",
              }}
+              onClick={handleSaveTemplate}
            >
              Save Template
            </Button>

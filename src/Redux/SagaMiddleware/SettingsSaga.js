@@ -1347,10 +1347,15 @@ function* handleAddBillTemplateSettings(params) {
 function* handleGetTemplatelist(action) {
    try{
    const response = yield call(getTemplateList, action.payload);
+   
 
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'GET_TEMPLATELIST', payload: { response: response.message, statusCode: response.status || response.statusCode, message: response.data.message } })
+      yield put({ type: 'GET_TEMPLATELIST', payload: { response: response.data.message, statusCode: response.status || response.statusCode, message: response.data.message } })
    } 
+   if (response.status === 500 || response.statusCode === 500) {
+      yield put({ type: 'ERROR_TEMPLATELIST', payload: {  statusCode: response.status || response.statusCode, message: response.data.message } })
+   }
+
    else if (response.status === 401 || response.statusCode === 401) {
       Swal.fire({
          icon: 'warning',

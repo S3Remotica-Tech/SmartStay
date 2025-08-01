@@ -49,6 +49,8 @@ import PropTypes from "prop-types";
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
+  const [loading, setLoading] = useState(false)
+  const [editErrmsg , setEditErrMessage] = useState('')
 
   const [contactnumberform , setContactNumberForm] = useState(false)
   
@@ -65,7 +67,6 @@ import PropTypes from "prop-types";
   const [showFullView, setShowFullView] = useState(false);
 
   const [allowImageUpload, setAllowImageUpload] = useState(false);
-const [currentEditingField, setCurrentEditingField] = useState(null); // "contact" or "email"
 const [allowEditFields, setAllowEditFields] = useState({
   contact: false,
   email: false,
@@ -75,10 +76,9 @@ const [allowEditFields, setAllowEditFields] = useState({
 
 
 
-  const handleShowContactNumberForm = (field) => {
+  const handleShowContactNumberForm = () => {
   setContactNumberForm(true);
   setAllowImageUpload(false);
-  setCurrentEditingField(field);
 };
 
   
@@ -116,7 +116,7 @@ const[emailError,setEmailError] = useState("")
 const handleMobile = (e) => {
   const input = e.target.value.replace(/\D/g, ""); 
   setMobileNum(input);
-
+  setEditErrMessage("")
   if (input.length === 0) {
     setMobileError("");
   } else if (input.length < 10) {
@@ -131,7 +131,7 @@ const handleMobile = (e) => {
 const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
-
+    setEditErrMessage("")
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     const isValidEmail = emailRegex.test(emailValue);
     if (!emailValue) {
@@ -159,6 +159,7 @@ const handleEmail = (e) => {
    const handleColorChange = (newColor) => {
     setColor(newColor);
     setUseGradient(false); 
+     setEditErrMessage("")
   }
 
   const presetColors = [
@@ -233,7 +234,7 @@ const handleBankNameChange = (e) => {
 const hanldePrefix = (e) => {
      const Value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
     setPrefix(Value)
-
+     setEditErrMessage("")
     if (Value.trim() !== "") {
     setPrefixErrMsg("");
   }
@@ -242,7 +243,7 @@ const hanldePrefix = (e) => {
 const hanldeSuffix = (e) => {
      const numericValue =  e.target.value.replace(/[^0-9]/g, ""); 
     setSuffix(numericValue)
-
+     setEditErrMessage("")
     if (numericValue.trim() !== "") {
     setSuffixErrMsg("");
   }
@@ -253,7 +254,7 @@ const hanldeSuffix = (e) => {
 
 const handleTaxChange = (e) => {
   const inputValue = e.target.value;
-
+   setEditErrMessage("")
   const formattedValue = inputValue
     .replace(/[^0-9.]/g, '')    
     .replace(/^([^.]*\.)|\./g, '$1'); 
@@ -269,7 +270,7 @@ const handleTaxChange = (e) => {
 const handleNotesChange = (e) => {
     const Value = e.target.value  
     setNotes(Value)
-
+    setEditErrMessage("")
     if (Value.trim() !== "") {
     setNotesErrMsg("");
   }
@@ -278,7 +279,7 @@ const handleNotesChange = (e) => {
 const handleTermsChange = (e) => {
     const Value = e.target.value  
     setTerms(Value)
-
+    setEditErrMessage("")
     if (Value.trim() !== "") {
     setTermsErrMsg("");
   }
@@ -301,10 +302,12 @@ const handleTermsChange = (e) => {
       const fileInputRef = useRef(null);
      const [signature, setSignature] = useState(null); 
      const [signaturePreview, setSignaturePreview] = useState(null); 
-     const [ signature_errmsg, setSignatureErrMsg] = useState("")
+     const [signature_errmsg, setSignatureErrMsg] = useState("")
+      const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
   
    const handleFileSignatureChange = (e) => {
     const file = e.target.files[0];
+     setEditErrMessage("")
     if (file) {
       setSignature(file);
       setSignaturePreview(URL.createObjectURL(file)); 
@@ -318,6 +321,7 @@ const handleTermsChange = (e) => {
       setSignature(null);
       setSignaturePreview(null)
       setSignatureErrMsg("");
+       setEditErrMessage("")
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -328,6 +332,7 @@ const handleTermsChange = (e) => {
     if (!signature) {
       setSignatureErrMsg("Please select a signature file.");
     } else {
+       setEditErrMessage("")
       setSignatureErrMsg("");
       setIsSignatureConfirmed(true);
     }
@@ -379,6 +384,7 @@ const handleTermsChange = (e) => {
 
             const handleAddBankAccount = () => {
                setBankAccountForm(true)
+               setEditErrMessage("")
                    }
 
   
@@ -469,100 +475,137 @@ useEffect(() => {
 }, [showFullView]);
 
 
-  const [isEditable, setIsEditable] = useState(false);
   const [logoPreview, setLogoPreview] = useState(null);
-  // const fileInputRef = useRef();
-
-  // const handleShowContactNumberForm = () => {
-  //   setIsEditable(true);
-  // };
+  const [hostel_logo , setHostelLogo] = useState(null)
+  
 
   const handleFileUploadHostel = (e) => {
       if (!allowImageUpload) return;
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
+     
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogoPreview(reader.result);
       };
+      
       reader.readAsDataURL(file);
+      setHostelLogo(file)
     }
   };
 
 
    const [qrImage, setQrImage] = useState(null);
+   const [qrimagepreview , setQRImagePreview] = useState(null)
   const qrFileInputRef = useRef(null);
 
   const handleQrImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setQRImagePreview(file)
       setQrImage(URL.createObjectURL(file));
     }
   };
 
    const handleSaveTemplate = () => {
-//  if (
-//   !mobilenum || !email || !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed || !selectedBankId
-// ) {
-//   if (!mobilenum) setMobileError(" Please Enter Valid Mobile Number");;
-//   if (!email) setEmailError("Please Enter  Valid Email Id");
-//   if (!prefix) setPrefixErrMsg("Please Enter Prefix");
-//   if (!suffix) setSuffixErrMsg("Please Enter Suffix");
-//   if (!tax) setTaxErrMsg("Please Enter Tax");
-//   if (!notes) setNotesErrMsg("Please Enter Notes");
-//   if (!terms) setTermsErrMsg("Please Enter Terms");
-//   if(!selectedBankId)setBankIdError("Please Add or select bank")
-//   if (!signature) {
-//     setSignatureErrMsg("Please select signature");
-//   } else if (!isSignatureConfirmed) {
-//     setSignatureErrMsg("Please click Done after selecting a signature");
-//   }
-//   return;
-// }
+
+  const currentTemplate = {
+    hostel_Id: Number(state.login.selectedHostel_Id),
+    id: securityDepositInvoiceTemplate.id,
+    digital_signature_url: signature,
+    is_signature_specific_template: securityDepositInvoiceTemplate.is_signature_specific_template,
+    contact_number: mobilenum,
+    is_contact_specific_template: securityDepositInvoiceTemplate.is_contact_specific_template,
+    email: email,
+    is_email_specific_template: securityDepositInvoiceTemplate.is_email_specific_template,
+    logo_url: hostel_logo,
+    is_logo_specific_template: securityDepositInvoiceTemplate.is_logo_specific_template,
+    qr_url: qrimagepreview,
+    prefix,
+    suffix,
+    tax,
+    notes,
+    terms_and_condition: terms,
+    banking_id: Number(selectedBankId),
+    template_theme: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+  };
+
+  const oldTemplate = {
+    hostel_Id: Number(state.login.selectedHostel_Id),
+    id: securityDepositInvoiceTemplate.id,
+    digital_signature_url: securityDepositInvoiceTemplate.digital_signature_url || null,
+    is_signature_specific_template: securityDepositInvoiceTemplate.is_signature_specific_template,
+    contact_number: securityDepositInvoiceTemplate.contact_number || '',
+    is_contact_specific_template: securityDepositInvoiceTemplate.is_contact_specific_template,
+    email: securityDepositInvoiceTemplate.email || '',
+    is_email_specific_template: securityDepositInvoiceTemplate.is_email_specific_template,
+    logo_url: securityDepositInvoiceTemplate.logo_url || null,
+    is_logo_specific_template: securityDepositInvoiceTemplate.is_logo_specific_template,
+    qr_url: securityDepositInvoiceTemplate.qr_url || null,
+    prefix: securityDepositInvoiceTemplate.prefix || '',
+    suffix: securityDepositInvoiceTemplate.suffix || '',
+    tax: securityDepositInvoiceTemplate.tax || '',
+    notes: securityDepositInvoiceTemplate.notes || '',
+    terms_and_condition: securityDepositInvoiceTemplate.terms_and_condition || '',
+    banking_id: Number(securityDepositInvoiceTemplate.banking_id || 0),
+    template_theme: securityDepositInvoiceTemplate.template_theme || '',
+  };
+
+  const isSame = JSON.stringify(currentTemplate) === JSON.stringify(oldTemplate);
+
+  if (isSame) {
+     setEditErrMessage("No changes detected");
+    setSignatureErrMsg("")
+    return;
+  }
+     
+  if(securityDepositInvoiceTemplate.is_signature_specific_template === 1){
+    const Signatureverify = !securityDepositInvoiceTemplate.digital_signature_url
+
+  if (signature && !isSignatureConfirmed && Signatureverify){
+    setSignatureErrMsg("Please click Done after selecting a signature");
+    return
+     }
+  }
+
+    if(securityDepositInvoiceTemplate.is_contact_specific_template === 1){
+         if (mobilenum && mobilenum.length < 10){
+         setMobileError(" Please Enter Valid Mobile Number");
+         return
+        }
+    else if (mobilenum.length === 10){
+       setMobileError("");
+       }
+  }
+   
+  if(securityDepositInvoiceTemplate.is_email_specific_template === 1){
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(email);
+    if (!email) {
+      setEmailError("");
+       } else if (!isValidEmail) {
+      setEmailError("Please Enter  Valid Email Id");
+      } else {
+      setEmailError("");
+    }
+  }
 
 
-  // const currentData = {
-  //   prefix,
-  //   suffix,
-  //   tax,
-  //   notes: notes?.replace(/"/g, '') || '',
-  //   privacyPolicy: terms,
-  //   signatureFile: signature,
-  //   bankingId: Number(selectedBankId)
-  // };
-
-  // const originalData = {
-  //   prefix: InvoiceList?.invoiceSettings?.prefix || '',
-  //   suffix: InvoiceList?.invoiceSettings?.suffix || '',
-  //   tax: InvoiceList?.invoiceSettings?.tax || '',
-  //   notes: InvoiceList?.invoiceSettings?.notes?.replace(/"/g, '') || '',
-  //   privacyPolicy: InvoiceList?.invoiceSettings?.privacyPolicyHtml || '',
-  //   signatureFile: InvoiceList?.invoiceSettings?.signatureFile || '',
-  //   bankingId: Number(InvoiceList?.invoiceSettings?.bankingId || 0),
-  // };
-
-  // if (
-  //   InvoiceList?.invoiceSettings &&
-  //   JSON.stringify(currentData) === JSON.stringify(originalData)
-  // ) {
-  //   setEditErrMessage("No changes detected");
-  //   setSignatureErrMsg("")
-  //   return;
-  // }
-
-       dispatch({
+     if( securityDepositInvoiceTemplate.id && state.login.selectedHostel_Id){
+      dispatch({
     type: "ADD_BILLS_TEMPLATE",
     payload: {
         hostel_Id: Number(state.login.selectedHostel_Id),
+        id: securityDepositInvoiceTemplate.id , 
         digital_signature_url: signature,
-        is_signature_specific_template: "true",
+        is_signature_specific_template: securityDepositInvoiceTemplate.is_signature_specific_template,
         contact_number: mobilenum,
-        is_contact_specific_template: "true",
+        is_contact_specific_template: securityDepositInvoiceTemplate.is_contact_specific_template,
         email: email,
-        is_email_specific_template: "true",
-        logo_url :'',
-        is_logo_specific_template :"false",
-        qr_url:qrImage,
+        is_email_specific_template: securityDepositInvoiceTemplate.is_email_specific_template,
+        logo_url : hostel_logo,
+        is_logo_specific_template :securityDepositInvoiceTemplate.is_logo_specific_template,
+        qr_url:qrimagepreview,
         prefix,
         suffix,
         tax,
@@ -572,6 +615,9 @@ useEffect(() => {
         template_theme: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
     },
   });
+     }
+
+ 
   
 
 
@@ -581,7 +627,10 @@ const [BillsTemplateList , setBillsTemplateList] = useState([])
 
  
 useEffect(()=> {
+   if(state.login.selectedHostel_Id){
+  setLoading(true)
    dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+   }
 },[])
 
     useEffect(() => {
@@ -597,29 +646,129 @@ useEffect(()=> {
 
     useEffect(() => {
          if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+          
     setBillsTemplateList(state.Settings.settingsBillsTemplateList)
       setTimeout(() => {
+          setLoading(false)
         dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
-      }, 1000);
+      }, 500);
     }
   }, [state.Settings.SettingsBilltemplategetsuccessCode]);
 
+        useEffect(() => {
+           if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {    
+           setTimeout(() => {
+             setLoading(false)
+             dispatch({ type: "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE" });
+        }, 500);
+      }
+    }, [state.Settings.SettingsBilltemplategetErrorCode]);
 
+  
+
+const securityDepositInvoiceTemplate = BillsTemplateList.find(
+  (template) => template.template_type === "Security Deposit Invoice"
+);
+
+
+ 
+
+   useEffect(()=> {
+    if(securityDepositInvoiceTemplate) {
+      setLogoPreview(securityDepositInvoiceTemplate.logo_url || null)
+      setHostelLogo(securityDepositInvoiceTemplate.logo_url || null)
+      setMobileNum(securityDepositInvoiceTemplate.contact_number)
+      setEmail(securityDepositInvoiceTemplate.email)
+      setPrefix(securityDepositInvoiceTemplate.prefix || '')
+      setSuffix(securityDepositInvoiceTemplate.suffix || '')
+      setSignature(securityDepositInvoiceTemplate.digital_signature_url || null)
+      setSignaturePreview(securityDepositInvoiceTemplate.digital_signature_url || null)
+      setTerms(securityDepositInvoiceTemplate.terms_and_condition || '')
+      setTax(securityDepositInvoiceTemplate.tax || '')
+      setSelectedBankId(securityDepositInvoiceTemplate.banking_id || null)
+      setQrImage(securityDepositInvoiceTemplate.qr_url || null)
+      setQRImagePreview(securityDepositInvoiceTemplate.qr_url || null)
+
+    const templateTheme = securityDepositInvoiceTemplate.template_theme;
+if (templateTheme && templateTheme.trim() !== '') {
+  if (templateTheme.includes('rgba')) {
+    const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
+    if (match) {
+      setColor({
+        r: parseInt(match[1]),
+        g: parseInt(match[2]),
+        b: parseInt(match[3]),
+        a: parseFloat(match[4]),
+      });
+      setUseGradient(false);
+    }
+  } else {
+    setUseGradient(true);
+  }
+} else {
+  setUseGradient(true);
+}
+
+    }
+
+   },[securityDepositInvoiceTemplate])
 
     return(
         <>
+
+            {loading &&
+        <div
+        style={{
+          position: 'fixed',
+          top: '48%',
+          left: '68%',
+          transform: 'translate(-50%, -50%)',
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+          zIndex: 1050,
+        }}
+      >
+        <div
+          style={{
+            borderTop: '4px solid #1E45E1',
+            borderRight: '4px solid transparent',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            animation: 'spin 1s linear infinite',
+          }}
+        ></div>
+      </div>
+      }
         <div className="col-12 d-flex flex-row">
+
+       
 <div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
            overflowY: "auto",
            overflowX:'hidden',}}>
-<p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
+
+            { (
+  securityDepositInvoiceTemplate?.is_signature_specific_template === 1 ||
+  securityDepositInvoiceTemplate?.is_contact_specific_template === 1 ||
+  securityDepositInvoiceTemplate?.is_email_specific_template === 1 ||
+  securityDepositInvoiceTemplate?.is_logo_specific_template === 1
+) && 
+
+            (
+              <>
+              <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
 
    <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
     <div className="d-flex justify-content-end">
                   <img src={EditICon}  onClick={ handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
 
     </div>
-
+    {  securityDepositInvoiceTemplate?.is_logo_specific_template === 1  &&
+    <div>
           <div style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -630,14 +779,12 @@ useEffect(()=> {
             </div>
   <div className="p-3 border rounded" style={{  backgroundColor: '#F0F3FF', textAlign: 'center' }}>
    
-    {/* Image Preview */}
     {logoPreview ? (
       <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
     ) : (
       <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
     )}
 
-    {/* Upload Instruction & Input */}
     <div>
       <label
         style={{
@@ -663,7 +810,6 @@ useEffect(()=> {
       </span>
     </div>
 
-    {/* File Format Info */}
     <small
       style={{
         fontFamily: "Gilroy",
@@ -677,10 +823,11 @@ useEffect(()=> {
       Must be in PNG Format (600px × 300px)
     </small>
   </div>
+  </div>
+    }
 
+  {  securityDepositInvoiceTemplate?.is_contact_specific_template === 1  &&
     <div className=" p-3  col-lg-12" style={{borderRadius:'10px' , overflowY:'auto', }}>
-
-    
  <div className='d-flex row '>
                         <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
  <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
@@ -771,10 +918,11 @@ useEffect(()=> {
                         </div>
 
                       
-                    </div>
-                          
-                  </div>
+                    </div>       
+                  </div> }
 
+
+ {  securityDepositInvoiceTemplate?.is_email_specific_template === 1  &&
                     <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}> 
  <div className='d-flex row '>
                         <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
@@ -846,7 +994,8 @@ useEffect(()=> {
                     </div>
                           
                   </div>
-
+   }
+    {  securityDepositInvoiceTemplate?.is_signature_specific_template === 1  &&
                   <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}>
  <div className='d-flex row '>
                         <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
@@ -938,6 +1087,8 @@ useEffect(()=> {
                         </div>  
                     </div>        
                   </div>
+   }
+
                  <Modal
   show={contactnumberform}
   onHide={handleCloseContactNumberForm}
@@ -1023,6 +1174,13 @@ useEffect(()=> {
   </Modal.Footer>
 </Modal>
 </div>
+              
+              </>
+            )
+
+            
+            }
+
 
 
 <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Form Specific Details</p>
@@ -1356,7 +1514,6 @@ useEffect(()=> {
           className="p-3 border rounded"
           style={{ backgroundColor: "#f9f9f9", textAlign: "center" }}
         >
-          {/* Image Preview */}
           {qrImage ? (
             <img
               src={qrImage}
@@ -1382,7 +1539,6 @@ useEffect(()=> {
             />
           )}
 
-          {/* Upload Label & Info */}
           <div>
             <label
               style={{
@@ -1585,7 +1741,6 @@ useEffect(()=> {
 ))}
 
 <div
-  onClick={() => console.log("Current color clicked")}
   style={{
     width: 24,
     height: 24,
@@ -1599,6 +1754,29 @@ useEffect(()=> {
 
       </div>
   </div>
+
+   {editErrmsg.trim() !== "" && (
+                                                         <div className="d-flex align-items-center p-1">
+                                                           <MdError
+                                                             style={{
+                                                               color: "red",
+                                                               marginRight: "5px",
+                                                               fontSize: "14px",
+                                                             }}
+                                                           />
+                                                           <label
+                                                             className="mb-0"
+                                                             style={{
+                                                               color: "red",
+                                                               fontSize: "12px",
+                                                               fontFamily: "Gilroy",
+                                                               fontWeight: 500,
+                                                             }}
+                                                           >
+                                                             {editErrmsg}
+                                                           </label>
+                                                         </div>
+                                                       )}
 
   <div className="d-flex justify-content-end mt-2 col-lg-10">
           <Button
@@ -1898,7 +2076,7 @@ useEffect(()=> {
            <p
              className="mb-0"
              style={{
-               fontSize: '13px',
+               fontSize: '10px',
                fontFamily: 'Gilroy',
                fontWeight: 600,
                color: 'rgba(255, 255, 255, 1)',
