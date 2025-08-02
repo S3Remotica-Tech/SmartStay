@@ -2827,9 +2827,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                           <div className="col-md-8">
                             <h4 style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(30, 69, 225, 1)' }}>Terms and Conditions</h4>
                             <p style={{ whiteSpace: "pre-line", fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(61, 61, 61, 1)' }}>
-                              Tenants must pay all dues on or before the due date,<br></br>
-                              maintain cleanliness, and follow PG rules;failure may lead<br></br>
-                              to penalties or termination of stay.
+                             {terms}
                             </p>
                           </div>
 
@@ -3257,9 +3255,8 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                               <div className="col-md-8">
                                 <h4 style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(30, 69, 225, 1)' }}>Terms and Conditions</h4>
                                 <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(61, 61, 61, 1)' }}>
-                                  Tenants must pay all dues on or before the due date,<br></br>
-                                  maintain cleanliness, and follow PG rules;failure may lead<br></br>
-                                  to penalties or termination of stay.
+                                
+                                  {terms}
                                 </p>
                               </div>
 
