@@ -677,7 +677,6 @@ const securityDepositInvoiceTemplate = BillsTemplateList.find(
   (template) => template.template_type === "Security Deposit Invoice"
 );
 
- console.log("securityDepositInvoiceTemplate", securityDepositInvoiceTemplate);
 
 
 const items = [
@@ -685,15 +684,11 @@ const items = [
   { id: 2, name: "Electricity", amount: 950 },
 ];
 
-const taxPercentage = 7;
 
-// 1. Calculate subtotal
 const subtotal = items.reduce((acc, item) => acc + item.amount, 0);
 
-// 2. Calculate tax amount
 const taxAmount = (subtotal * tax) / 100;
 
-// 3. Calculate total amount (including tax)
 const totalAmount = subtotal + taxAmount;
 
  
