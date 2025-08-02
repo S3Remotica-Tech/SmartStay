@@ -2230,7 +2230,7 @@ if (templateTheme && templateTheme.trim() !== '') {
        
        
         <div   ref={innerScrollRef}
-         className="border shadow-md show-scroll col-lg-12 justify-content-center"
+         className=" show-scroll col-lg-12 justify-content-center"
          style={{
            maxHeight: 480,
            overflowY: "auto",
@@ -2300,7 +2300,7 @@ if (templateTheme && templateTheme.trim() !== '') {
        </div>
        
        
-       <div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",borderTopLeftRadius:'20px'}}>
+       <div className="container border shadow-md bg-white rounded-bottom  position-relative" style={{width:"100%"}}>
          <div className="text-center pt-2 pb-1">
            <h5 style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
             Security Deposit  Invoice

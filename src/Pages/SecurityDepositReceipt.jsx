@@ -1491,7 +1491,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
    
 
       <div   ref={innerScrollRef}
-        className="border  show-scroll col-lg-12  justify-content-center"
+        className="  show-scroll col-lg-12  justify-content-center"
         style={{
           maxHeight: 480,
           overflowY: "auto",

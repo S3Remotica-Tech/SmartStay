@@ -1465,7 +1465,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                   width={20}
                   height={20}
                   onClick={handleCloseForm}
-                  style={{ cursor: "pointer", marginLeft: '10px', marginRight: '5px', marginTop: 2 }}
+                  style={{ cursor: "pointer",  marginRight: '5px', marginTop: 2 }}
                 />
                 <p style={{ fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600, }}>Global Bill Settings</p>
               </div>
@@ -2983,13 +2983,12 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
                           <div ref={innerScrollRef}
-                            className="border shadow show-scrolls col-lg-12 justify-content-center"
+                            className="  show-scrolls col-lg-12 justify-content-center"
                             style={{
                               maxHeight: 480,
                               overflowY: "auto",
                               overflowX: 'hidden',
-                              borderBottomLeftRadius: "13px",
-                              borderBottomRightRadius: "13px",
+                          
                             }}>
 
                             <div className=" text-white  p-4 position-relative" style={{
@@ -3064,7 +3063,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                             </div>
 
 
-                            <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", borderTopLeftRadius: '20px' }}>
+                            <div className="container bg-white border shadow-md rounded-bottom  position-relative" style={{ width: "100%",}}>
                               <div className="text-center pt-2 pb-1">
                                 <h5 style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>
                                   Payment Invoice
