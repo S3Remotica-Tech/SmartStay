@@ -2588,7 +2588,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                             <div>
 
 
-                              <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                              <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
                                 {[
 
                                   RentalinvoiceTemplate?.Address,
@@ -2596,14 +2596,16 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
                                   [
                                     RentalinvoiceTemplate?.area,
-                                    RentalinvoiceTemplate?.landmark,
-                                    RentalinvoiceTemplate?.city,
+                                 
+                                   
                                   ]
                                     .filter(Boolean)
                                     .join(", "),
 
 
                                   [
+                                       RentalinvoiceTemplate?.landmark,
+                                     RentalinvoiceTemplate?.city,
                                     RentalinvoiceTemplate?.state,
 
                                     627861
@@ -2794,11 +2796,11 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                 style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
                                 Account No :{RentalinvoiceTemplate?.banking?.acc_num || "N/A"}</p>
                               <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                IFSC Code :  {RentalinvoiceTemplate.banking.ifsc_code || "N/A"}</p>
+                                IFSC Code :  {RentalinvoiceTemplate?.banking?.ifsc_code || "N/A"}</p>
                               <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                Bank Name: {RentalinvoiceTemplate.banking.bank_name || "N/A"}</p>
+                                Bank Name: {RentalinvoiceTemplate?.banking?.bank_name || "N/A"}</p>
                               <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                UPI Details : {RentalinvoiceTemplate.banking.upi_id || "N/A"}</p>
+                                UPI Details : {RentalinvoiceTemplate?.banking?.upi_id || "N/A"}</p>
                             </div>
 
                             <div className="col-md-2"></div>
@@ -2866,7 +2868,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
                               }}
                             >
-                              Email :{email}
+                              Email :{paymentinvoiceemail}
                             </p>
                             <p
                               className="mb-0"
@@ -2877,7 +2879,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                 color: 'rgba(255, 255, 255, 1)',
                               }}
                             >
-                              Contact : +91 {mobilenum}
+                              Contact : +91 {paymentmobilenum}
                             </p>
                           </div>
                         </div>
@@ -3019,7 +3021,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
        </>
        
              </div> */}
-                                  <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                  <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
                                     {[
                                       // Line 1: full address (if present)
                                       RentalinvoiceTemplate?.Address,
@@ -3223,11 +3225,11 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                     style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
                                     Account No : {RentalinvoiceTemplate?.banking?.acc_num || "N/A"}</p>
                                   <p className="mb-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                    IFSC Code : {RentalinvoiceTemplate.banking.ifsc_code || "N/A"}</p>
+                                    IFSC Code : {RentalinvoiceTemplate?.banking?.ifsc_code || "N/A"}</p>
                                   <p className="mb-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                    Bank Name: {RentalinvoiceTemplate.banking.bank_name || "N/A"}</p>
+                                    Bank Name: {RentalinvoiceTemplate?.banking?.bank_name || "N/A"}</p>
                                   <p style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                    UPI Details : {RentalinvoiceTemplate.banking.upi_id || "N/A"}</p>
+                                    UPI Details : {RentalinvoiceTemplate?.banking?.upi_id || "N/A"}</p>
                                 </div>
 
                                 <div className="col-md-2"></div>
@@ -3295,7 +3297,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
                                   }}
                                 >
-                                  Email : {email}
+                                  Email : {paymentinvoiceemail}
                                 </p>
                                 <p
                                   className="mb-0"
@@ -3306,7 +3308,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                     color: 'rgba(255, 255, 255, 1)',
                                   }}
                                 >
-                                  Contact : +91 {mobilenum}
+                                  Contact : +91 {paymentmobilenum}
                                 </p>
                               </div>
                             </div>
