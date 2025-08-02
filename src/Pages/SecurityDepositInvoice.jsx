@@ -1838,7 +1838,7 @@ if (templateTheme && templateTheme.trim() !== '') {
          <div className="d-flex gap-2 mb-2 mb-lg-0">
              <img src={securityDepositInvoiceTemplate?.logo_url ? securityDepositInvoiceTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
              <div>
-               {/* <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}> {securityDepositInvoiceTemplate.Name ? securityDepositInvoiceTemplate.Name : ''}</div> */}
+               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}> {securityDepositInvoiceTemplate?.Name}</div>
                <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'30px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
