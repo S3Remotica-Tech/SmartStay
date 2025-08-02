@@ -1866,7 +1866,7 @@ if (templateTheme && templateTheme.trim() !== '') {
     [
       securityDepositInvoiceTemplate?.state,
      
-      627861
+     securityDepositInvoiceTemplate?.pin_code
     ]
       .filter(Boolean)
       .join(", "),
@@ -2247,8 +2247,8 @@ if (templateTheme && templateTheme.trim() !== '') {
          <div className="d-flex gap-2 mb-3 mb-lg-0">
              <img src={securityDepositInvoiceTemplate.logo_url ? securityDepositInvoiceTemplate.logo_url :  Logo} alt="logo" style={{ height: 40, width: 40 }} />
              <div>
-               {/* <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> { securityDepositInvoiceTemplate.Name }</div> */}
-               <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop:'40px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+               <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> { securityDepositInvoiceTemplate?.Name }</div>
+               <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
@@ -2274,7 +2274,7 @@ if (templateTheme && templateTheme.trim() !== '') {
     [
       securityDepositInvoiceTemplate?.state,
      
-      627861
+      securityDepositInvoiceTemplate?.pin_code
     ]
       .filter(Boolean)
       .join(", "),

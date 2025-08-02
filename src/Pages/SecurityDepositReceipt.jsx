@@ -1164,8 +1164,8 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                       
                                           [
                                             securityDepositReceiptTemplate?.state,
-                                           
-                                            627861
+                                           securityDepositReceiptTemplate?.pin_code  
+                                            
                                           ]
                                             .filter(Boolean)
                                             .join(", "),
@@ -1529,8 +1529,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                       
                                           [
                                             securityDepositReceiptTemplate?.state,
-                                           
-                                            627861
+                                           securityDepositReceiptTemplate?.pin_code  
                                           ]
                                             .filter(Boolean)
                                             .join(", "),

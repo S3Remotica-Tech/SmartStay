@@ -1191,7 +1191,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
     [
       RentalreceiptTemplate?.state,
      
-      627861
+      RentalreceiptTemplate?.pin_code
     ]
       .filter(Boolean)
       .join(", "),
@@ -1587,7 +1587,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
     [
       RentalreceiptTemplate?.state,
      
-      627861
+       RentalreceiptTemplate?.pin_code
     ]
       .filter(Boolean)
       .join(", "),

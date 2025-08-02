@@ -1177,7 +1177,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                                                                    [
                                                                      securityDepositRefundTemplate?.state,
                                                                     
-                                                                     627861
+                                                                     securityDepositRefundTemplate?.pin_code  
                                                                    ]
                                                                      .filter(Boolean)
                                                                      .join(", "),
@@ -1504,7 +1504,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                                                                    [
                                                                      securityDepositRefundTemplate?.state,
                                                                     
-                                                                     627861
+                                                                     securityDepositRefundTemplate?.pin_code  
                                                                    ]
                                                                      .filter(Boolean)
                                                                      .join(", "),
