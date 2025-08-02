@@ -224,12 +224,14 @@ import Questionimage from '../Assets/Images/question.png';
                      };
                  
                    const [logoPreview, setLogoPreview] = useState(null);
+                   const [hostel_logo , setHostelLogo ]  = useState(null)
                     
                      const handleFileUploadHostel = (e) => {
                          if (!allowImageUpload) return;
                        const file = e.target.files[0];
                           setEditErrMessage("")
                        if (file && file.type.startsWith("image/")) {
+                        setHostelLogo(file)
                          const reader = new FileReader();
                          reader.onloadend = () => {
                            setLogoPreview(reader.result);
@@ -251,6 +253,7 @@ import Questionimage from '../Assets/Images/question.png';
     notes: notes?.replace(/"/g, '') || '',
     terms_and_condition: terms || '',
     template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    logo_url: hostel_logo || '',
   };
 
   const originalData = {
@@ -260,6 +263,7 @@ import Questionimage from '../Assets/Images/question.png';
     notes: securityDepositRefundTemplate.notes?.replace(/"/g, '') || '',
     terms_and_condition: securityDepositRefundTemplate.terms_and_condition || '',
     template_theme: securityDepositRefundTemplate.template_theme || '',
+    logo_url: securityDepositRefundTemplate.logo_url || ''
   };
 
   if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
@@ -305,13 +309,13 @@ import Questionimage from '../Assets/Images/question.png';
     payload: {
         hostel_Id: Number(state.login.selectedHostel_Id),
          id: securityDepositRefundTemplate.id , 
-        digital_signature_url: signature,
+        digital_signature_url: signature || null,
         is_signature_specific_template: securityDepositRefundTemplate.is_signature_specific_template,
         contact_number: mobilenum,
         is_contact_specific_template: securityDepositRefundTemplate.is_contact_specific_template,
         email: email,
         is_email_specific_template: securityDepositRefundTemplate.is_email_specific_template,
-        logo_url :'',
+        logo_url : hostel_logo || null,
         is_logo_specific_template :securityDepositRefundTemplate.is_logo_specific_template,       
         notes,
         terms_and_condition: terms,
@@ -375,6 +379,7 @@ const securityDepositRefundTemplate = BillsTemplateList.find(
    useEffect(()=> {
     if(securityDepositRefundTemplate) {
       setLogoPreview(securityDepositRefundTemplate.logo_url || null)
+      setHostelLogo(securityDepositRefundTemplate.logo_url || null)
       setMobileNum(securityDepositRefundTemplate.contact_number)
       setEmail(securityDepositRefundTemplate.email)
       setSignature(securityDepositRefundTemplate.digital_signature_url || null)
@@ -1143,23 +1148,51 @@ if (templateTheme && templateTheme.trim() !== '') {
                           background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,}}>
                           <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                      <img src={ Logo} alt="logo" style={{ height: 30, width: 30 }} />
+                                                      <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}></div>
                                         <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
                                     <div>
-                                      <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-                                       Royal Grand Hostel
-                                      </div>
+                                      
                                       <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
+                                       <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                                 {[
+                                                                  
+                                                                   securityDepositRefundTemplate?.Address,
+                                                               
+                                                               
+                                                                   [
+                                                                     securityDepositRefundTemplate?.area,
+                                                                     securityDepositRefundTemplate?.landmark,
+                                                                     securityDepositRefundTemplate?.city,
+                                                                   ]
+                                                                     .filter(Boolean)
+                                                                     .join(", "),
+                                                               
+                                                               
+                                                                   [
+                                                                     securityDepositRefundTemplate?.state,
+                                                                    
+                                                                     627861
+                                                                   ]
+                                                                     .filter(Boolean)
+                                                                     .join(", "),
+                                                                 ]
+                                                                  
+                                                                   .filter(line => line && line.trim() !== "")
+                                                                  
+                                                                   .map((line, idx) => (
+                                                                     <React.Fragment key={idx}>
+                                                                       {line}
+                                                                       <br />
+                                                                     </React.Fragment>
+                                                                   ))}
+                                                               </div>
                          
-                                      9, 8th Avenue Rd, Someshwara Nagar, <br />
-                                      Chennai, Tamilnadu - 600 056
-                               
                                 </>
                                 
                                       </div>
@@ -1168,7 +1201,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                          </div>
                        
                         
-                         <div className="container bg-white rounded-bottom border  shadow position-relative" style={{width:"100%",}}>
+                         <div className="container bg-white rounded-bottom border  shadow-md position-relative" style={{width:"100%",}}>
                            <div className="text-center pt-1 pb-1">
        
                              <p className="" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
@@ -1278,11 +1311,13 @@ if (templateTheme && templateTheme.trim() !== '') {
                              <div className="col-md-8">
            <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
            <p style={{ fontSize: "9px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
-           This document confirms final settlement for the Tenant on <br></br>
-           . All dues are cleared, and room has been vacated.
+            {terms}
            </p>
          </div>
                                <div className="col-md-4 text-end">
+                                 {signaturePreview && (
+              <img src={signaturePreview} alt="signature" style={{ height:40, width:90}} />
+           )}
                                  <p className="mt-4"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}>
                                    Authorized Signature</p>
                                </div>
@@ -1293,11 +1328,9 @@ if (templateTheme && templateTheme.trim() !== '') {
         
            <div className="text-start mt-4">
              <p className="mb-0" style={{fontSize: "9px", fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-             &quot;Your comfort is our priority –
+              {notes}
              </p>
-             <p className="mb-0" style={{fontSize: "9px", fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
-               See you again at Smart Stay! &quot;
-             </p>
+             
            </div>
          
        
@@ -1326,7 +1359,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -1337,7 +1370,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : {mobilenum}
            </p>
          </div>
        </div>
@@ -1441,22 +1474,51 @@ if (templateTheme && templateTheme.trim() !== '') {
                            background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, }}>
                           <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                      <img src={ Logo} alt="logo" style={{ height: 40, width: 40 }} />
+                                       <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}></div>
                                         <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
                                     <div>
-                                      <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-                                       Royal Grand Hostel
-                                      </div>
+                                     
                                       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
                          
-                                      9, 8th Avenue Rd, Someshwara Nagar, <br />
-                                      Chennai, Tamilnadu - 600 056
+                     <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                                 {[
+                                                                  
+                                                                   securityDepositRefundTemplate?.Address,
+                                                               
+                                                               
+                                                                   [
+                                                                     securityDepositRefundTemplate?.area,
+                                                                     securityDepositRefundTemplate?.landmark,
+                                                                     securityDepositRefundTemplate?.city,
+                                                                   ]
+                                                                     .filter(Boolean)
+                                                                     .join(", "),
+                                                               
+                                                               
+                                                                   [
+                                                                     securityDepositRefundTemplate?.state,
+                                                                    
+                                                                     627861
+                                                                   ]
+                                                                     .filter(Boolean)
+                                                                     .join(", "),
+                                                                 ]
+                                                                  
+                                                                   .filter(line => line && line.trim() !== "")
+                                                                  
+                                                                   .map((line, idx) => (
+                                                                     <React.Fragment key={idx}>
+                                                                       {line}
+                                                                       <br />
+                                                                     </React.Fragment>
+                                                                   ))}
+                                                               </div>
                                
                                 </>
                                 
@@ -1466,7 +1528,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                          </div>
                        
                         
-                         <div className="container bg-white rounded-bottom border  shadow position-relative" style={{width:"100%",}}>
+                         <div className="container bg-white rounded-bottom border  shadow-md position-relative" style={{width:"100%",}}>
                            <div className="text-center pt-1 pb-1">
        
                              <p className="" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
@@ -1577,11 +1639,13 @@ if (templateTheme && templateTheme.trim() !== '') {
                              <div className="col-md-8">
            <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
            <p style={{ fontSize: "10px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
-           This document confirms final settlement for the Tenant on <br></br>
-           . All dues are cleared, and room has been vacated.
+           {terms}
            </p>
          </div>
                                <div className="col-md-4 text-end">
+                                 {signaturePreview && (
+              <img src={signaturePreview} alt="signature" style={{ height:40, width:90}} />
+           )}
                                  <p className="mt-4"   style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}>
                                    Authorized Signature</p>
                                </div>
@@ -1592,11 +1656,9 @@ if (templateTheme && templateTheme.trim() !== '') {
         
            <div className="text-start mt-4">
              <p className="mb-0" style={{fontSize: "10px", fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-             &quot;Your comfort is our priority –
+              {notes}
              </p>
-             <p className="mb-0" style={{fontSize: "10px", fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
-               See you again at Smart Stay! &quot;
-             </p>
+           
            </div>
          
        
@@ -1625,7 +1687,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -1636,7 +1698,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>

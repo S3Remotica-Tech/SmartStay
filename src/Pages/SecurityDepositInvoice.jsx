@@ -74,6 +74,16 @@ const [allowEditFields, setAllowEditFields] = useState({
 });
 
 
+useEffect(() => {
+  if (state.login.selectedHostel_Id) {
+    setLoading(true);
+    dispatch({
+      type: 'GET_TEMPLATE_LIST',
+      payload: { hostel_Id: Number(state.login.selectedHostel_Id) }
+    });
+  }
+}, []);
+
 
   const handleShowContactNumberForm = () => {
   setContactNumberForm(true);
@@ -146,7 +156,9 @@ const handleEmail = (e) => {
    
   };
   
-
+  
+ 
+  
 
 
 
@@ -482,7 +494,7 @@ useEffect(() => {
       if (!allowImageUpload) return;
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
-     
+     setEditErrMessage("")
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogoPreview(reader.result);
@@ -503,6 +515,7 @@ useEffect(() => {
     if (file) {
       setQRImagePreview(file)
       setQrImage(URL.createObjectURL(file));
+      setEditErrMessage("")
     }
   };
 
@@ -625,12 +638,7 @@ useEffect(() => {
 const [BillsTemplateList , setBillsTemplateList] = useState([])
 
  
-useEffect(()=> {
-   if(state.login.selectedHostel_Id){
-  setLoading(true)
-   dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
-   }
-},[])
+
 
     useEffect(() => {
     if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
@@ -669,6 +677,24 @@ const securityDepositInvoiceTemplate = BillsTemplateList.find(
   (template) => template.template_type === "Security Deposit Invoice"
 );
 
+ console.log("securityDepositInvoiceTemplate", securityDepositInvoiceTemplate);
+
+
+const items = [
+  { id: 1, name: "Room Rental", amount: 8000 },
+  { id: 2, name: "Electricity", amount: 950 },
+];
+
+const taxPercentage = 7;
+
+// 1. Calculate subtotal
+const subtotal = items.reduce((acc, item) => acc + item.amount, 0);
+
+// 2. Calculate tax amount
+const taxAmount = (subtotal * tax) / 100;
+
+// 3. Calculate total amount (including tax)
+const totalAmount = subtotal + taxAmount;
 
  
 
@@ -711,6 +737,7 @@ if (templateTheme && templateTheme.trim() !== '') {
     }
 
    },[securityDepositInvoiceTemplate])
+
 
     return(
         <>
@@ -1814,23 +1841,53 @@ if (templateTheme && templateTheme.trim() !== '') {
         background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` ,}}>
          <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-2 mb-lg-0">
-             <img src={ Logo} alt="logo" style={{ height: 30, width: 30 }} />
+             <img src={securityDepositInvoiceTemplate?.logo_url ? securityDepositInvoiceTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
              <div>
-               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-               <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+               {/* <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}> {securityDepositInvoiceTemplate.Name ? securityDepositInvoiceTemplate.Name : ''}</div> */}
+               <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'30px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
-             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-              Royal Grand Hostel
-             </div>
+             
              <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
-             <>
 
-             9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
-      
+             <>
+             <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {[
+   
+    securityDepositInvoiceTemplate?.Address,
+
+
+    [
+      securityDepositInvoiceTemplate?.area,
+      securityDepositInvoiceTemplate?.landmark,
+      securityDepositInvoiceTemplate?.city,
+    ]
+      .filter(Boolean)
+      .join(", "),
+
+
+    [
+      securityDepositInvoiceTemplate?.state,
+     
+      627861
+    ]
+      .filter(Boolean)
+      .join(", "),
+  ]
+   
+    .filter(line => line && line.trim() !== "")
+   
+    .map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))}
+</div>
+
+            
        </>
        
              </div>
@@ -1839,7 +1896,7 @@ if (templateTheme && templateTheme.trim() !== '') {
        </div>
        
        
-       <div className="container border shadow bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
+       <div className="container border shadow-md bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
          <div className="text-center pt-1 pb-1">
            <h5 style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
            Security Deposit Invoice
@@ -1853,7 +1910,7 @@ if (templateTheme && templateTheme.trim() !== '') {
              <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}>Mr. <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',}}> Muthuraja M</span></p>
                 <p className="mb-1"><img src={Dial} alt="mob" />
                                     <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(188, 188, 188, 1)',}}> 
-                                      +91 85647 85332
+                                      +91 9876543210
                                                      </span>
                                       </p>
              <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> No 103 -02</p>
@@ -1958,9 +2015,13 @@ if (templateTheme && templateTheme.trim() !== '') {
         
        
          <div className="ms-auto" style={{ minWidth: '200px' }}>
+          <div className="d-flex justify-content-between py-1">
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax </span>
+             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>{tax}%</span>
+           </div>
            <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 1150.00</span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax Amount</span>
+             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: {taxAmount}</span>
            </div>
            <div className="d-flex justify-content-between py-1">
              <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
@@ -1968,7 +2029,7 @@ if (templateTheme && templateTheme.trim() !== '') {
            </div>
            <div className="d-flex justify-content-between fw-bold py-2">
              <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: 10,100.00</span>
+             <span  style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: {totalAmount}</span>
            </div>
          </div>
        </div>
@@ -1993,28 +2054,41 @@ if (templateTheme && templateTheme.trim() !== '') {
              >ACCOUNT DETAILS</h6>
              <p className="mb-1" 
             style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-             Account No : 87542310984</p>
+             Account No :  {securityDepositInvoiceTemplate?.banking?.acc_num || '-'}
+             </p>
              <p className="mb-1"   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               IFSC Code : SBIN007195</p>
+               IFSC Code : {securityDepositInvoiceTemplate?.banking?.ifsc_code || '-'}
+               </p>
              <p className="mb-1"   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               Bank Name: State Bank of India</p>
+               Bank Name: {securityDepositInvoiceTemplate?.banking?.bank_name || '-'}
+               </p>
              <p   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               UPI Details : Net Banking</p>
+               UPI Details : {securityDepositInvoiceTemplate?.banking?.type || '-'}
+               </p>
            </div>
        
            <div className="col-md-2"></div>
        
-           <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
-           <div className="d-flex justify-content-end mt-auto">
-               <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius:'2px' }} />
-             </div>
-             <div className="d-flex flex-row justify-content-end">
-               <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
-               <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-2" />
-               <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-2" />
-             </div>
-            
-           </div>
+           <div className="col-md-4 d-flex flex-column align-items-end " style={{  }}>
+<div className="text-end">
+  <img
+    src={qrImage ? qrImage : Barcode}
+    alt="QR Code"
+    className="img-fluid"
+    style={{
+      maxWidth: '150px',  // adjust as needed
+      height: 'auto',
+    }}
+  />
+</div>
+
+  <div className="d-flex">
+    <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-1" />
+    <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-1" />
+    <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-1" />
+  </div>
+</div>
+
          </div>
        </div>
        
@@ -2022,14 +2096,15 @@ if (templateTheme && templateTheme.trim() !== '') {
        <div className="row justify-content-between mt-2 mb-4 px-4">
          <div className="col-md-8">
            <h4 style={{ fontSize:'10px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
-           <p style={{ whiteSpace: "pre-line", fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
-             Tenants must pay all dues on or before the due date,<br></br>
-             maintain cleanliness, and follow PG rules;failure may lead<br></br>
-              to penalties or termination of stay.
+           <p style={{ whiteSpace: "pre-line", fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color:'black'}}>
+            {terms}
            </p>
          </div>
        
          <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+           {signaturePreview && (
+              <img src={signaturePreview} alt="signature" style={{ height:40, width:90}} />
+           )}
            <p  
             style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
              >Authorized Signature</p>
@@ -2057,7 +2132,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -2068,7 +2143,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>
@@ -2091,7 +2166,7 @@ if (templateTheme && templateTheme.trim() !== '') {
     }}
   >
     <div
-      className="bg-white shadow"
+      className="bg-white shadow-md"
       style={{
         width: '100%',
         maxWidth: '900px',
@@ -2160,7 +2235,7 @@ if (templateTheme && templateTheme.trim() !== '') {
        
        
         <div   ref={innerScrollRef}
-         className="border shadow show-scroll col-lg-12 justify-content-center"
+         className="border shadow-md show-scroll col-lg-12 justify-content-center"
          style={{
            maxHeight: 480,
            overflowY: "auto",
@@ -2175,22 +2250,52 @@ if (templateTheme && templateTheme.trim() !== '') {
             : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` ,}}>
          <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-3 mb-lg-0">
-             <img src={ Logo} alt="logo" style={{ height: 40, width: 40 }} />
+             <img src={securityDepositInvoiceTemplate.logo_url ? securityDepositInvoiceTemplate.logo_url :  Logo} alt="logo" style={{ height: 40, width: 40 }} />
              <div>
-               <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-               <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+               {/* <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> { securityDepositInvoiceTemplate.Name }</div> */}
+               <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop:'40px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
-             <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-              Royal Grand Hostel
-             </div>
+           
              <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
              <>
+                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {[
+   
+    securityDepositInvoiceTemplate?.Address,
 
-             9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
+
+    [
+      securityDepositInvoiceTemplate?.area,
+      securityDepositInvoiceTemplate?.landmark,
+      securityDepositInvoiceTemplate?.city,
+    ]
+      .filter(Boolean)
+      .join(", "),
+
+
+    [
+      securityDepositInvoiceTemplate?.state,
+     
+      627861
+    ]
+      .filter(Boolean)
+      .join(", "),
+  ]
+   
+    .filter(line => line && line.trim() !== "")
+   
+    .map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))}
+</div>
+             {/* {securityDepositInvoiceTemplate.Address ? securityDepositInvoiceTemplate.Address : ''}, {securityDepositInvoiceTemplate.area ? securityDepositInvoiceTemplate.area : ''},  <br />
+             {securityDepositInvoiceTemplate.city ? securityDepositInvoiceTemplate.city : ''}, {securityDepositInvoiceTemplate.state ? securityDepositInvoiceTemplate.state : ''} - 600 056 */}
       
        </>
        
@@ -2214,7 +2319,7 @@ if (templateTheme && templateTheme.trim() !== '') {
              <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}>Mr. <span className="ms-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',}}> Muthuraja M</span></p>
                 <p className="mb-1"><img src={Dial} alt="mob" />
                                     <span className="ms-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(188, 188, 188, 1)',}}> 
-                                      +91 85647 85332
+                                      +91 9876543210
                                                      </span>
                                       </p>
              <p className="mb-1 me-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> No 103 -02</p>
@@ -2318,18 +2423,22 @@ if (templateTheme && templateTheme.trim() !== '') {
          <div className="d-flex flex-wrap align-items-start mt-1">
        
        
-         <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
-           <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-             <span className="me-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 1150.00</span>
+       <div className="ms-auto" style={{ minWidth: '200px' }}>
+          <div className="d-flex justify-content-between py-1">
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax </span>
+             <span className="me-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>{tax}%</span>
            </div>
            <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 8950.00 </span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax Amount</span>
+             <span className="me-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: {taxAmount}</span>
+           </div>
+           <div className="d-flex justify-content-between py-1">
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
+             <span  style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 8950.00 </span>
            </div>
            <div className="d-flex justify-content-between fw-bold py-2">
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: 10,100.00</span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
+             <span  style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: {totalAmount}</span>
            </div>
          </div>
        </div>
@@ -2354,20 +2463,36 @@ if (templateTheme && templateTheme.trim() !== '') {
              >ACCOUNT DETAILS</h6>
              <p className="mb-1" 
             style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-             Account No : 87542310984</p>
+             Account No : {securityDepositInvoiceTemplate?.banking?.acc_num || 'N/A'}
+             </p>
              <p className="mb-1"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               IFSC Code : SBIN007195</p>
+                  IFSC Code : {securityDepositInvoiceTemplate?.banking?.ifsc_code || 'N/A'}
+                  </p>
              <p className="mb-1"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               Bank Name: State Bank of India</p>
+               Bank Name: {securityDepositInvoiceTemplate?.banking?.bank_name || 'N/A'}
+               </p>
              <p   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               UPI Details : Net Banking</p>
+                UPI Details : {securityDepositInvoiceTemplate?.banking?.type || 'N/A'}
+                </p>
            </div>
        
            <div className="col-md-2"></div>
        
-           <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
-           <div className="d-flex justify-content-end mt-auto">
-               <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius:'2px' }} />
+           <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" , }}>
+           <div className="d-flex flex-row justify-content-end ">
+ <div className="ms-5">
+  <img
+    src={qrImage ? qrImage : Barcode}
+    alt="QR Code"
+    className="img-fluid"
+    style={{
+      maxWidth: '200px',  
+      height: 'auto',
+      paddingLeft:'40px'
+    }}
+  />
+</div>
+
              </div>
              <div className="d-flex flex-row justify-content-end">
                <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
@@ -2384,15 +2509,16 @@ if (templateTheme && templateTheme.trim() !== '') {
          <div className="col-md-8">
            <h4 style={{ fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
            <p style={{ whiteSpace: "pre-line", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
-             Tenants must pay all dues on or before the due date,<br></br>
-             maintain cleanliness, and follow PG rules;failure may lead<br></br>
-              to penalties or termination of stay.
+             {terms}
            </p>
          </div>
        
          <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+           {signaturePreview && (
+              <img src={signaturePreview} alt="signature" style={{ height:50, width:100}} />
+           )}
            <p  
-            style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
+            style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
              >Authorized Signature</p>
          </div>
        </div>
@@ -2418,7 +2544,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -2429,7 +2555,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>
