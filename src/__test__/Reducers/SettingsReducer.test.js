@@ -95,6 +95,10 @@ describe('it should check settings reducers', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
         }
         const action = {
             type: 'RESET_ALL',
@@ -1457,6 +1461,10 @@ describe('it should check settings reducers', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
 
         });
     });
@@ -1553,6 +1561,10 @@ describe('it should check settings reducers', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
 
         });
     });
@@ -1654,6 +1666,10 @@ describe('it should check settings reducers', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
 
         });
     });
@@ -1752,6 +1768,10 @@ describe('it should check settings reducers', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
 
         });
     });
@@ -1849,6 +1869,10 @@ it('it should check DELETE_GENERAL_ERROR', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
 
         });
     });
@@ -1944,6 +1968,10 @@ it('it should check CLEAR_DELETE_GENERAL_ERROR', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
 
         });
     });
@@ -2041,6 +2069,10 @@ it('it should check SUBSCRIPTION_PDF', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2137,6 +2169,10 @@ it('it should check  CLEAR_SUBSCRIPTION_PDF_STATUS_CODE', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2232,6 +2268,10 @@ it('it should check SETTINGSADDRECURRING', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2327,6 +2367,10 @@ it('it should check CLEAR_SETTINGSADDRECURRING_STATUS_CODE', () => {
              settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2425,6 +2469,10 @@ it('it should check FREQUENCYTYPESLIST', () => {
      settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2521,6 +2569,10 @@ it('it should check CLEAR_FREQUENCYTYPESLIST_STATUS_CODE', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2617,6 +2669,10 @@ it('it should check NOTIFICATIONTYPESLIST', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2709,6 +2765,10 @@ it('it should check CLEAR_NOTIFICATIONTYPESLIST_STATUS_CODE', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2805,6 +2865,10 @@ it('it should check SETTINGSGETRECURRING', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2897,6 +2961,10 @@ it('it should check CLEAR_SETTINGSGETRECURRING_STATUS_CODE', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -2993,6 +3061,10 @@ it('it should check ADDINVOICE_SETTINGS', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -3274,6 +3346,10 @@ it('it should check CLEAR_SETTINGSGETINVOICE_STATUS_CODE', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -3370,6 +3446,10 @@ it('it should check ERROR_SETTINGS_GETINVOICE', () => {
      settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -3462,6 +3542,10 @@ it('it should check CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE', () => {
      settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -3556,6 +3640,10 @@ it('it should check PLAN-EXPIRED', () => {
      settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -3650,6 +3738,10 @@ it('it should check CLEAR_PLAN-EXPIRED', () => {
      settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -3746,6 +3838,10 @@ it('it should check ADD_GLOBAL_SETTINGS', () => {
          settingGlobalAddStatusCode:200,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 200,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -3841,6 +3937,10 @@ it('it should check CLEAR_ADD_GLOBAL_SETTINGS', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -3926,7 +4026,7 @@ it('it should check GET_GLOBAL_SETTING', () => {
         SubscriptionPdfSuccess: 0,
         planExpired: '',
         FrequencyTypeList: [],
-        NotificationTypeList: ['Email', 'SMS', 'Push'],
+        NotificationTypeList: [],
         FrequncyTypegetSuccessCode: 0,
         NotificationypegetSuccessCode: 200,
         SettingsBillsGetRecurring: [],
@@ -3939,6 +4039,10 @@ it('it should check GET_GLOBAL_SETTING', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: ['test','test2'],
   statusCodeForSettingFetch: 200,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
@@ -4034,7 +4138,610 @@ it('it should check CLEAR_GET_GLOBAL_SETTING', () => {
          settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
   });
 });
 
+
+
+
+it('it should check ADD-BILLS-TEMPLATE', () => {
+  const action = {
+    type: 'ADD-BILLS-TEMPLATE',
+    payload: {
+      statusCode: 200
+    }
+  };
+
+  expect(SettingsReducer(initialState, action)).toStrictEqual({
+        Expences: [],
+        message: "",
+        getExpensesStatuscode: 0,
+        addexpencesStatuscode: 0,
+        editexpencesStatuscode: 0,
+        alreadycategoryerror: "",
+        deleteexpencesStatusCode: 0,
+        Complainttypelist: [],
+        getcomplainttypeStatuscode: 0,
+        addComplaintSuccessStatusCode: 0,
+        alreadytypeerror: "",
+        deletecomplaintStatuscode: 0,
+        addEbbillingUnitStatuscode: 0,
+        EBBillingUnitlist: [],
+        getebStatuscode: 0,
+        getsettingRoleList: [],
+        statusCodeForRoleList: 0,
+        addRoleSetting: [],
+        statusCodeForAddRole: 0,
+        editRolePermission: [],
+        editStatusCosePermission: 0,
+        editSettingRole: [],
+        StatusForEditPermission: 0,
+        deleteSettingRole: [],
+        StatusForDeletePermission: 0,
+        StatusForaddSettingUser: 0,
+        addSettingUser: [],
+        addSettingStaffList: [],
+        StatusForaddSettingStaffList: 0,
+        emailIdError: "",
+        phoneNumError: "",
+        ebUnitError: "",
+        reportList: [],
+        StatusForReport: 0,
+        settingGeneralPage: [],
+        StatusCodeForSettingGeneral: 0,
+        settingGetGeneralData: [],
+        StatusCodeforGetGeneral: 0,
+        settingGeneraLPasswordChanges: [],
+        StatusCodeforGeneralPassword: 0,
+        generalDelete: [],
+        statusCodeForGeneralDelete: 0,
+        generalEmailError: "",
+        generalMobileError: "",
+        addRecurringRole: 0,
+        checkPassword: [],
+        statusCodeForCheckPassword: 0,
+        notmatchpass: "",
+        conformPassNotmatch: "",
+        editComplaintSuccessStatusCode: 0,
+        deleteElectricityStatuscode: 0,
+        assignedUserRoleStatusCode: 0,
+        categoryError: 0,
+        errorEbUnitStatusCode: 0,
+        errorCompliants: 0,
+        errorUser: 0,
+        errorRole: 0,
+        AddCategoryType: 0,
+        roleError: '',
+        roleEditError: '',
+        generalDeleteError: '',
+        subscriptionNew: [],
+        statusCodeNewSubscription: 0,
+        subcripitionAllDetails: [],
+        statusCodeForSubcripitionAllDetails: 0,
+        toTriggerPDF: false,
+        SubscriptionPDF: [],
+        SubscriptionPdfSuccess: 0,
+        planExpired: '',
+        FrequencyTypeList: [],
+        NotificationTypeList: [],
+        FrequncyTypegetSuccessCode: 0,
+        NotificationypegetSuccessCode: 0,
+        SettingsBillsGetRecurring: [],
+        SettingsInvoice: [],
+        SettingsRecurringAddSuccess: 0,
+        settingsAddInvoiceSucesscode: 0,
+        settingsBillsggetRecurrSucesscode: 0,
+        settingsInvoicegetErrorStatuscode: 0,
+        settingsInvoicegetSucesscode: 0,
+         settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 200,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
+  });
+});
+
+
+
+it('it should check CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE', () => {
+  const action = {
+    type: 'CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE',
+  };
+
+  expect(SettingsReducer(initialState, action)).toStrictEqual({
+        Expences: [],
+        message: "",
+        getExpensesStatuscode: 0,
+        addexpencesStatuscode: 0,
+        editexpencesStatuscode: 0,
+        alreadycategoryerror: "",
+        deleteexpencesStatusCode: 0,
+        Complainttypelist: [],
+        getcomplainttypeStatuscode: 0,
+        addComplaintSuccessStatusCode: 0,
+        alreadytypeerror: "",
+        deletecomplaintStatuscode: 0,
+        addEbbillingUnitStatuscode: 0,
+        EBBillingUnitlist: [],
+        getebStatuscode: 0,
+        getsettingRoleList: [],
+        statusCodeForRoleList: 0,
+        addRoleSetting: [],
+        statusCodeForAddRole: 0,
+        editRolePermission: [],
+        editStatusCosePermission: 0,
+        editSettingRole: [],
+        StatusForEditPermission: 0,
+        deleteSettingRole: [],
+        StatusForDeletePermission: 0,
+        StatusForaddSettingUser: 0,
+        addSettingUser: [],
+        addSettingStaffList: [],
+        StatusForaddSettingStaffList: 0,
+        emailIdError: "",
+        phoneNumError: "",
+        ebUnitError: "",
+        reportList: [],
+        StatusForReport: 0,
+        settingGeneralPage: [],
+        StatusCodeForSettingGeneral: 0,
+        settingGetGeneralData: [],
+        StatusCodeforGetGeneral: 0,
+        settingGeneraLPasswordChanges: [],
+        StatusCodeforGeneralPassword: 0,
+        generalDelete: [],
+        statusCodeForGeneralDelete: 0,
+        generalEmailError: "",
+        generalMobileError: "",
+        addRecurringRole: 0,
+        checkPassword: [],
+        statusCodeForCheckPassword: 0,
+        notmatchpass: "",
+        conformPassNotmatch: "",
+        editComplaintSuccessStatusCode: 0,
+        deleteElectricityStatuscode: 0,
+        assignedUserRoleStatusCode: 0,
+        categoryError: 0,
+        errorEbUnitStatusCode: 0,
+        errorCompliants: 0,
+        errorUser: 0,
+        errorRole: 0,
+        AddCategoryType: 0,
+        roleError: '',
+        roleEditError: '',
+        generalDeleteError: '',
+        subscriptionNew: [],
+        statusCodeNewSubscription: 0,
+        subcripitionAllDetails: [],
+        statusCodeForSubcripitionAllDetails: 0,
+        toTriggerPDF: false,
+        SubscriptionPDF: [],
+        SubscriptionPdfSuccess: 0,
+        planExpired: '',
+        FrequencyTypeList: [],
+        NotificationTypeList: [],
+        FrequncyTypegetSuccessCode: 0,
+        NotificationypegetSuccessCode: 0,
+        SettingsBillsGetRecurring: [],
+        SettingsInvoice: [],
+        SettingsRecurringAddSuccess: 0,
+        settingsAddInvoiceSucesscode: 0,
+        settingsBillsggetRecurrSucesscode: 0,
+        settingsInvoicegetErrorStatuscode: 0,
+        settingsInvoicegetSucesscode: 0,
+         settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+   settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
+  });
+});
+
+
+
+it('it should check GET_TEMPLATELIST', () => {
+  const action = {
+    type: 'GET_TEMPLATELIST',
+    payload: {
+      response: ['temp','temp2'],
+      statusCode: 200,
+    }
+  };
+
+  expect(SettingsReducer(initialState, action)).toStrictEqual({
+        Expences: [],
+        message: "",
+        getExpensesStatuscode: 0,
+        addexpencesStatuscode: 0,
+        editexpencesStatuscode: 0,
+        alreadycategoryerror: "",
+        deleteexpencesStatusCode: 0,
+        Complainttypelist: [],
+        getcomplainttypeStatuscode: 0,
+        addComplaintSuccessStatusCode: 0,
+        alreadytypeerror: "",
+        deletecomplaintStatuscode: 0,
+        addEbbillingUnitStatuscode: 0,
+        EBBillingUnitlist: [],
+        getebStatuscode: 0,
+        getsettingRoleList: [],
+        statusCodeForRoleList: 0,
+        addRoleSetting: [],
+        statusCodeForAddRole: 0,
+        editRolePermission: [],
+        editStatusCosePermission: 0,
+        editSettingRole: [],
+        StatusForEditPermission: 0,
+        deleteSettingRole: [],
+        StatusForDeletePermission: 0,
+        StatusForaddSettingUser: 0,
+        addSettingUser: [],
+        addSettingStaffList: [],
+        StatusForaddSettingStaffList: 0,
+        emailIdError: "",
+        phoneNumError: "",
+        ebUnitError: "",
+        reportList: [],
+        StatusForReport: 0,
+        settingGeneralPage: [],
+        StatusCodeForSettingGeneral: 0,
+        settingGetGeneralData: [],
+        StatusCodeforGetGeneral: 0,
+        settingGeneraLPasswordChanges: [],
+        StatusCodeforGeneralPassword: 0,
+        generalDelete: [],
+        statusCodeForGeneralDelete: 0,
+        generalEmailError: "",
+        generalMobileError: "",
+        addRecurringRole: 0,
+        checkPassword: [],
+        statusCodeForCheckPassword: 0,
+        notmatchpass: "",
+        conformPassNotmatch: "",
+        editComplaintSuccessStatusCode: 0,
+        deleteElectricityStatuscode: 0,
+        assignedUserRoleStatusCode: 0,
+        categoryError: 0,
+        errorEbUnitStatusCode: 0,
+        errorCompliants: 0,
+        errorUser: 0,
+        errorRole: 0,
+        AddCategoryType: 0,
+        roleError: '',
+        roleEditError: '',
+        generalDeleteError: '',
+        subscriptionNew: [],
+        statusCodeNewSubscription: 0,
+        subcripitionAllDetails: [],
+        statusCodeForSubcripitionAllDetails: 0,
+        toTriggerPDF: false,
+        SubscriptionPDF: [],
+        SubscriptionPdfSuccess: 0,
+        planExpired: '',
+        FrequencyTypeList: [],
+        NotificationTypeList: [],
+        FrequncyTypegetSuccessCode: 0,
+        NotificationypegetSuccessCode: 0,
+        SettingsBillsGetRecurring: [],
+        SettingsInvoice: [],
+        SettingsRecurringAddSuccess: 0,
+        settingsAddInvoiceSucesscode: 0,
+        settingsBillsggetRecurrSucesscode: 0,
+        settingsInvoicegetErrorStatuscode: 0,
+        settingsInvoicegetSucesscode: 0,
+         settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+  settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : ['temp','temp2'],
+  SettingsBilltemplategetsuccessCode : 200,
+  SettingsBilltemplategetErrorCode : 0,
+  });
+});
+
+
+
+
+
+
+it('it should check CLEAR_GET_TEMPLATELIST_STATUS_CODE', () => {
+  const action = {
+    type: 'CLEAR_GET_TEMPLATELIST_STATUS_CODE',
+  };
+
+  expect(SettingsReducer(initialState, action)).toStrictEqual({
+        Expences: [],
+        message: "",
+        getExpensesStatuscode: 0,
+        addexpencesStatuscode: 0,
+        editexpencesStatuscode: 0,
+        alreadycategoryerror: "",
+        deleteexpencesStatusCode: 0,
+        Complainttypelist: [],
+        getcomplainttypeStatuscode: 0,
+        addComplaintSuccessStatusCode: 0,
+        alreadytypeerror: "",
+        deletecomplaintStatuscode: 0,
+        addEbbillingUnitStatuscode: 0,
+        EBBillingUnitlist: [],
+        getebStatuscode: 0,
+        getsettingRoleList: [],
+        statusCodeForRoleList: 0,
+        addRoleSetting: [],
+        statusCodeForAddRole: 0,
+        editRolePermission: [],
+        editStatusCosePermission: 0,
+        editSettingRole: [],
+        StatusForEditPermission: 0,
+        deleteSettingRole: [],
+        StatusForDeletePermission: 0,
+        StatusForaddSettingUser: 0,
+        addSettingUser: [],
+        addSettingStaffList: [],
+        StatusForaddSettingStaffList: 0,
+        emailIdError: "",
+        phoneNumError: "",
+        ebUnitError: "",
+        reportList: [],
+        StatusForReport: 0,
+        settingGeneralPage: [],
+        StatusCodeForSettingGeneral: 0,
+        settingGetGeneralData: [],
+        StatusCodeforGetGeneral: 0,
+        settingGeneraLPasswordChanges: [],
+        StatusCodeforGeneralPassword: 0,
+        generalDelete: [],
+        statusCodeForGeneralDelete: 0,
+        generalEmailError: "",
+        generalMobileError: "",
+        addRecurringRole: 0,
+        checkPassword: [],
+        statusCodeForCheckPassword: 0,
+        notmatchpass: "",
+        conformPassNotmatch: "",
+        editComplaintSuccessStatusCode: 0,
+        deleteElectricityStatuscode: 0,
+        assignedUserRoleStatusCode: 0,
+        categoryError: 0,
+        errorEbUnitStatusCode: 0,
+        errorCompliants: 0,
+        errorUser: 0,
+        errorRole: 0,
+        AddCategoryType: 0,
+        roleError: '',
+        roleEditError: '',
+        generalDeleteError: '',
+        subscriptionNew: [],
+        statusCodeNewSubscription: 0,
+        subcripitionAllDetails: [],
+        statusCodeForSubcripitionAllDetails: 0,
+        toTriggerPDF: false,
+        SubscriptionPDF: [],
+        SubscriptionPdfSuccess: 0,
+        planExpired: '',
+        FrequencyTypeList: [],
+        NotificationTypeList: [],
+        FrequncyTypegetSuccessCode: 0,
+        NotificationypegetSuccessCode: 0,
+        SettingsBillsGetRecurring: [],
+        SettingsInvoice: [],
+        SettingsRecurringAddSuccess: 0,
+        settingsAddInvoiceSucesscode: 0,
+        settingsBillsggetRecurrSucesscode: 0,
+        settingsInvoicegetErrorStatuscode: 0,
+        settingsInvoicegetSucesscode: 0,
+         settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 0,
+  });
+});
+
+
+
+ it('it should check ERROR_TEMPLATELIST', () => {
+        const action = {
+            type: 'ERROR_TEMPLATELIST',
+            payload: 'somthing went wrong'
+        };
+
+       expect(SettingsReducer(initialState, action)).toStrictEqual({
+        Expences: [],
+        message: "",
+        getExpensesStatuscode: 0,
+        addexpencesStatuscode: 0,
+        editexpencesStatuscode: 0,
+        alreadycategoryerror: "",
+        deleteexpencesStatusCode: 0,
+        Complainttypelist: [],
+        getcomplainttypeStatuscode: 0,
+        addComplaintSuccessStatusCode: 0,
+        alreadytypeerror: "",
+        deletecomplaintStatuscode: 0,
+        addEbbillingUnitStatuscode: 0,
+        EBBillingUnitlist: [],
+        getebStatuscode: 0,
+        getsettingRoleList: [],
+        statusCodeForRoleList: 0,
+        addRoleSetting: [],
+        statusCodeForAddRole: 0,
+        editRolePermission: [],
+        editStatusCosePermission: 0,
+        editSettingRole: [],
+        StatusForEditPermission: 0,
+        deleteSettingRole: [],
+        StatusForDeletePermission: 0,
+        StatusForaddSettingUser: 0,
+        addSettingUser: [],
+        addSettingStaffList: [],
+        StatusForaddSettingStaffList: 0,
+        emailIdError: "",
+        phoneNumError: "",
+        ebUnitError: "",
+        reportList: [],
+        StatusForReport: 0,
+        settingGeneralPage: [],
+        StatusCodeForSettingGeneral: 0,
+        settingGetGeneralData: [],
+        StatusCodeforGetGeneral: 0,
+        settingGeneraLPasswordChanges: [],
+        StatusCodeforGeneralPassword: 0,
+        generalDelete: [],
+        statusCodeForGeneralDelete: 0,
+        generalEmailError: "",
+        generalMobileError: "",
+        addRecurringRole: 0,
+        checkPassword: [],
+        statusCodeForCheckPassword: 0,
+        notmatchpass: "",
+        conformPassNotmatch: "",
+        editComplaintSuccessStatusCode: 0,
+        deleteElectricityStatuscode: 0,
+        assignedUserRoleStatusCode: 0,
+        categoryError: 0,
+        errorEbUnitStatusCode: 0,
+        errorCompliants: 0,
+        errorUser: 0,
+        errorRole: 0,
+        AddCategoryType: 0,
+        roleError: '',
+        roleEditError: '',
+        generalDeleteError: '',
+        subscriptionNew: [],
+        statusCodeNewSubscription: 0,
+        subcripitionAllDetails: [],
+        statusCodeForSubcripitionAllDetails: 0,
+        toTriggerPDF: false,
+        SubscriptionPDF: [],
+        SubscriptionPdfSuccess: 0,
+        planExpired: '',
+        FrequencyTypeList: [],
+        NotificationTypeList: [],
+        FrequncyTypegetSuccessCode: 0,
+        NotificationypegetSuccessCode: 0,
+        SettingsBillsGetRecurring: [],
+        SettingsInvoice: [],
+        SettingsRecurringAddSuccess: 0,
+        settingsAddInvoiceSucesscode: 0,
+        settingsBillsggetRecurrSucesscode: 0,
+        settingsInvoicegetErrorStatuscode: 0,
+        settingsInvoicegetSucesscode: 0,
+         settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+settingsBillsAddTemplateSucesscode: 0,
+  settingsBillsTemplateList : [],
+  SettingsBilltemplategetsuccessCode : 0,
+  SettingsBilltemplategetErrorCode : 500,
+  });
+    });
+
+
+
+
+
+
+
+    it('it should check CLEAR_ERROR_TEMPLATELIST_STATUS_CODE', () => {
+  const action = {
+    type: 'CLEAR_ERROR_TEMPLATELIST_STATUS_CODE',
+  };
+
+  expect(SettingsReducer(initialState, action)).toStrictEqual({
+        Expences: [],
+        message: "",
+        getExpensesStatuscode: 0,
+        addexpencesStatuscode: 0,
+        editexpencesStatuscode: 0,
+        alreadycategoryerror: "",
+        deleteexpencesStatusCode: 0,
+        Complainttypelist: [],
+        getcomplainttypeStatuscode: 0,
+        addComplaintSuccessStatusCode: 0,
+        alreadytypeerror: "",
+        deletecomplaintStatuscode: 0,
+        addEbbillingUnitStatuscode: 0,
+        EBBillingUnitlist: [],
+        getebStatuscode: 0,
+        getsettingRoleList: [],
+        statusCodeForRoleList: 0,
+        addRoleSetting: [],
+        statusCodeForAddRole: 0,
+        editRolePermission: [],
+        editStatusCosePermission: 0,
+        editSettingRole: [],
+        StatusForEditPermission: 0,
+        deleteSettingRole: [],
+        StatusForDeletePermission: 0,
+        StatusForaddSettingUser: 0,
+        addSettingUser: [],
+        addSettingStaffList: [],
+        StatusForaddSettingStaffList: 0,
+        emailIdError: "",
+        phoneNumError: "",
+        ebUnitError: "",
+        reportList: [],
+        StatusForReport: 0,
+        settingGeneralPage: [],
+        StatusCodeForSettingGeneral: 0,
+        settingGetGeneralData: [],
+        StatusCodeforGetGeneral: 0,
+        settingGeneraLPasswordChanges: [],
+        StatusCodeforGeneralPassword: 0,
+        generalDelete: [],
+        statusCodeForGeneralDelete: 0,
+        generalEmailError: "",
+        generalMobileError: "",
+        addRecurringRole: 0,
+        checkPassword: [],
+        statusCodeForCheckPassword: 0,
+        notmatchpass: "",
+        conformPassNotmatch: "",
+        editComplaintSuccessStatusCode: 0,
+        deleteElectricityStatuscode: 0,
+        assignedUserRoleStatusCode: 0,
+        categoryError: 0,
+        errorEbUnitStatusCode: 0,
+        errorCompliants: 0,
+        errorUser: 0,
+        errorRole: 0,
+        AddCategoryType: 0,
+        roleError: '',
+        roleEditError: '',
+        generalDeleteError: '',
+        subscriptionNew: [],
+        statusCodeNewSubscription: 0,
+        subcripitionAllDetails: [],
+        statusCodeForSubcripitionAllDetails: 0,
+        toTriggerPDF: false,
+        SubscriptionPDF: [],
+        SubscriptionPdfSuccess: 0,
+        planExpired: '',
+        FrequencyTypeList: [],
+        NotificationTypeList: [],
+        FrequncyTypegetSuccessCode: 0,
+        NotificationypegetSuccessCode: 0,
+        SettingsBillsGetRecurring: [],
+        SettingsInvoice: [],
+        SettingsRecurringAddSuccess: 0,
+        settingsAddInvoiceSucesscode: 0,
+        settingsBillsggetRecurrSucesscode: 0,
+        settingsInvoicegetErrorStatuscode: 0,
+        settingsInvoicegetSucesscode: 0,
+         settingGlobalAddStatusCode:0,
+    FetchGlobal: [],
+  statusCodeForSettingFetch: 0,
+  });
+});
 })

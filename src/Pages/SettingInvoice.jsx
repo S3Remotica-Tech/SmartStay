@@ -111,39 +111,7 @@ const [noChangesDetectedMsg, setNoChangesDetectedMsg] = useState("");
       },[state.Settings.statusCodeForSettingFetch])
       
     
-// useEffect(()=>{
 
-//   if(getData){
-//     setMobileNum(getData[0]?.common_contact_number)
-//     setEmail(getData[0]?.common_email)
-//     setSign(getData[0]?.common_digital_signature_url)
-//     setSignPreview(getData[0]?.common_digital_signature_url)
-  
-
-//     setIsCheckedLogo(getData[0]?.is_logo_specific_template)
-//     setIsCheckedMobile(getData[0]?.is_contact_specific_template)
-//     setIsCheckedEmail(getData[0]?.is_email_specific_template)
-//     setIsCheckedSignature(getData[0]?.is_signature_specific_template)
-    
-//   if(!previewURL){
-//     setSelectedFile(getData[0]?.common_logo_url || null)
-//     setPreviewURL(getData[0]?.common_logo_url || null)
-//     }
-//   }
-
-//    setInitialValues(initial);
-//     setMobileNum(initial.mobilenum);
-//     setEmail(initial.email);
-//     setSign(initial.sign);
-//     setSignPreview(initial.sign);
-//     setSelectedFile(initial.selectedFile);
-//     setPreviewURL(initial.selectedFile);
-//     setIsCheckedLogo(initial.isCheckedLogo);
-//     setIsCheckedMobile(initial.isCheckedmobile);
-//     setIsCheckedEmail(initial.isCheckedEmail);
-//     setIsCheckedSignature(initial.isCheckedSignature);
-
-// },[getData,state.login.selectedHostel_Id])
 
 
 useEffect(() => {
@@ -153,10 +121,10 @@ useEffect(() => {
       email: getData[0]?.common_email || "",
       sign: getData[0]?.common_digital_signature_url || null,
       selectedFile: getData[0]?.common_logo_url || null,
-      isCheckedLogo: getData[0]?.is_logo_specific_template || false,
-      isCheckedmobile: getData[0]?.is_contact_specific_template || false,
-      isCheckedEmail: getData[0]?.is_email_specific_template || false,
-      isCheckedSignature: getData[0]?.is_signature_specific_template || false,
+      isCheckedLogo: !!getData[0]?.is_logo_specific_template,
+isCheckedmobile: !!getData[0]?.is_contact_specific_template,
+isCheckedEmail: !!getData[0]?.is_email_specific_template,
+isCheckedSignature: !!getData[0]?.is_signature_specific_template,
     };
 
     setInitialValues(initial);
@@ -599,6 +567,7 @@ useEffect(() => {
     }
   
      setNoChangesDetectedMsg(""); 
+     setSavebuttonshow(true);
   };
 
 
@@ -1213,7 +1182,7 @@ useEffect(()=> {
   (template) => template.template_type === "Rental Invoice"
 );
 
-
+console.log("RentalinvoiceTemplate",RentalinvoiceTemplate)
 
    useEffect(()=> {
     if(RentalinvoiceTemplate) {
@@ -1286,7 +1255,7 @@ const handleSaveTemplate = () => {
     return;
   }
   const noChange =
-   mobilenum.trim() === String(initialValues.mobilenum).trim() &&
+   mobilenum === String(initialValues.mobilenum).trim() &&
     email === initialValues.email &&
     sign === initialValues.sign &&
     selectedFile === initialValues.selectedFile &&
@@ -1336,6 +1305,23 @@ const handleReset=(()=>{
   setMobileError("")
 
 })
+
+const items = [
+  { id: 1, name: "Room Rental", amount: 8000 },
+  { id: 2, name: "Electricity", amount: 950 },
+];
+ 
+ 
+// 1. Calculate subtotal
+const subtotal = items.reduce((acc, item) => acc + item.amount, 0);
+ 
+// 2. Calculate tax amount
+const taxAmount = (subtotal * tax) / 100;
+ 
+// 3. Calculate total amount (including tax)
+const totalAmount = subtotal + taxAmount;
+
+console.log("Renmmmm",RentalinvoiceTemplate?.banking)
 
   return (
     <div className="mt-4" style={{ position: "relative",paddingRight:11,paddingLeft:10 }}>
@@ -1425,36 +1411,44 @@ const handleReset=(()=>{
 
 
         
-   <div className="d-flex flex-wrap gap-2 mb-3">
+ 
+<div
+  className="d-flex flex-wrap gap-2 mb-3"
+  style={{
+    position: "sticky",
+    top: 0,
+    zIndex: 1000,
+    backgroundColor: "#fff", 
+    padding: "10px 0",      
+  }}
+>
   {PdfOptions.map((option) => (
     <button
       key={option.value}
       style={{
-    borderRadius: '50rem',           
-    padding: '0.5rem 1.5rem',       
-    fontFamily: 'Gilroy',
-    fontSize: 14,
-    fontWeight: 600,
-    verticalAlign: 'middle',
-    letterSpacing: '0%',
-    lineHeight: '100%',
-    backgroundColor: selectedTab === option.value ? 'rgba(30, 69, 225, 1)' : 'transparent', 
-    color: selectedTab === option.value ? '#fff' : '#6c757d',                
-    border: '1px solid',
-    borderColor: selectedTab === option.value ? '#0d6efd' : '#6c757d'        
-  }}
+        borderRadius: '50rem',
+        padding: '0.5rem 1.5rem',
+        fontFamily: 'Gilroy',
+        fontSize: 14,
+        fontWeight: 600,
+        verticalAlign: 'middle',
+        letterSpacing: '0%',
+        lineHeight: '100%',
+        backgroundColor: selectedTab === option.value ? 'rgba(30, 69, 225, 1)' : 'transparent',
+        color: selectedTab === option.value ? '#fff' : '#6c757d',
+        border: '1px solid',
+        borderColor: selectedTab === option.value ? '#0d6efd' : '#6c757d',
+      }}
       onClick={() => {
         setSelectedTab(option.value);
-        setEditFormErrMessage(""); 
+        setEditFormErrMessage("");
       }}
-      
     >
       {option.label}
     </button>
   ))}
-
- 
 </div>
+
 
 
 {selectedTab === "rental_invoice" && <>
@@ -2506,32 +2500,64 @@ const handleReset=(()=>{
         }}>
          <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-2 mb-lg-0">
-             <img src={ Logo} alt="logo" style={{ height: 30, width: 30 }} />
+            
+             <img
+  src={
+    hostel_logo
+      ? hostel_logo
+      : Logo
+  }
+  alt="logo"
+  style={{ height: 30, width: 30 }}
+/>
              <div>
-               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalinvoiceTemplate?.Name}</div>
                <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
-             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-              Royal Grand Hostel
-             </div>
-             <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
-             <>
+           
+            
+                         <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {[
+   
+    RentalinvoiceTemplate?.Address,
 
-             9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
-      
-       </>
-       
-             </div>
+
+    [
+      RentalinvoiceTemplate?.area,
+      RentalinvoiceTemplate?.landmark,
+      RentalinvoiceTemplate?.city,
+    ]
+      .filter(Boolean)
+      .join(", "),
+
+
+    [
+      RentalinvoiceTemplate?.state,
+     
+      627861
+    ]
+      .filter(Boolean)
+      .join(", "),
+  ]
+    
+    .filter(line => line && line.trim() !== "")
+   
+    .map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))}
+</div>
            </div>
          </div>
        </div>
        
        
-       <div className="container border shadow bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
+       <div className="container border shadow-md bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
          <div className="text-center pt-1 pb-1">
            <h5 style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
             Payment Invoice
@@ -2545,8 +2571,10 @@ const handleReset=(()=>{
              <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}>Mr. <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',}}> Muthuraja M</span></p>
                 <p className="mb-1"><img src={Dial} alt="mob" />
                                     <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(188, 188, 188, 1)',}}> 
-                                      +91 85647 85332
+                                      +91 9876543210
                                                      </span>
+ 
+
                                       </p>
              <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> No 103 -02</p>
              <div className="d-flex" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)' }}>
@@ -2559,6 +2587,7 @@ const handleReset=(()=>{
           <p  style={{ fontSize: '9px',fontFamily: 'Gilroy',}}>
             9, 8th Main Rd, Someshwara Nagar, <br></br>
              Bengaluru, Karnataka 560011
+             
           </p>
      
          </div>
@@ -2661,7 +2690,7 @@ const handleReset=(()=>{
          <div className=" ms-auto" style={{ minWidth: '200px' }}>
            <div className="d-flex justify-content-between py-1">
              <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 1150.00</span>
+             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs:{taxAmount}</span>
            </div>
            <div className="d-flex justify-content-between py-1">
              <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
@@ -2669,7 +2698,7 @@ const handleReset=(()=>{
            </div>
            <div className="d-flex justify-content-between fw-bold py-2">
              <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: 10,100.00</span>
+             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs:{totalAmount}</span>
            </div>
          </div>
        </div>
@@ -2694,20 +2723,25 @@ const handleReset=(()=>{
              >ACCOUNT DETAILS</h6>
              <p className="mb-1" 
             style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-             Account No : 87542310984</p>
+             Account No :{RentalinvoiceTemplate?.banking?.acc_num || "N/A"}</p>
              <p className="mb-1"   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               IFSC Code : SBIN007195</p>
+               IFSC Code :  {RentalinvoiceTemplate.banking.ifsc_code || "N/A"}</p>
              <p className="mb-1"   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               Bank Name: State Bank of India</p>
+               Bank Name: {RentalinvoiceTemplate.banking.bank_name || "N/A"}</p>
              <p   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               UPI Details : Net Banking</p>
+               UPI Details : {RentalinvoiceTemplate.banking.upi_id || "N/A"}</p>
            </div>
        
            <div className="col-md-2"></div>
        
            <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
            <div className="d-flex justify-content-end mt-auto">
-               <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius:'2px' }} />
+               {/* <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius:'2px' }} /> */}.
+               <img
+  src={qrImage ? qrImage : Barcode}
+  alt="QR Code"
+  style={{ height: 89, width: 89, borderRadius: '2px' }}
+/>
              </div>
              <div className="d-flex flex-row justify-content-end">
                <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
@@ -2731,6 +2765,13 @@ const handleReset=(()=>{
          </div>
        
          <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+{RentalinvoiceTemplate?.digital_signature_url && (
+<img 
+    src={RentalinvoiceTemplate.digital_signature_url}
+    alt="Digital Signature"  style={{ height: 60, width: 130,paddingLeft:30 }}
+   
+  />
+)}
            <p  
             style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
              >Authorized Signature</p>
@@ -2758,7 +2799,7 @@ const handleReset=(()=>{
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email :{email}
            </p>
            <p
              className="mb-0"
@@ -2769,7 +2810,7 @@ const handleReset=(()=>{
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>
@@ -2885,26 +2926,65 @@ const handleReset=(()=>{
         }}>
          <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-3 mb-lg-0">
-             <img src={ Logo} alt="logo" style={{ height: 40, width: 40 }} />
+               <img
+  src={
+    hostel_logo
+      ? hostel_logo
+      : Logo
+  }
+  alt="logo"
+  style={{ height: 30, width: 30 }}
+/>
              <div>
-               <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+               <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalinvoiceTemplate.Name}</div>
                <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
-             <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-              Royal Grand Hostel
-             </div>
-             <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+          
+             {/* <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
              <>
 
-             9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
+            {RentalinvoiceTemplate.Address}<br/>{RentalinvoiceTemplate.area},{RentalinvoiceTemplate.area},{RentalinvoiceTemplate.landmark} ,{RentalinvoiceTemplate.city}<br/>{RentalinvoiceTemplate.state},{RentalinvoiceTemplate.pincode}
       
        </>
        
-             </div>
+             </div> */}
+             <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {[
+    // Line 1: full address (if present)
+    RentalinvoiceTemplate?.Address,
+
+    // Line 2: area, landmark, city  (only the ones that exist)
+    [
+      RentalinvoiceTemplate?.area,
+      RentalinvoiceTemplate?.landmark,
+      RentalinvoiceTemplate?.city,
+    ]
+      .filter(Boolean)
+      .join(", "),
+
+    // Line 3: state, pincode
+    [
+      RentalinvoiceTemplate?.state,
+      // RentalinvoiceTemplate?.pincode,
+      627861
+    ]
+      .filter(Boolean)
+      .join(", "),
+  ]
+    // remove any empty lines
+    .filter(line => line && line.trim() !== "")
+    // render each remaining line with a <br/>
+    .map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))}
+</div>
+
            </div>
          </div>
        </div>
@@ -2924,7 +3004,7 @@ const handleReset=(()=>{
              <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}>Mr. <span className="ms-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(188, 188, 188, 1)',}}> Muthuraja M</span></p>
                 <p className="mb-1"><img src={Dial} alt="mob" />
                                     <span className="ms-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(188, 188, 188, 1)',}}> 
-                                      +91 85647 85332
+                                   +91 9876543210
                                                      </span>
                                       </p>
              <p className="mb-1 me-1" style={{ fontSize: '11px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(188, 188, 188, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> No 103 -02</p>
@@ -3040,7 +3120,7 @@ const handleReset=(()=>{
          <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
            <div className="d-flex justify-content-between py-1">
              <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-             <span className="me-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 1150.00</span>
+             <span className="me-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: {taxAmount}</span>
            </div>
            <div className="d-flex justify-content-between py-1">
              <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
@@ -3048,7 +3128,7 @@ const handleReset=(()=>{
            </div>
            <div className="d-flex justify-content-between fw-bold py-2">
              <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: 10,100.00</span>
+             <span  style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs:{totalAmount}</span>
            </div>
          </div>
        </div>
@@ -3073,20 +3153,24 @@ const handleReset=(()=>{
              >ACCOUNT DETAILS</h6>
              <p className="mb-1" 
             style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-             Account No : 87542310984</p>
+             Account No : {RentalinvoiceTemplate?.banking?.acc_num || "N/A"}</p>
              <p className="mb-1"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               IFSC Code : SBIN007195</p>
+               IFSC Code : {RentalinvoiceTemplate.banking.ifsc_code || "N/A"}</p>
              <p className="mb-1"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               Bank Name: State Bank of India</p>
+               Bank Name: {RentalinvoiceTemplate.banking.bank_name || "N/A"}</p>
              <p   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-               UPI Details : Net Banking</p>
+               UPI Details : {RentalinvoiceTemplate.banking.upi_id || "N/A"}</p>
            </div>
        
            <div className="col-md-2"></div>
        
            <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
            <div className="d-flex justify-content-end mt-auto">
-               <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius:'2px' }} />
+                           <img
+  src={qrImage ? qrImage : Barcode}
+  alt="QR Code"
+  style={{ height: 89, width: 89, borderRadius: '2px' }}
+/>
              </div>
              <div className="d-flex flex-row justify-content-end">
                <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
@@ -3110,6 +3194,13 @@ const handleReset=(()=>{
          </div>
        
          <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+          {RentalinvoiceTemplate?.digital_signature_url && (
+  <img
+    src={RentalinvoiceTemplate.digital_signature_url}
+    alt="Digital Signature"  style={{ height: 60, width: 120, }}
+   
+  />
+)}
            <p  
             style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}
              >Authorized Signature</p>
@@ -3137,7 +3228,7 @@ const handleReset=(()=>{
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -3148,7 +3239,7 @@ const handleReset=(()=>{
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>
@@ -3718,7 +3809,7 @@ const handleReset=(()=>{
       </div>
     </div>
 </div>
-{
+{/* {
   savebuttonshow ?  (
  <div className="d-flex justify-content-end mt-1 me-5" style={{paddingRight:10}}>
 
@@ -3735,7 +3826,26 @@ const handleReset=(()=>{
   )
   
 
+} */}
+{
+  savebuttonshow || (state.Settings.FetchGlobal.message?.length === 0) ? (
+    <div className="d-flex justify-content-end mt-1 me-5" style={{ paddingRight: 10 }}>
+      <button className="btn btn-outline-dark me-2" type="button" onClick={handleReset}>
+        Reset
+      </button>
+      <button className="btn btn-primary" onClick={handleSaveTemplate}>
+        {state.Settings.FetchGlobal.message?.length > 0 ? "Update" : "Save"}
+      </button>
+    </div>
+  ) : (
+    <div className="text-end me-5" style={{ paddingRight: 10 }}>
+      <button className="btn btn-primary" type="button" onClick={handleShow}>
+        Go to Templates →
+      </button>
+    </div>
+  )
 }
+
    
     {/* <div className="text-end mt-3 me-5" style={{paddingRight:10}}>
       <button className="btn btn-primary" type="button" onClick={handleShow}>Go to Templates →</button>
