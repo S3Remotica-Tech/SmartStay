@@ -111,6 +111,7 @@ const RentalReceiptPdfTemplate = () => {
                       setSignature(file);
                       setSignaturePreview(URL.createObjectURL(file)); 
                       setSignatureErrMsg("");
+                      setEditErrMessage('')
                       setIsSignatureConfirmed(false);
                     }
                   };
@@ -120,6 +121,7 @@ const RentalReceiptPdfTemplate = () => {
                       setSignature(null);
                       setSignaturePreview(null)
                       setSignatureErrMsg("");
+                      setEditErrMessage('')
                       if (fileInputRef.current) {
                         fileInputRef.current.value = '';
                       }
@@ -131,6 +133,7 @@ const RentalReceiptPdfTemplate = () => {
                       setSignatureErrMsg("Please select a signature file.");
                     } else {
                       setSignatureErrMsg("");
+                      setEditErrMessage('')
                       setIsSignatureConfirmed(true);
                     }
                   };
@@ -175,7 +178,7 @@ const handleEditAnyway = () => {
                 const handleMobile = (e) => {
                   const input = e.target.value.replace(/\D/g, ""); 
                   setMobileNum(input);
-                
+                  setEditErrMessage('')
                   if (input.length === 0) {
                     setMobileError("");
                   } else if (input.length < 10) {
@@ -190,7 +193,7 @@ const handleEditAnyway = () => {
                 const handleEmail = (e) => {
                     const emailValue = e.target.value.toLowerCase();
                     setEmail(emailValue);
-                
+                    setEditErrMessage('')
                     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
                     const isValidEmail = emailRegex.test(emailValue);
                     if (!emailValue) {
@@ -207,12 +210,14 @@ const handleEditAnyway = () => {
                   };
               
                   const [logoPreview, setLogoPreview] = useState(null);
-                 
+                  const [hostel_logo , setHostelLogo ]  = useState(null)
                 
                   const handleFileUploadHostel = (e) => {
                       if (!allowImageUpload) return;
                     const file = e.target.files[0];
                     if (file && file.type.startsWith("image/")) {
+                      setHostelLogo(file)
+                      setEditErrMessage('')
                       const reader = new FileReader();
                       reader.onloadend = () => {
                         setLogoPreview(reader.result);
@@ -263,6 +268,7 @@ const handleEditAnyway = () => {
     notes: notes?.replace(/"/g, '') || '',
     terms_and_condition: terms || '',
     template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    logo_url: hostel_logo || '',
   };
 
   const originalData = {
@@ -272,6 +278,7 @@ const handleEditAnyway = () => {
     notes: RentalreceiptTemplate.notes?.replace(/"/g, '') || '',
     terms_and_condition: RentalreceiptTemplate.terms_and_condition || '',
     template_theme: RentalreceiptTemplate.template_theme || '',
+    logo_url: RentalreceiptTemplate.logo_url || ''
   };
 
   if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
@@ -324,7 +331,7 @@ const handleEditAnyway = () => {
         is_contact_specific_template: RentalreceiptTemplate.is_contact_specific_template,
         email: email,
         is_email_specific_template: RentalreceiptTemplate.is_email_specific_template,
-        logo_url :'',
+        logo_url : hostel_logo || null,
         is_logo_specific_template :RentalreceiptTemplate.is_logo_specific_template,       
         notes,
         terms_and_condition: terms,
@@ -391,6 +398,7 @@ const RentalreceiptTemplate = BillsTemplateList.find(
    useEffect(()=> {
     if(RentalreceiptTemplate) {
       setLogoPreview(RentalreceiptTemplate.logo_url || null)
+      setHostelLogo(RentalreceiptTemplate.logo_url || null)
       setMobileNum(RentalreceiptTemplate.contact_number)
       setEmail(RentalreceiptTemplate.email)
       setSignature(RentalreceiptTemplate.digital_signature_url || null)
@@ -486,7 +494,7 @@ const RentalreceiptTemplate = BillsTemplateList.find(
                            </div>
                  <div className="p-3 border rounded" style={{  backgroundColor: '#F0F3FF', textAlign: 'center' }}>
                   
-=                   {logoPreview ? (
+                 {logoPreview ? (
                      <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
                    ) : (
                      <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />

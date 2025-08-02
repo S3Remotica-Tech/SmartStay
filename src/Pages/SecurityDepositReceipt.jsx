@@ -204,12 +204,15 @@ const handleEditAnyway = () => {
           };
       
           const [logoPreview, setLogoPreview] = useState(null);
-        
+          const [hostel_logo , setHostelLogo ]  = useState(null)
         
           const handleFileUploadHostel = (e) => {
               if (!allowImageUpload) return;
             const file = e.target.files[0];
+
             if (file && file.type.startsWith("image/")) {
+              setEditErrMessage('')
+                setHostelLogo(file)
               const reader = new FileReader();
               reader.onloadend = () => {
                 setLogoPreview(reader.result);
@@ -230,6 +233,7 @@ const currentData = {
     notes: notes?.replace(/"/g, '') || '',
     terms_and_condition: terms || '',
     template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+     logo_url: hostel_logo || '',
   };
 
   const originalData = {
@@ -239,6 +243,7 @@ const currentData = {
     notes: securityDepositReceiptTemplate.notes?.replace(/"/g, '') || '',
     terms_and_condition: securityDepositReceiptTemplate.terms_and_condition || '',
     template_theme: securityDepositReceiptTemplate.template_theme || '',
+    logo_url: securityDepositReceiptTemplate.logo_url || ''
   };
 
   if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
@@ -289,7 +294,7 @@ const currentData = {
         is_contact_specific_template: securityDepositReceiptTemplate.is_contact_specific_template,
         email: email,
         is_email_specific_template: securityDepositReceiptTemplate.is_email_specific_template,
-        logo_url :'',
+        logo_url :hostel_logo,
         is_logo_specific_template :securityDepositReceiptTemplate.is_logo_specific_template,       
         notes,
         terms_and_condition: terms,
@@ -348,6 +353,9 @@ useEffect(()=> {
 const securityDepositReceiptTemplate = BillsTemplateList.find(
   (template) => template.template_type === "Security Deposit Receipt"
 );
+ 
+console.log("securityDepositReceiptTemplate", BillsTemplateList);
+console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
 
 
 
@@ -355,6 +363,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
    useEffect(()=> {
     if(securityDepositReceiptTemplate) {
       setLogoPreview(securityDepositReceiptTemplate.logo_url || null)
+      setHostelLogo(securityDepositReceiptTemplate.logo_url || null)
       setMobileNum(securityDepositReceiptTemplate.contact_number)
       setEmail(securityDepositReceiptTemplate.email)
       setSignature(securityDepositReceiptTemplate.digital_signature_url || null)
@@ -1127,22 +1136,52 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                         <div   className=" text-white  p-2 position-relative" style={{ minHeight: 60, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
                          <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                      <img src={ receiptLogo} alt="logo" style={{ height: 30, width: 30 }} />
+                                               <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-                                        <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+                                        {/* <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate.Name || "N/A" }</div> */}
+                                        <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'35px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
                                     <div>
-                                      <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-                                       Royal Grand Hostel
-                                      </div>
+                                     
                                       <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
-                         
-                                      9, 8th Avenue Rd, Someshwara Nagar, <br />
-                                      Chennai, Tamilnadu - 600 056
+                                   <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                        {[
+                                         
+                                          securityDepositReceiptTemplate?.Address,
+                                      
+                                      
+                                          [
+                                            securityDepositReceiptTemplate?.area,
+                                            securityDepositReceiptTemplate?.landmark,
+                                            securityDepositReceiptTemplate?.city,
+                                          ]
+                                            .filter(Boolean)
+                                            .join(", "),
+                                      
+                                      
+                                          [
+                                            securityDepositReceiptTemplate?.state,
+                                           
+                                            627861
+                                          ]
+                                            .filter(Boolean)
+                                            .join(", "),
+                                        ]
+                                         
+                                          .filter(line => line && line.trim() !== "")
+                                         
+                                          .map((line, idx) => (
+                                            <React.Fragment key={idx}>
+                                              {line}
+                                              <br />
+                                            </React.Fragment>
+                                          ))}
+                                      </div>
+                                  
+
                                
                                 </>
                                 
@@ -1152,7 +1191,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                         </div>
                       
                        
-                        <div className="container border shadow bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
+                        <div className="container border shadow-md bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
                           <div className="text-center pt-2 pb-1">
                             <h5 className="" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>Security Deposit Receipt</h5> 
                           </div>
@@ -1164,7 +1203,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                               <p className="mb-1 me-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}>Muthuraja M</span></p>
                               <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/>
                              <span className="ms-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>
-                                +91 85647 85332
+                                +91 9876543210
                                               </span>
                                </p>
                                <p className="mb-1" style={{ fontSize: '9px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}><img src={frame} alt="frame" width={15} height={15} className="me-1"/> 
@@ -1306,11 +1345,9 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                             
           <div className="text-start mt-1 ms-5" >
             <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)',fontSize:"9px",marginLeft:"35px"}}>
-            &quot;Thank you for choosing SmartStay. &quot;
+            {notes}
             </p>
-            <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)',fontSize:"9px",marginLeft:"35px"}}>
-            Your transaction is completed &quot;
-            </p>
+          
           </div>
      
                               </div>
@@ -1318,13 +1355,14 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
         <div className="col-md-6">
           <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
           <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
-            This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
+  {terms}
           </p>
         </div>
       
         <div className="col-md-6 text-end">
-          <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
-          </p>
+           {signaturePreview && (
+              <img src={signaturePreview} alt="signature" style={{ height:50, width:100}} />
+           )}
           <p className="mt-4" style={{fontSize: "11px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"25px"}}>Authorized Signature</p>
         </div>
       </div>
@@ -1352,7 +1390,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -1363,7 +1401,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>
@@ -1453,7 +1491,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
    
 
       <div   ref={innerScrollRef}
-        className="border shadow show-scroll col-lg-12  justify-content-center"
+        className="border  show-scroll col-lg-12  justify-content-center"
         style={{
           maxHeight: 480,
           overflowY: "auto",
@@ -1463,22 +1501,51 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                         <div   className=" text-white  p-2 position-relative" style={{ minHeight: 90, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}>
                          <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                      <img src={ receiptLogo} alt="logo" style={{ height: 40, width: 40 }} />
+                                                                                 <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 40, width: 40 }} />
                                       <div>
-                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-                                        <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+                                        {/* <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate.Name ? securityDepositReceiptTemplate.Name : '' }</div> */}
+                                        <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'40px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
                                     <div>
-                                      <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-                                       Royal Grand Hostel
-                                      </div>
+                                     
                                       <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
-                         
-                                      9, 8th Avenue Rd, Someshwara Nagar, <br />
-                                      Chennai, Tamilnadu - 600 056
+                                                  <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                        {[
+                                         
+                                          securityDepositReceiptTemplate?.Address,
+                                      
+                                      
+                                          [
+                                            securityDepositReceiptTemplate?.area,
+                                            securityDepositReceiptTemplate?.landmark,
+                                            securityDepositReceiptTemplate?.city,
+                                          ]
+                                            .filter(Boolean)
+                                            .join(", "),
+                                      
+                                      
+                                          [
+                                            securityDepositReceiptTemplate?.state,
+                                           
+                                            627861
+                                          ]
+                                            .filter(Boolean)
+                                            .join(", "),
+                                        ]
+                                         
+                                          .filter(line => line && line.trim() !== "")
+                                         
+                                          .map((line, idx) => (
+                                            <React.Fragment key={idx}>
+                                              {line}
+                                              <br />
+                                            </React.Fragment>
+                                          ))}
+                                      </div>
+
                                
                                 </>
                                 
@@ -1488,7 +1555,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                         </div>
                       
                        
-                        <div className="container border shadow bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
+                        <div className="container border shadow-md bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
                           <div className="text-center pt-2 pb-1">
                             <h5 className="" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>Security Deposit Receipt</h5> 
                           </div>
@@ -1500,7 +1567,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                               <p className="mb-1 me-1" style={{ fontSize: '10px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '10px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}>Muthuraja M</span></p>
                               <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/>
                              <span className="ms-1" style={{ fontSize: '10px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>
-                                +91 85647 85332
+                                +91 9876543210
                                               </span>
                                </p>
                                <p className="mb-1" style={{ fontSize: '10px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}><img src={frame} alt="frame" width={15} height={15} className="me-1"/> 
@@ -1642,11 +1709,9 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                             
           <div className="text-start mt-1 ms-5" >
             <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)',fontSize:"10px",marginLeft:"35px"}}>
-            &quot;Thank you for choosing SmartStay. &quot;
+           {notes}
             </p>
-            <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)',fontSize:"10px",marginLeft:"35px"}}>
-            Your transaction is completed &quot;
-            </p>
+           
           </div>
      
                               </div>
@@ -1654,13 +1719,14 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
         <div className="col-md-6">
           <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
           <p style={{ fontSize: "10px", color: "#555",fontFamily:"Gilroy" }}>
-            This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
+         {terms}
           </p>
         </div>
       
         <div className="col-md-6 text-end">
-          <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
-          </p>
+           {signaturePreview && (
+              <img src={signaturePreview} alt="signature" style={{ height:50, width:100}} />
+           )}
           <p className="mt-4" style={{fontSize: "12px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"25px"}}>Authorized Signature</p>
         </div>
       </div>
@@ -1688,7 +1754,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -1699,7 +1765,7 @@ const securityDepositReceiptTemplate = BillsTemplateList.find(
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>

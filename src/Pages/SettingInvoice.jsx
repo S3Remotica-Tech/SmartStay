@@ -854,6 +854,7 @@ const handleRentalSignatureDone = () => {
       });
       return;
     }
+    dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
     setIsInvoiceAddMode(true)
     setIsSidebarOpen(false)
     setSelectedard(type)
@@ -1027,6 +1028,7 @@ useEffect(() => {
   const handleQrImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setEditFormErrMessage('')
       setQRImagePreview(file)
       setQrImage(URL.createObjectURL(file));
     }
