@@ -1392,7 +1392,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
                         </div>
                         <div className="row">
   <div className="col-md-6">
-    <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
+    <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Terms and Conditions</h6>
     <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
 {terms}    </p>
   </div>
@@ -1786,7 +1786,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
                         </div>
                         <div className="row">
   <div className="col-md-6">
-    <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
+    <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Terms and Conditions</h6>
     <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
     {terms}
     </p>

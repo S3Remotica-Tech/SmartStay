@@ -1309,7 +1309,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                          <div className="px-4" style={{marginTop:20}}>
                              <div className="row">
                              <div className="col-md-8">
-           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
+           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Terms and Conditions</h6>
            <p style={{ fontSize: "9px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
             {terms}
            </p>
@@ -1637,7 +1637,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                          <div className="px-4" style={{marginTop:20}}>
                              <div className="row">
                              <div className="col-md-8">
-           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
+           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Terms and Conditions</h6>
            <p style={{ fontSize: "10px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
            {terms}
            </p>

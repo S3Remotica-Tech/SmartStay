@@ -954,7 +954,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
        
                             <div className="p-3 mb-3 border col-lg-10" style={{borderRadius:'10px'}}>
              <h6  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-               Terms & Condition</h6>
+               Terms and Conditions</h6>
              <hr />
              <label className="form-label"                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
              >Add T&C</label>
@@ -1353,7 +1353,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                               </div>
                               <div className="row">
         <div className="col-md-6">
-          <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
+          <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Terms and Conditions</h6>
           <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
   {terms}
           </p>
@@ -1717,7 +1717,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                               </div>
                               <div className="row">
         <div className="col-md-6">
-          <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
+          <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Terms & Condition</h6>
           <p style={{ fontSize: "10px", color: "#555",fontFamily:"Gilroy" }}>
          {terms}
           </p>
