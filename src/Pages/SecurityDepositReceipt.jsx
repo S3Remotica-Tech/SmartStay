@@ -1138,8 +1138,8 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
                                                <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        {/* <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate.Name || "N/A" }</div> */}
-                                        <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'35px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name}</div>
+                                        <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
@@ -1147,7 +1147,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                      
                                       <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
-                                   <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                   <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
                                         {[
                                          
                                           securityDepositReceiptTemplate?.Address,
@@ -1503,8 +1503,8 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
                                                                                  <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 40, width: 40 }} />
                                       <div>
-                                        {/* <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate.Name ? securityDepositReceiptTemplate.Name : '' }</div> */}
-                                        <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'40px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name }</div>
+                                        <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'13px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
@@ -1512,7 +1512,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                      
                                       <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
-                                                  <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                  <div style={{ fontSize: 9, fontWeight: 600, fontFamily: "Gilroy" }}>
                                         {[
                                          
                                           securityDepositReceiptTemplate?.Address,

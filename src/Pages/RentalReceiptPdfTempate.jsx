@@ -1173,7 +1173,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
        </>
        
              </div> */}
-             <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+             <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
   {[
    
     RentalreceiptTemplate?.Address,
@@ -1394,8 +1394,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
   <div className="col-md-6">
     <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
     <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
-      This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
-    </p>
+{terms}    </p>
   </div>
 
   <div className="col-md-6 text-end">
@@ -1570,7 +1569,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
        </>
        
              </div> */}
-             <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+             <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
   {[
    
     RentalreceiptTemplate?.Address,
@@ -1789,7 +1788,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
   <div className="col-md-6">
     <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
     <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
-      This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
+    {terms}
     </p>
   </div>
 
