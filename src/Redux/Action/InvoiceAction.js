@@ -226,3 +226,8 @@ export async function ReceiptPDFNewChanges(params) {
 
 
 
+export async function CustomerRecurringEnableDisable(recur) {
+  return await AxiosConfig.post('/', recur, {  
+    data: recur
+  })
+}
