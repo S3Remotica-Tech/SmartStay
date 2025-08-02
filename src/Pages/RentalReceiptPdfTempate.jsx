@@ -424,7 +424,7 @@ const RentalreceiptTemplate = BillsTemplateList.find(
    },[RentalreceiptTemplate])
       
             
-
+console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
       
       
       
@@ -1149,18 +1149,22 @@ const RentalreceiptTemplate = BillsTemplateList.find(
       
 <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-2 mb-lg-0">
-             <img src={ receiptLogo} alt="logo" style={{ height: 30, width: 30 }} />
+             {/* <img src={ receiptLogo} alt="logo" style={{ height: 30, width: 30 }} /> */}
+              {logoPreview ? (
+                     <img src={logoPreview} alt="Preview" style={{ height: 35, borderRadius: '6px', marginBottom: '10px' }} />
+                   ) : (
+                     <img src={receiptLogo} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+                   )}
+               
              <div>
-               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalreceiptTemplate?.Name}</div>
                <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
-             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-              Royal Grand Hostel
-             </div>
-             <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
+           
+             {/* <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
              <>
 
              9, 8th Avenue Rd, Someshwara Nagar, <br />
@@ -1168,14 +1172,47 @@ const RentalreceiptTemplate = BillsTemplateList.find(
       
        </>
        
-             </div>
+             </div> */}
+             <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {[
+   
+    RentalreceiptTemplate?.Address,
+
+
+    [
+      RentalreceiptTemplate?.area,
+      RentalreceiptTemplate?.landmark,
+      RentalreceiptTemplate?.city,
+    ]
+      .filter(Boolean)
+      .join(", "),
+
+
+    [
+      RentalreceiptTemplate?.state,
+     
+      RentalreceiptTemplate?.pin_code
+    ]
+      .filter(Boolean)
+      .join(", "),
+  ]
+   
+    .filter(line => line && line.trim() !== "")
+   
+    .map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))}
+</div>
            </div>
          </div>
 
                   </div>
                 
                  
-                  <div className="container bg-white rounded-bottom border shadow position-relative" style={{width:"100%",}}>
+                  <div className="container bg-white rounded-bottom border shadow-md position-relative" style={{width:"100%",}}>
                     <div className="text-center pt-1 pb-1">
                       <h5 className="" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>Payment Receipt</h5> 
                     </div>
@@ -1355,16 +1392,22 @@ const RentalreceiptTemplate = BillsTemplateList.find(
                         </div>
                         <div className="row">
   <div className="col-md-6">
-    <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
+    <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Terms and Conditions</h6>
     <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
-      This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
-    </p>
+{terms}    </p>
   </div>
 
   <div className="col-md-6 text-end">
     <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
     </p>
-    <p className="mt-4" style={{fontSize: "11px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"25px"}}>Authorized Signature</p>
+    {RentalreceiptTemplate?.digital_signature_url && (
+<img 
+    src={RentalreceiptTemplate.digital_signature_url}
+    alt="Digital Signature"  style={{ height: 60, width: 130,paddingLeft:30 }}
+   
+  />
+)}
+    <p className="mt-0" style={{fontSize: "11px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"5px"}}>Authorized Signature</p>
   </div>
 </div>
 
@@ -1391,7 +1434,7 @@ const RentalreceiptTemplate = BillsTemplateList.find(
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -1402,7 +1445,7 @@ const RentalreceiptTemplate = BillsTemplateList.find(
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>
@@ -1503,18 +1546,21 @@ const RentalreceiptTemplate = BillsTemplateList.find(
                  
 <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-2 mb-lg-0">
-             <img src={ receiptLogo} alt="logo" style={{ height: 40, width: 40 }} />
+             {/* <img src={ receiptLogo} alt="logo" style={{ height: 40, width: 40 }} /> */}
+               {logoPreview ? (
+                     <img src={logoPreview} alt="Preview" style={{ height: 35, borderRadius: '6px', marginBottom: '10px' }} />
+                   ) : (
+                     <img src={receiptLogo} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+                   )}
              <div>
-               <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+               <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalreceiptTemplate?.Name}</div>
                <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
-             <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-              Royal Grand Hostel
-             </div>
-             <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
+           
+             {/* <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
              <>
 
              9, 8th Avenue Rd, Someshwara Nagar, <br />
@@ -1522,7 +1568,40 @@ const RentalreceiptTemplate = BillsTemplateList.find(
       
        </>
        
-             </div>
+             </div> */}
+             <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {[
+   
+    RentalreceiptTemplate?.Address,
+
+
+    [
+      RentalreceiptTemplate?.area,
+      RentalreceiptTemplate?.landmark,
+      RentalreceiptTemplate?.city,
+    ]
+      .filter(Boolean)
+      .join(", "),
+
+
+    [
+      RentalreceiptTemplate?.state,
+     
+       RentalreceiptTemplate?.pin_code
+    ]
+      .filter(Boolean)
+      .join(", "),
+  ]
+   
+    .filter(line => line && line.trim() !== "")
+   
+    .map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))}
+</div>
            </div>
          </div>
 
@@ -1707,16 +1786,23 @@ const RentalreceiptTemplate = BillsTemplateList.find(
                         </div>
                         <div className="row">
   <div className="col-md-6">
-    <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
+    <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Terms and Conditions</h6>
     <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
-      This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
+    {terms}
     </p>
   </div>
 
   <div className="col-md-6 text-end">
     <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
     </p>
-    <p className="mt-4" style={{fontSize: "11px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"25px"}}>Authorized Signature</p>
+     {RentalreceiptTemplate?.digital_signature_url && (
+<img 
+    src={RentalreceiptTemplate.digital_signature_url}
+    alt="Digital Signature"  style={{ height: 60, width: 130,paddingLeft:30 }}
+   
+  />
+)}
+    <p className="mt-1" style={{fontSize: "11px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"15px",marginTop:"-20px"}}>Authorized Signature</p>
   </div>
 </div>
 
@@ -1743,7 +1829,7 @@ const RentalreceiptTemplate = BillsTemplateList.find(
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -1754,7 +1840,7 @@ const RentalreceiptTemplate = BillsTemplateList.find(
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>

@@ -2608,7 +2608,9 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                      RentalinvoiceTemplate?.city,
                                     RentalinvoiceTemplate?.state,
 
-                                    627861
+
+                                     RentalinvoiceTemplate?.pin_code,
+
                                   ]
                                     .filter(Boolean)
                                     .join(", "),
@@ -3038,8 +3040,10 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                       // Line 3: state, pincode
                                       [
                                         RentalinvoiceTemplate?.state,
-                                        // RentalinvoiceTemplate?.pincode,
-                                        627861
+
+                                        RentalinvoiceTemplate?.pin_code,
+                                       
+
                                       ]
                                         .filter(Boolean)
                                         .join(", "),

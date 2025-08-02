@@ -954,7 +954,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
        
                             <div className="p-3 mb-3 border col-lg-10" style={{borderRadius:'10px'}}>
              <h6  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-               Terms & Condition</h6>
+               Terms and Conditions</h6>
              <hr />
              <label className="form-label"                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
              >Add T&C</label>
@@ -1138,8 +1138,8 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
                                                <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        {/* <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate.Name || "N/A" }</div> */}
-                                        <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'35px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name}</div>
+                                        <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
@@ -1147,7 +1147,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                      
                                       <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
-                                   <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                   <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
                                         {[
                                          
                                           securityDepositReceiptTemplate?.Address,
@@ -1164,8 +1164,8 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                       
                                           [
                                             securityDepositReceiptTemplate?.state,
-                                           
-                                            627861
+                                           securityDepositReceiptTemplate?.pin_code  
+                                            
                                           ]
                                             .filter(Boolean)
                                             .join(", "),
@@ -1353,7 +1353,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                               </div>
                               <div className="row">
         <div className="col-md-6">
-          <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
+          <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Terms and Conditions</h6>
           <p style={{ fontSize: "9px", color: "#555",fontFamily:"Gilroy" }}>
   {terms}
           </p>
@@ -1503,8 +1503,8 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
                                                                                  <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 40, width: 40 }} />
                                       <div>
-                                        {/* <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate.Name ? securityDepositReceiptTemplate.Name : '' }</div> */}
-                                        <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'40px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name }</div>
+                                        <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'13px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
@@ -1512,7 +1512,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                      
                                       <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
-                                                  <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                  <div style={{ fontSize: 9, fontWeight: 600, fontFamily: "Gilroy" }}>
                                         {[
                                          
                                           securityDepositReceiptTemplate?.Address,
@@ -1529,8 +1529,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                                       
                                           [
                                             securityDepositReceiptTemplate?.state,
-                                           
-                                            627861
+                                           securityDepositReceiptTemplate?.pin_code  
                                           ]
                                             .filter(Boolean)
                                             .join(", "),
@@ -1717,7 +1716,7 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                               </div>
                               <div className="row">
         <div className="col-md-6">
-          <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
+          <h6  style={{color:"#00A32E",fontSize:"10px",fontWeight:600,fontFamily:"Gilroy"}}>Terms & Condition</h6>
           <p style={{ fontSize: "10px", color: "#555",fontFamily:"Gilroy" }}>
          {terms}
           </p>

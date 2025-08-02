@@ -1150,7 +1150,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
                                                       <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}></div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositRefundTemplate?.Name}</div>
                                         <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
@@ -1159,7 +1159,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                                       
                                       <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
-                                       <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                       <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
                                                                  {[
                                                                   
                                                                    securityDepositRefundTemplate?.Address,
@@ -1177,7 +1177,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                                                                    [
                                                                      securityDepositRefundTemplate?.state,
                                                                     
-                                                                     627861
+                                                                     securityDepositRefundTemplate?.pin_code  
                                                                    ]
                                                                      .filter(Boolean)
                                                                      .join(", "),
@@ -1309,7 +1309,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                          <div className="px-4" style={{marginTop:20}}>
                              <div className="row">
                              <div className="col-md-8">
-           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
+           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Terms and Conditions</h6>
            <p style={{ fontSize: "9px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
             {terms}
            </p>
@@ -1476,7 +1476,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
                                        <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}></div>
+                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositRefundTemplate?.Name}</div>
                                         <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
@@ -1486,7 +1486,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                                       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
                          
-                     <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                     <div style={{ fontSize: 9, fontWeight: 600, fontFamily: "Gilroy" }}>
                                                                  {[
                                                                   
                                                                    securityDepositRefundTemplate?.Address,
@@ -1504,7 +1504,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                                                                    [
                                                                      securityDepositRefundTemplate?.state,
                                                                     
-                                                                     627861
+                                                                     securityDepositRefundTemplate?.pin_code  
                                                                    ]
                                                                      .filter(Boolean)
                                                                      .join(", "),
@@ -1637,7 +1637,7 @@ if (templateTheme && templateTheme.trim() !== '') {
                          <div className="px-4" style={{marginTop:20}}>
                              <div className="row">
                              <div className="col-md-8">
-           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
+           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Terms and Conditions</h6>
            <p style={{ fontSize: "10px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
            {terms}
            </p>
