@@ -254,3 +254,111 @@ export async function AddInvoiceSettings(params) {
 export async function SettingsGetInvoice(Invoice) {
   return await AxiosConfig.get(`/getInvoice-settings/${Invoice.hostel_id}`);
 }
+
+
+
+export async function AddBillTemplate(params) {
+  const formData = new FormData();
+
+  // File uploads
+  if (params.logo_url) formData.append("logo_url", params.logo_url);
+  if (params.digital_signature_url) formData.append("digital_signature_url", params.digital_signature_url);
+  if (params.qr_url) formData.append("qr_url", params.qr_url);
+
+  // Text fields
+  if (params.is_logo_specific_template) formData.append("is_logo_specific_template", params.is_logo_specific_template);
+  if (params.contact_number) formData.append("contact_number", params.contact_number);
+  if (params.is_contact_specific_template) formData.append("is_contact_specific_template", params.is_contact_specific_template);
+  if (params.email) formData.append("email", params.email);
+  if (params.is_email_specific_template) formData.append("is_email_specific_template", params.is_email_specific_template);
+  if (params.is_signature_specific_template) formData.append("is_signature_specific_template", params.is_signature_specific_template);
+  if (params.hostel_Id) formData.append("hostel_Id", params.hostel_Id);
+  if (params.id) formData.append("id", params.id);
+  if (params.prefix) formData.append("prefix", params.prefix);
+  if (params.suffix) formData.append("suffix", params.suffix);
+  if (params.banking_id) formData.append("banking_id", params.banking_id);
+  if (params.tax) formData.append("tax", params.tax);
+  if (params.notes) formData.append("notes", params.notes);
+  if (params.terms_and_condition) formData.append("terms_and_condition", params.terms_and_condition);
+  if (params.template_theme) formData.append("template_theme", params.template_theme);
+
+  try {
+    const response = await AxiosConfig.post("/BillTemplateSetting", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      timeout: 100000000,
+      onUploadProgress: (event) => {
+        console.log("Upload progress:", event);
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading bill template:", error);
+  }
+}
+
+
+export async function getTemplateList(template) {
+  return await AxiosConfig.post("/FetchTemplateListDetails", template);
+}
+
+
+
+
+
+
+
+export async function AddGlobalSettingTemplate(params) {
+  const formData = new FormData();
+
+  if (params.is_logo_specific_template !== undefined)
+    formData.append("is_logo_specific_template", JSON.stringify(params.is_logo_specific_template));
+
+  if (params.contact_number)
+    formData.append("contact_number", params.contact_number);
+
+  if (params.is_contact_specific_template !== undefined)
+    formData.append("is_contact_specific_template", JSON.stringify(params.is_contact_specific_template));
+
+  if (params.email)
+    formData.append("email", params.email);
+
+  if (params.is_email_specific_template !== undefined)
+    formData.append("is_email_specific_template", JSON.stringify(params.is_email_specific_template));
+
+  if (params.is_signature_specific_template !== undefined)
+    formData.append("is_signature_specific_template", JSON.stringify(params.is_signature_specific_template));
+
+  if (params.hostel_Id)
+    formData.append("hostel_Id", params.hostel_Id);
+
+  if (params.logo_url)formData.append("logo_url", params.logo_url);
+   
+
+  if (params.digital_signature_url)formData.append("digital_signature_url", params.digital_signature_url);
+
+  try {
+    const response = await AxiosConfig.post(
+      "/BillTemplateGlobalSetting",
+      formData,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+        timeout: 100000,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
+export async function SettingsGetGlobal(datum) {
+  return await AxiosConfig.post("/FetchTemplateList", datum, {
+    data: datum,
+  });
+}
+

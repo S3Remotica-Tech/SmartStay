@@ -1,5 +1,6 @@
  /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../Pages/Settings.css";
 import { MdError } from "react-icons/md";
 import Logo from '../Assets/Images/get.png'
@@ -18,17 +19,31 @@ import left85arrow from '../Assets/Images/arrow85.png';
 import printdown from '../Assets/Images/printericon.png';
 import downloadicon from '../Assets/Images/pdfdown.png'; 
 import CloseIcon from '../Assets/Images/close_icon.png';
+import EditICon from '../Assets/Images/New_images/edit.png';
+import uploadsett from "../Assets/Images/New_images/upload setting.png";
+import Modal from 'react-bootstrap/Modal';
+import Questionimage from '../Assets/Images/question.png';
+
+
+
+
+
+
+
+
 
   const NOCReceiptPdfTemplate = () => {
 
 
-          
+           const dispatch = useDispatch();
+           const state = useSelector((state) => state);
            const cardRef = useRef(null);
            const innerScrollRef = useRef(null);
            const [showFullView, setShowFullView] = useState(false);
-       
+           const [loading, setLoading] = useState(false)
            const [notes_errmsg , setNotesErrMsg] = useState('')
            const [terms_errmsg , setTermsErrMsg] = useState('')
+           const [editErrmsg , setEditErrMessage] = useState('')
    
           const defaultGradient = 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))';
          
@@ -37,6 +52,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
            const handleColorChange = (newColor) => {
              setColor(newColor);
              setUseGradient(false); 
+             setEditErrMessage("")
            }
          
            const presetColors = [
@@ -56,7 +72,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
          const handleNotesChange = (e) => {
              const Value = e.target.value  
              setNotes(Value)
-         
+             setEditErrMessage("")
              if (Value.trim() !== "") {
              setNotesErrMsg("");
            }
@@ -65,6 +81,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
          const handleTermsChange = (e) => {
              const Value = e.target.value  
              setTerms(Value)
+             setEditErrMessage("")
          
              if (Value.trim() !== "") {
              setTermsErrMsg("");
@@ -83,7 +100,315 @@ import CloseIcon from '../Assets/Images/close_icon.png';
              'Tenants must pay all dues on or before the due date, maintain cleanliness, and follow PG rules; failure may lead to penalties or termination of stay.'
            );
          
-         
+
+           
+                     const [allowImageUpload, setAllowImageUpload] = useState(false);
+                   const [allowEditFields, setAllowEditFields] = useState({
+                     contact: false,
+                     email: false,
+                     hostelLogo: false,
+                     digitalSignature: false, 
+                   });
+                    const [contactnumberform , setContactNumberForm] = useState(false)
+           
+                       const fileInputRef = useRef(null);
+                        const [signature, setSignature] = useState(null); 
+                        const [signaturePreview, setSignaturePreview] = useState(null); 
+                        const [ signature_errmsg, setSignatureErrMsg] = useState("")
+                        const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
+                     
+                      const handleFileSignatureChange = (e) => {
+                       const file = e.target.files[0];
+                          setEditErrMessage("")
+                       if (file) {
+                         setSignature(file);
+                         setSignaturePreview(URL.createObjectURL(file)); 
+                         setSignatureErrMsg("");
+                         setIsSignatureConfirmed(false);
+                       }
+                     };
+                     
+                     
+                       const handleClear = () => {
+                         setSignature(null);
+                         setSignaturePreview(null)
+                         setSignatureErrMsg("");
+                         setEditErrMessage("")
+                         if (fileInputRef.current) {
+                           fileInputRef.current.value = '';
+                         }
+                       };
+                     
+                     
+                       const handleSignatureDone = () => {
+                           setEditErrMessage("")
+                       if (!signature) {
+                         setSignatureErrMsg("Please select a signature file.");
+                       } else {
+                         setSignatureErrMsg("");
+                         setIsSignatureConfirmed(true);
+                       }
+                     };
+                   
+                  const handleShowContactNumberForm = () => {
+                 setContactNumberForm(true);
+                  setAllowImageUpload(false);
+                    };
+
+  
+
+                 const handleCloseContactNumberForm = () => {
+                  setContactNumberForm(false);
+                  setAllowImageUpload(false);
+                  setAllowEditFields({
+                   contact: false,
+                   email: false,
+                   hostelLogo: false,
+                   digitalSignature: false,
+                     });
+                 };
+
+
+                    const handleEditAnyway = () => {
+                     setAllowImageUpload(true);
+                      setAllowEditFields({
+                     contact: true,
+                     email: true,
+                     hostelLogo: true,
+                     digitalSignature: true,
+                     });
+                     setContactNumberForm(false); 
+                        };
+                   
+                   
+                   const [mobilenum,setMobileNum] = useState("")
+                   const [MobileError,setMobileError] = useState("")
+                   const[email,setEmail] = useState("")
+                   const[emailError,setEmailError] = useState("")
+                   
+                   
+                   const handleMobile = (e) => {
+                     const input = e.target.value.replace(/\D/g, ""); 
+                     setMobileNum(input);
+                        setEditErrMessage("")
+                   
+                     if (input.length === 0) {
+                       setMobileError("");
+                     } else if (input.length < 10) {
+                       setMobileError(" Please Enter Valid Mobile Number");
+                     } else if (input.length === 10) {
+                       setMobileError("");
+                     } else if (input.length > 10) {
+                       setMobileError(" Please Enter Valid Mobile Number");
+                     }
+                   };
+                   
+                   const handleEmail = (e) => {
+                       const emailValue = e.target.value.toLowerCase();
+                       setEmail(emailValue);
+                          setEditErrMessage("")
+                   
+                       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+                       const isValidEmail = emailRegex.test(emailValue);
+                       if (!emailValue) {
+                         setEmailError("");
+                        
+                       } else if (!isValidEmail) {
+                         
+                         setEmailError("Please Enter  Valid Email Id");
+                       } else {
+                         setEmailError("");
+                        
+                       }
+                      
+                     };
+                 
+                   const [logoPreview, setLogoPreview] = useState(null);
+                   const [hostel_logo , setHostelLogo ]  = useState(null)
+                    
+                     const handleFileUploadHostel = (e) => {
+                         if (!allowImageUpload) return;
+                       const file = e.target.files[0];
+                          setEditErrMessage("")
+                       if (file && file.type.startsWith("image/")) {
+                        setHostelLogo(file)
+                         const reader = new FileReader();
+                         reader.onloadend = () => {
+                           setLogoPreview(reader.result);
+                         };
+                         reader.readAsDataURL(file);
+                       }
+                     };
+           
+            
+
+             const handleSaveTemplate = () => {
+
+
+
+  const currentData = {
+    contact_number: mobilenum,
+    email: email,
+    digital_signature_url: signature || '',
+    notes: notes?.replace(/"/g, '') || '',
+    terms_and_condition: terms || '',
+    template_theme: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    logo_url: hostel_logo || '',
+  };
+
+  const originalData = {
+    contact_number: securityDepositRefundTemplate.contact_number,
+    email: securityDepositRefundTemplate.email,
+    digital_signature_url: securityDepositRefundTemplate.digital_signature_url || '',
+    notes: securityDepositRefundTemplate.notes?.replace(/"/g, '') || '',
+    terms_and_condition: securityDepositRefundTemplate.terms_and_condition || '',
+    template_theme: securityDepositRefundTemplate.template_theme || '',
+    logo_url: securityDepositRefundTemplate.logo_url || ''
+  };
+
+  if (JSON.stringify(currentData) === JSON.stringify(originalData)) {
+    setEditErrMessage("No changes detected");
+    setSignatureErrMsg("");
+    return;
+  }
+
+   if(securityDepositRefundTemplate.is_signature_specific_template === 1){
+    const Signatureverify = !securityDepositRefundTemplate.digital_signature_url
+
+  if (signature && !isSignatureConfirmed && Signatureverify){
+    setSignatureErrMsg("Please click Done after selecting a signature");
+    return
+     }
+  }
+
+    if(securityDepositRefundTemplate.is_contact_specific_template === 1){
+         if (mobilenum && mobilenum.length < 10){
+         setMobileError(" Please Enter Valid Mobile Number");
+         return
+        }
+    else if (mobilenum.length === 10){
+       setMobileError("");
+       }
+  }
+   
+  if(securityDepositRefundTemplate.is_email_specific_template === 1){
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(email);
+    if (!email) {
+      setEmailError("");
+       } else if (!isValidEmail) {
+      setEmailError("Please Enter  Valid Email Id");
+      } else {
+      setEmailError("");
+    }
+  }
+
+   if( securityDepositRefundTemplate.id && state.login.selectedHostel_Id){
+       dispatch({
+    type: "ADD_BILLS_TEMPLATE",
+    payload: {
+        hostel_Id: Number(state.login.selectedHostel_Id),
+         id: securityDepositRefundTemplate.id , 
+        digital_signature_url: signature || null,
+        is_signature_specific_template: securityDepositRefundTemplate.is_signature_specific_template,
+        contact_number: mobilenum,
+        is_contact_specific_template: securityDepositRefundTemplate.is_contact_specific_template,
+        email: email,
+        is_email_specific_template: securityDepositRefundTemplate.is_email_specific_template,
+        logo_url : hostel_logo || null,
+        is_logo_specific_template :securityDepositRefundTemplate.is_logo_specific_template,       
+        notes,
+        terms_and_condition: terms,
+        template_theme: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    },
+  });
+}
+
+
+};
+
+const [BillsTemplateList , setBillsTemplateList] = useState([])
+
+ 
+useEffect(()=> {
+   if(state.login.selectedHostel_Id){
+  setLoading(true)
+   dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+   }
+},[])
+
+    useEffect(() => {
+    if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
+
+  dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsBillsAddTemplateSucesscode]);
+
+    useEffect(() => {
+         if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+           
+    setBillsTemplateList(state.Settings.settingsBillsTemplateList)
+      setTimeout(() => {
+         setLoading(false)
+        dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
+      }, 500);
+    }
+  }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+
+      useEffect(() => {
+         if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {    
+         setTimeout(() => {
+           setLoading(false)
+           dispatch({ type: "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE" });
+      }, 500);
+    }
+  }, [state.Settings.SettingsBilltemplategetErrorCode]);
+
+  
+
+const securityDepositRefundTemplate = BillsTemplateList.find(
+  (template) => template.template_type === "NOC Receipt"
+);
+
+
+
+   useEffect(()=> {
+    if(securityDepositRefundTemplate) {
+      setLogoPreview(securityDepositRefundTemplate.logo_url || null)
+      setHostelLogo(securityDepositRefundTemplate.logo_url || null)
+      setMobileNum(securityDepositRefundTemplate.contact_number)
+      setEmail(securityDepositRefundTemplate.email)
+      setSignature(securityDepositRefundTemplate.digital_signature_url || null)
+      setSignaturePreview(securityDepositRefundTemplate.digital_signature_url || null)
+      setTerms(securityDepositRefundTemplate.terms_and_condition || '')
+      setNotes(securityDepositRefundTemplate.notes || '')
+
+               const templateTheme = securityDepositRefundTemplate.template_theme;
+if (templateTheme && templateTheme.trim() !== '') {
+  if (templateTheme.includes('rgba')) {
+    const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
+    if (match) {
+      setColor({
+        r: parseInt(match[1]),
+        g: parseInt(match[2]),
+        b: parseInt(match[3]),
+        a: parseFloat(match[4]),
+      });
+      setUseGradient(false);
+    }
+  } else {
+    setUseGradient(true);
+  }
+} else {
+  setUseGradient(true);
+}
+    }
+
+   },[securityDepositRefundTemplate])
    
          
            useEffect(() => {
@@ -116,9 +441,468 @@ import CloseIcon from '../Assets/Images/close_icon.png';
     return(
 
         <div className="col-12 d-flex flex-row">
-       <div className="col-lg-4 show-scroll" style={{ maxHeight: 450,
+
+           {loading &&
+        <div
+        style={{
+          position: 'fixed',
+          top: '48%',
+          left: '68%',
+          transform: 'translate(-50%, -50%)',
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+          zIndex: 1050,
+        }}
+      >
+        <div
+          style={{
+            borderTop: '4px solid #1E45E1',
+            borderRight: '4px solid transparent',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            animation: 'spin 1s linear infinite',
+          }}
+        ></div>
+      </div>
+      }
+       <div className="col-lg-5 show-scroll" style={{ maxHeight: 450,
                   overflowY: "auto",
                   overflowX:'hidden',}}>
+   { (
+                 securityDepositRefundTemplate?.is_signature_specific_template === 1 ||
+                 securityDepositRefundTemplate?.is_contact_specific_template === 1 ||
+                 securityDepositRefundTemplate?.is_email_specific_template === 1 ||
+                 securityDepositRefundTemplate?.is_logo_specific_template === 1
+               ) && 
+               
+                           (
+                             <>
+                             <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600,}}>Inherited Global Details</p>
+               
+                  <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+                   <div className="d-flex justify-content-end">
+                                 <img src={EditICon}  onClick={ handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
+               
+                   </div>
+                   {  securityDepositRefundTemplate?.is_logo_specific_template === 1  &&
+                   <div>
+                         <div style={{
+                             display: 'flex',
+                             justifyContent: 'space-between',
+                             alignItems: 'center',
+                             marginBottom: '6px'
+                           }}>
+                             <label style={{ fontWeight: 600 }}>Hostel/PG Logo</label>
+                           </div>
+                 <div className="p-3 border rounded" style={{  backgroundColor: '#F0F3FF', textAlign: 'center' }}>
+                  
+                   {logoPreview ? (
+                     <img src={logoPreview} alt="Preview" style={{ height: 60, borderRadius: '6px', marginBottom: '10px' }} />
+                   ) : (
+                     <img src={uploadsett} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+                   )}
+               
+                   <div>
+                     <label
+                       style={{
+                         cursor: allowEditFields.hostelLogo ? 'pointer' : 'not-allowed',
+                         color: allowEditFields.hostelLogo ? 'rgba(30, 69, 225, 1)' : '#999',
+                         fontFamily: 'Gilroy',
+                         fontSize: 12,
+                         fontWeight: 400
+                       }}
+                     >
+                       Choose file
+                       <input
+                         type="file"
+                         accept="image/png"
+                         className="d-none"
+                         ref={fileInputRef}
+                         onChange={handleFileUploadHostel}
+                         disabled={!allowEditFields.hostelLogo}
+                       />
+                     </label>
+                     <span className="ms-1" style={{ color: 'rgba(22, 21, 28, 1)', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400 }}>
+                       to Upload
+                     </span>
+                   </div>
+               
+                   <small
+                     style={{
+                       fontFamily: "Gilroy",
+                       fontSize: 9,
+                       color: "rgba(75, 75, 75, 1)",
+                       fontWeight: 400,
+                       display: "block",
+                       marginTop: "5px"
+                     }}
+                   >
+                     Must be in PNG Format (600px × 300px)
+                   </small>
+                 </div>
+                 </div>
+                   }
+               
+                 {  securityDepositRefundTemplate?.is_contact_specific_template === 1  &&
+                   <div className=" p-3  col-lg-12" style={{borderRadius:'10px' , overflowY:'auto', }}>
+                <div className='d-flex row '>
+                                       <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+                <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+                 <div style={{
+                   display: 'flex',
+                   justifyContent: 'space-between',
+                   alignItems: 'center',
+                   marginBottom: '6px'
+                 }}>
+                   <label style={{ fontWeight: 600 }}>Contact Number</label>
+                 </div>
+               
+                 <div style={{
+                   display: 'flex',
+                   alignItems: 'center',
+                   backgroundColor: '#F0F3FF',
+                   borderRadius: '8px',
+                   padding: '8px 12px',
+                   border: '1px solid #E0E0E0',
+                 }}>
+                   <select style={{
+                     border: 'none',
+                     backgroundColor: 'transparent',
+                     fontFamily: 'inherit',
+                     fontSize: 'inherit',
+                     fontWeight: 'inherit',
+                     appearance: 'none',
+                     paddingRight: '16px',
+                     cursor: 'pointer',
+                     outline: 'none',
+                     backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1L6 6L11 1\' stroke=\'%23666\' stroke-width=\'2\'/%3E%3C/svg%3E")',
+                     backgroundRepeat: 'no-repeat',
+                     backgroundPosition: 'right center',
+                     backgroundSize: '10px'
+                   }}
+                    disabled={!allowEditFields.contact}
+                   >
+                     <option value="+91">+91</option>
+                     <option value="+1">+1</option>
+                     <option value="+44">+44</option>
+                     <option value="+971">+971</option>
+                     
+                   </select>
+               
+                   <input
+                     type="tel"
+                     placeholder="9876543210"
+                     style={{
+                       border: 'none',
+                       backgroundColor: 'transparent',
+                       outline: 'none',
+                       marginLeft: '8px',
+                       fontFamily: 'inherit',
+                       fontSize: 'inherit',
+                       fontWeight: 'inherit',
+                     }}
+                      value={mobilenum}
+                      onChange={handleMobile}
+                     maxLength={10}
+                      disabled={!allowEditFields.contact}
+                   />
+                  
+                 </div>
+                  {MobileError && (
+                                           <div style={{ color: "red",  }}>
+                                             {" "}
+                                             <MdError
+                                               style={{ fontSize: "13px", marginBottom: "2px" }}
+                                             />
+                                             <span
+                                               style={{
+                                                 fontSize: "12px",
+                                                 color: "red",
+                                                 fontFamily: "Gilroy",
+                                                 fontWeight: 500,
+                                                 marginRight: "3px"
+                                               }}
+                                             >
+                                               {" "}
+                                               {MobileError}
+                                             </span>
+                                           </div>
+                                         )}
+               </div>
+               
+               
+               
+                                       </div>
+               
+                                     
+                                   </div>       
+                                 </div> }
+               
+               
+                {  securityDepositRefundTemplate?.is_email_specific_template === 1  &&
+                                   <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}> 
+                <div className='d-flex row '>
+                                       <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+                <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+                 <div style={{
+                   display: 'flex',
+                   justifyContent: 'space-between',
+                   alignItems: 'center',
+                   marginBottom: '6px'
+                 }}>
+                   <label style={{ fontWeight: 600 }}>E-Mail Address</label>
+                 </div>
+               
+                 <div style={{
+                   display: 'flex',
+                   alignItems: 'center',
+                   backgroundColor: '#F0F3FF',
+                   borderRadius: '8px',
+                   padding: '8px 12px',
+                   border: '1px solid #E0E0E0',
+                 }}>
+                 
+               
+                   <input
+                     type="tel"
+                     placeholder="abc@gmail.com"
+                     style={{
+                       border: 'none',
+                       backgroundColor: 'transparent',
+                       outline: 'none',
+                       marginLeft: '8px',
+                       fontFamily: 'inherit',
+                       fontSize: 'inherit',
+                       fontWeight: 'inherit',
+                     }}
+                     disabled={!allowEditFields.email}
+                     value={email}
+                      onChange={handleEmail}
+                   />
+                  
+                 </div>
+                  {emailError && (
+                                           <div style={{ color: "red",  }}>
+                                             {" "}
+                                             <MdError
+                                               style={{ fontSize: "13px", marginBottom: "2px" }}
+                                             />
+                                             <span
+                                               style={{
+                                                 fontSize: "12px",
+                                                 color: "red",
+                                                 fontFamily: "Gilroy",
+                                                 fontWeight: 500,
+                                                 marginRight: "3px"
+                                               }}
+                                             >
+                                               {" "}
+                                               {emailError}
+                                             </span>
+                                           </div>
+                                         )}
+               </div>
+               
+               
+               
+                                       </div>
+               
+                                     
+                                   </div>
+                                         
+                                 </div>
+                  }
+                   {  securityDepositRefundTemplate?.is_signature_specific_template === 1  &&
+                                 <div className=" p-3  col-lg-12 " style={{borderRadius:'10px' , overflowY:'auto', }}>
+                <div className='d-flex row '>
+                                       <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
+                <div style={{ width: '100%', fontFamily: 'Gilroy', fontSize: '14px', fontWeight: 500 }}>
+                 <div style={{
+                   display: 'flex',
+                   justifyContent: 'space-between',
+                   alignItems: 'center',
+                   marginBottom: '6px'
+                 }}>
+                   <label style={{ fontWeight: 600 }}>Digital Signature Upload</label>
+                 </div>
+               
+                     <div className="col-12">
+                              <div
+                           className="rounded mt-2 d-flex justify-content-center align-items-center"
+                           style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
+                       borderColor: '#ced4da'}}
+                         >
+                           {signaturePreview ? (
+                             <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+                           ) : (
+                             <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+                             >No signature uploaded</span>
+                           )}
+                         </div>
+                   
+                         <div className="d-flex  flex-column justify-content-between align-items-center mt-2">
+                           <div className="d-flex flex-row">
+                             <label  style={{    cursor: allowEditFields.digitalSignature ? 'pointer' : 'not-allowed',
+                   color: allowEditFields.digitalSignature ? 'rgba(30, 69, 225, 1)' : '#999', fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>
+                               Choose file
+                               <input
+                                 type="file"
+                                 accept="image/*"
+                                 className="d-none"
+                                 ref={fileInputRef}
+                   onChange={handleFileSignatureChange}
+                   disabled={!allowEditFields.digitalSignature}
+                               />
+                             </label>
+                             <span className="ms-1" style={{color:'rgba(22, 21, 28, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}>to Upload Image</span>
+                           </div>
+                           <div className="d-flex justify-content-end">
+                             <button
+                               className="btn btn-link text-decoration-none "
+                               onClick={handleClear}
+                               disabled={!signaturePreview}
+                               style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 12, fontWeight: 400}}
+                             >
+                               Clear
+                             </button>
+                             <button
+                               className="btn btn-link text-decoration-none "
+                               disabled={!signaturePreview}
+                               onClick={handleSignatureDone}
+                               style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 12, fontWeight: 600}}
+                             >
+                               Done
+                             </button>
+                           </div>
+                   
+                           
+                         </div>
+                           {signature_errmsg.trim() !== "" && (
+                                                                 <div className="d-flex align-items-center p-1">
+                                                                   <MdError
+                                                                     style={{
+                                                                       color: "red",
+                                                                       marginRight: "5px",
+                                                                       fontSize: "14px",
+                                                                     }}
+                                                                   />
+                                                                   <label
+                                                                     className="mb-0"
+                                                                     style={{
+                                                                       color: "red",
+                                                                       fontSize: "12px",
+                                                                       fontFamily: "Gilroy",
+                                                                       fontWeight: 500,
+                                                                     }}
+                                                                   >
+                                                                     {signature_errmsg}
+                                                                   </label>
+                                                                 </div>
+                                                               )}
+                         </div>
+               </div>
+                                       </div>  
+                                   </div>        
+                                 </div>
+                  }
+               
+                                <Modal
+                 show={contactnumberform}
+                 onHide={handleCloseContactNumberForm}
+                 centered
+                 backdrop="static"
+                 className="logout-card d-flex justify-content-center align-items-center"
+                 dialogClassName="custom-modal-width" 
+               >
+                 <Modal.Header style={{ borderBottom: "none" }}>
+                   <Modal.Title
+                     style={{
+                       fontSize: "18px",
+                       fontFamily: "Gilroy",
+                       textAlign: "center",
+                       fontWeight: 600,
+                       color: "#222222",
+                       flex: 1,
+                       paddingTop:'20px'
+                     }}
+                   >
+                     <img src={Questionimage} alt="question" className="me-2" />
+                     Override Global Value?
+                   </Modal.Title>
+                 </Modal.Header>
+               
+                 <Modal.Body
+                   style={{
+                     fontSize: 14,
+                     fontWeight: 500,
+                     fontFamily: "Gilroy",
+                     color: "#646464",
+                     textAlign: "center",
+                     paddingLeft: "20px",
+                     paddingRight: "20px",
+                   }}
+                 >
+                   You’re changing this field only for this bill. 
+                   It won’t affect the main settings.
+                 </Modal.Body>
+               
+                 <Modal.Footer
+                   style={{
+                     justifyContent: "center",
+                     borderTop: "none",
+                     paddingBottom:'20px'
+                   }}
+                 >
+                   <Button
+                     style={{
+                       width: 160,
+                       height: 52,
+                       borderRadius: 10,
+                       padding: "12px 20px",
+                       background: "#fff",
+                       color: "rgba(111, 108, 143, 1)",
+                       fontWeight: 600,
+                       fontFamily: "Gilroy",
+                       fontSize: "14px",
+                       marginRight: 10,
+                     }}
+                     className="border"
+                     onClick={handleCloseContactNumberForm}
+                   >
+                     Cancel
+                   </Button>
+                   <Button
+                     style={{
+                       width: 160,
+                       height: 52,
+                       borderRadius: 10,
+                       padding: "12px 20px",
+                       background: "#1E45E1",
+                       color: "#FFFFFF",
+                       fontWeight: 600,
+                       fontFamily: "Gilroy",
+                       fontSize: "14px",
+                     }}
+                       onClick={handleEditAnyway}
+               
+                   >
+                     Edit Anyway
+                   </Button>
+                 </Modal.Footer>
+               </Modal>
+               </div>
+                             
+                             </>
+                           )
+               
+                           
+                           }
+
        <p style={{ fontFamily: 'Gilroy', fontSize: 20, fontWeight: 600,}}>Form Specific Details</p>
        <p style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(99, 109, 148, 1)'}}>{`Fill the form with details you'd like to customize.`}</p>
        
@@ -278,7 +1062,6 @@ import CloseIcon from '../Assets/Images/close_icon.png';
        ))}
        
        <div
-         onClick={() => console.log("Current color clicked")}
          style={{
            width: 24,
            height: 24,
@@ -291,7 +1074,30 @@ import CloseIcon from '../Assets/Images/close_icon.png';
        />
        
              </div>
-         </div>
+         </div> 
+
+           {editErrmsg.trim() !== "" && (
+                                                     <div className="d-flex align-items-center p-1">
+                                                       <MdError
+                                                         style={{
+                                                           color: "red",
+                                                           marginRight: "5px",
+                                                           fontSize: "14px",
+                                                         }}
+                                                       />
+                                                       <label
+                                                         className="mb-0"
+                                                         style={{
+                                                           color: "red",
+                                                           fontSize: "12px",
+                                                           fontFamily: "Gilroy",
+                                                           fontWeight: 500,
+                                                         }}
+                                                       >
+                                                         {editErrmsg}
+                                                       </label>
+                                                     </div>
+                                                   )}
        
         <div className="d-flex justify-content-end mt-2 col-lg-10">
                <Button
@@ -306,6 +1112,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                fontFamily: "Gilroy",
                fontSize: "14px",
              }}
+             onClick={handleSaveTemplate}
            >
              Save Template
            </Button>
@@ -313,7 +1120,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
        
        </div>
 
-<div className="col-lg-8 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
+<div className="col-lg-7 d-flex justify-content-center" style={{backgroundColor:'rgba(244, 246, 255, 1)'}}>
   <div className="d-flex justify-content-center">
        <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10"  
          ref={cardRef}  style={{ borderRadius:'8px' , backgroundColor:'white' }}>
@@ -341,23 +1148,51 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                           background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,}}>
                           <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                      <img src={ Logo} alt="logo" style={{ height: 30, width: 30 }} />
+                                                      <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositRefundTemplate?.Name}</div>
                                         <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
                                     <div>
-                                      <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-                                       Royal Grand Hostel
-                                      </div>
+                                      
                                       <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
+                                       <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                                 {[
+                                                                  
+                                                                   securityDepositRefundTemplate?.Address,
+                                                               
+                                                               
+                                                                   [
+                                                                     securityDepositRefundTemplate?.area,
+                                                                     securityDepositRefundTemplate?.landmark,
+                                                                     securityDepositRefundTemplate?.city,
+                                                                   ]
+                                                                     .filter(Boolean)
+                                                                     .join(", "),
+                                                               
+                                                               
+                                                                   [
+                                                                     securityDepositRefundTemplate?.state,
+                                                                    
+                                                                     securityDepositRefundTemplate?.pin_code  
+                                                                   ]
+                                                                     .filter(Boolean)
+                                                                     .join(", "),
+                                                                 ]
+                                                                  
+                                                                   .filter(line => line && line.trim() !== "")
+                                                                  
+                                                                   .map((line, idx) => (
+                                                                     <React.Fragment key={idx}>
+                                                                       {line}
+                                                                       <br />
+                                                                     </React.Fragment>
+                                                                   ))}
+                                                               </div>
                          
-                                      9, 8th Avenue Rd, Someshwara Nagar, <br />
-                                      Chennai, Tamilnadu - 600 056
-                               
                                 </>
                                 
                                       </div>
@@ -366,7 +1201,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                          </div>
                        
                         
-                         <div className="container bg-white rounded-bottom border  shadow position-relative" style={{width:"100%",}}>
+                         <div className="container bg-white rounded-bottom border  shadow-md position-relative" style={{width:"100%",}}>
                            <div className="text-center pt-1 pb-1">
        
                              <p className="" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
@@ -474,13 +1309,15 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                          <div className="px-4" style={{marginTop:20}}>
                              <div className="row">
                              <div className="col-md-8">
-           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
+           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Terms and Conditions</h6>
            <p style={{ fontSize: "9px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
-           This document confirms final settlement for the Tenant on <br></br>
-           . All dues are cleared, and room has been vacated.
+            {terms}
            </p>
          </div>
                                <div className="col-md-4 text-end">
+                                 {signaturePreview && (
+              <img src={signaturePreview} alt="signature" style={{ height:40, width:90}} />
+           )}
                                  <p className="mt-4"   style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}>
                                    Authorized Signature</p>
                                </div>
@@ -491,11 +1328,9 @@ import CloseIcon from '../Assets/Images/close_icon.png';
         
            <div className="text-start mt-4">
              <p className="mb-0" style={{fontSize: "9px", fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-             &quot;Your comfort is our priority –
+              {notes}
              </p>
-             <p className="mb-0" style={{fontSize: "9px", fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
-               See you again at Smart Stay! &quot;
-             </p>
+             
            </div>
          
        
@@ -524,7 +1359,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -535,7 +1370,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : {mobilenum}
            </p>
          </div>
        </div>
@@ -639,22 +1474,51 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                            background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, }}>
                           <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                      <img src={ Logo} alt="logo" style={{ height: 40, width: 40 }} />
+                                       <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
                                       <div>
-                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositRefundTemplate?.Name}</div>
                                         <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
                                       </div>
                                     </div>
                                 
                                     <div>
-                                      <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-                                       Royal Grand Hostel
-                                      </div>
+                                     
                                       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       <>
                          
-                                      9, 8th Avenue Rd, Someshwara Nagar, <br />
-                                      Chennai, Tamilnadu - 600 056
+                     <div style={{ fontSize: 9, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                                 {[
+                                                                  
+                                                                   securityDepositRefundTemplate?.Address,
+                                                               
+                                                               
+                                                                   [
+                                                                     securityDepositRefundTemplate?.area,
+                                                                     securityDepositRefundTemplate?.landmark,
+                                                                     securityDepositRefundTemplate?.city,
+                                                                   ]
+                                                                     .filter(Boolean)
+                                                                     .join(", "),
+                                                               
+                                                               
+                                                                   [
+                                                                     securityDepositRefundTemplate?.state,
+                                                                    
+                                                                     securityDepositRefundTemplate?.pin_code  
+                                                                   ]
+                                                                     .filter(Boolean)
+                                                                     .join(", "),
+                                                                 ]
+                                                                  
+                                                                   .filter(line => line && line.trim() !== "")
+                                                                  
+                                                                   .map((line, idx) => (
+                                                                     <React.Fragment key={idx}>
+                                                                       {line}
+                                                                       <br />
+                                                                     </React.Fragment>
+                                                                   ))}
+                                                               </div>
                                
                                 </>
                                 
@@ -664,7 +1528,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                          </div>
                        
                         
-                         <div className="container bg-white rounded-bottom border  shadow position-relative" style={{width:"100%",}}>
+                         <div className="container bg-white rounded-bottom border  shadow-md position-relative" style={{width:"100%",}}>
                            <div className="text-center pt-1 pb-1">
        
                              <p className="" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
@@ -773,13 +1637,15 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                          <div className="px-4" style={{marginTop:20}}>
                              <div className="row">
                              <div className="col-md-8">
-           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
+           <h6 className="" style={{color:'#1E45E1' ,fontSize:'10px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Terms and Conditions</h6>
            <p style={{ fontSize: "10px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
-           This document confirms final settlement for the Tenant on <br></br>
-           . All dues are cleared, and room has been vacated.
+           {terms}
            </p>
          </div>
                                <div className="col-md-4 text-end">
+                                 {signaturePreview && (
+              <img src={signaturePreview} alt="signature" style={{ height:40, width:90}} />
+           )}
                                  <p className="mt-4"   style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}>
                                    Authorized Signature</p>
                                </div>
@@ -790,11 +1656,9 @@ import CloseIcon from '../Assets/Images/close_icon.png';
         
            <div className="text-start mt-4">
              <p className="mb-0" style={{fontSize: "10px", fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-             &quot;Your comfort is our priority –
+              {notes}
              </p>
-             <p className="mb-0" style={{fontSize: "10px", fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
-               See you again at Smart Stay! &quot;
-             </p>
+           
            </div>
          
        
@@ -823,7 +1687,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                
              }}
            >
-             Email : contact@royalgrandhostel.in
+             Email : {email}
            </p>
            <p
              className="mb-0"
@@ -834,7 +1698,7 @@ import CloseIcon from '../Assets/Images/close_icon.png';
                color: 'rgba(255, 255, 255, 1)',
              }}
            >
-           Contact : +91 88994 56611
+           Contact : +91 {mobilenum}
            </p>
          </div>
        </div>

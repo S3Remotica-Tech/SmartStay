@@ -581,6 +581,11 @@ const InvoicePage = () => {
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
   const [invoiceDetails, setInvoiceDetails] = useState(false);
+  const [totalAmountPayable, setTotalAmountPayable] = useState(0);
+  const [nonRefundableAmount, setNonRefundableAmount] = useState(0);
+  const [refundableAmount, setRefundableAmount] = useState(0);
+
+
 
   const handleEditReceipt = (item) => {
     setShowAllBill(false);
@@ -694,7 +699,35 @@ const InvoicePage = () => {
     });
     setSelectedTypes(types);
 
-  }, [invoiceDetails]);
+
+
+
+
+
+  }, [invoiceDetails,]);
+
+
+  useEffect(() => {
+    const refundableNames = ["Advance Amount", "EB Amount", "Room Rent", "Advance", "EB", "Room Rent"];
+    let total = 0;
+    let nonRefundable = 0;
+
+    newRows.forEach((item) => {
+      const amt = parseFloat(item.amount) || 0;
+
+      if (refundableNames.includes(item.am_name)) {
+        total += amt;
+      }
+      if (!refundableNames.includes(item.am_name)) {
+        nonRefundable += amt;
+      }
+    });
+
+    setTotalAmountPayable(total);
+    setNonRefundableAmount(nonRefundable);
+    setRefundableAmount(total - nonRefundable);
+  }, [newRows]);
+
 
 
 
@@ -3098,7 +3131,7 @@ const InvoicePage = () => {
                           paddingLeft: 25,
                           marginTop: 18,
                           whiteSpace: "nowrap",
-                          marginLeft:10
+                          marginLeft: 10
                         }}
                       >
                         {" "}
@@ -6153,8 +6186,57 @@ const InvoicePage = () => {
             </div>
           </div>
 
+          <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-3">
+            <Form.Select
+              className="border"
+              style={{
+                fontSize: 16,
+                color: "#4B4B4B",
+                fontFamily: "Gilroy",
+                lineHeight: "18.83px",
+                fontWeight: 500,
+                boxShadow: "none",
+                border: "1px solid #D9D9D9",
+                padding: "12px 10px ",
+                borderRadius: 8,
+                cursor: "pointer"
+              }}
+              value={dropdownValue}
+              onChange={(e) => handleRowTypeSelect(e.target.value)}
+            >
+              <option value="" disabled>Select Item Type</option>
+              {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
+              {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
+              <option value="Other">Other</option>
+            </Form.Select>
 
-          {Array.isArray(newRows) && newRows.length > 0 && (
+
+            {tableErrmsg.trim() !== "" && (
+              <div>
+                <p
+                  style={{
+                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "left", fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {tableErrmsg !== " " && (
+                    <MdError
+                      style={{
+                        fontSize: "14px",
+                        color: "red",
+                        marginRight: "3px",
+                        marginBottom: "3px",
+
+                      }}
+                    />
+                  )}{" "}
+                  {tableErrmsg}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {Array.isArray(newRows) && newRows.length > 0 && (<>
             <div className="mt-3" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
 
               <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
@@ -6221,64 +6303,79 @@ const InvoicePage = () => {
                   </tbody>
                 </Table>
               </div>
+
+
+
             </div>
 
+            {
+              invoiceDetails?.action === "advance" ?
+                <div className="row mt-3">
+                  <div className="col-md-6 offset-md-5">
+                    <div className=" ">
+
+                      <div className="row">
+                        <div className="col-lg-6">
+                          <label className="" style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }} >
+                            Payable Amount:
+                          </label>
+                        </div>
+                        <div className="col-lg-6">
+                          <label className="" style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Rs.{totalAmountPayable}
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="row mt-1">
+                        <div className="col-lg-6">
+                          <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Non Refundable:
+                          </label>
+                        </div>
+                        <div className="col-lg-6">
+                          <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Rs. {nonRefundableAmount}
+                          </label>
+                        </div>
+                      </div>
+                      <div className="row mt-1">
+                        <div className="col-lg-6">
+                          <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Refundable Amount:
+                          </label>
+                        </div>
+                        <div className="col-lg-6">
+                          <label style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500, color: "#222" }}>
+                            Rs.{refundableAmount}
+                          </label>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+                :
+                <div className="row mt-3">
+                  <div className="col-md-6 offset-md-6">
+                    {Array.isArray(newRows) && newRows.length > 0 && (
+                      <h5 style={{ fontFamily: "Gilroy" }}>
+                        Total Amount ₹{totalAmount}
+                      </h5>
+                    )}
+                  </div>
+                </div>
+            }
 
 
 
+          </>
 
 
           )}
 
-          <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-3">
-            <Form.Select
-              className="border"
-              style={{
-                fontSize: 16,
-                color: "#4B4B4B",
-                fontFamily: "Gilroy",
-                lineHeight: "18.83px",
-                fontWeight: 500,
-                boxShadow: "none",
-                border: "1px solid #D9D9D9",
-                padding: "12px 10px ",
-                borderRadius: 8,
-                cursor: "pointer"
-              }}
-              value={dropdownValue}
-              onChange={(e) => handleRowTypeSelect(e.target.value)}
-            >
-              <option value="" disabled>Select Item Type</option>
-              {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
-              {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
-              <option value="Other">Other</option>
-            </Form.Select>
 
-
-            {tableErrmsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{
-                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "left", fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {tableErrmsg !== " " && (
-                    <MdError
-                      style={{
-                        fontSize: "14px",
-                        color: "red",
-                        marginRight: "3px",
-                        marginBottom: "3px",
-
-                      }}
-                    />
-                  )}{" "}
-                  {tableErrmsg}
-                </p>
-              </div>
-            )}
-          </div>
 
 
           <div>
@@ -6355,11 +6452,7 @@ const InvoicePage = () => {
 
 
           <div style={{ float: "right", marginRight: "130px" }}>
-            {Array.isArray(newRows) && newRows.length > 0 && (
-              <h5 style={{ fontFamily: "Gilroy" }}>
-                Total Amount ₹{totalAmount}
-              </h5>
-            )}
+
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
               className="w-100 mt-3 mb-2"
