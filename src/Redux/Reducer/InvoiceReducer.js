@@ -72,7 +72,7 @@ export const initialState = {
     statusCodeNewReceiptStatusCode: 0,
     AddErrorRecurrringStatusCode : 0,
     triggeredBy: '',  
-
+    CustomerRecurringEnableDisableStatusCode:0,
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
             0: false,
@@ -293,6 +293,15 @@ case 'RESET_ALL':
             return { ...state, ReceiptDeletesuccessStatuscode: action.payload.statusCode }
         case 'CLEAR_DELETE_RECEIPT_STATUS_CODE':
             return { ...state, ReceiptDeletesuccessStatuscode: 0 }
+
+
+case 'CUSTOMER_RECURRING_ENABLE_DISABLE':
+            return { ...state, CustomerRecurringEnableDisableStatusCode: action.payload.statusCode }
+        case 'REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE':
+            return { ...state,CustomerRecurringEnableDisableStatusCode: 0 }
+
+
+
 
         case 'REFERENCEID_GET':
             return { ...state, Reference_Id: action.payload.response, ReferenceIdgetsuccessStatuscode: action.payload.statusCode } 

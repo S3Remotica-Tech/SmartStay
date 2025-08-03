@@ -167,7 +167,19 @@ const InvoicePage = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [startDate, endDate] = dateRange;
+  const [checkedRows, setCheckedRows] = useState({});
 
+  const [activeStay, setActiveStay] = useState("long_stay");
+
+  const handleClick = (stayType) => {
+    setActiveStay(stayType);
+  };
+  const handleToggle = (id) => {
+    setCheckedRows((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   useEffect(() => {
 
@@ -244,16 +256,16 @@ const InvoicePage = () => {
     setInvoiceDetails(null);
   };
 
-  const handleRecurrBillShow = () => {
-    if (!state.login.selectedHostel_Id) {
-      toast.error('Please add a hostel before adding Recurring bill information.', {
-        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-      });
-      return;
-    }
-    setShowAllBill(false);
-    setShowRecurringBillForm(true);
-  };
+  // const handleRecurrBillShow = () => {
+  //   if (!state.login.selectedHostel_Id) {
+  //     toast.error('Please add a hostel before adding Recurring bill information.', {
+  //       hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+  //     });
+  //     return;
+  //   }
+  //   setShowAllBill(false);
+  //   setShowRecurringBillForm(true);
+  // };
 
   const handleReceiptShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -1597,6 +1609,21 @@ const InvoicePage = () => {
       ? recurringbills
       : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
 
+  // const filteredBills = recurringbills.filter(
+  //   (bill) => bill.stay_type === (activeStay)
+  // );
+
+  // const currentItem =
+  //   filterInput.length > 0
+  //     ? filteredBills
+  //     : filteredBills.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+
+
+
+  console.log("recurringbills", recurringbills)
+
+  // console.log("filteredBills", filteredBills)
+
   const handlePageChangeRecure = (pageNumber) => {
     setCurrentRecurePage(pageNumber);
   };
@@ -1635,9 +1662,23 @@ const InvoicePage = () => {
 
     return sorted;
   }, [currentItem, sortConfigRecure]);
+
+
+
+  console.log("sortConfigRecure", sortConfigRecure)
+
+
+
+
+
+
+
   const handleSortRecure = (key, direction) => {
     setSortConfigRecure({ key, direction });
   };
+
+
+
   const totalPage = Math.ceil(recurringbills.length / itemsPage);
 
   const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
@@ -1726,7 +1767,7 @@ const InvoicePage = () => {
       setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId },
+        payload: { hostel_id: hostelId , stay_type: activeStay},
       });
     }
 
@@ -2321,10 +2362,10 @@ const InvoicePage = () => {
       setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId },
+         payload: { hostel_id: hostelId , stay_type: activeStay},
       });
     }
-  }, [hostelId]);
+  }, [hostelId, activeStay]);
 
   useEffect(() => {
     if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
@@ -2344,7 +2385,7 @@ const InvoicePage = () => {
     ) {
       dispatch({
         type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId },
+         payload: { hostel_id: hostelId , stay_type: activeStay},
       });
       setRecurringBills(state.InvoiceList.RecurringBills);
 
@@ -2616,6 +2657,8 @@ const InvoicePage = () => {
     }
 
   }, [state.createAccount?.networkError])
+
+
 
 
 
@@ -3072,7 +3115,7 @@ const InvoicePage = () => {
                         + Create Bill
                       </Button>
                     )}
-                    {value === "2" && (
+                    {/* {value === "2" && (
                       <Button
                         disabled={recuringbillAddPermission}
                         onClick={handleRecurrBillShow}
@@ -3094,7 +3137,7 @@ const InvoicePage = () => {
                         {" "}
                         + Recurring Bill
                       </Button>
-                    )}
+                    )} */}
 
                     {value === "3" && (
                       <Button
@@ -4582,7 +4625,48 @@ const InvoicePage = () => {
                 </>
               ) : (
                 <>
-                  {!recurLoader && sortedDataRecure.length === 0 && (
+
+
+                  <div className="d-flex gap-3 align-items-center mt-5 ms-3 mb-2">
+                    <button
+                      onClick={() => handleClick("long_stay")}
+                      style={{
+                        backgroundColor: activeStay === "long_stay" ? "#1E45E1" : "#fff",
+                        color: activeStay === "long_stay" ? "#fff" : "#1E1E1E",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        padding: "10px 20px",
+                        borderRadius: 20,
+                        border: activeStay === "long_stay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
+                        fontSize: 14,
+                      }}
+                    >
+                      Long Stay
+                    </button>
+
+                    <button
+                      onClick={() => handleClick("short_stay")}
+                      style={{
+                        backgroundColor: activeStay === "short_stay" ? "#1E45E1" : "#fff",
+                        color: activeStay === "short_stay" ? "#fff" : "#1E1E1E",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                        padding: "10px 20px",
+                        borderRadius: 20,
+                        border: activeStay === "short_stay" ? "1px solid #1E45E1" : "1px solid #D6D6D6",
+                        fontSize: 14,
+                      }}
+                    >
+                      Short Stay
+                    </button>
+                  </div>
+
+
+
+
+                  {!recurLoader && sortedDataRecure.length === 0 && activeStay === 'long_stay' ? (
+
+
                     <div style={{ marginTop: 20 }}>
                       <div style={{ textAlign: "center" }}>
                         {" "}
@@ -4598,7 +4682,7 @@ const InvoicePage = () => {
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
-                        No Recuring bills available{" "}
+                        No {activeStay} Recuring bills available{" "}
                       </div>
                       <div
                         className="pb-1"
@@ -4613,7 +4697,37 @@ const InvoicePage = () => {
                         There are no Recuring bills added{" "}
                       </div>
                     </div>
-                  )}
+                  ):  !recurLoader && sortedDataRecure.length === 0 && activeStay === 'short_stay' ?
+                   <div
+                            style={{
+                              height: "400px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              backgroundColor: "#f2f6fc",
+                              borderRadius: "10px",
+                              marginTop: "20px",
+                              marginRight: "10px",
+                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                              border: "1px dashed #b0c4de",
+                            }}
+                          >
+                            <div style={{ textAlign: "center" }}>
+                              <img
+                                src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+                                alt="Coming Soon"
+                                width="80"
+                                height="80"
+                                style={{ marginBottom: "15px", opacity: 0.7 }}
+                              />
+
+                              <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                            </div>
+                          </div>
+                  
+                  
+                 :
+                 "" }
 
 
 
@@ -4648,11 +4762,31 @@ const InvoicePage = () => {
 
                   }
 
+
+
+
+
                   {sortedDataRecure && sortedDataRecure.length > 0 && (
+
+
+
+
+
+
+
+
                     <div
                       className=" booking-table-userlist  booking-table ms-2 me-4 mt-4"
                       style={{ paddingBottom: "20px", marginLeft: "-22px" }}
                     >
+
+
+
+
+
+                      {/* {activeStay === "Longstay" ? ( */}
+
+
                       <div
 
                         className='show-scrolls '
@@ -4775,6 +4909,23 @@ const InvoicePage = () => {
                                   </div>
                                   Amount</div>
                               </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+
+                                  Recurring</div>
+                              </th>
+
+
+
 
                               <th
                                 style={{
@@ -4798,6 +4949,8 @@ const InvoicePage = () => {
                                 <RecurringBillList
                                   key={item.id}
                                   item={item}
+                                  checked={!!checkedRows[item.id]}
+                                  onToggle={() => handleToggle(item.id)}
                                   handleDeleteRecurringbills={
                                     handleDeleteRecurringbills
                                   }
@@ -4814,6 +4967,38 @@ const InvoicePage = () => {
                           </tbody>
                         </Table>
                       </div>
+                      {/* ) :
+                        (
+                          <div
+                            style={{
+                              height: "400px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              backgroundColor: "#f2f6fc",
+                              borderRadius: "10px",
+                              marginTop: "20px",
+                              marginRight: "0",
+                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                              border: "1px dashed #b0c4de",
+                            }}
+                          >
+                            <div style={{ textAlign: "center" }}>
+                              <img
+                                src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+                                alt="Coming Soon"
+                                width="80"
+                                height="80"
+                                style={{ marginBottom: "15px", opacity: 0.7 }}
+                              />
+
+                              <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                            </div>
+                          </div>
+
+
+
+                        )} */}
                     </div>
                   )}
 

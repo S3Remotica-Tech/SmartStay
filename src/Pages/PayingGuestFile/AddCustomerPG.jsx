@@ -457,7 +457,8 @@ function AddCustomer({ setShowAddCustomer, show, currentItem, onclickdata }) {
         AdvanceAmount: AdvanceAmount,
         RoomRent: RoomRent,
         joining_date: formattedSelectedDate,
-        reasons: formattedReasons
+        reasons: formattedReasons, 
+        stay_type: 'long_stay'
       }
 
 

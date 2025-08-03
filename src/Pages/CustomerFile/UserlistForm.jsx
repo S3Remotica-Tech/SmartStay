@@ -916,6 +916,7 @@ function UserlistForm(props) {
           isadvance: 0,
           ID: props.edit === "Edit" ? id : "",
           reasons: formattedReasons,
+          stay_type: activeTab === "long" ? "long_stay" : "short_stay"
         },
       });
       setLoading(true)
@@ -1076,7 +1077,8 @@ function UserlistForm(props) {
         invoice_date: formattedAdvanceDate,
         due_date: formattedAdvanceDateDue,
         ID: props.edit === "Edit" ? id : "",
-        reasons: formattedReasons
+        reasons: formattedReasons,
+        stay_type: activeTab === "long" ? "long_stay" : "short_stay"
       },
     });
     setLoading(true)

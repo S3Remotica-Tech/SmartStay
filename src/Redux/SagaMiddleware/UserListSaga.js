@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function* handleuserlist(user) {
+   try{
    const response = yield call(userlist, user.payload);
    if (response.status === 200) {
       yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status } })
@@ -21,6 +22,17 @@ function* handleuserlist(user) {
    if (response) {
       refreshToken(response)
    }
+}
+ catch (err) {
+  const error = err || {};
+   yield put({
+    type: 'NETWORK_ERROR',
+    payload:
+      error?.code === 'ERR_NETWORK'
+        ? 'Network error occurred'
+        : error?.message || 'Something went wrong',
+  });
+}
 }
 
 
