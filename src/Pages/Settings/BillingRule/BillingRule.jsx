@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Card, Button, Row, Col, Form } from "react-bootstrap";
+import { Card, Button, Row, Col } from "react-bootstrap";
 import { BsShieldCheck, BsHourglassSplit } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import LongStayRecurringModal from "./LongStay";
@@ -30,21 +30,24 @@ function BillingRule() {
 
 
 
-  const handleToggle = () => {
-    setChecked(!checked);
-    if (recurringBills) {
-      dispatch({
-        type: "SETTINGSADD_RECURRING",
-        payload: {
-          hostel_id: Number(state.login.selectedHostel_Id),
-          billingDateOfMonth: recurringBills?.billingDateOfMonth,
-          dueDateOfMonth: recurringBills?.dueDateOfMonth,
-          isActive: 0,
-          billFrequency:"Monthly"
-        },
-      })
-    }
-  };
+
+//  Future needed this function so delete this command line.............
+
+  // const handleToggle = () => {
+  //   setChecked(!checked);
+  //   if (recurringBills) {
+  //     dispatch({
+  //       type: "SETTINGSADD_RECURRING",
+  //       payload: {
+  //         hostel_id: Number(state.login.selectedHostel_Id),
+  //         billingDateOfMonth: recurringBills?.billingDateOfMonth,
+  //         dueDateOfMonth: recurringBills?.dueDateOfMonth,
+  //         isActive: 0,
+  //         billFrequency:"Monthly"
+  //       },
+  //     })
+  //   }
+  // };
 
   useEffect(() => {
     if (state.Settings.SettingsRecurringAddSuccess === 200) {

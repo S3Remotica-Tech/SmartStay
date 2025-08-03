@@ -256,16 +256,16 @@ const InvoicePage = () => {
     setInvoiceDetails(null);
   };
 
-  const handleRecurrBillShow = () => {
-    if (!state.login.selectedHostel_Id) {
-      toast.error('Please add a hostel before adding Recurring bill information.', {
-        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-      });
-      return;
-    }
-    setShowAllBill(false);
-    setShowRecurringBillForm(true);
-  };
+  // const handleRecurrBillShow = () => {
+  //   if (!state.login.selectedHostel_Id) {
+  //     toast.error('Please add a hostel before adding Recurring bill information.', {
+  //       hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+  //     });
+  //     return;
+  //   }
+  //   setShowAllBill(false);
+  //   setShowRecurringBillForm(true);
+  // };
 
   const handleReceiptShow = () => {
     if (!state.login.selectedHostel_Id) {

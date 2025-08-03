@@ -349,5 +349,7 @@ RecurringBillList.propTypes = {
   item: PropTypes.func.isRequired,
   billrolePermission: PropTypes.func.isRequired,
   handleDeleteRecurringbills: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired,
+  checked: PropTypes.func.isRequired
 };
 export default RecurringBillList;
