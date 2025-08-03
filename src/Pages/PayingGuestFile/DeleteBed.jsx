@@ -100,10 +100,7 @@ setAdvanceForm(false)
      }
   },[user_details])
 
-
-   
-
-
+  
 
   const handleShow = (type) => {
     setActionType(type);   
