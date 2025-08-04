@@ -42,6 +42,10 @@ import html2canvas from "html2canvas";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
 
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
+// import EditBasicDetails from "./EditBasicDetails";
+// import EditAddressDetails from "./EditAddressDetails";
+// import EditStayDetails from "./EditStayDetails";
+// import StayHistory from "./StayHistory";
 
 
 
@@ -116,9 +120,13 @@ function UserListRoomDetail(props) {
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
   const [errors, setErrors] = useState([]);
-
+  // new conversion state don't remove
+  // const [editBasicDetailsShow, setEditBasicDetailsShow] = useState(false)
+  // const [editAddressDetailsShow, setEditAddressDetailsShow] = useState(false)
+  // const [editStayDetailsShow, setEditStayDetailsShow] = useState(false)
+  // const [stayDetailsShow, setStayDetailsShow] = useState(false)
   const [fields, setFields] = useState([]);
-  
+
 
 
   const reasonOptions = [
@@ -192,7 +200,7 @@ function UserListRoomDetail(props) {
       const ParticularUserDetails = state.UsersList.Users.filter((item) => {
         return item.User_Id === props.customerUser_Id;
       });
-      
+
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
@@ -413,7 +421,7 @@ function UserListRoomDetail(props) {
           };
         });
 
-       
+
         setFields(formattedFields);
 
       }
@@ -437,6 +445,11 @@ function UserListRoomDetail(props) {
   };
 
   const MobileNumber = `${countryCode}${Phone}`;
+
+
+
+
+
 
   const handleEditUser = (item) => {
 
@@ -514,6 +527,9 @@ function UserListRoomDetail(props) {
   };
 
 
+
+
+
   useEffect(() => {
     if (Bednum) {
       if (Bednum[0]?.reasonData && Array.isArray(Bednum[0].reasonData)) {
@@ -540,7 +556,7 @@ function UserListRoomDetail(props) {
 
 
 
- 
+
 
 
 
@@ -1249,7 +1265,7 @@ function UserListRoomDetail(props) {
 
 
 
-  
+
 
 
   const handleSaveUserlistAddUser = () => {
@@ -1346,7 +1362,7 @@ function UserListRoomDetail(props) {
 
     handleOpenAdvance()
 
-  
+
     setLoading(true)
     setFormShow(false);
     dispatch({ type: "INVOICELIST" });
@@ -1514,7 +1530,7 @@ function UserListRoomDetail(props) {
         paid_advance,
         paid_rent,
         ID: id,
-       
+
         reasons: formattedReasons
       },
     });
@@ -1721,7 +1737,39 @@ function UserListRoomDetail(props) {
   };
 
 
+  // new converstion onclick function for basic details & address & stay
 
+  // const handleEditBasicDetails = (item) => {
+  //   setEditBasicDetailsShow(true)
+
+  // };
+  // const handleCloseBasicDetails = () => {
+  //   setEditBasicDetailsShow(false)
+  // }
+
+  // const handleEditAddressDetailsShow = (item) => {
+  //   setEditAddressDetailsShow(true)
+
+  // };
+  // const handleCloseAddressDetails = () => {
+  //   setEditAddressDetailsShow(false)
+  // }
+
+
+  // const handleEditStayDetails = (item) => {
+  //   setEditStayDetailsShow(true)
+
+  // };
+  // const handleCloseStayDetails = () => {
+  //   setEditStayDetailsShow(false)
+  // }
+
+  // const handleShowStayHistory = () => {
+  //   setStayDetailsShow(true)
+  // }
+  // const handleCloseStayHistory = () => {
+  //   setStayDetailsShow(false)
+  // }
 
   return (
 
@@ -2138,7 +2186,7 @@ function UserListRoomDetail(props) {
                                         <img
                                           src={Group}
                                           alt="group"
-                                          style={{ 
+                                          style={{
                                             cursor: props.customerEditPermission || !item?.Bed
                                               ? "not-allowed"
                                               : "pointer",
@@ -2200,7 +2248,7 @@ function UserListRoomDetail(props) {
                                           style={{
                                             cursor: props.customerEditPermission || !item?.Bed
                                               ? "not-allowed"
-                                              : "pointer", 
+                                              : "pointer",
                                             filter: props.customerEditPermission || !item?.Bed
                                               ? "grayscale(100%)"
                                               : "none",
@@ -4716,237 +4764,237 @@ function UserListRoomDetail(props) {
                                   </div>
                                   <fieldset disabled>
 
-                                  <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
+                                    <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
-                                    <div className="d-flex justify-content-between align-items-center p-4">
-                                      <div>
-                                        <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
-                                      </div>
-                                      <div>
-                                        <Button
-                                          onClick={handleAddField}
-                                          style={{
-                                            fontFamily: "Gilroy",
-                                            fontSize: "14px",
-                                            backgroundColor: "#1E45E1",
-                                            color: "white",
-                                            fontWeight: 600,
-                                            borderRadius: "10px",
-                                            padding: "6px 15px",
-                                            marginBottom: "10px",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: "6px",
-                                          }}
-                                        >
-                                          <img
-                                            src={addcircle}
-                                            alt="Assign Bed"
+                                      <div className="d-flex justify-content-between align-items-center p-4">
+                                        <div>
+                                          <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
+                                        </div>
+                                        <div>
+                                          <Button
+                                            onClick={handleAddField}
                                             style={{
-                                              height: 16,
-                                              width: 16,
-                                              filter: "brightness(0) invert(1)",
+                                              fontFamily: "Gilroy",
+                                              fontSize: "14px",
+                                              backgroundColor: "#1E45E1",
+                                              color: "white",
+                                              fontWeight: 600,
+                                              borderRadius: "10px",
+                                              padding: "6px 15px",
+                                              marginBottom: "10px",
+                                              display: "flex",
+                                              alignItems: "center",
+                                              gap: "6px",
                                             }}
-                                          />
-                                          Add
-                                        </Button>
+                                          >
+                                            <img
+                                              src={addcircle}
+                                              alt="Assign Bed"
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: "brightness(0) invert(1)",
+                                              }}
+                                            />
+                                            Add
+                                          </Button>
 
+                                        </div>
                                       </div>
-                                    </div>
 
 
 
-                                    {fields.map((item, index) => {
+                                      {fields.map((item, index) => {
 
-                                      const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
+                                        const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
 
-                                      const filteredOptions = reasonOptions.map((opt) => {
-                                        if (opt.value === "maintenance") {
-                                          return {
-                                            ...opt,
-                                            isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
-                                          };
-                                        }
-                                        return opt;
-                                      });
-                                      return (
-                                        <div className="row px-4 mb-3" key={index}>
-                                          <div className="col-md-6">
+                                        const filteredOptions = reasonOptions.map((opt) => {
+                                          if (opt.value === "maintenance") {
+                                            return {
+                                              ...opt,
+                                              isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
+                                            };
+                                          }
+                                          return opt;
+                                        });
+                                        return (
+                                          <div className="row px-4 mb-3" key={index}>
+                                            <div className="col-md-6">
 
 
-                                            {!item.showInput ? (
-                                              <Select
-                                                options={filteredOptions}
-                                                value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
-                                                onChange={(selectedOption) => {
-                                                  const selectedValue = selectedOption.value;
+                                              {!item.showInput ? (
+                                                <Select
+                                                  options={filteredOptions}
+                                                  value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                                                  onChange={(selectedOption) => {
+                                                    const selectedValue = selectedOption.value;
 
-                                                  if (selectedValue === "others") {
-                                                    handleInputChange(index, "reason", "others");
-                                                  } else {
-                                                    handleInputChange(index, "reason", selectedValue);
-                                                  }
-                                                }}
-                                                isDisabled={item.reason === "maintenance"}
-                                                menuPlacement="auto"
-                                                styles={{
-                                                  control: (base) => ({
-                                                    ...base,
-                                                    height: "50px",
-                                                    border: "1px solid #D9D9D9",
-                                                    borderRadius: "8px",
-                                                    fontSize: "16px",
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    boxShadow: "none",
-                                                  }),
-                                                  menu: (base) => ({
-                                                    ...base,
-                                                    backgroundColor: "#f8f9fa",
-                                                    border: "1px solid #ced4da",
-                                                    fontFamily: "Gilroy",
-                                                  }),
-                                                  menuList: (base) => ({
-                                                    ...base,
-                                                    backgroundColor: "#f8f9fa",
-                                                    maxHeight: "120px",
-                                                    padding: 0,
-                                                    scrollbarWidth: "thin",
-                                                    overflowY: "auto",
-                                                    fontFamily: "Gilroy",
-                                                  }),
-                                                  placeholder: (base) => ({
-                                                    ...base,
-                                                    color: "#555",
-                                                  }),
-                                                  dropdownIndicator: (base) => ({
-                                                    ...base,
-                                                    color: "#555",
-                                                    display: "inline-block",
-                                                    fill: "currentColor",
-                                                    lineHeight: 1,
-                                                    stroke: "currentColor",
-                                                    strokeWidth: 0,
-                                                    cursor: "pointer",
-                                                  }),
-                                                  indicatorSeparator: () => ({
-                                                    display: "none",
-                                                  }),
-                                                  option: (base, state) => ({
-                                                    ...base,
-                                                    cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                                    backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
-                                                    color: state.isDisabled ? "#aaa" : "#000",
-                                                  }),
-                                                }}
-                                              />
-                                            ) : (
-                                              <>
-                                                <input
-                                                  type="text"
-                                                  className="form-control"
-                                                  placeholder="Enter custom reason"
-                                                  disabled={item.customReason === "maintenance"}
-                                                  value={item.customReason || ""}
-                                                  onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
-                                                  style={{
-                                                    fontSize: 16,
-                                                    color: "#4B4B4B",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                    boxShadow: "none",
-                                                    border: "1px solid #D9D9D9",
-                                                    height: 50,
-                                                    borderRadius: 8,
+                                                    if (selectedValue === "others") {
+                                                      handleInputChange(index, "reason", "others");
+                                                    } else {
+                                                      handleInputChange(index, "reason", selectedValue);
+                                                    }
+                                                  }}
+                                                  isDisabled={item.reason === "maintenance"}
+                                                  menuPlacement="auto"
+                                                  styles={{
+                                                    control: (base) => ({
+                                                      ...base,
+                                                      height: "50px",
+                                                      border: "1px solid #D9D9D9",
+                                                      borderRadius: "8px",
+                                                      fontSize: "16px",
+                                                      color: "#4B4B4B",
+                                                      fontFamily: "Gilroy",
+                                                      fontWeight: 500,
+                                                      boxShadow: "none",
+                                                    }),
+                                                    menu: (base) => ({
+                                                      ...base,
+                                                      backgroundColor: "#f8f9fa",
+                                                      border: "1px solid #ced4da",
+                                                      fontFamily: "Gilroy",
+                                                    }),
+                                                    menuList: (base) => ({
+                                                      ...base,
+                                                      backgroundColor: "#f8f9fa",
+                                                      maxHeight: "120px",
+                                                      padding: 0,
+                                                      scrollbarWidth: "thin",
+                                                      overflowY: "auto",
+                                                      fontFamily: "Gilroy",
+                                                    }),
+                                                    placeholder: (base) => ({
+                                                      ...base,
+                                                      color: "#555",
+                                                    }),
+                                                    dropdownIndicator: (base) => ({
+                                                      ...base,
+                                                      color: "#555",
+                                                      display: "inline-block",
+                                                      fill: "currentColor",
+                                                      lineHeight: 1,
+                                                      stroke: "currentColor",
+                                                      strokeWidth: 0,
+                                                      cursor: "pointer",
+                                                    }),
+                                                    indicatorSeparator: () => ({
+                                                      display: "none",
+                                                    }),
+                                                    option: (base, state) => ({
+                                                      ...base,
+                                                      cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                                      backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                                      color: state.isDisabled ? "#aaa" : "#000",
+                                                    }),
                                                   }}
                                                 />
-                                              </>
-                                            )}
+                                              ) : (
+                                                <>
+                                                  <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Enter custom reason"
+                                                    disabled={item.customReason === "maintenance"}
+                                                    value={item.customReason || ""}
+                                                    onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                                                    style={{
+                                                      fontSize: 16,
+                                                      color: "#4B4B4B",
+                                                      fontFamily: "Gilroy",
+                                                      fontWeight: 500,
+                                                      boxShadow: "none",
+                                                      border: "1px solid #D9D9D9",
+                                                      height: 50,
+                                                      borderRadius: 8,
+                                                    }}
+                                                  />
+                                                </>
+                                              )}
 
-                                            {errors[index]?.reason && (
-                                              <div className="d-flex align-items-center mt-1">
-                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {errors[index]?.reason}
-                                                </label>
-                                              </div>
-                                            )}
-
-
-
-
-                                          </div>
-
-
-                                          <div className="col-md-4">
-
-                                            <input
-                                              type="text"
-                                              placeholder="Enter amount"
-                                              value={item.amount}
-                                              onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                              className="form-control"
-                                              style={{
-                                                fontSize: 16,
-                                                color: "#4B4B4B",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                                boxShadow: "none",
-                                                border: "1px solid #D9D9D9",
-                                                height: 50,
-                                                borderRadius: 8,
-                                              }}
-
-                                            />
-                                            {errors[index]?.amount && (
-                                              <div className="d-flex align-items-center mt-1">
-                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {errors[index]?.amount}
-                                                </label>
-                                              </div>
-                                            )}
-                                          </div>
+                                              {errors[index]?.reason && (
+                                                <div className="d-flex align-items-center mt-1">
+                                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                                  <label
+                                                    className="mb-0"
+                                                    style={{
+                                                      color: "red",
+                                                      fontSize: "12px",
+                                                      fontFamily: "Gilroy",
+                                                      fontWeight: 500,
+                                                    }}
+                                                  >
+                                                    {errors[index]?.reason}
+                                                  </label>
+                                                </div>
+                                              )}
 
 
-                                          <div className="col-md-2 d-flex justify-content-center align-items-center">
 
-                                            {index !== 0 && (
-                                              <Trash
-                                                size="20"
-                                                color="red"
-                                                variant="Bold"
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => handleRemoveField(index)}
+
+                                            </div>
+
+
+                                            <div className="col-md-4">
+
+                                              <input
+                                                type="text"
+                                                placeholder="Enter amount"
+                                                value={item.amount}
+                                                onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                                                className="form-control"
+                                                style={{
+                                                  fontSize: 16,
+                                                  color: "#4B4B4B",
+                                                  fontFamily: "Gilroy",
+                                                  fontWeight: 500,
+                                                  boxShadow: "none",
+                                                  border: "1px solid #D9D9D9",
+                                                  height: 50,
+                                                  borderRadius: 8,
+                                                }}
+
                                               />
-                                            )}
+                                              {errors[index]?.amount && (
+                                                <div className="d-flex align-items-center mt-1">
+                                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                                  <label
+                                                    className="mb-0"
+                                                    style={{
+                                                      color: "red",
+                                                      fontSize: "12px",
+                                                      fontFamily: "Gilroy",
+                                                      fontWeight: 500,
+                                                    }}
+                                                  >
+                                                    {errors[index]?.amount}
+                                                  </label>
+                                                </div>
+                                              )}
+                                            </div>
+
+
+                                            <div className="col-md-2 d-flex justify-content-center align-items-center">
+
+                                              {index !== 0 && (
+                                                <Trash
+                                                  size="20"
+                                                  color="red"
+                                                  variant="Bold"
+                                                  style={{ cursor: "pointer" }}
+                                                  onClick={() => handleRemoveField(index)}
+                                                />
+                                              )}
+                                            </div>
                                           </div>
-                                        </div>
-                                      );
-                                    })}
+                                        );
+                                      })}
 
 
 
 
-                                  </div>
-</fieldset>
+                                    </div>
+                                  </fieldset>
 
 
                                 </div>
@@ -5592,43 +5640,43 @@ function UserListRoomDetail(props) {
                                 save
                               </Button> */}
                               <div className="d-flex gap-2">
-  <Button
-    
-      variant="secondary"
-                      className="w-100"
-                      style={{
-                        height: 45,
-                        borderRadius: 12,
-                        fontSize: 15,
-                        fontWeight: 500,
-                        fontFamily: "Montserrat",
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                      }}
-    onClick={handleCancelButton}
-  >
-    Cancel
-  </Button>
+                                <Button
 
-  <Button
-    className="w-100"
-    style={{
-      backgroundColor: "#1E45E1",
-      height: 45,
-                        borderRadius: 12,
-                        fontSize: 15,
-                        fontWeight: 600,
-                        fontFamily: "Montserrat",
-                        paddingLeft: 25,
-                        paddingRight: 25,
-    }}
-    
-     disabled={advanceDetail[0]?.inv_id}
-    onClick={handleSaveButton}
-  >
-    Save
-  </Button>
-</div>
+                                  variant="secondary"
+                                  className="w-100"
+                                  style={{
+                                    height: 45,
+                                    borderRadius: 12,
+                                    fontSize: 15,
+                                    fontWeight: 500,
+                                    fontFamily: "Montserrat",
+                                    paddingLeft: 20,
+                                    paddingRight: 20,
+                                  }}
+                                  onClick={handleCancelButton}
+                                >
+                                  Cancel
+                                </Button>
+
+                                <Button
+                                  className="w-100"
+                                  style={{
+                                    backgroundColor: "#1E45E1",
+                                    height: 45,
+                                    borderRadius: 12,
+                                    fontSize: 15,
+                                    fontWeight: 600,
+                                    fontFamily: "Montserrat",
+                                    paddingLeft: 25,
+                                    paddingRight: 25,
+                                  }}
+
+                                  disabled={advanceDetail[0]?.inv_id}
+                                  onClick={handleSaveButton}
+                                >
+                                  Save
+                                </Button>
+                              </div>
 
                             </div>
 
@@ -5676,6 +5724,34 @@ function UserListRoomDetail(props) {
                       />
                     </TabPanel>
                   </TabContext>
+
+
+
+
+
+
+
+                  {/* New conversion Ui  */}
+
+
+
+                  {/* {
+                    editBasicDetailsShow && <EditBasicDetails show={editBasicDetailsShow} handleClose={handleCloseBasicDetails} />
+                  }
+
+                  {
+                    editAddressDetailsShow && <EditAddressDetails show={editAddressDetailsShow} handleClose={handleCloseAddressDetails} />
+                  }
+
+                  {
+                    editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails} />
+                  }
+
+
+                  {
+                    stayDetailsShow && <StayHistory show={stayDetailsShow} handleClose={handleCloseStayHistory} />
+                  } */}
+
                 </div>
               );
             })}
