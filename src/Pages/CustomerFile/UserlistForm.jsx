@@ -17,8 +17,8 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-// import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
-// import { Trash } from 'iconsax-react';
+import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
+import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Flipbackward from "../../Assets/Images/flip-backward.png";
 import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
@@ -551,7 +551,7 @@ function UserlistForm(props) {
     }
   }, []);
 
-  const MobileNumber = `${countryCode}${Phone}`;
+  // const MobileNumber = `${countryCode}${Phone}`;
 
   const validateField = (value, fieldName, ref, setError, focusedRef) => {
     const trimmedValue = String(value).trim();
