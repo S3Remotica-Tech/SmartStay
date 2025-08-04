@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Modal, Button } from "react-bootstrap";
@@ -174,12 +175,43 @@ const InvoicePage = () => {
   const handleClick = (stayType) => {
     setActiveStay(stayType);
   };
+
+
   const handleToggle = (id) => {
-    setCheckedRows((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+    if (!id) return;
+
+    setCheckedRows((prev) => {
+      const updated = {
+        ...prev,
+        [id]: !prev[id],
+      };
+      const cleaned = Object.fromEntries(
+        Object.entries(updated).filter(([key]) => key !== 'undefined')
+      );
+
+
+      const updatedValue = cleaned[id];
+     
+      dispatch({
+        type: 'CUSTOMERRECURRINGENABLEDISABLE',
+        payload: {
+          user_id: id,
+          bill_enable: updatedValue,
+        },
+      });
+
+      return cleaned;
+    });
   };
+
+
+
+
+  
+
+
+
+
 
   useEffect(() => {
 
@@ -1620,9 +1652,9 @@ const InvoicePage = () => {
 
 
 
-  console.log("recurringbills", recurringbills)
+  
 
-  // console.log("filteredBills", filteredBills)
+
 
   const handlePageChangeRecure = (pageNumber) => {
     setCurrentRecurePage(pageNumber);
@@ -1665,7 +1697,8 @@ const InvoicePage = () => {
 
 
 
-  console.log("sortConfigRecure", sortConfigRecure)
+
+
 
 
 
@@ -1767,7 +1800,7 @@ const InvoicePage = () => {
       setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId , stay_type: activeStay},
+        payload: { hostel_id: hostelId, stay_type: activeStay },
       });
     }
 
@@ -2362,7 +2395,7 @@ const InvoicePage = () => {
       setRecurLoader(true);
       dispatch({
         type: "RECURRING-BILLS-LIST",
-         payload: { hostel_id: hostelId , stay_type: activeStay},
+        payload: { hostel_id: hostelId, stay_type: activeStay },
       });
     }
   }, [hostelId, activeStay]);
@@ -2385,7 +2418,7 @@ const InvoicePage = () => {
     ) {
       dispatch({
         type: "RECURRING-BILLS-LIST",
-         payload: { hostel_id: hostelId , stay_type: activeStay},
+        payload: { hostel_id: hostelId, stay_type: activeStay },
       });
       setRecurringBills(state.InvoiceList.RecurringBills);
 
@@ -4697,37 +4730,37 @@ const InvoicePage = () => {
                         There are no Recuring bills added{" "}
                       </div>
                     </div>
-                  ):  !recurLoader && sortedDataRecure.length === 0 && activeStay === 'short_stay' ?
-                   <div
-                            style={{
-                              height: "400px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              backgroundColor: "#f2f6fc",
-                              borderRadius: "10px",
-                              marginTop: "20px",
-                              marginRight: "10px",
-                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-                              border: "1px dashed #b0c4de",
-                            }}
-                          >
-                            <div style={{ textAlign: "center" }}>
-                              <img
-                                src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                                alt="Coming Soon"
-                                width="80"
-                                height="80"
-                                style={{ marginBottom: "15px", opacity: 0.7 }}
-                              />
+                  ) : !recurLoader && sortedDataRecure.length === 0 && activeStay === 'short_stay' ?
+                    <div
+                      style={{
+                        height: "400px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "#f2f6fc",
+                        borderRadius: "10px",
+                        marginTop: "20px",
+                        marginRight: "10px",
+                        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                        border: "1px dashed #b0c4de",
+                      }}
+                    >
+                      <div style={{ textAlign: "center" }}>
+                        <img
+                          src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+                          alt="Coming Soon"
+                          width="80"
+                          height="80"
+                          style={{ marginBottom: "15px", opacity: 0.7 }}
+                        />
 
-                              <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
-                            </div>
-                          </div>
-                  
-                  
-                 :
-                 "" }
+                        <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
+                      </div>
+                    </div>
+
+
+                    :
+                    ""}
 
 
 
@@ -4854,7 +4887,7 @@ const InvoicePage = () => {
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'desc')} style={{ cursor: "pointer" }} />
                                   </div>
-                                  Created</div>
+                                  Last Invoice number</div>
                               </th>
                               <th
                                 style={{
@@ -4872,7 +4905,7 @@ const InvoicePage = () => {
                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'asc')} style={{ cursor: "pointer" }} />
                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'desc')} style={{ cursor: "pointer" }} />
                                   </div>
-                                  Due Date</div>
+                                  Last Invoice Date</div>
                               </th>
                               <th
                                 style={{
@@ -4947,10 +4980,10 @@ const InvoicePage = () => {
                               sortedDataRecure.length > 0 &&
                               sortedDataRecure.map((item) => (
                                 <RecurringBillList
-                                  key={item.id}
+                                  key={item.ID}
                                   item={item}
-                                  checked={!!checkedRows[item.id]}
-                                  onToggle={() => handleToggle(item.id)}
+                                  checked={checkedRows[item.ID] === true}
+                                  onToggle={() => handleToggle(item.ID)}
                                   handleDeleteRecurringbills={
                                     handleDeleteRecurringbills
                                   }
