@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 // import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 // import { Trash } from 'iconsax-react';
-// import addcircle from "../../Assets/Images/New_images/add-circle.png";
+import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Flipbackward from "../../Assets/Images/flip-backward.png";
 import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
 import Store_Icon from "../../Assets/Images/store_icon.png";
@@ -62,7 +62,7 @@ function UserlistForm(props) {
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [hostelIdError, setHostelIdError] = useState("");
+  // const [hostelIdError, setHostelIdError] = useState("");
   const [phonenumError, setphonenumError] = useState("");
   const [emailIdError, setemailIdError] = useState("");
   const [house_noError, setHouse_NoError] = useState("");
@@ -73,8 +73,8 @@ function UserlistForm(props) {
   const [state_nameError, setStateNameError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-  // const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
-  // const [formLoading, setFormLoading] = useState(false)
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
+  const [formLoading, setFormLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
   const [errors, setErrors] = useState([]);
@@ -212,7 +212,7 @@ function UserlistForm(props) {
 
   useEffect(() => {
     if (state.UsersList.phoneError) {
-      // setFormLoading(false)
+      setFormLoading(false)
       setLoading(false)
       setphonenumError(state.UsersList.phoneError);
     }
@@ -220,7 +220,7 @@ function UserlistForm(props) {
 
   useEffect(() => {
     if (state.UsersList.emailError) {
-      // setFormLoading(false)
+      setFormLoading(false)
       setLoading(false)
       setemailIdError(state.UsersList.emailError);
     }
@@ -1091,7 +1091,7 @@ function UserlistForm(props) {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      // setFormLoading(false)
+      setFormLoading(false)
       setLoading(false)
       if (props.edit === "Edit") {
         props.setRoomDetail(true);
@@ -1113,7 +1113,7 @@ function UserlistForm(props) {
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
-      // setFormLoading(false)
+      setFormLoading(false)
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
