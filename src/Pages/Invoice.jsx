@@ -177,6 +177,18 @@ const InvoicePage = () => {
   };
 
 
+
+  useEffect(() => {
+    if (recurringbills?.length > 0) {
+      const initialChecked = {};
+      recurringbills.forEach(item => {
+        initialChecked[item.ID] = item.Bill_Enable === 1;
+      });
+      setCheckedRows(initialChecked);
+    }
+  }, [recurringbills]);
+
+
   const handleToggle = (id) => {
     if (!id) return;
 
@@ -191,7 +203,7 @@ const InvoicePage = () => {
 
 
       const updatedValue = cleaned[id];
-     
+
       dispatch({
         type: 'CUSTOMERRECURRINGENABLEDISABLE',
         payload: {
@@ -207,7 +219,7 @@ const InvoicePage = () => {
 
 
 
-  
+
 
 
 
@@ -228,6 +240,24 @@ const InvoicePage = () => {
       });
     }
   }, [hostelId]);
+
+  useEffect(() => {
+    if (state.InvoiceList.CustomerRecurringEnableDisableStatusCode === 200) {
+      dispatch({
+        type: "RECURRING-BILLS-LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id, stay_type: activeStay },
+      });
+
+      dispatch({ type: 'REMOVE_CUSTOMER_RECURRING_ENABLE_DISABLE' })
+
+
+    }
+
+  }, [state.InvoiceList.CustomerRecurringEnableDisableStatusCode])
+
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.ManualInvoicesgetstatuscode === 200) {
@@ -1652,7 +1682,7 @@ const InvoicePage = () => {
 
 
 
-  
+
 
 
 
