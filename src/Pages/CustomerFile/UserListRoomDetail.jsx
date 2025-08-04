@@ -8,7 +8,7 @@ import "./UserList.css";
 import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
-import Money from "../../Assets/Images/New_images/Money.png";
+// import Money from "../../Assets/Images/New_images/Money.png";
 import Carousel from "react-bootstrap/Carousel";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -463,80 +463,80 @@ function UserListRoomDetail(props) {
 
 
 
-  // const handleEditUser = (item) => {
+  const handleEditUser = (item) => {
 
-  //   if (item[0].ID) {
-  //     const sanitize = (value) => {
-  //       return value === null ||
-  //         value === undefined ||
-  //         value === "null" ||
-  //         value === "undefined"
-  //         ? ""
-  //         : value;
-  //     };
+    if (item[0].ID) {
+      const sanitize = (value) => {
+        return value === null ||
+          value === undefined ||
+          value === "null" ||
+          value === "undefined"
+          ? ""
+          : value;
+      };
 
-  //     const phoneNumber = String(item[0].Phone || "");
-  //     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-  //     const mobileNumber = phoneNumber.slice(-10);
-  //     setBednum(item);
-  //     seteditBed("editbeddet");
-  //     setcustomerAsignBed(false);
-  //     setcustomerdetailShow(true);
-  //     setFormShow(true);
+      const phoneNumber = String(item[0].Phone || "");
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+      const mobileNumber = phoneNumber.slice(-10);
+      setBednum(item);
+      seteditBed("editbeddet");
+      setcustomerAsignBed(false);
+      setcustomerdetailShow(true);
+      setFormShow(true);
 
-  //     setId(item[0].ID);
-  //     setFile(item[0].profile === "0" ? null : item[0].profile);
+      setId(item[0].ID);
+      setFile(item[0].profile === "0" ? null : item[0].profile);
 
-  //     let value = item[0].Name ? item[0].Name.split(" ") : ["", ""];
-  //     setFirstname(value[0].trim());
-  //     setLastname(value[1] ? value[1].trim() : "");
+      let value = item[0].Name ? item[0].Name.split(" ") : ["", ""];
+      setFirstname(value[0].trim());
+      setLastname(value[1] ? value[1].trim() : "");
 
-  //     setAddress(item[0].Address || "");
-  //     setAadharNo(item[0].AadharNo || "");
-  //     setPancardNo(item[0].PancardNo || "");
-  //     setLicence(item[0].licence || "");
-  //     setPhone(mobileNumber);
-  //     setCountryCode(countryCode);
-  //     setEmail(item[0].Email || "");
-  //     setHostelName(item[0].HostelName || "");
-  //     setHostel_Id(item[0].Hostel_Id || "");
-  //     setFloor(item[0].Floor || "");
-  //     setRooms(item[0].Rooms || "");
-  //     setRoomId(item[0].room_id || "");
-  //     setBedId(item[0].hstl_Bed || "");
-  //     setSelectedDate(item[0].user_join_date || "");
-  //     setAdvanceAmount(item[0].AdvanceAmount || "");
-  //     setRoomRent(item[0].RoomRent || "");
-  //     setPaymentType(item[0].PaymentType || "");
-  //     setBalanceDue(item[0].BalanceDue || "");
-  //     setPaidAdvance(item[0].paid_advance || "");
-  //     setPaidrent(item[0].paid_rent || "");
+      setAddress(item[0].Address || "");
+      setAadharNo(item[0].AadharNo || "");
+      setPancardNo(item[0].PancardNo || "");
+      setLicence(item[0].licence || "");
+      setPhone(mobileNumber);
+      setCountryCode(countryCode);
+      setEmail(item[0].Email || "");
+      setHostelName(item[0].HostelName || "");
+      setHostel_Id(item[0].Hostel_Id || "");
+      setFloor(item[0].Floor || "");
+      setRooms(item[0].Rooms || "");
+      setRoomId(item[0].room_id || "");
+      setBedId(item[0].hstl_Bed || "");
+      setSelectedDate(item[0].user_join_date || "");
+      setAdvanceAmount(item[0].AdvanceAmount || "");
+      setRoomRent(item[0].RoomRent || "");
+      setPaymentType(item[0].PaymentType || "");
+      setBalanceDue(item[0].BalanceDue || "");
+      setPaidAdvance(item[0].paid_advance || "");
+      setPaidrent(item[0].paid_rent || "");
 
-  //     setHouseNo(sanitize(item[0].Address));
-  //     setStreet(sanitize(item[0].area));
-  //     setLandmark(sanitize(item[0].landmark));
-  //     setCity(sanitize(item[0].city));
-  //     setPincode(sanitize(item[0].pincode));
-  //     setStateName(sanitize(item[0].state));
+      setHouseNo(sanitize(item[0].Address));
+      setStreet(sanitize(item[0].area));
+      setLandmark(sanitize(item[0].landmark));
+      setCity(sanitize(item[0].city));
+      setPincode(sanitize(item[0].pincode));
+      setStateName(sanitize(item[0].state));
 
-  //     setInitialState({
-  //       firstname: value[0].trim(),
-  //       lastname: value[1] ? value[1].trim() : "",
-  //       Phone: item[0].Phone || "",
-  //       Email: item[0].Email || "",
-  //       Address: item[0].Address || "",
-  //       hostel_Id: item[0].Hostel_Id || "",
-  //       house_no: sanitize(item[0].Address) || "",
-  //       street: sanitize(item[0].area) || "",
-  //       city: sanitize(item[0].city) || "",
-  //       pincode: sanitize(item[0].pincode) || "",
-  //       landmark: sanitize(item[0].landmark) || "",
-  //       state: sanitize(item[0].state) || "",
+      setInitialState({
+        firstname: value[0].trim(),
+        lastname: value[1] ? value[1].trim() : "",
+        Phone: item[0].Phone || "",
+        Email: item[0].Email || "",
+        Address: item[0].Address || "",
+        hostel_Id: item[0].Hostel_Id || "",
+        house_no: sanitize(item[0].Address) || "",
+        street: sanitize(item[0].area) || "",
+        city: sanitize(item[0].city) || "",
+        pincode: sanitize(item[0].pincode) || "",
+        landmark: sanitize(item[0].landmark) || "",
+        state: sanitize(item[0].state) || "",
 
-  //       file: item[0].profile === "0" ? null : item[0].profile || null,
-  //     });
-  //   }
-  // };
+        file: item[0].profile === "0" ? null : item[0].profile || null,
+      });
+    }
+  };
 
 
 
@@ -1751,15 +1751,16 @@ function UserListRoomDetail(props) {
 
   // new converstion onclick function for basic details & address & stay
 
-  const handleEditBasicDetails = (item) => {
+  const handleEditBasicDetails = () => {
     setEditBasicDetailsShow(true)
+    setCountryCode("91")
 
   };
   const handleCloseBasicDetails = () => {
     setEditBasicDetailsShow(false)
   }
 
-  const handleEditAddressDetailsShow = (item) => {
+  const handleEditAddressDetailsShow = () => {
     setEditAddressDetailsShow(true)
 
   };
@@ -1768,7 +1769,7 @@ function UserListRoomDetail(props) {
   }
 
 
-  const handleEditStayDetails = (item) => {
+  const handleEditStayDetails = () => {
     setEditStayDetailsShow(true)
 
   };
@@ -1783,7 +1784,6 @@ function UserListRoomDetail(props) {
     setStayDetailsShow(false)
   }
 
-  console.log("customerDetails", customerDetails);
   
 
   return (
@@ -1886,6 +1886,7 @@ function UserListRoomDetail(props) {
       }}
     >
       <img
+      onClick={()=> handleEditUser(item)}
         src={EditImage}
         alt="Edit"
         style={{ width: "20px", height: "20px" }}
@@ -2211,6 +2212,7 @@ function UserListRoomDetail(props) {
                                     >
                                       <img
                                       src={EditImage}
+                                      alt="editimage"
                                         style={{
                                           height: 20,
                                           width: 20,
@@ -2694,6 +2696,7 @@ function UserListRoomDetail(props) {
                                     >
                                       <img
                                       src={EditImage}
+                                      alt="editimage"
                                         style={{
                                           height: 20,
                                           width: 20,
@@ -2920,6 +2923,7 @@ function UserListRoomDetail(props) {
                                         }}
                                       >
                                           <img src={Areaimage}
+                                          alt="Areaimage"
                                           size="18"
                                           color="#1E45E1"
                                           style={{ marginBottom: "2px" }}
@@ -2960,7 +2964,7 @@ function UserListRoomDetail(props) {
                                           width: "100%",
                                         }}
                                       >
-                                        <img src={Landamrkimage} size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+                                        <img src={Landamrkimage} alt="Landamrkimage" size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
                                         <span
                                           style={{
                                             fontSize: 14,
@@ -2991,7 +2995,7 @@ function UserListRoomDetail(props) {
                                         Pincode
                                       </p>
                                       <p style={{ marginTop: "-10px", marginRight:15 }}>
-                                        <img src={PincodeImage} size="16" color="#1E45E1" />
+                                        <img src={PincodeImage} alt="PincodeImage"  size="16" color="#1E45E1" />
                                          <span
                                           style={{
                                             fontSize: 14,
@@ -3058,7 +3062,7 @@ function UserListRoomDetail(props) {
                                           width: "100%",
                                         }}
                                       >
-                                        <img src={CityImage} size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+                                        <img src={CityImage} alt="CityImage" size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
                                         <span
                                           style={{
                                             fontSize: 14,
@@ -3090,7 +3094,7 @@ function UserListRoomDetail(props) {
                                         State
                                       </p>
                                       <p style={{ marginTop: "-10px" , marginLeft:15 }}>
-                                        <img src={CityImage} size="16" color="#1E45E1" />
+                                        <img src={CityImage} alt="CityImage" size="16" color="#1E45E1" />
                                         <span
                                           style={{
                                             fontSize: 14,
@@ -3594,6 +3598,7 @@ function UserListRoomDetail(props) {
                                     >
                                       <img
                                       src={EditImage}
+                                      alt="EditImage"
                                         style={{
                                           height: 20,
                                           width: 20,
@@ -3621,7 +3626,7 @@ function UserListRoomDetail(props) {
                                         Floor
                                       </p>
                                       <p style={{ marginTop: "-10px" }}>
-                                        <img src={Floorimage} size="16" color="#1E45E1" />
+                                        <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" />
                                         <span
                                           style={{
                                             fontSize: 14,
