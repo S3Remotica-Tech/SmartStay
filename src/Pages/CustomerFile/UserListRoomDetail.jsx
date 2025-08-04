@@ -40,12 +40,24 @@ import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
 import html2canvas from "html2canvas";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
-
+import EditImage from "../../Assets/Images/New_images/edit.png"
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-// import EditBasicDetails from "./EditBasicDetails";
-// import EditAddressDetails from "./EditAddressDetails";
-// import EditStayDetails from "./EditStayDetails";
-// import StayHistory from "./StayHistory";
+import Landamrkimage from "../../Assets/Images/landmark.png";
+import Areaimage from "../../Assets/Images/area_icon.png";
+import PincodeImage from "../../Assets/Images/pin.png";
+import CityImage from "../../Assets/Images/buildings.png";
+import Floorimage from "../../Assets/Images/floor_icon.png";
+import RoomImage from "../../Assets/Images/room_icon.png";
+import LinkImage from "../../Assets/Images/home-link.png";
+import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
+import MoneyImage from "../../Assets/Images/Money.png";
+// import Reload from "../../Assets/Images/repeate-one.png";
+import EyeIcon from "../../Assets/Images/eye.png";
+import Stayhistory from "../../Assets/Images/stay_history.png";
+import EditBasicDetails from "./EditBasicDetails";
+import EditAddressDetails from "./EditAddressDetails";
+import EditStayDetails from "./EditStayDetails";
+import StayHistory from "./StayHistory";
 
 
 
@@ -121,10 +133,10 @@ function UserListRoomDetail(props) {
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
   const [errors, setErrors] = useState([]);
   // new conversion state don't remove
-  // const [editBasicDetailsShow, setEditBasicDetailsShow] = useState(false)
-  // const [editAddressDetailsShow, setEditAddressDetailsShow] = useState(false)
-  // const [editStayDetailsShow, setEditStayDetailsShow] = useState(false)
-  // const [stayDetailsShow, setStayDetailsShow] = useState(false)
+  const [editBasicDetailsShow, setEditBasicDetailsShow] = useState(false)
+  const [editAddressDetailsShow, setEditAddressDetailsShow] = useState(false)
+  const [editStayDetailsShow, setEditStayDetailsShow] = useState(false)
+  const [stayDetailsShow, setStayDetailsShow] = useState(false)
   const [fields, setFields] = useState([]);
 
 
@@ -451,80 +463,80 @@ function UserListRoomDetail(props) {
 
 
 
-  const handleEditUser = (item) => {
+  // const handleEditUser = (item) => {
 
-    if (item[0].ID) {
-      const sanitize = (value) => {
-        return value === null ||
-          value === undefined ||
-          value === "null" ||
-          value === "undefined"
-          ? ""
-          : value;
-      };
+  //   if (item[0].ID) {
+  //     const sanitize = (value) => {
+  //       return value === null ||
+  //         value === undefined ||
+  //         value === "null" ||
+  //         value === "undefined"
+  //         ? ""
+  //         : value;
+  //     };
 
-      const phoneNumber = String(item[0].Phone || "");
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      const mobileNumber = phoneNumber.slice(-10);
-      setBednum(item);
-      seteditBed("editbeddet");
-      setcustomerAsignBed(false);
-      setcustomerdetailShow(true);
-      setFormShow(true);
+  //     const phoneNumber = String(item[0].Phone || "");
+  //     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+  //     const mobileNumber = phoneNumber.slice(-10);
+  //     setBednum(item);
+  //     seteditBed("editbeddet");
+  //     setcustomerAsignBed(false);
+  //     setcustomerdetailShow(true);
+  //     setFormShow(true);
 
-      setId(item[0].ID);
-      setFile(item[0].profile === "0" ? null : item[0].profile);
+  //     setId(item[0].ID);
+  //     setFile(item[0].profile === "0" ? null : item[0].profile);
 
-      let value = item[0].Name ? item[0].Name.split(" ") : ["", ""];
-      setFirstname(value[0].trim());
-      setLastname(value[1] ? value[1].trim() : "");
+  //     let value = item[0].Name ? item[0].Name.split(" ") : ["", ""];
+  //     setFirstname(value[0].trim());
+  //     setLastname(value[1] ? value[1].trim() : "");
 
-      setAddress(item[0].Address || "");
-      setAadharNo(item[0].AadharNo || "");
-      setPancardNo(item[0].PancardNo || "");
-      setLicence(item[0].licence || "");
-      setPhone(mobileNumber);
-      setCountryCode(countryCode);
-      setEmail(item[0].Email || "");
-      setHostelName(item[0].HostelName || "");
-      setHostel_Id(item[0].Hostel_Id || "");
-      setFloor(item[0].Floor || "");
-      setRooms(item[0].Rooms || "");
-      setRoomId(item[0].room_id || "");
-      setBedId(item[0].hstl_Bed || "");
-      setSelectedDate(item[0].user_join_date || "");
-      setAdvanceAmount(item[0].AdvanceAmount || "");
-      setRoomRent(item[0].RoomRent || "");
-      setPaymentType(item[0].PaymentType || "");
-      setBalanceDue(item[0].BalanceDue || "");
-      setPaidAdvance(item[0].paid_advance || "");
-      setPaidrent(item[0].paid_rent || "");
+  //     setAddress(item[0].Address || "");
+  //     setAadharNo(item[0].AadharNo || "");
+  //     setPancardNo(item[0].PancardNo || "");
+  //     setLicence(item[0].licence || "");
+  //     setPhone(mobileNumber);
+  //     setCountryCode(countryCode);
+  //     setEmail(item[0].Email || "");
+  //     setHostelName(item[0].HostelName || "");
+  //     setHostel_Id(item[0].Hostel_Id || "");
+  //     setFloor(item[0].Floor || "");
+  //     setRooms(item[0].Rooms || "");
+  //     setRoomId(item[0].room_id || "");
+  //     setBedId(item[0].hstl_Bed || "");
+  //     setSelectedDate(item[0].user_join_date || "");
+  //     setAdvanceAmount(item[0].AdvanceAmount || "");
+  //     setRoomRent(item[0].RoomRent || "");
+  //     setPaymentType(item[0].PaymentType || "");
+  //     setBalanceDue(item[0].BalanceDue || "");
+  //     setPaidAdvance(item[0].paid_advance || "");
+  //     setPaidrent(item[0].paid_rent || "");
 
-      setHouseNo(sanitize(item[0].Address));
-      setStreet(sanitize(item[0].area));
-      setLandmark(sanitize(item[0].landmark));
-      setCity(sanitize(item[0].city));
-      setPincode(sanitize(item[0].pincode));
-      setStateName(sanitize(item[0].state));
+  //     setHouseNo(sanitize(item[0].Address));
+  //     setStreet(sanitize(item[0].area));
+  //     setLandmark(sanitize(item[0].landmark));
+  //     setCity(sanitize(item[0].city));
+  //     setPincode(sanitize(item[0].pincode));
+  //     setStateName(sanitize(item[0].state));
 
-      setInitialState({
-        firstname: value[0].trim(),
-        lastname: value[1] ? value[1].trim() : "",
-        Phone: item[0].Phone || "",
-        Email: item[0].Email || "",
-        Address: item[0].Address || "",
-        hostel_Id: item[0].Hostel_Id || "",
-        house_no: sanitize(item[0].Address) || "",
-        street: sanitize(item[0].area) || "",
-        city: sanitize(item[0].city) || "",
-        pincode: sanitize(item[0].pincode) || "",
-        landmark: sanitize(item[0].landmark) || "",
-        state: sanitize(item[0].state) || "",
+  //     setInitialState({
+  //       firstname: value[0].trim(),
+  //       lastname: value[1] ? value[1].trim() : "",
+  //       Phone: item[0].Phone || "",
+  //       Email: item[0].Email || "",
+  //       Address: item[0].Address || "",
+  //       hostel_Id: item[0].Hostel_Id || "",
+  //       house_no: sanitize(item[0].Address) || "",
+  //       street: sanitize(item[0].area) || "",
+  //       city: sanitize(item[0].city) || "",
+  //       pincode: sanitize(item[0].pincode) || "",
+  //       landmark: sanitize(item[0].landmark) || "",
+  //       state: sanitize(item[0].state) || "",
 
-        file: item[0].profile === "0" ? null : item[0].profile || null,
-      });
-    }
-  };
+  //       file: item[0].profile === "0" ? null : item[0].profile || null,
+  //     });
+  //   }
+  // };
 
 
 
@@ -1739,37 +1751,40 @@ function UserListRoomDetail(props) {
 
   // new converstion onclick function for basic details & address & stay
 
-  // const handleEditBasicDetails = (item) => {
-  //   setEditBasicDetailsShow(true)
+  const handleEditBasicDetails = (item) => {
+    setEditBasicDetailsShow(true)
 
-  // };
-  // const handleCloseBasicDetails = () => {
-  //   setEditBasicDetailsShow(false)
-  // }
+  };
+  const handleCloseBasicDetails = () => {
+    setEditBasicDetailsShow(false)
+  }
 
-  // const handleEditAddressDetailsShow = (item) => {
-  //   setEditAddressDetailsShow(true)
+  const handleEditAddressDetailsShow = (item) => {
+    setEditAddressDetailsShow(true)
 
-  // };
-  // const handleCloseAddressDetails = () => {
-  //   setEditAddressDetailsShow(false)
-  // }
+  };
+  const handleCloseAddressDetails = () => {
+    setEditAddressDetailsShow(false)
+  }
 
 
-  // const handleEditStayDetails = (item) => {
-  //   setEditStayDetailsShow(true)
+  const handleEditStayDetails = (item) => {
+    setEditStayDetailsShow(true)
 
-  // };
-  // const handleCloseStayDetails = () => {
-  //   setEditStayDetailsShow(false)
-  // }
+  };
+  const handleCloseStayDetails = () => {
+    setEditStayDetailsShow(false)
+  }
 
-  // const handleShowStayHistory = () => {
-  //   setStayDetailsShow(true)
-  // }
-  // const handleCloseStayHistory = () => {
-  //   setStayDetailsShow(false)
-  // }
+  const handleShowStayHistory = () => {
+    setStayDetailsShow(true)
+  }
+  const handleCloseStayHistory = () => {
+    setStayDetailsShow(false)
+  }
+
+  console.log("customerDetails", customerDetails);
+  
 
   return (
 
@@ -1826,20 +1841,60 @@ function UserListRoomDetail(props) {
                   >
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
-                        <Image
-                          src={imageUrl}
-                          alt={item.Name || "Default Profile"}
-                          roundedCircle
-                          style={{
-                            height: "80px",
-                            width: "80px",
-                            marginRight: "10px",
-                          }}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = Profiles;
-                          }}
-                        />
+ <div style={{ position: "relative", width: "80px", height: "80px", marginRight: "10px" }}>
+  <img
+    src={imageUrl}
+    alt={item.Name || "Default Profile"}
+    style={{
+      height: "80px",
+      width: "80px",
+      borderRadius: "50%",
+      objectFit: "cover",
+    }}
+    onError={(e) => {
+      e.target.onerror = null;
+      e.target.src = Profiles;
+    }}
+  />
+
+  <div
+    className="edit-overlay"
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      height: "100%",
+      width: "100%",
+      borderRadius: "50%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      opacity: 0,
+      transition: "opacity 0.3s",
+      cursor: "pointer",
+    }}
+  >
+    <div
+      className="edit-icon-wrapper"
+      style={{
+        backgroundColor: "#fff",
+        borderRadius: "50%",
+        padding: "6px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <img
+        src={EditImage}
+        alt="Edit"
+        style={{ width: "20px", height: "20px" }}
+      />
+    </div>
+  </div>
+</div>
+
+
                         <div style={{ marginLeft: 10 }}>
                           <span
                             className="card-title mb-0"
@@ -1942,8 +1997,57 @@ function UserListRoomDetail(props) {
                             </>
                           }
 
+                   {/* chekout logic  */}
+                      {/* <Button
+                                disabled={props.customerAddPermission}
+                                type="primary"
+                                style={{
+                                  borderRadius: "20px",
+                                  backgroundColor: "rgba(255, 209, 209, 0.26)",
+                                  border: "none",
+                                  padding: "0 16px",
+                                  height: "32px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                  color:'rgba(255, 0, 0, 1)'
+                                }}
+                              >
+                               <div style={{height:5 , width:5 , backgroundColor:'rgba(255, 0, 0, 1)', borderRadius:'50%', marginRight: 6}}></div> Checked out 
+                              </Button>
+                          
+                            <p   style={{
+                                  fontSize: 14,
+                                  fontWeight: 400,
+                                  fontFamily: "Gilroy",
+                                  marginTop: 4,
+                                }}>Very disciplined tenant, paid on time and maintained the room well.</p> */}
+                          
+
                         </div>
                       </div>
+
+                      {/* chekout logic  */}
+                      {/* <div>
+                           <Button
+                                disabled={props.customerAddPermission}
+                                type="primary"
+                                style={{
+                                  borderRadius: "20px",
+                                  backgroundColor: "#1848f1",
+                                  border: "none",
+                                  padding: "0 16px",
+                                  height: "32px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                             <img  src={Reload} alt="recheckin" className="me-1"/>   Re Check-In
+                              </Button>
+                      </div> */}
 
                       <div
                         style={{
@@ -2058,7 +2162,7 @@ function UserListRoomDetail(props) {
                                 className="card"
                                 style={{
                                   borderRadius: "20px",
-                                  padding: "20px",
+                                  padding: "10px",
                                   marginLeft: "20px",
                                 }}
                               >
@@ -2073,7 +2177,7 @@ function UserListRoomDetail(props) {
                                       fontFamily: "Gilroy",
                                     }}
                                   >
-                                    Basic Information
+                                    Basic Details
                                   </div>
                                   <div
                                     style={{
@@ -2088,7 +2192,7 @@ function UserListRoomDetail(props) {
                                     <div
                                       onClick={() => {
                                         if (!props.customerEditPermission) {
-                                          handleEditUser(customerDetails);
+                                          handleEditBasicDetails(customerDetails);
                                         }
                                       }}
                                       style={{
@@ -2097,20 +2201,16 @@ function UserListRoomDetail(props) {
                                           : "pointer",
                                         height: 40,
                                         width: 40,
-                                        borderRadius: 100,
-                                        border: "1px solid #EFEFEF",
                                         display: "flex",
                                         justifyContent: "center",
                                         alignItems: "center",
                                         position: "relative",
                                         zIndex: 1000,
-                                        backgroundColor:
-                                          props.customerEditPermission
-                                            ? "#F5F5F5"
-                                            : "#FFF",
+                                 
                                       }}
                                     >
-                                      <PiDotsThreeOutlineVerticalFill
+                                      <img
+                                      src={EditImage}
                                         style={{
                                           height: 20,
                                           width: 20,
@@ -2124,7 +2224,7 @@ function UserListRoomDetail(props) {
                                 </div>
 
                                 <div className="card-body">
-                                  <div className="row">
+                                  {/* <div className="row">
                                     <div className="col-sm-4 d-flex flex-column align-items-start">
                                       <p
                                         style={{
@@ -2272,10 +2372,79 @@ function UserListRoomDetail(props) {
                                         </span>
                                       </p>
                                     </div>
-                                  </div>
+                                  </div> */}
+
+                               {(() => {
+  const fullName = item?.Name || '';
+  const nameParts = fullName.trim().split(' ');
+  const firstName = nameParts[0] || '-';
+  const lastName = nameParts.slice(1).join(' ') || '-';
+
+  return (
+    <div className="row">
+      <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+        <p
+          style={{
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+          }}
+        >
+          First Name
+        </p>
+        <div
+          style={{
+            display: "flex",
+            marginTop: "-10px",
+            gap: "6px",
+            width: "100%",
+          }}
+        >
+          <span
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
+              minWidth: 0,
+              marginTop: -3,
+            }}
+          >
+            {firstName}
+          </span>
+        </div>
+      </div>
+
+      <div
+        className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
+        style={{ whiteSpace: "nowrap" }}
+      >
+        <p
+          style={{
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+          }}
+        >
+          Last Name
+        </p>
+        <p style={{ marginTop: "-10px",   fontSize: 14,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
+              minWidth: 0,marginRight:15 }}>
+          {lastName}
+        </p>
+      </div>
+    </div>
+  );
+})()}
+
 
                                   <div className="row">
-                                    <div className="col-sm-4 d-flex flex-column align-items-start">
+                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
                                       <p
                                         style={{
                                           fontSize: 12,
@@ -2310,7 +2479,7 @@ function UserListRoomDetail(props) {
                                       </div>
                                     </div>
                                     <div
-                                      className="col-sm-4 d-flex flex-column align-items-center"
+                                      className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
                                       style={{ whiteSpace: "nowrap" }}
                                     >
                                       <p
@@ -2322,7 +2491,7 @@ function UserListRoomDetail(props) {
                                       >
                                         Mobile No
                                       </p>
-                                      <p style={{ marginTop: "-10px" }}>
+                                      <p style={{ marginTop: "-10px" , marginLeft:60}}>
                                         <Call size="16" color="#1E45E1" />
                                         <span
                                           style={{
@@ -2344,7 +2513,7 @@ function UserListRoomDetail(props) {
                                         </span>
                                       </p>
                                     </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-end">
+                                    {/* <div className="col-sm-4 d-flex flex-column align-items-end">
                                       <p
                                         style={{
                                           fontSize: 12,
@@ -2372,10 +2541,10 @@ function UserListRoomDetail(props) {
                                           ₹ {customerDetails[0].RoomRent}
                                         </span>
                                       </p>
-                                    </div>
+                                    </div> */}
                                   </div>
 
-                                  <div className="row">
+                                  {/* <div className="row">
                                     <div className="col-sm-12">
                                       <p
                                         style={{
@@ -2466,10 +2635,605 @@ function UserListRoomDetail(props) {
 
                                       </div>
                                     </div>
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                             </div>
+
+                             <div className="col-md-12 mb-3 mb-md-0 mt-3">
+                              <div
+                                className="card"
+                                style={{
+                                  borderRadius: "20px",
+                                  padding: "5px 10px",
+                                  marginLeft: "20px",
+                                }}
+                              >
+                                <div
+                                  className="card-header d-flex justify-content-between align-items-center"
+                                  style={{ backgroundColor: "transparent" }}
+                                >
+                                  <div
+                                    style={{
+                                      fontSize: 16,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    Address Details
+                                  </div>
+                                  <div
+                                    style={{
+                                      cursor: props.customerEditPermission
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      opacity: props.customerEditPermission
+                                        ? 0.6
+                                        : 1,
+                                    }}
+                                  >
+                                    <div
+                                      onClick={() => {
+                                        if (!props.customerEditPermission) {
+                                          handleEditAddressDetailsShow(customerDetails);
+                                        }
+                                      }}
+                                      style={{
+                                        cursor: props.customerEditPermission
+                                          ? "not-allowed"
+                                          : "pointer",
+                                        height: 40,
+                                        width: 40,
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        position: "relative",
+                                        zIndex: 1000,
+                                    
+                                      }}
+                                    >
+                                      <img
+                                      src={EditImage}
+                                        style={{
+                                          height: 20,
+                                          width: 20,
+                                          color: props.customerEditPermission
+                                            ? "#CCCCCC"
+                                            : "#000",
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="card-body">
+                                  {/* <div className="row">
+                                    <div className="col-sm-4 d-flex flex-column align-items-start">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Floor
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        <Buildings size="16" color="#1E45E1" />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            marginLeft: 5,
+                                          }}
+                                        >
+                                          {" "}
+                                          {item.floor_name &&
+                                            item.floor_name !== "undefined" &&
+                                            item.floor_name !== 0 &&
+                                            item.floor_name !== "null"
+                                            ? item.floor_name
+                                            : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-sm-4 d-flex flex-column align-items-center">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Room
+                                      </p>
+                                      <p
+                                        onClick={() => {
+                                          if (!props.customerEditPermission && item?.Bed) {
+                                            handleShowEditBed(
+                                              customerDetails
+                                            );
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerEditPermission
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          opacity: props.customerEditPermission
+                                            ? 0.6
+                                            : 1,
+                                          marginTop: "-10px",
+                                        }}
+                                      >
+                                        <img
+                                          src={Group}
+                                          alt="group"
+                                          style={{
+                                            cursor: props.customerEditPermission || !item?.Bed
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            filter: props.customerEditPermission || !item?.Bed
+                                              ? "grayscale(100%)"
+                                              : "none",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            marginTop: "-10px",
+                                            cursor: props.customerEditPermission || !item?.Bed
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            color: props.customerEditPermission || !item?.Bed
+                                              ? "#888888"
+                                              : "#000000",
+                                          }}
+                                        >
+                                          {item.Rooms ? item.Rooms : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-sm-4 d-flex flex-column align-items-end">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Bed
+                                      </p>
+                                      <p
+                                        onClick={() => {
+                                          if (!props.customerEditPermission && item?.Bed) {
+                                            handleShowEditBed(
+                                              customerDetails
+                                            );
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerEditPermission || !item?.Bed
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          opacity: props.customerEditPermission || !item?.Bed
+                                            ? 0.6
+                                            : 1,
+                                          marginTop: "-10px",
+                                        }}
+                                      >
+                                        <img
+                                          src={Group}
+                                          alt="group"
+                                          style={{
+                                            cursor: props.customerEditPermission || !item?.Bed
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            filter: props.customerEditPermission || !item?.Bed
+                                              ? "grayscale(100%)"
+                                              : "none",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            cursor: props.customerEditPermission
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            color: props.customerEditPermission
+                                              ? "#888888"
+                                              : "#000000",
+                                          }}
+                                        >
+                                          {item.Bed ? item.Bed : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div> */}
+
+                                  <div className="row">
+ <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                      
+                                       House No / Apartment
+                                      </p>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          marginTop: "-10px",
+                                          gap: "6px",
+                                          width: "100%",
+                                        }}
+                                      >
+                                          <House
+                                          size="18"
+                                          color="#1E45E1"
+                                          style={{ marginBottom: "2px" }}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            wordBreak: "break-word",
+                                            overflowWrap: "break-word",
+                                            minWidth: 0,
+                                            marginTop: -3
+                                          }}
+                                        >
+                                          {item.Address}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div
+                                      className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
+                                      style={{ whiteSpace: "nowrap" }}
+                                    >
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Street / Area
+                                      </p>
+                                       <div
+                                        style={{
+                                          display: "flex",
+                                          marginTop: "-10px",
+                                          gap: "6px",
+                                          width: "100%",
+                                          paddingLeft:75
+                                        }}
+                                      >
+                                          <img src={Areaimage}
+                                          size="18"
+                                          color="#1E45E1"
+                                          style={{ marginBottom: "2px" }}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            wordBreak: "break-word",
+                                            overflowWrap: "break-word",
+                                            minWidth: 0,
+                                            marginTop: -3
+                                          }}
+                                        >
+                                          {item.area}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="row mt-3">
+                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                       Landmark
+                                      </p>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          marginTop: "-10px",
+                                          gap: "6px",
+                                          width: "100%",
+                                        }}
+                                      >
+                                        <img src={Landamrkimage} size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            wordBreak: "break-word",
+                                            overflowWrap: "break-word",
+                                            minWidth: 0,
+                                            marginTop: -3
+                                          }}
+                                        >
+                                          {item.landmark}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div
+                                      className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
+                                      style={{ whiteSpace: "nowrap" }}
+                                    >
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          marginRight:24
+                                        }}
+                                      >
+                                        Pincode
+                                      </p>
+                                      <p style={{ marginTop: "-10px", marginRight:15 }}>
+                                        <img src={PincodeImage} size="16" color="#1E45E1" />
+                                         <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            wordBreak: "break-word",
+                                            overflowWrap: "break-word",
+                                            minWidth: 0,
+                                            marginTop: -3,
+                                              marginLeft:5
+                                          }}
+                                        >
+                                          {item.pincode}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    {/* <div className="col-sm-4 d-flex flex-column align-items-end">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        RoomRent
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        <img
+                                          src={Money}
+                                          alt="money"
+                                          width={16}
+                                          height={16}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          ₹ {customerDetails[0].RoomRent}
+                                        </span>
+                                      </p>
+                                    </div> */}
+                                  </div>
+
+                                    <div className="row">
+                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                       City
+                                      </p>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          marginTop: "-10px",
+                                          gap: "6px",
+                                          width: "100%",
+                                        }}
+                                      >
+                                        <img src={CityImage} size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            wordBreak: "break-word",
+                                            overflowWrap: "break-word",
+                                            minWidth: 0,
+                                            marginTop: -3,
+                                            
+                                          }}
+                                        >
+                                          {item.city}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div
+                                      className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
+                                      style={{ whiteSpace: "nowrap" }}
+                                    >
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                           marginRight:40
+                                        }}
+                                      >
+                                        State
+                                      </p>
+                                      <p style={{ marginTop: "-10px" , marginLeft:15 }}>
+                                        <img src={CityImage} size="16" color="#1E45E1" />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            wordBreak: "break-word",
+                                            overflowWrap: "break-word",
+                                            minWidth: 0,
+                                            marginTop: -3,
+                                            marginLeft:5
+                                          }}
+                                        >
+                                          {item.state}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    {/* <div className="col-sm-4 d-flex flex-column align-items-end">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        RoomRent
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        <img
+                                          src={Money}
+                                          alt="money"
+                                          width={16}
+                                          height={16}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          ₹ {customerDetails[0].RoomRent}
+                                        </span>
+                                      </p>
+                                    </div> */}
+                                  </div>
+
+                                  {/* <div className="row">
+                                    <div className="col-sm-12">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Address
+                                      </p>
+
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "flex-end",
+                                          gap: "10px",
+                                          marginTop: "-8px",
+                                        }}
+                                      >
+                                        <House
+                                          size="18"
+                                          color="#1E45E1"
+                                          style={{ marginBottom: "2px" }}
+                                        />
+
+
+
+                                        {(
+                                          customerDetails[0]?.Address ||
+                                          customerDetails[0]?.area ||
+                                          customerDetails[0]?.landmark ||
+                                          (customerDetails[0]?.city && customerDetails[0].city !== "undefined" && customerDetails[0].city !== "null" && customerDetails[0].city !== 0) ||
+                                          customerDetails[0]?.pincode ||
+                                          (customerDetails[0]?.state && customerDetails[0].state !== "undefined" && customerDetails[0].state !== "null" && customerDetails[0].state !== 0)
+                                        ) ? (
+                                          <div
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              lineHeight: "1.5em",
+                                            }}
+                                          >
+                                            {(customerDetails[0]?.Address || customerDetails[0]?.area) && (
+                                              <>
+                                                {customerDetails[0]?.Address ? `${customerDetails[0].Address}, ` : ""}
+                                                {customerDetails[0]?.area ?? ""}
+                                                <br />
+                                              </>
+                                            )}
+
+                                            {(customerDetails[0]?.landmark ||
+                                              customerDetails[0]?.city ||
+                                              customerDetails[0]?.pincode ||
+                                              customerDetails[0]?.state) && (
+                                                <>
+                                                  {customerDetails[0]?.landmark ? `${customerDetails[0].landmark}, ` : ""}
+
+                                                  {(customerDetails[0]?.city &&
+                                                    customerDetails[0].city !== "undefined" &&
+                                                    customerDetails[0].city !== "null" &&
+                                                    customerDetails[0].city !== 0) ? `${customerDetails[0].city}, ` : ""}
+
+                                                  {customerDetails[0]?.pincode ? `${customerDetails[0].pincode} - ` : ""}
+
+                                                  {(customerDetails[0]?.state &&
+                                                    customerDetails[0].state !== "undefined" &&
+                                                    customerDetails[0].state !== "null" &&
+                                                    customerDetails[0].state !== 0) ? customerDetails[0].state : ""}
+                                                </>
+                                              )}
+                                          </div>
+                                        ) : (
+                                          <div
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              lineHeight: "1.5em",
+                                            }}
+                                          >
+                                            No address found
+                                          </div>
+                                        )}
+
+
+
+
+                                      </div>
+                                    </div>
+                                  </div> */}
+                                </div>
+                              </div>
+                            </div>
+
                             <div className="col-lg-12 col-md-12">
                               <div
                                 className="card"
@@ -2746,41 +3510,422 @@ function UserListRoomDetail(props) {
 
                           <div style={{ flex: 1 }}>
                             <div>
+                              <div  className="d-flex flex-column col-md-12 col-lg-12 mb-md-0"
+                                style={{
+                                  paddingLeft: 20,
+                                  paddingRight: 20,
+                                  // marginTop: 30,
+                                }}>
+                                  <div
+                                  className="card"
+                                  style={{
+                                    borderRadius: "20px",
+                                    padding: "15px",
+                                  }}
+                                >
+                                  <div
+                                    className="card-header d-flex flex-column justify-content-between "
+                                    style={{
+                                      backgroundColor: "transparent",
+                                    }}
+                                  >
+                                    <div style={{display:'flex', flexDirection:'row' , justifyContent:'space-between'}}>
+                  <div
+                                    style={{
+                                      fontSize: 16,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+
+                                    }}
+                                  >
+                                    Stay details
+                                  </div>
+
+
+                                  <div className="d-flex flex-row">
+                                    <div   style={{
+                                      cursor: props.customerEditPermission
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      opacity: props.customerEditPermission
+                                        ? 0.6
+                                        : 1,
+                                    }}>
+                                      <img src={Stayhistory} alt="stayhistoryicon"
+                                       onClick={() => {
+                                        if (!props.customerEditPermission) {
+                                          handleShowStayHistory(customerDetails);
+                                        }
+                                      }}
+                                       style={{cursor: props.customerEditPermission
+                                          ? "not-allowed"
+                                          : "pointer",}}/>
+                                    </div>
+                                  <div
+                                    style={{
+                                      cursor: props.customerEditPermission
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      opacity: props.customerEditPermission
+                                        ? 0.6
+                                        : 1,
+                                    }}
+                                  >
+                                    <div
+                                      onClick={() => {
+                                        if (!props.customerEditPermission) {
+                                          handleEditStayDetails(customerDetails);
+                                        }
+                                      }}
+                                      style={{
+                                        cursor: props.customerEditPermission
+                                          ? "not-allowed"
+                                          : "pointer",
+                                        height: 30,
+                                        width: 30,
+                                      
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        position: "relative",
+                                        zIndex: 1000,
+                                     
+                                      }}
+                                    >
+                                      <img
+                                      src={EditImage}
+                                        style={{
+                                          height: 20,
+                                          width: 20,
+                                          color: props.customerEditPermission
+                                            ? "#CCCCCC"
+                                            : "#000",
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
+                                  </div>
+                                 </div>
+                                 <hr/>
+
+
+                                  <div className="row">
+                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Floor
+                                      </p>
+                                      <p style={{ marginTop: "-10px" }}>
+                                        <img src={Floorimage} size="16" color="#1E45E1" />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            marginLeft: 5,
+                                          }}
+                                        >
+                                          {" "}
+                                          {item.floor_name &&
+                                            item.floor_name !== "undefined" &&
+                                            item.floor_name !== 0 &&
+                                            item.floor_name !== "null"
+                                            ? item.floor_name
+                                            : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                    <div className="col-sm-4 col-lg-6  d-flex flex-column align-items-center">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Room
+                                      </p>
+                                      <p
+                                        onClick={() => {
+                                          if (!props.customerEditPermission && item?.Bed) {
+                                            handleShowEditBed(
+                                              customerDetails
+                                            );
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerEditPermission
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          opacity: props.customerEditPermission
+                                            ? 0.6
+                                            : 1,
+                                          marginTop: "-10px",
+                                        }}
+                                      >
+                                        <img
+                                          src={RoomImage}
+                                          alt="group"
+                                          style={{
+                                            cursor: props.customerEditPermission || !item?.Bed
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            filter: props.customerEditPermission || !item?.Bed
+                                              ? "grayscale(100%)"
+                                              : "none",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            marginTop: "-10px",
+                                            cursor: props.customerEditPermission || !item?.Bed
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            color: props.customerEditPermission || !item?.Bed
+                                              ? "#888888"
+                                              : "#000000",
+                                          }}
+                                        >
+                                          {item.Rooms ? item.Rooms : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  
+                                  </div> 
+
+                                  <div className="row">
+                                      <div className="col-sm-4 col-lg-6  d-flex flex-column ">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        Bed
+                                      </p>
+                                      <p
+                                        onClick={() => {
+                                          if (!props.customerEditPermission && item?.Bed) {
+                                            handleShowEditBed(
+                                              customerDetails
+                                            );
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerEditPermission || !item?.Bed
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          opacity: props.customerEditPermission || !item?.Bed
+                                            ? 0.6
+                                            : 1,
+                                          marginTop: "-10px",
+                                        }}
+                                      >
+                                        <img
+                                          src={Group}
+                                          alt="group"
+                                          style={{
+                                            cursor: props.customerEditPermission || !item?.Bed
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            filter: props.customerEditPermission || !item?.Bed
+                                              ? "grayscale(100%)"
+                                              : "none",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            cursor: props.customerEditPermission
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            color: props.customerEditPermission
+                                              ? "#888888"
+                                              : "#000000",
+                                          }}
+                                        >
+                                          {item.Bed ? item.Bed : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                     <div className="col-sm-4 col-lg-6  d-flex flex-column align-items-center">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          marginLeft:29
+                                        }}
+                                      >
+                                        Joined Date
+                                      </p>
+                                      <p
+                                        onClick={() => {
+                                          if (!props.customerEditPermission && item?.Bed) {
+                                            handleShowEditBed(
+                                              customerDetails
+                                            );
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerEditPermission || !item?.Bed
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          opacity: props.customerEditPermission || !item?.Bed
+                                            ? 0.6
+                                            : 1,
+                                          marginTop: "-10px",
+                                          marginLeft:50
+                                        }}
+                                      >
+                                        <img
+                                          src={LinkImage}
+                                          alt="group"
+                                          style={{
+                                            cursor: props.customerEditPermission || !item?.Bed
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            filter: props.customerEditPermission || !item?.Bed
+                                              ? "grayscale(100%)"
+                                              : "none",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            cursor: props.customerEditPermission
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            color: props.customerEditPermission
+                                              ? "#888888"
+                                              : "#000000",
+                                          }}
+                                        >
+                                        {item.user_join_date
+    ? new Date(item.user_join_date).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div>
+
+                            {/* checkout date  */}
+                                     {/* <div className="col-sm-4 col-lg-6  d-flex flex-column align-items-center">
+                                      <p
+                                        style={{
+                                          fontSize: 12,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          marginLeft:29
+                                        }}
+                                      >
+                                        Checkout Date
+                                      </p>
+                                      <p
+                                        onClick={() => {
+                                          if (!props.customerEditPermission && item?.Bed) {
+                                            handleShowEditBed(
+                                              customerDetails
+                                            );
+                                          }
+                                        }}
+                                        style={{
+                                          cursor: props.customerEditPermission || !item?.Bed
+                                            ? "not-allowed"
+                                            : "pointer",
+                                          opacity: props.customerEditPermission || !item?.Bed
+                                            ? 0.6
+                                            : 1,
+                                          marginTop: "-10px",
+                                          marginLeft:50
+                                        }}
+                                      >
+                                        <img
+                                          src={LinkImage}
+                                          alt="group"
+                                          style={{
+                                            cursor: props.customerEditPermission || !item?.Bed
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            filter: props.customerEditPermission || !item?.Bed
+                                              ? "grayscale(100%)"
+                                              : "none",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            marginLeft: 5,
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            cursor: props.customerEditPermission
+                                              ? "not-allowed"
+                                              : "pointer",
+                                            color: props.customerEditPermission
+                                              ? "#888888"
+                                              : "#000000",
+                                          }}
+                                        >
+                                        {item.user_join_date
+    ? new Date(item.user_join_date).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : "N/A"}
+                                        </span>
+                                      </p>
+                                    </div> */}
+
+
+                                    </div>
+
+
+                        <p style={{
+                                      fontSize: 16,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy",
+
+                                    }}>Financial details</p>
+                              
                               <div
                                 className="col-md-12 col-lg-12 mb-3 mb-md-0"
-                                style={{ paddingLeft: 20, paddingRight: 20 }}
+                                // style={{backgroundColor:'rgba(247, 249, 255, 1)' }}
                               >
                                 <div
                                   className="card"
                                   style={{
-                                    borderRadius: "20px",
-                                    padding: "10px",
+                                    borderRadius: "10px",
+                                    backgroundColor:'rgba(247, 249, 255, 1)'
+                                    // padding: "10px",
                                   }}
                                 >
-                                  <div
-                                    className="card-header d-flex justify-content-between align-items-center"
-                                    style={{
-                                      backgroundColor: "transparent",
-                                      display: "flex",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        fontSize: 16,
-                                        fontWeight: 600,
-                                        fontFamily: "Gilroy",
-                                        lineHeight: "40px",
-                                      }}
-                                    >
-                                      Advance Detail
-                                    </div>
-                                  </div>
+                                
 
                                   <div className="card-body">
                                     {customerDetails[0]?.AdvanceAmount > 0 ? (
+                                      <div>
                                       <div className="row mb-3">
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                        <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-start">
                                           <div
                                             style={{
                                               fontSize: 12,
@@ -2797,7 +3942,7 @@ function UserListRoomDetail(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            <img src={Money} alt="Money Icon" />{" "}
+                                            <img src={MoneyImage} alt="Money Icon"  height={14} width={14} className="me-1"/>{" "}
                                             ₹
                                             {
                                               customerDetails[0]
@@ -2806,7 +3951,36 @@ function UserListRoomDetail(props) {
                                           </p>
                                         </div>
 
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                       <div className="col-lg-4">
+
+                                        </div>
+
+                                          <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-center">
+                                            <Button
+                                              disabled={props.customerAddPermission}
+                                              style={{
+                                                width: 102,
+                                                height: 31,
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                fontFamily: "Gilroy",
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                backgroundColor: "#1E45E1",
+                                                // color: "#fff",
+                                                borderRadius: "10px",
+                                                marginTop: "10px",
+                                              }}
+                                              onClick={handlegenerateForm}
+                                            >
+                                            <img src={!advanceDetail[0]?.inv_id ? whiteaddcircle : EyeIcon}alt="plusicon" className="me-1"/> {!advanceDetail[0]?.inv_id ? "Generate" : "Invoice"} 
+                                            </Button>
+                                          </div>
+
+</div>
+                                        <div className="row mb-3">
+                                         <div className="col-sm-4 d-flex flex-column align-items-start">
                                           <div
                                             style={{
                                               fontSize: 12,
@@ -2864,31 +4038,6 @@ function UserListRoomDetail(props) {
                                           </p>
                                         </div>
 
-                                        {!advanceDetail[0]?.inv_id && (
-                                          <div className="col-sm-4 d-flex flex-column align-items-center">
-                                            <Button
-                                              disabled={props.customerAddPermission}
-                                              style={{
-                                                width: 102,
-                                                height: 31,
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                fontFamily: "Gilroy",
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                backgroundColor: "#1E45E1",
-                                                color: "#fff",
-                                                borderRadius: "5px",
-                                                marginTop: "10px",
-                                              }}
-                                              onClick={handlegenerateForm}
-                                            >
-                                              Generate
-                                            </Button>
-                                          </div>
-                                        )}
-
                                         <div className="col-sm-4 d-flex flex-column align-items-start">
                                           <strong
                                             style={{
@@ -2921,6 +4070,10 @@ function UserListRoomDetail(props) {
                                           </p>
                                         </div>
                                       </div>
+
+                                      
+                                       </div>
+                                      
                                     ) : (
                                       <div
                                         style={{
@@ -2934,7 +4087,96 @@ function UserListRoomDetail(props) {
                                       </div>
                                     )}
                                   </div>
+
+                                   
                                 </div>
+                              </div>
+                               <div className="row  mt-2 ms-2">
+                                         <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Monthly Rent
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              color:'rgba(30, 69, 225, 1)',
+                                              paddingTop:7
+                                            }}
+                                          >
+                                            ₹
+                                           {
+                                              customerDetails[0]
+                                                ?.RoomRent
+                                            }
+                                          </p>
+                                        </div>
+
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Maintenance
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              paddingTop:7
+                                            }}
+                                          >
+                                             {/* ₹
+                                           {
+                                              customerDetails[0]
+                                                ?.AdvanceAmount
+                                            } */}
+                                          </p>
+                                        </div>
+
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <strong
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              textAlign: "start",
+                                              paddingRight: 15,
+                                              
+                                            }}
+                                          >
+                                           Document Fee
+                                          </strong>
+                                           <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              paddingTop:7
+                                            }}
+                                          >
+                                            {/* ₹
+                                           {
+                                              customerDetails[0]
+                                                ?.AdvanceAmount
+                                            } */}
+                                          </p>
+                                        </div>
+                                      </div>
+                       </div>
+                       
+                        </div>
                               </div>
 
                               <div
@@ -5735,7 +6977,7 @@ function UserListRoomDetail(props) {
 
 
 
-                  {/* {
+                  {
                     editBasicDetailsShow && <EditBasicDetails show={editBasicDetailsShow} handleClose={handleCloseBasicDetails} />
                   }
 
@@ -5750,7 +6992,7 @@ function UserListRoomDetail(props) {
 
                   {
                     stayDetailsShow && <StayHistory show={stayDetailsShow} handleClose={handleCloseStayHistory} />
-                  } */}
+                  }
 
                 </div>
               );
