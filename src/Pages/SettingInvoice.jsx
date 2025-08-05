@@ -1202,7 +1202,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       setSelectedBankId(RentalinvoiceTemplate.banking_id || null)
       setQrImage(RentalinvoiceTemplate.qr_url || null)
       setQRImagePreview(RentalinvoiceTemplate.qr_url || null)
-
+setNotes(RentalinvoiceTemplate.notes)
       const templateTheme = RentalinvoiceTemplate.template_theme;
       if (templateTheme && templateTheme.trim() !== '') {
         if (templateTheme.includes('rgba')) {
@@ -2751,11 +2751,11 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                             <div className="d-flex flex-wrap align-items-start ">
 
                               <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
-                                <p className="mb-0" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
+                                {/* <p className="mb-0" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
                                   &quot;Your comfort is our priority –
-                                </p>
+                                </p> */}
                                 <p className="mb-0" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-                                  See you again at Smart Stay! &quot;
+                                  {/* See you again at Smart Stay! &quot; */}{notes}
                                 </p>
                               </div>
 
@@ -3179,16 +3179,17 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                 </div>
 
                                 <div className="d-flex flex-wrap align-items-start mt-1">
-                                  {selectedcard === "paymentinvoice" && (
+                                 
                                     <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
-                                      <p className="mb-0" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
+                                     {/* <p className="mb-0" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
                                         &quot;Your comfort is our priority –
-                                      </p>
+                                      </p> */}
                                       <p className="mb-0" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-                                        See you again at Smart Stay! &quot;
-                                      </p>
+                                        {/* See you again at Smart Stay! &quot; */} {notes}
+                                      </p> 
+                                     
                                     </div>
-                                  )}
+                                
 
                                   <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
                                     <div className="d-flex justify-content-between py-1">
