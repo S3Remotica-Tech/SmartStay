@@ -1239,6 +1239,7 @@ useEffect(() => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   const [showMenu, setShowMenu] = useState(false);
+   const [showAssignMenu, setShowAssignMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [edit, setEdit] = useState("");
   const [EditObj, setEditObj] = useState("");
@@ -1408,6 +1409,17 @@ useEffect(() => {
     setAddBasicDetail(false);
     setEditObj(u);
   };
+ const handleShowAssignBed = (u) => {
+    setEdit("Edit");
+    handleMenuClick();
+    setShowMenu(false);
+    setShowAssignMenu(true)
+    setAdvanceForm(false);
+    setAddCheckoutForm(false);
+    setAddBasicDetail(false);
+    setEditObj(u);
+  };
+ 
 
   const [hostelIds, setHostelIds] = useState("");
 
@@ -3131,7 +3143,7 @@ useEffect(() => {
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
                                                       if (!customerAddPermission) {
-                                                        handleShowAddBed(user);
+                                                        handleShowAssignBed(user);
                                                       }
                                                     }}
                                                     style={{
@@ -5067,11 +5079,13 @@ useEffect(() => {
         </>
       )}
 
-      {(advanceForm || showMenu) && (
+      {(advanceForm || showMenu || showAssignMenu) && (
         <UserlistForm
           setShowMenu={setShowMenu}
           advanceForm={advanceForm}
           showMenu={showMenu}
+          showAssignMenu={showAssignMenu}
+          setShowAssignMenu={setShowAssignMenu}
           displayDetail={addBasicDetail}
           setAdvanceForm={setAdvanceForm}
           handleShow={handleShow}
