@@ -15,9 +15,11 @@ import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import PlusIcon from "../../Assets/Images/New_images/plusIcon.png";
-import Delete from "../../Assets/Images/New_images/trash.png";
 import { CloseCircle } from "iconsax-react";
+import addcircle from "../../Assets/Images/New_images/add-circle.png";
+import { Trash } from 'iconsax-react';
+import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
+
 
 const CheckOutForm = ({
   uniqueostel_Id,
@@ -44,15 +46,14 @@ const CheckOutForm = ({
   const [bedname, setBedname] = useState("");
   const [floorname, setFloorname] = useState("");
   const [paymentDate, setPaymentDate] = useState("")
-  const [fields, setFields] = useState([{ reason: "", amount: "" }]);
+  const [fields, setFields] = useState([]);
   const [noChangeMessage, setNoChangeMessage] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
   const errorRef = useRef(null);
   const [formLoading, setFormLoading] = useState(false)
   const [formCheckoutLoading, setFormCheckoutLoading] = useState(false)
   const nochangeRef = useRef(null)
-
-
+  const [errors, setErrors] = useState([]);
 
 
 
@@ -85,7 +86,7 @@ const CheckOutForm = ({
     setNoChangeMessage("")
     setModeOfPaymentError("")
 
-    setFields([{ reason: "", amount: "",}]);
+    setFields([{ reason: "", amount: "", }]);
   }
 
 
@@ -155,6 +156,9 @@ const CheckOutForm = ({
     }
   }, [currentItem, show]);
 
+
+
+
   useEffect(() => {
     if (data) {
 
@@ -182,6 +186,10 @@ const CheckOutForm = ({
   }, [data, show]);
 
 
+
+  
+
+
   useEffect(() => {
 
     setFields(prevFields => {
@@ -194,33 +202,32 @@ const CheckOutForm = ({
   }, [dueamount]);
 
 
-console.log("data?.amenities",data?.amenities)
-useEffect(() => {
-  if (data?.amenities?.length > 0) {
-    let outstandingDueAmount = "";
-    const amenityFields = data.amenities
-      .filter(item => {
-        if (item.reason === "Outstanding Due") {
-          outstandingDueAmount = String(item.amount || "");
-          return false;
-        }
-        return true;
-      })
-      .map(item => ({
-        id: item?.id || "",                     
-        reason: item.reason || "",
-        amount: String(item.amount || "")
-      }));
+  useEffect(() => {
+    if (data?.amenities?.length > 0) {
+      let outstandingDueAmount = "";
+      const amenityFields = data.amenities
+        .filter(item => {
+          if (item.reason === "Outstanding Due") {
+            outstandingDueAmount = String(item.amount || "");
+            return false;
+          }
+          return true;
+        })
+        .map(item => ({
+          id: item?.id || "",
+          reason: item.reason || "",
+          amount: String(item.amount || "")
+        }));
 
-    const dueAmountValue = outstandingDueAmount || String(dueamount || "");
+      const dueAmountValue = outstandingDueAmount || String(dueamount || "");
 
-    setFields([
-      { id: "", reason: "DueAmount", amount: dueAmountValue }, 
-      ...amenityFields,
-    ]);
-  }
-}, [data?.amenities, dueamount]);
- 
+      setFields([
+        { id: "", reason: "DueAmount", amount: dueAmountValue },
+        ...amenityFields,
+      ]);
+    }
+  }, [data?.amenities, dueamount]);
+
 
   useEffect(() => {
 
@@ -478,6 +485,11 @@ useEffect(() => {
     }
   }, [selectedCustomer, data]);
 
+
+
+
+
+
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout === 200) {
       setFormLoading(false)
@@ -550,17 +562,17 @@ useEffect(() => {
     if (hasError) {
       return;
     }
-   
- const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
-const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
-const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
 
-if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
-  setCheckOutDateError("Before Request Date not allowed");
-  return;
-}
+    const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+    const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
+    const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
 
-   
+    if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
+      setCheckOutDateError("Before Request Date not allowed");
+      return;
+    }
+
+
 
     if (advanceamount) {
       const nonEmptyFields = fields.filter(
@@ -813,53 +825,31 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
     setReturnAmount(result);
   }, [advanceamount, dueamount, fields, conformEdit]);
 
-  let visibleIndex = -1;
-
-
-  const handleInputChange = (index, field, value) => {
-    const updatedFields = [...fields];
-    updatedFields[index][field] = value;
-    setNoChangeMessage("")
-
-
-    setFields(updatedFields);
-  };
 
 
 
-  const handleAddField = () => {
-    setFields([...fields, { reason: "", amount: "" }]);
-    setNoChangeMessage("")
-    setConformCheckErr("")
-    dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
-  };
+  // const handleInputChange = (index, field, value) => {
+  //   const updatedFields = [...fields];
+  //   updatedFields[index][field] = value;
+  //   setNoChangeMessage("")
 
-  const handleRemoveField = (index) => {
-    const updatedFields = [...fields];
-    updatedFields.splice(index, 1);
-    setFields(updatedFields);
-    setConformCheckErr("")
-    setNoChangeMessage("")
-    dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
-  };
 
-  const labelStyle = {
-    fontSize: 14,
-    color: "rgba(75, 75, 75, 1)",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-  };
+  //   setFields(updatedFields);
+  // };
 
-  const inputStyle = {
-    height: "50px",
-    borderRadius: "8px",
-    fontSize: 16,
-    color: "#222",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    border: "1px solid #D9D9D9",
-  };
+
+
+  // const handleAddField = () => {
+  //   setFields([...fields, { reason: "", amount: "" }]);
+  //   setNoChangeMessage("")
+  //   setConformCheckErr("")
+  //   dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
+  // };
+
+
+
+
+  
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
@@ -880,6 +870,80 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
     }
 
   }, [state.createAccount?.networkError])
+
+
+
+
+
+  const reasonOptions = [
+    { value: "maintenance", label: "Maintenance" },
+    { value: "others", label: "Others" },
+  ];
+
+
+
+  const handleAddField = () => {
+    setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
+    setNoChangeMessage("")
+    setConformCheckErr("")
+    dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
+  };
+
+  const handleInputChange = (index, field, value) => {
+    setNoChangeMessage("")
+    const updatedFields = [...fields];
+    const updatedErrors = [...errors];
+
+    if (field === "reason") {
+      if (value === "others") {
+        updatedFields[index].showInput = true;
+        updatedFields[index].reason_name = "others";
+        updatedFields[index].customReason = "";
+      } else {
+        updatedFields[index].showInput = false;
+        updatedFields[index].reason = value;
+        updatedFields[index].reason_name = value;
+        updatedFields[index].customReason = "";
+      }
+
+
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "customReason") {
+      updatedFields[index].customReason = value;
+      if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+      updatedFields[index].amount = value;
+
+
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+
+    setFields(updatedFields);
+    setErrors(updatedErrors);
+  };
+
+
+
+  const handleRemoveField = (index) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setFields(updatedFields);
+    setConformCheckErr("")
+    setNoChangeMessage("")
+    dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
+  };
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
       <Modal show={show} onHide={handlecloseform} centered backdrop="static"
@@ -1324,14 +1388,16 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
 
 
 
-      <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static"
+      <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static" dialogClassName="custom-modals-style"
       >
         <Modal.Dialog
           style={{
             paddingRight: "10px",
             borderRadius: "30px",
+
           }}
           className="m-0 p-0"
+
         >
           <Modal.Header className="d-flex justify-content-between align-items-center">
             <Modal.Title
@@ -1355,7 +1421,31 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
             <div >
               <div className="row row-gap-2 d-flex align-items-center">
 
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div className="d-flex gap-3 align-items-center">
+                  <Image
+                    src={
+                      data?.user_profile !== undefined &&
+                        data?.user_profile !== null &&
+                        data?.user_profile !== '' &&
+                        data?.user_profile !== '0'
+                        ? data.user_profile
+                        : Profile2
+                    }
 
+                    roundedCircle
+                    style={{ height: 55, width: 55, cursor: "pointer" }}
+                  />
+                  <div>
+                    <label  style={{
+                        fontSize: 20,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                      }}>{data?.Name}</label>
+                  </div>
+                  </div>
+                </div>
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-2">
@@ -1528,86 +1618,235 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
                 </div>
 
 
-                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Advance Deduction</h6>
 
-                <div className="row align-items-center">
 
-                  {fields.map((item, index) => {
-                    const isHidden = index !== 0 && item.reason?.toLowerCase() === 'advance return';
-                    if (isHidden) return null;
+                <div className="col-lg-12 col-md-12 col-sm-12">
+                  <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Advance Deduction</h6>
+                  <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-1 mb-3">
 
-                    visibleIndex++;
-
-                    const isLastVisible = visibleIndex === fields.filter(f => f.reason?.toLowerCase() !== 'advance return' || fields.indexOf(f) === 0).length - 1;
-
-                    return (
-                      <React.Fragment key={index}>
-                        <div className="col-lg-5 col-md-6 col-sm-12">
-                          <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
-                            {index === 0 ? 'DueAmount ' : 'Reason'}
-                          </label>
-                          <input
-                            type="text"
-                            id={`reason-${index}`}
-                            name={`reason-${index}`}
-                            placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
-                            value={item.reason}
-                            onChange={(e) => handleInputChange(index, "reason", e.target.value)}
-                            className="form-control"
-                            style={inputStyle}
-                            disabled={index === 0}
-                          />
-                        </div>
-
-                        <div className="col-lg-5 col-md-6 col-sm-12">
-                          <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
-                            Amount
-                          </label>
-                          <input
-                            type="text"
-                            id={`amount-${index}`}
-                            name={`amount-${index}`}
-                            placeholder={index === 0 ? `₹${dueamount || 0}` : 'Enter Amount'}
-                            value={index === 0 ? (fields[0].amount || dueamount || "") : item.amount}
-                            onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                            className="form-control"
-                            style={inputStyle}
-                            disabled={index === 0}
-                          />
-                        </div>
-
-                        <div
-                          className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2"
-                          style={{ marginTop: 30 }}
+                    <div className="d-flex justify-content-between align-items-center p-2">
+                      <div>
+                        <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
+                      </div>
+                      <div>
+                        <Button
+                          onClick={handleAddField}
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontSize: "14px",
+                            backgroundColor: "#1E45E1",
+                            color: "white",
+                            fontWeight: 600,
+                            borderRadius: "10px",
+                            padding: "6px 15px",
+                            marginBottom: "10px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                          }}
                         >
-                          {isLastVisible && (
-                            <img
-                              src={PlusIcon}
-                              alt="plus"
-                              width={25}
-                              height={25}
-                              style={{ cursor: "pointer" }}
-                              onClick={handleAddField}
+                          <img
+                            src={addcircle}
+                            alt="Assign Bed"
+                            style={{
+                              height: 16,
+                              width: 16,
+                              filter: "brightness(0) invert(1)",
+                            }}
+                          />
+                          Add
+                        </Button>
+
+                      </div>
+                    </div>
+
+
+                    {fields.map((item, index) => {
+                      const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
+
+                      const filteredOptions = reasonOptions.map((opt) => {
+                        if (opt.value === "maintenance") {
+                          return {
+                            ...opt,
+                            isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
+                          };
+                        }
+                        return opt;
+                      });
+
+                      return (
+                        <div className="row px-4 mb-3" key={index}>
+                          <div className="col-md-6">
+
+
+                            {!item.showInput ? (
+                              <Select
+                                options={filteredOptions}
+                                value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                                onChange={(selectedOption) => {
+                                  const selectedValue = selectedOption.value;
+
+                                  if (selectedValue === "others") {
+                                    handleInputChange(index, "reason", "others");
+                                  } else {
+                                    handleInputChange(index, "reason", selectedValue);
+                                  }
+                                }}
+                                isDisabled={item.reason === "maintenance"}
+                                menuPlacement="auto"
+                                styles={{
+                                  control: (base) => ({
+                                    ...base,
+                                    height: "50px",
+                                    border: "1px solid #D9D9D9",
+                                    borderRadius: "8px",
+                                    fontSize: "16px",
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                    boxShadow: "none",
+                                  }),
+                                  menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    border: "1px solid #ced4da",
+                                    fontFamily: "Gilroy",
+                                  }),
+                                  menuList: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    maxHeight: "120px",
+                                    padding: 0,
+                                    scrollbarWidth: "thin",
+                                    overflowY: "auto",
+                                    fontFamily: "Gilroy",
+                                  }),
+                                  placeholder: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                  }),
+                                  dropdownIndicator: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                    display: "inline-block",
+                                    fill: "currentColor",
+                                    lineHeight: 1,
+                                    stroke: "currentColor",
+                                    strokeWidth: 0,
+                                    cursor: "pointer",
+                                  }),
+                                  indicatorSeparator: () => ({
+                                    display: "none",
+                                  }),
+                                  option: (base, state) => ({
+                                    ...base,
+                                    cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                    backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                    color: state.isDisabled ? "#aaa" : "#000",
+                                  }),
+                                }}
+                              />
+                            ) : (
+                              <>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Enter custom reason"
+                                  value={item.customReason}
+                                  onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                                  style={{
+                                    fontSize: 16,
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                    boxShadow: "none",
+                                    border: "1px solid #D9D9D9",
+                                    height: 50,
+                                    borderRadius: 8,
+                                  }}
+                                />
+                              </>
+                            )}
+                            {errors[index]?.reason && (
+                              <div className="d-flex align-items-center mt-1">
+                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                <label
+                                  className="mb-0"
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {errors[index]?.reason}
+                                </label>
+                              </div>
+                            )}
+                          </div>
+
+
+                          <div className="col-md-5">
+
+                            <input
+                              type="text"
+                              placeholder="Enter amount"
+                              value={item.amount}
+                              onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                              className="form-control"
+                              style={{
+                                fontSize: 16,
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                                border: "1px solid #D9D9D9",
+                                height: 50,
+                                borderRadius: 8,
+                              }}
+
                             />
-                          )}
-                          {fields.length > 1 && index !== 0 && (
-                            <img
-                              src={Delete}
-                              alt="remove"
-                              width={20}
-                              height={20}
-                              style={{ cursor: "pointer" }}
-                              onClick={() => handleRemoveField(index)}
-                            />
-                          )}
+                            {errors[index]?.amount && (
+                              <div className="d-flex align-items-center mt-1">
+                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                <label
+                                  className="mb-0"
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {errors[index]?.amount}
+                                </label>
+                              </div>
+                            )}
+                          </div>
+
+
+                          <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+
+                            {index !== 0 && (
+                              <Trash
+                                size="20"
+                                color="red"
+                                variant="Bold"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleRemoveField(index)}
+                              />
+                            )}
+                          </div>
                         </div>
-                      </React.Fragment>
-                    );
-                  })}
+                      );
+                    })}
 
 
 
+
+                  </div>
                 </div>
+
 
                 {(conformEdit) && (
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1645,7 +1884,7 @@ if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
                 )}
 
 
-                <div className="col-lg-6 col-md-6 col-sm-12">
+                <div className="col-lg-12 col-md-12 col-sm-12">
                   <label
                     htmlFor="amount"
                     className="form-label"
