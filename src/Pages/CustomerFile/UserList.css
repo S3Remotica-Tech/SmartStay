@@ -4,6 +4,11 @@
   order: 1px solid #1E45E1 !important;
 }
 
+.edit-overlay:hover {
+  opacity: 1 !important;
+}
+
+
 
 .custom-modal {
   margin-top: 40px !important; /* Adjust as needed */
