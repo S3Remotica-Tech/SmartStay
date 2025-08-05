@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import {
     Modal,
     Form,
@@ -13,7 +13,7 @@ import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 
-function EditAddressDetails({ show, handleClose }) {
+function EditAddressDetails({ show, handleClose,addressDetails }) {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -25,6 +25,12 @@ function EditAddressDetails({ show, handleClose }) {
     const [pincode, setPincode] = useState("");
     const [city, setCity] = useState("");
     const [stateName, setStateName] = useState("");
+     const [firstName, setFirstName] = useState("");
+        const [lastName, setLastName] = useState("");
+         const [countryCode, setCountryCode] = useState("91");
+         const [phone, setPhone] = useState("");
+         const [id,setId] =useState("")
+         const [formError,setFormError] = useState("")
 
 
     const handleHouseNoChange = (e) => {
@@ -40,12 +46,28 @@ function EditAddressDetails({ show, handleClose }) {
         setLandmark(e.target.value);
 
     };
+    console.log("addressDetails",addressDetails)
 
-    const handlePincodeChange = (e) => {
-        const value = e.target.value.replace(/\D/g, "");
-        setPincode(value);
+    // const handlePincodeChange = (e) => {
+    //     const value = e.target.value.replace(/\D/g, "");
+    //     setPincode(value);
 
-    };
+    // };
+    const [pincodeError,setPincodeError] = useState("")
+      const handlePincodeChange = (e) => {
+    const value = e.target.value;
+    if (!/^\d{0,6}$/.test(value)) {
+      return;
+    }
+
+    setPincode(value);
+    if (value.length > 0 && value.length < 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+    } else {
+      setPincodeError("");
+    }
+    // setFormError("")
+  };
 
     const handleCityChange = (e) => {
         setCity(e.target.value);
@@ -56,6 +78,33 @@ function EditAddressDetails({ show, handleClose }) {
         setStateName(selectedOption?.value || "");
 
     };
+    useEffect(()=>{
+        
+        if(addressDetails){
+             const phoneNumber = String(addressDetails[0].phone || "");
+                       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+                  const mobileNumber = phoneNumber.slice(-10);
+             if (addressDetails[0].Name) {
+        let value = addressDetails[0].Name.split(" ");
+        setFirstName(value[0]);
+        setLastName(value[1]);
+      } else {
+        setFirstName("");
+        setLastName("");
+      }
+            setHouseNo(addressDetails[0].Address)
+            setStreet(addressDetails[0].area)
+             setLandmark(addressDetails[0].landmark)
+             setPincode(addressDetails[0].pincode)
+             setCity(addressDetails[0].city)
+             setStateName(addressDetails[0].state)      
+             setPhone(mobileNumber);
+      setCountryCode(countryCode);  
+      setId(addressDetails[0].ID)     
+
+        }
+
+    },[addressDetails])
 
 
     const indianStates = [
@@ -112,6 +161,136 @@ function EditAddressDetails({ show, handleClose }) {
         }
 
     }, [state.createAccount?.networkError])
+
+ const pincodeRef = useRef(null);
+    // const MobileNumber = `${countryCode}${addressDetails[0].phone}`;
+//         const handleSubmitAdress=()=>{
+
+
+//  const cleanedPincode = String(pincode || "").trim();
+//     if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+//       setPincodeError("Pin Code Must Be Exactly 6 Digits");
+
+//       if (!focusedRef.current && pincodeRef?.current) {
+//         pincodeRef.current.focus();
+//         focusedRef.current = true;
+//       }
+
+//       hasError = true;
+//     } else {
+//       setPincodeError("");
+//     }
+//             const capitalizeFirstLetter = (str) => {
+//           return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+//         };
+//             const capitalizedFirstname = capitalizeFirstLetter(firstName);
+//         const capitalizedLastname = capitalizeFirstLetter(lastName);
+//         const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+//         const payload = {
+//           profile: addressDetails[0].profile,
+//           firstname: capitalizedFirstname,
+//           lastname: capitalizedLastname,
+//           Phone: normalizedPhoneNumber,
+//           Email: addressDetails[0].Email,
+//           HostelName:addressDetails[0].HostelName,
+//           hostel_Id: addressDetails[0].Hostel_Id,
+//           Floor: addressDetails[0].Floor,
+//           Rooms: addressDetails[0].room_id,
+//           Bed: addressDetails[0].hstl_Bed,
+//           joining_date: addressDetails[0].user_join_date,
+//           AdvanceAmount: addressDetails[0].AdvanceAmount,
+//           RoomRent: addressDetails[0].RoomRent,
+//             Address: houseNo,
+//           area: street,
+//           landmark:landmark,
+//           city: city,
+//           pincode: pincode,
+//           state: stateName,
+          
+         
+//           ID: id,
+    
+//         };
+//          dispatch({
+//           type: "ADDUSER",
+//           payload: payload,
+//         });
+//         }
+const handleSubmitAdress = () => {
+  let hasError = false;
+
+  const cleanedPincode = String(pincode || "").trim();
+  if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+    setPincodeError("Pin Code Must Be Exactly 6 Digits");
+
+    if (pincodeRef?.current) {
+      pincodeRef.current.focus();
+     
+    }
+
+    hasError = true;
+  } else {
+    setPincodeError("");
+  }
+
+  if (hasError) return;
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
+  const capitalizedFirstname = capitalizeFirstLetter(firstName);
+  const capitalizedLastname = capitalizeFirstLetter(lastName);
+  const normalizedPhoneNumber = `${countryCode}${phone}`.replace(/\s+/g, "");
+
+  const originalPhone = String(addressDetails[0]?.phone || "");
+
+  const noChange =
+    capitalizedFirstname === addressDetails[0]?.Name?.split(" ")[0] &&
+    capitalizedLastname === addressDetails[0]?.Name?.split(" ")[1] &&
+    normalizedPhoneNumber === originalPhone &&
+    houseNo === addressDetails[0]?.Address &&
+    street === addressDetails[0]?.area &&
+    landmark === addressDetails[0]?.landmark &&
+    pincode === addressDetails[0]?.pincode &&
+    city === addressDetails[0]?.city &&
+    stateName === addressDetails[0]?.state;
+
+  if (noChange) {
+    setFormError("No changes detected.");
+    return;
+  }
+
+  setFormError(""); 
+
+  const payload = {
+    profile: addressDetails[0].profile,
+    firstname: capitalizedFirstname,
+    lastname: capitalizedLastname,
+    Phone: normalizedPhoneNumber,
+    Email: addressDetails[0].Email,
+    HostelName: addressDetails[0].HostelName,
+    hostel_Id: addressDetails[0].Hostel_Id,
+    Floor: addressDetails[0].Floor,
+    Rooms: addressDetails[0].room_id,
+    Bed: addressDetails[0].hstl_Bed,
+    joining_date: addressDetails[0].user_join_date,
+    AdvanceAmount: addressDetails[0].AdvanceAmount,
+    RoomRent: addressDetails[0].RoomRent,
+    Address: houseNo,
+    area: street,
+    landmark: landmark,
+    city: city,
+    pincode: pincode,
+    state: stateName,
+    ID: id,
+  };
+
+  dispatch({
+    type: "ADDUSER",
+    payload: payload,
+  });
+};
 
 
     return (
@@ -291,6 +470,29 @@ function EditAddressDetails({ show, handleClose }) {
                                     />
 
                                 </Form.Group>
+                                     {pincodeError && (
+                                                                          <div className="d-flex align-items-center p-1 mb-2">
+                                                                            <MdError
+                                                                              style={{
+                                                                                color: "red",
+                                                                                marginRight: "5px",
+                                                                                fontSize: "13px",
+                                                                                marginBottom: "2px",
+                                                                              }}
+                                                                            />
+                                                                            <label
+                                                                              className="mb-0"
+                                                                              style={{
+                                                                                color: "red",
+                                                                                fontSize: "12px",
+                                                                                fontFamily: "Gilroy",
+                                                                                fontWeight: 500,
+                                                                              }}
+                                                                            >
+                                                                              {pincodeError}
+                                                                            </label>
+                                                                          </div>
+                                                                        )}
                             </div>
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
@@ -425,7 +627,12 @@ function EditAddressDetails({ show, handleClose }) {
 
 
                     </Modal.Body>
-
+ {formError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                            <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</label>
+                        </div>
+                        : null}
 
                     {state.createAccount?.networkError ?
                         <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
@@ -455,7 +662,7 @@ function EditAddressDetails({ show, handleClose }) {
                             </Button>
 
                             <Button
-                                //   onClick={() => { handleSubmit() }}
+                                  onClick={handleSubmitAdress}
                                 className="w-100 mt-1"
                                 style={{
                                     backgroundColor: "#1E45E1",
@@ -478,6 +685,7 @@ function EditAddressDetails({ show, handleClose }) {
 EditAddressDetails.propTypes = {
   show: PropTypes.func.isRequired,
  handleClose: PropTypes.func.isRequired,
+ addressDetails: PropTypes.func.isRequired,
   
 };
 export default EditAddressDetails

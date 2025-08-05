@@ -1747,11 +1747,15 @@ function UserListRoomDetail(props) {
     updatedFields.splice(index, 1);
     setFields(updatedFields);
   };
+  const [basicDetails,setBasicDetails] = useState("")
 
 
   // new converstion onclick function for basic details & address & stay
 
-  const handleEditBasicDetails = () => {
+  const handleEditBasicDetails = (item) => {
+    console.log("handleEditBasicDetails",item)
+    setBasicDetails(item)
+
     setEditBasicDetailsShow(true)
     setCountryCode("91")
 
@@ -1759,9 +1763,10 @@ function UserListRoomDetail(props) {
   const handleCloseBasicDetails = () => {
     setEditBasicDetailsShow(false)
   }
-
-  const handleEditAddressDetailsShow = () => {
+const [addressDetails,setAddressDetails] = useState("")
+  const handleEditAddressDetailsShow = (item) => {
     setEditAddressDetailsShow(true)
+    setAddressDetails(item)
 
   };
   const handleCloseAddressDetails = () => {
@@ -6983,11 +6988,11 @@ function UserListRoomDetail(props) {
 
 
                   {
-                    editBasicDetailsShow && <EditBasicDetails show={editBasicDetailsShow} handleClose={handleCloseBasicDetails} />
+                    editBasicDetailsShow && <EditBasicDetails show={editBasicDetailsShow} handleClose={handleCloseBasicDetails} basicDetails={basicDetails}/>
                   }
 
                   {
-                    editAddressDetailsShow && <EditAddressDetails show={editAddressDetailsShow} handleClose={handleCloseAddressDetails} />
+                    editAddressDetailsShow && <EditAddressDetails show={editAddressDetailsShow} handleClose={handleCloseAddressDetails} addressDetails={addressDetails}/>
                   }
 
                   {

@@ -24,7 +24,7 @@
   width: 95%;
 }
 
-.show-scroll {
+.show-scroll-user {
   max-height: 100vh; /* or desired height */
   overflow-y: auto;
   scrollbar-width: thin; /* Firefox */
@@ -33,21 +33,21 @@
 
 
 
-.show-scroll::-webkit-scrollbar {
+.show-scroll-user::-webkit-scrollbar {
   width: 8px;
 }
 
-.show-scroll::-webkit-scrollbar-track {
+.show-scroll-user::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 10px;
 }
 
-.show-scroll::-webkit-scrollbar-thumb {
+.show-scroll-user::-webkit-scrollbar-thumb {
   background: #999;
   border-radius: 10px;
 }
 
-.show-scroll::-webkit-scrollbar-thumb:hover {
+.show-scroll-user::-webkit-scrollbar-thumb:hover {
   background: #666;
 }
 

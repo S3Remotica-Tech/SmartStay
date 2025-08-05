@@ -3169,7 +3169,7 @@ const handleCloseAssign =()=>{
           className="m-0 p-0"
   >
     <Modal.Body className="p-0 " >
-      <div  style={{  overflowY: "auto" ,   }} className="d-flex justify-content-center  show-scroll p-2 mt-2 me-3">
+      <div  style={{  overflowY: "auto" ,   }} className="d-flex justify-content-center  show-scroll-user p-2 mt-2 me-3">
         {/* Sidebar */}
         <div
           className="p-4"

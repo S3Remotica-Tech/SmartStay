@@ -11,7 +11,8 @@ import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 
-function EditBasicDetails({ show, handleClose }) {
+
+function EditBasicDetails({ show, handleClose,basicDetails }) {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -19,11 +20,15 @@ function EditBasicDetails({ show, handleClose }) {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    const countryCode = "91"
+    const [countryCode, setCountryCode] = useState("91");
+    const [id,setId] = useState("")
+    const [firstNameError,setFirstNameError] = useState("")
+    const [phoneError,setPhoneError] = useState("")
 
-
+console.log("basicDetails",basicDetails)
     const handleFirstNameChange = (e) => {
         setFirstName(e.target.value);
+        setFirstNameError("")
     };
 
     const handleLastNameChange = (e) => {
@@ -34,11 +39,49 @@ function EditBasicDetails({ show, handleClose }) {
         setEmail(e.target.value);
     };
 
-    const handlePhoneChange = (e) => {
-        setPhone(e.target.value);
-    };
+    // const handlePhoneChange = (e) => {
+    //     setPhone(e.target.value);
+    //     setPhoneError("")
+    // };
 
+     const handlePhoneChange = (e) => {
+    const input = e.target.value.replace(/\D/g, "");
+    setPhone(input);
 
+    if (input.length === 0) {
+      setPhoneError("");
+    } else if (input.length < 10) {
+      setPhoneError("Invalid mobile number");
+    } else if (input.length === 10) {
+      setPhoneError("");
+    }
+
+  
+    
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+  };
+ 
+
+useEffect(() => {
+  if (basicDetails && basicDetails[0]) {
+    const phoneNumber = String(basicDetails[0].Phone || "");
+    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+    const mobileNumber = phoneNumber.slice(-10);
+
+    if (basicDetails[0].Name) {
+      const value = basicDetails[0].Name.trim().split(" ");
+      setFirstName(value[0] || "");
+      setLastName(value[1] || "");
+    } else {
+      setFirstName("");
+      setLastName("");
+    }
+
+    setPhone(mobileNumber);
+    setCountryCode(countryCode);
+    setId(basicDetails[0].ID);
+  }
+}, [basicDetails]);
 
 
     useEffect(() => {
@@ -49,6 +92,60 @@ function EditBasicDetails({ show, handleClose }) {
         }
 
     }, [state.createAccount?.networkError])
+
+
+
+const MobileNumber = `${countryCode}${phone}`;
+    const handleSubmit=()=>{
+         if (!firstName) {
+    setFirstNameError("First name is required");
+    return;
+  }
+   if (phoneError === "Invalid mobile number") {
+    return;
+  }
+          if (!phone) {
+    setPhoneError("Phone is required");
+    return;
+  }
+        const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+        const capitalizedFirstname = capitalizeFirstLetter(firstName);
+    const capitalizedLastname = capitalizeFirstLetter(lastName);
+    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+    const payload = {
+      profile: basicDetails[0].profile,
+      firstname: capitalizedFirstname,
+      lastname: capitalizedLastname,
+      Phone: normalizedPhoneNumber,
+      Email: email,
+      HostelName:basicDetails[0].HostelName,
+      hostel_Id: basicDetails[0].Hostel_Id,
+      Floor: basicDetails[0].Floor,
+      Rooms: basicDetails[0].room_id,
+      Bed: basicDetails[0].hstl_Bed,
+      joining_date: basicDetails[0].user_join_date,
+      AdvanceAmount: basicDetails[0].AdvanceAmount,
+      RoomRent: basicDetails[0].RoomRent,
+        Address: basicDetails[0].Address,
+      area: basicDetails[0].area,
+      landmark: basicDetails[0].landmark,
+      city: basicDetails[0].city,
+      pincode: basicDetails[0].pincode,
+      state: basicDetails[0].state,
+      
+     
+      ID: id,
+
+    };
+     dispatch({
+      type: "ADDUSER",
+      payload: payload,
+    });
+    }
+ 
+
 
 
     return (
@@ -124,6 +221,33 @@ function EditBasicDetails({ show, handleClose }) {
                                         }}
                                     />
                                 </Form.Group>
+                                  {firstNameError && (
+                                                                        <div
+                                                                          style={{
+                                                                            marginTop: "",
+                                                                            color: "red",
+                                                                          }}
+                                                                        >
+                                                                          {" "}
+                                                                          <MdError
+                                                                            style={{
+                                                                              fontSize: "12px",
+                                                                              fontFamily: "Gilroy",
+                                                                              fontWeight: 500,
+                                                                              marginRight: "5px",
+                                                                            }}
+                                                                          />
+                                                                          <span
+                                                                            style={{
+                                                                              fontSize: "13px",
+                                                                              fontFamily: "Gilroy",
+                                                                              fontWeight: 500,
+                                                                            }}
+                                                                          >
+                                                                            {firstNameError}
+                                                                          </span>
+                                                                        </div>
+                                                                      )}
 
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -265,6 +389,33 @@ function EditBasicDetails({ show, handleClose }) {
                                         style={{ color: "red", fontSize: 11, marginTop: "-13px" }}
                                     ></p>
                                 </Form.Group>
+                                 {phoneError && (
+                                                                        <div
+                                                                          style={{
+                                                                            marginTop: "",
+                                                                            color: "red",
+                                                                          }}
+                                                                        >
+                                                                          {" "}
+                                                                          <MdError
+                                                                            style={{
+                                                                              fontSize: "12px",
+                                                                              fontFamily: "Gilroy",
+                                                                              fontWeight: 500,
+                                                                              marginRight: "5px",
+                                                                            }}
+                                                                          />
+                                                                          <span
+                                                                            style={{
+                                                                              fontSize: "13px",
+                                                                              fontFamily: "Gilroy",
+                                                                              fontWeight: 500,
+                                                                            }}
+                                                                          >
+                                                                            {phoneError}
+                                                                          </span>
+                                                                        </div>
+                                                                      )}
                             </div>
                         </div>
 
@@ -302,7 +453,7 @@ function EditBasicDetails({ show, handleClose }) {
                             </Button>
 
                             <Button
-                                //   onClick={() => { handleSubmit() }}
+                                  onClick= { handleSubmit}
                                 className="w-100 mt-1"
                                 style={{
                                     backgroundColor: "#1E45E1",
@@ -325,6 +476,7 @@ function EditBasicDetails({ show, handleClose }) {
 EditBasicDetails.propTypes = {
   show: PropTypes.func.isRequired,
  handleClose: PropTypes.func.isRequired,
+  basicDetails: PropTypes.func.isRequired,
   
 };
 export default EditBasicDetails
