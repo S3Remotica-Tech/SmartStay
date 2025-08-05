@@ -278,11 +278,13 @@ function CheckOut(props) {
     setConformEdit(true)
   }
 
-  console.log("state", state)
+
+  
 
 
   const handleConfirmCheckout = (checkout) => {
-    console.log("checkout", checkout)
+    
+    
     setCheckOutDetails(checkout)
    }
 
@@ -309,7 +311,7 @@ function CheckOut(props) {
         0
       );
     }
-    console.log("totaldueamount", totaldueamount)
+    
 
     setDueAmountDetails(totaldueamount)
 

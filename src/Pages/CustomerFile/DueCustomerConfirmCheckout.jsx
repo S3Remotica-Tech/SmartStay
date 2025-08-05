@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
-import Closecircle from "../../Assets/Images/close-circle.svg";
+
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import moment from "moment";
+
 import Image from "react-bootstrap/Image";
-import People from "../../Assets/Images/New_images/profile-picture.png";
+
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
@@ -139,7 +139,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
 
-    console.log("fileddddd", fields)
+  
+    
 
     return (
         <div>   <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modals-style"
@@ -293,9 +294,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
                                             placeholder="DD/MM/YYYY"
                                             value={checkOutDate ? dayjs(checkOutDate) : null}
                                             onChange={(date) => {
-                                                setCheckOutDateError('');
-                                                setIsChangedError("");
-                                                setCheckOutDate(date ? date.toDate() : null);
+                                                                                               setCheckOutDate(date ? date.toDate() : null);
                                             }}
                                             getPopupContainer={() => document.body}
 
@@ -977,5 +976,12 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
         </Modal></div>
     )
 }
+DueCustomerConfirmCheckout.propTypes = {
+   show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  data: PropTypes.func.isRequired,
+  dueAmountDetails:PropTypes.func.isRequired,
+  
 
+};
 export default DueCustomerConfirmCheckout

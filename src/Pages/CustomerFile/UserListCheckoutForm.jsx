@@ -186,7 +186,8 @@ const CheckOutForm = ({
   }, [data, show]);
 
 
-  console.log("Data", data)
+
+  
 
 
   useEffect(() => {
@@ -824,7 +825,7 @@ const CheckOutForm = ({
     setReturnAmount(result);
   }, [advanceamount, dueamount, fields, conformEdit]);
 
-  let visibleIndex = -1;
+
 
 
   // const handleInputChange = (index, field, value) => {
@@ -848,23 +849,7 @@ const CheckOutForm = ({
 
 
 
-  const labelStyle = {
-    fontSize: 14,
-    color: "rgba(75, 75, 75, 1)",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-  };
-
-  const inputStyle = {
-    height: "50px",
-    borderRadius: "8px",
-    fontSize: 16,
-    color: "#222",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    border: "1px solid #D9D9D9",
-  };
+  
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
