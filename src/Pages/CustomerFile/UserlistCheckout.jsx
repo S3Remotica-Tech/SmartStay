@@ -269,6 +269,7 @@ function CheckOut(props) {
   const handleEdit = (checkout) => {
     setActiveDotsId(null);
     setcheckoutForm(true);
+     setConfirmForm(false);
     setCheckOutEdit(checkout);
     setCheckoutEditAction(true)
     setCheckoutAction(false)
@@ -283,24 +284,23 @@ function CheckOut(props) {
 
 
   const handleConfirmCheckout = (checkout) => {
-    
-    
+        if (checkout.ID) {
+      dispatch({
+        type: "GETCONFIRMCHECKOUTCUSTOMER",
+        payload: { id: checkout.ID, hostel_id: checkout.Hostel_Id },
+      });
+    }
     setCheckOutDetails(checkout)
    }
 
 
 
-  useEffect(()=>{
-    if(CheckOutDetails){
- if (CheckOutDetails.ID) {
-      dispatch({
-        type: "GETCONFIRMCHECKOUTCUSTOMER",
-        payload: { id: CheckOutDetails.ID, hostel_id: CheckOutDetails.Hostel_Id },
-      });
-    }
+  
 
 
-    const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter((invoice) => invoice.balance > 0);
+useEffect(() => {
+    if (state.UsersList.statusCodegetConfirmCheckout === 200) {
+     const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter((invoice) => invoice.balance > 0);
     const hasBalance =
       Array.isArray(validInvoices) &&
       validInvoices.some((invoice) => invoice.balance > 0);
@@ -315,22 +315,25 @@ function CheckOut(props) {
 
     setDueAmountDetails(totaldueamount)
 
+    console.log("totaldueamount",totaldueamount)
 
     if (totaldueamount > 0) {
       setDueCustomerShow(true)
+      setConfirmForm(false);
     } else {
       setActiveDotsId(null);
       setConfirmForm(true);
       setCheckoutAction(true)
       setCheckoutEditAction(false)
       setConformEdit(false)
+      setDueCustomerShow(false)
     }
     }
-
-  },[CheckOutDetails])
-
-
-
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+      }, 500);
+   
+  }, [state.UsersList.statusCodegetConfirmCheckout]);
 
 
 

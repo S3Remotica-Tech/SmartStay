@@ -190,17 +190,19 @@ const CheckOutForm = ({
   
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    setFields(prevFields => {
-      const otherFields = prevFields.filter((_, i) => i !== 0);
-      return [
-        { reason: "DueAmount", amount: String(dueamount || "") },
-        ...otherFields,
-      ];
-    });
-  }, [dueamount]);
+  //   setFields(prevFields => {
+  //     const otherFields = prevFields.filter((_, i) => i !== 0);
+  //     return [
+  //       { reason: "DueAmount", amount: String(dueamount || "") },
+  //       ...otherFields,
+  //     ];
+  //   });
+  // }, [dueamount]);
 
+
+  
 
   useEffect(() => {
     if (data?.amenities?.length > 0) {
@@ -825,7 +827,7 @@ const CheckOutForm = ({
     setReturnAmount(result);
   }, [advanceamount, dueamount, fields, conformEdit]);
 
-
+console.log("fields",fields)
 
 
   // const handleInputChange = (index, field, value) => {
@@ -938,7 +940,7 @@ const CheckOutForm = ({
 
 
 
-
+console.log("checkouteditaction",checkouteditaction)
 
 
 

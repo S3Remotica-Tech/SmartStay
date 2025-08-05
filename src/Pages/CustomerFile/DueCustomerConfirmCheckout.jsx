@@ -602,6 +602,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
                             <div className="col-lg-12 col-md-12 col-sm-12">
+                                 <div className="d-flex justify-content-between"> 
+                              <div>
                                 <label
                                     htmlFor="amount"
                                     className="form-label"
@@ -614,20 +616,25 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
                                 >
                                     ReturnAmount
                                 </label>
+                                </div>
+                                  <div>
+                                    <div style={{fontFamily:"Gilroy", color:"#FF0000", fontSize:14}}>{dueAmountDetails >= 0 && "Pending"}</div>
+                                </div>
+                                  </div>
                                 <input
                                     type="text"
                                     id="amount"
                                     name="amount"
                                     placeholder="Enter Return Amount"
                                     className="form-control"
-                                    disabled
+                                    readOnly
 
 
                                     style={{
                                         height: "50px",
                                         borderRadius: "8px",
                                         fontSize: 16,
-                                        color: "#222",
+                                        color: "#FF0000",
                                         fontFamily: "Gilroy",
                                         fontWeight: 500,
                                         boxShadow: "none",
