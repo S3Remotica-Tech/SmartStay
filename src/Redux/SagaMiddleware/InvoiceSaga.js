@@ -1288,23 +1288,44 @@ function* handleCustomerRecurringEnableDisable(params) {
    try {
       const response = yield call(CustomerRecurringEnableDisable, params.payload)
 
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      const toastStyleWarning = {
+         backgroundColor: "#FFFBE6",
+         color: "#856404",
+         width: "100%",
+         borderRadius: "60px",
+         height: "auto",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px 16px",
+         border: "1px solid #ffeeba",
+         boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.05)",
+      };
+
+
+
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'CUSTOMER_RECURRING_ENABLE_DISABLE', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
-         var toastStyle = {
-            backgroundColor: "#E6F6E6",
-            color: "black",
-            width: "100%",
-            borderRadius: "60px",
-            height: "20px",
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            fontSize: 14,
-            textAlign: "start",
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
 
-         };
 
          toast.success(response.data.message, {
             position: "bottom-center",
@@ -1320,7 +1341,17 @@ function* handleCustomerRecurringEnableDisable(params) {
       }
 
       else if (response.status === 201 || response.statusCode === 201) {
-         // yield put ({type : 'FAIL_ADD_RECURRING_BILL' , payload:{response:response.data.recure, statusCode:response.status || response.statusCode  , message: response.data.message}})
+         toast.warn(response.data.message, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyleWarning
+         })
       }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
