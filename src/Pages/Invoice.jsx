@@ -189,7 +189,7 @@ const InvoicePage = () => {
   }, [recurringbills]);
 
 
-  const handleToggle = (id) => {
+  const handleToggle = (id,Inv_ID) => {
     if (!id) return;
 
     setCheckedRows((prev) => {
@@ -209,6 +209,7 @@ const InvoicePage = () => {
         payload: {
           user_id: id,
           bill_enable: updatedValue,
+          Inv_ID: Inv_ID , 
         },
       });
 
@@ -5013,7 +5014,7 @@ const InvoicePage = () => {
                                   key={item.ID}
                                   item={item}
                                   checked={checkedRows[item.ID] === true}
-                                  onToggle={() => handleToggle(item.ID)}
+                                  onToggle={() => handleToggle(item.ID, item.Inv_ID)}
                                   handleDeleteRecurringbills={
                                     handleDeleteRecurringbills
                                   }
