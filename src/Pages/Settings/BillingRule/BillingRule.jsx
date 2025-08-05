@@ -31,7 +31,7 @@ function BillingRule() {
 
 
 
-//  Future needed this function so delete this command line.............
+//  Future needed this function so don't delete this command line.............
 
   // const handleToggle = () => {
   //   setChecked(!checked);
