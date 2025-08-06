@@ -11,12 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
-import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 
-function EditStayDetails({ show, handleClose }) {
+function EditStayDetails({ show, handleClose,stayDetais }) {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -28,49 +27,28 @@ function EditStayDetails({ show, handleClose }) {
     const [selectedDate, setSelectedDate] = useState(null);
     const [AdvanceAmount, setAdvanceAmount] = useState('');
     const [RoomRent, setRoomRent] = useState('');
-    const [MaintenanceFee, setMaintenanceFee] = useState('');
-    const [DocumentFee, setDocumentFee] = useState('');
+   
+
+
+
+
+    useEffect(()=>{
+        if(stayDetais){
+            setFloor(stayDetais[0].Floor)
+            setRooms(stayDetais[0].Rooms)
+            setBed(stayDetais[0].Bed)
+            setSelectedDate(stayDetais[0].user_join_date)
+            setAdvanceAmount(stayDetais[0].AdvanceAmount)
+            setRoomRent(stayDetais[0].RoomRent)
+
+        }
+
+    },[stayDetais])
+
+
     
 
-    const handleFloor = (selectedOption) => {
-        setFloor(selectedOption?.value || null);
-        setRooms(null);
-        setBed(null);
-    };
-
-    const handleRooms = (selectedValue) => {
-         setRooms(selectedValue);
-        dispatch({
-      type: "BEDNUMBERDETAILS",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        floor_id: Floor,
-        room_id: selectedValue,
-      },
-    });
-
-    };
-
-    const handleBed = (selectedOption) => {
-           const selectedBedId = selectedOption?.value || "";
-    setBed(selectedBedId);
-
-    const Bedfilter = state?.UsersList?.roomdetails?.filter(
-      (u) =>
-        String(u.Hostel_Id) === String(state.login.selectedHostel_Id) &&
-        String(u.Floor_Id) === String(Floor) &&
-        String(u.Room_Id) === String(Rooms)
-    );
-
-    const Roomamountfilter =
-      Bedfilter?.[0]?.bed_details?.filter(
-        (amount) => String(amount.id) === String(selectedBedId)
-      ) ?? [];
-
-    if (Roomamountfilter.length > 0) {
-      setRoomRent(Roomamountfilter[0]?.bed_amount);
-    }
-    };
+    
 
     const handleAdvanceAmount = (e) => {
         setAdvanceAmount(e.target.value);
@@ -80,13 +58,7 @@ function EditStayDetails({ show, handleClose }) {
         setRoomRent(e.target.value);
     };
 
-    const handleMaintenanceFee = (e) => {
-        setMaintenanceFee(e.target.value);
-    };
-
-    const handleDocumentFee = (e) => {
-        setDocumentFee(e.target.value);
-    };
+    
 
 
     useEffect(() => {
@@ -174,83 +146,25 @@ function EditStayDetails({ show, handleClose }) {
                                     </span>
                                 </Form.Label>
 
-                                <Select
-                                    options={
-                                        state.UsersList?.hosteldetailslist?.map((u) => ({
-                                            value: u.floor_id,
-                                            label: u.floor_name,
-                                        })) || []
-                                    }
-                                    onChange={handleFloor}
-                                    value={
-                                        state.UsersList?.hosteldetailslist?.find(
-                                            (option) => option.floor_id === Floor
-                                        )
-                                            ? {
-                                                value: Floor,
-                                                label: state.UsersList.hosteldetailslist.find(
-                                                    (option) => option.floor_id === Floor
-                                                )?.floor_name,
-                                            }
-                                            : null
-                                    }
-                                    placeholder="Select a Floor"
-                                    classNamePrefix="custom"
-                                    menuPlacement="auto"
-                                    styles={{
-                                        control: (base) => ({
-                                            ...base,
-                                            height: "50px",
-                                            border: "1px solid #D9D9D9",
-                                            borderRadius: "8px",
-                                            fontSize: "16px",
+                            
+
+  <FormControl
+                                        type="text"
+                                        placeholder="Enter Amount"
+                                        value={Floor}
+                                      
+                                        disabled
+                                        style={{
+                                            fontSize: 16,
                                             color: "#4B4B4B",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                             boxShadow: "none",
-                                        }),
-                                        menu: (base) => ({
-                                            ...base,
-                                            backgroundColor: "#f8f9fa",
-                                            border: "1px solid #ced4da",
-                                            fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                            ...base,
-                                            backgroundColor: "#f8f9fa",
-                                            maxHeight: "120px",
-                                            padding: 0,
-                                            scrollbarWidth: "thin",
-                                            overflowY: "auto",
-                                            fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                            ...base,
-                                            color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                            ...base,
-                                            color: "#555",
-                                            display: "inline-block",
-                                            fill: "currentColor",
-                                            lineHeight: 1,
-                                            stroke: "currentColor",
-                                            strokeWidth: 0,
-                                            cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                            display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                            ...base,
-                                            cursor: "pointer",
-                                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                            color: "#000",
-                                        }),
-                                    }}
-                                />
-
-
+                                            border: "1px solid #D9D9D9",
+                                            height: 50,
+                                            borderRadius: 8,
+                                        }}
+                                    />
                             </div>
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
@@ -268,83 +182,24 @@ function EditStayDetails({ show, handleClose }) {
                                     </span>
                                 </Form.Label>
 
-                                <Select
-                                    options={
-                                        state.UsersList?.roomdetails?.map((item) => ({
-                                            value: item.Room_Id,
-                                            label: item.Room_Name,
-                                        })) || []
-                                    }
-                                    onChange={(selectedOption) =>
-                                        handleRooms(selectedOption?.value)
-                                    }
-                                    value={
-                                        state.UsersList?.roomdetails?.find(
-                                            (option) => option.Room_Id === Rooms
-                                        )
-                                            ? {
-                                                value: Rooms,
-                                                label: state.UsersList.roomdetails.find(
-                                                    (option) => option.Room_Id === Rooms
-                                                )?.Room_Name,
-                                            }
-                                            : null
-                                    }
-                                    placeholder="Select a Room"
-                                    classNamePrefix="custom"
-                                    menuPlacement="auto"
-                                    styles={{
-                                        control: (base) => ({
-                                            ...base,
-                                            height: "50px",
-                                            border: "1px solid #D9D9D9",
-                                            borderRadius: "8px",
-                                            fontSize: "16px",
+                               
+                                 <FormControl
+                                        type="text"
+                                        placeholder="Enter Amount"
+                                        value={Rooms}
+                                        disabled
+                                       
+                                        style={{
+                                            fontSize: 16,
                                             color: "#4B4B4B",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                             boxShadow: "none",
-                                        }),
-                                        menu: (base) => ({
-                                            ...base,
-                                            backgroundColor: "#f8f9fa",
-                                            border: "1px solid #ced4da",
-                                            fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                            ...base,
-                                            backgroundColor: "#f8f9fa",
-                                            maxHeight: "120px",
-                                            padding: 0,
-                                            scrollbarWidth: "thin",
-                                            overflowY: "auto",
-                                            fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                            ...base,
-                                            color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                            ...base,
-                                            color: "#555",
-                                            display: "inline-block",
-                                            fill: "currentColor",
-                                            lineHeight: 1,
-                                            stroke: "currentColor",
-                                            strokeWidth: 0,
-                                            cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                            display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                            ...base,
-                                            cursor: "pointer",
-                                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                            color: "#000",
-                                        }),
-                                    }}
-                                />
+                                            border: "1px solid #D9D9D9",
+                                            height: 50,
+                                            borderRadius: 8,
+                                        }}
+                                    />
 
 
                             </div>
@@ -364,90 +219,24 @@ function EditStayDetails({ show, handleClose }) {
                                     </span>
                                 </Form.Label>
 
-                                <Select
-                                    options={
-                                        state.UsersList?.bednumberdetails?.bed_details
-                                            ?.filter(
-                                                (item) =>
-                                                    item.bed_no !== "0" &&
-                                                    item.bed_no !== "undefined" &&
-                                                    item.bed_no !== "" &&
-                                                    item.bed_no !== "null"
-                                            )
-                                            ?.map((item) => ({
-                                                value: item.id,
-                                                label: item.bed_no,
-                                            })) || []
-                                    }
-                                    onChange={handleBed}
-                                    value={
-                                        state.UsersList?.bednumberdetails?.bed_details?.find(
-                                            (option) => option.id === Bed
-                                        )
-                                            ? {
-                                                value: Bed,
-                                                label:
-                                                    state.UsersList.bednumberdetails.bed_details.find(
-                                                        (option) => option.id === Bed
-                                                    )?.bed_no,
-                                            }
-                                            : null
-                                    }
-                                    placeholder="Select a Bed"
-                                    classNamePrefix="custom"
-                                    menuPlacement="auto"
-                                    styles={{
-                                        control: (base) => ({
-                                            ...base,
-                                            height: "50px",
-                                            border: "1px solid #D9D9D9",
-                                            borderRadius: "8px",
-                                            fontSize: "16px",
+                              
+                                 <FormControl
+                                        type="text"
+                                        placeholder="Enter Amount"
+                                        value={Bed}
+                                        disabled
+                                       
+                                        style={{
+                                            fontSize: 16,
                                             color: "#4B4B4B",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                             boxShadow: "none",
-                                        }),
-                                        menu: (base) => ({
-                                            ...base,
-                                            backgroundColor: "#f8f9fa",
-                                            border: "1px solid #ced4da",
-                                            fontFamily: "Gilroy",
-                                        }),
-                                        menuList: (base) => ({
-                                            ...base,
-                                            backgroundColor: "#f8f9fa",
-                                            maxHeight: "120px",
-                                            padding: 0,
-                                            scrollbarWidth: "thin",
-                                            overflowY: "auto",
-                                            fontFamily: "Gilroy",
-                                        }),
-                                        placeholder: (base) => ({
-                                            ...base,
-                                            color: "#555",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                            ...base,
-                                            color: "#555",
-                                            display: "inline-block",
-                                            fill: "currentColor",
-                                            lineHeight: 1,
-                                            stroke: "currentColor",
-                                            strokeWidth: 0,
-                                            cursor: "pointer",
-                                        }),
-                                        indicatorSeparator: () => ({
-                                            display: "none",
-                                        }),
-                                        option: (base, state) => ({
-                                            ...base,
-                                            cursor: "pointer",
-                                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                            color: "#000",
-                                        }),
-                                    }}
-                                />
+                                            border: "1px solid #D9D9D9",
+                                            height: 50,
+                                            borderRadius: 8,
+                                        }}
+                                    />
 
 
                             </div>
@@ -481,6 +270,7 @@ function EditStayDetails({ show, handleClose }) {
                                                 fontFamily: "Gilroy"
                                             }}
                                             format="DD/MM/YYYY"
+                                            disabled
                                             placeholder="DD/MM/YYYY"
                                             value={selectedDate ? dayjs(selectedDate) : null}
                                             onChange={(date) => {
@@ -554,7 +344,7 @@ function EditStayDetails({ show, handleClose }) {
 
                             </div>
 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
                                 <Form.Group>
                                     <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                                         Maintenance Fee (Non Refundable)
@@ -603,7 +393,40 @@ function EditStayDetails({ show, handleClose }) {
                                     />
                                 </Form.Group>
 
-                            </div>
+                            </div> */}
+ {stayDetais[0].reasonData?.map((item, index) => (
+  <div
+    key={index}
+    className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2"
+  >
+    <Form.Group>
+      <Form.Label
+        style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
+      >
+        {`${item.reason.charAt(0).toUpperCase() + item.reason.slice(1)} Fee (Non Refundable)`}{" "}
+        <span style={{ color: "red", fontSize: "20px" }}> *</span>
+      </Form.Label>
+      <FormControl
+        type="text"
+        value={item.amount}
+        readOnly
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 50,
+          borderRadius: 8,
+          backgroundColor: "#F5F5F5", 
+        }}
+      />
+    </Form.Group>
+  </div>
+))}
+
+
                         </div>
 
 
@@ -640,7 +463,7 @@ function EditStayDetails({ show, handleClose }) {
                             </Button>
 
                             <Button
-                                //   onClick={() => { handleSubmit() }}
+                               
                                 className="w-100 mt-1"
                                 style={{
                                     backgroundColor: "#1E45E1",
@@ -663,6 +486,7 @@ function EditStayDetails({ show, handleClose }) {
 EditStayDetails.propTypes = {
   show: PropTypes.func.isRequired,
  handleClose: PropTypes.func.isRequired,
+  stayDetais: PropTypes.func.isRequired,
   
 };
 

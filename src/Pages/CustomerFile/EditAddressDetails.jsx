@@ -25,36 +25,86 @@ function EditAddressDetails({ show, handleClose,addressDetails }) {
     const [pincode, setPincode] = useState("");
     const [city, setCity] = useState("");
     const [stateName, setStateName] = useState("");
-     const [firstName, setFirstName] = useState("");
-        const [lastName, setLastName] = useState("");
-         const [countryCode, setCountryCode] = useState("91");
-         const [phone, setPhone] = useState("");
-         const [id,setId] =useState("")
-         const [formError,setFormError] = useState("")
+    const[formError,setFormError] = useState("")
 
+
+
+const [firstName,setFirstname] = useState("")
+const [lastname,setLastname] = useState("")
+const [phone,setPhone] = useState("")
+ const [countryCode, setCountryCode] = useState("91");
+ const [initialState,setInitialstate] = useState("")
+ const [pincodeError,setPincodeError] = useState("")
+
+useEffect(()=>{
+if(addressDetails){
+     const phoneNumber = String(addressDetails[0].Phone || "");
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+      const mobileNumber = phoneNumber.slice(-10);
+      if (addressDetails[0].Name) {
+        let value = addressDetails[0].Name.split(" ");
+        setFirstname(value[0]);
+        setLastname(value[1]);
+      } else {
+        setFirstname("");
+        setLastname("");
+      }
+
+  setHouseNo(addressDetails[0].Address || "")
+  setStreet(addressDetails[0].area || "")
+  setLandmark(addressDetails[0].landmark || "")
+  setPincode(addressDetails[0].pincode || "")
+  setCity(
+  addressDetails[0].city && addressDetails[0].city !== "undefined"
+    ? addressDetails[0].city
+    : ""
+);
+
+setStateName(
+  addressDetails[0].state && addressDetails[0].state !== "undefined"
+    ? addressDetails[0].state
+    : ""
+);
+  setPhone(mobileNumber)
+  setCountryCode(countryCode)
+
+
+  setInitialstate({
+      Address: addressDetails[0].Address || "",
+      area: addressDetails[0].area || "",
+      landmark: addressDetails[0].landmark || "",
+      city:
+        addressDetails[0].city && addressDetails[0].city !== "undefined"
+          ? addressDetails[0].city
+          : "",
+      pincode: addressDetails[0].pincode || "",
+      state:
+        addressDetails[0].state && addressDetails[0].state !== "undefined"
+          ? addressDetails[0].state
+          : "",
+    });
+}
+},[addressDetails])
 
     const handleHouseNoChange = (e) => {
         setHouseNo(e.target.value);
+        setFormError("")
     }
 
 
     const handleStreetChange = (e) => {
         setStreet(e.target.value);
+        setFormError("")
     }
 
     const handleLandmarkChange = (e) => {
         setLandmark(e.target.value);
+        setFormError("")
 
     };
-    console.log("addressDetails",addressDetails)
 
-    // const handlePincodeChange = (e) => {
-    //     const value = e.target.value.replace(/\D/g, "");
-    //     setPincode(value);
-
-    // };
-    const [pincodeError,setPincodeError] = useState("")
-      const handlePincodeChange = (e) => {
+    
+    const handlePincodeChange = (e) => {
     const value = e.target.value;
     if (!/^\d{0,6}$/.test(value)) {
       return;
@@ -66,45 +116,20 @@ function EditAddressDetails({ show, handleClose,addressDetails }) {
     } else {
       setPincodeError("");
     }
-    // setFormError("")
+    setFormError("")
   };
 
     const handleCityChange = (e) => {
         setCity(e.target.value);
+        setFormError("")
 
     };
 
     const handleStateChange = (selectedOption) => {
         setStateName(selectedOption?.value || "");
+        setFormError("")
 
     };
-    useEffect(()=>{
-        
-        if(addressDetails){
-             const phoneNumber = String(addressDetails[0].phone || "");
-                       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-                  const mobileNumber = phoneNumber.slice(-10);
-             if (addressDetails[0].Name) {
-        let value = addressDetails[0].Name.split(" ");
-        setFirstName(value[0]);
-        setLastName(value[1]);
-      } else {
-        setFirstName("");
-        setLastName("");
-      }
-            setHouseNo(addressDetails[0].Address)
-            setStreet(addressDetails[0].area)
-             setLandmark(addressDetails[0].landmark)
-             setPincode(addressDetails[0].pincode)
-             setCity(addressDetails[0].city)
-             setStateName(addressDetails[0].state)      
-             setPhone(mobileNumber);
-      setCountryCode(countryCode);  
-      setId(addressDetails[0].ID)     
-
-        }
-
-    },[addressDetails])
 
 
     const indianStates = [
@@ -162,135 +187,75 @@ function EditAddressDetails({ show, handleClose,addressDetails }) {
 
     }, [state.createAccount?.networkError])
 
- const pincodeRef = useRef(null);
-    // const MobileNumber = `${countryCode}${addressDetails[0].phone}`;
-//         const handleSubmitAdress=()=>{
+const MobileNumber = `${countryCode}${phone}`;
+  const pincodeRef = useRef(null);
 
+    const handleSubmitAddress = ()=>{
+         const focusedRef = { current: false };
+const cleanedPincode = String(pincode || "").trim();
+        if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
 
-//  const cleanedPincode = String(pincode || "").trim();
-//     if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-//       setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focusedRef.current && pincodeRef?.current) {
+        pincodeRef.current.focus();
+        focusedRef.current = true;
+      }
 
-//       if (!focusedRef.current && pincodeRef?.current) {
-//         pincodeRef.current.focus();
-//         focusedRef.current = true;
-//       }
-
-//       hasError = true;
-//     } else {
-//       setPincodeError("");
-//     }
-//             const capitalizeFirstLetter = (str) => {
-//           return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-//         };
-//             const capitalizedFirstname = capitalizeFirstLetter(firstName);
-//         const capitalizedLastname = capitalizeFirstLetter(lastName);
-//         const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-//         const payload = {
-//           profile: addressDetails[0].profile,
-//           firstname: capitalizedFirstname,
-//           lastname: capitalizedLastname,
-//           Phone: normalizedPhoneNumber,
-//           Email: addressDetails[0].Email,
-//           HostelName:addressDetails[0].HostelName,
-//           hostel_Id: addressDetails[0].Hostel_Id,
-//           Floor: addressDetails[0].Floor,
-//           Rooms: addressDetails[0].room_id,
-//           Bed: addressDetails[0].hstl_Bed,
-//           joining_date: addressDetails[0].user_join_date,
-//           AdvanceAmount: addressDetails[0].AdvanceAmount,
-//           RoomRent: addressDetails[0].RoomRent,
-//             Address: houseNo,
-//           area: street,
-//           landmark:landmark,
-//           city: city,
-//           pincode: pincode,
-//           state: stateName,
-          
-         
-//           ID: id,
-    
-//         };
-//          dispatch({
-//           type: "ADDUSER",
-//           payload: payload,
-//         });
-//         }
-const handleSubmitAdress = () => {
-  let hasError = false;
-
-  const cleanedPincode = String(pincode || "").trim();
-  if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
-
-    if (pincodeRef?.current) {
-      pincodeRef.current.focus();
      
+    } else {
+      setPincodeError("");
     }
 
-    hasError = true;
-  } else {
-    setPincodeError("");
-  }
+          if (!initialState) return;
 
-  if (hasError) return;
+  const noChanges =
+    houseNo === initialState.Address &&
+    street === initialState.area &&
+    landmark === initialState.landmark &&
+    city === initialState.city &&
+    pincode === initialState.pincode &&
+    stateName === initialState.state;
 
-  const capitalizeFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  };
-
-  const capitalizedFirstname = capitalizeFirstLetter(firstName);
-  const capitalizedLastname = capitalizeFirstLetter(lastName);
-  const normalizedPhoneNumber = `${countryCode}${phone}`.replace(/\s+/g, "");
-
-  const originalPhone = String(addressDetails[0]?.phone || "");
-
-  const noChange =
-    capitalizedFirstname === addressDetails[0]?.Name?.split(" ")[0] &&
-    capitalizedLastname === addressDetails[0]?.Name?.split(" ")[1] &&
-    normalizedPhoneNumber === originalPhone &&
-    houseNo === addressDetails[0]?.Address &&
-    street === addressDetails[0]?.area &&
-    landmark === addressDetails[0]?.landmark &&
-    pincode === addressDetails[0]?.pincode &&
-    city === addressDetails[0]?.city &&
-    stateName === addressDetails[0]?.state;
-
-  if (noChange) {
+  if (noChanges) {
     setFormError("No changes detected.");
     return;
   }
+        const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
 
-  setFormError(""); 
+    const capitalizedFirstname = capitalizeFirstLetter(firstName);
+    const capitalizedLastname = capitalizeFirstLetter(lastname);
+    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+        
+         const payload = {
+      profile: addressDetails[0].profile,
+      firstname: capitalizedFirstname,
+      lastname: capitalizedLastname,
+      Phone: normalizedPhoneNumber,
+      Email: addressDetails[0].Email,
+      Address: houseNo,
+      area: street,
+      landmark: landmark,
+      city: city,
+      pincode: pincode,
+      state: stateName,
+      HostelName: addressDetails[0].HostelName,
+      hostel_Id: addressDetails[0].Hostel_Id,
+      Floor:  addressDetails[0].Floor,
+      Rooms:  addressDetails[0].hstl_Rooms,
+      Bed: addressDetails[0].hstl_Bed,
+      joining_date: addressDetails[0].Bed,
+      AdvanceAmount: addressDetails[0].AdvanceAmount,
+      RoomRent: addressDetails[0].RoomRent,
+      ID: addressDetails[0].ID,
 
-  const payload = {
-    profile: addressDetails[0].profile,
-    firstname: capitalizedFirstname,
-    lastname: capitalizedLastname,
-    Phone: normalizedPhoneNumber,
-    Email: addressDetails[0].Email,
-    HostelName: addressDetails[0].HostelName,
-    hostel_Id: addressDetails[0].Hostel_Id,
-    Floor: addressDetails[0].Floor,
-    Rooms: addressDetails[0].room_id,
-    Bed: addressDetails[0].hstl_Bed,
-    joining_date: addressDetails[0].user_join_date,
-    AdvanceAmount: addressDetails[0].AdvanceAmount,
-    RoomRent: addressDetails[0].RoomRent,
-    Address: houseNo,
-    area: street,
-    landmark: landmark,
-    city: city,
-    pincode: pincode,
-    state: stateName,
-    ID: id,
-  };
-
-  dispatch({
-    type: "ADDUSER",
-    payload: payload,
-  });
-};
+    };
+    dispatch({
+      type: "ADDUSER",
+      payload: payload,
+    });
+    }
 
 
     return (
@@ -470,29 +435,33 @@ const handleSubmitAdress = () => {
                                     />
 
                                 </Form.Group>
-                                     {pincodeError && (
-                                                                          <div className="d-flex align-items-center p-1 mb-2">
-                                                                            <MdError
-                                                                              style={{
-                                                                                color: "red",
-                                                                                marginRight: "5px",
-                                                                                fontSize: "13px",
-                                                                                marginBottom: "2px",
-                                                                              }}
-                                                                            />
-                                                                            <label
-                                                                              className="mb-0"
-                                                                              style={{
-                                                                                color: "red",
-                                                                                fontSize: "12px",
-                                                                                fontFamily: "Gilroy",
-                                                                                fontWeight: 500,
-                                                                              }}
-                                                                            >
-                                                                              {pincodeError}
-                                                                            </label>
-                                                                          </div>
-                                                                        )}
+                                 {pincodeError && (
+                                                                        <div
+                                                                          style={{
+                                                                            marginTop: "",
+                                                                            color: "red",
+                                                                          }}
+                                                                        >
+                                                                          {" "}
+                                                                          <MdError
+                                                                            style={{
+                                                                              fontSize: "12px",
+                                                                              fontFamily: "Gilroy",
+                                                                              fontWeight: 500,
+                                                                              marginRight: "5px",
+                                                                            }}
+                                                                          />
+                                                                          <span
+                                                                            style={{
+                                                                              fontSize: "13px",
+                                                                              fontFamily: "Gilroy",
+                                                                              fontWeight: 500,
+                                                                            }}
+                                                                          >
+                                                                            {pincodeError}
+                                                                          </span>
+                                                                        </div>
+                                                                      )}
                             </div>
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
@@ -627,12 +596,24 @@ const handleSubmitAdress = () => {
 
 
                     </Modal.Body>
- {formError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                            <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</label>
-                        </div>
-                        : null}
+  {formError && (
+                                     <div
+                                       className="d-flex align-items-center justify-content-center"
+                                       style={{ color: "red" }}
+                                     >
+                                       <MdError style={{ marginRight: "5px" }} />
+                                       <span
+                                         style={{
+                                           fontSize: "12px",
+                                           color: "red",
+                                           fontFamily: "Gilroy",
+                                           fontWeight: 500,
+                                         }}
+                                       >
+                                         {formError}
+                                       </span>
+                                     </div>
+                                   )}
 
                     {state.createAccount?.networkError ?
                         <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
@@ -662,7 +643,7 @@ const handleSubmitAdress = () => {
                             </Button>
 
                             <Button
-                                  onClick={handleSubmitAdress}
+                                  onClick={handleSubmitAddress}
                                 className="w-100 mt-1"
                                 style={{
                                     backgroundColor: "#1E45E1",
@@ -685,6 +666,7 @@ const handleSubmitAdress = () => {
 EditAddressDetails.propTypes = {
   show: PropTypes.func.isRequired,
  handleClose: PropTypes.func.isRequired,
+ 
  addressDetails: PropTypes.func.isRequired,
   
 };

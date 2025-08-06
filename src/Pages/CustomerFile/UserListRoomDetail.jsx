@@ -8,7 +8,7 @@ import "./UserList.css";
 import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
-// import Money from "../../Assets/Images/New_images/Money.png";
+
 import Carousel from "react-bootstrap/Carousel";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -51,7 +51,6 @@ import RoomImage from "../../Assets/Images/room_icon.png";
 import LinkImage from "../../Assets/Images/home-link.png";
 import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
 import MoneyImage from "../../Assets/Images/Money.png";
-// import Reload from "../../Assets/Images/repeate-one.png";
 import EyeIcon from "../../Assets/Images/eye.png";
 import Stayhistory from "../../Assets/Images/stay_history.png";
 import EditBasicDetails from "./EditBasicDetails";
@@ -132,7 +131,6 @@ function UserListRoomDetail(props) {
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [generateFormAdvance, setGenerateFormAdvance] = useState(false)
   const [errors, setErrors] = useState([]);
-  // new conversion state don't remove
   const [editBasicDetailsShow, setEditBasicDetailsShow] = useState(false)
   const [editAddressDetailsShow, setEditAddressDetailsShow] = useState(false)
   const [editStayDetailsShow, setEditStayDetailsShow] = useState(false)
@@ -1750,7 +1748,7 @@ function UserListRoomDetail(props) {
   const [basicDetails,setBasicDetails] = useState("")
 
 
-  // new converstion onclick function for basic details & address & stay
+
 
   const handleEditBasicDetails = (item) => {
     console.log("handleEditBasicDetails",item)
@@ -1772,10 +1770,11 @@ const [addressDetails,setAddressDetails] = useState("")
   const handleCloseAddressDetails = () => {
     setEditAddressDetailsShow(false)
   }
+const [stayDetais,setStayDetails] = useState("")
 
-
-  const handleEditStayDetails = () => {
+  const handleEditStayDetails = (item) => {
     setEditStayDetailsShow(true)
+    setStayDetails(item)
 
   };
   const handleCloseStayDetails = () => {
@@ -3523,7 +3522,7 @@ const [addressDetails,setAddressDetails] = useState("")
                                 style={{
                                   paddingLeft: 20,
                                   paddingRight: 20,
-                                  // marginTop: 30,
+                                  
                                 }}>
                                   <div
                                   className="card"
@@ -3919,14 +3918,14 @@ const [addressDetails,setAddressDetails] = useState("")
                               
                               <div
                                 className="col-md-12 col-lg-12 mb-3 mb-md-0"
-                                // style={{backgroundColor:'rgba(247, 249, 255, 1)' }}
+                              
                               >
                                 <div
                                   className="card"
                                   style={{
                                     borderRadius: "10px",
                                     backgroundColor:'rgba(247, 249, 255, 1)'
-                                    // padding: "10px",
+                                   
                                   }}
                                 >
                                 
@@ -3978,7 +3977,7 @@ const [addressDetails,setAddressDetails] = useState("")
                                                 fontSize: 14,
                                                 fontWeight: 500,
                                                 backgroundColor: "#1E45E1",
-                                                // color: "#fff",
+                                             
                                                 borderRadius: "10px",
                                                 marginTop: "10px",
                                               }}
@@ -6996,7 +6995,7 @@ const [addressDetails,setAddressDetails] = useState("")
                   }
 
                   {
-                    editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails} />
+                    editStayDetailsShow && <EditStayDetails show={editStayDetailsShow} handleClose={handleCloseStayDetails} stayDetais = {stayDetais}/>
                   }
 
 

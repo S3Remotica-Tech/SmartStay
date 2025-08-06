@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import {
     Modal,
     Form,
-        Button,
-      InputGroup,
+    Button,
+    InputGroup,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -12,7 +12,7 @@ import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 
 
-function EditBasicDetails({ show, handleClose,basicDetails }) {
+function EditBasicDetails({ show, handleClose, basicDetails }) {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -21,67 +21,97 @@ function EditBasicDetails({ show, handleClose,basicDetails }) {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [countryCode, setCountryCode] = useState("91");
-    const [id,setId] = useState("")
-    const [firstNameError,setFirstNameError] = useState("")
-    const [phoneError,setPhoneError] = useState("")
+    const [id, setId] = useState("")
+    const [firstNameError, setFirstNameError] = useState("")
+    const [phoneError, setPhoneError] = useState("")
+    const [initialValues, setInitialValues] = useState(null);
+    const [isChanged, setIsChanged] = useState("")
 
-console.log("basicDetails",basicDetails)
+   
     const handleFirstNameChange = (e) => {
         setFirstName(e.target.value);
         setFirstNameError("")
+        setIsChanged("")
+        
     };
 
     const handleLastNameChange = (e) => {
         setLastName(e.target.value);
+        setIsChanged("")
     };
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
+        setIsChanged("")
     };
 
-    // const handlePhoneChange = (e) => {
-    //     setPhone(e.target.value);
-    //     setPhoneError("")
-    // };
+   
 
-     const handlePhoneChange = (e) => {
-    const input = e.target.value.replace(/\D/g, "");
-    setPhone(input);
+    const handlePhoneChange = (e) => {
+        const input = e.target.value.replace(/\D/g, "");
+        setPhone(input);
 
-    if (input.length === 0) {
-      setPhoneError("");
-    } else if (input.length < 10) {
-      setPhoneError("Invalid mobile number");
-    } else if (input.length === 10) {
-      setPhoneError("");
-    }
+        if (input.length === 0) {
+            setPhoneError("");
+        } else if (input.length < 10) {
+            setPhoneError("Invalid mobile number");
+        } else if (input.length === 10) {
+            setPhoneError("");
+        }
 
-  
-    
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-  };
- 
+setIsChanged("")
 
-useEffect(() => {
-  if (basicDetails && basicDetails[0]) {
-    const phoneNumber = String(basicDetails[0].Phone || "");
-    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-    const mobileNumber = phoneNumber.slice(-10);
+        dispatch({ type: "CLEAR_PHONE_ERROR" });
+    };
 
-    if (basicDetails[0].Name) {
-      const value = basicDetails[0].Name.trim().split(" ");
-      setFirstName(value[0] || "");
-      setLastName(value[1] || "");
-    } else {
-      setFirstName("");
-      setLastName("");
-    }
 
-    setPhone(mobileNumber);
-    setCountryCode(countryCode);
-    setId(basicDetails[0].ID);
-  }
-}, [basicDetails]);
+   
+
+
+    useEffect(() => {
+        if (basicDetails && basicDetails[0]) {
+            const phoneNumber = String(basicDetails[0].Phone || "");
+            const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+            const mobileNumber = phoneNumber.slice(-10);
+
+            let fname = "";
+            let lname = "";
+
+            if (basicDetails[0].Name) {
+                const value = basicDetails[0].Name.trim().split(" ");
+                fname = value[0] || "";
+                lname = value[1] || "";
+                setFirstName(fname);
+                setLastName(lname);
+            } else {
+                setFirstName("");
+                setLastName("");
+            }
+
+            setPhone(mobileNumber);
+            setCountryCode(countryCode);
+            setId(basicDetails[0].ID);
+
+          
+            setInitialValues({
+                profile: basicDetails[0].profile,
+                firstname: fname,
+                lastname: lname,
+                Phone: mobileNumber,
+                Email: basicDetails[0].Email || "",
+                Address: basicDetails[0].Address,
+                area: basicDetails[0].area,
+                landmark: basicDetails[0].landmark,
+                city: basicDetails[0].city,
+                pincode: basicDetails[0].pincode,
+                state: basicDetails[0].state,
+            });
+        }
+    }, [basicDetails]);
+
+
+
+
 
 
     useEffect(() => {
@@ -95,56 +125,97 @@ useEffect(() => {
 
 
 
-const MobileNumber = `${countryCode}${phone}`;
-    const handleSubmit=()=>{
-         if (!firstName) {
-    setFirstNameError("First name is required");
-    return;
-  }
-   if (phoneError === "Invalid mobile number") {
-    return;
-  }
-          if (!phone) {
-    setPhoneError("Phone is required");
-    return;
-  }
-        const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-        const capitalizedFirstname = capitalizeFirstLetter(firstName);
-    const capitalizedLastname = capitalizeFirstLetter(lastName);
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-    const payload = {
-      profile: basicDetails[0].profile,
-      firstname: capitalizedFirstname,
-      lastname: capitalizedLastname,
-      Phone: normalizedPhoneNumber,
-      Email: email,
-      HostelName:basicDetails[0].HostelName,
-      hostel_Id: basicDetails[0].Hostel_Id,
-      Floor: basicDetails[0].Floor,
-      Rooms: basicDetails[0].room_id,
-      Bed: basicDetails[0].hstl_Bed,
-      joining_date: basicDetails[0].user_join_date,
-      AdvanceAmount: basicDetails[0].AdvanceAmount,
-      RoomRent: basicDetails[0].RoomRent,
-        Address: basicDetails[0].Address,
-      area: basicDetails[0].area,
-      landmark: basicDetails[0].landmark,
-      city: basicDetails[0].city,
-      pincode: basicDetails[0].pincode,
-      state: basicDetails[0].state,
-      
-     
-      ID: id,
+    const MobileNumber = `${countryCode}${phone}`;
 
+
+
+
+   
+    const handleSubmit = () => {
+        if (!firstName) {
+            setFirstNameError("First name is required");
+            return;
+        }
+        if (phoneError === "Invalid mobile number") {
+            return;
+        }
+        if (!phone) {
+            setPhoneError("Phone is required");
+            return;
+        }
+
+        const capitalizeFirstLetter = (str) => {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        };
+
+        const capitalizedFirstname = capitalizeFirstLetter(firstName);
+        const capitalizedLastname = capitalizeFirstLetter(lastName);
+        const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+
+        const currentValues = {
+            profile: basicDetails[0].profile,
+            firstname: capitalizedFirstname,
+            lastname: capitalizedLastname,
+            Phone: normalizedPhoneNumber,
+            Email: email,
+            Address: basicDetails[0].Address,
+            area: basicDetails[0].area,
+            landmark: basicDetails[0].landmark,
+            city: basicDetails[0].city,
+            pincode: basicDetails[0].pincode,
+            state: basicDetails[0].state,
+        };
+
+
+        const normalize = (key, val) => {
+            if (val === null || val === undefined) return "";
+
+            let str = String(val).trim().toLowerCase();
+
+            if (str === "n/a" || str === "undefined") return "";
+
+
+            if (key === "Phone") {
+                return str.slice(-10);
+            }
+
+            return str;
+        };
+
+        const isChanged = Object.keys(currentValues).some((key) => {
+            const current = normalize(key, currentValues[key]);
+            const initial = normalize(key, initialValues?.[key]);
+            return current !== initial;
+        });
+
+
+
+       
+
+
+        if (!isChanged) {
+            setIsChanged("No changes detected");
+            return;
+        }
+
+        const payload = {
+            ...currentValues,
+            HostelName: basicDetails[0].HostelName,
+            hostel_Id: basicDetails[0].Hostel_Id,
+            Floor: basicDetails[0].Floor,
+            Rooms: basicDetails[0].room_id,
+            Bed: basicDetails[0].hstl_Bed,
+            joining_date: basicDetails[0].user_join_date,
+            AdvanceAmount: basicDetails[0].AdvanceAmount,
+            RoomRent: basicDetails[0].RoomRent,
+            ID: id,
+        };
+
+        dispatch({
+            type: "ADDUSER",
+            payload: payload,
+        });
     };
-     dispatch({
-      type: "ADDUSER",
-      payload: payload,
-    });
-    }
- 
 
 
 
@@ -221,33 +292,33 @@ const MobileNumber = `${countryCode}${phone}`;
                                         }}
                                     />
                                 </Form.Group>
-                                  {firstNameError && (
-                                                                        <div
-                                                                          style={{
-                                                                            marginTop: "",
-                                                                            color: "red",
-                                                                          }}
-                                                                        >
-                                                                          {" "}
-                                                                          <MdError
-                                                                            style={{
-                                                                              fontSize: "12px",
-                                                                              fontFamily: "Gilroy",
-                                                                              fontWeight: 500,
-                                                                              marginRight: "5px",
-                                                                            }}
-                                                                          />
-                                                                          <span
-                                                                            style={{
-                                                                              fontSize: "13px",
-                                                                              fontFamily: "Gilroy",
-                                                                              fontWeight: 500,
-                                                                            }}
-                                                                          >
-                                                                            {firstNameError}
-                                                                          </span>
-                                                                        </div>
-                                                                      )}
+                                {firstNameError && (
+                                    <div
+                                        style={{
+                                            marginTop: "",
+                                            color: "red",
+                                        }}
+                                    >
+                                        {" "}
+                                        <MdError
+                                            style={{
+                                                fontSize: "12px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                marginRight: "5px",
+                                            }}
+                                        />
+                                        <span
+                                            style={{
+                                                fontSize: "13px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            {firstNameError}
+                                        </span>
+                                    </div>
+                                )}
 
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -284,7 +355,7 @@ const MobileNumber = `${countryCode}${phone}`;
                                     />
                                 </Form.Group>
 
-                               
+
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <Form.Group
@@ -389,33 +460,33 @@ const MobileNumber = `${countryCode}${phone}`;
                                         style={{ color: "red", fontSize: 11, marginTop: "-13px" }}
                                     ></p>
                                 </Form.Group>
-                                 {phoneError && (
-                                                                        <div
-                                                                          style={{
-                                                                            marginTop: "",
-                                                                            color: "red",
-                                                                          }}
-                                                                        >
-                                                                          {" "}
-                                                                          <MdError
-                                                                            style={{
-                                                                              fontSize: "12px",
-                                                                              fontFamily: "Gilroy",
-                                                                              fontWeight: 500,
-                                                                              marginRight: "5px",
-                                                                            }}
-                                                                          />
-                                                                          <span
-                                                                            style={{
-                                                                              fontSize: "13px",
-                                                                              fontFamily: "Gilroy",
-                                                                              fontWeight: 500,
-                                                                            }}
-                                                                          >
-                                                                            {phoneError}
-                                                                          </span>
-                                                                        </div>
-                                                                      )}
+                                {phoneError && (
+                                    <div
+                                        style={{
+                                            marginTop: "",
+                                            color: "red",
+                                        }}
+                                    >
+                                        {" "}
+                                        <MdError
+                                            style={{
+                                                fontSize: "12px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                marginRight: "5px",
+                                            }}
+                                        />
+                                        <span
+                                            style={{
+                                                fontSize: "13px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            {phoneError}
+                                        </span>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -431,12 +502,21 @@ const MobileNumber = `${countryCode}${phone}`;
                             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                         </div>
                         : null}
+
+                    {isChanged ?
+                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                            <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChanged}</label>
+                        </div>
+                        : null}
+
+
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
                         <div className="d-flex justify-content-end gap-3">
 
 
                             <Button
-                             onClick={handleClose}
+                                onClick={handleClose}
                                 className="w-100 mt-1"
                                 style={{
                                     backgroundColor: "#fff",
@@ -446,14 +526,14 @@ const MobileNumber = `${countryCode}${phone}`;
                                     borderRadius: 12,
                                     fontSize: 16,
                                     fontFamily: "Gilroy",
-                                    padding:"8px 40px"
+                                    padding: "8px 40px"
                                 }}
                             >
                                 Cancel
                             </Button>
 
                             <Button
-                                  onClick= { handleSubmit}
+                                onClick={handleSubmit}
                                 className="w-100 mt-1"
                                 style={{
                                     backgroundColor: "#1E45E1",
@@ -461,7 +541,7 @@ const MobileNumber = `${countryCode}${phone}`;
                                     borderRadius: 12,
                                     fontSize: 16,
                                     fontFamily: "Gilroy",
-                                    padding:"8px 40px"
+                                    padding: "8px 40px"
                                 }}
                             >
                                 Update
@@ -474,9 +554,9 @@ const MobileNumber = `${countryCode}${phone}`;
     )
 }
 EditBasicDetails.propTypes = {
-  show: PropTypes.func.isRequired,
- handleClose: PropTypes.func.isRequired,
-  basicDetails: PropTypes.func.isRequired,
-  
+    show: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    basicDetails: PropTypes.func.isRequired,
+
 };
 export default EditBasicDetails
