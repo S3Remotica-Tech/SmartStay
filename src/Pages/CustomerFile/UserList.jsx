@@ -137,7 +137,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
-        setLoading(true)
+        setLoading(false)
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },

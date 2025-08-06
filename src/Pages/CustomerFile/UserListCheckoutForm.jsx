@@ -538,6 +538,11 @@ const CheckOutForm = ({
   const [modeOfPaymentError, setModeOfPaymentError] = useState("")
 
   const handleConfirmCheckout = () => {
+   
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
     dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
     dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
     let hasError = false;
@@ -577,12 +582,58 @@ const CheckOutForm = ({
 
 
     if (advanceamount) {
-      const nonEmptyFields = fields.filter(
-        (field) =>
-          field.reason !== "DueAmount" &&
-          (field.reason.trim() !== "" || field.amount.trim() !== "")
-      );
+      // const nonEmptyFields = fields.filter(
+      //   (field) =>
+      //     field.reason !== "DueAmount" &&
+      //     (field.reason?.trim() !== "" || field?.amount.trim() !== "")
+      // );
 
+
+
+ const formattedReasons = fields.map((item) => {
+      let reason_name = "";
+
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
+
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+    setErrors(newErrors)
+
+    if (hasReasonAmountError) return;
+
+
+console.log("Payload****************", {
+  checkout_date: formattedDate,
+  id: selectedCustomer,
+  hostel_id: data.Hostel_Id,
+  comments: comments,
+  advance_return: returnAmount,
+  reinburse: 1,
+  reasons: formattedReasons,
+  payment_id: modeOfPayment,
+});
       dispatch({
         type: "ADDCONFIRMCHECKOUTCUSTOMER",
         payload: {
@@ -592,7 +643,7 @@ const CheckOutForm = ({
           comments: comments,
           advance_return: returnAmount,
           reinburse: 1,
-          reasons: nonEmptyFields,
+          reasons: formattedReasons,
           payment_id: modeOfPayment,
         },
       });
@@ -808,24 +859,22 @@ const CheckOutForm = ({
   }, [conformcheckErr]);
 
 
-  useEffect(() => {
+ useEffect(() => {
+  const advance = parseFloat(advanceamount) || 0;
 
-    const advanceReturnField = fields.find(
-      (item) => item.reason?.toLowerCase() === "advance return"
-    );
+  // Ignore the first field only if not in conformEdit mode
+ 
 
+  // Sum of all amounts excluding "advance return"
+  const totalFieldAmount = fields.reduce((acc, curr) => {
+   
+    const amt = parseFloat(curr.amount);
+    return acc + (isNaN(amt) ? 0 : amt);
+  }, 0);
 
-    const advance = parseFloat(advanceReturnField?.amount || advanceamount) || 0;
-    const due = parseFloat(dueamount) || 0;
-    const relevantFields = conformEdit ? fields : fields.slice(1);
-    const totalExtra = relevantFields.reduce((acc, curr) => {
-      if (curr.reason?.toLowerCase() === "advance return") return acc;
-      const amt = parseFloat(curr.amount);
-      return acc + (isNaN(amt) ? 0 : amt);
-    }, 0);
-    const result = advance - (due + totalExtra);
-    setReturnAmount(result);
-  }, [advanceamount, dueamount, fields, conformEdit]);
+  const due = advance - totalFieldAmount;
+   setReturnAmount(due); 
+}, [advanceamount, fields, conformEdit]);
 
 console.log("fields",fields)
 

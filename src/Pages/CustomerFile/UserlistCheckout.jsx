@@ -314,20 +314,24 @@ useEffect(() => {
     
 
     setDueAmountDetails(totaldueamount)
+      const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
+      console.log("totaldueamount", totaldueamount)
+      console.log("advanceAmount", advanceAmount)
 
-    console.log("totaldueamount",totaldueamount)
+setDueCustomerShow(true)
 
-    if (totaldueamount > 0) {
-      setDueCustomerShow(true)
-      setConfirmForm(false);
-    } else {
-      setActiveDotsId(null);
-      setConfirmForm(true);
-      setCheckoutAction(true)
-      setCheckoutEditAction(false)
-      setConformEdit(false)
-      setDueCustomerShow(false)
-    }
+
+    // if (totaldueamount > 0) {
+    //   setDueCustomerShow(true)
+    //   setConfirmForm(false);
+    // } else {
+    //   setActiveDotsId(null);
+    //   setConfirmForm(true);
+    //   setCheckoutAction(true)
+    //   setCheckoutEditAction(false)
+    //   setConformEdit(false)
+    //   setDueCustomerShow(false)
+    // }
     }
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });

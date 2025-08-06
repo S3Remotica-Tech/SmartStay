@@ -107,24 +107,25 @@ export const initialState = {
     generateError: '',
     contactError: '',
     checkoutcustomeEmpty: 0,
-    conformChekoutError:'',
-    statusCodeConformEdit:0,
-    conformChekoutEditError:'',
-    kycverifynew:{},
-    statusCodeforverifyKYC:0,
-    KycCustomerDetails:{},
-    statusCodeForCustomerDetails:0,
-    kycnotadded:'',
-    KYCStatusCode:0
+    conformChekoutError: '',
+    statusCodeConformEdit: 0,
+    conformChekoutEditError: '',
+    kycverifynew: {},
+    statusCodeforverifyKYC: 0,
+    KycCustomerDetails: {},
+    statusCodeForCustomerDetails: 0,
+    kycnotadded: '',
+    KYCStatusCode: 0,
+    statusCodeForDueCustomer:0,
 }
 
 const UserListReducer = (state = initialState, action) => {
 
-     
+
     switch (action.type) {
 
-case 'RESET_ALL':
-      return initialState;
+        case 'RESET_ALL':
+            return initialState;
         case 'DELETE_CUSTOMER':
             return { ...state, deleteCustomerSuccessStatusCode: action.payload.statusCode }
 
@@ -185,7 +186,7 @@ case 'RESET_ALL':
             return { ...state, createFloorSuccessStatusCode: action.payload.statusCode }
         case 'CLEAR_FLOOR_STATUS_CODE':
             return { ...state, createFloorSuccessStatusCode: 0 }
-    
+
 
         case 'UPDATE_MESSAGE_FLOOR':
             return { ...state, createFloorMessage: action.message }
@@ -259,11 +260,11 @@ case 'RESET_ALL':
         case 'CLEAR_EMAIL_ERROR':
             return { ...state, emailError: '' }
 
-            case 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
-                return { ...state, conformChekoutError: action.payload }
-    
-            case 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
-                return { ...state, conformChekoutError: '' }
+        case 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
+            return { ...state, conformChekoutError: action.payload }
+
+        case 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
+            return { ...state, conformChekoutError: '' }
 
         case 'DELETE_FLOOR_ERROR':
             return { ...state, deleteFloorError: action.payload }
@@ -334,7 +335,7 @@ case 'RESET_ALL':
 
 
 
-     
+
 
 
         case "EXPORT_DETAILS":
@@ -345,7 +346,7 @@ case 'RESET_ALL':
             };
         case "CLEAR_EXPORT_DETAILS":
             return { ...state, statusCodeForExportDetails: 0 };
-       
+
         case "EXPORT_ASSETS_DETAILS":
             return {
                 ...state,
@@ -405,6 +406,18 @@ case 'RESET_ALL':
         case "CLEAR_EXPORT_WALKIN_DETAILS":
             return { ...state, statusCodeForExportWalkin: 0 };
 
+        case 'CONFIRM_CHECKOUT_DUE_CUSTOMER':
+            return {
+                ...state,
+                statusCodeForDueCustomer: action.payload.statusCode,
+            };
+        case 'REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER':
+            return {
+                ...state,
+                statusCodeForDueCustomer: 0,
+            };
+
+
         case "EXPORT_CHECKOUT_DETAILS":
             return {
                 ...state,
@@ -430,17 +443,17 @@ case 'RESET_ALL':
 
 
 
-             case "EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
+        case "EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodeConformEdit: action.payload.statusCode };
         case "CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodeConformEdit: 0 };
 
 
-            case 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
-                return { ...state, conformChekoutEditError: action.payload }
-    
-            case 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
-                return { ...state, conformChekoutEditError: '' }
+        case 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
+            return { ...state, conformChekoutEditError: action.payload }
+
+        case 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
+            return { ...state, conformChekoutEditError: '' }
 
 
 
@@ -558,26 +571,26 @@ case 'RESET_ALL':
             return { ...state, hostelList: [], hostelListNewDetails: [] }
 
 
-                case 'KYC_VERIFY_NEW':
+        case 'KYC_VERIFY_NEW':
             return { ...state, kycverifynew: action.payload.response, statusCodeforverifyKYC: action.payload.statusCode }
         case 'REMOVE_KYC_VERIFY_NEW':
             return { ...state, statusCodeforverifyKYC: 0 }
 
 
-     case 'KYC_CUSTOMER_DETAILS':
+        case 'KYC_CUSTOMER_DETAILS':
             return { ...state, KycCustomerDetails: action.payload.response, statusCodeForCustomerDetails: action.payload.statusCode }
         case 'REMOVEKYC_CUSTOMER_DETAILS':
             return { ...state, statusCodeForCustomerDetails: 0 }
 
 
-              case 'KYC_NOT_ADDED':
+        case 'KYC_NOT_ADDED':
             return { ...state, KycCustomerDetails: action.payload.response, KYCStatusCode: action.payload.statusCode }
         case 'REMOVE_KYC_NOT_ADDED':
             return { ...state, KYCStatusCode: 0 }
 
-            default:
-                return state;
+        default:
+            return state;
     }
-    
+
 }
 export default UserListReducer;
