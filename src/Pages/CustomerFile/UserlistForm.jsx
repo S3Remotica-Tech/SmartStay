@@ -64,7 +64,6 @@ function UserlistForm(props) {
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  // const [hostelIdError, setHostelIdError] = useState("");
   const [phonenumError, setphonenumError] = useState("");
   const [emailIdError, setemailIdError] = useState("");
   const [house_noError, setHouse_NoError] = useState("");
@@ -493,7 +492,6 @@ function UserlistForm(props) {
     setLandmarkError("");
     setStreetError("");
     setHouse_NoError("");
-    // setJoingDateErrmsg("")
     setFloor("");
     setRooms("");
     setBed("");
@@ -518,36 +516,7 @@ function UserlistForm(props) {
 
 
 const handleCloseAssign =()=>{
-   setFirstname("");
-    setLastname("");
-    setAadharNo("");
-    setPancardNo("");
-    setLicence("");
-    setPhone("");
-    setEmail("");
-    setHouseNo("");
-    setStreet("");
-    setCity("");
-    setLandmark("");
-    setPincode("");
-    setStateName("");
-    setStateNameError("");
-    setPincodeError("");
-    setCityError("");
-    setLandmarkError("");
-    setStreetError("");
-    setHouse_NoError("");
-    // setJoingDateErrmsg("")
-    setFloor("");
-    setRooms("");
-    setBed("");
-    setAdvanceAmount("");
-    setRoomRent("");
-    setPaymentType("");
-    setBalanceDue("");
-    setPaidAdvance("");
-    setPaidrent("");
-    setPayableamount("");
+ 
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     props.setShowAssignMenu(false);
@@ -593,6 +562,9 @@ const handleCloseAssign =()=>{
       props.setEdit("Add");
     }
   }, []);
+
+  
+  
 
   const MobileNumber = `${countryCode}${Phone}`;
 
@@ -687,6 +659,7 @@ const handleCloseAssign =()=>{
 
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
+  
     const payload = {
       profile: file,
       firstname: capitalizedFirstname,
@@ -725,7 +698,7 @@ const handleCloseAssign =()=>{
       type: "ADDUSER",
       payload: payload,
     });
-    // setFormLoading(true)
+  
   };
 
   const handleAdvaceShowForm = () => {
@@ -827,6 +800,8 @@ const handleCloseAssign =()=>{
       Number(RoomRent) > 0
     ) {
       handleAdvaceShowForm();
+     
+      handleCloseAssign()
     }
     dispatch({ type: "INVOICELIST" });
   };
@@ -1045,13 +1020,20 @@ const handleCloseAssign =()=>{
       return newDate.toISOString().split("T")[0];
     };
 
+
     const formattedDate = selectedDate
       ? incrementDateAndFormat(selectedDate)
       : "";
     const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
 
+  const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
 
+    const capitalizedFirstname = capitalizeFirstLetter(firstname);
+    
+    const capitalizedLastname = capitalizeFirstLetter(lastname);
     const formattedReasons = fields.map((item) => {
       let reason_name = "";
 
@@ -1086,61 +1068,65 @@ const handleCloseAssign =()=>{
     if (hasReasonAmountError) return;
 
 
-    dispatch({
-      type: "ADDUSER",
-      payload: {
-        profile: file,
-        firstname: firstname,
-        lastname: lastname,
-        Phone: Phone,
-        Email: Email,
-        Address: house_no,
-        area: street,
-        landmark: landmark,
-        city: city,
-        pincode: pincode,
-        state: state_name,
-        AadharNo: AadharNo,
-        PancardNo: PancardNo,
-        licence: licence,
-        HostelName: HostelName,
-        hostel_Id: hostel_Id,
-        Floor: Floor,
-        Rooms: Rooms,
-        Bed: Bed,
-        joining_date: formattedDate,
-        AdvanceAmount: AdvanceAmount,
-        RoomRent: RoomRent,
-        BalanceDue: BalanceDue,
-        PaymentType: PaymentType,
-        paid_advance: paid_advance,
-        paid_rent: paid_rent,
-        payable_rent: payableamount,
-        isadvance: 1,
-        invoice_date: formattedAdvanceDate,
-        due_date: formattedAdvanceDateDue,
-        ID: props.edit === "Edit" ? id : "",
-        reasons: formattedReasons,
-        stay_type: activeTab === "long" ? "long_stay" : "short_stay"
-      },
-    });
+   dispatch({
+  type: "ADDUSER",
+  payload: {
+    profile: file,
+    firstname: capitalizedFirstname,  
+    LastName: capitalizedLastname,
+    Phone: Phone,
+    Email: Email,
+    Address: house_no,
+    area: street,
+    landmark: landmark,
+    city: city,
+    pincode: pincode,
+    state: state_name,
+    AadharNo: AadharNo,
+    PancardNo: PancardNo,
+    licence: licence,
+    HostelName: HostelName,
+    hostel_Id: hostel_Id,
+    Floor: Floor,
+    Rooms: Rooms,
+    Bed: Bed,
+    joining_date: formattedDate,
+    AdvanceAmount: AdvanceAmount,
+    RoomRent: RoomRent,
+    BalanceDue: BalanceDue,
+    PaymentType: PaymentType,
+    paid_advance: paid_advance,
+    paid_rent: paid_rent,
+    payable_rent: payableamount,
+    isadvance: 1,
+    invoice_date: formattedAdvanceDate,
+    due_date: formattedAdvanceDateDue,
+    ID: props.edit === "Edit" ? id : "",
+    reasons: formattedReasons,
+    stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+  },
+});
+
     setLoading(true)
 
     dispatch({ type: "INVOICELIST" });
   };
+ 
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
       setFormLoading(false)
       setLoading(false)
+         handleClose();
+      handleCloseAdvanceForm();
+      handleCloseAssign()
       if (props.edit === "Edit") {
         props.setRoomDetail(true);
         props.OnShowTable(true);
       } else {
         props.setRoomDetail(false);
       }
-      handleClose();
-      handleCloseAdvanceForm();
+   
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
@@ -1271,29 +1257,14 @@ const handleCloseAssign =()=>{
   };
 
   const handleCreateCustomer = () => {
-    // handleClose();
+   
   
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     let hasError = false;
     const focusedRef = { current: false };
 
-    // if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
-    // if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
-
-
-    
-    // if (Phone && Phone.length !== 10) {
-    //   setPhoneError("Please Enter Valid Mobile Number");
-    //   if (!focusedRef.current && phoneRef?.current) {
-    //     phoneRef.current.focus();
-    //     focusedRef.current = true;
-    //   }
-    //   hasError = true;
-    // } else if (Phone) {
-    //   setPhoneError("");
-    //   setPhoneErrorMessage("");
-    // }
+   
 
     if (pincode && pincode.length !== 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
@@ -1304,22 +1275,7 @@ const handleCloseAssign =()=>{
       hasError = true;
     }
 
-    // if (Email) {
-    //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    //   const isValidEmail = emailRegex.test(Email.toLowerCase());
-    //   if (!isValidEmail) {
-    //     setEmailError("Please Enter Valid Email ID");
-    //     if (!focusedRef.current) {
-    //       focusedRef.current = true;
-    //     }
-    //     hasError = true;
-    //   }
-    //   else {
-    //     setEmailError("");
-    //   }
-    // } else {
-    //   setEmailError("");
-    // }
+    
 
     if (hasError) return;
     const capitalizeFirstLetter = (str) => {
@@ -1366,11 +1322,11 @@ const handleCloseAssign =()=>{
       type: "ADDUSER",
       payload: payload,
     });
-    // setFormLoading(true)
+    
   
   };
 
-  console.log("step", step);
+  
   
 
 
@@ -3169,7 +3125,7 @@ const handleCloseAssign =()=>{
           className="m-0 p-0"
   >
     <Modal.Body className="p-0 " >
-      <div  style={{  overflowY: "auto" ,   }} className="d-flex justify-content-center  show-scroll p-2 mt-2 me-3">
+      <div  style={{  overflowY: "auto" ,   }} className="d-flex justify-content-center  show-scroll-user p-2 mt-2 me-3">
         {/* Sidebar */}
         <div
           className="p-4"
