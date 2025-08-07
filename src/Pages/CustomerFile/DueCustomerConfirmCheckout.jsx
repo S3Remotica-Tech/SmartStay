@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useRef} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
@@ -38,8 +38,14 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
     const [checkoUtDateError, setCheckOutDateError] = useState("");
     const [ReturnAmount, setReturnAmount] = useState('')
     const [modeOfPaymentError, setModeOfPaymentError] = useState("")
+    const [formLoading, setFormLoading] = useState(false)
+    const checkOutDateRef = useRef(null);
+const modeOfPaymentRef = useRef(null);
 
-    console.log("checkOutDate", checkOutDate)
+const reasonRefs = useRef([]);
+const amountRefs = useRef([]);
+
+
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
@@ -66,7 +72,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
 
-    console.log("ReturnAmount", ReturnAmount)
+    
 
 
     const handleFileChange = (e) => {
@@ -83,7 +89,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
         dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
     };
 
-    console.log("data", data)
+ 
 
 
 
@@ -132,7 +138,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
     const handleModeOfPaymentChange = (e) => {
-          setModeOfPaymentError("")
+        setModeOfPaymentError("")
         setModeOfPayment(e.target.value);
     };
 
@@ -173,6 +179,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
         let hasError = false;
         if (!checkOutDate) {
             setCheckOutDateError("Please select a checkout Date");
+            checkOutDateRef.current?.focus();
             hasError = true;
         }
 
@@ -180,7 +187,10 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
         if (ReturnAmount >= 0 && !modeOfPayment) {
             setModeOfPaymentError("Please Select Mode Of Payment");
-            hasError = true;
+            if (!hasError) {
+        modeOfPaymentRef.current?.focus(); 
+        hasError = true;
+    }
         }
 
 
@@ -200,7 +210,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
         const formattedRequestDate = moment(data.req_date, 'YYYY-MM-DD');
-       
+
         if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
             setCheckOutDateError("Before Request Date not allowed");
             return;
@@ -251,7 +261,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
             setCheckOutDateError("");
 
-           
+
 
 
             {
@@ -294,13 +304,13 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
             }
-
+            setFormLoading(true)
 
         }
     };
 
 
-    console.log("state", state)
+
 
 
     useEffect(() => {
@@ -309,6 +319,27 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
         }
 
     }, [data])
+
+    useEffect(() => {
+        if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
+            }, 500);
+        }
+
+    }, [state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout])
+
+
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
+
+    }, [state.createAccount?.networkError])
 
 
 
@@ -454,6 +485,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
                                     <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
                                         <DatePicker
+                                        ref={checkOutDateRef}
                                             style={{
                                                 width: "100%", height: 48, cursor: "pointer",
                                                 backgroundColor: "#FFF",
@@ -465,7 +497,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
                                             value={checkOutDate ? dayjs(checkOutDate) : null}
                                             onChange={(date) => {
                                                 setCheckOutDate(date ? date.toDate() : null);
-                                                 setCheckOutDateError("");
+                                                setCheckOutDateError("");
                                             }}
                                             getPopupContainer={() => document.body}
 
@@ -714,8 +746,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
                                                         type="text"
                                                         placeholder="Enter amount"
                                                         value={item.amount}
-                                                        disabled={item?.reason_name === "DueAmount"}
-                                                        onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                                                                                                              onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                                         className="form-control"
                                                         style={{
                                                             fontSize: 16,
@@ -841,6 +872,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
                                             </span>
                                         </Form.Label>
                                         <Form.Select
+                                         ref={modeOfPaymentRef}
                                             aria-label="Default select example"
                                             value={modeOfPayment}
                                             onChange={handleModeOfPaymentChange}
@@ -1116,33 +1148,40 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
                 </Modal.Body>
-                {/* {formCheckoutLoading &&
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'transparent',
-                    opacity: 0.75,
-                    zIndex: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      borderTop: '4px solid #1E45E1',
-                      borderRight: '4px solid transparent',
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  ></div>
-                </div>
-              } */}
+
+                {state.createAccount?.networkError ?
+                    <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                        <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                    </div>
+                    : null}
+
+                {formLoading &&
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
+                        }}
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>}
                 <Modal.Footer
                     className="d-flex align-items-center justify-content-center"
                     style={{ border: "none" }}
