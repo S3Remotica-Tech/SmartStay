@@ -23,7 +23,8 @@ import Select from "react-select";
 import orangedot from "../../Assets/Images/New_images/orangedot.png";
 import reddot from "../../Assets/Images/New_images/reddot.png";
 import bluedot from "../../Assets/Images/New_images/bluedot.png";
-
+import BedDetails from './ReservedBed/BedDetails';
+import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
 
 
 
@@ -34,7 +35,7 @@ function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
- 
+
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 
@@ -54,7 +55,7 @@ function ParticularHostelDetails(props) {
     setDetails({ item, Room_Id });
   }
 
-  
+
 
 
 
@@ -81,7 +82,7 @@ function ParticularHostelDetails(props) {
     } else {
       setLoader(false)
     }
-  }, [props.hostel_Id, props.floorID,state?.login?.selectedHostel_Id ])
+  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
 
 
@@ -185,7 +186,7 @@ function ParticularHostelDetails(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
- 
+
 
 
   useEffect(() => {
@@ -200,16 +201,16 @@ function ParticularHostelDetails(props) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
- const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(Number(selectedOption.value));
-  setCurrentPage(1);
-};
-const pageSizeOptions = [
-  { value: 4, label: "4" },
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+  const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
+  };
+  const pageSizeOptions = [
+    { value: 4, label: "4" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
 
   const handlePageChange = (pageNumber) => {
@@ -349,11 +350,34 @@ const pageSizeOptions = [
     };
   }, []);
 
+  const [showReservedBed, setShowReservedBed] = useState(false)
+   const [showCheckIn, setShowCheckIn] = useState(false)
+  const handleShowReservedBed = () => {
+    setShowReservedBed(true)
+  }
+
+  const handleCloseReservedBed = () => {
+    setShowReservedBed(false)
+  }
+
+
+
+  const handleShowCheck_In = () => {
+        setShowCheckIn(true)
+       setShowReservedBed(false)
+       
+    }
+
+    const handleCloseCheck_In = () => {
+        setShowCheckIn(false)
+    }
 
   return (
     <>
 
       <div >
+        <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button>
+
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
           {loader && <div
@@ -385,185 +409,185 @@ const pageSizeOptions = [
         </div>
 
         <div className='container-fluid show-scroll' style={{ maxHeight: "400px", overflowY: "auto", marginTop: "-25px" }}>
-  <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
-    {currentItems.length > 0 && currentItems.map((room) => (
-      <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center' key={room.Room_Id}>
-        <Card className="w-100 h-100 fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
-          <Card.Header className="d-flex justify-content-between align-items-start" style={{ backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
-            
-          
-            <div style={{ width: "110px" }}>
-              <div title={`Room No ${room.Room_Name}`} style={{ fontSize: 14, fontWeight: 600, color: "rgba(34, 34, 34, 1)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {room.Room_Name}
-              </div>
-              <div style={{ fontSize: 12, fontWeight: 400, color: "#7C7C7C", marginTop: "-2px" }}>
-                {Array.isArray(room.bed_details) ? `${room.bed_details.length} sharing` : "0 sharing"}
-              </div>
-            </div>
+          <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
+            {currentItems.length > 0 && currentItems.map((room) => (
+              <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center' key={room.Room_Id}>
+                <Card className="w-100 h-100 fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
+                  <Card.Header className="d-flex justify-content-between align-items-start" style={{ backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
 
-          
-            <div className="d-flex flex-wrap   mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
-              <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overview
-              </p>
-                 <p className="mb-1 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={bluedot} alt="reserved" /> No Reserved
-              </p>
-              <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={reddot} alt="notice" /> No Notice Period
-              </p>
-           
-            </div>
 
-         
-            <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-              {String(activeRoomId) === String(room.Room_Id) && (
-                <div
-                  ref={popupRef}
-                  className="position-absolute"
-                  style={{
-                    right: 0,
-                    top: 30,
-                    width: 140,
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    backgroundColor: "#f9f9f9",
-                    display: "flex",
-                    flexDirection: "column",
-                    zIndex: 1000,
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                  }}
-                >
-                 
-                  <div
-                    className="d-flex gap-2 align-items-center"
-                    onClick={() => {
-                      if (!props.editPermissionError) {
-                        handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
-                      }
-                    }}
-                    style={{
-                      padding: "10px",
-                      borderTopLeftRadius: 10,
-                      borderTopRightRadius: 10,
-                      pointerEvents: props.editPermissionError ? "none" : "auto",
-                      opacity: props.editPermissionError ? 0.5 : 1,
-                      cursor: props.editPermissionError ? "not-allowed" : "pointer"
-                    }}
-                    onMouseEnter={(e) => { if (!props.editPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                  >
-                    <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
-                    <label style={{ fontSize: 14, fontWeight: 500, color: props.editPermissionError ? "#888888" : "#222222", marginBottom: 0 }}>Edit</label>
-                  </div>
+                    <div style={{ width: "110px" }}>
+                      <div title={`Room No ${room.Room_Name}`} style={{ fontSize: 14, fontWeight: 600, color: "rgba(34, 34, 34, 1)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        {room.Room_Name}
+                      </div>
+                      <div style={{ fontSize: 12, fontWeight: 400, color: "#7C7C7C", marginTop: "-2px" }}>
+                        {Array.isArray(room.bed_details) ? `${room.bed_details.length} sharing` : "0 sharing"}
+                      </div>
+                    </div>
 
-                  <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
 
-                 
-                  <div
-                    className="d-flex gap-2 align-items-center"
-                    onClick={() => {
-                      if (!props.deletePermissionError) {
-                        handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
-                      }
-                    }}
-                    style={{
-                      padding: "10px",
-                      borderBottomLeftRadius: 10,
-                      borderBottomRightRadius: 10,
-                      pointerEvents: props.deletePermissionError ? "none" : "auto",
-                      opacity: props.deletePermissionError ? 0.5 : 1,
-                      cursor: props.deletePermissionError ? "not-allowed" : "pointer"
-                    }}
-                    onMouseEnter={(e) => { if (!props.deletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                  >
-                    <Trash size="16" color={props.deletePermissionError ? "#888888" : "red"} />
-                    <label style={{ fontSize: 14, fontWeight: 500, color: props.deletePermissionError ? "#888888" : "#FF0000", marginBottom: 0 }}>Delete</label>
-                  </div>
-                </div>
-              )}
-            </div>
-          </Card.Header>
+                    <div className="d-flex flex-wrap   mt-1 bg-white rounded " style={{ whiteSpace: "nowrap", paddingLeft: 4, paddingRight: 4 }}>
+                      <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
+                        <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overview
+                      </p>
+                      <p className="mb-1 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
+                        <img className="me-1 mb-1" src={bluedot} alt="reserved" /> No Reserved
+                      </p>
+                      <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
+                        <img className="me-1 mb-1" src={reddot} alt="notice" /> No Notice Period
+                      </p>
 
-          <Card.Body>
-            <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
-              {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details.map((bed) => (
-                <div key={bed.id} className='col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center'>
-                  <div className='d-flex flex-column align-items-center w-100'>
-                    <div style={{ position: "relative", width: 34, height: 41 }}>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip id={`tooltip-${bed.id}`}>{bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}</Tooltip>}
+                    </div>
+
+
+                    <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
+                      <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                      {String(activeRoomId) === String(room.Room_Id) && (
+                        <div
+                          ref={popupRef}
+                          className="position-absolute"
+                          style={{
+                            right: 0,
+                            top: 30,
+                            width: 140,
+                            border: "1px solid #EBEBEB",
+                            borderRadius: 10,
+                            backgroundColor: "#f9f9f9",
+                            display: "flex",
+                            flexDirection: "column",
+                            zIndex: 1000,
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                          }}
+                        >
+
+                          <div
+                            className="d-flex gap-2 align-items-center"
+                            onClick={() => {
+                              if (!props.editPermissionError) {
+                                handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
+                              }
+                            }}
+                            style={{
+                              padding: "10px",
+                              borderTopLeftRadius: 10,
+                              borderTopRightRadius: 10,
+                              pointerEvents: props.editPermissionError ? "none" : "auto",
+                              opacity: props.editPermissionError ? 0.5 : 1,
+                              cursor: props.editPermissionError ? "not-allowed" : "pointer"
+                            }}
+                            onMouseEnter={(e) => { if (!props.editPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                          >
+                            <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
+                            <label style={{ fontSize: 14, fontWeight: 500, color: props.editPermissionError ? "#888888" : "#222222", marginBottom: 0 }}>Edit</label>
+                          </div>
+
+                          <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+
+
+                          <div
+                            className="d-flex gap-2 align-items-center"
+                            onClick={() => {
+                              if (!props.deletePermissionError) {
+                                handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
+                              }
+                            }}
+                            style={{
+                              padding: "10px",
+                              borderBottomLeftRadius: 10,
+                              borderBottomRightRadius: 10,
+                              pointerEvents: props.deletePermissionError ? "none" : "auto",
+                              opacity: props.deletePermissionError ? 0.5 : 1,
+                              cursor: props.deletePermissionError ? "not-allowed" : "pointer"
+                            }}
+                            onMouseEnter={(e) => { if (!props.deletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                          >
+                            <Trash size="16" color={props.deletePermissionError ? "#888888" : "red"} />
+                            <label style={{ fontSize: 14, fontWeight: 500, color: props.deletePermissionError ? "#888888" : "#FF0000", marginBottom: 0 }}>Delete</label>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </Card.Header>
+
+                  <Card.Body>
+                    <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
+                      {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details.map((bed) => (
+                        <div key={bed.id} className='col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center'>
+                          <div className='d-flex flex-column align-items-center w-100'>
+                            <div style={{ position: "relative", width: 34, height: 41 }}>
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip id={`tooltip-${bed.id}`}>{bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}</Tooltip>}
+                              >
+                                <img className='mt-1'
+                                  src={bed.isfilled ? Green : White}
+                                  alt='bedd'
+                                  style={{ height: 41, width: 34, cursor: "pointer" }}
+                                  onClick={() => handleDeleteBedConfirmation(bed, room)}
+                                />
+                              </OverlayTrigger>
+                            </div>
+                            <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
+                              {bed.bed_no}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Add Bed */}
+                      <div
+                        className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
+                        onClick={() => {
+                          if (!props.addPermissionError) {
+                            handleAddBed(props, room.Room_Id);
+                          }
+                        }}
+                        style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
                       >
-                        <img className='mt-1'
-                          src={bed.isfilled ? Green : White}
-                          alt='bedd'
-                          style={{ height: 41, width: 34, cursor: "pointer" }}
-                          onClick={() => handleDeleteBedConfirmation(bed, room)}
-                        />
-                      </OverlayTrigger>
+                        <div className='d-flex flex-column align-items-center w-100'>
+                          <div>
+                            <FaSquarePlus style={{ height: 41, width: 34, color: props.addPermissionError ? "#888888" : "#1E45E1" }} />
+                          </div>
+                          <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: props.addPermissionError ? "#888888" : "#1E45E1" }}>
+                            Add bed
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
-                      {bed.bed_no}
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  </Card.Body>
+                </Card>
+              </div>
+            ))}
 
-              {/* Add Bed */}
-              <div
-                className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
-                onClick={() => {
-                  if (!props.addPermissionError) {
-                    handleAddBed(props, room.Room_Id);
-                  }
-                }}
-                style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
-              >
-                <div className='d-flex flex-column align-items-center w-100'>
-                  <div>
-                    <FaSquarePlus style={{ height: 41, width: 34, color: props.addPermissionError ? "#888888" : "#1E45E1" }} />
-                  </div>
-                  <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: props.addPermissionError ? "#888888" : "#1E45E1" }}>
-                    Add bed
-                  </div>
+            {/* Empty State */}
+            {!loader && !loaderTrigger && currentItems.length === 0 && (
+              <div className='d-flex flex-column align-items-center justify-content-center text-center w-100 px-3 fade-in'>
+                <div><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                <div className="pb-1 mt-1" style={{ fontWeight: 600, fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
+                <div className="pb-1 mt-1" style={{ fontWeight: 500, fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
+                <div className='d-flex justify-content-center pb-1 mt-3'>
+                  <Button
+                    style={{
+                      fontSize: 16,
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: 12,
+                      padding: "10px 20px",
+                      fontFamily: "Gilroy"
+                    }}
+                    disabled={props.addPermissionError}
+                    onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}
+                  >
+                    + Add Room
+                  </Button>
                 </div>
               </div>
-            </div>
-          </Card.Body>
-        </Card>
-      </div>
-    ))}
-
-    {/* Empty State */}
-    {!loader && !loaderTrigger && currentItems.length === 0 && (
-      <div className='d-flex flex-column align-items-center justify-content-center text-center w-100 px-3 fade-in'>
-        <div><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-        <div className="pb-1 mt-1" style={{ fontWeight: 600, fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
-        <div className="pb-1 mt-1" style={{ fontWeight: 500, fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
-        <div className='d-flex justify-content-center pb-1 mt-3'>
-          <Button
-            style={{
-              fontSize: 16,
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: 12,
-              padding: "10px 20px",
-              fontFamily: "Gilroy"
-            }}
-            disabled={props.addPermissionError}
-            onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}
-          >
-            + Add Room
-          </Button>
+            )}
+          </div>
         </div>
-      </div>
-    )}
-  </div>
-</div>
 
 
         {currentItems.length > 0 && <>
@@ -598,8 +622,8 @@ const pageSizeOptions = [
         {
           roomCountData.length > 4 &&
 
-           <nav
-           
+          <nav
+
             className="pagination-container"
             style={{
               display: "flex",
@@ -615,68 +639,68 @@ const pageSizeOptions = [
               zIndex: 1000,
             }}
           >
-              <div>
-                <Select
-                  options={pageSizeOptions}
-                  value={
-                    itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null
-                  }
-                  onChange={handleItemsPerPageChange}
-                  placeholder="Items per page"
-                  classNamePrefix="custom"
-                   menuPlacement="auto"
-                      noOptionsMessage={() => "No options"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      padding: "0 5px",
-                      height: "40px",
-                      borderRadius: "5px",
-                      fontSize: "14px",
-                      color: "#1E45E1",
-                      fontWeight: "bold",
-                      fontFamily: "Gilroy",
-                      border: "1px solid #1E45E1",
-                      boxShadow: "0 0 0 1px #1E45E1",
-                      cursor: "pointer",
-                      width: 90,
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "200px",
-                      padding: 0,
-                      overflowY: "auto",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#1E45E1",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                      color: state.isFocused ? "#fff" : "#000",
-                      cursor: "pointer",
-                    }),
-                  }}
-                />
-              </div>
+            <div>
+              <Select
+                options={pageSizeOptions}
+                value={
+                  itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null
+                }
+                onChange={handleItemsPerPageChange}
+                placeholder="Items per page"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No options"}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    padding: "0 5px",
+                    height: "40px",
+                    borderRadius: "5px",
+                    fontSize: "14px",
+                    color: "#1E45E1",
+                    fontWeight: "bold",
+                    fontFamily: "Gilroy",
+                    border: "1px solid #1E45E1",
+                    boxShadow: "0 0 0 1px #1E45E1",
+                    cursor: "pointer",
+                    width: 90,
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                    fontFamily: "Gilroy",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "200px",
+                    padding: 0,
+                    overflowY: "auto",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#1E45E1",
+                    cursor: "pointer",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                    color: state.isFocused ? "#fff" : "#000",
+                    cursor: "pointer",
+                  }),
+                }}
+              />
+            </div>
 
-          
+
             <ul
               style={{
                 display: "flex",
@@ -686,7 +710,7 @@ const pageSizeOptions = [
                 padding: 0,
               }}
             >
-            
+
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
@@ -708,12 +732,12 @@ const pageSizeOptions = [
                 </button>
               </li>
 
-            
+
               <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                 {currentPage} of {totalPages}
               </li>
 
-             
+
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
@@ -759,6 +783,16 @@ const pageSizeOptions = [
         }
 
       </div>
+
+      {/* Reserved Bed */}
+      {
+        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed} handleShowCheck_In={handleShowCheck_In} />
+      }
+
+ {
+                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} />
+            }
+
     </>
   )
 }
