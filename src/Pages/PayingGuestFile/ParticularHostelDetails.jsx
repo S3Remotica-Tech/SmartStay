@@ -376,7 +376,7 @@ function ParticularHostelDetails(props) {
     <>
 
       <div >
-        <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button>
+        {/* <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button> */}
 
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
