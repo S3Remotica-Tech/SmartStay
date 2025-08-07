@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/AssetFile/addAsset.css";
 // import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
@@ -17,8 +17,8 @@ function BedDetails({
     handleCloseBed,
     handleShowCheck_In
 }) {
-    const state = useSelector((state) => state);
-    const dispatch = useDispatch();
+    // const state = useSelector((state) => state);
+    // const dispatch = useDispatch();
    
 
     const [showDots, setShowDots] = useState('')
@@ -252,6 +252,7 @@ function BedDetails({
 BedDetails.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
+    handleShowCheck_In:PropTypes.func.isRequired
 
 };
 export default BedDetails;
