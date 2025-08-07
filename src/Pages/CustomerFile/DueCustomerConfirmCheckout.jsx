@@ -37,6 +37,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
     const [rightOffNote, setRightOffNote] = useState("")
     const [checkoUtDateError, setCheckOutDateError] = useState("");
     const [ReturnAmount, setReturnAmount] = useState('')
+    const [modeOfPaymentError, setModeOfPaymentError] = useState("")
 
     console.log("checkOutDate", checkOutDate)
 
@@ -131,6 +132,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
     const handleModeOfPaymentChange = (e) => {
+          setModeOfPaymentError("")
         setModeOfPayment(e.target.value);
     };
 
@@ -173,6 +175,18 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
             setCheckOutDateError("Please select a checkout Date");
             hasError = true;
         }
+
+
+
+        if (ReturnAmount >= 0 && !modeOfPayment) {
+            setModeOfPaymentError("Please Select Mode Of Payment");
+            hasError = true;
+        }
+
+
+
+
+
         if (hasError) {
             return;
         }
@@ -186,8 +200,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
         const formattedRequestDate = moment(data.req_date, 'YYYY-MM-DD');
-        console.log("CheckOut Date:", formattedCheckOutDate.format("YYYY-MM-DD"));
-        console.log("Request Date:", formattedRequestDate.format("YYYY-MM-DD"));
+       
         if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
             setCheckOutDateError("Before Request Date not allowed");
             return;
@@ -238,37 +251,28 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
             setCheckOutDateError("");
 
-            console.log("payload", {
-                checkout_date: formattedDate,
-                id: data?.ID,
-                hostel_id: data?.Hostel_Id,
-                advance_return: ReturnAmount,
-                reinburse: 1,
-                reasons: formattedReasons,
-                formal_checkout: checked,
-                reason_note: rightOffNote,
-                profile: uploadFile,
-            });
-
+           
 
 
             {
                 ReturnAmount >= 0 ?
-
-                    dispatch({
-                        type: "ADDCONFIRMCHECKOUTCUSTOMER",
-                        payload: {
-                            checkout_date: formattedDate,
-                            id: data?.ID,
-                            hostel_id: data?.Hostel_Id,
-                            comments: comments,
-                            advance_return: ReturnAmount,
-                            reinburse: 1,
-                            reasons: formattedReasons,
-                            payment_id: modeOfPayment,
-                        },
-                    })
-
+                    <>
+                        if (checkOutDate && modeOfPayment) {
+                            dispatch({
+                                type: "ADDCONFIRMCHECKOUTCUSTOMER",
+                                payload: {
+                                    checkout_date: formattedDate,
+                                    id: data?.ID,
+                                    hostel_id: data?.Hostel_Id,
+                                    comments: comments,
+                                    advance_return: ReturnAmount,
+                                    reinburse: 1,
+                                    reasons: formattedReasons,
+                                    payment_id: modeOfPayment,
+                                },
+                            })
+                        }
+                    </>
                     :
 
                     dispatch({
@@ -461,6 +465,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
                                             value={checkOutDate ? dayjs(checkOutDate) : null}
                                             onChange={(date) => {
                                                 setCheckOutDate(date ? date.toDate() : null);
+                                                 setCheckOutDateError("");
                                             }}
                                             getPopupContainer={() => document.body}
 
@@ -870,6 +875,23 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
 
 
                                     </Form.Group>
+                                    {modeOfPaymentError && (
+                                        <div
+                                            className="d-flex justify-content-start align-items-start"
+                                            style={{ color: "red", marginTop: 5, }}
+                                        >
+                                            <MdError style={{ fontSize: "14px", marginRight: "6px", marginTop: "1px" }} />
+                                            <span
+                                                style={{
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                }}
+                                            >
+                                                {modeOfPaymentError}
+                                            </span>
+                                        </div>
+                                    )}
 
                                 </div>
 
