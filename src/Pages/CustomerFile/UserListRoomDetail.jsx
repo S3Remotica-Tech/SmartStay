@@ -30,7 +30,8 @@ import upload from "../../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Edit, Trash } from "iconsax-react";
-import docDown from "../../Assets/Images/New_images/doc_download.png";
+import docDown from "../../Assets/Images/New_images/downdoc.png";
+import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
@@ -118,7 +119,7 @@ function UserListRoomDetail(props) {
   const [landmarkError, setLandmarkError] = useState("");
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
-  const [state_nameError, setStateNameError] = useState("");
+  // const [state_nameError, setStateNameError] = useState("");
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   const [contactEdit, setContactEdit] = useState("");
@@ -318,42 +319,54 @@ const [setProfile,setProfilepic] = useState(false)
     }
   }, [state.UsersList.statusCodeForCustomerDetails]);
 
-  
+const isFirstRun = useRef(true); // Keep this at top
 
-  useEffect(()=>{
-if(setProfile && file && props.userData?.ID && props.userData?.Name && props.userData?.Phone ){
-  
-    
-     
-      let value = props.userData.Name ? props.userData?.Name.split(" ") : ["", ""];
-      setFirstname(value[0]?.trim());
-      setLastname(value[1] ? value[1].trim() : "");
-      
-      const phoneNumber = String(props.userData?.Phone || "");
-     
-      const mobileNumber = phoneNumber.slice(-10);
+useEffect(() => {
+  if (isFirstRun.current) {
+    isFirstRun.current = false;
+    return;
+  }
 
+  // Skip dispatch if profile already exists and new file is not selected
+  if (props.userData?.profile && !file) {
+    return;
+  }
 
-      const payload = {
+  if (
+    setProfile &&
+    file &&
+    props.userData?.ID &&
+    props.userData?.Name &&
+    props.userData?.Phone
+  ) {
+    const name = props.userData?.Name || "";
+    const value = name.trim().split(" ");
+    setFirstname(value[0] || "");
+    setLastname(value[1] || "");
+
+    const phoneNumber = String(props.userData?.Phone || "");
+    const mobileNumber = phoneNumber.slice(-10);
+
+    const payload = {
       profile: file,
-      firstname: value[0]?.trim(),
-      lastname: value[1] ? value[1].trim() : "",
+      firstname: value[0] || "",
+      lastname: value[1] || "",
       Phone: mobileNumber,
       Email: Email,
-      Address: house_no,
-      area: street,
-      landmark: landmark,
-      city: city,
-      pincode: pincode,
-      state: state_name,
+      Address: props.userData?.Address,
+      area: props.userData?.area,
+      landmark: props.userData?.landmark,
+      city: props.userData?.city,
+      pincode: props.userData?.pincode,
+      state: props.userData?.state,
       AadharNo: AadharNo,
       PancardNo: PancardNo,
       licence: licence,
       HostelName: HostelName,
       hostel_Id: hostel_Id,
-      Floor: Floor,
-      Rooms: RoomId,
-      Bed: BedId,
+      Floor: props.userData?.Floor,
+      Rooms: props.userData?.Rooms,
+      Bed: props.userData?.Bed,
       joining_date: selectedDate,
       AdvanceAmount: AdvanceAmount,
       RoomRent: RoomRent,
@@ -362,15 +375,19 @@ if(setProfile && file && props.userData?.ID && props.userData?.Name && props.use
       paid_advance: paid_advance,
       paid_rent: paid_rent,
       ID: props.userData?.ID,
-
     };
 
- dispatch({
+    dispatch({
       type: "ADDUSER",
-      payload: payload
- })}
- 
-  },[setProfile , props.userData])
+      payload: payload,
+    });
+  }
+}, [setProfile, file, props.userData]);
+
+
+console.log("props.userData",props.userData)
+
+
   useEffect(() => {
   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
@@ -929,29 +946,29 @@ if(setProfile && file && props.userData?.ID && props.userData?.Name && props.use
 
   const handleCloseEditcustomer = () => {
     setFormShow(false);
-    setFormError("");
-    setfloorError("");
-    setRoomError("");
-    setBedError("");
-    setAdvanceAmountError("");
-    setRoomRentError("");
-    setHostelIdError("");
-    setFirstnameError("");
-    setEmailError("");
-    setPhoneError("");
-    setHouseNo("");
-    setStreet("");
-    setCity("");
-    setLandmark("");
-    setPincode("");
-    setStateName("");
-    setStateNameError("");
-    setPincodeError("");
-    setCityError("");
-    setLandmarkError("");
-    setStreetError("");
-    setHouse_NoError("");
-    setDateError("");
+    // setFormError("");
+    // setfloorError("");
+    // setRoomError("");
+    // setBedError("");
+    // setAdvanceAmountError("");
+    // setRoomRentError("");
+    // setHostelIdError("");
+    // setFirstnameError("");
+    // setEmailError("");
+    // setPhoneError("");
+    // setHouseNo("");
+    // setStreet("");
+    // setCity("");
+    // setLandmark("");
+    // setPincode("");
+    // setStateName("");
+    // setStateNameError("");
+    // setPincodeError("");
+    // setCityError("");
+    // setLandmarkError("");
+    // setStreetError("");
+    // setHouse_NoError("");
+    // setDateError("");
     setActiveRow(null);
     setEmailErrorMessage("");
     setJoingDateErrmsg("")
@@ -1768,6 +1785,18 @@ if(setProfile && file && props.userData?.ID && props.userData?.Name && props.use
       link.click();
     });
   };
+
+   const [showModal, setShowModal] = useState(false);
+
+  const handleViewKYC = () => {
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+ 
+
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -3244,35 +3273,7 @@ const handleImageUpload = async (event) => {
                                         </span>
                                       </p>
                                     </div>
-                                    {/* <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        RoomRent
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <img
-                                          src={Money}
-                                          alt="money"
-                                          width={16}
-                                          height={16}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          ₹ {customerDetails[0].RoomRent}
-                                        </span>
-                                      </p>
-                                    </div> */}
+                                   
                                   </div>
 
                                     <div className="row">
@@ -3343,405 +3344,14 @@ const handleImageUpload = async (event) => {
                                         </span>
                                       </p>
                                     </div>
-                                    {/* <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        RoomRent
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <img
-                                          src={Money}
-                                          alt="money"
-                                          width={16}
-                                          height={16}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          ₹ {customerDetails[0].RoomRent}
-                                        </span>
-                                      </p>
-                                    </div> */}
+                                    
                                   </div>
 
-                                  {/* <div className="row">
-                                    <div className="col-sm-12">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Address
-                                      </p>
-
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "flex-end",
-                                          gap: "10px",
-                                          marginTop: "-8px",
-                                        }}
-                                      >
-                                        <House
-                                          size="18"
-                                          color="#1E45E1"
-                                          style={{ marginBottom: "2px" }}
-                                        />
-
-
-
-                                        {(
-                                          customerDetails[0]?.Address ||
-                                          customerDetails[0]?.area ||
-                                          customerDetails[0]?.landmark ||
-                                          (customerDetails[0]?.city && customerDetails[0].city !== "undefined" && customerDetails[0].city !== "null" && customerDetails[0].city !== 0) ||
-                                          customerDetails[0]?.pincode ||
-                                          (customerDetails[0]?.state && customerDetails[0].state !== "undefined" && customerDetails[0].state !== "null" && customerDetails[0].state !== 0)
-                                        ) ? (
-                                          <div
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              lineHeight: "1.5em",
-                                            }}
-                                          >
-                                            {(customerDetails[0]?.Address || customerDetails[0]?.area) && (
-                                              <>
-                                                {customerDetails[0]?.Address ? `${customerDetails[0].Address}, ` : ""}
-                                                {customerDetails[0]?.area ?? ""}
-                                                <br />
-                                              </>
-                                            )}
-
-                                            {(customerDetails[0]?.landmark ||
-                                              customerDetails[0]?.city ||
-                                              customerDetails[0]?.pincode ||
-                                              customerDetails[0]?.state) && (
-                                                <>
-                                                  {customerDetails[0]?.landmark ? `${customerDetails[0].landmark}, ` : ""}
-
-                                                  {(customerDetails[0]?.city &&
-                                                    customerDetails[0].city !== "undefined" &&
-                                                    customerDetails[0].city !== "null" &&
-                                                    customerDetails[0].city !== 0) ? `${customerDetails[0].city}, ` : ""}
-
-                                                  {customerDetails[0]?.pincode ? `${customerDetails[0].pincode} - ` : ""}
-
-                                                  {(customerDetails[0]?.state &&
-                                                    customerDetails[0].state !== "undefined" &&
-                                                    customerDetails[0].state !== "null" &&
-                                                    customerDetails[0].state !== 0) ? customerDetails[0].state : ""}
-                                                </>
-                                              )}
-                                          </div>
-                                        ) : (
-                                          <div
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              lineHeight: "1.5em",
-                                            }}
-                                          >
-                                            No address found
-                                          </div>
-                                        )}
-
-
-
-
-                                      </div>
-                                    </div>
-                                  </div> */}
                                 </div>
                               </div>
                             </div>
 
-                            <div className="col-lg-12 col-md-12">
-                              <div
-                                className="card"
-                                style={{
-                                  borderRadius: "20px",
-                                  padding: "20px",
-                                  marginTop: 30,
-                                  marginLeft: "20px",
-                                }}
-                              >
-                                <div
-                                  className="card-header d-flex justify-content-between align-items-center"
-                                  style={{
-                                    backgroundColor: "transparent",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    borderBottom: "1px solid #e0e0e0",
-                                    marginBottom: "15px",
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      fontSize: 16,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      lineHeight: "40px",
-                                    }}
-                                  >
-                                    Document Details
-                                  </div>
-                                </div>
-
-                                <div
-                                  className="row"
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <div className="col-6 text-start">
-                                    <label
-                                      style={{
-                                        display: "block",
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        marginBottom: "10px",
-                                        fontFamily: "Gilroy"
-                                      }}
-                                    >
-                                      Aadhar Card
-                                    </label>
-
-
-                                    <button
-                                      className="btn"
-                                      disabled={props.customerAddPermission}
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "10px 20px",
-                                        fontSize: "14px",
-                                        border: "1px solid #D9D9D9",
-                                        fontFamily: "Gilroy"
-                                      }}
-                                      onClick={() => handleUploadClick(aadharInputRef)}
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      Upload Document
-                                    </button>
-
-
-                                    <input
-                                      type="file"
-                                      ref={aadharInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) => handleFileChange(e, "doc1")}
-                                    />
-
-
-                                    {state.UsersList?.KycCustomerDetails?.pic && (
-                                      <div >
-                                        <img
-                                          src={docDown}
-                                          alt="Download Aadhar"
-                                          onClick={handleDownloadKYC}
-                                          style={{ width: 20, height: 20, cursor: "pointer", marginLeft: 200, marginTop: "-70px" }}
-                                        />
-                                      </div>
-                                    )}
-
-
-
-
-
-
-
-                                    <div
-                                      id="kyc-download-card"
-                                      style={{
-                                        position: "absolute",
-                                        top: "-9999px",
-                                        left: "-9999px",
-                                        borderRadius: 10,
-                                        padding: 20,
-                                        width: 320,
-                                        textAlign: "center",
-
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-
-                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
-                                        KYC Details
-                                      </h6>
-
-                                      <div style={{ marginBottom: 15 }}>
-                                        <img
-                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-                                          alt="KYC"
-                                          style={{
-                                            height: 120,
-                                            width: 120,
-                                            borderRadius: "25%",
-                                            border: "3px solid #f0f0f0",
-                                          }}
-                                        />
-                                      </div>
-
-                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
-                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
-                                      </h5>
-
-                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
-                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
-
-                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                          Adress<br />
-                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
-                                        </p>
-                                      </div>
-
-
-                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
-                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
-
-                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                          Aadhar Number<br />
-                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
-                                        </p>
-                                      </div>
-                                    </div>
-
-
-
-
-
-
-
-
-
-
-
-                                    {advanceDetail[0]?.doc1 && (
-                                      <a
-                                        href={advanceDetail[0]?.doc1}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <img
-                                          src={docDown}
-                                          alt="docdown"
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                      </a>
-                                    )}
-
-
-                                    {uploadError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {uploadError}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
-
-
-
-                                  <div className="col-6 text-start">
-                                    <label
-                                      style={{
-                                        display: "block",
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        marginBottom: "10px",
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Other Document
-                                    </label>
-                                    <button
-                                      className="btn "
-                                      disabled={props.customerAddPermission}
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "10px 20px",
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        border: "1px solid #D9D9D9",
-                                      }}
-                                      onClick={() =>
-                                        handleOtherUploadClick(otherDocInputRef)
-                                      }
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      Upload Document
-                                    </button>
-                                    <input
-                                      type="file"
-                                      ref={otherDocInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) =>
-                                        handleFileChange(e, "doc2")
-                                      }
-                                    />
-
-                                    {advanceDetail &&
-                                      advanceDetail[0]?.doc2 && (
-                                        <img
-                                          src={docDown}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                            cursor: "pointer",
-                                          }}
-                                          alt="Download Document"
-                                          onClick={() =>
-                                            window.open(
-                                              advanceDetail[0]?.doc2,
-                                              "_blank"
-                                            )
-                                          }
-                                        />
-                                      )}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                           
                           </div>
 
                           <div style={{ flex: 1 }}>
@@ -4713,6 +4323,386 @@ const handleImageUpload = async (event) => {
                             </div>
                           </div>
                         </div>
+                         <div className="col-lg-8 col-md-12">
+                              <div
+                                className="card"
+                                style={{
+                                  borderRadius: "20px",
+                                  padding: "20px",
+                                  marginTop: 30,
+                                  marginLeft: "20px",
+                                }}
+                              >
+                                <div
+                                  className="card-header d-flex justify-content-between align-items-center"
+                                  style={{
+                                    backgroundColor: "transparent",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    borderBottom: "transparent",
+                                    marginBottom: "15px",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      fontSize: 16,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      lineHeight: "40px",
+                                    }}
+                                  >
+                                    Document
+                                  </div>
+                                </div>
+
+                                <div
+                                  className="row"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  <div className="col-6 text-start">
+                                   
+
+
+                                    <button
+                                      className="btn"
+                                      disabled={props.customerAddPermission}
+                                      style={{
+                                        borderRadius: "10px",
+                                        padding: "10px 20px",
+                                        fontSize: "14px",
+                                        border: "1px solid #D9D9D9",
+                                        fontFamily: "Gilroy"
+                                      }}
+                                      onClick={() => handleUploadClick(aadharInputRef)}
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      Upload Document
+                                    </button>
+
+
+                                    <input
+                                      type="file"
+                                      ref={aadharInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) => handleFileChange(e, "doc1")}
+                                    />
+
+
+                                    {state.UsersList?.KycCustomerDetails?.pic && (
+                                      <div >
+                                        <img
+                                          src={docDown}
+                                          alt="Download Aadhar"
+                                          onClick={handleDownloadKYC}
+                                          style={{ width: 20, height: 20, cursor: "pointer", marginLeft: 200, marginTop: "-70px" }}
+                                        />
+
+                                         <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                            onClick={handleViewKYC}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            marginTop: "-70px" 
+                                          }}
+                                        />
+                                      </div>
+                                    )}
+
+<Modal show={showModal} onHide={handleClose} size="md" centered>
+  <Modal.Header closeButton>
+    <Modal.Title>KYC Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <div
+      style={{
+        borderRadius: 10,
+        padding: 20,
+        textAlign: "center",
+        fontFamily: "Gilroy",
+      }}
+    >
+      <div style={{ marginBottom: 15 }}>
+        <img
+          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+          alt="KYC"
+          style={{
+            height: 120,
+            width: 120,
+            borderRadius: "25%",
+            border: "3px solid #f0f0f0",
+            objectFit: "cover",
+          }}
+        />
+      </div>
+
+      <h5
+        style={{
+          fontWeight: "bold",
+          fontSize: 18,
+          marginBottom: 20,
+          color: "#222",
+        }}
+      >
+        {state.UsersList?.KycCustomerDetails?.name || "****"}
+      </h5>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 15 }}
+      >
+        <i
+          className="bi bi-geo-alt"
+          style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
+        ></i>
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Address<br />
+          {/* <span>
+            {state.UsersList?.KycCustomerDetails?.address ||
+              "No address provided"}
+          </span> */}
+          <div style={{
+  maxWidth: "400px",
+  wordBreak: "break-word",
+  whiteSpace: "pre-wrap"
+}}>
+  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
+</div>
+        </p>
+      </div>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 5 }}
+      >
+        <img
+          src={adhar}
+          alt="Aadhaar"
+          style={{ width: 20, height: 20, marginRight: 10 }}
+        />
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Aadhaar Number<br />
+          <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+        </p>
+      </div>
+    </div>
+  </Modal.Body>
+</Modal>
+
+
+
+
+
+                                    <div
+                                      id="kyc-download-card"
+                                      style={{
+                                        position: "absolute",
+                                        top: "-9999px",
+                                        left: "-9999px",
+                                        borderRadius: 10,
+                                        padding: 20,
+                                        width: 320,
+                                        textAlign: "center",
+
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+
+                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
+                                        KYC Details
+                                      </h6>
+
+                                      <div style={{ marginBottom: 15 }}>
+                                        <img
+                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+                                          alt="KYC"
+                                          style={{
+                                            height: 120,
+                                            width: 120,
+                                            borderRadius: "25%",
+                                            border: "3px solid #f0f0f0",
+                                          }}
+                                        />
+                                      </div>
+
+                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
+                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
+                                      </h5>
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
+                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Adress<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
+                                        </p>
+                                      </div>
+
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
+                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Aadhar Number<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+                                        </p>
+                                      </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                                    {advanceDetail[0]?.doc1 && (
+                                      <a
+                                        href={advanceDetail[0]?.doc1}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <img
+                                          src={docDown}
+                                          alt="docdown"
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                          }}
+                                        />
+                                         <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                          }}
+                                        />
+                                      </a>
+                                    )}
+
+
+                                    {uploadError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {uploadError}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+
+
+
+                                  <div className="col-6 text-start">
+                                  
+                                    <button
+                                      className="btn "
+                                      disabled={props.customerAddPermission}
+                                      style={{
+                                        borderRadius: "10px",
+                                        padding: "10px 20px",
+                                        fontSize: "14px",
+                                        fontFamily: "Gilroy",
+                                        border: "1px solid #D9D9D9",
+                                      }}
+                                      onClick={() =>
+                                        handleOtherUploadClick(otherDocInputRef)
+                                      }
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      Upload Document
+                                    </button>
+                                    <input
+                                      type="file"
+                                      ref={otherDocInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) =>
+                                        handleFileChange(e, "doc2")
+                                      }
+                                    />
+
+                                    {advanceDetail &&
+                                      advanceDetail[0]?.doc2 && (
+                                        <>
+                                        <img
+                                          src={docDown}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            cursor: "pointer",
+                                          }}
+                                          alt="Download Document"
+                                          onClick={() =>
+                                            window.open(
+                                              advanceDetail[0]?.doc2,
+                                              "_blank"
+                                            )
+                                          }
+                                        />
+                                         <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                            // onClick={handleViewKYC}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            marginTop: "-70px" 
+                                          }}
+                                        />
+                                        </>
+                                      )} 
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
 
                         {kycdetailsForm === true ? (
                           <UserListKyc
@@ -5532,7 +5522,7 @@ const handleImageUpload = async (event) => {
                                           }}
                                         />
                                       </Form.Group>
-                                      {!state_name && state_nameError && (
+                                      {/* {!state_name  && (
                                         <div style={{ color: "red" }}>
                                           <MdError
                                             style={{
@@ -5551,7 +5541,7 @@ const handleImageUpload = async (event) => {
                                             {state_nameError}
                                           </span>
                                         </div>
-                                      )}
+                                      )} */}
                                     </div>
                                   </div>
                                   {formError && (
