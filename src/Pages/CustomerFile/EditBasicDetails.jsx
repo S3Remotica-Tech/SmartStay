@@ -26,6 +26,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     const [phoneError, setPhoneError] = useState("")
     const [initialValues, setInitialValues] = useState(null);
     const [isChanged, setIsChanged] = useState("")
+    const [emailError,setEmailError] =useState("")
 
    
     const handleFirstNameChange = (e) => {
@@ -40,12 +41,27 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
         setIsChanged("")
     };
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        setIsChanged("")
-    };
+    
 
-   
+   const handleEmailChange = (e) => {
+    const emailValue = e.target.value.toLowerCase();
+    setEmail(emailValue);
+
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(emailValue);
+    if (!emailValue) {
+      setEmailError("");
+     ;
+    } else if (!isValidEmail) {
+     
+      setEmailError("Please Enter  Valid Email Id");
+    } else {
+      setEmailError("");
+     
+    }
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setIsChanged("")
+  };
 
     const handlePhoneChange = (e) => {
         const input = e.target.value.replace(/\D/g, "");
@@ -143,6 +159,9 @@ setIsChanged("")
             setPhoneError("Phone is required");
             return;
         }
+         if (emailError) {
+        return;
+    }
 
         const capitalizeFirstLetter = (str) => {
             return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -217,7 +236,18 @@ setIsChanged("")
         });
     };
 
-
+  useEffect(() => {
+        if (state.UsersList.statusCodeForAddUser === 200) {
+          dispatch({ type: "USERLIST", payload: { hostel_id: basicDetails[0].Hostel_Id } });
+          dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: basicDetails[0].ID } });
+        
+           handleClose()
+      
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_STATUS_CODES" });
+          }, 100);
+        }
+      }, [state.UsersList.statusCodeForAddUser]);
 
     return (
         <div
@@ -390,6 +420,33 @@ setIsChanged("")
                                         }}
                                     />
                                 </Form.Group>
+                                {emailError && (
+                                    <div
+                                        style={{
+                                            marginTop: "",
+                                            color: "red",
+                                        }}
+                                    >
+                                        {" "}
+                                        <MdError
+                                            style={{
+                                                fontSize: "12px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                marginRight: "5px",
+                                            }}
+                                        />
+                                        <span
+                                            style={{
+                                                fontSize: "13px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            {emailError}
+                                        </span>
+                                    </div>
+                                )}
 
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

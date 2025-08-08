@@ -1390,15 +1390,17 @@ useEffect(() => {
   const [hostelName, sethosName] = useState("");
   const [customerUser_Id, setcustomerUser_Id] = useState("");
   const [advanceForm, setAdvanceForm] = useState(false);
+  const [userDatafull,setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
     setHostelIds(userData.Hostel_Id);
-
+setUserData(userData)
     setId(userData.ID);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setRoomDetail(true);
     setUserList(false);
+
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
 
@@ -3802,6 +3804,7 @@ useEffect(() => {
       {roomDetail === true ? (
         <UserListRoomDetail
           onEditItem={handleEditItem}
+          userData={userDatafull}
           onAddItem={handleAddItems}
           onDeleteItem={handleDeleteItem}
           onEditRoomItem={handleEditRoomReading}
