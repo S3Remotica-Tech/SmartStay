@@ -134,6 +134,15 @@ function UserList(props) {
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
 
+useEffect(()=>{
+  setLoading(false)
+ dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+},[])
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
@@ -1373,7 +1382,7 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    if (state.UsersList?.NoUserListStatusCode === 201) {
+    if (state.UsersList?.NoUserListStatusCode) {
       setLoading(false)
       setUserDetails([]);
       setFilteredUsers([]);

@@ -73,7 +73,7 @@ export const initialState = {
     statusCodegetConfirmCheckout: 0,
     GetconfirmcheckoutBillDetails: [],
     GetconfirmcheckoutUserDetails: '',
-    statusCodeAddConfirmCheckout: 0,
+        statusCodeAddConfirmCheckout: 0,
     reassignbeddetails: [],
     statusCodeForReassinBed: 0,
     statusCodeForCustomerCoatact: 0,
@@ -117,6 +117,7 @@ export const initialState = {
     kycnotadded: '',
     KYCStatusCode: 0,
     statusCodeForDueCustomer:0,
+    nonRefundable_details: [],
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -431,6 +432,7 @@ const UserListReducer = (state = initialState, action) => {
             return {
                 ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
                 GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
+             nonRefundable_details:action.payload.response.deduction_details,
                 statusCodegetConfirmCheckout: action.payload.statusCode,
             };
         case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":

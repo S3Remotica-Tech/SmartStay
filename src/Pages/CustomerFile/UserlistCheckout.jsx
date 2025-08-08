@@ -264,7 +264,7 @@ function CheckOut(props) {
   const [conformEdit, setConformEdit] = useState(false)
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
-  const [dueAmountDetails, setDueAmountDetails] = useState("");
+
 
   const handleEdit = (checkout) => {
     setActiveDotsId(null);
@@ -298,44 +298,59 @@ function CheckOut(props) {
 
 
 
-  useEffect(() => {
-    if (state.UsersList.statusCodegetConfirmCheckout) {
-      const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter((invoice) => invoice.balance > 0);
-      const hasBalance =
-        Array.isArray(validInvoices) &&
-        validInvoices.some((invoice) => invoice.balance > 0);
-      let totaldueamount = 0;
-      if (validInvoices && hasBalance) {
-        totaldueamount = validInvoices.reduce(
-          (total, invoice) => total + invoice.balance,
-          0
-        );
-      }
+  // useEffect(() => {
+  //   if (state.UsersList.statusCodegetConfirmCheckout) {
+  //     const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter((invoice) => invoice.balance > 0);
+  //     const deduction_details = state?.UsersList?.nonRefundable_details?.filter((deduction) => deduction.amount > 0);
+  //     const hasBalance =
+  //       Array.isArray(validInvoices) &&
+  //       validInvoices.some((invoice) => invoice.balance > 0);
+  //     let totaldueamount = 0;
+  //     if (validInvoices && hasBalance) {
+  //       totaldueamount = validInvoices.reduce(
+  //         (total, invoice) => total + invoice.balance,
+  //         0
+  //       );
+  //     }
 
-      setDueAmountDetails(totaldueamount)
-      const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
-
-
-      setDueCustomerShow(true)
+  //     setDueAmountDetails(totaldueamount)
+  //     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
 
 
-      // if (totaldueamount > 0) {
-      //   setDueCustomerShow(true)
-      //   setConfirmForm(false);
-      // } else {
-      //   setActiveDotsId(null);
-      //   setConfirmForm(true);
-      //   setCheckoutAction(true)
-      //   setCheckoutEditAction(false)
-      //   setConformEdit(false)
-      //   setDueCustomerShow(false)
-      // }
-    }
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    }, 500);
+  //     setDueCustomerShow(true)
 
-  }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
+
+  //     // if (totaldueamount > 0) {
+  //     //   setDueCustomerShow(true)
+  //     //   setConfirmForm(false);
+  //     // } else {
+  //     //   setActiveDotsId(null);
+  //     //   setConfirmForm(true);
+  //     //   setCheckoutAction(true)
+  //     //   setCheckoutEditAction(false)
+  //     //   setConformEdit(false)
+  //     //   setDueCustomerShow(false)
+  //     // }
+  //   }
+  //   setTimeout(() => {
+  //     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  //   }, 500);
+
+  // }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
+
+
+useEffect(() => {
+  if (state.UsersList.statusCodegetConfirmCheckout) {
+            setDueCustomerShow(true);
+ 
+  }
+
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  }, 500);
+}, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
+
+
 
 
   useEffect(() => {
@@ -1416,7 +1431,7 @@ function CheckOut(props) {
 
 
         {
-          DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} dueAmountDetails={dueAmountDetails} />
+          DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup}  />
         }
 
 

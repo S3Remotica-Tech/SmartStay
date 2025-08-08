@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect , useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
@@ -21,7 +21,7 @@ import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import { FaCheck } from "react-icons/fa";
 
-function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails }) {
+function DueCustomerConfirmCheckout({ show, handleClose, data }) {
 
 
     const state = useSelector((state) => state);
@@ -40,11 +40,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, dueAmountDetails 
     const [modeOfPaymentError, setModeOfPaymentError] = useState("")
     const [formLoading, setFormLoading] = useState(false)
     const checkOutDateRef = useRef(null);
-const modeOfPaymentRef = useRef(null);
-
-const reasonRefs = useRef([]);
-const amountRefs = useRef([]);
-
+    const modeOfPaymentRef = useRef(null);
+   
 
 
     useEffect(() => {
@@ -58,6 +55,49 @@ const amountRefs = useRef([]);
         { value: "others", label: "Others" },
     ];
 
+    useEffect(() => {
+        if (state.UsersList.statusCodegetConfirmCheckout) {
+            const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+                (invoice) => invoice.balance > 0
+            );
+
+            const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+                (deduction) => deduction.amount > 0
+            );
+
+            const invoiceTotal = Array.isArray(validInvoices)
+                ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
+                : 0;
+                   
+              
+            if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+                const formattedFields = deduction_details.map((item) => ({
+                    reason_name: item.reason || "",
+                    amount: Number(item.amount) || 0,
+                    showInput: false,
+                }));
+
+         
+                formattedFields.unshift({
+                    reason_name: "DueAmount",
+                    amount: invoiceTotal,
+                    showInput: false,
+                });
+
+                setFields(formattedFields);
+            } else {
+                            setFields([
+                    { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
+                ]);
+            }
+
+         
+        }
+
+        setTimeout(() => {
+            dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+        }, 500);
+    }, [state.UsersList.statusCodegetConfirmCheckout, data]);
 
 
     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
@@ -72,7 +112,7 @@ const amountRefs = useRef([]);
 
 
 
-    
+
 
 
     const handleFileChange = (e) => {
@@ -89,7 +129,7 @@ const amountRefs = useRef([]);
         dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
     };
 
- 
+
 
 
 
@@ -162,18 +202,15 @@ const amountRefs = useRef([]);
     }, []);
 
 
-    useEffect(() => {
-        if (dueAmountDetails >= 0) {
-            setFields([
-                { reason_name: "DueAmount", amount: dueAmountDetails, showInput: false },
-            ]);
-        }
-    }, [dueAmountDetails]);
-
-
+ useEffect(() => {
+     if (state.UsersList.conformChekoutError) {
+       setFormLoading(false)
+       
+     }
+   }, [state.UsersList.conformChekoutError])
 
     const handleConfirmCheckout = () => {
-
+dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
         let hasReasonAmountError = false;
         let newErrors = [];
         let hasError = false;
@@ -185,12 +222,12 @@ const amountRefs = useRef([]);
 
 
 
-        if (ReturnAmount >= 0 && !modeOfPayment) {
+        if (ReturnAmount > 0 && !modeOfPayment) {
             setModeOfPaymentError("Please Select Mode Of Payment");
             if (!hasError) {
-        modeOfPaymentRef.current?.focus(); 
-        hasError = true;
-    }
+                modeOfPaymentRef.current?.focus();
+                hasError = true;
+            }
         }
 
 
@@ -233,10 +270,14 @@ const amountRefs = useRef([]);
                 }
 
                 const error = { reason: "", amount: "" };
-                if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+                if (
+                    reason_name &&
+                    (item.amount === null || item.amount === undefined || item.amount.toString().trim() === "" || isNaN(item.amount))
+                ) {
                     error.amount = "Please enter amount";
                     hasReasonAmountError = true;
                 }
+
 
 
                 if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
@@ -263,47 +304,39 @@ const amountRefs = useRef([]);
 
 
 
-
-            {
-                ReturnAmount >= 0 ?
-                    <>
-                        if (checkOutDate && modeOfPayment) {
-                            dispatch({
-                                type: "ADDCONFIRMCHECKOUTCUSTOMER",
-                                payload: {
-                                    checkout_date: formattedDate,
-                                    id: data?.ID,
-                                    hostel_id: data?.Hostel_Id,
-                                    comments: comments,
-                                    advance_return: ReturnAmount,
-                                    reinburse: 1,
-                                    reasons: formattedReasons,
-                                    payment_id: modeOfPayment,
-                                },
-                            })
-                        }
-                    </>
-                    :
-
+            if (ReturnAmount >= 0) {
+                if (checkOutDate) {
                     dispatch({
-                        type: "CONFIRMCHECKOUTDUECUSTOMER",
+                        type: "ADDCONFIRMCHECKOUTCUSTOMER",
                         payload: {
                             checkout_date: formattedDate,
                             id: data?.ID,
                             hostel_id: data?.Hostel_Id,
+                            comments: comments,
                             advance_return: ReturnAmount,
                             reinburse: 1,
                             reasons: formattedReasons,
-                            formal_checkout: checked,
-                            reason_note: rightOffNote,
-                            profile: uploadFile,
-
+                            payment_id: modeOfPayment,
                         },
                     });
-
-
-
+                }
+            } else {
+                dispatch({
+                    type: "CONFIRMCHECKOUTDUECUSTOMER",
+                    payload: {
+                        checkout_date: formattedDate,
+                        id: data?.ID,
+                        hostel_id: data?.Hostel_Id,
+                        advance_return: ReturnAmount,
+                        reinburse: 1,
+                        reasons: formattedReasons,
+                        formal_checkout: checked,
+                        reason_note: rightOffNote,
+                        profile: uploadFile,
+                    },
+                });
             }
+
             setFormLoading(true)
 
         }
@@ -485,7 +518,7 @@ const amountRefs = useRef([]);
 
                                     <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
                                         <DatePicker
-                                        ref={checkOutDateRef}
+                                            ref={checkOutDateRef}
                                             style={{
                                                 width: "100%", height: 48, cursor: "pointer",
                                                 backgroundColor: "#FFF",
@@ -746,7 +779,7 @@ const amountRefs = useRef([]);
                                                         type="text"
                                                         placeholder="Enter amount"
                                                         value={item.amount}
-                                                                                                              onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                                                        onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                                         className="form-control"
                                                         style={{
                                                             fontSize: 16,
@@ -872,9 +905,10 @@ const amountRefs = useRef([]);
                                             </span>
                                         </Form.Label>
                                         <Form.Select
-                                         ref={modeOfPaymentRef}
+                                            ref={modeOfPaymentRef}
                                             aria-label="Default select example"
                                             value={modeOfPayment}
+                                            disabled={ReturnAmount === 0}
                                             onChange={handleModeOfPaymentChange}
                                             className=""
                                             id="vendor-select"
@@ -1218,7 +1252,6 @@ DueCustomerConfirmCheckout.propTypes = {
     show: PropTypes.func.isRequired,
     handleClose: PropTypes.func.isRequired,
     data: PropTypes.func.isRequired,
-    dueAmountDetails: PropTypes.func.isRequired,
 
 
 };
