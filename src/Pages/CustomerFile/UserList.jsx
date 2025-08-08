@@ -134,13 +134,7 @@ function UserList(props) {
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
 
-useEffect(()=>{
-  setLoading(false)
- dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-},[])
+
 
 
   useEffect(() => {

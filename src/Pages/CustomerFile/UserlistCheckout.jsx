@@ -273,12 +273,12 @@ function CheckOut(props) {
     setCheckOutEdit(checkout);
     setCheckoutEditAction(true)
     setCheckoutAction(false)
+    setCheckOutDetails('')
   };
   const handleConformEdit = () => {
     setConfirmForm(true);
     setConformEdit(true)
   }
-
 
 
 
@@ -340,9 +340,9 @@ function CheckOut(props) {
 
 
 useEffect(() => {
-  if (state.UsersList.statusCodegetConfirmCheckout) {
+  if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
             setDueCustomerShow(true);
- 
+
   }
 
   setTimeout(() => {

@@ -6,9 +6,7 @@ import "flatpickr/dist/flatpickr.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-
 import Image from "react-bootstrap/Image";
-
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
@@ -41,7 +39,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
     const [formLoading, setFormLoading] = useState(false)
     const checkOutDateRef = useRef(null);
     const modeOfPaymentRef = useRef(null);
-   
+
 
 
     useEffect(() => {
@@ -49,6 +47,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
             dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
         }
     }, []);
+
     const reasonOptions = [
         { value: "DueAmount", label: "Due Amount" },
         { value: "maintenance", label: "Maintenance" },
@@ -68,8 +67,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
             const invoiceTotal = Array.isArray(validInvoices)
                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
                 : 0;
-                   
-              
+
+
             if (Array.isArray(deduction_details) && deduction_details.length > 0) {
                 const formattedFields = deduction_details.map((item) => ({
                     reason_name: item.reason || "",
@@ -77,7 +76,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
                     showInput: false,
                 }));
 
-         
+            
                 formattedFields.unshift({
                     reason_name: "DueAmount",
                     amount: invoiceTotal,
@@ -86,12 +85,12 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
 
                 setFields(formattedFields);
             } else {
-                            setFields([
+                setFields([
                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
                 ]);
             }
 
-         
+
         }
 
         setTimeout(() => {
@@ -131,40 +130,46 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
 
 
 
+  
 
 
-    const handleInputChange = (index, field, value) => {
+const handleInputChange = (index, field, value) => {
+    const updatedFields = [...fields];
+    const updatedErrors = [...errors];
+    const fieldData = updatedFields[index] || {};
 
-        const updatedFields = [...fields];
-        const updatedErrors = [...errors];
-
-        if (field === "reason") {
-            if (value === "others") {
-                updatedFields[index].showInput = true;
-                updatedFields[index].reason_name = "others";
-                updatedFields[index].customReason = "";
-            } else {
-                updatedFields[index].showInput = false;
-                updatedFields[index].reason = value;
-                updatedFields[index].reason_name = value;
-                updatedFields[index].customReason = "";
-            }
-
-
-            if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } else if (field === "customReason") {
-            updatedFields[index].customReason = value;
-            if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } else if (field === "amount") {
-            updatedFields[index].amount = value;
-
-
-            if (updatedErrors[index]) updatedErrors[index].amount = "";
+    if (field === "reason_name") {
+        fieldData.reason = value;
+        fieldData.reason_name = value;
+        fieldData.showInput = value === "others";
+        if (value !== "others") fieldData.customReason = "";
+        if (updatedErrors[index]) {
+            updatedErrors[index].reason = "";
         }
+    }
 
-        setFields(updatedFields);
-        setErrors(updatedErrors);
-    };
+    if (field === "customReason") {
+        fieldData.customReason = value;
+        if (updatedErrors[index]) {
+            updatedErrors[index].reason = "";
+        }
+    }
+
+    if (field === "amount") {
+        fieldData.amount = value;
+        if (updatedErrors[index]) {
+            updatedErrors[index].amount = "";
+        }
+    }
+
+    updatedFields[index] = fieldData;
+    setFields(updatedFields);
+    setErrors(updatedErrors);
+};
+
+
+
+
 
 
 
@@ -202,15 +207,15 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
     }, []);
 
 
- useEffect(() => {
-     if (state.UsersList.conformChekoutError) {
-       setFormLoading(false)
-       
-     }
-   }, [state.UsersList.conformChekoutError])
+    useEffect(() => {
+        if (state.UsersList.conformChekoutError) {
+            setFormLoading(false)
+
+        }
+    }, [state.UsersList.conformChekoutError])
 
     const handleConfirmCheckout = () => {
-dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+        dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
         let hasReasonAmountError = false;
         let newErrors = [];
         let hasError = false;
@@ -648,17 +653,25 @@ dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
 
 
                                     {fields.map((item, index) => {
-                                        const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
+                                        const filteredOptions = (() => {
+                                            let options = [...reasonOptions];
 
-                                        const filteredOptions = reasonOptions.map((opt) => {
-                                            if (opt.value === "maintenance") {
-                                                return {
-                                                    ...opt,
-                                                    isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
-                                                };
+
+                                            if (item.reason_name && !options.some(opt => opt.value === item.reason_name)) {
+                                                options.push({
+                                                    value: item.reason_name,
+                                                    label: item.reason_name.charAt(0).toUpperCase() + item.reason_name.slice(1)
+                                                });
                                             }
-                                            return opt;
-                                        });
+
+
+                                            const isMaintenanceSelected = fields.some(field => field.reason === "maintenance");
+                                            return options.map(opt => ({
+                                                ...opt,
+                                                isDisabled: opt.value === "maintenance" && isMaintenanceSelected && item.reason !== "maintenance"
+                                            }));
+                                        })();
+
 
                                         return (
                                             <div className="row px-4 mb-3" key={index}>
@@ -673,12 +686,12 @@ dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
                                                                 const selectedValue = selectedOption.value;
 
                                                                 if (selectedValue === "others") {
-                                                                    handleInputChange(index, "reason", "others");
+                                                                    handleInputChange(index, "reason_name", "others");
                                                                 } else {
-                                                                    handleInputChange(index, "reason", selectedValue);
+                                                                    handleInputChange(index, "reason_name", selectedValue);
                                                                 }
                                                             }}
-                                                            isDisabled={item.reason === "maintenance" || item?.reason_name === "DueAmount"}
+                                                            isDisabled={item.reason_name === "maintenance" || item?.reason_name === "DueAmount"}
                                                             menuPlacement="auto"
                                                             styles={{
                                                                 control: (base) => ({
