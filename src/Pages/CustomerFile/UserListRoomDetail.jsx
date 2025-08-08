@@ -62,6 +62,7 @@ import StayHistory from "./StayHistory";
 
 
 
+
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -143,6 +144,10 @@ function UserListRoomDetail(props) {
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
+ 
+
+  
+
 
   const [formLoading, setFormLoading] = useState(false)
 
@@ -240,17 +245,150 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
   }, [])
+  useEffect(()=>{
+ 
+      const sanitize = (value) => {
+        return value === null ||
+          value === undefined ||
+          value === "null" ||
+          value === "undefined"
+          ? ""
+          : value;
+      };
+
+      const phoneNumber = String(props.userData[0]?.Phone || "");
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+      const mobileNumber = phoneNumber.slice(-10);
+      setBednum(props.userData);
+      seteditBed("editbeddet");
+      setcustomerAsignBed(false);
+     
+
+      setId(props.userData[0]?.ID);
+      setFile(props.userData[0]?.profile === "0" ? null : props.userData[0]?.profile);
+
+      let value = props.userData[0]?.Name ? props.userData[0]?.Name.split(" ") : ["", ""];
+      setFirstname(value[0]?.trim());
+      setLastname(value[1] ? value[1].trim() : "");
+
+      setAddress(props.userData[0]?.Address || "");
+      setAadharNo(props.userData[0]?.AadharNo || "");
+      setPancardNo(props.userData[0]?.PancardNo || "");
+      setLicence(props.userData[0]?.licence || "");
+      setPhone(mobileNumber);
+      setCountryCode(countryCode);
+      setEmail(props.userData[0]?.Email || "");
+      setHostelName(props.userData[0]?.HostelName || "");
+      setHostel_Id(props.userData[0]?.Hostel_Id || "");
+      setFloor(props.userData[0]?.Floor || "");
+      setRooms(props.userData[0]?.Rooms || "");
+      setRoomId(props.userData[0]?.room_id || "");
+      setBedId(props.userData[0]?.hstl_Bed || "");
+      setSelectedDate(props.userData[0]?.user_join_date || "");
+      setAdvanceAmount(props.userData[0]?.AdvanceAmount || "");
+      setRoomRent(props.userData[0]?.RoomRent || "");
+      setPaymentType(props.userData[0]?.PaymentType || "");
+      setBalanceDue(props.userData[0]?.BalanceDue || "");
+      setPaidAdvance(props.userData[0]?.paid_advance || "");
+      setPaidrent(props.userData[0]?.paid_rent || "");
+
+      setHouseNo(sanitize(props.userData[0]?.Address));
+      setStreet(sanitize(props.userData[0]?.area));
+      setLandmark(sanitize(props.userData[0]?.landmark));
+      setCity(sanitize(props.userData[0]?.city));
+      setPincode(sanitize(props.userData[0]?.pincode));
+      setStateName(sanitize(props.userData[0]?.state));
+
+    
+    
+
+},[])
+
+const [setProfile,setProfilepic] = useState(false)
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
+  
+    setProfilepic(true)
+    setFile(state.UsersList?.KycCustomerDetails?.pic)
+
       setTimeout(() => {
         dispatch({ type: "REMOVEKYC_CUSTOMER_DETAILS" });
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerDetails]);
+
+  
+
+  useEffect(()=>{
+if(setProfile && file && props.userData?.ID && props.userData?.Name && props.userData?.Phone ){
+  
+    
+     
+      let value = props.userData.Name ? props.userData?.Name.split(" ") : ["", ""];
+      setFirstname(value[0]?.trim());
+      setLastname(value[1] ? value[1].trim() : "");
+      
+      const phoneNumber = String(props.userData?.Phone || "");
+     
+      const mobileNumber = phoneNumber.slice(-10);
+
+
+      const payload = {
+      profile: file,
+      firstname: value[0]?.trim(),
+      lastname: value[1] ? value[1].trim() : "",
+      Phone: mobileNumber,
+      Email: Email,
+      Address: house_no,
+      area: street,
+      landmark: landmark,
+      city: city,
+      pincode: pincode,
+      state: state_name,
+      AadharNo: AadharNo,
+      PancardNo: PancardNo,
+      licence: licence,
+      HostelName: HostelName,
+      hostel_Id: hostel_Id,
+      Floor: Floor,
+      Rooms: RoomId,
+      Bed: BedId,
+      joining_date: selectedDate,
+      AdvanceAmount: AdvanceAmount,
+      RoomRent: RoomRent,
+      BalanceDue: BalanceDue,
+      PaymentType: PaymentType,
+      paid_advance: paid_advance,
+      paid_rent: paid_rent,
+      ID: props.userData?.ID,
+
+    };
+
+ dispatch({
+      type: "ADDUSER",
+      payload: payload
+ })}
+ 
+  },[setProfile , props.userData])
+  useEffect(() => {
+  const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
+
+  if (
+    base64Pic &&
+    base64Pic !== "null" &&
+    base64Pic !== undefined &&
+    base64Pic !== null
+  ) {
+    setFile(`data:image/jpeg;base64,${base64Pic}`);
+   
+  }
+}, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
       dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
+     
+      
       setTimeout(() => {
         dispatch({ type: "REMOVE_KYC_VERIFY_NEW" });
       }, 100);
@@ -461,81 +599,7 @@ function UserListRoomDetail(props) {
 
 
 
-  const handleEditUser = (item) => {
-
-    if (item[0].ID) {
-      const sanitize = (value) => {
-        return value === null ||
-          value === undefined ||
-          value === "null" ||
-          value === "undefined"
-          ? ""
-          : value;
-      };
-
-      const phoneNumber = String(item[0].Phone || "");
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      const mobileNumber = phoneNumber.slice(-10);
-      setBednum(item);
-      seteditBed("editbeddet");
-      setcustomerAsignBed(false);
-      setcustomerdetailShow(true);
-      setFormShow(true);
-
-      setId(item[0].ID);
-      setFile(item[0].profile === "0" ? null : item[0].profile);
-
-      let value = item[0].Name ? item[0].Name.split(" ") : ["", ""];
-      setFirstname(value[0].trim());
-      setLastname(value[1] ? value[1].trim() : "");
-
-      setAddress(item[0].Address || "");
-      setAadharNo(item[0].AadharNo || "");
-      setPancardNo(item[0].PancardNo || "");
-      setLicence(item[0].licence || "");
-      setPhone(mobileNumber);
-      setCountryCode(countryCode);
-      setEmail(item[0].Email || "");
-      setHostelName(item[0].HostelName || "");
-      setHostel_Id(item[0].Hostel_Id || "");
-      setFloor(item[0].Floor || "");
-      setRooms(item[0].Rooms || "");
-      setRoomId(item[0].room_id || "");
-      setBedId(item[0].hstl_Bed || "");
-      setSelectedDate(item[0].user_join_date || "");
-      setAdvanceAmount(item[0].AdvanceAmount || "");
-      setRoomRent(item[0].RoomRent || "");
-      setPaymentType(item[0].PaymentType || "");
-      setBalanceDue(item[0].BalanceDue || "");
-      setPaidAdvance(item[0].paid_advance || "");
-      setPaidrent(item[0].paid_rent || "");
-
-      setHouseNo(sanitize(item[0].Address));
-      setStreet(sanitize(item[0].area));
-      setLandmark(sanitize(item[0].landmark));
-      setCity(sanitize(item[0].city));
-      setPincode(sanitize(item[0].pincode));
-      setStateName(sanitize(item[0].state));
-
-      setInitialState({
-        firstname: value[0].trim(),
-        lastname: value[1] ? value[1].trim() : "",
-        Phone: item[0].Phone || "",
-        Email: item[0].Email || "",
-        Address: item[0].Address || "",
-        hostel_Id: item[0].Hostel_Id || "",
-        house_no: sanitize(item[0].Address) || "",
-        street: sanitize(item[0].area) || "",
-        city: sanitize(item[0].city) || "",
-        pincode: sanitize(item[0].pincode) || "",
-        landmark: sanitize(item[0].landmark) || "",
-        state: sanitize(item[0].state) || "",
-
-        file: item[0].profile === "0" ? null : item[0].profile || null,
-      });
-    }
-  };
-
+  
 
 
 
@@ -971,6 +1035,10 @@ function UserListRoomDetail(props) {
 
     return true;
   };
+  
+
+
+
 
 
   const handleSaveUserlist = () => {
@@ -1187,24 +1255,25 @@ function UserListRoomDetail(props) {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+  const initialState = {
+  firstname: "",
+  lastname: "",
+  Phone: "",
+  Email: "",
+  Address: "",
+  house_no: "",
+  street: "",
+  city: "",
+  landmark: "",
+  state: "",
+  pincode: "",
+  hostel_Id: "",
+  countryCode: "",
+  file: null,
+};
 
-  const [initialState, setInitialState] = useState({
-    firstname: "",
-    lastname: "",
-    Phone: "",
-    Email: "",
-    Address: "",
-    house_no: "",
-    street: "",
-    city: "",
-    landmark: "",
-    state: "",
-    pincode: "",
-    hostel_Id: "",
-    countryCode: "",
-    file: null,
-  });
 
+ 
   const [initialStateAssign, setInitialStateAssign] = useState({
     Floor: "",
     Rooms: "",
@@ -1751,7 +1820,7 @@ function UserListRoomDetail(props) {
 
 
   const handleEditBasicDetails = (item) => {
-    console.log("handleEditBasicDetails",item)
+   
     setBasicDetails(item)
 
     setEditBasicDetailsShow(true)
@@ -1787,8 +1856,73 @@ const [stayDetais,setStayDetails] = useState("")
   const handleCloseStayHistory = () => {
     setStayDetailsShow(false)
   }
+ const [imagePreview, setImagePreview] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+
 
   
+const handleImageUpload = async (event) => {
+  const fileImage = event.target.files[0];
+  if (!fileImage) return;
+
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 800,
+    useWebWorker: true,
+  };
+
+  try {
+    const compressedFile = await imageCompression(fileImage, options);
+    const previewURL = URL.createObjectURL(compressedFile);
+    setImagePreview(previewURL);
+
+    
+    let value = props.userData.Name ? props.userData?.Name.split(" ") : ["", ""];
+    setFirstname(value[0]?.trim());
+    setLastname(value[1] ? value[1].trim() : "");
+
+    const phoneNumber = String(props.userData?.Phone || "");
+    const mobileNumber = phoneNumber.slice(-10);
+
+    const payload = {
+      profile: compressedFile, 
+      firstname: value[0]?.trim(),
+      lastname: value[1] ? value[1].trim() : "",
+      Phone: mobileNumber,
+      Email: Email,
+      Address: house_no,
+      area: street,
+      landmark: landmark,
+      city: city,
+      pincode: pincode,
+      state: state_name,
+      AadharNo: AadharNo,
+      PancardNo: PancardNo,
+      licence: licence,
+      HostelName: HostelName,
+      hostel_Id: hostel_Id,
+      Floor: Floor,
+      Rooms: RoomId,
+      Bed: BedId,
+      joining_date: selectedDate,
+      AdvanceAmount: AdvanceAmount,
+      RoomRent: RoomRent,
+      BalanceDue: BalanceDue,
+      PaymentType: PaymentType,
+      paid_advance: paid_advance,
+      paid_rent: paid_rent,
+      ID: props.userData?.ID,
+    };
+
+    dispatch({
+      type: "ADDUSER",
+      payload: payload,
+    });
+  } catch (error) {
+    console.error("Image compression error:", error);
+  }
+};
+
 
   return (
 
@@ -1797,7 +1931,13 @@ const [stayDetais,setStayDetails] = useState("")
         <>
           {customerDetails &&
             customerDetails.map((item) => {
-              const imageUrl = item.profile || Profiles;
+      
+ const isNotBase64 = item.profile && !item.profile.startsWith("data:image");
+  const imageUrl = imagePreview
+    ? imagePreview
+    : item.profile && item.profile !== "null"
+    ? item.profile
+    : Profiles;
               return (
                 <div
                   key={item.ID}
@@ -1845,59 +1985,147 @@ const [stayDetais,setStayDetails] = useState("")
                   >
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
- <div style={{ position: "relative", width: "80px", height: "80px", marginRight: "10px" }}>
-  <img
-    src={imageUrl}
-    alt={item.Name || "Default Profile"}
-    style={{
-      height: "80px",
-      width: "80px",
-      borderRadius: "50%",
-      objectFit: "cover",
-    }}
-    onError={(e) => {
-      e.target.onerror = null;
-      e.target.src = Profiles;
-    }}
-  />
 
-  <div
-    className="edit-overlay"
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      height: "100%",
-      width: "100%",
-      borderRadius: "50%",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      opacity: 0,
-      transition: "opacity 0.3s",
-      cursor: "pointer",
-    }}
-  >
-    <div
-      className="edit-icon-wrapper"
+
+{/* <div
       style={{
-        backgroundColor: "#fff",
-        borderRadius: "50%",
-        padding: "6px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        position: "relative",
+        width: "80px",
+        height: "80px",
+        marginRight: "10px",
       }}
     >
       <img
-      onClick={()=> handleEditUser(item)}
-        src={EditImage}
-        alt="Edit"
-        style={{ width: "20px", height: "20px" }}
+        src={imageUrl}
+        alt={item.Name || "Default Profile"}
+        style={{
+          height: "80px",
+          width: "80px",
+          borderRadius: "50%",
+          objectFit: "cover",
+        }}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = Profiles;
+        }}
+      />
+
+      {isNotBase64 && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: "100%",
+            borderRadius: "50%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            opacity: 1,
+            transition: "opacity 0.3s",
+            cursor: "pointer",
+            background: "rgba(0,0,0,0.3)",
+          }}
+          onClick={() => document.getElementById("fileInput").click()}
+        >
+          <div
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "50%",
+              padding: "6px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={EditImage}
+              alt="Edit"
+              style={{ width: "20px", height: "20px" }}
+            />
+          </div>
+        </div>
+      )}
+
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleImageUpload}
+      />
+    </div> */}
+      <div
+      style={{
+        position: "relative",
+        width: "80px",
+        height: "80px",
+        marginRight: "10px",
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <img
+        src={imageUrl}
+        alt={item.Name || "Default Profile"}
+        style={{
+          height: "80px",
+          width: "80px",
+          borderRadius: "50%",
+          objectFit: "cover",
+        }}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = Profiles;
+        }}
+      />
+
+      {isNotBase64 && isHovered && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: "100%",
+            borderRadius: "50%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            background: "rgba(0,0,0,0.3)",
+            cursor: "pointer",
+          }}
+          onClick={() => document.getElementById("fileInput").click()}
+        >
+          <div
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "50%",
+              padding: "6px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={EditImage}
+              alt="Edit"
+              style={{ width: "20px", height: "20px" }}
+            />
+          </div>
+        </div>
+      )}
+
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleImageUpload}
       />
     </div>
-  </div>
-</div>
+
 
 
                         <div style={{ marginLeft: 10 }}>
@@ -7037,5 +7265,6 @@ UserListRoomDetail.propTypes = {
   setcustomerUser_Id: PropTypes.func.isRequired,
   customerUser_Id: PropTypes.func.isRequired,
   onAddItem: PropTypes.func.isRequired,
+   userData: PropTypes.func.isRequired,
 };
 export default UserListRoomDetail;
