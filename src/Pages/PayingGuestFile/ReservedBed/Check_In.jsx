@@ -27,7 +27,6 @@ function CheckIn({
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
 
-    console.log("state", state)
 
     const customStyles = {
         control: (base) => ({
@@ -204,13 +203,18 @@ function CheckIn({
                                             Check-In Tenant
                                         </Modal.Title>
                                     </div>
-                                    <div>
+                                       <div className="d-flex align-items-center gap-3 mt-1">
                                         <label style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No G3 </label> <vr /> <span style={{
+                                        }}>Room No G3 </label> <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>|</span> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
