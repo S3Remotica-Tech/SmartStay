@@ -24,6 +24,8 @@ import orangedot from "../../Assets/Images/New_images/orangedot.png";
 import reddot from "../../Assets/Images/New_images/reddot.png";
 import bluedot from "../../Assets/Images/New_images/bluedot.png";
 import EmptyBed from './EmptyBed';
+import BedDetails from './ReservedBed/BedDetails';
+import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
 
 
 
@@ -35,7 +37,7 @@ function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
- 
+
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 
@@ -55,7 +57,7 @@ function ParticularHostelDetails(props) {
     setDetails({ item, Room_Id });
   }
 
-  
+
 
 
 
@@ -82,7 +84,7 @@ function ParticularHostelDetails(props) {
     } else {
       setLoader(false)
     }
-  }, [props.hostel_Id, props.floorID,state?.login?.selectedHostel_Id ])
+  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
 
 
@@ -186,7 +188,7 @@ function ParticularHostelDetails(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
- 
+
 
 
   useEffect(() => {
@@ -201,16 +203,16 @@ function ParticularHostelDetails(props) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
- const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(Number(selectedOption.value));
-  setCurrentPage(1);
-};
-const pageSizeOptions = [
-  { value: 4, label: "4" },
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+  const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
+  };
+  const pageSizeOptions = [
+    { value: 4, label: "4" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
 
   const handlePageChange = (pageNumber) => {
@@ -351,11 +353,32 @@ const pageSizeOptions = [
     };
   }, []);
 
+  const [showReservedBed, setShowReservedBed] = useState(false)
+   const [showCheckIn, setShowCheckIn] = useState(false)
+  const handleShowReservedBed = () => {
+    setShowReservedBed(true)
+  }
+
+  const handleCloseReservedBed = () => {
+    setShowReservedBed(false)
+  }
+
+
+
+  const handleShowCheck_In = () => {
+        setShowCheckIn(true)
+       setShowReservedBed(false)
+       
+    }
+
+    const handleCloseCheck_In = () => {
+        setShowCheckIn(false)
+    }
 
   return (
     <>
 
-      <div >
+    <div >
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
           {loader && <div
@@ -762,6 +785,16 @@ const pageSizeOptions = [
         }
 
       </div>
+
+      {/* Reserved Bed */}
+      {
+        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed} handleShowCheck_In={handleShowCheck_In} />
+      }
+
+ {
+                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} />
+            }
+
     </>
   )
 }
