@@ -13,6 +13,7 @@ const ThankYou = () => {
     return () => clearTimeout(timer);
   }, [navigate]);
 
+  
   return (
     <Container className="d-flex align-items-center justify-content-center vh-100">
       <Row className="text-center">
