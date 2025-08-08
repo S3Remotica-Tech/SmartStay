@@ -16,7 +16,7 @@ function FirstPage() {
   let navigate = useNavigate();
 
   const handleStartNow = () => {
-    navigate('/create-account')
+    navigate('/hostel-management-signup')
   }
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);

@@ -19,11 +19,11 @@ const HomePage = () => {
 
 
   const handleSignIn = () => {
-    navigate("/login-Page");
+    navigate("/hostel-management-login");
   };
 
   const handleSignUp = () => {
-    navigate("/create-account");
+    navigate("/hostel-management-signup");
   };
 
   return (

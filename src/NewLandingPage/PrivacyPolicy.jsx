@@ -115,7 +115,7 @@ function Policy() {
       <section>
         <h4 style={sectionHeaderStyle}>Contact Us</h4>
         <p style={paragraphStyle}>
-          If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@s3remotica.com.
+          If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at  dm@s3remotica.com.
         </p>
       </section>
     </div>
