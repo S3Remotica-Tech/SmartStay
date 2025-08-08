@@ -326,24 +326,6 @@ const EmailInputRef = useRef(null);
   
     const handleBed = (selectedOption) => {
       setBed(selectedOption?.value || "");
-  
-      const Bedfilter =
-        state?.UsersList?.roomdetails &&
-        state.UsersList.roomdetails.filter(
-          (u) =>
-            String(u.Hostel_Id) === String(state.login.selectedHostel_Id) &&
-            String(u.Floor_Id) === String(floor) &&
-            String(u.Room_Id) === String(room)
-        );
-      const Roomamountfilter =
-        Bedfilter &&
-        Bedfilter.length > 0 &&
-        Bedfilter[0]?.bed_details.filter(
-          (amount) => String(amount.id) === String(selectedOption?.value)
-        );
-  
-     
-  
       setBedError("");
     };
 
