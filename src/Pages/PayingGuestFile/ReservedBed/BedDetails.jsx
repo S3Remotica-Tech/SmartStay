@@ -15,11 +15,12 @@ import Image from 'react-bootstrap/Image';
 function BedDetails({
     show,
     handleCloseBed,
-    handleShowCheck_In
+    handleShowCheck_In,
+    MakeAsInActive
 }) {
     // const state = useSelector((state) => state);
     // const dispatch = useDispatch();
-   
+
 
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
@@ -47,9 +48,22 @@ function BedDetails({
         };
     }, []);
 
-    const handleCheckin = () =>{
-       handleShowCheck_In(true)
+    const handleCheckin = () => {
+        handleShowCheck_In(true)
     }
+
+
+
+    const handleMakeInActive = () => {
+        MakeAsInActive(true)
+    }
+
+
+
+
+
+
+
 
     return (
         <>
@@ -89,13 +103,18 @@ function BedDetails({
                                             Bed Status
                                         </Modal.Title>
                                     </div>
-                                    <div>
+                                    <div className="d-flex align-items-center gap-3">
                                         <label style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No G3 </label> <vr /> <span style={{
+                                        }}>Room No G3 </label> <span style={{
+                                            fontSize: 14,
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}>|</span> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -163,7 +182,7 @@ function BedDetails({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                onClick={() => { }}
+                                                onClick={() => handleMakeInActive()}
 
                                                 style={{
                                                     padding: "10px",
@@ -245,14 +264,15 @@ function BedDetails({
                     </Modal.Dialog>
                 </Modal>
             </div>
-           
+
         </>
     );
 }
 BedDetails.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
-    handleShowCheck_In:PropTypes.func.isRequired
+    handleShowCheck_In: PropTypes.func.isRequired,
+    MakeAsInActive: PropTypes.func.isRequired
 
 };
 export default BedDetails;

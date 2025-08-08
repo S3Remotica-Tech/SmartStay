@@ -25,6 +25,7 @@ import reddot from "../../Assets/Images/New_images/reddot.png";
 import bluedot from "../../Assets/Images/New_images/bluedot.png";
 import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
+import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
 
 
 
@@ -351,7 +352,9 @@ function ParticularHostelDetails(props) {
   }, []);
 
   const [showReservedBed, setShowReservedBed] = useState(false)
-   const [showCheckIn, setShowCheckIn] = useState(false)
+  const [showCheckIn, setShowCheckIn] = useState(false)
+  const [showInactive, setShowInActive] = useState(false)
+
   const handleShowReservedBed = () => {
     setShowReservedBed(true)
   }
@@ -363,20 +366,31 @@ function ParticularHostelDetails(props) {
 
 
   const handleShowCheck_In = () => {
-        setShowCheckIn(true)
-       setShowReservedBed(false)
-       
-    }
+    setShowCheckIn(true)
+    setShowReservedBed(false)
 
-    const handleCloseCheck_In = () => {
-        setShowCheckIn(false)
-    }
+  }
+
+  const handleCloseCheck_In = () => {
+    setShowCheckIn(false)
+  }
+
+
+  const handleShowMakeAsInActive = () => {
+    setShowInActive(true)
+    setShowReservedBed(false)
+  }
+
+  const handleCloseMakeAsInActive = () => {
+    setShowInActive(false)
+  }
+
 
   return (
     <>
 
       <div >
-        {/* <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button> */}
+        <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button>
 
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
@@ -786,12 +800,17 @@ function ParticularHostelDetails(props) {
 
       {/* Reserved Bed */}
       {
-        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed} handleShowCheck_In={handleShowCheck_In} />
+        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed} handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive} />
       }
 
- {
-                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} />
-            }
+      {
+        showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} />
+      }
+
+      {
+        showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
+      }
+
 
     </>
   )
