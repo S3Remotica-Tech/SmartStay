@@ -131,6 +131,94 @@ setStateName(
 
     };
 
+   
+    useEffect(() => {
+  const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+
+  if (rawAddress) {
+    const parts = rawAddress.split(",").map((part) => part.trim());
+
+    const [
+      streetNumber,
+      streetName,
+      areaPart,
+      landmarkPart,
+      cityPart,
+      statePart,
+      pincodePart,
+    ] = parts.slice(1);
+
+    setHouseNo(`${streetNumber} ${streetName}`);
+    setStreet(areaPart);
+    setLandmark(landmarkPart);
+    setCity(cityPart);
+    setStateName(statePart);
+    setPincode(pincodePart);
+
+    
+    setInitialstate({
+      Address: `${streetNumber} ${streetName}`,
+      area: areaPart,
+      landmark: landmarkPart,
+      city: cityPart,
+      pincode: pincodePart,
+      state: statePart,
+    });
+  } else if (addressDetails) {
+
+    const phoneNumber = String(addressDetails[0].Phone || "");
+    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+    const mobileNumber = phoneNumber.slice(-10);
+
+    if (addressDetails[0].Name) {
+      let value = addressDetails[0].Name.split(" ");
+      setFirstname(value[0]);
+      setLastname(value[1]);
+    } else {
+      setFirstname("");
+      setLastname("");
+    }
+
+    setHouseNo(addressDetails[0].Address || "");
+    setStreet(addressDetails[0].area || "");
+    setLandmark(addressDetails[0].landmark || "");
+    setPincode(addressDetails[0].pincode || "");
+
+    setCity(
+      addressDetails[0].city && addressDetails[0].city !== "undefined"
+        ? addressDetails[0].city
+        : ""
+    );
+
+    setStateName(
+      addressDetails[0].state && addressDetails[0].state !== "undefined"
+        ? addressDetails[0].state
+        : ""
+    );
+    setPhone(mobileNumber);
+    setCountryCode(countryCode);
+
+   
+    setInitialstate({
+      Address: addressDetails[0].Address || "",
+      area: addressDetails[0].area || "",
+      landmark: addressDetails[0].landmark || "",
+      city:
+        addressDetails[0].city && addressDetails[0].city !== "undefined"
+          ? addressDetails[0].city
+          : "",
+      pincode: addressDetails[0].pincode || "",
+      state:
+        addressDetails[0].state && addressDetails[0].state !== "undefined"
+          ? addressDetails[0].state
+          : "",
+    });
+  }
+}, [addressDetails, state.UsersList.KycCustomerDetails?.address]);
+
+
+     
+
 
     const indianStates = [
         { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -192,34 +280,39 @@ const MobileNumber = `${countryCode}${phone}`;
 
     const handleSubmitAddress = ()=>{
          const focusedRef = { current: false };
-const cleanedPincode = String(pincode || "").trim();
-        if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+ const cleanedPincode = String(pincode || "").trim();
 
-      if (!focusedRef.current && pincodeRef?.current) {
-        pincodeRef.current.focus();
-        focusedRef.current = true;
-      }
+  if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+    setPincodeError("Pin Code Must Be Exactly 6 Digits");
 
-     
-    } else {
-      setPincodeError("");
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
     }
 
-          if (!initialState) return;
-
-  const noChanges =
-    houseNo === initialState.Address &&
-    street === initialState.area &&
-    landmark === initialState.landmark &&
-    city === initialState.city &&
-    pincode === initialState.pincode &&
-    stateName === initialState.state;
-
-  if (noChanges) {
-    setFormError("No changes detected.");
-    return;
+    return; 
+  } else {
+    setPincodeError("");
   }
+
+
+if (!initialState) return;
+
+console.log("initialState", initialState); 
+
+const noChanges =
+  houseNo.trim() === (initialState.Address || "").trim() &&
+  street.trim() === (initialState.area || "").trim() &&
+  landmark.trim() === (initialState.landmark || "").trim() &&
+  city.trim() === (initialState.city || "").trim() &&
+  pincode.trim() === (initialState.pincode || "").trim() &&
+  stateName.trim() === (initialState.state || "").trim();
+
+if (noChanges) {
+  setFormError("No changes detected.");
+  return;
+}
+
         const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     };
@@ -256,6 +349,19 @@ const cleanedPincode = String(pincode || "").trim();
       payload: payload,
     });
     }
+
+     useEffect(() => {
+        if (state.UsersList.statusCodeForAddUser === 200) {
+          dispatch({ type: "USERLIST", payload: { hostel_id: addressDetails[0].Hostel_Id } });
+          dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: addressDetails[0].ID } });
+        
+           handleClose()
+      
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_STATUS_CODES" });
+          }, 100);
+        }
+      }, [state.UsersList.statusCodeForAddUser]);
 
 
     return (
