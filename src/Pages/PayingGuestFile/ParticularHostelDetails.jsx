@@ -393,7 +393,7 @@ function ParticularHostelDetails(props) {
     <>
 
 
-    <div >
+   
 
       <div >
         <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button>
