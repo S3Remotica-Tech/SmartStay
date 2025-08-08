@@ -1,48 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, FormControl } from "react-bootstrap";
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { InputGroup } from "react-bootstrap";
+import React, { useState,  } from "react";
+import {  useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
-import imageCompression from "browser-image-compression";
-import Image from "react-bootstrap/Image";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
-import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import Flipbackward from "../../Assets/Images/flip-backward.png";
-import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
-import Store_Icon from "../../Assets/Images/store_icon.png";
-import {
-
-  
-  Row,
-  Col,
-
-  
-} from "react-bootstrap";
+import {Row,Col, } from "react-bootstrap";
 
 
  const PGAssignTenant = ({ show, handleClose  }) => {
 
      const state = useSelector((state) => state);
-      const dispatch = useDispatch();
 
 
     const [activeTab, setActiveTab] = useState("long");
       const [errors, setErrors] = useState([]);
      const [fields, setFields] = useState([]);
-     const [formLoading, setFormLoading] = useState(false)
-      const [loading, setLoading] = useState(false)
         const [advanceAmountError, setAdvanceAmountError] = useState("");
         const [roomrentError, setRoomRentError] = useState("");
       const [RoomRent, setRoomRent] = useState("");   
@@ -1328,66 +1308,14 @@ import {
                   </Modal.Body>
         
         
-                  {formLoading && <div
-                    style={{
-                      position: 'absolute',
-                      top: 100,
-                      right: 0,
-                      bottom: 0,
-                      left: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
-                  </div>}
-        
-        
-                  {loading && <div
-                    style={{
-                      position: 'absolute',
-                      top: 100,
-                      right: 0,
-                      bottom: 0,
-                      left: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
-                  </div>}
-        
-        
                 </Modal.Dialog>
               </Modal>
         </>
     )
+ }
+ PGAssignTenant.propTypes = {
+     show: PropTypes.func.isRequired,
+     handleClose: PropTypes.func.isRequired,
  }
 
  export default PGAssignTenant ; 

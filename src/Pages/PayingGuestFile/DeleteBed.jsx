@@ -24,7 +24,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   const [actionType, setActionType] = useState('addCustomer');
   const [showAddCustomer, setShowAddCustomer] = useState(false)
   const [rolePermission, setRolePermission] = useState("");
-  const [customerAddPermission, setCustomerAddPermission] = useState("")
+  // const [customerAddPermission, setCustomerAddPermission] = useState("")
   const [customerDeletePermission, setCustomerDeletePermission] = useState("")
    const [advanceForm,setAdvanceForm] = useState(false)
    const [user_details , setUserDetails] = useState('')
@@ -44,16 +44,16 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   }, [state.createAccount.accountList]);
 
 
-  useEffect(() => {
-    if (
-      rolePermission[0]?.is_owner === 1 ||
-      rolePermission[0]?.role_permissions[4]?.per_create === 1
-    ) {
-      setCustomerAddPermission("");
-    } else {
-      setCustomerAddPermission("Permission Denied");
-    }
-  }, [rolePermission]);
+  // useEffect(() => {
+  //   if (
+  //     rolePermission[0]?.is_owner === 1 ||
+  //     rolePermission[0]?.role_permissions[4]?.per_create === 1
+  //   ) {
+  //     setCustomerAddPermission("");
+  //   } else {
+  //     setCustomerAddPermission("Permission Denied");
+  //   }
+  // }, [rolePermission]);
 
   useEffect(() => {
     if (
@@ -67,9 +67,9 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   }, [rolePermission]);
 
 
-  const handleAddCustomer = () => {
-    setShowAddCustomer(true);
-  };
+  // const handleAddCustomer = () => {
+  //   setShowAddCustomer(true);
+  // };
 
 
 

@@ -48,6 +48,7 @@ function CustomerCheckout(props) {
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+      setFile(null)
       setTimeout(() => {
         dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID } });
       }, 200);

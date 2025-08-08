@@ -159,7 +159,7 @@ function BookingModal(props  ) {
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setFormLoading(false)
-      handleAddClose();
+
       setJoingDateErrmsg('');
       dispatch({
         type: "GET_BOOKING_LIST",
@@ -285,11 +285,10 @@ const EmailInputRef = useRef(null);
       setFloor(floorId);
       setRoom("")
       setBed("");
-      setRentAmount("");
       setfloorError("");
       dispatch({
         type: "ROOMDETAILS",
-        payload: { floor_Id: floorId, hostel_Id: hostalId },
+        payload: { floor_Id: floorId, hostel_Id: state.login.selectedHostel_Id },
       });
     };
   
@@ -306,11 +305,10 @@ const EmailInputRef = useRef(null);
       const selectedRoomId = selectedOption?.value;
       setRoom(selectedRoomId);
       setBed("");
-      setRentAmount("");
   
       if (selectedRoomId) {
         const payload = {
-          hostel_id: hostalId,
+          hostel_id: state.login.selectedHostel_Id,
           floor_id: floor,
           room_id: selectedRoomId,
         };
@@ -333,7 +331,7 @@ const EmailInputRef = useRef(null);
         state?.UsersList?.roomdetails &&
         state.UsersList.roomdetails.filter(
           (u) =>
-            String(u.Hostel_Id) === String(hostalId) &&
+            String(u.Hostel_Id) === String(state.login.selectedHostel_Id) &&
             String(u.Floor_Id) === String(floor) &&
             String(u.Room_Id) === String(room)
         );
@@ -344,12 +342,9 @@ const EmailInputRef = useRef(null);
           (amount) => String(amount.id) === String(selectedOption?.value)
         );
   
-      if (Roomamountfilter.length !== 0) {
-        setRentAmount(Roomamountfilter[0]?.bed_amount);
-      }
+     
   
       setBedError("");
-      setRentError("");
     };
 
 
@@ -1220,6 +1215,7 @@ const EmailInputRef = useRef(null);
                 options={indianStates}
                 onChange={(selectedOption) => {
                   setStateName(selectedOption?.value);
+                  setStateNameError("")
                 }}
                 onInputChange={(inputValue, { action }) => {
                   if (action === "input-change") {
@@ -2328,6 +2324,8 @@ const EmailInputRef = useRef(null);
 BookingModal.propTypes = {
   handleClose: PropTypes.func.isRequired,
   handleCloseAddBooking:  PropTypes.func.isRequired,
+  add_bookingshow:  PropTypes.func.isRequired,
+  assignBooking : PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired

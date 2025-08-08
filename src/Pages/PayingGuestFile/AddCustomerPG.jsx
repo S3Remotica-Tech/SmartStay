@@ -1307,6 +1307,7 @@ function AddCustomer({  show, handleClose   }) {
                                 ref={stateRef}
                                 onChange={(selectedOption) => {
                                   setStateName(selectedOption?.value);
+                                  setStateNameError("")
                                 }}
                                 onInputChange={(inputValue, { action }) => {
                                   if (action === "input-change") {
@@ -1459,6 +1460,7 @@ function AddCustomer({  show, handleClose   }) {
 AddCustomer.propTypes = {
   currentItem: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   setShowAddCustomer: PropTypes.func.isRequired,
