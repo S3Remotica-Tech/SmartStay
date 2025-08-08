@@ -12,8 +12,8 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteRoom from './DeleteRoom';
 import DeleteBed from './DeleteBed';
 import OccupiedCustomer from './OccupiedCustomer'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+// import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+// import Tooltip from 'react-bootstrap/Tooltip';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
@@ -23,6 +23,7 @@ import Select from "react-select";
 import orangedot from "../../Assets/Images/New_images/orangedot.png";
 import reddot from "../../Assets/Images/New_images/reddot.png";
 import bluedot from "../../Assets/Images/New_images/bluedot.png";
+import EmptyBed from './EmptyBed';
 
 
 
@@ -38,7 +39,7 @@ function ParticularHostelDetails(props) {
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 
-
+  const [emptybed, setEmptyBed] = useState(false)
 
 
   useEffect(() => {
@@ -282,17 +283,18 @@ const pageSizeOptions = [
   }
 
 
-  const handleDeleteBedConfirmation = (bed, room) => {
 
 
-    if (bed.isfilled === 0) {
-      setShowDeleteBed(true)
+  const handleclickBed = (bed, room) => {
+       if (bed.isfilled === 0) {
+      setEmptyBed(true)
       setDeleteBedDetails({ bed, room })
-    } else {
-      setOccupiedCustomer(true)
       setOccupiedCustomerDetails({ bed: bed, room: room })
-    }
+       }
+  }
 
+  const handlecloseBed = () => {
+    setEmptyBed(false)
   }
 
 
@@ -493,17 +495,14 @@ const pageSizeOptions = [
                 <div key={bed.id} className='col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center'>
                   <div className='d-flex flex-column align-items-center w-100'>
                     <div style={{ position: "relative", width: 34, height: 41 }}>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip id={`tooltip-${bed.id}`}>{bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}</Tooltip>}
-                      >
+                      
                         <img className='mt-1'
                           src={bed.isfilled ? Green : White}
                           alt='bedd'
                           style={{ height: 41, width: 34, cursor: "pointer" }}
-                          onClick={() => handleDeleteBedConfirmation(bed, room)}
+                          onClick={() => handleclickBed(bed, room)}
                         />
-                      </OverlayTrigger>
+                     
                     </div>
                     <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
                       {bed.bed_no}
@@ -756,6 +755,10 @@ const pageSizeOptions = [
         }
         {
           occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
+        }
+
+        {
+          emptybed && <EmptyBed  show= {emptybed} handleClose={handlecloseBed} currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails} />
         }
 
       </div>
