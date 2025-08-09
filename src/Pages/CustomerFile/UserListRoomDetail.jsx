@@ -30,7 +30,8 @@ import upload from "../../Assets/Images/New_images/upload.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Edit, Trash } from "iconsax-react";
-import docDown from "../../Assets/Images/New_images/doc_download.png";
+import docDown from "../../Assets/Images/New_images/downdoc.png";
+import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
@@ -57,6 +58,7 @@ import EditBasicDetails from "./EditBasicDetails";
 import EditAddressDetails from "./EditAddressDetails";
 import EditStayDetails from "./EditStayDetails";
 import StayHistory from "./StayHistory";
+
 
 
 
@@ -117,7 +119,7 @@ function UserListRoomDetail(props) {
   const [landmarkError, setLandmarkError] = useState("");
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
-  const [state_nameError, setStateNameError] = useState("");
+  // const [state_nameError, setStateNameError] = useState("");
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   const [contactEdit, setContactEdit] = useState("");
@@ -136,6 +138,8 @@ function UserListRoomDetail(props) {
   const [editStayDetailsShow, setEditStayDetailsShow] = useState(false)
   const [stayDetailsShow, setStayDetailsShow] = useState(false)
   const [fields, setFields] = useState([]);
+  const [showDocModal, setShowDocModal] = useState(false);
+   const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
 
 
 
@@ -143,6 +147,7 @@ function UserListRoomDetail(props) {
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
+
 
   const [formLoading, setFormLoading] = useState(false)
 
@@ -157,7 +162,7 @@ function UserListRoomDetail(props) {
     setAdvanceDueDate("")
   }
 
-
+console.log('customerDetails',customerDetails)
   const indianStates = [
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
@@ -240,17 +245,167 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
   }, [])
+  useEffect(()=>{
+ 
+      const sanitize = (value) => {
+        return value === null ||
+          value === undefined ||
+          value === "null" ||
+          value === "undefined"
+          ? ""
+          : value;
+      };
+
+      const phoneNumber = String(props.userData[0]?.Phone || "");
+      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+      const mobileNumber = phoneNumber.slice(-10);
+      setBednum(props.userData);
+      seteditBed("editbeddet");
+      setcustomerAsignBed(false);
+     
+
+      setId(props.userData[0]?.ID);
+      setFile(props.userData[0]?.profile === "0" ? null : props.userData[0]?.profile);
+
+      let value = props.userData[0]?.Name ? props.userData[0]?.Name.split(" ") : ["", ""];
+      setFirstname(value[0]?.trim());
+      setLastname(value[1] ? value[1].trim() : "");
+
+      setAddress(props.userData[0]?.Address || "");
+      setAadharNo(props.userData[0]?.AadharNo || "");
+      setPancardNo(props.userData[0]?.PancardNo || "");
+      setLicence(props.userData[0]?.licence || "");
+      setPhone(mobileNumber);
+      setCountryCode(countryCode);
+      setEmail(props.userData[0]?.Email || "");
+      setHostelName(props.userData[0]?.HostelName || "");
+      setHostel_Id(props.userData[0]?.Hostel_Id || "");
+      setFloor(props.userData[0]?.Floor || "");
+      setRooms(props.userData[0]?.Rooms || "");
+      setRoomId(props.userData[0]?.room_id || "");
+      setBedId(props.userData[0]?.hstl_Bed || "");
+      setSelectedDate(props.userData[0]?.user_join_date || "");
+      setAdvanceAmount(props.userData[0]?.AdvanceAmount || "");
+      setRoomRent(props.userData[0]?.RoomRent || "");
+      setPaymentType(props.userData[0]?.PaymentType || "");
+      setBalanceDue(props.userData[0]?.BalanceDue || "");
+      setPaidAdvance(props.userData[0]?.paid_advance || "");
+      setPaidrent(props.userData[0]?.paid_rent || "");
+
+      setHouseNo(sanitize(props.userData[0]?.Address));
+      setStreet(sanitize(props.userData[0]?.area));
+      setLandmark(sanitize(props.userData[0]?.landmark));
+      setCity(sanitize(props.userData[0]?.city));
+      setPincode(sanitize(props.userData[0]?.pincode));
+      setStateName(sanitize(props.userData[0]?.state));
+
+    
+    
+
+},[])
+
+const [ProfilePic,setProfilepic] = useState(false)
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
+  
+    setProfilepic(true)
+    setFile(state.UsersList?.KycCustomerDetails?.pic)
+
       setTimeout(() => {
         dispatch({ type: "REMOVEKYC_CUSTOMER_DETAILS" });
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerDetails]);
+
+const isFirstRun = useRef(true); 
+  const MobileNumber = `${countryCode}${props.userData?.Phone}`;
+ 
+useEffect(() => {
+  if (isFirstRun.current) {
+    isFirstRun.current = false;
+    return;
+  }
+
+  
+  if (props.userData?.profile && !file) {
+    return;
+  }
+
+  if (
+    ProfilePic &&
+    file &&
+    props.userData?.ID &&
+    props.userData?.Name &&
+    props.userData?.Phone
+  ) {
+    const name = props.userData?.Name || "";
+    const value = name.trim().split(" ");
+    setFirstname(value[0] || "");
+    setLastname(value[1] || "");
+
+    // const phoneNumber = String(props.userData?.Phone || "");
+    // const mobileNumber = phoneNumber.slice(-10);
+
+    const payload = {
+      profile: file,
+      firstname: value[0] || "",
+      lastname: value[1] || "",
+      Phone: MobileNumber,
+      Email: Email,
+      Address: props.userData?.Address,
+      area: props.userData?.area,
+      landmark: props.userData?.landmark,
+      city: props.userData?.city,
+      pincode: props.userData?.pincode,
+      state: props.userData?.state,
+      AadharNo: AadharNo,
+      PancardNo: PancardNo,
+      licence: licence,
+      HostelName: HostelName,
+      hostel_Id: hostel_Id,
+      Floor: props.userData?.Floor,
+      Rooms: props.userData?.Rooms,
+      Bed: props.userData?.Bed,
+      joining_date: selectedDate,
+      AdvanceAmount: AdvanceAmount,
+      RoomRent: RoomRent,
+      BalanceDue: BalanceDue,
+      PaymentType: PaymentType,
+      paid_advance: paid_advance,
+      paid_rent: paid_rent,
+      ID: props.userData?.ID,
+    };
+
+    dispatch({
+      type: "ADDUSER",
+      payload: payload,
+    });
+  }
+}, [ProfilePic, file, props.userData]);
+
+
+
+
+
+  useEffect(() => {
+  const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
+
+  if (
+    base64Pic &&
+    base64Pic !== "null" &&
+    base64Pic !== undefined &&
+    base64Pic !== null
+  ) {
+    setFile(`data:image/jpeg;base64,${base64Pic}`);
+   
+  }
+}, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
       dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
+     
+      
       setTimeout(() => {
         dispatch({ type: "REMOVE_KYC_VERIFY_NEW" });
       }, 100);
@@ -428,6 +583,8 @@ function UserListRoomDetail(props) {
             amount: entry.amount || "",
             showInput: isCustom,
             customReason: isCustom ? entry.reason : "",
+            id:entry.id || ""
+            
           };
         });
 
@@ -454,88 +611,14 @@ function UserListRoomDetail(props) {
     }
   };
 
-  const MobileNumber = `${countryCode}${Phone}`;
 
 
 
 
 
 
-  const handleEditUser = (item) => {
 
-    if (item[0].ID) {
-      const sanitize = (value) => {
-        return value === null ||
-          value === undefined ||
-          value === "null" ||
-          value === "undefined"
-          ? ""
-          : value;
-      };
-
-      const phoneNumber = String(item[0].Phone || "");
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      const mobileNumber = phoneNumber.slice(-10);
-      setBednum(item);
-      seteditBed("editbeddet");
-      setcustomerAsignBed(false);
-      setcustomerdetailShow(true);
-      setFormShow(true);
-
-      setId(item[0].ID);
-      setFile(item[0].profile === "0" ? null : item[0].profile);
-
-      let value = item[0].Name ? item[0].Name.split(" ") : ["", ""];
-      setFirstname(value[0].trim());
-      setLastname(value[1] ? value[1].trim() : "");
-
-      setAddress(item[0].Address || "");
-      setAadharNo(item[0].AadharNo || "");
-      setPancardNo(item[0].PancardNo || "");
-      setLicence(item[0].licence || "");
-      setPhone(mobileNumber);
-      setCountryCode(countryCode);
-      setEmail(item[0].Email || "");
-      setHostelName(item[0].HostelName || "");
-      setHostel_Id(item[0].Hostel_Id || "");
-      setFloor(item[0].Floor || "");
-      setRooms(item[0].Rooms || "");
-      setRoomId(item[0].room_id || "");
-      setBedId(item[0].hstl_Bed || "");
-      setSelectedDate(item[0].user_join_date || "");
-      setAdvanceAmount(item[0].AdvanceAmount || "");
-      setRoomRent(item[0].RoomRent || "");
-      setPaymentType(item[0].PaymentType || "");
-      setBalanceDue(item[0].BalanceDue || "");
-      setPaidAdvance(item[0].paid_advance || "");
-      setPaidrent(item[0].paid_rent || "");
-
-      setHouseNo(sanitize(item[0].Address));
-      setStreet(sanitize(item[0].area));
-      setLandmark(sanitize(item[0].landmark));
-      setCity(sanitize(item[0].city));
-      setPincode(sanitize(item[0].pincode));
-      setStateName(sanitize(item[0].state));
-
-      setInitialState({
-        firstname: value[0].trim(),
-        lastname: value[1] ? value[1].trim() : "",
-        Phone: item[0].Phone || "",
-        Email: item[0].Email || "",
-        Address: item[0].Address || "",
-        hostel_Id: item[0].Hostel_Id || "",
-        house_no: sanitize(item[0].Address) || "",
-        street: sanitize(item[0].area) || "",
-        city: sanitize(item[0].city) || "",
-        pincode: sanitize(item[0].pincode) || "",
-        landmark: sanitize(item[0].landmark) || "",
-        state: sanitize(item[0].state) || "",
-
-        file: item[0].profile === "0" ? null : item[0].profile || null,
-      });
-    }
-  };
-
+  
 
 
 
@@ -551,6 +634,7 @@ function UserListRoomDetail(props) {
             amount: entry.amount || "",
             showInput: isCustom,
             customReason: isCustom ? entry.reason : "",
+            id:entry.id
           };
         });
 
@@ -865,29 +949,29 @@ function UserListRoomDetail(props) {
 
   const handleCloseEditcustomer = () => {
     setFormShow(false);
-    setFormError("");
-    setfloorError("");
-    setRoomError("");
-    setBedError("");
-    setAdvanceAmountError("");
-    setRoomRentError("");
-    setHostelIdError("");
-    setFirstnameError("");
-    setEmailError("");
-    setPhoneError("");
-    setHouseNo("");
-    setStreet("");
-    setCity("");
-    setLandmark("");
-    setPincode("");
-    setStateName("");
-    setStateNameError("");
-    setPincodeError("");
-    setCityError("");
-    setLandmarkError("");
-    setStreetError("");
-    setHouse_NoError("");
-    setDateError("");
+    // setFormError("");
+    // setfloorError("");
+    // setRoomError("");
+    // setBedError("");
+    // setAdvanceAmountError("");
+    // setRoomRentError("");
+    // setHostelIdError("");
+    // setFirstnameError("");
+    // setEmailError("");
+    // setPhoneError("");
+    // setHouseNo("");
+    // setStreet("");
+    // setCity("");
+    // setLandmark("");
+    // setPincode("");
+    // setStateName("");
+    // setStateNameError("");
+    // setPincodeError("");
+    // setCityError("");
+    // setLandmarkError("");
+    // setStreetError("");
+    // setHouse_NoError("");
+    // setDateError("");
     setActiveRow(null);
     setEmailErrorMessage("");
     setJoingDateErrmsg("")
@@ -971,6 +1055,10 @@ function UserListRoomDetail(props) {
 
     return true;
   };
+  
+
+
+
 
 
   const handleSaveUserlist = () => {
@@ -1187,24 +1275,25 @@ function UserListRoomDetail(props) {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+  const initialState = {
+  firstname: "",
+  lastname: "",
+  Phone: "",
+  Email: "",
+  Address: "",
+  house_no: "",
+  street: "",
+  city: "",
+  landmark: "",
+  state: "",
+  pincode: "",
+  hostel_Id: "",
+  countryCode: "",
+  file: null,
+};
 
-  const [initialState, setInitialState] = useState({
-    firstname: "",
-    lastname: "",
-    Phone: "",
-    Email: "",
-    Address: "",
-    house_no: "",
-    street: "",
-    city: "",
-    landmark: "",
-    state: "",
-    pincode: "",
-    hostel_Id: "",
-    countryCode: "",
-    file: null,
-  });
 
+ 
   const [initialStateAssign, setInitialStateAssign] = useState({
     Floor: "",
     Rooms: "",
@@ -1349,18 +1438,54 @@ function UserListRoomDetail(props) {
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
 
+const normalizeFields = (current, initial) => {
+  const currentMap = current.reduce((map, item) => {
+    map[item.id] = { ...item, amount: String(item.amount).trim(), isDeleted: !!item.isDeleted };
+    return map;
+  }, {});
 
-    const normalizeFields = (arr) =>
-      arr.map(({ reason_name, amount, customReason, showInput }) => ({
-        reason_name,
-        amount: String(amount).trim(),
-        customReason,
-        showInput,
-      }));
+  return initial.map((initialItem) => {
+    const currentItem = currentMap[initialItem.id];
+    if (currentItem) {
+      return {
+        reason_name: currentItem.reason_name,
+        amount: currentItem.amount,
+        customReason: currentItem.customReason,
+        showInput: currentItem.showInput,
+        id: currentItem.id,
+        isDeleted: !!currentItem.isDeleted,
+      };
+    } else {
+      // It was removed => mark as deleted
+      return {
+        reason_name: initialItem.reason_name,
+        amount: String(initialItem.amount).trim(),
+        customReason: initialItem.customReason,
+        showInput: initialItem.showInput,
+        id: initialItem.id,
+        isDeleted: true,
+      };
+    }
+  }).concat(
+    // Add new items that didn’t exist in initial list
+    current.filter(item => !initial.some(init => init.id === item.id)).map(item => ({
+      reason_name: item.reason_name,
+      amount: String(item.amount).trim(),
+      customReason: item.customReason,
+      showInput: item.showInput,
+      id: item.id,
+      isDeleted: !!item.isDeleted,
+    }))
+  );
+};
 
-    const isReasonChanged =
-      JSON.stringify(normalizeFields(fields)) !==
-      JSON.stringify(normalizeFields(initialReasonFields));
+
+
+const normalizedCurrent = normalizeFields(fields, initialReasonFields);
+const normalizedInitial = normalizeFields(initialReasonFields, initialReasonFields);
+
+const isReasonChanged =
+  JSON.stringify(normalizedCurrent) !== JSON.stringify(normalizedInitial);
 
 
     if (!isChangedBed && !isReasonChanged) {
@@ -1389,35 +1514,70 @@ function UserListRoomDetail(props) {
       ? dayjs(selectedDate).format("YYYY-MM-DD")
       : null;
 
+const formattedReasons = fields.map((item) => {
+  let reason_name = "";
 
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
+  if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    reason_name = item.customReason || item["custom Reason"] || "";
+  } else {
+    reason_name = item.reason || item.reason_name || "";
+  }
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
+  const error = { reason: "", amount: "" };
 
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
+  if (!item.isDeleted) {
+    if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+      error.amount = "Please enter amount";
+      hasReasonAmountError = true;
+    }
+
+    if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+      error.reason = "Please enter reason";
+      hasReasonAmountError = true;
+    }
+  }
+
+  newErrors.push(error);
+
+  return {
+    reason_name,
+    amount: item.amount || "",
+    showInput: !!item.showInput,
+    id: item.id || "",
+    isDeleted: item.isDeleted ? true : undefined, // only include if true
+  };
+});
+
+    // const formattedReasons = fields.map((item) => {
+    //   let reason_name = "";
+
+    //   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    //     reason_name = item.customReason || item["custom Reason"] || "";
+    //   } else {
+    //     reason_name = item.reason || item.reason_name || "";
+    //   }
+
+    //   const error = { reason: "", amount: "" };
+    //   if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+    //     error.amount = "Please enter amount";
+    //     hasReasonAmountError = true;
+    //   }
 
 
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
+    //   if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+    //     error.reason = "Please enter reason";
+    //     hasReasonAmountError = true;
+    //   }
 
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
+    //   newErrors.push(error);
+    //   return {
+    //     reason_name,
+    //     amount: item.amount || "",
+    //     showInput: !!item.showInput,
+    //     id:item.id || ""
+    //   };
+    // });
+    console.log("formattedReasons",formattedReasons)
 
     setErrors(newErrors)
 
@@ -1475,35 +1635,70 @@ function UserListRoomDetail(props) {
       ? dayjs(selectedDate).format("YYYY-MM-DD")
       : null;
 
+const formattedReasons = fields.map((item) => {
+  let reason_name = "";
 
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
+  if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    reason_name = item.customReason || item["custom Reason"] || "";
+  } else {
+    reason_name = item.reason || item.reason_name || "";
+  }
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
+  const error = { reason: "", amount: "" };
 
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
+  if (!item.isDeleted) {
+    if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+      error.amount = "Please enter amount";
+      hasReasonAmountError = true;
+    }
+
+    if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+      error.reason = "Please enter reason";
+      hasReasonAmountError = true;
+    }
+  }
+
+  newErrors.push(error);
+
+  return {
+    reason_name,
+    amount: item.amount || "",
+    showInput: !!item.showInput,
+    id: item.id || "",
+    isDeleted: item.isDeleted ? true : undefined, // only include if true
+  };
+});
 
 
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
+    // const formattedReasons = fields.map((item) => {
+    //   let reason_name = "";
 
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
+    //   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    //     reason_name = item.customReason || item["custom Reason"] || "";
+    //   } else {
+    //     reason_name = item.reason || item.reason_name || "";
+    //   }
+
+    //   const error = { reason: "", amount: "" };
+    //   if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+    //     error.amount = "Please enter amount";
+    //     hasReasonAmountError = true;
+    //   }
+
+
+    //   if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+    //     error.reason = "Please enter reason";
+    //     hasReasonAmountError = true;
+    //   }
+
+    //   newErrors.push(error);
+    //   return {
+    //     reason_name,
+    //     amount: item.amount || "",
+    //     showInput: !!item.showInput,
+    //     id:item.id || ""
+    //   };
+    // });
 
     setErrors(newErrors)
 
@@ -1700,6 +1895,18 @@ function UserListRoomDetail(props) {
     });
   };
 
+   const [showModal, setShowModal] = useState(false);
+
+  const handleViewKYC = () => {
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+ 
+
+
   useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
@@ -1740,18 +1947,33 @@ function UserListRoomDetail(props) {
   };
 
 
-  const handleRemoveField = (index) => {
-    const updatedFields = [...fields];
-    updatedFields.splice(index, 1);
-    setFields(updatedFields);
+  // const handleRemoveField = (index) => {
+  //   const updatedFields = [...fields];
+  //   updatedFields.splice(index, 1);
+  //   setFields(updatedFields);
+  // };
+
+
+const handleRemoveField = (index) => {
+  const updatedFields = [...fields];
+  updatedFields[index] = {
+    ...updatedFields[index],
+    isDeleted: true,
   };
+  setFields(updatedFields);
+};
+
+
+
+
+
   const [basicDetails,setBasicDetails] = useState("")
 
 
 
 
   const handleEditBasicDetails = (item) => {
-    console.log("handleEditBasicDetails",item)
+   
     setBasicDetails(item)
 
     setEditBasicDetailsShow(true)
@@ -1787,8 +2009,79 @@ const [stayDetais,setStayDetails] = useState("")
   const handleCloseStayHistory = () => {
     setStayDetailsShow(false)
   }
+ const [imagePreview, setImagePreview] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const MobileNumberupload = `${props.userData?.Phone}`;
+
+const handleImageUpload = async (event) => {
+  const fileImage = event.target.files[0];
+  if (!fileImage) return;
+
+
+  event.target.value = "";
+
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 800,
+    useWebWorker: true,
+  };
+
+  try {
+    const compressedFile = await imageCompression(fileImage, options);
+    const previewURL = URL.createObjectURL(compressedFile);
+    setImagePreview(previewURL);
+
+    let value = props.userData.Name ? props.userData?.Name.split(" ") : ["", ""];
+    setFirstname(value[0]?.trim());
+    setLastname(value[1] ? value[1].trim() : "");
+
+    // const phoneNumber = String(props.userData?.Phone || "");
+    // const mobileNumber = phoneNumber.slice(-10);
+
+    const payload = {
+      profile: compressedFile,
+      firstname: value[0]?.trim(),
+      lastname: value[1] ? value[1].trim() : "",
+      Phone: MobileNumberupload,
+      Email: Email,
+      Address: house_no,
+      area: street,
+      landmark: landmark,
+      city: city,
+      pincode: pincode,
+      state: state_name,
+      AadharNo: AadharNo,
+      PancardNo: PancardNo,
+      licence: licence,
+      HostelName: HostelName,
+      hostel_Id: hostel_Id,
+      Floor: Floor,
+      Rooms: RoomId,
+      Bed: BedId,
+      joining_date: selectedDate,
+      AdvanceAmount: AdvanceAmount,
+      RoomRent: RoomRent,
+      BalanceDue: BalanceDue,
+      PaymentType: PaymentType,
+      paid_advance: paid_advance,
+      paid_rent: paid_rent,
+      ID: props.userData?.ID,
+    };
+
+    dispatch({
+      type: "ADDUSER",
+      payload: payload,
+    });
+  } catch (error) {
+    console.error("Image compression error:", error);
+  }
+};
+
 
   
+
+
 
   return (
 
@@ -1797,7 +2090,21 @@ const [stayDetais,setStayDetails] = useState("")
         <>
           {customerDetails &&
             customerDetails.map((item) => {
-              const imageUrl = item.profile || Profiles;
+      
+
+const kycPic = state.UsersList?.KycCustomerDetails?.pic;
+
+
+const imageUrl = imagePreview
+  ? imagePreview
+  : kycPic
+  ? kycPic.startsWith("data:image")
+    ? kycPic
+    : `data:image/jpeg;base64,${kycPic}`
+  : item.profile
+  ? item.profile
+  : Profiles;
+
               return (
                 <div
                   key={item.ID}
@@ -1845,7 +2152,88 @@ const [stayDetais,setStayDetails] = useState("")
                   >
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
- <div style={{ position: "relative", width: "80px", height: "80px", marginRight: "10px" }}>
+
+
+
+      {/* <div
+      style={{
+        position: "relative",
+        width: "80px",
+        height: "80px",
+        marginRight: "10px",
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <img
+        src={imageUrl}
+        alt={item.Name || "Default Profile"}
+        style={{
+          height: "80px",
+          width: "80px",
+          borderRadius: "50%",
+          objectFit: "cover",
+        }}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = Profiles;
+        }}
+      />
+
+      {isNotBase64 && isHovered && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: "100%",
+            borderRadius: "50%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            background: "rgba(0,0,0,0.3)",
+            cursor: "pointer",
+          }}
+          onClick={() => document.getElementById("fileInput").click()}
+        >
+          <div
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "50%",
+              padding: "6px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={EditImage}
+              alt="Edit"
+              style={{ width: "20px", height: "20px" }}
+            />
+          </div>
+        </div>
+      )}
+
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleImageUpload}
+      />
+    </div> */}
+<div
+  style={{
+    position: "relative",
+    width: "80px",
+    height: "80px",
+    marginRight: "10px",
+  }}
+  onMouseEnter={() => setIsHovered(true)}
+  onMouseLeave={() => setIsHovered(false)}
+>
   <img
     src={imageUrl}
     alt={item.Name || "Default Profile"}
@@ -1861,43 +2249,59 @@ const [stayDetais,setStayDetails] = useState("")
     }}
   />
 
-  <div
-    className="edit-overlay"
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      height: "100%",
-      width: "100%",
-      borderRadius: "50%",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      opacity: 0,
-      transition: "opacity 0.3s",
-      cursor: "pointer",
-    }}
-  >
+  {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
     <div
-      className="edit-icon-wrapper"
       style={{
-        backgroundColor: "#fff",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        height: "100%",
+        width: "100%",
         borderRadius: "50%",
-        padding: "6px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        background: "rgba(0,0,0,0.3)",
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        if (!state.UsersList?.KycCustomerDetails?.pic) {
+          document.getElementById("fileInput").click();
+        }
       }}
     >
-      <img
-      onClick={()=> handleEditUser(item)}
-        src={EditImage}
-        alt="Edit"
-        style={{ width: "20px", height: "20px" }}
-      />
+      <div
+        style={{
+          backgroundColor: "#fff",
+          borderRadius: "50%",
+          padding: "6px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img
+          src={EditImage}
+          alt="Edit"
+          style={{ width: "20px", height: "20px" }}
+        />
+      </div>
     </div>
-  </div>
+  )}
+
+  <input
+    id="fileInput"
+    type="file"
+    accept="image/*"
+    style={{ display: "none" }}
+    onChange={handleImageUpload}
+  />
 </div>
+
+
+
+
+
 
 
                         <div style={{ marginLeft: 10 }}>
@@ -3016,35 +3420,7 @@ const [stayDetais,setStayDetails] = useState("")
                                         </span>
                                       </p>
                                     </div>
-                                    {/* <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        RoomRent
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <img
-                                          src={Money}
-                                          alt="money"
-                                          width={16}
-                                          height={16}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          ₹ {customerDetails[0].RoomRent}
-                                        </span>
-                                      </p>
-                                    </div> */}
+                                   
                                   </div>
 
                                     <div className="row">
@@ -3115,134 +3491,14 @@ const [stayDetais,setStayDetails] = useState("")
                                         </span>
                                       </p>
                                     </div>
-                                    {/* <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        RoomRent
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <img
-                                          src={Money}
-                                          alt="money"
-                                          width={16}
-                                          height={16}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          ₹ {customerDetails[0].RoomRent}
-                                        </span>
-                                      </p>
-                                    </div> */}
+                                    
                                   </div>
 
-                                  {/* <div className="row">
-                                    <div className="col-sm-12">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Address
-                                      </p>
-
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "flex-end",
-                                          gap: "10px",
-                                          marginTop: "-8px",
-                                        }}
-                                      >
-                                        <House
-                                          size="18"
-                                          color="#1E45E1"
-                                          style={{ marginBottom: "2px" }}
-                                        />
-
-
-
-                                        {(
-                                          customerDetails[0]?.Address ||
-                                          customerDetails[0]?.area ||
-                                          customerDetails[0]?.landmark ||
-                                          (customerDetails[0]?.city && customerDetails[0].city !== "undefined" && customerDetails[0].city !== "null" && customerDetails[0].city !== 0) ||
-                                          customerDetails[0]?.pincode ||
-                                          (customerDetails[0]?.state && customerDetails[0].state !== "undefined" && customerDetails[0].state !== "null" && customerDetails[0].state !== 0)
-                                        ) ? (
-                                          <div
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              lineHeight: "1.5em",
-                                            }}
-                                          >
-                                            {(customerDetails[0]?.Address || customerDetails[0]?.area) && (
-                                              <>
-                                                {customerDetails[0]?.Address ? `${customerDetails[0].Address}, ` : ""}
-                                                {customerDetails[0]?.area ?? ""}
-                                                <br />
-                                              </>
-                                            )}
-
-                                            {(customerDetails[0]?.landmark ||
-                                              customerDetails[0]?.city ||
-                                              customerDetails[0]?.pincode ||
-                                              customerDetails[0]?.state) && (
-                                                <>
-                                                  {customerDetails[0]?.landmark ? `${customerDetails[0].landmark}, ` : ""}
-
-                                                  {(customerDetails[0]?.city &&
-                                                    customerDetails[0].city !== "undefined" &&
-                                                    customerDetails[0].city !== "null" &&
-                                                    customerDetails[0].city !== 0) ? `${customerDetails[0].city}, ` : ""}
-
-                                                  {customerDetails[0]?.pincode ? `${customerDetails[0].pincode} - ` : ""}
-
-                                                  {(customerDetails[0]?.state &&
-                                                    customerDetails[0].state !== "undefined" &&
-                                                    customerDetails[0].state !== "null" &&
-                                                    customerDetails[0].state !== 0) ? customerDetails[0].state : ""}
-                                                </>
-                                              )}
-                                          </div>
-                                        ) : (
-                                          <div
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              lineHeight: "1.5em",
-                                            }}
-                                          >
-                                            No address found
-                                          </div>
-                                        )}
-
-
-
-
-                                      </div>
-                                    </div>
-                                  </div> */}
                                 </div>
                               </div>
                             </div>
 
-                            <div className="col-lg-12 col-md-12">
+                            <div className="col-md-12 mb-3 mb-md-0 mt-3">
                               <div
                                 className="card"
                                 style={{
@@ -3258,7 +3514,7 @@ const [stayDetais,setStayDetails] = useState("")
                                     backgroundColor: "transparent",
                                     display: "flex",
                                     alignItems: "center",
-                                    borderBottom: "1px solid #e0e0e0",
+                                    borderBottom: "transparent",
                                     marginBottom: "15px",
                                   }}
                                 >
@@ -3270,7 +3526,7 @@ const [stayDetais,setStayDetails] = useState("")
                                       lineHeight: "40px",
                                     }}
                                   >
-                                    Document Details
+                                    Document
                                   </div>
                                 </div>
 
@@ -3281,18 +3537,8 @@ const [stayDetais,setStayDetails] = useState("")
                                     justifyContent: "space-between",
                                   }}
                                 >
-                                  <div className="col-6 text-start">
-                                    <label
-                                      style={{
-                                        display: "block",
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        marginBottom: "10px",
-                                        fontFamily: "Gilroy"
-                                      }}
-                                    >
-                                      Aadhar Card
-                                    </label>
+                                  <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}>
+                                   
 
 
                                     <button
@@ -3300,10 +3546,12 @@ const [stayDetais,setStayDetails] = useState("")
                                       disabled={props.customerAddPermission}
                                       style={{
                                         borderRadius: "10px",
-                                        padding: "10px 20px",
+                                        padding: "5px 10px",
                                         fontSize: "14px",
                                         border: "1px solid #D9D9D9",
-                                        fontFamily: "Gilroy"
+                                        fontFamily: "Gilroy",
+                                       
+                                        
                                       }}
                                       onClick={() => handleUploadClick(aadharInputRef)}
                                     >
@@ -3332,12 +3580,118 @@ const [stayDetais,setStayDetails] = useState("")
                                           src={docDown}
                                           alt="Download Aadhar"
                                           onClick={handleDownloadKYC}
-                                          style={{ width: 20, height: 20, cursor: "pointer", marginLeft: 200, marginTop: "-70px" }}
+                                          style={{ width: 20, height: 20, cursor: "pointer", marginLeft: 170, marginTop: "-70px" }}
+                                        />
+
+                                         <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                            onClick={handleViewKYC}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            marginTop: "-70px" 
+                                          }}
                                         />
                                       </div>
                                     )}
 
+<Modal show={showModal} onHide={handleClose} size="md" centered>
+  <Modal.Header closeButton>
+    <Modal.Title>KYC Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <div
+      style={{
+        borderRadius: 10,
+        padding: 20,
+        textAlign: "center",
+        fontFamily: "Gilroy",
+      }}
+    >
+      <div style={{ marginBottom: 15 }}>
+        <img
+          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+          alt="KYC"
+          style={{
+            height: 120,
+            width: 120,
+            borderRadius: "25%",
+            border: "3px solid #f0f0f0",
+            objectFit: "cover",
+          }}
+        />
+      </div>
 
+      <h5
+        style={{
+          fontWeight: "bold",
+          fontSize: 18,
+          marginBottom: 20,
+          color: "#222",
+        }}
+      >
+        {state.UsersList?.KycCustomerDetails?.name || "****"}
+      </h5>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 15 }}
+      >
+        <i
+          className="bi bi-geo-alt"
+          style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
+        ></i>
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Address<br />
+          {/* <span>
+            {state.UsersList?.KycCustomerDetails?.address ||
+              "No address provided"}
+          </span> */}
+          <div style={{
+  maxWidth: "400px",
+  wordBreak: "break-word",
+  whiteSpace: "pre-wrap"
+}}>
+  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
+</div>
+        </p>
+      </div>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 5 }}
+      >
+        <img
+          src={adhar}
+          alt="Aadhaar"
+          style={{ width: 20, height: 20, marginRight: 10 }}
+        />
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Aadhaar Number<br />
+          <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+        </p>
+      </div>
+    </div>
+  </Modal.Body>
+</Modal>
 
 
 
@@ -3409,7 +3763,8 @@ const [stayDetais,setStayDetails] = useState("")
 
 
 
-                                    {advanceDetail[0]?.doc1 && (
+                                    {/* {advanceDetail[0]?.doc1 && (
+                                      <>
                                       <a
                                         href={advanceDetail[0]?.doc1}
                                         target="_blank"
@@ -3424,8 +3779,55 @@ const [stayDetais,setStayDetails] = useState("")
                                             marginLeft: "10px",
                                           }}
                                         />
+                                       
                                       </a>
-                                    )}
+                                        <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                            onClick={() => setShowDocModal(true)}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                          }}
+                                        />
+                                        </>
+                                    )} */}
+                                    {advanceDetail[0]?.doc1 && (
+  <>
+    
+    <a
+      href={advanceDetail[0]?.doc1}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src={docDown}
+        alt="Download Document"
+        style={{
+          width: 20,
+          height: 20,
+          marginLeft: "10px",
+          cursor: "pointer",
+        }}
+      />
+    </a>
+
+ 
+    <img
+      src={viewdoc}
+      alt="View Document"
+      onClick={() => setShowDocModal(true)}
+      style={{
+        width: 20,
+        height: 20,
+        marginLeft: "10px",
+        cursor: "pointer",
+      }}
+    />
+  </>
+)}
+
 
 
                                     {uploadError && (
@@ -3445,26 +3847,112 @@ const [stayDetais,setStayDetails] = useState("")
                                     )}
                                   </div>
 
+{/* {showDocModal && (
+  <div
+    className="modal fade show"
+    style={{
+      display: "block",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      zIndex: 1050,
+    }}
+    onClick={() => setShowDocModal(false)}
+  >
+    <div
+      className="modal-dialog modal-lg"
+      style={{
+        margin: "100px auto",
+        background: "#fff",
+        padding: "20px",
+        borderRadius: "10px",
+        position: "relative",
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          border: "none",
+          background: "transparent",
+          fontSize: "20px",
+        }}
+        onClick={() => setShowDocModal(false)}
+      >
+        &times;
+      </button>
+
+      <img
+        src={advanceDetail[0]?.doc1}
+        alt="Document Preview"
+        style={{ width: "100%", height: "auto", maxHeight: "60vh", objectFit: "contain" }}
+      />
+    </div>
+  </div>
+)} */}
+<Modal
+  show={showDocModal}
+  onHide={() => setShowDocModal(false)}
+  size="lg"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px", // optional fallback height
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModal(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+
+    <img
+      src={advanceDetail[0]?.doc1}
+      alt="Document Preview"
+      style={{
+        maxWidth: "100%",
+        maxHeight: "70vh",
+        height: "auto",
+        width: "auto",
+        borderRadius: "10px",
+        objectFit: "contain",
+      }}
+    />
+  </Modal.Body>
+</Modal>
 
 
-                                  <div className="col-6 text-start">
-                                    <label
-                                      style={{
-                                        display: "block",
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        marginBottom: "10px",
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-                                      Other Document
-                                    </label>
+
+
+                                  <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}>
+                                  
                                     <button
                                       className="btn "
                                       disabled={props.customerAddPermission}
                                       style={{
                                         borderRadius: "10px",
-                                        padding: "10px 20px",
+                                        padding: "5px 10px",
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
                                         border: "1px solid #D9D9D9",
@@ -3493,6 +3981,7 @@ const [stayDetais,setStayDetails] = useState("")
 
                                     {advanceDetail &&
                                       advanceDetail[0]?.doc2 && (
+                                        <>
                                         <img
                                           src={docDown}
                                           style={{
@@ -3509,8 +3998,68 @@ const [stayDetais,setStayDetails] = useState("")
                                             )
                                           }
                                         />
-                                      )}
+                                         <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                           onClick={() => setShowDocModaldoc2(true)}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            
+                                          }}
+                                        />
+                                        </>
+                                      )} 
                                   </div>
+
+
+                                  <Modal
+  show={showDocModaldoc2}
+  onHide={() => setShowDocModaldoc2(false)}
+  size="lg"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px", // optional fallback height
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModaldoc2(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+
+    <img
+      src={advanceDetail[0]?.doc2}
+      alt="Document Preview"
+      style={{
+        maxWidth: "100%",
+        maxHeight: "70vh",
+        height: "auto",
+        width: "auto",
+        borderRadius: "10px",
+        objectFit: "contain",
+      }}
+    />
+  </Modal.Body>
+</Modal>
                                 </div>
                               </div>
                             </div>
@@ -3981,7 +4530,12 @@ const [stayDetais,setStayDetails] = useState("")
                                                 borderRadius: "10px",
                                                 marginTop: "10px",
                                               }}
-                                              onClick={handlegenerateForm}
+                                              // onClick={handlegenerateForm}
+                                              onClick={() => {
+    if (!advanceDetail[0]?.inv_id) {
+      handlegenerateForm();
+    }
+  }}
                                             >
                                             <img src={!advanceDetail[0]?.inv_id ? whiteaddcircle : EyeIcon}alt="plusicon" className="me-1"/> {!advanceDetail[0]?.inv_id ? "Generate" : "Invoice"} 
                                             </Button>
@@ -4128,60 +4682,30 @@ const [stayDetais,setStayDetails] = useState("")
                                           </p>
                                         </div>
 
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
-                                          <div
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Maintenance
-                                          </div>
-                                          <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              paddingTop:7
-                                            }}
-                                          >
-                                             {/* ₹
-                                           {
-                                              customerDetails[0]
-                                                ?.AdvanceAmount
-                                            } */}
-                                          </p>
-                                        </div>
+                                       {customerDetails[0]?.reasonData?.map((item, index) => (
+  <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
+    <div
+      style={{
+        fontSize: 12,
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      {item.reason?.charAt(0).toUpperCase() + item.reason.slice(1)}
+    </div>
+    <p
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        paddingTop: 7,
+      }}
+    >
+      ₹ {item.amount}
+    </p>
+  </div>
+))}
 
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
-                                          <strong
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              textAlign: "start",
-                                              paddingRight: 15,
-                                              
-                                            }}
-                                          >
-                                           Document Fee
-                                          </strong>
-                                           <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              paddingTop:7
-                                            }}
-                                          >
-                                            {/* ₹
-                                           {
-                                              customerDetails[0]
-                                                ?.AdvanceAmount
-                                            } */}
-                                          </p>
-                                        </div>
                                       </div>
                        </div>
                        
@@ -4485,6 +5009,7 @@ const [stayDetais,setStayDetails] = useState("")
                             </div>
                           </div>
                         </div>
+                        
 
                         {kycdetailsForm === true ? (
                           <UserListKyc
@@ -5304,7 +5829,7 @@ const [stayDetais,setStayDetails] = useState("")
                                           }}
                                         />
                                       </Form.Group>
-                                      {!state_name && state_nameError && (
+                                      {/* {!state_name  && (
                                         <div style={{ color: "red" }}>
                                           <MdError
                                             style={{
@@ -5323,7 +5848,7 @@ const [stayDetais,setStayDetails] = useState("")
                                             {state_nameError}
                                           </span>
                                         </div>
-                                      )}
+                                      )} */}
                                     </div>
                                   </div>
                                   {formError && (
@@ -6013,7 +6538,7 @@ const [stayDetais,setStayDetails] = useState("")
                                       )}
                                     </div>
                                   </div>
-                                  <fieldset disabled>
+                                  {/* <fieldset disabled> */}
 
                                     <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
@@ -6055,7 +6580,7 @@ const [stayDetais,setStayDetails] = useState("")
 
 
 
-                                      {fields.map((item, index) => {
+                                     {fields.filter(f => !f.isDeleted).map((item, index) => {
 
                                         const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
 
@@ -6245,7 +6770,7 @@ const [stayDetais,setStayDetails] = useState("")
 
 
                                     </div>
-                                  </fieldset>
+                                  {/* </fieldset> */}
 
 
                                 </div>
@@ -6288,7 +6813,7 @@ const [stayDetais,setStayDetails] = useState("")
                                 )}
                                 <Button
                                   className="w-100"
-                                  disabled
+                                 
                                   style={{
                                     backgroundColor: "#1E45E1",
                                     fontWeight: 600,
@@ -7037,5 +7562,6 @@ UserListRoomDetail.propTypes = {
   setcustomerUser_Id: PropTypes.func.isRequired,
   customerUser_Id: PropTypes.func.isRequired,
   onAddItem: PropTypes.func.isRequired,
+   userData: PropTypes.func.isRequired,
 };
 export default UserListRoomDetail;

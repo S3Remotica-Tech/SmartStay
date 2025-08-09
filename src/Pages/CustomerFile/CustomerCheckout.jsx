@@ -9,6 +9,8 @@ import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
+import Profiles from "../../Assets/Images/New_images/profile-picture.png";
+import Image from "react-bootstrap/Image";
 
 function CustomerCheckout(props) {
 
@@ -23,6 +25,7 @@ function CustomerCheckout(props) {
   const [checkoUtDateError, setCheckOutDateError] = useState('')
   const [joiningError, setJoiningError] = useState('')
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
+  const [file, setFile] = useState(null);
 
   const handleCloseCheckout = () => {
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
@@ -45,6 +48,7 @@ function CustomerCheckout(props) {
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+      setFile(null)
       setTimeout(() => {
         dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID } });
       }, 200);
@@ -153,6 +157,7 @@ useEffect(() => {
                   <Modal.Header
                     style={{ marginBottom: "10px", position: "relative", paddingRight: 1, paddingLeft: 1 }}
                   >
+                    <div style={{display:'flex', flexDirection:'column'}}>
                     <div
                       style={{
                         fontSize: 20,
@@ -160,8 +165,23 @@ useEffect(() => {
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Add Check-Out
+                   Move to Notice Period
                     </div>
+                           {dateDifference !== null && (
+                        <div className="col-12 mt-1">
+                          <p
+                            style={{
+                              fontSize: 15,
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              color: "#1E45E1",
+                            }}
+                          >
+                             Notice Days* : {dateDifference}  
+                          </p>
+                        </div>
+                      )}
+</div>
                     <CloseCircle size="24" color="#000" onClick={handleCloseCheckout}
                       style={{ cursor: 'pointer' }} />
                   </Modal.Header>
@@ -170,6 +190,110 @@ useEffect(() => {
                   <ModalBody className="p-0">
 
                     <div className="row mb-3">
+
+                      <div className="d-flex align-items-center">
+                                                                    <div
+                                                                      className=""
+                                                                      style={{
+                                                                        height: 60,
+                                                                        width: 60,
+                                                                        position: "relative",
+                                                                      }}
+                                                                    >
+                                                                      <Image
+                                                                        src={
+                                                                          file
+                                                                            ? typeof file === "string"
+                                                                              ? file
+                                                                              : URL.createObjectURL(file)
+                                                                            : Profiles
+                                                                        }
+                                                                        alt="filee"
+                                                                        roundedCircle
+                                                                        style={{ height: 60, width: 60 }}
+                                                                      />
+                                
+                                                                      {/* <label htmlFor="imageInput" className="">
+                                                                        <Image
+                                                                          src={Plus}
+                                                                          roundedCircle
+                                                                          style={{
+                                                                            height: 20,
+                                                                            width: 20,
+                                                                            position: "absolute",
+                                                                            top: 90,
+                                                                            left: 80,
+                                                                            transform: "translate(-50%, -50%)",
+                                                                          }}
+                                                                        />
+                                                                        <input
+                                                                          type="file"
+                                                                          accept="image/*"
+                                                                          multiple
+                                                                          className="sr-only"
+                                                                          id="imageInput"
+                                                                          onChange={handleImageChange}
+                                                                          style={{ display: "none" }}
+                                                                        />
+                                                                      </label> */}
+                                                                    </div>
+                                                                    <div style={{display:'flex', flexDirection:'column'}}>
+                                                                    <div className="ps-3">
+                                                                      <div>
+                                                                        <label
+                                                                          style={{
+                                                                            fontSize: 16,
+                                                                            fontWeight: 500,
+                                                                            color: "#222222",
+                                                                            fontFamily: "Gilroy",
+                                                                          }}
+                                                                        >
+                                                                          Suresh
+                                                                        </label>
+                                                                      </div>
+                                                                     
+                                                                    </div>
+
+                                                                       <div className="d-flex flex-wrap gap-2 ms-2">
+                                                                        
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            background: "#FFEFCF",
+                            padding: "6px 12px",
+                            borderRadius: "60px",
+                            fontFamily: "Gilroy",
+                            fontSize: 12,
+                            color: "#222",
+                            fontWeight: 500,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {/* {props.complaints?.floor_name} */}Ground Floor
+                        </div>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            background: "#FFE0D9",
+                            padding: "6px 12px",
+                            borderRadius: "60px",
+                            fontFamily: "Gilroy",
+                            fontSize: 12,
+                            color: "#222",
+                            fontWeight: 500,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {/* {props.complaints?.room_name} - B{props.complaints?.bedName} */}G005 - B03
+                        </div>
+
+
+                      </div>
+                      </div>
+                                                                  </div>
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-2" controlId="requestDate">
@@ -277,7 +401,7 @@ useEffect(() => {
 
 
                       <div className='col-lg-12 col-md-12 col-sm-12 colxs-12'>
-                        <label htmlFor="comments" className='mt-2' style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Comments</label>
+                        <label htmlFor="comments" className='mt-2' style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>Reason(Comments)</label>
                         <input
                           type="text"
                           name="comments"
@@ -292,20 +416,7 @@ useEffect(() => {
                       </div>
 
 
-                      {dateDifference !== null && (
-                        <div className="col-12 mt-3">
-                          <p
-                            style={{
-                              fontSize: 15,
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              color: "#1E45E1",
-                            }}
-                          >
-                            ( Notice Days* - {dateDifference} days )
-                          </p>
-                        </div>
-                      )}
+               
 
                     </div>
 
@@ -361,20 +472,39 @@ useEffect(() => {
                     </div>
                   )}
 
+
+                <div className="d-flex justify-content-end">
                   <Button
-                    className="w-100"
+                    style={{
+                      backgroundColor: "white",
+                      fontWeight: 400,
+                      height: 40,
+                      borderRadius: 10,
+                      fontSize: 16,
+                      fontFamily: "Gilroy",
+                      color:'rgba(75, 75, 75, 1)',
+                      border:'1px solid white'
+                    }}
+                    onClick={handleCloseCheckout}
+                  >
+                   Cancel
+                  </Button>
+
+                  <Button
                     style={{
                       backgroundColor: "#1E45E1",
-                      fontWeight: 600,
-                      height: 50,
-                      borderRadius: 12,
+                      fontWeight: 500,
+                      height: 40,
+                      borderRadius: 10,
                       fontSize: 16,
-                      fontFamily: "Montserrat",
+                      fontFamily: "Gilroy",
                     }}
                     onClick={handleCheckOutCustomer}
                   >
-                    Move Check-Out
+                     CheckOut
                   </Button>
+                  </div>
+
                 </div>
 
               </div>

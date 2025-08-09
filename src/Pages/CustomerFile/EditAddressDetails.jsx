@@ -132,6 +132,36 @@ setStateName(
     };
 
 
+     useEffect(() => {
+        const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+    
+        if (rawAddress) {
+          const parts = rawAddress.split(",").map((part) => part.trim());
+    
+          const [
+            streetNumber,
+            streetName,
+            areaPart,
+            landmarkPart,
+            _repeatedLandmark,
+            cityPart,
+            statePart,
+            pincodePart,
+          ] = parts.slice(1); 
+     console.log("streetNumber",_repeatedLandmark)
+          setHouseNo(`${streetNumber} ${streetName}`);
+          setStreet(areaPart);
+          setLandmark(landmarkPart);
+          setCity(cityPart);
+          setStateName(statePart);
+          setPincode(pincodePart);
+        }
+      }, [state.UsersList.KycCustomerDetails?.address]);
+
+    
+     
+
+
     const indianStates = [
         { value: "Tamil Nadu", label: "Tamil Nadu" },
         { value: "Andhra Pradesh", label: "Andhra Pradesh" },
@@ -192,19 +222,20 @@ const MobileNumber = `${countryCode}${phone}`;
 
     const handleSubmitAddress = ()=>{
          const focusedRef = { current: false };
-const cleanedPincode = String(pincode || "").trim();
-        if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+ const cleanedPincode = String(pincode || "").trim();
 
-      if (!focusedRef.current && pincodeRef?.current) {
-        pincodeRef.current.focus();
-        focusedRef.current = true;
-      }
+  if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+    setPincodeError("Pin Code Must Be Exactly 6 Digits");
 
-     
-    } else {
-      setPincodeError("");
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
     }
+
+    return; 
+  } else {
+    setPincodeError("");
+  }
 
           if (!initialState) return;
 
@@ -256,6 +287,19 @@ const cleanedPincode = String(pincode || "").trim();
       payload: payload,
     });
     }
+
+     useEffect(() => {
+        if (state.UsersList.statusCodeForAddUser === 200) {
+          dispatch({ type: "USERLIST", payload: { hostel_id: addressDetails[0].Hostel_Id } });
+          dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: addressDetails[0].ID } });
+        
+           handleClose()
+      
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_STATUS_CODES" });
+          }, 100);
+        }
+      }, [state.UsersList.statusCodeForAddUser]);
 
 
     return (

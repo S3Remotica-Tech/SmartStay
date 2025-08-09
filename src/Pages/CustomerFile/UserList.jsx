@@ -133,11 +133,15 @@ function UserList(props) {
   const [billsAddshow, setBillsAddShow] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
+  const [add_bookingshow, setAddBookingsShow] = useState(false) 
+
+
+
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
-        setLoading(true)
+        setLoading(false)
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1373,7 +1377,7 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    if (state.UsersList?.NoUserListStatusCode === 201) {
+    if (state.UsersList?.NoUserListStatusCode) {
       setLoading(false)
       setUserDetails([]);
       setFilteredUsers([]);
@@ -1389,17 +1393,37 @@ useEffect(() => {
   const [hostelName, sethosName] = useState("");
   const [customerUser_Id, setcustomerUser_Id] = useState("");
   const [advanceForm, setAdvanceForm] = useState(false);
+  const [userDatafull,setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
     setHostelIds(userData.Hostel_Id);
-
+setUserData(userData)
     setId(userData.ID);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setRoomDetail(true);
     setUserList(false);
+
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
+
+   const handleAddBookings = (userData) => {
+    setHostelIds(userData.Hostel_Id);
+
+    setId(userData.ID);
+    sethosName(userData.HostelName);
+    setcustomerUser_Id(userData.User_Id);
+    setAddBookingsShow(true);
+    dispatch({ type: "UPDATE_USERSLIST_FALSE" });
+  };
+
+  const handleCloseAddBooking = () => {
+    setAddBookingsShow(false);
+    setUserList(true);
+  }
+
+
+
   const handleShowAddBed = (u) => {
     setEdit("Edit");
     handleMenuClick();
@@ -2490,10 +2514,10 @@ useEffect(() => {
                       fontFamily: "Gilroy",
                       color: value === "1" ? "#222222" : "#4B4B4B",
                     }}
-                    label="Check-In"
+                    label="Tenants"
                     value="1"
                   />
-                  <Tab
+                  {/* <Tab
                     className="tab-label"
                     style={{
                       textTransform: "capitalize",
@@ -2504,7 +2528,7 @@ useEffect(() => {
                     }}
                     label="Bookings"
                     value="2"
-                  />
+                  /> */}
                   <Tab
                     className="tab-label"
                     style={{
@@ -3296,6 +3320,54 @@ useEffect(() => {
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
+<div
+                                                  className="d-flex align-items-center gap-2"
+                                                  style={{
+                                                    backgroundColor: "#F9F9F9",
+                                                    cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                    opacity: customerEditPermission ? 0.6 : 1,
+                                                    padding: "8px 12px",
+                                                    borderRadius: 6,
+                                                    transition: "background 0.2s ease-in-out",
+                                                  }}
+                                                  onClick={() => {
+                                                    if (!customerEditPermission) {
+                                                      handleAddBookings(user);
+                                                    }
+                                                  }}
+                                                  onMouseEnter={(e) => {
+                                                    if (!customerEditPermission) {
+                                                      e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                    }
+                                                  }}
+                                                  onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={Edit}
+                                                    alt="Edit"
+                                                    style={{
+                                                      width: 16,
+                                                      height: 16,
+                                                      filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                    }}
+                                                  />
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily: "Gilroy, sans-serif",
+                                                      color: customerEditPermission ? "#888888" : "#1E45E1",
+                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      margin: 0,
+                                                    }}
+                                                  >
+                                                    Add Booking
+                                                  </label>
+                                                </div>
+
                                                 <div
                                                   className="d-flex align-items-center gap-2"
                                                   style={{
@@ -3735,6 +3807,7 @@ useEffect(() => {
       {roomDetail === true ? (
         <UserListRoomDetail
           onEditItem={handleEditItem}
+          userData={userDatafull}
           onAddItem={handleAddItems}
           onDeleteItem={handleDeleteItem}
           onEditRoomItem={handleEditRoomReading}
@@ -5106,6 +5179,11 @@ useEffect(() => {
           setUniqostel_Id={setUniqostel_Id}
         />
       )}
+
+
+      {
+        add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking}/>
+      }
     </div>
   );
 }

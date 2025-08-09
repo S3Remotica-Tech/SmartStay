@@ -264,14 +264,16 @@ function CheckOut(props) {
   const [conformEdit, setConformEdit] = useState(false)
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
-  const [dueAmountDetails, setDueAmountDetails] = useState("");
+
 
   const handleEdit = (checkout) => {
     setActiveDotsId(null);
     setcheckoutForm(true);
+    setConfirmForm(false);
     setCheckOutEdit(checkout);
     setCheckoutEditAction(true)
     setCheckoutAction(false)
+    setCheckOutDetails('')
   };
   const handleConformEdit = () => {
     setConfirmForm(true);
@@ -279,61 +281,102 @@ function CheckOut(props) {
   }
 
 
-  
 
 
   const handleConfirmCheckout = (checkout) => {
-    
-    
-    setCheckOutDetails(checkout)
-   }
-
-
-
-  useEffect(()=>{
-    if(CheckOutDetails){
- if (CheckOutDetails.ID) {
+    if (checkout.ID) {
       dispatch({
         type: "GETCONFIRMCHECKOUTCUSTOMER",
-        payload: { id: CheckOutDetails.ID, hostel_id: CheckOutDetails.Hostel_Id },
+        payload: { id: checkout.ID, hostel_id: checkout.Hostel_Id },
       });
     }
+    setCheckOutDetails(checkout)
+  }
 
 
-    const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter((invoice) => invoice.balance > 0);
-    const hasBalance =
-      Array.isArray(validInvoices) &&
-      validInvoices.some((invoice) => invoice.balance > 0);
-    let totaldueamount = 0;
-    if (validInvoices && hasBalance) {
-      totaldueamount = validInvoices.reduce(
-        (total, invoice) => total + invoice.balance,
-        0
-      );
+
+
+
+
+  // useEffect(() => {
+  //   if (state.UsersList.statusCodegetConfirmCheckout) {
+  //     const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter((invoice) => invoice.balance > 0);
+  //     const deduction_details = state?.UsersList?.nonRefundable_details?.filter((deduction) => deduction.amount > 0);
+  //     const hasBalance =
+  //       Array.isArray(validInvoices) &&
+  //       validInvoices.some((invoice) => invoice.balance > 0);
+  //     let totaldueamount = 0;
+  //     if (validInvoices && hasBalance) {
+  //       totaldueamount = validInvoices.reduce(
+  //         (total, invoice) => total + invoice.balance,
+  //         0
+  //       );
+  //     }
+
+  //     setDueAmountDetails(totaldueamount)
+  //     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
+
+
+  //     setDueCustomerShow(true)
+
+
+  //     // if (totaldueamount > 0) {
+  //     //   setDueCustomerShow(true)
+  //     //   setConfirmForm(false);
+  //     // } else {
+  //     //   setActiveDotsId(null);
+  //     //   setConfirmForm(true);
+  //     //   setCheckoutAction(true)
+  //     //   setCheckoutEditAction(false)
+  //     //   setConformEdit(false)
+  //     //   setDueCustomerShow(false)
+  //     // }
+  //   }
+  //   setTimeout(() => {
+  //     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  //   }, 500);
+
+  // }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
+
+
+useEffect(() => {
+  if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
+            setDueCustomerShow(true);
+
+  }
+
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  }, 500);
+}, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
+
+
+
+
+  useEffect(() => {
+    if (state.UsersList.statusCodeForDueCustomer === 200) {
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setDueCustomerShow(false)
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
+      }, 500);
     }
-    
 
-    setDueAmountDetails(totaldueamount)
+  }, [state.UsersList.statusCodeForDueCustomer])
 
 
-    if (totaldueamount > 0) {
-      setDueCustomerShow(true)
-    } else {
-      setActiveDotsId(null);
-      setConfirmForm(true);
-      setCheckoutAction(true)
-      setCheckoutEditAction(false)
-      setConformEdit(false)
+
+  useEffect(() => {
+    if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
+      setDueCustomerShow(false)
+
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
+      }, 1000)
     }
-    }
 
-  },[CheckOutDetails])
-
-
-
-
-
-
+  }, [state.UsersList.statusCodeAddConfirmCheckout])
 
 
   const handleCloseDuePopup = () => {
@@ -1388,7 +1431,7 @@ function CheckOut(props) {
 
 
         {
-          DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} dueAmountDetails={dueAmountDetails} />
+          DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup}  />
         }
 
 
