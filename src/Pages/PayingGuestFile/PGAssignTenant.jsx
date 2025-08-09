@@ -1501,6 +1501,7 @@ import dayjs from 'dayjs';
  PGAssignTenant.propTypes = {
      show: PropTypes.func.isRequired,
      handleClose: PropTypes.func.isRequired,
+     currentItem: PropTypes.func.isRequired,
  }
 
  export default PGAssignTenant ; 
