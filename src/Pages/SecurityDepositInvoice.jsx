@@ -1836,51 +1836,36 @@ if (templateTheme && templateTheme.trim() !== '') {
         background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` ,}}>
          <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-2 mb-lg-0">
-             <img src={securityDepositInvoiceTemplate?.logo_url ? securityDepositInvoiceTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
+             <img src={securityDepositInvoiceTemplate?.logo_url ? securityDepositInvoiceTemplate?.logo_url :  Logo} alt="logo" style={{ height: 40, width: 50 }} />
              <div>
-               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositInvoiceTemplate?.Name}</div>
-               <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'10px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
              
              <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
+                             <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositInvoiceTemplate?.Name}</div>
+
 
              <>
-             <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
-  {[
-   
-    securityDepositInvoiceTemplate?.Address,
-
-
-    [
-      securityDepositInvoiceTemplate?.area,
-      securityDepositInvoiceTemplate?.landmark,
-      securityDepositInvoiceTemplate?.city,
+                                                             <div style={{ fontSize: 9, fontWeight: 600, fontFamily: "Gilroy" }}>
+    {[
+      [securityDepositInvoiceTemplate?.Address, securityDepositInvoiceTemplate?.area, securityDepositInvoiceTemplate?.landmark]
+        .filter(Boolean)
+        .join(", "),
+  
+      [securityDepositInvoiceTemplate?.city, securityDepositInvoiceTemplate?.state]
+        .filter(Boolean)
+        .join(", ") + (securityDepositInvoiceTemplate?.pin_code ? ` - ${securityDepositInvoiceTemplate.pin_code}` : "")
     ]
-      .filter(Boolean)
-      .join(", "),
-
-
-    [
-      securityDepositInvoiceTemplate?.state,
-     
-     securityDepositInvoiceTemplate?.pin_code
-    ]
-      .filter(Boolean)
-      .join(", "),
-  ]
-   
-    .filter(line => line && line.trim() !== "")
-   
-    .map((line, idx) => (
-      <React.Fragment key={idx}>
-        {line}
-        <br />
-      </React.Fragment>
-    ))}
-</div>
+      .filter(line => line && line.trim() !== "")
+      .map((line, idx) => (
+        <React.Fragment key={idx}>
+          {line}
+          <br />
+        </React.Fragment>
+      ))}
+  </div>
 
             
        </>
@@ -1989,17 +1974,12 @@ if (templateTheme && templateTheme.trim() !== '') {
              <tbody>
       
            <tr  style={{ borderBottom: "1px solid #dee2e6" , color: 'rgba(188, 188, 188, 1))' }}>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>1</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Room Rental</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 8000</td>
+             <td style={{ fontSize:'10px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>1</td>
+             <td style={{ fontSize:'10px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Test-Hostel -005</td>
+             <td style={{ fontSize:'10px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Advance</td>
+             <td style={{ fontSize:'10px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 8000</td>
            </tr>
-             <tr  style={{ borderBottom: "1px solid #dee2e6" }}>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>2</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Electricity</td>
-             <td style={{ fontSize:'9px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 950</td>
-           </tr>
+        
         
        </tbody>
        
@@ -2009,24 +1989,24 @@ if (templateTheme && templateTheme.trim() !== '') {
          <div className="d-flex flex-wrap align-items-start">
         
        
-         <div className="ms-auto" style={{ minWidth: '200px' }}>
-          <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax </span>
-             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>{tax}%</span>
-           </div>
-           <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax Amount</span>
-             <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: {taxAmount}</span>
-           </div>
-           <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 8950.00 </span>
-           </div>
-           <div className="d-flex justify-content-between fw-bold py-2">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-             <span  style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: {totalAmount}</span>
-           </div>
-         </div>
+          
+       <div className="mt-3 ms-auto me-5" style={{ minWidth: '200px' }}>
+     
+        <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payable Amount</span>
+                          <span style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 8000</span>
+                        </div>
+                        <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Non Refundable</span>
+                          <span className="me-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs.0</span>
+                        </div>
+                           <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Refundable Amount</span>
+                          <span style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 8000</span>
+                        </div>
+                      
+                     
+                      </div>
        </div>
        
        </div>
@@ -2245,50 +2225,35 @@ if (templateTheme && templateTheme.trim() !== '') {
             : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` ,}}>
          <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-3 mb-lg-0">
-             <img src={securityDepositInvoiceTemplate.logo_url ? securityDepositInvoiceTemplate.logo_url :  Logo} alt="logo" style={{ height: 40, width: 40 }} />
+             <img src={securityDepositInvoiceTemplate.logo_url ? securityDepositInvoiceTemplate.logo_url :  Logo} alt="logo" style={{ height: 64, width: 74 }} />
              <div>
-               <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> { securityDepositInvoiceTemplate?.Name }</div>
-               <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
              </div>
            </div>
        
            <div>
            
-             <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+             <div style={{  fontWeight: 600, fontFamily: "Gilroy" }}>
+                             <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> { securityDepositInvoiceTemplate?.Name }</div>
+
              <>
-                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
-  {[
-   
-    securityDepositInvoiceTemplate?.Address,
-
-
-    [
-      securityDepositInvoiceTemplate?.area,
-      securityDepositInvoiceTemplate?.landmark,
-      securityDepositInvoiceTemplate?.city,
+                                                              <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+    {[
+      [securityDepositInvoiceTemplate?.Address, securityDepositInvoiceTemplate?.area, securityDepositInvoiceTemplate?.landmark]
+        .filter(Boolean)
+        .join(", "),
+  
+      [securityDepositInvoiceTemplate?.city, securityDepositInvoiceTemplate?.state]
+        .filter(Boolean)
+        .join(", ") + (securityDepositInvoiceTemplate?.pin_code ? ` - ${securityDepositInvoiceTemplate.pin_code}` : "")
     ]
-      .filter(Boolean)
-      .join(", "),
-
-
-    [
-      securityDepositInvoiceTemplate?.state,
-     
-      securityDepositInvoiceTemplate?.pin_code
-    ]
-      .filter(Boolean)
-      .join(", "),
-  ]
-   
-    .filter(line => line && line.trim() !== "")
-   
-    .map((line, idx) => (
-      <React.Fragment key={idx}>
-        {line}
-        <br />
-      </React.Fragment>
-    ))}
-</div>
+      .filter(line => line && line.trim() !== "")
+      .map((line, idx) => (
+        <React.Fragment key={idx}>
+          {line}
+          <br />
+        </React.Fragment>
+      ))}
+  </div>
              {/* {securityDepositInvoiceTemplate.Address ? securityDepositInvoiceTemplate.Address : ''}, {securityDepositInvoiceTemplate.area ? securityDepositInvoiceTemplate.area : ''},  <br />
              {securityDepositInvoiceTemplate.city ? securityDepositInvoiceTemplate.city : ''}, {securityDepositInvoiceTemplate.state ? securityDepositInvoiceTemplate.state : ''} - 600 056 */}
       
@@ -2399,16 +2364,11 @@ if (templateTheme && templateTheme.trim() !== '') {
       
            <tr  style={{ borderBottom: "1px solid #dee2e6" , color: 'rgba(188, 188, 188, 1))' }}>
              <td style={{color: 'rgba(188, 188, 188, 1))'}}>1</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Room Rental</td>
+             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Test-Hostel -005</td>
+             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Advance</td>
              <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 8000</td>
            </tr>
-             <tr  style={{ borderBottom: "1px solid #dee2e6" }}>
-             <td>2</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>#324515</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Electricity</td>
-             <td style={{ fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color: 'rgba(188, 188, 188, 1))'}}>Rs. 950</td>
-           </tr>
+        
         
        </tbody>
        
@@ -2418,24 +2378,23 @@ if (templateTheme && templateTheme.trim() !== '') {
          <div className="d-flex flex-wrap align-items-start mt-1">
        
        
-       <div className="ms-auto" style={{ minWidth: '200px' }}>
-          <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax </span>
-             <span className="me-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>{tax}%</span>
-           </div>
-           <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax Amount</span>
-             <span className="me-1" style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: {taxAmount}</span>
-           </div>
-           <div className="d-flex justify-content-between py-1">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-             <span  style={{ fontSize: '10px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs: 8950.00 </span>
-           </div>
-           <div className="d-flex justify-content-between fw-bold py-2">
-             <span  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-             <span  style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs: {totalAmount}</span>
-           </div>
-         </div>
+       <div className="mt-3 ms-auto me-5" style={{ minWidth: '200px' }}>
+     
+        <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payable Amount</span>
+                          <span style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 8000</span>
+                        </div>
+                        <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Non Refundable</span>
+                          <span className="me-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs.0</span>
+                        </div>
+                           <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Refundable Amount</span>
+                          <span style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 8000</span>
+                        </div>
+                      
+                     
+                      </div>
        </div>
        
        </div>
