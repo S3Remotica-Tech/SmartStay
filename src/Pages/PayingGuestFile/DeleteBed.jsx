@@ -24,7 +24,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   const [actionType, setActionType] = useState('addCustomer');
   const [showAddCustomer, setShowAddCustomer] = useState(false)
   const [rolePermission, setRolePermission] = useState("");
-  const [customerAddPermission, setCustomerAddPermission] = useState("")
+  // const [customerAddPermission, setCustomerAddPermission] = useState("")
   const [customerDeletePermission, setCustomerDeletePermission] = useState("")
    const [advanceForm,setAdvanceForm] = useState(false)
    const [user_details , setUserDetails] = useState('')
@@ -44,16 +44,16 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   }, [state.createAccount.accountList]);
 
 
-  useEffect(() => {
-    if (
-      rolePermission[0]?.is_owner === 1 ||
-      rolePermission[0]?.role_permissions[4]?.per_create === 1
-    ) {
-      setCustomerAddPermission("");
-    } else {
-      setCustomerAddPermission("Permission Denied");
-    }
-  }, [rolePermission]);
+  // useEffect(() => {
+  //   if (
+  //     rolePermission[0]?.is_owner === 1 ||
+  //     rolePermission[0]?.role_permissions[4]?.per_create === 1
+  //   ) {
+  //     setCustomerAddPermission("");
+  //   } else {
+  //     setCustomerAddPermission("Permission Denied");
+  //   }
+  // }, [rolePermission]);
 
   useEffect(() => {
     if (
@@ -67,9 +67,9 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   }, [rolePermission]);
 
 
-  const handleAddCustomer = () => {
-    setShowAddCustomer(true);
-  };
+  // const handleAddCustomer = () => {
+  //   setShowAddCustomer(true);
+  // };
 
 
 
@@ -263,11 +263,11 @@ if (due.isBefore(invoice, 'day')) {
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <div>
           <Nav fill variant="tabs">
-            <Nav.Item onClick={() => handleShow('addCustomer')}>
+            {/* <Nav.Item onClick={() => handleShow('addCustomer')}>
               <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopRightRadius: '0px', color: actionType === 'addCustomer' ? "black" : "black", backgroundColor: actionType === 'addCustomer' ? "#e0ecff" : "#FFF" }}>Add Customer</Nav.Link>
-            </Nav.Item>
+            </Nav.Item> */}
             <Nav.Item onClick={() => handleShow('deleteBed')}>
-              <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopLeftRadius: '0px', color: actionType === 'deleteBed' ? "black" : "black", backgroundColor: actionType === 'deleteBed' ? "#e0ecff" : "#FFF" }}>Delete Bed</Nav.Link>
+              <Nav.Link style={{ fontSize: 18, fontWeight: 600, fontFamily: "Gilroy", borderColor: '#e0ecff', borderTopLeftRadius: '0px', color: actionType === 'deleteBed' ? "black" : "black", backgroundColor: actionType === 'deleteBed' ? "#e0ecff" : "#FFF" }}>Delete Bed ?</Nav.Link>
             </Nav.Item>
 
           </Nav>
@@ -294,10 +294,10 @@ if (due.isBefore(invoice, 'day')) {
             paddingTop: 20,
             paddingBottom: 10,
           }}
-        >
-          {actionType === 'addCustomer'
-            ? 'Are you sure you want to add this customer?'
-            : `Are you sure you want to delete the bed ${deleteBedDetails.bed.bed_no}?`}
+        > 
+        Are you sure you want to delete the bed?
+         
+             {/* {`Are you sure you want to delete the bed ${deleteBedDetails.bed.bed_no}?`} */}
         </Modal.Body>
 
 
@@ -307,19 +307,19 @@ if (due.isBefore(invoice, 'day')) {
             Cancel
           </Button>
 
-          {actionType === 'addCustomer' && (
+          {/* {actionType === 'addCustomer' && (
             <Button style={{ width: 130, height: 52, borderRadius: 8, border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
               disabled={customerAddPermission} onClick={handleAddCustomer}
             >
               Add Customer
             </Button>
-          )}
-          {actionType === 'deleteBed' && (
+          )} */}
+          
             <Button style={{ width: 130, height: 52, borderRadius: 8, border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
               disabled={customerDeletePermission} onClick={handleDeleteBed}>
               Delete
             </Button>
-          )}
+        
 
         </Modal.Footer>
       </Modal>

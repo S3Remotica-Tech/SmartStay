@@ -24,9 +24,9 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     const [id, setId] = useState("")
     const [firstNameError, setFirstNameError] = useState("")
     const [phoneError, setPhoneError] = useState("")
-    const [emailError,setEmailError] = useState("")
     const [initialValues, setInitialValues] = useState(null);
     const [isChanged, setIsChanged] = useState("")
+    const [emailError,setEmailError] =useState("")
 
    
     const handleFirstNameChange = (e) => {
@@ -35,53 +35,34 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
         setIsChanged("")
         
     };
-    const handleCloseForm=(()=>{
-        handleClose()
-        setPhoneError("")
-         dispatch({ type: "CLEAR_PHONE_ERROR" });
-         dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    })
 
     const handleLastNameChange = (e) => {
         setLastName(e.target.value);
         setIsChanged("")
     };
 
-    // const handleEmailChange = (e) => {
-    //     setEmail(e.target.value);
-    //     setIsChanged("")
-    // };
-  const handleEmailChange = (e) => {
-  const emailValue = e.target.value.toLowerCase();
-  setEmail(emailValue);
-
-  const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-  const isValidEmail = emailRegex.test(emailValue);
-
-  if (!emailValue) {
-    setEmailError(""); // Empty field, no error
-  } else if (!isValidEmail) {
-    setEmailError("Please enter a valid email ID");
-  } else {
-    setEmailError(""); // Valid email, clear error
-    dispatch({ type: "CLEAR_EMAIL_ERROR" }); // Clear error in global state
-  }
-};
-
-
-   
-useEffect(() => {
-    if (state.UsersList.phoneError) {
     
-      setPhoneError(state.UsersList.phoneError);
+
+   const handleEmailChange = (e) => {
+    const emailValue = e.target.value.toLowerCase();
+    setEmail(emailValue);
+
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(emailValue);
+    if (!emailValue) {
+      setEmailError("");
+     ;
+    } else if (!isValidEmail) {
+     
+      setEmailError("Please Enter  Valid Email Id");
+    } else {
+      setEmailError("");
+     
     }
-  }, [state.UsersList.phoneError]);
-   useEffect(() => {
-      if (state.UsersList.emailError) {
-        setEmailError(state.UsersList.emailError);
-      }
-    }, [state.UsersList.emailError]);
-  
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setIsChanged("")
+  };
+
     const handlePhoneChange = (e) => {
         const input = e.target.value.replace(/\D/g, "");
         setPhone(input);
@@ -163,191 +144,110 @@ setIsChanged("")
     const MobileNumber = `${countryCode}${phone}`;
 
 
-const handleSubmit = () => {
-    if (!firstName) {
-        setFirstNameError("First name is required");
-        return;
-    }
-
-    if (phoneError === "Invalid mobile number") {
-        return;
-    }
-
-    if (emailError === "Please enter a valid email ID") {
-        return;
-    }
-
-    if (!phone) {
-        setPhoneError("Phone is required");
-        return;
-    }
-
-    const capitalizeFirstLetter = (str) => {
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstName);
-    const capitalizedLastname = capitalizeFirstLetter(lastName);
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-
-    const currentValues = {
-        profile: basicDetails[0].profile,
-        firstname: capitalizedFirstname,
-        lastname: capitalizedLastname,
-        Phone: normalizedPhoneNumber,
-        Email: email,
-        Address: basicDetails[0].Address,
-        area: basicDetails[0].area,
-        landmark: basicDetails[0].landmark,
-        city: basicDetails[0].city,
-        pincode: basicDetails[0].pincode,
-        state: basicDetails[0].state,
-    };
-
-    const normalize = (key, val) => {
-        if (val === null || val === undefined) return "";
-
-        let str = String(val).trim().toLowerCase();
-        if (str === "n/a" || str === "undefined") return "";
-
-        if (key === "Phone") {
-            return str.slice(-10);
-        }
-
-        return str;
-    };
-
-    const isChanged = Object.keys(currentValues).some((key) => {
-        const current = normalize(key, currentValues[key]);
-        const initial = normalize(key, initialValues?.[key]);
-        return current !== initial;
-    });
-
-    if (!isChanged) {
-        setIsChanged("No changes detected");
-        return;
-    }
-
-    const payload = {
-        ...currentValues,
-        HostelName: basicDetails[0].HostelName,
-        hostel_Id: basicDetails[0].Hostel_Id,
-        Floor: basicDetails[0].Floor,
-        Rooms: basicDetails[0].room_id,
-        Bed: basicDetails[0].hstl_Bed,
-        joining_date: basicDetails[0].user_join_date,
-        AdvanceAmount: basicDetails[0].AdvanceAmount,
-        RoomRent: basicDetails[0].RoomRent,
-        ID: id,
-    };
-
-    dispatch({
-        type: "ADDUSER",
-        payload: payload,
-    });
-};
 
 
    
-    // const handleSubmit = () => {
-    //     if (!firstName) {
-    //         setFirstNameError("First name is required");
-    //         return;
-    //     }
-    //     if (phoneError === "Invalid mobile number") {
-    //         return;
-    //     }
-        
-    //     if (!phone) {
-    //         setPhoneError("Phone is required");
-    //         return;
-    //     }
+    const handleSubmit = () => {
+        if (!firstName) {
+            setFirstNameError("First name is required");
+            return;
+        }
+        if (phoneError === "Invalid mobile number") {
+            return;
+        }
+        if (!phone) {
+            setPhoneError("Phone is required");
+            return;
+        }
+         if (emailError) {
+        return;
+    }
 
-    //     const capitalizeFirstLetter = (str) => {
-    //         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    //     };
+        const capitalizeFirstLetter = (str) => {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        };
 
-    //     const capitalizedFirstname = capitalizeFirstLetter(firstName);
-    //     const capitalizedLastname = capitalizeFirstLetter(lastName);
-    //     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+        const capitalizedFirstname = capitalizeFirstLetter(firstName);
+        const capitalizedLastname = capitalizeFirstLetter(lastName);
+        const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
-    //     const currentValues = {
-    //         profile: basicDetails[0].profile,
-    //         firstname: capitalizedFirstname,
-    //         lastname: capitalizedLastname,
-    //         Phone: normalizedPhoneNumber,
-    //         Email: email,
-    //         Address: basicDetails[0].Address,
-    //         area: basicDetails[0].area,
-    //         landmark: basicDetails[0].landmark,
-    //         city: basicDetails[0].city,
-    //         pincode: basicDetails[0].pincode,
-    //         state: basicDetails[0].state,
-    //     };
-
-
-    //     const normalize = (key, val) => {
-    //         if (val === null || val === undefined) return "";
-
-    //         let str = String(val).trim().toLowerCase();
-
-    //         if (str === "n/a" || str === "undefined") return "";
+        const currentValues = {
+            profile: basicDetails[0].profile,
+            firstname: capitalizedFirstname,
+            lastname: capitalizedLastname,
+            Phone: normalizedPhoneNumber,
+            Email: email,
+            Address: basicDetails[0].Address,
+            area: basicDetails[0].area,
+            landmark: basicDetails[0].landmark,
+            city: basicDetails[0].city,
+            pincode: basicDetails[0].pincode,
+            state: basicDetails[0].state,
+        };
 
 
-    //         if (key === "Phone") {
-    //             return str.slice(-10);
-    //         }
+        const normalize = (key, val) => {
+            if (val === null || val === undefined) return "";
 
-    //         return str;
-    //     };
+            let str = String(val).trim().toLowerCase();
 
-    //     const isChanged = Object.keys(currentValues).some((key) => {
-    //         const current = normalize(key, currentValues[key]);
-    //         const initial = normalize(key, initialValues?.[key]);
-    //         return current !== initial;
-    //     });
+            if (str === "n/a" || str === "undefined") return "";
+
+
+            if (key === "Phone") {
+                return str.slice(-10);
+            }
+
+            return str;
+        };
+
+        const isChanged = Object.keys(currentValues).some((key) => {
+            const current = normalize(key, currentValues[key]);
+            const initial = normalize(key, initialValues?.[key]);
+            return current !== initial;
+        });
 
 
 
        
 
 
-    //     if (!isChanged) {
-    //         setIsChanged("No changes detected");
-    //         return;
-    //     }
+        if (!isChanged) {
+            setIsChanged("No changes detected");
+            return;
+        }
 
-    //     const payload = {
-    //         ...currentValues,
-    //         HostelName: basicDetails[0].HostelName,
-    //         hostel_Id: basicDetails[0].Hostel_Id,
-    //         Floor: basicDetails[0].Floor,
-    //         Rooms: basicDetails[0].room_id,
-    //         Bed: basicDetails[0].hstl_Bed,
-    //         joining_date: basicDetails[0].user_join_date,
-    //         AdvanceAmount: basicDetails[0].AdvanceAmount,
-    //         RoomRent: basicDetails[0].RoomRent,
-    //         ID: id,
-    //     };
+        const payload = {
+            ...currentValues,
+            HostelName: basicDetails[0].HostelName,
+            hostel_Id: basicDetails[0].Hostel_Id,
+            Floor: basicDetails[0].Floor,
+            Rooms: basicDetails[0].room_id,
+            Bed: basicDetails[0].hstl_Bed,
+            joining_date: basicDetails[0].user_join_date,
+            AdvanceAmount: basicDetails[0].AdvanceAmount,
+            RoomRent: basicDetails[0].RoomRent,
+            ID: id,
+        };
 
-    //     dispatch({
-    //         type: "ADDUSER",
-    //         payload: payload,
-    //     });
-    // };
+        dispatch({
+            type: "ADDUSER",
+            payload: payload,
+        });
+    };
 
- useEffect(() => {
-    if (state.UsersList.statusCodeForAddUser === 200) {
-      dispatch({ type: "USERLIST", payload: { hostel_id: basicDetails[0].Hostel_Id } });
-      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: id } });
-    
-       handleCloseForm()
-  
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_STATUS_CODES" });
-      }, 100);
-    }
-  }, [state.UsersList.statusCodeForAddUser]);
+  useEffect(() => {
+        if (state.UsersList.statusCodeForAddUser === 200) {
+          dispatch({ type: "USERLIST", payload: { hostel_id: basicDetails[0].Hostel_Id } });
+          dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: basicDetails[0].ID } });
+        
+           handleClose()
+      
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_STATUS_CODES" });
+          }, 100);
+        }
+      }, [state.UsersList.statusCodeForAddUser]);
 
     return (
         <div
@@ -358,7 +258,7 @@ const handleSubmit = () => {
             }}
         >
             <Modal show={show}
-                onHide={handleCloseForm}
+                onHide={handleClose}
                 centered backdrop="static">
                 <Modal.Dialog
                     style={{
@@ -383,7 +283,7 @@ const handleSubmit = () => {
                         </Modal.Title>
 
                         <CloseCircle size="24" color="#000"
-                            onClick={handleCloseForm}
+                            onClick={handleClose}
                             style={{ cursor: "pointer" }} />
                     </Modal.Header>
 
@@ -520,7 +420,7 @@ const handleSubmit = () => {
                                         }}
                                     />
                                 </Form.Group>
-                                  {emailError && (
+                                {emailError && (
                                     <div
                                         style={{
                                             marginTop: "",
@@ -673,7 +573,7 @@ const handleSubmit = () => {
 
 
                             <Button
-                                onClick={handleCloseForm}
+                                onClick={handleClose}
                                 className="w-100 mt-1"
                                 style={{
                                     backgroundColor: "#fff",

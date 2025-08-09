@@ -12,8 +12,8 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteRoom from './DeleteRoom';
 import DeleteBed from './DeleteBed';
 import OccupiedCustomer from './OccupiedCustomer'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+// import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+// import Tooltip from 'react-bootstrap/Tooltip';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
@@ -23,6 +23,10 @@ import Select from "react-select";
 import orangedot from "../../Assets/Images/New_images/orangedot.png";
 import reddot from "../../Assets/Images/New_images/reddot.png";
 import bluedot from "../../Assets/Images/New_images/bluedot.png";
+import EmptyBed from './EmptyBed';
+import BedDetails from './ReservedBed/BedDetails';
+import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
+import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
 
 
 
@@ -34,11 +38,11 @@ function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
- 
+
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 
-
+  const [emptybed, setEmptyBed] = useState(false)
 
 
   useEffect(() => {
@@ -54,7 +58,7 @@ function ParticularHostelDetails(props) {
     setDetails({ item, Room_Id });
   }
 
-  
+
 
 
 
@@ -81,7 +85,7 @@ function ParticularHostelDetails(props) {
     } else {
       setLoader(false)
     }
-  }, [props.hostel_Id, props.floorID,state?.login?.selectedHostel_Id ])
+  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
 
 
@@ -185,7 +189,7 @@ function ParticularHostelDetails(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
- 
+
 
 
   useEffect(() => {
@@ -200,16 +204,16 @@ function ParticularHostelDetails(props) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
- const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(Number(selectedOption.value));
-  setCurrentPage(1);
-};
-const pageSizeOptions = [
-  { value: 4, label: "4" },
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+  const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
+  };
+  const pageSizeOptions = [
+    { value: 4, label: "4" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
 
   const handlePageChange = (pageNumber) => {
@@ -282,17 +286,18 @@ const pageSizeOptions = [
   }
 
 
-  const handleDeleteBedConfirmation = (bed, room) => {
 
 
-    if (bed.isfilled === 0) {
-      setShowDeleteBed(true)
+  const handleclickBed = (bed, room) => {
+       if (bed.isfilled === 0) {
+      setEmptyBed(true)
       setDeleteBedDetails({ bed, room })
-    } else {
-      setOccupiedCustomer(true)
       setOccupiedCustomerDetails({ bed: bed, room: room })
-    }
+       }
+  }
 
+  const handlecloseBed = () => {
+    setEmptyBed(false)
   }
 
 
@@ -349,11 +354,51 @@ const pageSizeOptions = [
     };
   }, []);
 
+  const [showReservedBed, setShowReservedBed] = useState(false)
+  const [showCheckIn, setShowCheckIn] = useState(false)
+  const [showInactive, setShowInActive] = useState(false)
+
+  const handleShowReservedBed = () => {
+    setShowReservedBed(true)
+  }
+
+  const handleCloseReservedBed = () => {
+    setShowReservedBed(false)
+  }
+
+
+
+  const handleShowCheck_In = () => {
+    setShowCheckIn(true)
+    setShowReservedBed(false)
+
+  }
+
+  const handleCloseCheck_In = () => {
+    setShowCheckIn(false)
+  }
+
+
+  const handleShowMakeAsInActive = () => {
+    setShowInActive(true)
+    setShowReservedBed(false)
+  }
+
+  const handleCloseMakeAsInActive = () => {
+    setShowInActive(false)
+  }
+
 
   return (
     <>
 
+
+   
+
       <div >
+        <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button>
+
+
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
           {loader && <div
@@ -493,17 +538,14 @@ const pageSizeOptions = [
                 <div key={bed.id} className='col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center'>
                   <div className='d-flex flex-column align-items-center w-100'>
                     <div style={{ position: "relative", width: 34, height: 41 }}>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip id={`tooltip-${bed.id}`}>{bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}</Tooltip>}
-                      >
+                      
                         <img className='mt-1'
                           src={bed.isfilled ? Green : White}
                           alt='bedd'
                           style={{ height: 41, width: 34, cursor: "pointer" }}
-                          onClick={() => handleDeleteBedConfirmation(bed, room)}
+                          onClick={() => handleclickBed(bed, room)}
                         />
-                      </OverlayTrigger>
+                     
                     </div>
                     <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
                       {bed.bed_no}
@@ -758,7 +800,26 @@ const pageSizeOptions = [
           occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
         }
 
+        {
+          emptybed && <EmptyBed  show= {emptybed} handleClose={handlecloseBed} currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails} />
+        }
+
       </div>
+
+      {/* Reserved Bed */}
+      {
+        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed} handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive} />
+      }
+
+      {
+        showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} />
+      }
+
+      {
+        showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
+      }
+
+
     </>
   )
 }

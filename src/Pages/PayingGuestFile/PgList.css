@@ -1,3 +1,17 @@
+/* Override DatePicker dropdown globally */
+.ant-picker-dropdown {
+  min-width: 250px !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Custom placement adjustments (optional and risky) */
+.ant-picker-dropdown.ant-picker-dropdown-placement-topLeft {
+    --arrow-x: 380px;
+  --arrow-y: 380px;
+}
+
+ 
+ 
  .custom-modals-style .modal-content {
    min-width: 550px;
  }
