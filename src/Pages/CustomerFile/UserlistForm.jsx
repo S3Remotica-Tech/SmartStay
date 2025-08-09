@@ -3116,7 +3116,7 @@ const handleCloseAssign =()=>{
 >
   <Modal.Dialog
      style={{
-            maxWidth: 1100,
+            maxWidth: 800,
             paddingRight: "10px",
             borderRadius: "30px",
             marginTop:'-40px',
@@ -3130,7 +3130,7 @@ const handleCloseAssign =()=>{
         <div
           className="p-4"
           style={{
-            width: '280px',
+            width: '250px',
             minWidth:'240px',
             backgroundColor: '#f4f8ff',
             borderTopLeftRadius: '20px',
@@ -3138,7 +3138,7 @@ const handleCloseAssign =()=>{
           }}
         >
           <h5 className="mb-4">Add New Customer</h5>
-          <div className="d-flex align-items-center mb-3">
+          <div className="d-flex align-items-center">
             <div className=" text-white rounded-circle d-flex justify-content-center align-items-center" style={{ width: '30px', height: '30px' , backgroundColor:'rgba(30, 69, 225, 1)' }}><img src={Store_Icon} alt="storeicon" height={15} width={15}/> </div>
             <span className="ms-2" style={{fontFamily: "Gilroy",fontSize: "14px"}}>Step 1<br /><small>Basic Details</small></span>
           </div>

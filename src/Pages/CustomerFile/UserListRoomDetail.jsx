@@ -147,9 +147,6 @@ function UserListRoomDetail(props) {
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
- 
-
-  
 
 
   const [formLoading, setFormLoading] = useState(false)
@@ -165,7 +162,7 @@ function UserListRoomDetail(props) {
     setAdvanceDueDate("")
   }
 
-
+console.log('customerDetails',customerDetails)
   const indianStates = [
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
@@ -586,6 +583,8 @@ useEffect(() => {
             amount: entry.amount || "",
             showInput: isCustom,
             customReason: isCustom ? entry.reason : "",
+            id:entry.id || ""
+            
           };
         });
 
@@ -635,6 +634,7 @@ useEffect(() => {
             amount: entry.amount || "",
             showInput: isCustom,
             customReason: isCustom ? entry.reason : "",
+            id:entry.id
           };
         });
 
@@ -1438,18 +1438,54 @@ useEffect(() => {
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
 
+const normalizeFields = (current, initial) => {
+  const currentMap = current.reduce((map, item) => {
+    map[item.id] = { ...item, amount: String(item.amount).trim(), isDeleted: !!item.isDeleted };
+    return map;
+  }, {});
 
-    const normalizeFields = (arr) =>
-      arr.map(({ reason_name, amount, customReason, showInput }) => ({
-        reason_name,
-        amount: String(amount).trim(),
-        customReason,
-        showInput,
-      }));
+  return initial.map((initialItem) => {
+    const currentItem = currentMap[initialItem.id];
+    if (currentItem) {
+      return {
+        reason_name: currentItem.reason_name,
+        amount: currentItem.amount,
+        customReason: currentItem.customReason,
+        showInput: currentItem.showInput,
+        id: currentItem.id,
+        isDeleted: !!currentItem.isDeleted,
+      };
+    } else {
+      // It was removed => mark as deleted
+      return {
+        reason_name: initialItem.reason_name,
+        amount: String(initialItem.amount).trim(),
+        customReason: initialItem.customReason,
+        showInput: initialItem.showInput,
+        id: initialItem.id,
+        isDeleted: true,
+      };
+    }
+  }).concat(
+    // Add new items that didn’t exist in initial list
+    current.filter(item => !initial.some(init => init.id === item.id)).map(item => ({
+      reason_name: item.reason_name,
+      amount: String(item.amount).trim(),
+      customReason: item.customReason,
+      showInput: item.showInput,
+      id: item.id,
+      isDeleted: !!item.isDeleted,
+    }))
+  );
+};
 
-    const isReasonChanged =
-      JSON.stringify(normalizeFields(fields)) !==
-      JSON.stringify(normalizeFields(initialReasonFields));
+
+
+const normalizedCurrent = normalizeFields(fields, initialReasonFields);
+const normalizedInitial = normalizeFields(initialReasonFields, initialReasonFields);
+
+const isReasonChanged =
+  JSON.stringify(normalizedCurrent) !== JSON.stringify(normalizedInitial);
 
 
     if (!isChangedBed && !isReasonChanged) {
@@ -1478,35 +1514,70 @@ useEffect(() => {
       ? dayjs(selectedDate).format("YYYY-MM-DD")
       : null;
 
+const formattedReasons = fields.map((item) => {
+  let reason_name = "";
 
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
+  if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    reason_name = item.customReason || item["custom Reason"] || "";
+  } else {
+    reason_name = item.reason || item.reason_name || "";
+  }
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
+  const error = { reason: "", amount: "" };
 
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
+  if (!item.isDeleted) {
+    if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+      error.amount = "Please enter amount";
+      hasReasonAmountError = true;
+    }
+
+    if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+      error.reason = "Please enter reason";
+      hasReasonAmountError = true;
+    }
+  }
+
+  newErrors.push(error);
+
+  return {
+    reason_name,
+    amount: item.amount || "",
+    showInput: !!item.showInput,
+    id: item.id || "",
+    isDeleted: item.isDeleted ? true : undefined, // only include if true
+  };
+});
+
+    // const formattedReasons = fields.map((item) => {
+    //   let reason_name = "";
+
+    //   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    //     reason_name = item.customReason || item["custom Reason"] || "";
+    //   } else {
+    //     reason_name = item.reason || item.reason_name || "";
+    //   }
+
+    //   const error = { reason: "", amount: "" };
+    //   if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+    //     error.amount = "Please enter amount";
+    //     hasReasonAmountError = true;
+    //   }
 
 
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
+    //   if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+    //     error.reason = "Please enter reason";
+    //     hasReasonAmountError = true;
+    //   }
 
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
+    //   newErrors.push(error);
+    //   return {
+    //     reason_name,
+    //     amount: item.amount || "",
+    //     showInput: !!item.showInput,
+    //     id:item.id || ""
+    //   };
+    // });
+    console.log("formattedReasons",formattedReasons)
 
     setErrors(newErrors)
 
@@ -1564,35 +1635,70 @@ useEffect(() => {
       ? dayjs(selectedDate).format("YYYY-MM-DD")
       : null;
 
+const formattedReasons = fields.map((item) => {
+  let reason_name = "";
 
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
+  if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    reason_name = item.customReason || item["custom Reason"] || "";
+  } else {
+    reason_name = item.reason || item.reason_name || "";
+  }
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
+  const error = { reason: "", amount: "" };
 
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
+  if (!item.isDeleted) {
+    if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+      error.amount = "Please enter amount";
+      hasReasonAmountError = true;
+    }
+
+    if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+      error.reason = "Please enter reason";
+      hasReasonAmountError = true;
+    }
+  }
+
+  newErrors.push(error);
+
+  return {
+    reason_name,
+    amount: item.amount || "",
+    showInput: !!item.showInput,
+    id: item.id || "",
+    isDeleted: item.isDeleted ? true : undefined, // only include if true
+  };
+});
 
 
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
+    // const formattedReasons = fields.map((item) => {
+    //   let reason_name = "";
 
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
+    //   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    //     reason_name = item.customReason || item["custom Reason"] || "";
+    //   } else {
+    //     reason_name = item.reason || item.reason_name || "";
+    //   }
+
+    //   const error = { reason: "", amount: "" };
+    //   if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+    //     error.amount = "Please enter amount";
+    //     hasReasonAmountError = true;
+    //   }
+
+
+    //   if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+    //     error.reason = "Please enter reason";
+    //     hasReasonAmountError = true;
+    //   }
+
+    //   newErrors.push(error);
+    //   return {
+    //     reason_name,
+    //     amount: item.amount || "",
+    //     showInput: !!item.showInput,
+    //     id:item.id || ""
+    //   };
+    // });
 
     setErrors(newErrors)
 
@@ -1841,11 +1947,26 @@ useEffect(() => {
   };
 
 
-  const handleRemoveField = (index) => {
-    const updatedFields = [...fields];
-    updatedFields.splice(index, 1);
-    setFields(updatedFields);
+  // const handleRemoveField = (index) => {
+  //   const updatedFields = [...fields];
+  //   updatedFields.splice(index, 1);
+  //   setFields(updatedFields);
+  // };
+
+
+const handleRemoveField = (index) => {
+  const updatedFields = [...fields];
+  updatedFields[index] = {
+    ...updatedFields[index],
+    isDeleted: true,
   };
+  setFields(updatedFields);
+};
+
+
+
+
+
   const [basicDetails,setBasicDetails] = useState("")
 
 
@@ -4409,7 +4530,12 @@ const imageUrl = imagePreview
                                                 borderRadius: "10px",
                                                 marginTop: "10px",
                                               }}
-                                              onClick={handlegenerateForm}
+                                              // onClick={handlegenerateForm}
+                                              onClick={() => {
+    if (!advanceDetail[0]?.inv_id) {
+      handlegenerateForm();
+    }
+  }}
                                             >
                                             <img src={!advanceDetail[0]?.inv_id ? whiteaddcircle : EyeIcon}alt="plusicon" className="me-1"/> {!advanceDetail[0]?.inv_id ? "Generate" : "Invoice"} 
                                             </Button>
@@ -4556,60 +4682,30 @@ const imageUrl = imagePreview
                                           </p>
                                         </div>
 
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
-                                          <div
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                            }}
-                                          >
-                                            Maintenance
-                                          </div>
-                                          <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              paddingTop:7
-                                            }}
-                                          >
-                                             {/* ₹
-                                           {
-                                              customerDetails[0]
-                                                ?.AdvanceAmount
-                                            } */}
-                                          </p>
-                                        </div>
+                                       {customerDetails[0]?.reasonData?.map((item, index) => (
+  <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
+    <div
+      style={{
+        fontSize: 12,
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+      }}
+    >
+      {item.reason?.charAt(0).toUpperCase() + item.reason.slice(1)}
+    </div>
+    <p
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        paddingTop: 7,
+      }}
+    >
+      ₹ {item.amount}
+    </p>
+  </div>
+))}
 
-                                        <div className="col-sm-4 d-flex flex-column align-items-start">
-                                          <strong
-                                            style={{
-                                              fontSize: 12,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              textAlign: "start",
-                                              paddingRight: 15,
-                                              
-                                            }}
-                                          >
-                                           Document Fee
-                                          </strong>
-                                           <p
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              paddingTop:7
-                                            }}
-                                          >
-                                            {/* ₹
-                                           {
-                                              customerDetails[0]
-                                                ?.AdvanceAmount
-                                            } */}
-                                          </p>
-                                        </div>
                                       </div>
                        </div>
                        
@@ -6442,7 +6538,7 @@ const imageUrl = imagePreview
                                       )}
                                     </div>
                                   </div>
-                                  <fieldset disabled>
+                                  {/* <fieldset disabled> */}
 
                                     <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
@@ -6484,7 +6580,7 @@ const imageUrl = imagePreview
 
 
 
-                                      {fields.map((item, index) => {
+                                     {fields.filter(f => !f.isDeleted).map((item, index) => {
 
                                         const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
 
@@ -6674,7 +6770,7 @@ const imageUrl = imagePreview
 
 
                                     </div>
-                                  </fieldset>
+                                  {/* </fieldset> */}
 
 
                                 </div>
@@ -6717,7 +6813,7 @@ const imageUrl = imagePreview
                                 )}
                                 <Button
                                   className="w-100"
-                                  disabled
+                                 
                                   style={{
                                     backgroundColor: "#1E45E1",
                                     fontWeight: 600,
