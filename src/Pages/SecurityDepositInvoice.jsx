@@ -679,19 +679,6 @@ const securityDepositInvoiceTemplate = BillsTemplateList.find(
 
 
 
-const items = [
-  { id: 1, name: "Room Rental", amount: 8000 },
-  { id: 2, name: "Electricity", amount: 950 },
-];
-
-
-const subtotal = items.reduce((acc, item) => acc + item.amount, 0);
-
-const taxAmount = (subtotal * tax) / 100;
-
-const totalAmount = subtotal + taxAmount;
-
- 
 
    useEffect(()=> {
     if(securityDepositInvoiceTemplate) {
