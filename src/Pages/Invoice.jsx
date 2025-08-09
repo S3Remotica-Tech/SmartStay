@@ -1871,7 +1871,10 @@ const InvoicePage = () => {
     setDownloadReceipt(isVisible);
     setShowPdfReceiptModal(true);
     setRowData(rowData);
-    dispatch({ type: "RECEIPTPDF_NEWCHANGES", id: rowData?.id })
+    if(rowData?.id){
+    dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload:  {id: rowData?.id} })
+    }
+
   };
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
@@ -5346,7 +5349,7 @@ const InvoicePage = () => {
                                 <>
                                   <div
                                     className="mb-3 bg-white shadow-sm rounded"
-                                    style={{ padding: "12px 16px" }}
+                                    style={{ padding: "12px 12px" }}
                                   >
                                     <div className="d-flex align-items-start justify-content-between">
                                       <div>
@@ -5365,10 +5368,10 @@ const InvoicePage = () => {
                                         />
                                       </div>
 
-                                      <div className="flex-grow-1 ms-3">
+                                      <div className="flex-grow-1 ms-2">
                                         <div className="d-flex justify-content-between align-items-center mb-1">
                                           <div
-                                            className="Invoice_Name"
+                                            className="Invoice_Name d-flex flex-wrap"
                                             style={{
                                               fontFamily: "Gilroy",
                                               fontSize: "14px",
