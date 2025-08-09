@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, FormControl } from "react-bootstrap";
-import React, { useState,  } from "react";
-import {  useSelector } from "react-redux";
+import React, { useEffect, useState, useRef  } from "react";
+import {  useSelector , useDispatch } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,20 +13,20 @@ import { CloseCircle } from "iconsax-react";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import {Row,Col, } from "react-bootstrap";
+import dayjs from 'dayjs';
 
-
- const PGAssignTenant = ({ show, handleClose  }) => {
+ const PGAssignTenant = ({ show, handleClose  , currentItem}) => {
 
      const state = useSelector((state) => state);
-
+     const dispatch = useDispatch();
 
     const [activeTab, setActiveTab] = useState("long");
-      const [errors, setErrors] = useState([]);
-     const [fields, setFields] = useState([]);
-        const [advanceAmountError, setAdvanceAmountError] = useState("");
-        const [roomrentError, setRoomRentError] = useState("");
-      const [RoomRent, setRoomRent] = useState("");   
-      const [AdvanceAmount, setAdvanceAmount] = useState("");
+    const [errors, setErrors] = useState([]);
+    const [fields, setFields] = useState([]);
+    const [advanceAmountError, setAdvanceAmountError] = useState("");
+    const [roomrentError, setRoomRentError] = useState("");
+    const [RoomRent, setRoomRent] = useState("");   
+    const [AdvanceAmount, setAdvanceAmount] = useState("");
 
      const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
@@ -95,6 +95,193 @@ import {Row,Col, } from "react-bootstrap";
     setFields(updatedFields);
   };
 
+  console.log("currentitem", currentItem);
+
+  useEffect(() => {
+    dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id} })
+  },[])
+
+  console.log("state", state.UsersList?.UnAssignCustomerDetails);
+
+    const bookingcustomerRef = useRef();
+    const dateRef = useRef();
+    const amountRef = useRef();
+    const bookingDateRef = useRef();
+
+   const [dateError, setDateError] = useState("");
+   const [booking_customername, setBookingCustomerName] = useState("");
+   const [booking_customererrmsg, setBookingCustomerErrmsg] = useState("");
+   const [checkin_customername, setCheckinCustomerName] = useState("");
+   const [checkin_customererrmsg, setCheckinCustomerErrmsg] = useState("");
+
+    const handleBookingCustomerName = (selectedOption) => {
+
+    setBookingCustomerName(selectedOption?.value || '');
+    if (!selectedOption) {
+      setBookingCustomerErrmsg("Please Select Name");
+    } else {
+      setBookingCustomerErrmsg("");
+    }
+  };
+
+    const handleCheckinCustomerName = (selectedOption) => {
+
+    setCheckinCustomerName(selectedOption?.value || '');
+    if (!selectedOption) {
+      setCheckinCustomerErrmsg("Please Select Name");
+    } else {
+      setCheckinCustomerErrmsg("");
+    }
+  };
+
+   const [amount, setAmount] = useState("");
+   const [amountError, setamountError] = useState("");
+   const [joiningDate, setJoiningDate] = useState(null);
+   const [bookingDate, setBookingDate] = useState(null);
+   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
+   const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
+   const [formLoading, setFormLoading] = useState(false)
+
+    const handleAmount = (e) => {
+    const newAmount = e.target.value;
+    if (!/^\d*$/.test(newAmount)) {
+      return;
+    }
+    setAmount(newAmount);
+    setamountError("");
+  };
+
+   const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
+    if (!value || value === "Select a PG") {
+
+      switch (fieldName) {
+          case "bookingcustomername":
+          setError("Please Select Customer");
+          break;
+        case "joiningDate":
+          setError("Please Select Joining Date");
+          break;
+        case "bookingDate":
+          setError("Please Select Booking Date");
+          break;
+        case "amount":
+          setError("Please Enter Amount");
+          break;
+       
+        default:
+          break;
+      }
+
+
+      if (ref?.current && !focusedRef.current) {
+        ref.current.focus();
+        focusedRef.current = true;
+      }
+      return false;
+    } else {
+      setError("");
+      return true;
+    }
+  };
+
+
+
+   
+
+
+   const handleSubmitBooking = () => {
+
+    let hasError = false;
+    const focusedRef = { current: false };
+    const isCustomerValid = validateAssignField(booking_customername, "bookingcustomername", bookingcustomerRef, setBookingCustomerErrmsg, focusedRef);
+    const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
+    const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
+    const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
+
+  
+
+    if (!bookingDate) {
+      if (!focusedRef.current && bookingDateRef?.current) {
+        bookingDateRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    }
+   
+    if (hasError) return;
+    if (
+      !isCustomerValid ||
+      !isJoiningDateValid ||
+      !isAmountValid ||
+      !isBookingDateValid
+    ) {
+      return;
+    }
+
+
+
+    let formattedDate = null;
+     let bookingFormattedDate = null;
+    try {
+      const date = new Date(joiningDate);
+      date.setDate(date.getDate() + 1);
+      formattedDate = date.toISOString().split("T")[0];
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      setDateError("Please Select Date");
+      return;
+    }
+
+
+    try {
+      const date = new Date(bookingDate);
+      date.setDate(date.getDate() + 1);
+      bookingFormattedDate = date.toISOString().split("T")[0];
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      setDateError("Please Select Date");
+      return;
+    }
+
+    const userDetails = state.UsersList.Users.find(
+  (u) => u.ID === booking_customername
+);
+   
+
+
+    dispatch({
+      type: "ADD_BOOKING",
+      payload: {
+        joining_date: formattedDate,
+        booking_date:  bookingFormattedDate,
+        amount: amount,
+        hostel_id: state.login.selectedHostel_Id,
+        floor_id: currentItem?.room?.Floor_Id,
+        room_id: currentItem?.room?.Room_Id,
+        bed_id: currentItem?.bed?.id,
+        customer_Id: booking_customername,
+        mob_no: userDetails.Phone,
+        email: userDetails.Email,
+        profile: userDetails.profile
+      },
+    });
+    setFormLoading(true)
+  };
+
+
+    useEffect(() => {
+      if (state?.Booking?.statusCodeForAddBooking === 200) {
+        handleClose()
+        setFormLoading(false)
+        setJoingDateErrmsg('');
+    
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+        }, 500);
+      }
+    }, [state?.Booking?.statusCodeForAddBooking]);
+  
+
     return(
         <>
         
@@ -133,7 +320,7 @@ import {Row,Col, } from "react-bootstrap";
                                 fontWeight: 400,
                                 fontFamily: "Gilroy",
                                 color:'rgba(30, 69, 225, 1)'
-                              }}>Room No G3 | Bed 9</span> 
+                              }}>Room No {currentItem?.room?.Room_Name} | Bed {currentItem?.bed?.bed_no}</span> 
                             </div>
                             </div>
                           
@@ -203,39 +390,26 @@ import {Row,Col, } from "react-bootstrap";
                                                     >
                                                       Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
                                                     </Form.Label>
-                                    
-                                    
                                                     <Select
                                                       options={
-                                                        state.UsersList?.Users?.length > 0
-                                                          ? state.UsersList.Users.filter(
-                                                            (u) =>
-                                                              u.Bed !== "undefined" &&
-                                                              u.Bed !== "0" &&
-                                                              typeof u.Bed === "string" &&
-                                                              u.Bed.trim() !== "" &&
-                                                              u.Rooms !== "undefined" &&
-                                                              u.Rooms !== "0" &&
-                                                              typeof u.Rooms === "string" &&
-                                                              u.Rooms.trim() !== ""
-                                                          ).map((u) => ({
-                                                            value: u.ID,
+                                                        state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
+                                                           state.UsersList?.UnAssignCustomerDetails.map((u) => ({
+                                                            value: u.id,
                                                             label: u.Name,
                                                           }))
-                                                          : []
+                                                        
                                                       }
-                                                    //   onChange={handleCustomerName}
-                                                    //   value={
-                                                    //     customername
-                                                    //       ? {
-                                                    //         value: customername,
-                                                    //         label:
-                                                    //           state.UsersList?.Users?.find((u) => u.ID === customername)?.Name ||
-                                                    //           "Select Customer",
-                                                    //       }
-                                                    //       : null
-                                                    //   }
-                                                    //   isDisabled={isEditing}
+                                                      onChange={handleBookingCustomerName}
+                                                      value={
+                                                        booking_customername
+                                                          ? {
+                                                            value: booking_customername,
+                                                            label:
+                                                              state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === booking_customername)?.Name ||
+                                                              "Select Customer",
+                                                          }
+                                                          : null
+                                                      }
                                                       placeholder="Select Customer"
                                                       classNamePrefix="custom"
                                                       menuPlacement="auto"
@@ -249,7 +423,7 @@ import {Row,Col, } from "react-bootstrap";
                                                           fontSize: "16px",
                                                           color: "#4B4B4B",
                                                           fontFamily: "Gilroy",
-                                                        //   fontWeight: customername ? 600 : 500,
+                                                          fontWeight: booking_customername ? 600 : 500,
                                                           boxShadow: "none",
                                                         }),
                                                         menu: (base) => ({
@@ -288,7 +462,7 @@ import {Row,Col, } from "react-bootstrap";
                                                     />
                                     
                                     
-                                                    {/* {customererrmsg.trim() !== "" && (
+                                                    {booking_customererrmsg.trim() !== "" && (
                                                       <div>
                                                         <p
                                                           style={{
@@ -296,7 +470,7 @@ import {Row,Col, } from "react-bootstrap";
                                                             fontWeight: 500,
                                                           }}
                                                         >
-                                                          {customererrmsg !== " " && (
+                                                          {booking_customererrmsg !== " " && (
                                                             <MdError
                                                               style={{
                                                                 fontSize: "14px",
@@ -308,127 +482,131 @@ import {Row,Col, } from "react-bootstrap";
                                                               }}
                                                             />
                                                           )}{" "}
-                                                          {customererrmsg}
+                                                          {booking_customererrmsg}
                                                         </p>
                                                       </div>
-                                                    )} */}
+                                                    )}
                                                   </Form.Group>
                                                 </div>
                                     
                                                
                                               </div>
                                 </Row>
-                                <Row>
-                                                <Col md={6}>
-                                                 <Form.Group controlId="joiningDate">
-                                                   <Form.Label
-                                                     style={{
-                                                       fontSize: 14,
-                                                       color: "#222222",
-                                                       fontFamily: "Gilroy",
-                                                       fontWeight: 500,
-                                                     }}
-                                                   >
-                                                     Booking Date {" "}
-                                                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                                   </Form.Label>
-                                   
-                                                   <div
-                                                     className="datepicker-wrapper"
-                                                     style={{ position: "relative", width: "100%", }}
-                                                   >
-                                                     <DatePicker
-                                                       style={{ width: "100%", height: 50, cursor: "pointer", fontFamily: "Gilroy", backgroundColor:'rgba(239, 242, 255, 1)' }}
-                                                       format="DD/MM/YYYY"
-                                                       placeholder="DD/MM/YYYY"
-                                                    //    value={joiningDate ? dayjs(joiningDate) : null}
-                                                    //    onChange={(date) => {
-                                                    //      setDateError("");
-                                                    //      setJoiningDate(date ? date.toDate() : null);
-                                                    //      dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
-                                                    //    }}
-                                                    //    disabledDate={(current) => current && current > dayjs().endOf("day")}
-                                                    //    getPopupContainer={(triggerNode) =>
-                                                    //      triggerNode.closest(".datepicker-wrapper")
-                                                    //    }
-                                                     />
-                                                   </div>
-                                                 </Form.Group>
-                                                 {/* {dateError && (
-                                                   <div style={{ color: "red" }}>
-                                                     <MdError
-                                                       style={{
-                                                         marginRight: "5px",
-                                                         fontSize: 14,
-                                                         marginBottom: "1px",
-                                                       }}
-                                                     />
-                                                     <span
-                                                       style={{
-                                                         color: "red",
-                                                         fontSize: 12,
-                                                         fontFamily: "Gilroy",
-                                                         fontWeight: 500,
-                                                       }}
-                                                     >
-                                                       {dateError}
-                                                     </span>
-                                                   </div>
-                                                 )}
-                                                 */}
-                                   
-                                   
-                                   
-                                               </Col>
-                                   
-                                               <Col md={6}>
-                                                 <Form.Group className="">
-                                                   <Form.Label
-                                                     style={{
-                                                       fontSize: 14,
-                                                       fontWeight: 500,
-                                                       fontFamily: "Gilroy",
-                                                     }}
-                                                   >
-                                                     Booking Amount {" "}
-                                                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                                   </Form.Label>
-                                                   <FormControl
-                                                     type="text"
-                                                     id="form-controls"
-                                                     placeholder="Enter Booking Amount"
-                                                     // value={Advanceamount}
-                                                     // onChange={(e) => handleAdvanceAmount(e)}
-                                                     style={{
-                                                       fontSize: 16,
-                                                       color: "#4B4B4B",
-                                                       fontFamily: "Gilroy",
-                                                       fontWeight: 500,
-                                                       boxShadow: "none",
-                                                       border: "1px solid #D9D9D9",
-                                                       height: 50,
-                                                       borderRadius: 8,
-                                                       backgroundColor:'rgba(239, 242, 255, 1)'
-                                                     }}
-                                                   />
-                                                 </Form.Group>
-                                                 {/* {advanceError && (
-                                                   <div style={{ color: "red" }}>
-                                                     <MdError style={{ marginBottom: "3px", fontSize: 14 }} />
-                                                     <span
-                                                       style={{
-                                                         color: "red",
-                                                         fontSize: 12,
-                                                         fontFamily: "Gilroy",
-                                                         fontWeight: 500,
-                                                       }}
-                                                     >
-                                                       {advanceError}
-                                                     </span>
-                                                   </div>
-                                                 )} */}
-                                               </Col>
-                                             </Row>
+                                        <Col md={6}>
+                                          <Form.Group controlId="">
+                                            <Form.Label
+                                              style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                              }}
+                                            >
+                                              Booking Date {" "}
+                                              <span style={{ color: "red", fontSize: "20px" }}>
+                                                {" "}
+                                                *{" "}
+                                              </span>
+                                            </Form.Label>
+                            
+                            
+                                            <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                              <DatePicker
+                                                ref={bookingDateRef}
+                                                style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                                                format="DD/MM/YYYY"
+                                                placeholder="DD/MM/YYYY"
+                                                value={bookingDate ? dayjs(bookingDate) : null}
+                                                onChange={(date) => {
+                                                  setDateError("");
+                                                  setBookingDate(date ? date.toDate() : null);
+                                                  setBookingDateErrmsg('');
+                                                }}
+                                                disabledDate={(current) => {
+                                                  return current && current > dayjs().endOf('day');
+                                                }}
+                                                // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                                getPopupContainer={() => document.body}
+                                              />
+                                            </div>
+                                          </Form.Group>
+                                          {dateError && (
+                                            <div style={{ color: "red" }}>
+                                              <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
+                                              <span
+                                                style={{
+                                                  color: "red",
+                                                  fontSize: 12,
+                                                  fontFamily: "Gilroy",
+                                                  fontWeight: 500,
+                                                }}
+                                              >
+                                                {dateError}
+                                              </span>
+                                            </div>
+                                          )}
+                            
+                                          {bookingDateErrmsg.trim() !== "" && (
+                                            <div className="d-flex align-items-center">
+                                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                              <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                {bookingDateErrmsg}
+                                              </label>
+                                            </div>
+                                          )}
+                                        </Col>
+                            
+                            
+                                        <Col md={6}>
+                                          <Form.Group className="">
+                                            <Form.Label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                              }}
+                                            >
+                                              Booking Amount {" "}
+                                              <span style={{ color: "red", fontSize: "20px" }}>
+                                                {" "}
+                                                *{" "}
+                                              </span>
+                                            </Form.Label>
+                                            <FormControl
+                                              type="text"
+                                              ref={amountRef}
+                                              id="form-controls"
+                                              placeholder="Enter Booking Amount"
+                                              value={amount}
+                                              onChange={(e) => handleAmount(e)}
+                                              style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                boxShadow: "none",
+                                                border: "1px solid #D9D9D9",
+                                                height: 50,
+                                                borderRadius: 8,
+                                              }}
+                                            />
+                                          </Form.Group>
+                                          {amountError && (
+                                            <div style={{ color: "red" }}>
+                                              <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
+                                              <span
+                                                style={{
+                                                  color: "red",
+                                                  fontSize: 12,
+                                                  fontFamily: "Gilroy",
+                                                  fontWeight: 500,
+                                                }}
+                                              >
+                                                {amountError}
+                                              </span>
+                                            </div>
+                                          )}
+                                        </Col>
                                    
                                              <Row>
                                                 <Col md={12}>
@@ -453,20 +631,22 @@ import {Row,Col, } from "react-bootstrap";
                                                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                                        format="DD/MM/YYYY"
                                                        placeholder="DD/MM/YYYY"
-                                                    //    value={joiningDate ? dayjs(joiningDate) : null}
-                                                    //    onChange={(date) => {
-                                                    //      setDateError("");
-                                                    //      setJoiningDate(date ? date.toDate() : null);
-                                                    //      dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
-                                                    //    }}
-                                                    //    disabledDate={(current) => current && current > dayjs().endOf("day")}
-                                                    //    getPopupContainer={(triggerNode) =>
-                                                    //      triggerNode.closest(".datepicker-wrapper")
-                                                    //    }
+                                                       value={joiningDate ? dayjs(joiningDate) : null}
+                                                       onChange={(date) => {
+                                                         setDateError("");
+                                                         setJoiningDate(date ? date.toDate() : null);
+                                                         dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+                                                         setJoingDateErrmsg("")
+                                                       }}
+                                                      //  disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                                      //  getPopupContainer={(triggerNode) =>
+                                                      //    triggerNode.closest(".datepicker-wrapper")
+                                                      //  }
+                                                      getPopupContainer={() => document.body}
                                                      />
                                                    </div>
                                                  </Form.Group>
-                                                 {/* {dateError && (
+                                                 {dateError && (
                                                    <div style={{ color: "red" }}>
                                                      <MdError
                                                        style={{
@@ -486,28 +666,17 @@ import {Row,Col, } from "react-bootstrap";
                                                        {dateError}
                                                      </span>
                                                    </div>
-                                                 )} */}
-                                                 {/* {state.Booking?.ErrorAssignBookingDate && (
-                                                   <div style={{ color: "red" }}>
-                                                     <MdError
-                                                       style={{
-                                                         marginRight: "5px",
-                                                         fontSize: 14,
-                                                         marginBottom: "1px",
-                                                       }}
-                                                     />
-                                                     <span
-                                                       style={{
-                                                         color: "red",
-                                                         fontSize: 12,
-                                                         fontFamily: "Gilroy",
-                                                         fontWeight: 500,
-                                                       }}
-                                                     >
-                                                       {state.Booking?.ErrorAssignBookingDate}
-                                                     </span>
-                                                   </div>
-                                                 )} */}
+                                                 )}
+
+                                                        {joiningDateErrmsg.trim() !== "" && (
+                                            <div className="d-flex align-items-center">
+                                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                              <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                {joiningDateErrmsg}
+                                              </label>
+                                            </div>
+                                          )}
+                                             
                                    
                                    
                                    
@@ -528,6 +697,34 @@ import {Row,Col, } from "react-bootstrap";
         
         
                             </div>
+
+                            {formLoading &&
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
         
                             {state.createAccount?.networkError ?
                               <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
@@ -547,7 +744,7 @@ import {Row,Col, } from "react-bootstrap";
                                                                color:'rgba(75, 75, 75, 1)',
                                                                border:'1px solid white'
                                                              }}
-                                                             onClick={handleClose}
+                                                               onClick={handleClose}
                                                            >
                                                             Cancel
                                                            </Button>
@@ -562,6 +759,7 @@ import {Row,Col, } from "react-bootstrap";
                                                                padding:'5px 40px',
                                                                fontFamily: "Gilroy",
                                                              }}
+                                                             onClick={handleSubmitBooking}
                                                            >
                                                               Book
                                                            </Button>
@@ -577,7 +775,7 @@ import {Row,Col, } from "react-bootstrap";
                                 <div style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                               <div className="row d-flex align-items-center">
 
-                                <Row>
+                                  <Row>
                                      <div style={{ display: 'flex', flexDirection: 'row' }}>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput5">
@@ -593,39 +791,26 @@ import {Row,Col, } from "react-bootstrap";
                                                     >
                                                       Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
                                                     </Form.Label>
-                                    
-                                    
                                                     <Select
                                                       options={
-                                                        state.UsersList?.Users?.length > 0
-                                                          ? state.UsersList.Users.filter(
-                                                            (u) =>
-                                                              u.Bed !== "undefined" &&
-                                                              u.Bed !== "0" &&
-                                                              typeof u.Bed === "string" &&
-                                                              u.Bed.trim() !== "" &&
-                                                              u.Rooms !== "undefined" &&
-                                                              u.Rooms !== "0" &&
-                                                              typeof u.Rooms === "string" &&
-                                                              u.Rooms.trim() !== ""
-                                                          ).map((u) => ({
-                                                            value: u.ID,
+                                                        state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
+                                                           state.UsersList?.UnAssignCustomerDetails.map((u) => ({
+                                                            value: u.id,
                                                             label: u.Name,
                                                           }))
-                                                          : []
+                                                        
                                                       }
-                                                    //   onChange={handleCustomerName}
-                                                    //   value={
-                                                    //     customername
-                                                    //       ? {
-                                                    //         value: customername,
-                                                    //         label:
-                                                    //           state.UsersList?.Users?.find((u) => u.ID === customername)?.Name ||
-                                                    //           "Select Customer",
-                                                    //       }
-                                                    //       : null
-                                                    //   }
-                                                    //   isDisabled={isEditing}
+                                                      onChange={handleCheckinCustomerName}
+                                                      value={
+                                                        checkin_customername
+                                                          ? {
+                                                            value: checkin_customername,
+                                                            label:
+                                                              state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === checkin_customername)?.Name ||
+                                                              "Select Customer",
+                                                          }
+                                                          : null
+                                                      }
                                                       placeholder="Select Customer"
                                                       classNamePrefix="custom"
                                                       menuPlacement="auto"
@@ -639,7 +824,7 @@ import {Row,Col, } from "react-bootstrap";
                                                           fontSize: "16px",
                                                           color: "#4B4B4B",
                                                           fontFamily: "Gilroy",
-                                                        //   fontWeight: customername ? 600 : 500,
+                                                          fontWeight: checkin_customername ? 600 : 500,
                                                           boxShadow: "none",
                                                         }),
                                                         menu: (base) => ({
@@ -678,7 +863,7 @@ import {Row,Col, } from "react-bootstrap";
                                                     />
                                     
                                     
-                                                    {/* {customererrmsg.trim() !== "" && (
+                                                    {checkin_customererrmsg.trim() !== "" && (
                                                       <div>
                                                         <p
                                                           style={{
@@ -686,7 +871,7 @@ import {Row,Col, } from "react-bootstrap";
                                                             fontWeight: 500,
                                                           }}
                                                         >
-                                                          {customererrmsg !== " " && (
+                                                          {checkin_customererrmsg !== " " && (
                                                             <MdError
                                                               style={{
                                                                 fontSize: "14px",
@@ -698,10 +883,10 @@ import {Row,Col, } from "react-bootstrap";
                                                               }}
                                                             />
                                                           )}{" "}
-                                                          {customererrmsg}
+                                                          {checkin_customererrmsg}
                                                         </p>
                                                       </div>
-                                                    )} */}
+                                                    )}
                                                   </Form.Group>
                                                 </div>
                                     
@@ -945,16 +1130,16 @@ import {Row,Col, } from "react-bootstrap";
                                                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                                        format="DD/MM/YYYY"
                                                        placeholder="DD/MM/YYYY"
-                                                    //    value={joiningDate ? dayjs(joiningDate) : null}
-                                                    //    onChange={(date) => {
-                                                    //      setDateError("");
-                                                    //      setJoiningDate(date ? date.toDate() : null);
-                                                    //      dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
-                                                    //    }}
-                                                    //    disabledDate={(current) => current && current > dayjs().endOf("day")}
-                                                    //    getPopupContainer={(triggerNode) =>
-                                                    //      triggerNode.closest(".datepicker-wrapper")
-                                                    //    }
+                                                       value={joiningDate ? dayjs(joiningDate) : null}
+                                                       onChange={(date) => {
+                                                         setDateError("");
+                                                         setJoiningDate(date ? date.toDate() : null);
+                                                         dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+                                                       }}
+                                                       disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                                       getPopupContainer={(triggerNode) =>
+                                                         triggerNode.closest(".datepicker-wrapper")
+                                                       }
                                                      />
                                                    </div>
                                                  </Form.Group>

@@ -140,12 +140,14 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
 
         </div>
 
+        
+
        {
          showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
        }
 
        {
-         assign_tenantform && <PGAssignTenant  show={assign_tenantform} handleClose={handleCloseAssignTenant} item = {currentItem} />
+         assign_tenantform && <PGAssignTenant  show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem = {currentItem} />
        }   
 
        {
