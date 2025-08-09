@@ -1279,6 +1279,16 @@ useEffect(() => {
     };
   }, []);
 
+   useEffect(() => {
+      if (state?.Booking?.statusCodeForAddBooking === 200) {
+      //  handleCloseBooking()
+     handleCloseAddBooking();
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+        }, 500);
+      }
+    }, [state?.Booking?.statusCodeForAddBooking]);
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState(false);
@@ -1407,6 +1417,8 @@ setUserData(userData)
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
 
+const [userDetail, setUserDetail] = useState({});
+
    const handleAddBookings = (userData) => {
     setHostelIds(userData.Hostel_Id);
 
@@ -1414,6 +1426,7 @@ setUserData(userData)
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setAddBookingsShow(true);
+    setUserDetail(userData)
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
 
@@ -5182,7 +5195,7 @@ setUserData(userData)
 
 
       {
-        add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking}/>
+        add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} userDetail={userDetail} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking}/>
       }
     </div>
   );
