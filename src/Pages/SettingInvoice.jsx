@@ -2577,54 +2577,35 @@ setNotes(RentalinvoiceTemplate.notes)
                                     : Logo
                                 }
                                 alt="logo"
-                                style={{ height: 30, width: 30 }}
+                                style={{ height: 40, width: 50 }}
                               />
-                              <div>
-                                <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalinvoiceTemplate?.Name}</div>
-                                <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</div>
-                              </div>
+                              
                             </div>
 
                             <div>
 
+                             
+                                <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalinvoiceTemplate?.Name}</div>
+                             
+                             <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {[
+    [RentalinvoiceTemplate?.Address, RentalinvoiceTemplate?.area, RentalinvoiceTemplate?.landmark]
+      .filter(Boolean)
+      .join(", "),
 
-                              <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                {[
+    [RentalinvoiceTemplate?.city, RentalinvoiceTemplate?.state]
+      .filter(Boolean)
+      .join(", ") + (RentalinvoiceTemplate?.pin_code ? ` - ${RentalinvoiceTemplate.pin_code}` : "")
+  ]
+    .filter(line => line && line.trim() !== "")
+    .map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))}
+</div>
 
-                                  RentalinvoiceTemplate?.Address,
-
-
-                                  [
-                                    RentalinvoiceTemplate?.area,
-                                 
-                                   
-                                  ]
-                                    .filter(Boolean)
-                                    .join(", "),
-
-
-                                  [
-                                       RentalinvoiceTemplate?.landmark,
-                                     RentalinvoiceTemplate?.city,
-                                    RentalinvoiceTemplate?.state,
-
-
-                                     RentalinvoiceTemplate?.pin_code,
-
-                                  ]
-                                    .filter(Boolean)
-                                    .join(", "),
-                                ]
-
-                                  .filter(line => line && line.trim() !== "")
-
-                                  .map((line, idx) => (
-                                    <React.Fragment key={idx}>
-                                      {line}
-                                      <br />
-                                    </React.Fragment>
-                                  ))}
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -3004,12 +2985,9 @@ setNotes(RentalinvoiceTemplate.notes)
                                         : Logo
                                     }
                                     alt="logo"
-                                    style={{ height: 30, width: 30 }}
+                                    style={{ height: 64, width: 74 }}
                                   />
-                                  <div>
-                                    <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalinvoiceTemplate.Name}</div>
-                                    <div style={{ fontSize: 12, fontWeight: 300, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</div>
-                                  </div>
+                                
                                 </div>
 
                                 <div>
@@ -3022,41 +3000,25 @@ setNotes(RentalinvoiceTemplate.notes)
        </>
        
              </div> */}
-                                  <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                    {[
-                                      // Line 1: full address (if present)
-                                      RentalinvoiceTemplate?.Address,
+                                             <div style={{ fontSize: 13, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalinvoiceTemplate?.Name}</div>
+                                                              <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
+  {[
+    [RentalinvoiceTemplate?.Address, RentalinvoiceTemplate?.area, RentalinvoiceTemplate?.landmark]
+      .filter(Boolean)
+      .join(", "),
 
-                                      // Line 2: area, landmark, city  (only the ones that exist)
-                                      [
-                                        RentalinvoiceTemplate?.area,
-                                        RentalinvoiceTemplate?.landmark,
-                                        RentalinvoiceTemplate?.city,
-                                      ]
-                                        .filter(Boolean)
-                                        .join(", "),
-
-                                      // Line 3: state, pincode
-                                      [
-                                        RentalinvoiceTemplate?.state,
-
-                                        RentalinvoiceTemplate?.pin_code,
-                                       
-
-                                      ]
-                                        .filter(Boolean)
-                                        .join(", "),
-                                    ]
-                                      // remove any empty lines
-                                      .filter(line => line && line.trim() !== "")
-                                      // render each remaining line with a <br/>
-                                      .map((line, idx) => (
-                                        <React.Fragment key={idx}>
-                                          {line}
-                                          <br />
-                                        </React.Fragment>
-                                      ))}
-                                  </div>
+    [RentalinvoiceTemplate?.city, RentalinvoiceTemplate?.state]
+      .filter(Boolean)
+      .join(", ") + (RentalinvoiceTemplate?.pin_code ? ` - ${RentalinvoiceTemplate.pin_code}` : "")
+  ]
+    .filter(line => line && line.trim() !== "")
+    .map((line, idx) => (
+      <React.Fragment key={idx}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))}
+</div>
 
                                 </div>
                               </div>

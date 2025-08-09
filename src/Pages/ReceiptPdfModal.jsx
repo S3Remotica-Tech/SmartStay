@@ -40,6 +40,10 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [idforwhats, setIdForWhats] = useState("");
   const [receiptDataNew, setReceiptDataNew] = useState("");
+
+   const AdminDetails = state?.createAccount?.accountList[0]?.user_details
+   const fullName = `${AdminDetails.first_name} ${AdminDetails.last_name}`.trim();
+
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
       setReceiptDataNew(state.InvoiceList.newReceiptchanges.receipt)
@@ -196,6 +200,9 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
     }
   };
 
+  console.log("receiptDataNew", receiptDataNew);
+  
+
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
       <div >
@@ -340,7 +347,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
               ref={cardRef} style={{ width: '80%', marginLeft: '10%', marginTop: '20px', borderRadius: '8px', }}>
 
               <div ref={innerScrollRef}
-                className="border shadow show-scroll"
+                className=" shadow-md show-scroll"
                 style={{
                   maxHeight: 390,
                   overflowY: "auto",
@@ -348,29 +355,48 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   borderBottomRightRadius: "13px",
                 }}>
 
-                <div className=" text-white  p-3 position-relative" style={{ height: 100, backgroundColor: "#1E45E1" }}>
+                <div className=" text-white  p-2 position-relative" style={{Height: "100px", backgroundColor:receiptDataNew?.bill_template?.template_theme || "#1E45E1"  }}>
                   <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h4 className="fw-bold mb-0"><img src={Logo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2" />Smartstay</h4>
-                      <small className="ms-4" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</small>
+                    <div className="col-lg-8">
+                    <img src={receiptDataNew?.bill_template?.logo_url ? receiptDataNew?.bill_template?.logo_url :  Logo} alt="logo" style={{ height:64 , minWidth:64 , maxWidth:84 ,  borderRadius: '4px',}} className="me-2 mt-1" />
                     </div>
 
-                    <div>
-                      <div style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy", marginRight: '20px' }}>
-                        {receiptDataNew?.hostel_details?.name}
-                      </div>
-                      <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
-                        <>
-                          {isValid(receiptDataNew?.hostel_details?.address) && <>{receiptDataNew?.hostel_details?.address}, </>}
-                          {isValid(receiptDataNew?.hostel_details?.area) && <>{receiptDataNew?.hostel_details?.area}, </>}
-                          {isValid(receiptDataNew?.hostel_details?.landmark) && <>{receiptDataNew?.hostel_details?.landmark} </>} <br />
-                          {isValid(receiptDataNew?.hostel_details?.city) && <>{receiptDataNew?.hostel_details?.city}, </>}
-                          {isValid(receiptDataNew?.hostel_details?.state) && <>{receiptDataNew?.hostel_details?.state} - </>}
-                          {isValid(receiptDataNew?.hostel_details?.pincode) && <>{receiptDataNew?.hostel_details?.pincode}</>}
-                        </>
+                                      <div className="text-start mt-2 col-lg-4 d-flex flex-wrap">
+  <h5
+    className="mb-0"
+    style={{
+      fontSize: 18,
+      fontWeight: 600,
+      letterSpacing: 1,
+      fontFamily: "Gilroy",
+      marginRight: "20px",
+    }}
+  >
+    {receiptDataNew?.hostel_details?.name}
+  </h5>
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+    }}
+  >
+    {receiptDataNew?.hostel_details?.address}
+    {receiptDataNew?.hostel_details?.address && receiptDataNew?.hostel_details?.area && ','}{" "}
+    {receiptDataNew?.hostel_details?.area}
+    {receiptDataNew?.hostel_details?.area && receiptDataNew?.hostel_details?.landmark && ','}{" "}
+    {receiptDataNew?.hostel_details?.landmark}
+      {(receiptDataNew?.hostel_details?.address || 
+  receiptDataNew?.hostel_details?.area || 
+  receiptDataNew?.hostel_details?.landmark) && <br />}
 
-                      </div>
-                    </div>
+    {receiptDataNew?.hostel_details?.city}
+    {receiptDataNew?.hostel_details?.city && receiptDataNew?.hostel_details?.state && ','}{" "}
+    {receiptDataNew?.hostel_details?.state}
+    {receiptDataNew?.hostel_details?.pincode && ' - '}
+    {receiptDataNew?.hostel_details?.pincode}
+  </p>
+</div>
 
 
                   </div>
@@ -448,7 +474,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="px-4 pb-3">
                     <div className="table-responsive">
                       <table className="table  text-center align-middle">
-                        <thead style={{ backgroundColor: "#1E45E1", color: "#FFFFFF" }}>
+                        <thead style={{backgroundColor:receiptDataNew?.bill_template?.template_theme || "#1E45E1" , color: "#FFFFFF" }}>
                           <tr style={{ color: "white" }}>
                             <th style={{ borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px", color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400 }}>S.NO</th>
                             <th style={{ color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400 }}>Description</th>
@@ -494,13 +520,21 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                 <div className="px-4" style={{ marginTop: 20 }}>
                   <div className="row">
                     <div className="col-md-8">
-                      <h6 className="" style={{ color: '#1E45E1', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>Acknowledgment</h6>
+                      <h6 className="" style={{ color: '#1E45E1', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>Terms and Conditions</h6>
                       <p style={{ fontSize: "12px", color: "#555", fontFamily: 'Gilroy', fontWeight: 400 }}>
-                        This document confirms final settlement for the Tenant on <br></br>
-                        {moment(receiptDataNew?.Date).format('DD/MM/YYYY')}. All dues are cleared, and room has been vacated.
+                        {receiptDataNew?.bill_template?.terms_and_condition}
+                        {/* This document confirms final settlement for the Tenant on <br></br>
+                        {moment(receiptDataNew?.Date).format('DD/MM/YYYY')}. All dues are cleared, and room has been vacated. */}
                       </p>
                     </div>
                     <div className="col-md-4 text-end">
+                        {receiptDataNew?.bill_template?.digital_signature_url && (
+                              <img
+                                src={receiptDataNew?.bill_template.digital_signature_url}
+                                alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 30 }}
+
+                              />
+                            )}
                       <p className="mt-4" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}>
                         Authorized Signature</p>
                     </div>
@@ -511,11 +545,9 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
                   <div className="text-start mt-4">
                     <p className="mb-0" style={{ fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-                      &quot;Your comfort is our priority –
+                      &quot;{receiptDataNew?.bill_template?.notes}&quot;
                     </p>
-                    <p className="mb-0" style={{ fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-                      See you again at Smart Stay! &quot;
-                    </p>
+                   
                   </div>
 
 
@@ -526,8 +558,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                 </div>
 
                 <div className=" px-5">
-                  <div className=" text-white text-center" style={{ borderTopLeftRadius: "12px", borderTopRightRadius: "12px", backgroundColor: "#1E45E1", padding: 7 }}>
-                    <small style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(255, 255, 255, 1)', }}>email:{receiptDataNew?.hostel_details?.email} | Contact: +{receiptDataNew?.hostel_details?.phone}</small>
+                  <div className=" text-white text-center" style={{ borderTopLeftRadius: "12px", borderTopRightRadius: "12px", backgroundColor:receiptDataNew?.bill_template?.template_theme || "#1E45E1" , padding: 7 }}>
+                    <small style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(255, 255, 255, 1)', }}>email:{receiptDataNew?.bill_template?.email} | Contact: + {receiptDataNew?.bill_template?.contact_number}</small>
                   </div>
                 </div>
               </div>
@@ -536,24 +568,55 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
             <div className="receipt-container border ps-4 pe-4 pb-4 pt-4 " ref={cardRef} style={{ width: "80%", marginLeft: '10%', marginTop: '20px', borderRadius: '8px', }} >
 
               <div ref={innerScrollRef}
-                className="border shadow show-scroll"
+                className=" shadow-md show-scroll"
                 style={{
                   maxHeight: 390,
                   overflowY: "auto",
                   borderBottomLeftRadius: "13px",
                   borderBottomRightRadius: "13px",
                 }}>
-                <div className=" text-white  p-2 position-relative" style={{ minHeight: "100px", backgroundColor: "#00A32E" }}>
+                <div className=" text-white  p-2 position-relative" style={{ Height: "100px", backgroundColor:receiptDataNew?.bill_template?.template_theme || "#00A32E"  }}>
                   <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h4 className=" mb-0"><img src={receiptLogo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2" />Smartstay</h4>
-                      <small className="ms-4" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</small>
-                    </div>
-                    <div className="text-start mt-2">
-                      <h5 className="mb-0 " style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy", marginRight: '20px' }}>{receiptDataNew?.hostel_details?.name}</h5>
-                      <p style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }} className="">{receiptDataNew?.hostel_details?.address} , {receiptDataNew?.hostel_details?.area}  {receiptDataNew?.hostel_details?.landmark} <br />
-                        {receiptDataNew?.hostel_details?.city} , {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</p>
-                    </div>
+                    <div className="col-lg-8">
+                     <img src={receiptDataNew?.bill_template?.logo_url ? receiptDataNew?.bill_template?.logo_url :  receiptLogo} alt="logo" style={{ height:64 , minWidth:64 , maxWidth:84 ,  borderRadius: '4px', }} className="me-2 mt-1" />
+                    </div> 
+                   <div className="text-start mt-2 col-lg-4 d-flex flex-wrap">
+  <h5
+    className="mb-0"
+    style={{
+      fontSize: 18,
+      fontWeight: 600,
+      letterSpacing: 1,
+      fontFamily: "Gilroy",
+      marginRight: "20px",
+    }}
+  >
+    {receiptDataNew?.hostel_details?.name}
+  </h5>
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+    }}
+  >
+    {receiptDataNew?.hostel_details?.address}
+    {receiptDataNew?.hostel_details?.address && receiptDataNew?.hostel_details?.area && ','}{" "}
+    {receiptDataNew?.hostel_details?.area}
+    {receiptDataNew?.hostel_details?.area && receiptDataNew?.hostel_details?.landmark && ','}{" "}
+    {receiptDataNew?.hostel_details?.landmark}
+      {(receiptDataNew?.hostel_details?.address || 
+  receiptDataNew?.hostel_details?.area || 
+  receiptDataNew?.hostel_details?.landmark) && <br />}
+
+    {receiptDataNew?.hostel_details?.city}
+    {receiptDataNew?.hostel_details?.city && receiptDataNew?.hostel_details?.state && ','}{" "}
+    {receiptDataNew?.hostel_details?.state}
+    {receiptDataNew?.hostel_details?.pincode && ' - '}
+    {receiptDataNew?.hostel_details?.pincode}
+  </p>
+</div>
+
                   </div>
                 </div>
 
@@ -565,7 +628,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
                   <div className="row px-4 mt-3">
-                    <div className="col-md-7 mb-3">
+                    <div className="col-md-5 mb-3">
                       <p className=" mb-1" style={{ color: 'rgba(0, 163, 46, 1)', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To :</p>
                       <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={PaymentUser} alt="user" /><span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', marginLeft:12}}>{receiptDataNew?.user_details?.name}</span></p>
                       <p className="mb-1"><img src={mob} alt="mob" width={12} height={12} />
@@ -587,6 +650,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                             {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address}, </>}
                             {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area}, </>}
                             {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city}</>}
+{(isValid(receiptDataNew?.user_details?.address) || isValid(receiptDataNew?.user_details?.area) || isValid(receiptDataNew?.user_details?.city)) && <br />}
                             {isValid(receiptDataNew?.user_details?.state) && <>{receiptDataNew?.user_details?.state} </>}
                             {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode}</>}
                         </div>
@@ -594,7 +658,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                       </div>
 
                     </div>
-                    <div className="col-md-5 mb-3">
+                    <div className="col-md-7 mb-3">
                       <div className="row">
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Receipt No :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#{receiptDataNew?.reference_id}</div>
@@ -655,7 +719,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="px-4 pb-3">
                     <div className="table-responsive">
                       <table className="table  text-center align-middle">
-                        <thead style={{ backgroundColor: "#00A32E", color: "#FFFFFF" }}>
+                        <thead style={{ backgroundColor:receiptDataNew?.bill_template?.template_theme || "#00A32E" , color: "#FFFFFF" }}>
                           <tr style={{ color: "white" }}>
                             <th style={{ borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px", color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600 }}>S.NO</th>
                             <th style={{ color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600 }}>Inv No</th>
@@ -760,7 +824,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         letterSpacing: '1px'
                       }}
                       >PAYMENT DETAILS</h6>
-                      <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode:  {receiptDataNew?.bank_type !== ""
+                      <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode :  {receiptDataNew?.bank_type !== ""
                         ? receiptDataNew.bank_type
                         : receiptDataNew.payment_mode}</p>
                       {receiptDataNew?.invoice_type !== "advance" && (
@@ -773,12 +837,12 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                             color: 'rgba(23, 23, 23, 1)',
                           }}
                         >
-                          Transaction ID: GPay-2134-8482-XYZ
+                          Transaction ID : 
                         </p>
                       )}
 
-                      <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
-                      <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status: Paid</p>
+                      <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Recorded By : Admin - {fullName}</p>
+                      <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status : Paid</p>
 
                     </div>
                     <div className="col-md-6 text-end">
@@ -786,26 +850,29 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                       {receiptDataNew?.invoice_type === "advance" && (
                         <div className="text-start mt-2 ms-5" >
                           <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(0, 163, 46, 1)', fontSize: "13px", marginLeft: "35px" }}>
-                            &quot;Thank you for choosing SmartStay. &quot;
+                            &quot;{receiptDataNew?.bill_template?.notes} &quot;
                           </p>
-                          <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(0, 163, 46, 1)', fontSize: "13px", marginLeft: "35px" }}>
-                            Your transaction is completed &quot;
-                          </p>
+                         
                         </div>
                       )}
                     </div>
                     <div className="row">
-                      <div className="col-md-6">
-                        <h6 style={{ color: "#00A32E", fontSize: "13px", fontWeight: 600, fontFamily: "Gilroy" }}>Acknowledgment</h6>
+                      <div className="col-md-8">
+                        <h6 style={{ color: "#00A32E", fontSize: "13px", fontWeight: 600, fontFamily: "Gilroy" }}>Terms and Conditions</h6>
                         <p style={{ fontSize: "12px", color: "#555", fontFamily: "Gilroy" }}>
-                          This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
+                      {receiptDataNew?.bill_template?.terms_and_condition}
                         </p>
                       </div>
 
-                      <div className="col-md-6 text-end">
-                        <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
-                        </p>
-                        <p className="mt-4" style={{ fontSize: "13px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "25px" }}>Authorized Signature</p>
+                      <div className="col-md-4 text-end">
+                           {receiptDataNew?.bill_template?.digital_signature_url && (
+                              <img
+                                src={receiptDataNew?.bill_template.digital_signature_url}
+                                alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft:20 }}
+
+                              />
+                            )}
+                        <p className="mt-4 " style={{ fontSize: "13px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "5px" }}>Authorized Signature</p>
                       </div>
                     </div>
 
@@ -813,8 +880,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                 </div>
 
                 <div className="py-2 px-5">
-                  <div className=" text-white text-center" style={{ borderTopLeftRadius: "12px", borderTopRightRadius: "12px", backgroundColor: "#00A32E", padding: 7 }}>
-                    <small style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(255, 255, 255, 1)', }}>email: {receiptDataNew?.hostel_details?.email} | Contact: +{receiptDataNew?.hostel_details?.phone}</small>
+                  <div className=" text-white text-center" style={{ borderTopLeftRadius: "12px", borderTopRightRadius: "12px", backgroundColor:receiptDataNew?.bill_template?.template_theme || "#00A32E" , padding: 7 }}>
+                    <small style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(255, 255, 255, 1)', }}>email: {receiptDataNew?.bill_template?.email} | Contact: + {receiptDataNew?.bill_template?.contact_number}</small>
                   </div>
                 </div>
               </div>

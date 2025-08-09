@@ -1136,50 +1136,35 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                         <div   className=" text-white  p-2 position-relative" style={{ minHeight: 60, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
                          <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                               <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 30, width: 30 }} />
-                                      <div>
-                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name}</div>
-                                        <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
-                                      </div>
+                                               <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 40, width: 50 , borderRadius:'6px' }} />
+                                    
                                     </div>
                                 
                                     <div>
                                      
-                                      <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      <>
-                                   <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                        {[
-                                         
-                                          securityDepositReceiptTemplate?.Address,
-                                      
-                                      
-                                          [
-                                            securityDepositReceiptTemplate?.area,
-                                            securityDepositReceiptTemplate?.landmark,
-                                            securityDepositReceiptTemplate?.city,
-                                          ]
-                                            .filter(Boolean)
-                                            .join(", "),
-                                      
-                                      
-                                          [
-                                            securityDepositReceiptTemplate?.state,
-                                           securityDepositReceiptTemplate?.pin_code  
-                                            
-                                          ]
-                                            .filter(Boolean)
-                                            .join(", "),
-                                        ]
-                                         
-                                          .filter(line => line && line.trim() !== "")
-                                         
-                                          .map((line, idx) => (
-                                            <React.Fragment key={idx}>
-                                              {line}
-                                              <br />
-                                            </React.Fragment>
-                                          ))}
+                                      <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                          <div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name}</div>
                                       </div>
+                                      <>
+                                                                                                <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                          {[
+                                            [securityDepositReceiptTemplate?.Address, securityDepositReceiptTemplate?.area, securityDepositReceiptTemplate?.landmark]
+                                              .filter(Boolean)
+                                              .join(", "),
+                                        
+                                            [securityDepositReceiptTemplate?.city, securityDepositReceiptTemplate?.state]
+                                              .filter(Boolean)
+                                              .join(", ") + (securityDepositReceiptTemplate?.pin_code ? ` - ${securityDepositReceiptTemplate.pin_code}` : "")
+                                          ]
+                                            .filter(line => line && line.trim() !== "")
+                                            .map((line, idx) => (
+                                              <React.Fragment key={idx}>
+                                                {line}
+                                                <br />
+                                              </React.Fragment>
+                                            ))}
+                                        </div>
                                   
 
                                
@@ -1501,49 +1486,35 @@ console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
                         <div   className=" text-white  p-2 position-relative" style={{ minHeight: 90, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}>
                          <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                                                                 <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 40, width: 40 }} />
-                                      <div>
-                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name }</div>
-                                        <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'13px', marginLeft:'-15px' }}>Meet All Your Needs</div>
-                                      </div>
+                               <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url :  receiptLogo} alt="logo" style={{ height: 64, width: 74 , borderRadius:'6px' }} />
+                                    
                                     </div>
                                 
                                     <div>
                                      
-                                      <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      <>
-                                                  <div style={{ fontSize: 9, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                        {[
-                                         
-                                          securityDepositReceiptTemplate?.Address,
-                                      
-                                      
-                                          [
-                                            securityDepositReceiptTemplate?.area,
-                                            securityDepositReceiptTemplate?.landmark,
-                                            securityDepositReceiptTemplate?.city,
-                                          ]
-                                            .filter(Boolean)
-                                            .join(", "),
-                                      
-                                      
-                                          [
-                                            securityDepositReceiptTemplate?.state,
-                                           securityDepositReceiptTemplate?.pin_code  
-                                          ]
-                                            .filter(Boolean)
-                                            .join(", "),
-                                        ]
-                                         
-                                          .filter(line => line && line.trim() !== "")
-                                         
-                                          .map((line, idx) => (
-                                            <React.Fragment key={idx}>
-                                              {line}
-                                              <br />
-                                            </React.Fragment>
-                                          ))}
+                                      <div style={{  fontWeight: 600, fontFamily: "Gilroy" }}>
+                                          <div>
+                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name }</div>
                                       </div>
+                                      <>
+                                                                                                 <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                          {[
+                                            [securityDepositReceiptTemplate?.Address, securityDepositReceiptTemplate?.area, securityDepositReceiptTemplate?.landmark]
+                                              .filter(Boolean)
+                                              .join(", "),
+                                        
+                                            [securityDepositReceiptTemplate?.city, securityDepositReceiptTemplate?.state]
+                                              .filter(Boolean)
+                                              .join(", ") + (securityDepositReceiptTemplate?.pin_code ? ` - ${securityDepositReceiptTemplate.pin_code}` : "")
+                                          ]
+                                            .filter(line => line && line.trim() !== "")
+                                            .map((line, idx) => (
+                                              <React.Fragment key={idx}>
+                                                {line}
+                                                <br />
+                                              </React.Fragment>
+                                            ))}
+                                        </div>
 
                                
                                 </>

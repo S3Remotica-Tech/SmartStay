@@ -1148,50 +1148,35 @@ if (templateTheme && templateTheme.trim() !== '') {
                           background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,}}>
                           <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                                      <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
-                                      <div>
-                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositRefundTemplate?.Name}</div>
-                                        <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
-                                      </div>
+                                                      <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 40, width: 50,  borderRadius: '6px', }} />
+                                    
                                     </div>
                                 
                                     <div>
                                       
                                       <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                          <div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositRefundTemplate?.Name}</div>
+                                      </div>
                                       <>
-                                       <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                                 {[
-                                                                  
-                                                                   securityDepositRefundTemplate?.Address,
-                                                               
-                                                               
-                                                                   [
-                                                                     securityDepositRefundTemplate?.area,
-                                                                     securityDepositRefundTemplate?.landmark,
-                                                                     securityDepositRefundTemplate?.city,
-                                                                   ]
-                                                                     .filter(Boolean)
-                                                                     .join(", "),
-                                                               
-                                                               
-                                                                   [
-                                                                     securityDepositRefundTemplate?.state,
-                                                                    
-                                                                     securityDepositRefundTemplate?.pin_code  
-                                                                   ]
-                                                                     .filter(Boolean)
-                                                                     .join(", "),
-                                                                 ]
-                                                                  
-                                                                   .filter(line => line && line.trim() !== "")
-                                                                  
-                                                                   .map((line, idx) => (
-                                                                     <React.Fragment key={idx}>
-                                                                       {line}
-                                                                       <br />
-                                                                     </React.Fragment>
-                                                                   ))}
-                                                               </div>
+                                                                                            <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                                            {[
+                                                                              [securityDepositRefundTemplate?.Address, securityDepositRefundTemplate?.area, securityDepositRefundTemplate?.landmark]
+                                                                                .filter(Boolean)
+                                                                                .join(", "),
+                                                                          
+                                                                              [securityDepositRefundTemplate?.city, securityDepositRefundTemplate?.state]
+                                                                                .filter(Boolean)
+                                                                                .join(", ") + (securityDepositRefundTemplate?.pin_code ? ` - ${securityDepositRefundTemplate.pin_code}` : "")
+                                                                            ]
+                                                                              .filter(line => line && line.trim() !== "")
+                                                                              .map((line, idx) => (
+                                                                                <React.Fragment key={idx}>
+                                                                                  {line}
+                                                                                  <br />
+                                                                                </React.Fragment>
+                                                                              ))}
+                                                                          </div>
                          
                                 </>
                                 
@@ -1474,51 +1459,37 @@ if (templateTheme && templateTheme.trim() !== '') {
                            background: useGradient ? defaultGradient : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`, }}>
                           <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-2 mb-lg-0">
-                                       <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 30, width: 30 }} />
-                                      <div>
-                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositRefundTemplate?.Name}</div>
-                                        <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
-                                      </div>
+                                       <img src={securityDepositRefundTemplate?.logo_url ? securityDepositRefundTemplate?.logo_url :  Logo} alt="logo" style={{ height: 64, width: 74 , borderRadius: '6px',  }} />
+                                   
                                     </div>
                                 
                                     <div>
                                      
                                       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                           <div>
+                                        <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositRefundTemplate?.Name}</div>
+                                      </div>
                                       <>
                          
-                     <div style={{ fontSize: 9, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                                                 {[
-                                                                  
-                                                                   securityDepositRefundTemplate?.Address,
-                                                               
-                                                               
-                                                                   [
-                                                                     securityDepositRefundTemplate?.area,
-                                                                     securityDepositRefundTemplate?.landmark,
-                                                                     securityDepositRefundTemplate?.city,
-                                                                   ]
-                                                                     .filter(Boolean)
-                                                                     .join(", "),
-                                                               
-                                                               
-                                                                   [
-                                                                     securityDepositRefundTemplate?.state,
-                                                                    
-                                                                     securityDepositRefundTemplate?.pin_code  
-                                                                   ]
-                                                                     .filter(Boolean)
-                                                                     .join(", "),
-                                                                 ]
-                                                                  
-                                                                   .filter(line => line && line.trim() !== "")
-                                                                  
-                                                                   .map((line, idx) => (
-                                                                     <React.Fragment key={idx}>
-                                                                       {line}
-                                                                       <br />
-                                                                     </React.Fragment>
-                                                                   ))}
-                                                               </div>
+                                                                           <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                           {[
+                                                             [securityDepositRefundTemplate?.Address, securityDepositRefundTemplate?.area, securityDepositRefundTemplate?.landmark]
+                                                               .filter(Boolean)
+                                                               .join(", "),
+                                                         
+                                                             [securityDepositRefundTemplate?.city, securityDepositRefundTemplate?.state]
+                                                               .filter(Boolean)
+                                                               .join(", ") + (securityDepositRefundTemplate?.pin_code ? ` - ${securityDepositRefundTemplate.pin_code}` : "")
+                                                           ]
+                                                             .filter(line => line && line.trim() !== "")
+                                                             .map((line, idx) => (
+                                                               <React.Fragment key={idx}>
+                                                                 {line}
+                                                                 <br />
+                                                               </React.Fragment>
+                                                             ))}
+                                                         </div>
+                 
                                
                                 </>
                                 

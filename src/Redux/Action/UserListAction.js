@@ -394,3 +394,9 @@ console.log("paramsssssss",params)
     console.error("Axios Error", error);
   }
 }
+
+export async function CustomerUnAssign(datum) {
+  return await AxiosConfig.post('/unassigned-user-list', datum, {
+    data: datum
+  })
+}

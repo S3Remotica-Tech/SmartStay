@@ -118,6 +118,8 @@ export const initialState = {
     KYCStatusCode: 0,
     statusCodeForDueCustomer:0,
     nonRefundable_details: [],
+    UnAssignCustomerDetails:[],
+    statusCodeForUnAssignCustomer:0,
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -589,6 +591,11 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, KycCustomerDetails: action.payload.response, KYCStatusCode: action.payload.statusCode }
         case 'REMOVE_KYC_NOT_ADDED':
             return { ...state, KYCStatusCode: 0 }
+
+        case 'UNASSIGN_CUSTOMER':
+            return { ...state, UnAssignCustomerDetails: action.payload.response, statusCodeForUnAssignCustomer: action.payload.statusCode }
+        case 'REMOVE_UNASSIGN_CUSTOMER':
+            return { ...state, statusCodeForUnAssignCustomer: 0 }    
 
         default:
             return state;

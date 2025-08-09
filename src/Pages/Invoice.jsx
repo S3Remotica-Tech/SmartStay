@@ -189,7 +189,7 @@ const InvoicePage = () => {
   }, [recurringbills]);
 
 
-  const handleToggle = (id,Inv_ID) => {
+  const handleToggle = (id, Inv_ID) => {
     if (!id) return;
 
     setCheckedRows((prev) => {
@@ -209,7 +209,7 @@ const InvoicePage = () => {
         payload: {
           user_id: id,
           bill_enable: updatedValue,
-          Inv_ID: Inv_ID , 
+          Inv_ID: Inv_ID,
         },
       });
 
@@ -426,6 +426,27 @@ const InvoicePage = () => {
     }
   };
 
+
+
+  useEffect(() => {
+    if (state.InvoiceList.pdfErrorStatusCode === 201) {
+      setLoading(false)
+      setShowLoader(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_PDF_ERROR" });
+      }, 100);
+    }
+  }, [state.InvoiceList.pdfErrorStatusCode]);
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+       setLoading(false)
+      setShowLoader(false);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
   const handleReceiptDetail = (item) => {
 
@@ -1871,7 +1892,10 @@ const InvoicePage = () => {
     setDownloadReceipt(isVisible);
     setShowPdfReceiptModal(true);
     setRowData(rowData);
-    dispatch({ type: "RECEIPTPDF_NEWCHANGES", id: rowData?.id })
+    if(rowData?.id){
+    dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload:  {id: rowData?.id} })
+    }
+
   };
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
@@ -2086,6 +2110,8 @@ const InvoicePage = () => {
       state.InvoiceList.statusCodeForPDf === 200 ||
       state.InvoiceList.statusCodeForReceiptPDf === 200
     ) {
+      setLoading(false)
+      setShowLoader(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
       }, 100);
@@ -5346,7 +5372,7 @@ const InvoicePage = () => {
                                 <>
                                   <div
                                     className="mb-3 bg-white shadow-sm rounded"
-                                    style={{ padding: "12px 16px" }}
+                                    style={{ padding: "12px 12px" }}
                                   >
                                     <div className="d-flex align-items-start justify-content-between">
                                       <div>
@@ -5365,10 +5391,10 @@ const InvoicePage = () => {
                                         />
                                       </div>
 
-                                      <div className="flex-grow-1 ms-3">
+                                      <div className="flex-grow-1 ms-2">
                                         <div className="d-flex justify-content-between align-items-center mb-1">
                                           <div
-                                            className="Invoice_Name"
+                                            className="Invoice_Name d-flex flex-wrap"
                                             style={{
                                               fontFamily: "Gilroy",
                                               fontSize: "14px",

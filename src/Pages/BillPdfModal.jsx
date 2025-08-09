@@ -63,6 +63,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const [userdetails, setUserDetails] = useState({})
   const [invoice_details, setInvoiceDetails] = useState({})
   const [tabledetails, setTableDetails] = useState([])
+  const [bill_template , setBillTemplate] = useState({})
+  const [banking_details , setBankingDetails] = useState({})
   const [isVisible, setIsVisible] = useState(true);
   const [idforwhats, setIdForWhats] = useState("");
   const cardRef = useRef(null);
@@ -72,17 +74,24 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     setIsVisible(true)
   }, [rowData])
 
+
+
   useEffect(() => {
     if (state.InvoiceList.BillsPdfSuccessCode === 200) {
       setHostelDetails(state.InvoiceList.BillsPdfDetails.hostel_details)
       setUserDetails(state.InvoiceList.BillsPdfDetails.user_details)
       setTableDetails(state.InvoiceList.BillsPdfDetails.amenities)
       setInvoiceDetails(state.InvoiceList.BillsPdfDetails.invoice_details)
+      setBillTemplate(state.InvoiceList.BillsPdfDetails.bill_template)
+      setBankingDetails(state.InvoiceList.BillsPdfDetails.banking_details)
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE" });
       }, 100);
     }
   }, [state.InvoiceList.BillsPdfSuccessCode]);
+
+  console.log("template" , invoice_details);
+  
 
    
 
@@ -193,6 +202,16 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       }
     }
   };
+
+
+
+  const taxAmount = (invoice_details?.total_amount * bill_template?.tax) / 100;
+
+  const totalAmount = invoice_details?.total_amount + taxAmount;
+
+
+  console.log("rowData" , rowData);
+  
 
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
@@ -356,25 +375,25 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   borderBottomRightRadius: "13px",
                 }}>
 
-                <div className=" text-white  p-4 position-relative" style={{ height: 100, background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))', }}>
+                <div className=" text-white  p-2 position-relative" style={{ height: "100px", background: bill_template.template_theme || 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))', }}>
                   <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex gap-2 mb-3 mb-lg-0">
-                      <img src={rowData?.hostel_profile || Logo} alt="logo" style={{ height: 40, width: 40 }} />
+                    <div className="col-lg-8">
+                                           <img src={bill_template?.logo_url ? bill_template?.logo_url :  Logo} alt="logo" style={{ height:64 , minWidth:64 , maxWidth:84 , borderRadius: '4px',}} className="me-2 mt-2" />
+                      {/* <img src={rowData?.hostel_profile || Logo} alt="logo" style={{ height: 40, width: 40 }} /> */}
                       <div>
-                        <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-                        <div style={{ fontSize: 14, fontWeight: 300, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</div>
                       </div>
                     </div>
 
-                    <div>
+                    <div className="text-start mt-2 col-lg-4 d-flex flex-wrap">
                       <div style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy", marginRight: '20px' }}>
                         {hosteldetails.name}
                       </div>
                       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
                         <>
                           {isValid(hosteldetails?.address) && <>{hosteldetails.address}, </>}
-                          {isValid(hosteldetails?.area) && <>{hosteldetails.area}, </>}
-                          {isValid(hosteldetails?.city) && <>{hosteldetails.city}, </>}<br />
+                          {isValid(hosteldetails?.area) && <>{hosteldetails.area} </>}
+                         <br />
+                          {isValid(hosteldetails?.city) && <>{hosteldetails.city}, </>}
                           {isValid(hosteldetails?.state) && <>{hosteldetails.state} - </>}
 
                           {isValid(hosteldetails?.pincode) && <>{hosteldetails.pincode}</>}
@@ -393,7 +412,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
                   <div className="row px-4 mt-3">
-                    <div className="col-md-6 mb-3">
+                    <div className="col-md-5 mb-3">
                       <p className="  mb-1" style={{ color: 'rgba(48, 80, 210, 1)', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill to:</p>
                       <p className="ms-1 mb-1 " style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={User} alt="user" /> <span className="ms-2" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginLeft:8 }}>{userdetails?.name}</span></p>
                       <p className="mb-1"><img src={Dial} alt="mob" />
@@ -428,7 +447,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
                     </div>
-                    <div className="col-md-6 mb-3 ps-5 ">
+                    <div className="col-md-7 mb-1 ps-5 mt-2 ">
                       <div className="row">
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>Invoice :</div>
@@ -453,7 +472,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       <table className="table text-center">
                         <thead
                           style={{
-                            backgroundColor: "rgba(71, 104, 234, 1)",
+                            // backgroundColor: "rgba(71, 104, 234, 1)",
+                            background: bill_template.template_theme || 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))',
                             color: "white",
                           }}
                         >
@@ -512,11 +532,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       {invoice_details.invoice_type === "manual" && (
                         <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
                           <p className="mb-0" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-                            &quot;Your comfort is our priority –
+                            &quot; {bill_template?.notes} &quot;  
                           </p>
-                          <p className="mb-0" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
-                            See you again at Smart Stay! &quot;
-                          </p>
+                         
                         </div>
                       )}
 {invoice_details.invoice_type === "advance" ? (
@@ -542,7 +560,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
                         <div className="d-flex justify-content-between py-1">
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-                          <span className="me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 0.00</span>
+                          <span className="me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {taxAmount}</span>
                         </div>
                         <div className="d-flex justify-content-between py-1">
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
@@ -550,7 +568,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         </div>
                         <div className="d-flex justify-content-between fw-bold py-2">
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs. {totalAmount}</span>
                         </div>
                       </div>
 )}
@@ -577,20 +595,22 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                       >ACCOUNT DETAILS</h6>
                       <p className="mb-1"
                         style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        Account No : 87542310984</p>
+                        Account No : {banking_details?.acc_num} </p>
                       <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        IFSC Code : SBIN007195</p>
+                        IFSC Code : {banking_details?.ifsc_code} </p>
                       <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        Bank Name: State Bank of India</p>
+                        Bank Name: {banking_details?.bank_name} </p>
                       <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        UPI Details : Net Banking</p>
+                        UPI Details : {banking_details?.type} </p>
                     </div>
 
                     <div className="col-md-2"></div>
 
                     <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
                       <div className="d-flex justify-content-end mt-auto">
-                        <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius: '2px' }} />
+                        <img src={bill_template?.qr_url ? bill_template?.qr_url :  Barcode}
+                        className="img-fluid"
+                         alt="Barcode" style={{ height: "auto", maxWidth: 150, borderRadius: '2px' }} />
                       </div>
                       <div className="d-flex flex-row justify-content-end">
                         <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
@@ -607,13 +627,18 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div className="col-md-8">
                     <h4 style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(30, 69, 225, 1)' }}>Terms and Conditions</h4>
                     <p style={{ whiteSpace: "pre-line", fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(61, 61, 61, 1)' }}>
-                      Tenants must pay all dues on or before the due date,<br></br>
-                      maintain cleanliness, and follow PG rules;failure may lead<br></br>
-                      to penalties or termination of stay.
+                    {bill_template?.terms_and_condition}
                     </p>
                   </div>
 
                   <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+                      {bill_template?.digital_signature_url && (
+                              <img
+                                src={bill_template?.digital_signature_url}
+                                alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft:20 }}
+
+                              />
+                            )}
                     <p
                       style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
                     >Authorized Signature</p>
@@ -626,7 +651,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div
                     className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
                     style={{
-                      backgroundColor: 'rgba(48, 80, 210, 1)',
+                      // backgroundColor: 'rgba(48, 80, 210, 1)',
+                      background: bill_template.template_theme || 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))',
                       borderTopRightRadius: '38px',
                       borderTopLeftRadius: '38px',
                     }}
@@ -641,7 +667,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                       }}
                     >
-                      email: {hosteldetails.email ? hosteldetails.email : ''}
+                      email: {bill_template?.email ? bill_template?.email : ''}
                     </p>
                     <p
                       className="mb-0"
@@ -652,7 +678,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         color: 'rgba(255, 255, 255, 1)',
                       }}
                     >
-                      Contact: {hosteldetails.phone ? hosteldetails.phone : ''}
+                      Contact: {bill_template?.contact_number ? bill_template?.contact_number : ''}
                     </p>
                   </div>
                 </div>

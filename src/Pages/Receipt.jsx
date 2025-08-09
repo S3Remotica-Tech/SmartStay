@@ -140,8 +140,12 @@ const isAdmin = userType === "admin" || userType === "agent";
   const handleDownload = (item) => {
 
     props.DisplayInvoice(true, item)
-    dispatch({type:"RECEIPTPDF_NEWCHANGES",id:item?.id})
+    // if(item?.id){
+    //       dispatch({type:"RECEIPTPDF_NEWCHANGES",id:item?.id})
+    // }
   }
+
+
 
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {

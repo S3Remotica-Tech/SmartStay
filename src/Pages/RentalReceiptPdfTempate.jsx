@@ -1149,56 +1149,32 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
       
 <div className="d-flex justify-content-between align-items-center">
          <div className="d-flex gap-2 mb-2 mb-lg-0">
-             {/* <img src={ receiptLogo} alt="logo" style={{ height: 30, width: 30 }} /> */}
               {logoPreview ? (
-                     <img src={logoPreview} alt="Preview" style={{ height: 35, borderRadius: '6px', marginBottom: '10px' }} />
+                     <img src={logoPreview} alt="Preview" style={{height: 40, width: 50 , borderRadius: '6px', }} />
                    ) : (
-                     <img src={receiptLogo} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+                     <img src={receiptLogo} alt="upload" style={{ height: 40, width: 50 , borderRadius: '6px',  }} />
                    )}
                
              <div>
-               <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalreceiptTemplate?.Name}</div>
-               <div style={{ fontSize: 10, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+
              </div>
            </div>
        
            <div>
            
-             {/* <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
-             <>
-
-             9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
-      
-       </>
-       
-             </div> */}
-             <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+        
+              <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalreceiptTemplate?.Name}</div>
+                             <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
   {[
-   
-    RentalreceiptTemplate?.Address,
-
-
-    [
-      RentalreceiptTemplate?.area,
-      RentalreceiptTemplate?.landmark,
-      RentalreceiptTemplate?.city,
-    ]
+    [RentalreceiptTemplate?.Address, RentalreceiptTemplate?.area, RentalreceiptTemplate?.landmark]
       .filter(Boolean)
       .join(", "),
 
-
-    [
-      RentalreceiptTemplate?.state,
-     
-      RentalreceiptTemplate?.pin_code
-    ]
+    [RentalreceiptTemplate?.city, RentalreceiptTemplate?.state]
       .filter(Boolean)
-      .join(", "),
+      .join(", ") + (RentalreceiptTemplate?.pin_code ? ` - ${RentalreceiptTemplate.pin_code}` : "")
   ]
-   
     .filter(line => line && line.trim() !== "")
-   
     .map((line, idx) => (
       <React.Fragment key={idx}>
         {line}
@@ -1206,6 +1182,7 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
       </React.Fragment>
     ))}
 </div>
+
            </div>
          </div>
 
@@ -1545,56 +1522,33 @@ console.log("RentalreceiptTemplate????????",RentalreceiptTemplate)
                   <div   className=" text-white  p-2 position-relative" style={{ minHeight: 90 ,backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}}>
                  
 <div className="d-flex justify-content-between align-items-center">
-         <div className="d-flex gap-2 mb-2 mb-lg-0">
-             {/* <img src={ receiptLogo} alt="logo" style={{ height: 40, width: 40 }} /> */}
+         <div className="d-flex gap-2 mb-2 mb-lg-0 mt-2">
                {logoPreview ? (
-                     <img src={logoPreview} alt="Preview" style={{ height: 35, borderRadius: '6px', marginBottom: '10px' }} />
+                     <img src={logoPreview} alt="Preview" style={{ height: 64, width: 74 , borderRadius: '4px', }} />
                    ) : (
-                     <img src={receiptLogo} alt="upload" style={{ height: 30, marginBottom: '10px' }} />
+                     <img src={receiptLogo} alt="upload" style={{ height: 64, width: 74 , borderRadius: '4px',   }} />
                    )}
              <div>
-               <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalreceiptTemplate?.Name}</div>
-               <div style={{ fontSize: 13, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
+
              </div>
            </div>
        
            <div>
            
-             {/* <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
-             <>
 
-             9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
-      
-       </>
-       
-             </div> */}
-             <div style={{ fontSize: 10, fontWeight: 600, fontFamily: "Gilroy" }}>
+
+                            <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalreceiptTemplate?.Name}</div>
+                            <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
   {[
-   
-    RentalreceiptTemplate?.Address,
-
-
-    [
-      RentalreceiptTemplate?.area,
-      RentalreceiptTemplate?.landmark,
-      RentalreceiptTemplate?.city,
-    ]
+    [RentalreceiptTemplate?.Address, RentalreceiptTemplate?.area, RentalreceiptTemplate?.landmark]
       .filter(Boolean)
       .join(", "),
 
-
-    [
-      RentalreceiptTemplate?.state,
-     
-       RentalreceiptTemplate?.pin_code
-    ]
+    [RentalreceiptTemplate?.city, RentalreceiptTemplate?.state]
       .filter(Boolean)
-      .join(", "),
+      .join(", ") + (RentalreceiptTemplate?.pin_code ? ` - ${RentalreceiptTemplate.pin_code}` : "")
   ]
-   
     .filter(line => line && line.trim() !== "")
-   
     .map((line, idx) => (
       <React.Fragment key={idx}>
         {line}

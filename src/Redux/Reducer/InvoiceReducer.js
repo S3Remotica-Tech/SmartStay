@@ -73,6 +73,7 @@ export const initialState = {
     AddErrorRecurrringStatusCode : 0,
     triggeredBy: '',  
     CustomerRecurringEnableDisableStatusCode:0,
+    pdfErrorStatusCode:0,
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
             0: false,
@@ -337,12 +338,17 @@ case 'CUSTOMER_RECURRING_ENABLE_DISABLE':
         case 'CLEAR_TRIGGER_SOURCE':
             return { ...state, triggeredBy: '' };
 
+        case 'PDF_ERROR':
+            return { ...state,  pdfErrorStatusCode:action.payload.statusCode };
+
+   case 'REMOVE_PDF_ERROR':
+            return { ...state,  pdfErrorStatusCode:0 };
 
         case 'SET_WHATSAPP_SETTINGS':
             return { ...state, whatsappSettings: action.payload };
 
-       
-case 'TOGGLE_WHATSAPP_SETTING': {
+
+        case 'TOGGLE_WHATSAPP_SETTING': {
   const updated = {
     ...state.whatsappSettings,
     [action.payload.id]: action.payload.value,
