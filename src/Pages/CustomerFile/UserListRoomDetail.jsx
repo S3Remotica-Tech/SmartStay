@@ -138,6 +138,8 @@ function UserListRoomDetail(props) {
   const [editStayDetailsShow, setEditStayDetailsShow] = useState(false)
   const [stayDetailsShow, setStayDetailsShow] = useState(false)
   const [fields, setFields] = useState([]);
+  const [showDocModal, setShowDocModal] = useState(false);
+   const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
 
 
 
@@ -305,7 +307,7 @@ function UserListRoomDetail(props) {
 
 },[])
 
-const [setProfile,setProfilepic] = useState(false)
+const [ProfilePic,setProfilepic] = useState(false)
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
@@ -319,21 +321,22 @@ const [setProfile,setProfilepic] = useState(false)
     }
   }, [state.UsersList.statusCodeForCustomerDetails]);
 
-const isFirstRun = useRef(true); // Keep this at top
-
+const isFirstRun = useRef(true); 
+  const MobileNumber = `${countryCode}${props.userData?.Phone}`;
+ 
 useEffect(() => {
   if (isFirstRun.current) {
     isFirstRun.current = false;
     return;
   }
 
-  // Skip dispatch if profile already exists and new file is not selected
+  
   if (props.userData?.profile && !file) {
     return;
   }
 
   if (
-    setProfile &&
+    ProfilePic &&
     file &&
     props.userData?.ID &&
     props.userData?.Name &&
@@ -344,14 +347,14 @@ useEffect(() => {
     setFirstname(value[0] || "");
     setLastname(value[1] || "");
 
-    const phoneNumber = String(props.userData?.Phone || "");
-    const mobileNumber = phoneNumber.slice(-10);
+    // const phoneNumber = String(props.userData?.Phone || "");
+    // const mobileNumber = phoneNumber.slice(-10);
 
     const payload = {
       profile: file,
       firstname: value[0] || "",
       lastname: value[1] || "",
-      Phone: mobileNumber,
+      Phone: MobileNumber,
       Email: Email,
       Address: props.userData?.Address,
       area: props.userData?.area,
@@ -382,10 +385,10 @@ useEffect(() => {
       payload: payload,
     });
   }
-}, [setProfile, file, props.userData]);
+}, [ProfilePic, file, props.userData]);
 
 
-console.log("props.userData",props.userData)
+
 
 
   useEffect(() => {
@@ -609,7 +612,7 @@ console.log("props.userData",props.userData)
     }
   };
 
-  const MobileNumber = `${countryCode}${Phone}`;
+
 
 
 
@@ -1888,11 +1891,14 @@ const [stayDetais,setStayDetails] = useState("")
  const [imagePreview, setImagePreview] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
+  const MobileNumberupload = `${props.userData?.Phone}`;
 
-  
 const handleImageUpload = async (event) => {
   const fileImage = event.target.files[0];
   if (!fileImage) return;
+
+
+  event.target.value = "";
 
   const options = {
     maxSizeMB: 1,
@@ -1905,19 +1911,18 @@ const handleImageUpload = async (event) => {
     const previewURL = URL.createObjectURL(compressedFile);
     setImagePreview(previewURL);
 
-    
     let value = props.userData.Name ? props.userData?.Name.split(" ") : ["", ""];
     setFirstname(value[0]?.trim());
     setLastname(value[1] ? value[1].trim() : "");
 
-    const phoneNumber = String(props.userData?.Phone || "");
-    const mobileNumber = phoneNumber.slice(-10);
+    // const phoneNumber = String(props.userData?.Phone || "");
+    // const mobileNumber = phoneNumber.slice(-10);
 
     const payload = {
-      profile: compressedFile, 
+      profile: compressedFile,
       firstname: value[0]?.trim(),
       lastname: value[1] ? value[1].trim() : "",
-      Phone: mobileNumber,
+      Phone: MobileNumberupload,
       Email: Email,
       Address: house_no,
       area: street,
@@ -1953,6 +1958,10 @@ const handleImageUpload = async (event) => {
 };
 
 
+  
+
+
+
   return (
 
     <>
@@ -1961,12 +1970,20 @@ const handleImageUpload = async (event) => {
           {customerDetails &&
             customerDetails.map((item) => {
       
- const isNotBase64 = item.profile && !item.profile.startsWith("data:image");
-  const imageUrl = imagePreview
-    ? imagePreview
-    : item.profile && item.profile !== "null"
-    ? item.profile
-    : Profiles;
+
+const kycPic = state.UsersList?.KycCustomerDetails?.pic;
+
+
+const imageUrl = imagePreview
+  ? imagePreview
+  : kycPic
+  ? kycPic.startsWith("data:image")
+    ? kycPic
+    : `data:image/jpeg;base64,${kycPic}`
+  : item.profile
+  ? item.profile
+  : Profiles;
+
               return (
                 <div
                   key={item.ID}
@@ -2016,76 +2033,8 @@ const handleImageUpload = async (event) => {
                       <div className="d-flex align-items-center mb-3 mb-md-0">
 
 
-{/* <div
-      style={{
-        position: "relative",
-        width: "80px",
-        height: "80px",
-        marginRight: "10px",
-      }}
-    >
-      <img
-        src={imageUrl}
-        alt={item.Name || "Default Profile"}
-        style={{
-          height: "80px",
-          width: "80px",
-          borderRadius: "50%",
-          objectFit: "cover",
-        }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = Profiles;
-        }}
-      />
 
-      {isNotBase64 && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            height: "100%",
-            width: "100%",
-            borderRadius: "50%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            opacity: 1,
-            transition: "opacity 0.3s",
-            cursor: "pointer",
-            background: "rgba(0,0,0,0.3)",
-          }}
-          onClick={() => document.getElementById("fileInput").click()}
-        >
-          <div
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: "50%",
-              padding: "6px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={EditImage}
-              alt="Edit"
-              style={{ width: "20px", height: "20px" }}
-            />
-          </div>
-        </div>
-      )}
-
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-        style={{ display: "none" }}
-        onChange={handleImageUpload}
-      />
-    </div> */}
-      <div
+      {/* <div
       style={{
         position: "relative",
         width: "80px",
@@ -2153,7 +2102,84 @@ const handleImageUpload = async (event) => {
         style={{ display: "none" }}
         onChange={handleImageUpload}
       />
+    </div> */}
+<div
+  style={{
+    position: "relative",
+    width: "80px",
+    height: "80px",
+    marginRight: "10px",
+  }}
+  onMouseEnter={() => setIsHovered(true)}
+  onMouseLeave={() => setIsHovered(false)}
+>
+  <img
+    src={imageUrl}
+    alt={item.Name || "Default Profile"}
+    style={{
+      height: "80px",
+      width: "80px",
+      borderRadius: "50%",
+      objectFit: "cover",
+    }}
+    onError={(e) => {
+      e.target.onerror = null;
+      e.target.src = Profiles;
+    }}
+  />
+
+  {!state.UsersList?.KycCustomerDetails?.pic && isHovered && (
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        height: "100%",
+        width: "100%",
+        borderRadius: "50%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "rgba(0,0,0,0.3)",
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        if (!state.UsersList?.KycCustomerDetails?.pic) {
+          document.getElementById("fileInput").click();
+        }
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "#fff",
+          borderRadius: "50%",
+          padding: "6px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img
+          src={EditImage}
+          alt="Edit"
+          style={{ width: "20px", height: "20px" }}
+        />
+      </div>
     </div>
+  )}
+
+  <input
+    id="fileInput"
+    type="file"
+    accept="image/*"
+    style={{ display: "none" }}
+    onChange={handleImageUpload}
+  />
+</div>
+
+
+
+
 
 
 
@@ -3351,7 +3377,571 @@ const handleImageUpload = async (event) => {
                               </div>
                             </div>
 
-                           
+                            <div className="col-md-12 mb-3 mb-md-0 mt-3">
+                              <div
+                                className="card"
+                                style={{
+                                  borderRadius: "20px",
+                                  padding: "20px",
+                                  marginTop: 30,
+                                  marginLeft: "20px",
+                                }}
+                              >
+                                <div
+                                  className="card-header d-flex justify-content-between align-items-center"
+                                  style={{
+                                    backgroundColor: "transparent",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    borderBottom: "transparent",
+                                    marginBottom: "15px",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      fontSize: 16,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      lineHeight: "40px",
+                                    }}
+                                  >
+                                    Document
+                                  </div>
+                                </div>
+
+                                <div
+                                  className="row"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}>
+                                   
+
+
+                                    <button
+                                      className="btn"
+                                      disabled={props.customerAddPermission}
+                                      style={{
+                                        borderRadius: "10px",
+                                        padding: "5px 10px",
+                                        fontSize: "14px",
+                                        border: "1px solid #D9D9D9",
+                                        fontFamily: "Gilroy",
+                                       
+                                        
+                                      }}
+                                      onClick={() => handleUploadClick(aadharInputRef)}
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      Upload Document
+                                    </button>
+
+
+                                    <input
+                                      type="file"
+                                      ref={aadharInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) => handleFileChange(e, "doc1")}
+                                    />
+
+
+                                    {state.UsersList?.KycCustomerDetails?.pic && (
+                                      <div >
+                                        <img
+                                          src={docDown}
+                                          alt="Download Aadhar"
+                                          onClick={handleDownloadKYC}
+                                          style={{ width: 20, height: 20, cursor: "pointer", marginLeft: 170, marginTop: "-70px" }}
+                                        />
+
+                                         <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                            onClick={handleViewKYC}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            marginTop: "-70px" 
+                                          }}
+                                        />
+                                      </div>
+                                    )}
+
+<Modal show={showModal} onHide={handleClose} size="md" centered>
+  <Modal.Header closeButton>
+    <Modal.Title>KYC Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <div
+      style={{
+        borderRadius: 10,
+        padding: 20,
+        textAlign: "center",
+        fontFamily: "Gilroy",
+      }}
+    >
+      <div style={{ marginBottom: 15 }}>
+        <img
+          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+          alt="KYC"
+          style={{
+            height: 120,
+            width: 120,
+            borderRadius: "25%",
+            border: "3px solid #f0f0f0",
+            objectFit: "cover",
+          }}
+        />
+      </div>
+
+      <h5
+        style={{
+          fontWeight: "bold",
+          fontSize: 18,
+          marginBottom: 20,
+          color: "#222",
+        }}
+      >
+        {state.UsersList?.KycCustomerDetails?.name || "****"}
+      </h5>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 15 }}
+      >
+        <i
+          className="bi bi-geo-alt"
+          style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
+        ></i>
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Address<br />
+          {/* <span>
+            {state.UsersList?.KycCustomerDetails?.address ||
+              "No address provided"}
+          </span> */}
+          <div style={{
+  maxWidth: "400px",
+  wordBreak: "break-word",
+  whiteSpace: "pre-wrap"
+}}>
+  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
+</div>
+        </p>
+      </div>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 5 }}
+      >
+        <img
+          src={adhar}
+          alt="Aadhaar"
+          style={{ width: 20, height: 20, marginRight: 10 }}
+        />
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Aadhaar Number<br />
+          <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+        </p>
+      </div>
+    </div>
+  </Modal.Body>
+</Modal>
+
+
+
+
+
+                                    <div
+                                      id="kyc-download-card"
+                                      style={{
+                                        position: "absolute",
+                                        top: "-9999px",
+                                        left: "-9999px",
+                                        borderRadius: 10,
+                                        padding: 20,
+                                        width: 320,
+                                        textAlign: "center",
+
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+
+                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
+                                        KYC Details
+                                      </h6>
+
+                                      <div style={{ marginBottom: 15 }}>
+                                        <img
+                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+                                          alt="KYC"
+                                          style={{
+                                            height: 120,
+                                            width: 120,
+                                            borderRadius: "25%",
+                                            border: "3px solid #f0f0f0",
+                                          }}
+                                        />
+                                      </div>
+
+                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
+                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
+                                      </h5>
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
+                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Adress<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
+                                        </p>
+                                      </div>
+
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
+                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Aadhar Number<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+                                        </p>
+                                      </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                                    {/* {advanceDetail[0]?.doc1 && (
+                                      <>
+                                      <a
+                                        href={advanceDetail[0]?.doc1}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <img
+                                          src={docDown}
+                                          alt="docdown"
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                          }}
+                                        />
+                                       
+                                      </a>
+                                        <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                            onClick={() => setShowDocModal(true)}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                          }}
+                                        />
+                                        </>
+                                    )} */}
+                                    {advanceDetail[0]?.doc1 && (
+  <>
+    
+    <a
+      href={advanceDetail[0]?.doc1}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src={docDown}
+        alt="Download Document"
+        style={{
+          width: 20,
+          height: 20,
+          marginLeft: "10px",
+          cursor: "pointer",
+        }}
+      />
+    </a>
+
+ 
+    <img
+      src={viewdoc}
+      alt="View Document"
+      onClick={() => setShowDocModal(true)}
+      style={{
+        width: 20,
+        height: 20,
+        marginLeft: "10px",
+        cursor: "pointer",
+      }}
+    />
+  </>
+)}
+
+
+
+                                    {uploadError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {uploadError}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+
+{/* {showDocModal && (
+  <div
+    className="modal fade show"
+    style={{
+      display: "block",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      zIndex: 1050,
+    }}
+    onClick={() => setShowDocModal(false)}
+  >
+    <div
+      className="modal-dialog modal-lg"
+      style={{
+        margin: "100px auto",
+        background: "#fff",
+        padding: "20px",
+        borderRadius: "10px",
+        position: "relative",
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          border: "none",
+          background: "transparent",
+          fontSize: "20px",
+        }}
+        onClick={() => setShowDocModal(false)}
+      >
+        &times;
+      </button>
+
+      <img
+        src={advanceDetail[0]?.doc1}
+        alt="Document Preview"
+        style={{ width: "100%", height: "auto", maxHeight: "60vh", objectFit: "contain" }}
+      />
+    </div>
+  </div>
+)} */}
+<Modal
+  show={showDocModal}
+  onHide={() => setShowDocModal(false)}
+  size="lg"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px", // optional fallback height
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModal(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+
+    <img
+      src={advanceDetail[0]?.doc1}
+      alt="Document Preview"
+      style={{
+        maxWidth: "100%",
+        maxHeight: "70vh",
+        height: "auto",
+        width: "auto",
+        borderRadius: "10px",
+        objectFit: "contain",
+      }}
+    />
+  </Modal.Body>
+</Modal>
+
+
+
+
+                                  <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}>
+                                  
+                                    <button
+                                      className="btn "
+                                      disabled={props.customerAddPermission}
+                                      style={{
+                                        borderRadius: "10px",
+                                        padding: "5px 10px",
+                                        fontSize: "14px",
+                                        fontFamily: "Gilroy",
+                                        border: "1px solid #D9D9D9",
+                                      }}
+                                      onClick={() =>
+                                        handleOtherUploadClick(otherDocInputRef)
+                                      }
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      Upload Document
+                                    </button>
+                                    <input
+                                      type="file"
+                                      ref={otherDocInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) =>
+                                        handleFileChange(e, "doc2")
+                                      }
+                                    />
+
+                                    {advanceDetail &&
+                                      advanceDetail[0]?.doc2 && (
+                                        <>
+                                        <img
+                                          src={docDown}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            cursor: "pointer",
+                                          }}
+                                          alt="Download Document"
+                                          onClick={() =>
+                                            window.open(
+                                              advanceDetail[0]?.doc2,
+                                              "_blank"
+                                            )
+                                          }
+                                        />
+                                         <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                           onClick={() => setShowDocModaldoc2(true)}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            
+                                          }}
+                                        />
+                                        </>
+                                      )} 
+                                  </div>
+
+
+                                  <Modal
+  show={showDocModaldoc2}
+  onHide={() => setShowDocModaldoc2(false)}
+  size="lg"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px", // optional fallback height
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModaldoc2(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+
+    <img
+      src={advanceDetail[0]?.doc2}
+      alt="Document Preview"
+      style={{
+        maxWidth: "100%",
+        maxHeight: "70vh",
+        height: "auto",
+        width: "auto",
+        borderRadius: "10px",
+        objectFit: "contain",
+      }}
+    />
+  </Modal.Body>
+</Modal>
+                                </div>
+                              </div>
+                            </div>
                           </div>
 
                           <div style={{ flex: 1 }}>
@@ -4323,386 +4913,7 @@ const handleImageUpload = async (event) => {
                             </div>
                           </div>
                         </div>
-                         <div className="col-lg-8 col-md-12">
-                              <div
-                                className="card"
-                                style={{
-                                  borderRadius: "20px",
-                                  padding: "20px",
-                                  marginTop: 30,
-                                  marginLeft: "20px",
-                                }}
-                              >
-                                <div
-                                  className="card-header d-flex justify-content-between align-items-center"
-                                  style={{
-                                    backgroundColor: "transparent",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    borderBottom: "transparent",
-                                    marginBottom: "15px",
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      fontSize: 16,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      lineHeight: "40px",
-                                    }}
-                                  >
-                                    Document
-                                  </div>
-                                </div>
-
-                                <div
-                                  className="row"
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <div className="col-6 text-start">
-                                   
-
-
-                                    <button
-                                      className="btn"
-                                      disabled={props.customerAddPermission}
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "10px 20px",
-                                        fontSize: "14px",
-                                        border: "1px solid #D9D9D9",
-                                        fontFamily: "Gilroy"
-                                      }}
-                                      onClick={() => handleUploadClick(aadharInputRef)}
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      Upload Document
-                                    </button>
-
-
-                                    <input
-                                      type="file"
-                                      ref={aadharInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) => handleFileChange(e, "doc1")}
-                                    />
-
-
-                                    {state.UsersList?.KycCustomerDetails?.pic && (
-                                      <div >
-                                        <img
-                                          src={docDown}
-                                          alt="Download Aadhar"
-                                          onClick={handleDownloadKYC}
-                                          style={{ width: 20, height: 20, cursor: "pointer", marginLeft: 200, marginTop: "-70px" }}
-                                        />
-
-                                         <img
-                                          src={viewdoc}
-                                          alt="docdown"
-                                            onClick={handleViewKYC}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                            marginTop: "-70px" 
-                                          }}
-                                        />
-                                      </div>
-                                    )}
-
-<Modal show={showModal} onHide={handleClose} size="md" centered>
-  <Modal.Header closeButton>
-    <Modal.Title>KYC Details</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <div
-      style={{
-        borderRadius: 10,
-        padding: 20,
-        textAlign: "center",
-        fontFamily: "Gilroy",
-      }}
-    >
-      <div style={{ marginBottom: 15 }}>
-        <img
-          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-          alt="KYC"
-          style={{
-            height: 120,
-            width: 120,
-            borderRadius: "25%",
-            border: "3px solid #f0f0f0",
-            objectFit: "cover",
-          }}
-        />
-      </div>
-
-      <h5
-        style={{
-          fontWeight: "bold",
-          fontSize: 18,
-          marginBottom: 20,
-          color: "#222",
-        }}
-      >
-        {state.UsersList?.KycCustomerDetails?.name || "****"}
-      </h5>
-
-      <div
-        className="d-flex align-items-start"
-        style={{ justifyContent: "center", marginBottom: 15 }}
-      >
-        <i
-          className="bi bi-geo-alt"
-          style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
-        ></i>
-        <p
-          style={{
-            fontSize: 14,
-            color: "#4B4B4B",
-            maxWidth: 220,
-            textAlign: "left",
-            margin: 0,
-          }}
-        >
-          Address<br />
-          {/* <span>
-            {state.UsersList?.KycCustomerDetails?.address ||
-              "No address provided"}
-          </span> */}
-          <div style={{
-  maxWidth: "400px",
-  wordBreak: "break-word",
-  whiteSpace: "pre-wrap"
-}}>
-  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
-</div>
-        </p>
-      </div>
-
-      <div
-        className="d-flex align-items-start"
-        style={{ justifyContent: "center", marginBottom: 5 }}
-      >
-        <img
-          src={adhar}
-          alt="Aadhaar"
-          style={{ width: 20, height: 20, marginRight: 10 }}
-        />
-        <p
-          style={{
-            fontSize: 14,
-            color: "#4B4B4B",
-            maxWidth: 220,
-            textAlign: "left",
-            margin: 0,
-          }}
-        >
-          Aadhaar Number<br />
-          <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
-        </p>
-      </div>
-    </div>
-  </Modal.Body>
-</Modal>
-
-
-
-
-
-                                    <div
-                                      id="kyc-download-card"
-                                      style={{
-                                        position: "absolute",
-                                        top: "-9999px",
-                                        left: "-9999px",
-                                        borderRadius: 10,
-                                        padding: 20,
-                                        width: 320,
-                                        textAlign: "center",
-
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-
-                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
-                                        KYC Details
-                                      </h6>
-
-                                      <div style={{ marginBottom: 15 }}>
-                                        <img
-                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-                                          alt="KYC"
-                                          style={{
-                                            height: 120,
-                                            width: 120,
-                                            borderRadius: "25%",
-                                            border: "3px solid #f0f0f0",
-                                          }}
-                                        />
-                                      </div>
-
-                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
-                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
-                                      </h5>
-
-                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
-                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
-
-                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                          Adress<br />
-                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
-                                        </p>
-                                      </div>
-
-
-                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
-                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
-
-                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                          Aadhar Number<br />
-                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
-                                        </p>
-                                      </div>
-                                    </div>
-
-
-
-
-
-
-
-
-
-
-
-                                    {advanceDetail[0]?.doc1 && (
-                                      <a
-                                        href={advanceDetail[0]?.doc1}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <img
-                                          src={docDown}
-                                          alt="docdown"
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                         <img
-                                          src={viewdoc}
-                                          alt="docdown"
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                      </a>
-                                    )}
-
-
-                                    {uploadError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {uploadError}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
-
-
-
-                                  <div className="col-6 text-start">
-                                  
-                                    <button
-                                      className="btn "
-                                      disabled={props.customerAddPermission}
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "10px 20px",
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        border: "1px solid #D9D9D9",
-                                      }}
-                                      onClick={() =>
-                                        handleOtherUploadClick(otherDocInputRef)
-                                      }
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      Upload Document
-                                    </button>
-                                    <input
-                                      type="file"
-                                      ref={otherDocInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) =>
-                                        handleFileChange(e, "doc2")
-                                      }
-                                    />
-
-                                    {advanceDetail &&
-                                      advanceDetail[0]?.doc2 && (
-                                        <>
-                                        <img
-                                          src={docDown}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                            cursor: "pointer",
-                                          }}
-                                          alt="Download Document"
-                                          onClick={() =>
-                                            window.open(
-                                              advanceDetail[0]?.doc2,
-                                              "_blank"
-                                            )
-                                          }
-                                        />
-                                         <img
-                                          src={viewdoc}
-                                          alt="docdown"
-                                            // onClick={handleViewKYC}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                            marginTop: "-70px" 
-                                          }}
-                                        />
-                                        </>
-                                      )} 
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                        
 
                         {kycdetailsForm === true ? (
                           <UserListKyc
