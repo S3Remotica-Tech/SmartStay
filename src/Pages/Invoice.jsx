@@ -189,7 +189,7 @@ const InvoicePage = () => {
   }, [recurringbills]);
 
 
-  const handleToggle = (id,Inv_ID) => {
+  const handleToggle = (id, Inv_ID) => {
     if (!id) return;
 
     setCheckedRows((prev) => {
@@ -209,7 +209,7 @@ const InvoicePage = () => {
         payload: {
           user_id: id,
           bill_enable: updatedValue,
-          Inv_ID: Inv_ID , 
+          Inv_ID: Inv_ID,
         },
       });
 
@@ -426,6 +426,27 @@ const InvoicePage = () => {
     }
   };
 
+
+
+  useEffect(() => {
+    if (state.InvoiceList.pdfErrorStatusCode === 201) {
+      setLoading(false)
+      setShowLoader(false);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_PDF_ERROR" });
+      }, 100);
+    }
+  }, [state.InvoiceList.pdfErrorStatusCode]);
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+       setLoading(false)
+      setShowLoader(false);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
   const handleReceiptDetail = (item) => {
 
@@ -2089,6 +2110,8 @@ const InvoicePage = () => {
       state.InvoiceList.statusCodeForPDf === 200 ||
       state.InvoiceList.statusCodeForReceiptPDf === 200
     ) {
+      setLoading(false)
+      setShowLoader(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
       }, 100);
