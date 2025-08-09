@@ -49,9 +49,12 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import Select from "react-select";
+import { CloseCircle } from "iconsax-react";
 
 function UserList(props) {
   const state = useSelector((state) => state);
+
+  
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
@@ -786,6 +789,9 @@ if (selectedUser) {
   }, [state.UsersList.userProfilebill]);
 
 
+
+  
+
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
       setBillLoading(false)
@@ -1406,10 +1412,10 @@ setUserData(userData)
 
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
-
+const [bookingDet,setBookingDet] = useState("")
    const handleAddBookings = (userData) => {
     setHostelIds(userData.Hostel_Id);
-
+setBookingDet(userData)
     setId(userData.ID);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
@@ -2065,6 +2071,58 @@ setUserData(userData)
       }
   
     }, [state.createAccount?.networkError])
+    const [inactivename,setInactiveName] = useState("")
+ 
+const[inactiveForm,setInActiveForm] = useState(false)
+const [inActiveDate,setInActiveDate] = useState(null)
+const [inActiveComments,setInActiveComments] = useState("")
+const [bookingId,setBookingId] = useState("")
+
+const handleInActive =(item)=>{
+
+setInActiveForm(true)
+setBookingId(item.booking_id)
+setInactiveName(item)
+}
+
+const handleCloseInActive =()=>{
+  setInActiveForm(false)
+  setIsACtiveDateError("")
+  setInActiveComments("")
+  setInActiveDate("")
+
+}
+const handleInActiveReason = (e)=>{
+  setInActiveComments(e.target.value)
+
+}
+const [isActiveDateError,setIsACtiveDateError] = useState("")
+
+const SubmitInActiveForm = () =>{
+    if (!inActiveDate) {
+    setIsACtiveDateError(" Please Select Inactive Date");
+    return; 
+  }
+
+  setIsACtiveDateError("");
+ dispatch({
+          type: "BOOKINGACTIVE",
+          payload: { booking_id: bookingId,Inactive_date:inActiveDate,Inactive_Reason: inActiveComments},
+        });
+}
+
+
+useEffect(()=>{
+  if(state.Booking.StatusCodeInactiveCode === 200){
+    handleCloseInActive()
+     dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+     setTimeout(() => {
+          dispatch({ type: 'CLEAR_BOOKING_InActive' })
+        }, 1000)
+
+  }
+
+},[state.Booking.StatusCodeInactiveCode])
 
   return (
     <div>
@@ -2740,6 +2798,51 @@ setUserData(userData)
                                     Name
                                   </div>
                                 </th>
+
+
+                                 <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    paddingLeft: "20px",
+                                  }}
+                                >
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("bed_status", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("bed_status", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Status
+                                  </div>
+  
+
+                                </th>
                                 <th
                                   style={{
                                     textAlign: "start",
@@ -3001,7 +3104,18 @@ setUserData(userData)
                                           {user.Name}
                                         </span>
                                       </td>
-
+ <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                        style={{
+                                          paddingTop: 15,
+                                          border: "none",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
+                                        }}
+                                      > {user.bed_status}</td>
                                       <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         style={{
                                           paddingTop: 15,
@@ -3154,7 +3268,7 @@ setUserData(userData)
                                                 top: popupPosition.top - 25,
                                                 left: popupPosition.left,
                                                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                                width: 140,
+                                                width: "auto",
                                                 backgroundColor: "#F9F9F9",
                                                 border: "1px solid #EBEBEB",
                                                 borderRadius: "10px",
@@ -3207,7 +3321,7 @@ setUserData(userData)
                                                         cursor: customerAddPermission ? "not-allowed" : "pointer",
                                                       }}
                                                     >
-                                                      Assign Bed
+                                                      Check_In
                                                     </label>
                                                   </div>
 
@@ -3260,7 +3374,7 @@ setUserData(userData)
                                                         margin: 0,
                                                       }}
                                                     >
-                                                     Check-Out
+                                                   Move to Notice Period
                                                     </label>
                                                   </div>
 
@@ -3312,7 +3426,7 @@ setUserData(userData)
                                                         margin: 0,
                                                       }}
                                                     >
-                                                      Re Assign
+                                                      Re-Assign Bed
                                                     </label>
                                                   </div>
 
@@ -3320,7 +3434,7 @@ setUserData(userData)
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
-<div
+{/* <div
                                                   className="d-flex align-items-center gap-2"
                                                   style={{
                                                     backgroundColor: "#F9F9F9",
@@ -3366,7 +3480,110 @@ setUserData(userData)
                                                   >
                                                     Add Booking
                                                   </label>
-                                                </div>
+                                                </div> */}
+                                                {user.bed_status === "unassigned"  && (
+  <div
+    className="d-flex align-items-center gap-2"
+    style={{
+      backgroundColor: "#F9F9F9",
+      cursor: customerEditPermission ? "not-allowed" : "pointer",
+      opacity: customerEditPermission ? 0.6 : 1,
+      padding: "8px 12px",
+      borderRadius: 6,
+      transition: "background 0.2s ease-in-out",
+    }}
+    onClick={() => {
+      if (!customerEditPermission) {
+        handleAddBookings(user);
+      }
+    }}
+    onMouseEnter={(e) => {
+      if (!customerEditPermission) {
+        e.currentTarget.style.backgroundColor = "#F0F4FF";
+      }
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.backgroundColor = "#F9F9F9";
+    }}
+  >
+    <img
+      src={Edit}
+      alt="Edit"
+      style={{
+        width: 16,
+        height: 16,
+        filter: customerEditPermission ? "grayscale(100%)" : "none",
+        cursor: customerEditPermission ? "not-allowed" : "pointer",
+      }}
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy, sans-serif",
+        // color: customerEditPermission ? "#888888" : "#1E45E1",
+        cursor: customerEditPermission ? "not-allowed" : "pointer",
+        margin: 0,
+      }}
+    >
+      Add Booking
+    </label>
+  </div>
+)}
+
+
+
+                                                {user.bed_status === "booking"  && (
+  <div
+    className="d-flex align-items-center gap-2"
+    style={{
+      backgroundColor: "#F9F9F9",
+      cursor: customerEditPermission ? "not-allowed" : "pointer",
+      opacity: customerEditPermission ? 0.6 : 1,
+      padding: "8px 12px",
+      borderRadius: 6,
+      transition: "background 0.2s ease-in-out",
+    }}
+    onClick={() => {
+      if (!customerEditPermission) {
+        handleInActive(user);
+      }
+    }}
+    onMouseEnter={(e) => {
+      if (!customerEditPermission) {
+        e.currentTarget.style.backgroundColor = "#F0F4FF";
+      }
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.backgroundColor = "#F9F9F9";
+    }}
+  >
+    <img
+      src={Edit}
+      alt="Edit"
+      style={{
+        width: 16,
+        height: 16,
+        filter: customerEditPermission ? "grayscale(100%)" : "none",
+        cursor: customerEditPermission ? "not-allowed" : "pointer",
+      }}
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy, sans-serif",
+        // color: customerEditPermission ? "#888888" : "#1E45E1",
+        cursor: customerEditPermission ? "not-allowed" : "pointer",
+        margin: 0,
+      }}
+    >
+     Make as Inactive
+    </label>
+  </div>
+)}
+ 
+
 
                                                 <div
                                                   className="d-flex align-items-center gap-2"
@@ -3803,6 +4020,181 @@ setUserData(userData)
           </Button>
         </Modal.Footer>
       </Modal>
+
+
+{/*  */}
+
+<Modal show={inactiveForm} onHide={handleCloseInActive} centered backdrop="static"   >
+
+            <Modal.Header style={{ border: "none" }} className="ps-4 pe-4 pb-2 pt-4">
+                <div>
+                    <Modal.Title style={{
+                        fontSize: 20,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                    }}>Tenant Inactive ?</Modal.Title>
+
+                    <label style={{
+                        fontSize: 14,
+                        color: "#646464",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                    }}>Are you sure you want to inactive this tenant?</label>
+                </div>
+
+                <CloseCircle size="24" color="#000" onClick={handleCloseInActive} style={{ cursor: "pointer" }} />
+            </Modal.Header>
+    <div className="d-flex align-items-center gap-3 mb-3 ms-3">
+          
+ <img
+   src={
+     typeof inactivename.profile === "string" && inactivename.profile.trim()
+       ? inactivename.profile
+       : inactivename.profile instanceof File
+       ? URL.createObjectURL(inactivename.profile)
+       : Profile
+   }
+   alt="Profile"
+   className="rounded-circle"
+   width="35"
+   height="35"
+   onError={(e) => {
+     e.target.onerror = null;
+     e.target.src = Profile; 
+   }}
+ />
+                   <div>
+                     <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
+                     {inactivename.Name}
+                     </p>
+ 
+                   </div>
+                 </div>
+
+            <Modal.Body className="ps-4 pe-4 pb-4 pt-0">
+
+
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="joiningDate">
+                        <Form.Label
+                            style={{
+                                fontSize: 14,
+                                color: "#222222",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                            }}
+                        >
+                            Date
+                        </Form.Label>
+
+                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                            <DatePicker
+                                style={{
+                                    width: "100%",
+                                    height: 48,
+                                    cursor: "pointer",
+                                    fontFamily: "Gilroy",
+                                }}
+                                format="DD/MM/YYYY"
+                                placeholder="DD/MM/YYYY"
+                                value={inActiveDate ? dayjs(inActiveDate) : null}
+                                onChange={(date) => {
+                                    setInActiveDate(date ? date.toDate() : null);
+                                    setIsACtiveDateError("")
+                                }}
+                                getPopupContainer={() => document.body}
+                            />
+                        </div>
+                    </Form.Group>
+                     {isActiveDateError && (
+                                                <div style={{ color: "red",marginTop:"-5px" }}>
+                                                  <MdError
+                                                    style={{ fontSize: "13px", marginRight: "5px" }}
+                                                  />
+                                                  <label
+                                                    className="mb-0"
+                                                    style={{
+                                                      color: "red",
+                                                      fontSize: "12px",
+                                                      fontFamily: "Gilroy",
+                                                      fontWeight: 500,
+                                                    }}
+                                                  >
+                                                    {isActiveDateError}
+                                                  </label>
+                                                </div>
+                                              )}
+                </div>
+
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-3">
+                        <Form.Label style={{
+                            fontSize: 14,
+                            color: "#222222",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                        }}>Reason (Comments)</Form.Label>
+                        <Form.Control
+                            style={{
+                                fontSize: 16,
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                                border: "1px solid #D9D9D9",
+                                height: 50,
+                                borderRadius: 8,
+                            }}
+                            as="textarea"
+                            rows={5}
+                            placeholder="Enter reason here"
+                            value={inActiveComments}
+                            onChange={(e)=>handleInActiveReason(e)}
+                        />
+                    </Form.Group>
+                </div>
+                <Modal.Footer style={{ border: "none", padding: 0 }}>
+                    <div className="d-flex  w-100 gap-3">
+
+
+                        <Button
+                            onClick={handleCloseInActive}
+                            className="w-100"
+                            style={{
+                                backgroundColor: "#fff",
+                                border: "1px solid #D2D2D2",
+                                color: "#4B4B4B",
+                                fontWeight: 600,
+                                borderRadius: 10,
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                padding: "8px 40px"
+                            }}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            onClick={SubmitInActiveForm}
+                            className="w-100"
+                            style={{
+                                backgroundColor: "#1E45E1",
+                                fontWeight: 600,
+                                borderRadius: 10,
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                padding: "8px 40px"
+                            }}
+                        >
+                            Confirm
+                        </Button>
+                    </div>
+
+                </Modal.Footer>
+            </Modal.Body>
+
+        </Modal>
 
       {roomDetail === true ? (
         <UserListRoomDetail
@@ -5182,7 +5574,7 @@ setUserData(userData)
 
 
       {
-        add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking}/>
+        add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking} bookingDet={bookingDet}/>
       }
     </div>
   );
