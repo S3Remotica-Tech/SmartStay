@@ -402,15 +402,15 @@ function BookingModal(props) {
                 position: "relative",
               }}
             >
-          
 
-               <input type="file" onChange={handleFileChange} />
-      <Image
-        src={file ? URL.createObjectURL(file) : Profiles}
-        alt="Profile"
-        roundedCircle
-        style={{ height: 60, width: 60 }}
-      />
+              <div onChange={handleFileChange}>
+                <Image
+                  src={file ? URL.createObjectURL(file) : Profiles}
+                  alt="Profile"
+                  roundedCircle
+                  style={{ height: 60, width: 60 }}
+                />
+              </div>
 
 
 
