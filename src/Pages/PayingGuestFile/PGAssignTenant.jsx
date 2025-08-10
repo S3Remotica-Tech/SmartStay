@@ -15,7 +15,7 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import {Row,Col, } from "react-bootstrap";
 import dayjs from 'dayjs';
 
- const PGAssignTenant = ({ show, handleClose  , currentItem}) => {
+ const PGAssignTenant = ({ show, handleClose , advanceform, handleCloseAdvanceForm , handleshowAdvanceForm , currentItem , openAdvanceAndCloseTenant}) => {
 
      const state = useSelector((state) => state);
      const dispatch = useDispatch();
@@ -27,6 +27,9 @@ import dayjs from 'dayjs';
     const [roomrentError, setRoomRentError] = useState("");
     const [RoomRent, setRoomRent] = useState("");   
     const [AdvanceAmount, setAdvanceAmount] = useState("");
+    const [checkin_joiningDate, setCheckinJoiningDate] = useState(null);
+    const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState('')
+    const [loading, setLoading] = useState(false)
 
      const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
@@ -128,7 +131,7 @@ import dayjs from 'dayjs';
 
     setCheckinCustomerName(selectedOption?.value || '');
     if (!selectedOption) {
-      setCheckinCustomerErrmsg("Please Select Name");
+      setCheckinCustomerErrmsg("Please Select Customer");
     } else {
       setCheckinCustomerErrmsg("");
     }
@@ -167,6 +170,10 @@ import dayjs from 'dayjs';
         case "amount":
           setError("Please Enter Amount");
           break;
+
+
+
+
        
         default:
           break;
@@ -185,6 +192,39 @@ import dayjs from 'dayjs';
   };
 
 
+   const validateField = (value, fieldName) => {
+    const trimmedValue = String(value).trim();
+    if (!trimmedValue) {
+      switch (fieldName) {
+         case "checkin_customername":
+          setCheckinCustomerErrmsg("Please Select Customer");
+          break;
+        case "stay_typename":
+          setStayTypeNameErrMsg("Please Select Staytype");
+          break;
+        case "checkin_joiningDate":
+          setCheckinJoingDateErrmsg("Please Select Joining Date");
+          break;
+        case "AdvanceAmount":
+          setAdvanceAmountError("Please Enter Advance Amount");
+          break;
+        case "RoomRent":
+          setRoomRentError("Please Enter Rental Amount");
+          break;
+
+        default:
+          break;
+      }
+
+      if (!focusedRef.current && ref?.current) {
+        ref.current.focus();
+        focusedRef.current = true;
+      }
+      return false;
+    }
+
+    return true;
+  };
 
    
 
@@ -280,6 +320,406 @@ import dayjs from 'dayjs';
         }, 500);
       }
     }, [state?.Booking?.statusCodeForAddBooking]);
+
+
+
+  const [advanceDate , setAdvanceDate] = useState(null)
+  const [advanceDueDate , setAdvanceDueDate] = useState(null)
+  const [advanceDateError , setAdvanceDateError] = useState('')
+  const [advanceDueDateError ,  setAdvanceDueDateError] = useState('')
+  const [stay_typename , setStayTypeName] = useState("")
+  const [stay_typenameErrmsg , setStayTypeNameErrMsg] = useState("")
+
+  const stayTypes = [
+  { value: "short_stay", label: "Short Stay" },
+  { value: "long_stay", label: "Long Stay" },
+  { value: "day_stay", label: "Day Stay" },
+];
+
+  const longStayOnly = stayTypes.filter((s) => s.value === "long_stay");
+
+// onChange handler
+const handleStayTypeChange = (selectedOption) => {
+    setStayTypeName(selectedOption?.value || '');
+    if (!selectedOption) {
+      setStayTypeNameErrMsg("Please Select Staytype");
+    } else {
+      setStayTypeNameErrMsg("");
+    }
+};
+
+ const handleSaveCheckin = async () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
+    if (!validateField(checkin_customername, "checkin_customername"))
+    if (!validateField(stay_typename, "stay_typename"));
+    if (!validateField(checkin_joiningDate, "checkin_joiningDate"));
+    if (!validateField(AdvanceAmount, "AdvanceAmount"));
+    if (!validateField(RoomRent, "RoomRent"));
+
+ 
+
+    if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+      setRoomRentError("Please Enter Rental Amount");
+      return;
+    }
+    if (Number(RoomRent) <= 0) {
+      setRoomRentError("Please Enter Valid Rental Amount");
+      return;
+    }
+
+    if (
+      AdvanceAmount === "" ||
+      AdvanceAmount === null ||
+      AdvanceAmount === undefined
+    ) {
+      setAdvanceAmountError("Please Enter Advance Amount");
+      return;
+    }
+    if (Number(AdvanceAmount) <= 0) {
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
+      return;
+    }
+  fields.map((item) => {
+      let reason_name = "";
+
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
+
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+    setErrors(newErrors)
+
+    if (hasReasonAmountError) return;
+
+
+
+    if (
+      checkin_customername && stay_typename &&
+      currentItem?.room?.Floor_Id && currentItem?.room?.Room_Id && currentItem?.bed?.id && 
+      checkin_joiningDate &&
+      Number(AdvanceAmount) > 0 &&
+      Number(RoomRent) > 0
+    ) {
+openAdvanceAndCloseTenant();
+    }
+  };
+
+
+  const handleSaveUserlistAddUserButon = () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
+
+    if (!validateField(checkin_customername, "checkin_customername"))
+    if (!validateField(stay_typename, "stay_typename"));
+    if (!validateField(checkin_joiningDate, "checkin_joiningDate"));
+    if (!validateField(AdvanceAmount, "AdvanceAmount"));
+    if (!validateField(RoomRent, "RoomRent"));
+
+
+    if (!RoomRent && RoomRent !== 0) {
+      setRoomRentError("Please Enter Rental Amount");
+      return;
+    }
+    if (RoomRent <= 0) {
+      setRoomRentError("Please Enter Valid Rental Amount");
+      return;
+    }
+    if (!AdvanceAmount && AdvanceAmount !== 0) {
+      setAdvanceAmountError("Please Enter Advance Amount");
+      return;
+    }
+
+    if (AdvanceAmount <= 0) {
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
+      return;
+    }
+
+
+  //  floor_id: currentItem?.room?.Floor_Id,
+  //       room_id: currentItem?.room?.Room_Id,
+  //       bed_id: currentItem?.bed?.id,
+
+
+    if (checkin_customername && stay_typename &&
+       currentItem?.room?.Floor_Id && currentItem?.room?.Room_Id && currentItem?.bed?.id && 
+      checkin_joiningDate && AdvanceAmount && RoomRent) {
+
+      const incrementDateAndFormat = (date) => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + 1);
+
+        return newDate.toISOString().split("T")[0];
+      };
+      const formattedDate = checkin_joiningDate
+        ? incrementDateAndFormat(checkin_joiningDate)
+        : "";
+
+
+      const formattedReasons = fields.map((item) => {
+        let reason_name = "";
+
+        if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+          reason_name = item.customReason || item["custom Reason"] || "";
+        } else {
+          reason_name = item.reason || item.reason_name || "";
+        }
+
+        const error = { reason: "", amount: "" };
+        if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+          error.amount = "Please enter amount";
+          hasReasonAmountError = true;
+        }
+
+
+        if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+          error.reason = "Please enter reason";
+          hasReasonAmountError = true;
+        }
+
+        newErrors.push(error);
+        return {
+          reason_name,
+          amount: item.amount || "",
+          showInput: !!item.showInput
+        };
+      });
+
+      setErrors(newErrors)
+
+      if (hasReasonAmountError) return;
+
+
+
+
+      dispatch({
+        type: "ADDUSER",
+        payload: {
+          profile: file,
+          firstname: firstname,
+          lastname: lastname,
+          Phone: Phone,
+          Email: Email,
+          Address: house_no,
+          area: street,
+          landmark: landmark,
+          city: city,
+          pincode: pincode,
+          state: state_name,
+          AadharNo: AadharNo,
+          PancardNo: PancardNo,
+          licence: licence,
+          HostelName: HostelName,
+          hostel_Id: hostel_Id,
+          Floor: currentItem?.room?.Floor_Id,
+          Rooms: currentItem?.room?.Room_Id,
+          Bed: currentItem?.bed?.id,
+          joining_date: formattedDate,
+          AdvanceAmount: AdvanceAmount,
+          RoomRent: RoomRent,
+          BalanceDue: BalanceDue,
+          PaymentType: PaymentType,
+          paid_advance: paid_advance,
+          paid_rent: paid_rent,
+          payable_rent: payableamount,
+          isadvance: 0,
+          // ID: props.edit === "Edit" ? id : "",
+          reasons: formattedReasons,
+          stay_type: stay_typename
+        },
+      });
+      setLoading(true)
+
+
+    }
+  };
+
+    const handleSaveAdvance = () => {
+    let hasError = false;
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
+    if (!advanceDate) {
+      setAdvanceDateError("Please Select Invoice Date");
+      hasError = true;
+    } else {
+      setAdvanceDateError("");
+    }
+
+    if (!advanceDueDate) {
+      setAdvanceDueDateError("Please Select Due Date");
+      hasError = true;
+    } else {
+      setAdvanceDueDateError("");
+    }
+
+
+
+
+    if (advanceDate && advanceDueDate && checkin_customername) {
+      const selectedUser = state.UsersList.Users.find(
+        item => item.ID === checkin_customername
+      );
+
+      if (selectedUser) {
+        const CreateDate = dayjs(state.login.joiningDate).startOf('day');
+
+
+        const InvoiceDate = dayjs(advanceDate).startOf('day');
+
+        const DueDate = dayjs(advanceDueDate).startOf('day');
+        const Today = dayjs().startOf('day');
+
+
+        if (InvoiceDate.isBefore(CreateDate)) {
+
+          setAdvanceDateError("Before joining date not allowed");
+          hasError = true;
+        } else if (InvoiceDate.isAfter(Today)) {
+          setAdvanceDateError("Invoice date cannot be a future date");
+          hasError = true;
+        }
+
+
+        if (DueDate.isBefore(InvoiceDate)) {
+          setAdvanceDueDateError("Due date cannot be before invoice date");
+          hasError = true;
+        }
+      }
+    }
+
+
+
+
+    if (hasError) {
+      return;
+    }
+
+    const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate.toISOString().split("T")[0];
+    };
+
+
+    const formattedDate = selectedDate
+      ? incrementDateAndFormat(selectedDate)
+      : "";
+    const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
+    const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
+
+  const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
+    const capitalizedFirstname = capitalizeFirstLetter(firstname);
+    
+    const capitalizedLastname = capitalizeFirstLetter(lastname);
+    const formattedReasons = fields.map((item) => {
+      let reason_name = "";
+
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
+
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+    setErrors(newErrors)
+
+    if (hasReasonAmountError) return;
+
+
+   dispatch({
+  type: "ADDUSER",
+  payload: {
+    profile: file,
+    firstname: capitalizedFirstname,  
+    LastName: capitalizedLastname,
+    Phone: Phone,
+    Email: Email,
+    Address: house_no,
+    area: street,
+    landmark: landmark,
+    city: city,
+    pincode: pincode,
+    state: state_name,
+    AadharNo: AadharNo,
+    PancardNo: PancardNo,
+    licence: licence,
+    HostelName: HostelName,
+    hostel_Id: hostel_Id,
+    Floor: Floor,
+    Rooms: Rooms,
+    Bed: Bed,
+    joining_date: formattedDate,
+    AdvanceAmount: AdvanceAmount,
+    RoomRent: RoomRent,
+    BalanceDue: BalanceDue,
+    PaymentType: PaymentType,
+    paid_advance: paid_advance,
+    paid_rent: paid_rent,
+    payable_rent: payableamount,
+    isadvance: 1,
+    invoice_date: formattedAdvanceDate,
+    due_date: formattedAdvanceDateDue,
+    ID: props.edit === "Edit" ? id : "",
+    reasons: formattedReasons,
+    stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+  },
+});
+
+    setLoading(true)
+
+    dispatch({ type: "INVOICELIST" });
+  };
   
 
     return(
@@ -912,102 +1352,77 @@ import dayjs from 'dayjs';
 
 
 
-                            <Select
-                            //   options={
-                            //     Array.isArray(complainttypelist) && complainttypelist.length > 0
-                            //       ? complainttypelist.map((u) => ({
-                            //         value: u.id,
-                            //         label: u.complaint_name,
-                            //       }))
-                            //       : []
-                            //   }
-                            //   onChange={handleComplaintType}
-                            //   value={
-                            //     edit && editcomplainttype
-                            //       ? { value: editcomplainttype, label: editcomplainttype }
-                            //       : Complainttype
-                            //         ? {
-                            //           value: Complainttype,
-                            //           label: complainttypelist.find((c) => c.id === Complainttype)
-                            //             ?.complaint_name,
-                            //         }
-                            //         : null
-                            //   }
-                              placeholder="Select a type"
-                              classNamePrefix="custom"
-                              menuPlacement="auto"
-                            //   isDisabled={edit}
-                            //   components={
-                            //     edit
-                            //       ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
-                            //       : undefined
-                            //   }
-                              noOptionsMessage={() => "No stay types available"}
-                              styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  height: "50px",
-                                  border: "1px solid #D9D9D9",
-                                  borderRadius: "8px",
-                                  fontSize: "16px",
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                //   backgroundColor: edit ? "#E7F1FF" : "#fff",
-                                  cursor: 'pointer'
-                                }),
-                                menu: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy",
-                                  cursor: 'pointer'
-                                }),
-                                menuList: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  maxHeight: "120px",
-                                  padding: 0,
-                                  scrollbarWidth: "thin",
-                                  overflowY: "auto",
-                                  fontFamily: "Gilroy",
-                                  cursor: 'pointer'
-                                }),
-                                placeholder: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                }),
-                                dropdownIndicator: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                  display: "inline-block",
-                                  fill: "currentColor",
-                                  lineHeight: 1,
-                                  stroke: "currentColor",
-                                  strokeWidth: 0,
-                                }),
-                                indicatorSeparator: () => ({
-                                  display: "none",
-                                }),
-                                option: (base, state) => ({
-                                  ...base,
-                                  cursor: "pointer",
-                                  color: state.isSelected ? "#fff" : "#000",
-                                  fontFamily: "Gilroy",
-                                }),
-                              }}
-                            />
+                    <Select
+  options={longStayOnly}
+  onChange={handleStayTypeChange}
+  placeholder="Select a type"
+  classNamePrefix="custom"
+  menuPlacement="auto"
+  noOptionsMessage={() => "No stay types available"}
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: "50px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "16px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
+      cursor: "pointer",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+      fontFamily: "Gilroy",
+      cursor: "pointer",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+      fontFamily: "Gilroy",
+      cursor: "pointer",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      display: "inline-block",
+      fill: "currentColor",
+      lineHeight: 1,
+      stroke: "currentColor",
+      strokeWidth: 0,
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      color: state.isSelected ? "#fff" : "#000",
+      fontFamily: "Gilroy",
+    }),
+  }}
+/>
 
 
                           </div>
-                          {/* {complaint_typeerrmsg.trim() !== "" && (
+                          {stay_typenameErrmsg.trim() !== "" && (
                             <div>
                               <p style={{ fontSize: '15px', color: 'red' }}>
-                                {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
+                                {stay_typenameErrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{stay_typenameErrmsg}</span>
                               </p>
                             </div>
-                          )} */}
+                          )}
                                     </Row>
 
                                 <Row>
@@ -1130,20 +1545,20 @@ import dayjs from 'dayjs';
                                                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                                        format="DD/MM/YYYY"
                                                        placeholder="DD/MM/YYYY"
-                                                       value={joiningDate ? dayjs(joiningDate) : null}
+                                                       value={checkin_joiningDate ? dayjs(checkin_joiningDate) : null}
                                                        onChange={(date) => {
-                                                         setDateError("");
-                                                         setJoiningDate(date ? date.toDate() : null);
-                                                         dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+                                                         setCheckinJoingDateErrmsg("");
+                                                         setCheckinJoiningDate(date ? date.toDate() : null);
                                                        }}
                                                        disabledDate={(current) => current && current > dayjs().endOf("day")}
-                                                       getPopupContainer={(triggerNode) =>
-                                                         triggerNode.closest(".datepicker-wrapper")
-                                                       }
+                                                      //  getPopupContainer={(triggerNode) =>
+                                                      //    triggerNode.closest(".datepicker-wrapper")
+                                                      //  }
+                                                       getPopupContainer={() => document.body}
                                                      />
                                                    </div>
                                                  </Form.Group>
-                                                 {/* {dateError && (
+                                                 {Checkin_joiningDateErrmsg && (
                                                    <div style={{ color: "red" }}>
                                                      <MdError
                                                        style={{
@@ -1160,10 +1575,10 @@ import dayjs from 'dayjs';
                                                          fontWeight: 500,
                                                        }}
                                                      >
-                                                       {dateError}
+                                                       {Checkin_joiningDateErrmsg}
                                                      </span>
                                                    </div>
-                                                 )} */}
+                                                 )}
                                                  {/* {state.Booking?.ErrorAssignBookingDate && (
                                                    <div style={{ color: "red" }}>
                                                      <MdError
@@ -1457,6 +1872,7 @@ import dayjs from 'dayjs';
                                                                padding:'5px 40px',
                                                                fontFamily: "Gilroy",
                                                              }}
+                                                             onClick={handleSaveCheckin}
                                                            >
                                                               Check-in
                                                            </Button>
@@ -1495,6 +1911,242 @@ import dayjs from 'dayjs';
         
                 </Modal.Dialog>
               </Modal>
+
+              <Modal
+        show={advanceform}
+        onHide={handleCloseAdvanceForm}
+        backdrop="static"
+        centered
+      >
+        <Modal.Dialog
+          style={{
+            maxWidth: 666,
+            paddingRight: "10px",
+            borderRadius: "30px",
+          }}
+          className="m-0 p-0"
+        >
+
+          <Modal.Header style={{ position: "relative" }}>
+            <div
+              style={{
+                fontSize: 20,
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+              }}
+            >
+              Generate Advance
+            </div>
+
+            <CloseCircle
+              size="24"
+              color="#000"
+              onClick={handleCloseAdvanceForm}
+              style={{ cursor: "pointer" }}
+            />
+          </Modal.Header>
+          <Modal.Body style={{ paddingTop: 2 }}>
+            <div className="d-flex align-items-center">
+              <div className="container">
+
+
+
+                <div className="row mb-3">
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="checkoutDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Invoice Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          *
+                        </span>
+                      </Form.Label>
+
+                      <div
+                        className="datepicker-wrapper"
+                        style={{ position: "relative", width: "100%" }}
+                      >
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                            height: 48,
+                            cursor: "pointer",
+                            fontFamily: "Gilroy"
+                          }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={advanceDate ? dayjs(advanceDate) : null}
+                          onChange={(date) => {
+                            setAdvanceDateError("");
+                            setAdvanceDate(date ? date.toDate() : null);
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".datepicker-wrapper")
+                          }
+                          dropdownClassName="custom-datepicker-popup"
+                          disabledDate={(current) => current && current > dayjs().endOf("day")}
+                        />
+                      </div>
+                    </Form.Group>
+                    {advanceDateError && (
+                      <div style={{ color: "red", marginTop: "-7px" }}>
+                        <MdError
+                          style={{ fontSize: "13px", marginRight: "5px" }}
+                        />
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {advanceDateError}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="checkoutDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Due Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          *
+                        </span>
+                      </Form.Label>
+
+                      <div
+                        className="datepicker-wrapper"
+                        style={{ position: "relative", width: "100%" }}
+                      >
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                            height: 48,
+                            cursor: "pointer",
+                            fontFamily: "Gilroy"
+                          }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={advanceDueDate ? dayjs(advanceDueDate) : null}
+                          onChange={(date) => {
+                            setAdvanceDueDateError("");
+                            setAdvanceDueDate(date ? date.toDate() : null);
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".datepicker-wrapper")
+                          }
+                          dropdownClassName="custom-datepicker-popup"
+                        />
+                      </div>
+                    </Form.Group>
+                    {advanceDueDateError && (
+                      <div style={{ color: "red", marginTop: "-7px" }}>
+                        <MdError
+                          style={{ fontSize: "13px", marginRight: "5px" }}
+                        />
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {advanceDueDateError}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="row col-md-12 col-lg-12">
+                  <div className="col-md-6 col-lg-6">
+                    <Button
+                      variant="secondary"
+                      className="w-100"
+                      style={{
+                        height: 45,
+                        borderRadius: 12,
+                        fontSize: 15,
+                        fontWeight: 500,
+                        fontFamily: "Montserrat",
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                      }}
+                      onClick={handleSaveUserlistAddUserButon}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+
+                  <div className="col-md-6 col-lg-6 mb-2">
+                    <Button
+                      variant="primary"
+                      className="w-100"
+                      style={{
+                        backgroundColor: "#1E45E1",
+                        height: 45,
+                        borderRadius: 12,
+                        fontSize: 15,
+                        fontWeight: 600,
+                        fontFamily: "Montserrat",
+                        paddingLeft: 25,
+                        paddingRight: 25,
+                      }}
+                      onClick={handleSaveAdvance}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </Modal.Body>
+          {loading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+
+
+        </Modal.Dialog>
+      </Modal>
         </>
     )
  }
