@@ -84,9 +84,7 @@ const Footers = (props) => {
                   <Link to="firstPage" smooth={true} duration={500}>
                     <p style={{ color: '#FFFFFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '25px', cursor: "pointer" }} >About</p>
                   </Link>
-                  {/* <Link to="keyFeature" smooth={true} duration={500}>
-        <p style={{ color: '#FFFFFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '25px', cursor: "pointer" }} >Safety</p>
-      </Link> */}
+
                   <Link to="pricing" smooth={true} duration={500}>
                     <p style={{ color: '#FFFFFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '25px', cursor: "pointer" }} onClick={() => handleLink('Pricing')}>Product</p>
                   </Link>
@@ -95,8 +93,7 @@ const Footers = (props) => {
 
                 <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 fade-in">
                   <h5 style={{ color: '#FFF', fontFamily: 'Montserrat', fontSize: 20, fontWeight: 500, lineHeight: '160%' }}>Resources</h5>
-                  {/* <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%' }}>Careers</p> */}
-                  {/* <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%' }}>Downloads</p> */}
+
                   <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={() => handleLink('Contact_us')}>Contact us</p>
                 </div>
 
@@ -135,10 +132,10 @@ const Footers = (props) => {
                 />
               </a>
 
-           
+
               {/* <img className="mt-1 me-2" src={Twitter} alt="twitter" style={{ height: 24, width: 24 }} />
               <img className="m-1 me-2" src={Linkedin} alt="linkedin" style={{ height: 24, width: 24 }} /> */}
-            
+
               <a
                 href="https://www.instagram.com/smartstay.qbatz/"
                 target="_blank"
