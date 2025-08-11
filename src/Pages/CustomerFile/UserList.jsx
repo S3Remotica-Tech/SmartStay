@@ -1878,6 +1878,7 @@ setBookingDet(userData)
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+      dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
       setcheckoutForm(false);
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);

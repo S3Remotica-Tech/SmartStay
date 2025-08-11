@@ -398,17 +398,19 @@ function BookingModal(props) {
             >
 
               <div onChange={handleFileChange}>
-                <Image
-                  src={
-                    file
-                      ? (typeof file === "string" ? file : URL.createObjectURL(file))
-                      : props.userDetail?.profile || Profiles
-                  }
-                  alt="Profile"
-                  roundedCircle
-                  style={{ height: 60, width: 60 }}
-                />
-              </div>
+  <Image
+  src={
+    file
+      ? URL.createObjectURL(file)
+      : (props.userDetail?.profile && props.userDetail.profile.trim() !== "")
+        ? props.userDetail.profile
+        : Profiles
+  }
+  onError={(e) => { e.target.src = Profiles; }} // if error, use fallback
+  alt="Profile"
+  roundedCircle
+  style={{ height: 60, width: 60 }}
+/>       </div>
 
 
 
