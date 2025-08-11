@@ -203,9 +203,6 @@ function BookingModal(props) {
 
     let isValid = true;
 
-
-
-    // Booking Date
     if (!bookingDate) {
       setDateError("Please select Booking Date");
       isValid = false;
@@ -213,7 +210,7 @@ function BookingModal(props) {
       setDateError("");
     }
 
-    // Booking Amount
+
     if (!bookingAmount) {
       setAmountError("Please enter Booking Amount");
       isValid = false;
@@ -224,7 +221,7 @@ function BookingModal(props) {
       setAmountError("");
     }
 
-    // Joining Date
+
     if (!joiningDate) {
       setJoiningDateError("Please select Joining Date");
       isValid = false;
@@ -232,7 +229,6 @@ function BookingModal(props) {
       setJoiningDateError("");
     }
 
-    // Floor
     if (!floor) {
       setFloorError("Please select Floor");
       isValid = false;
@@ -240,7 +236,6 @@ function BookingModal(props) {
       setFloorError("");
     }
 
-    // Room
     if (!room) {
       setRoomError("Please select Room");
       isValid = false;
@@ -248,7 +243,7 @@ function BookingModal(props) {
       setRoomError("");
     }
 
-    // Bed
+    
     if (!bed) {
       setBedError("Please select Bed");
       isValid = false;
