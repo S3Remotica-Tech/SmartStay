@@ -28,7 +28,7 @@ import UserlistWalkin from "./UserlistWalkin";
 import Addbooking from "./Addbookingform";
 import CheckOutForm from "./UserListCheckoutForm";
 import UserlistWalkinForm from "./UserlistWalkinForm";
-import Edit from "../../Assets/Images/Edit-blue.png";
+// import Edit from "../../Assets/Images/Edit-blue.png";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -50,6 +50,8 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
+import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
+import logout from "../../Assets/Images/New_images/logout.png";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -2137,6 +2139,35 @@ useEffect(()=>{
 
 },[state.Booking.StatusCodeInactiveCode])
 
+const [BookingAssignForm,setBookingAssignForm] = useState("")
+
+
+const handleBookingAssign = (book)=>{
+  console.log("handleBookingAssign",book)
+    setEdit("Edit");
+    handleMenuClick();
+    setShowMenu(false);
+    setBookingAssignForm(true)
+    setAdvanceForm(false);
+    setAddCheckoutForm(false);
+    setAddBasicDetail(false);
+    setEditObj(book);
+
+}
+const [bactocheckinForm,setBacktoCheckInForm] = useState(false)
+const handleBacktoCheckout = (item)=>{
+  console.log("handleBacktoCheckout",item)
+    handleMenuClick();
+    setShowMenu(false);
+    setBookingAssignForm(false)
+    setAdvanceForm(false);
+    setAddCheckoutForm(false);
+    setAddBasicDetail(false);
+    setEditObj(item);
+  setBacktoCheckInForm(true)
+
+}
+
   return (
     <div>
       <Addbooking
@@ -3289,7 +3320,7 @@ useEffect(()=>{
                                               }}
                                             >
                                               <div>
-                                                {!user.Bed && (
+                                                {!user.Bed && user.bed_status === "unassigned" &&(
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
@@ -3340,7 +3371,7 @@ useEffect(()=>{
 
                                                 )}
 
-                                                {user.Bed && (
+                                                {user.Bed &&  user.bed_status === "checkIn" &&(
                                                 
                                                     <div
                                                     className="d-flex align-items-center gap-2"
@@ -3393,7 +3424,7 @@ useEffect(()=>{
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                {user.Bed && (
+                                                {user.Bed && user.bed_status === "checkIn"  && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                    
@@ -3421,7 +3452,7 @@ useEffect(()=>{
                                                     }}
                                                   >
                                                     <img
-                                                      src={addcircle}
+                                                      src={Addbook}
                                                       alt="Re-Assign"
                                                       style={{
                                                         width: 16,
@@ -3442,6 +3473,115 @@ useEffect(()=>{
                                                       Re-Assign Bed
                                                     </label>
                                                   </div>
+
+                                                )}
+
+
+
+
+                                                 {user.Bed &&  user.bed_status === "noticeperiod" &&(
+                                                <>
+                                                    <div
+                                                    className="d-flex align-items-center gap-2"
+                                                  
+                                                  //    onClick={() => {
+                                                  //   if (!customerAddPermission) {
+                                                  //     handleCustomerCheckout(user);
+                                                  //   }
+                                                  // }}
+
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerAddPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      alt="checkout"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                 Back to Check-In
+                                                    </label>
+                                                  </div>
+
+
+                                                     <div
+                                                    className="d-flex align-items-center gap-2"
+                                                  
+                                                     onClick={() => {
+                                                    if (!customerAddPermission) {
+                                                      handleBacktoCheckout(user);
+                                                    }
+                                                  }}
+
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerAddPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={logout}
+                                                      alt="checkout"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                 Check-Out
+                                                    </label>
+                                                  </div>
+
+
+</>
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
@@ -3520,8 +3660,8 @@ useEffect(()=>{
     }}
   >
     <img
-      src={Edit}
-      alt="Edit"
+      src={Addbook}
+      alt="Addbook"
       style={{
         width: 16,
         height: 16,
@@ -3547,6 +3687,54 @@ useEffect(()=>{
 
 
                                                 {user.bed_status === "booking"  && (
+
+                                                  <>
+                                                   <div
+    className="d-flex align-items-center gap-2"
+    style={{
+      backgroundColor: "#F9F9F9",
+      cursor: customerEditPermission ? "not-allowed" : "pointer",
+      opacity: customerEditPermission ? 0.6 : 1,
+      padding: "8px 12px",
+      borderRadius: 6,
+      transition: "background 0.2s ease-in-out",
+    }}
+    onClick={() => {
+      if (!customerEditPermission) {
+        handleBookingAssign(user);
+      }
+    }}
+    onMouseEnter={(e) => {
+      if (!customerEditPermission) {
+        e.currentTarget.style.backgroundColor = "#F0F4FF";
+      }
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.backgroundColor = "#F9F9F9";
+    }}
+  >
+    <img
+      src={addcircle}
+      alt="Edit"
+      style={{
+        width: 16,
+        height: 16,
+        filter: customerEditPermission ? "grayscale(100%)" : "none",
+        cursor: customerEditPermission ? "not-allowed" : "pointer",
+      }}
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: "Gilroy, sans-serif",
+        cursor: customerEditPermission ? "not-allowed" : "pointer",
+        margin: 0,
+      }}
+    >
+    Check_In
+    </label>
+  </div>
   <div
     className="d-flex align-items-center gap-2"
     style={{
@@ -3572,8 +3760,8 @@ useEffect(()=>{
     }}
   >
     <img
-      src={Edit}
-      alt="Edit"
+      src={Addbook}
+      alt="Addbook"
       style={{
         width: 16,
         height: 16,
@@ -3594,61 +3782,19 @@ useEffect(()=>{
      Make as Inactive
     </label>
   </div>
+
+</>
+
+
 )}
  
 
 
-                                                <div
-                                                  className="d-flex align-items-center gap-2"
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                    opacity: customerEditPermission ? 0.6 : 1,
-                                                    padding: "8px 12px",
-                                                    borderRadius: 6,
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onClick={() => {
-                                                    if (!customerEditPermission) {
-                                                      handleRoomDetailsPage(user);
-                                                    }
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    if (!customerEditPermission) {
-                                                      e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                                    }
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={Edit}
-                                                    alt="Edit"
-                                                    style={{
-                                                      width: 16,
-                                                      height: 16,
-                                                      filter: customerEditPermission ? "grayscale(100%)" : "none",
-                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                    }}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: customerEditPermission ? "#888888" : "#1E45E1",
-                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                      margin: 0,
-                                                    }}
-                                                  >
-                                                    Edit
-                                                  </label>
-                                                </div>
-
 
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+{user.bed_status === "unassigned"  && (
                                                 <div
+
                                                   className="d-flex align-items-center gap-2"
                                                   style={{
                                                     backgroundColor: "#F9F9F9",
@@ -3690,7 +3836,9 @@ useEffect(()=>{
                                                     Delete
                                                   </label>
                                                 </div>
+)}
                                               </div>
+                                                
                                             </div>
                                           )}
                                         </div>
@@ -4211,6 +4359,7 @@ useEffect(()=>{
 
       {roomDetail === true ? (
         <UserListRoomDetail
+        
           onEditItem={handleEditItem}
           userData={userDatafull}
           onAddItem={handleAddItems}
@@ -5557,7 +5706,7 @@ useEffect(()=>{
         </>
       )}
 
-      {(advanceForm || showMenu || showAssignMenu) && (
+      {(advanceForm || showMenu || showAssignMenu || BookingAssignForm || bactocheckinForm) && (
         <UserlistForm
           setShowMenu={setShowMenu}
           advanceForm={advanceForm}
@@ -5582,12 +5731,16 @@ useEffect(()=>{
           OnShowTable={OnShowTableForCustomer}
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
+          BookingAssignForm={BookingAssignForm}
+          setBookingAssignForm={setBookingAssignForm}
+          bactocheckinForm = {bactocheckinForm}
+          setBacktoCheckInForm = {setBacktoCheckInForm}
         />
       )}
 
 
       {
-        add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} userDetail={userDetail} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking} bookingDet={bookingDet}/>
+        add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} userDetail={userDetail} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking} bookingDet={bookingDet} />
       }
     </div>
   );

@@ -122,7 +122,7 @@ function ForgetPasswordPage() {
 
   const handleLogin = () => {
     setTimeout(() => {
-      navigate('/login-Page')
+      navigate('/hostel-management-login')
     }, 1000)
   }
 
@@ -280,7 +280,7 @@ function ForgetPasswordPage() {
   useEffect(() => {
     if (state.NewPass?.status_codes === 200) {
       setShowLoader(false);
-      navigate("/login-Page")
+      navigate("/hostel-management-login")
       setEmail("");
       setPassword("");
       setConfirmPassword('')

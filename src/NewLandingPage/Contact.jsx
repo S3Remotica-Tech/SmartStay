@@ -9,10 +9,10 @@ import TopLeftCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 import Email from "../Assets/Images/landingpageimages/message.png";
 import Location from "../Assets/Images/landingpageimages/Location.png";
 import Call from "../Assets/Images/landingpageimages/call.png";
-
+import { useNavigate } from 'react-router-dom';
 
 function Contact() {
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -49,9 +49,8 @@ function Contact() {
   const validateForm = () => {
     let newErrors = {};
     if (!formData.user_name.trim()) newErrors.user_name = 'Name is Required';
-    if (!formData.user_city.trim()) newErrors.user_city = 'City is Required';
     if (!formData.user_phone.trim()) newErrors.user_phone = 'Phone Number is Required';
-    if (!formData.message.trim()) newErrors.message = 'Course Select Required';
+   
 
 
 
@@ -73,12 +72,14 @@ function Contact() {
       return;
     }
 
-    if (formData.user_name && formData.user_phone && formData.user_city && formData.message) {
+    if (formData.user_name && formData.user_phone) {
       try {
         const response = await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', formData);
         console.log('API response:', response.data);
 
-        await send('service_ael05nx', 'template_3dnr1i6', formData, 'xM8OCsWJd_Fz844uW');
+        await send('service_ael05nx',
+          'template_le2ry4z',
+          formData, 'xM8OCsWJd_Fz844uW');
         console.log('Email successfully sent');
 
         setStatus('Message sent successfully!');
@@ -92,6 +93,7 @@ function Contact() {
         setTimeout(() => {
           setStatus('');
         }, 1000);
+        navigate('/thankyou');
       } catch (error) {
         console.error('Error:', error);
         setStatus('Failed to send message. Please try again later.');
@@ -166,7 +168,7 @@ function Contact() {
                     Email Support :
                   </p>
                   <p style={{ fontWeight: 500, fontFamily: "Montserrat", fontSize: 15, color: 'rgba(255, 255, 255, 1)' }}>
-                    support@s3remotica.com
+                    dm@s3remotica.com
                   </p>
                 </div>
               </div>
@@ -190,7 +192,10 @@ function Contact() {
                     +91 8344715078
                   </p>
                   <p className='mb-1' style={{ textAlign: "start", fontWeight: 500, fontFamily: "Montserrat", fontSize: 15, color: 'rgba(255, 255, 255, 1)', marginTop: '3px' }}>
-                    +91 6382064159
+                    +91 9688207649
+                  </p>
+                  <p className='mb-1' style={{ textAlign: "start", fontWeight: 500, fontFamily: "Montserrat", fontSize: 15, color: 'rgba(255, 255, 255, 1)', marginTop: '3px' }}>
+                    +91 9688229461
                   </p>
                 </div>
 
@@ -200,125 +205,94 @@ function Contact() {
 
 
             <div className="col-lg-6 col-md-12 col-sm-12" style={{ padding: '10px' }}>
-              <h3 style={{ textAlign:"start",fontWeight: Styles.FontBold, fontFamily: Styles.fontFamilyMontserrat, fontSize: Styles.Font25 }}>
+              <h3 style={{ textAlign: "start", fontWeight: Styles.FontBold, fontFamily: Styles.fontFamilyMontserrat, fontSize: Styles.Font25 }}>
                 Let&apos;s Get in Touch
               </h3>
 
               {status && <div className="alert alert-info">{status}</div>}
               <form onSubmit={handleSubmit} style={{ paddingTop: '10px' }}>
-          <div className="row">
-            <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
-              <input
-                type="text"
-                className="form-control custom-input-height"
-                name="user_name"
-                value={formData.user_name}
-                onChange={handleChange}
-                placeholder="Your name"
-                style={{ padding: '20px', backgroundColor: 'rgba(238, 241, 252, 1)', borderRadius: 12, color: 'rgba(128, 128, 146, 1)', fontFamily: 'Montserrat' }}
-              />
-              {errors.user_name && (
-                <div className="d-flex align-items-center mb-2">
-                  <MdError style={{ color: 'red', marginRight: '5px', fontSize: '14px' }} />
-                  <label className="mb-0" style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                    {errors.user_name}
-                  </label>
-                </div>
-              )}
-            </div>
-            <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
-              <input
-                type="text"
-                className="form-control custom-input-height"
-                name="user_phone"
-                value={formData.user_phone}
-                onChange={handleChange}
-                placeholder="Your phone"
-                style={{ padding: '20px', backgroundColor: 'rgba(238, 241, 252, 1)', borderRadius: 12, color: 'rgba(128, 128, 146, 1)', fontFamily: 'Montserrat' }}
-              />
-              {errors.user_phone && (
-                <div className="d-flex align-items-center mb-2">
-                  <MdError style={{ color: 'red', marginRight: '5px', fontSize: '14px' }} />
-                  <label className="mb-0" style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                    {errors.user_phone}
-                  </label>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="row mb-3">
-            <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
-              <input
-                type="text"
-                className="form-control custom-input-height"
-                name="user_city"
-                value={formData.user_city}
-                onChange={handleChange}
-                placeholder="Your city"
-                style={{ padding: '20px', backgroundColor: 'rgba(238, 241, 252, 1)', borderRadius: 12, color: 'rgba(128, 128, 146, 1)', fontFamily: 'Montserrat' }}
-              />
-              {errors.user_city && (
-                <div className="d-flex align-items-center mb-2">
-                  <MdError style={{ color: 'red', marginRight: '5px', fontSize: '14px' }} />
-                  <label className="mb-0" style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                    {errors.user_city}
-                  </label>
-                </div>
-              )}
-            </div>
-
-            <div className="col-md-12 col-lg-12 col-sm-12">
-              <Form.Group className="" controlId="exampleForm.ControlInput5">
-                <Form.Select
-                  aria-label="Default select example"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                  style={{
-                    fontSize: 16,
-                    color: 'rgba(128, 128, 146, 1)',
-                    lineHeight: '18.83px',
-                    fontWeight: 500,
-                    boxShadow: 'none',
-                    fontFamily: 'Montserrat',
-                    border: '1px solid #D9D9D9',
-                    height: 59,
-                    borderRadius: 12,
-                    padding: '20px',
-                    backgroundColor: 'rgba(238, 241, 252, 1)'
-                  }}
-                >
-                  <option style={{ fontFamily: 'Montserrat' }} value="">Select Course</option>
-                  <option style={{ fontFamily: 'Montserrat' }} value="Frontend">Frontend</option>
-                  <option style={{ fontFamily: 'Montserrat' }} value="Backend">Backend</option>
-                  <option style={{ fontFamily: 'Montserrat' }} value="Full stack Development">Full stack Development</option>
-                </Form.Select>
-                {errors.message && (
-                  <div className="d-flex align-items-center mb-2">
-                    <MdError style={{ color: 'red', marginRight: '5px', fontSize: '14px' }} />
-                    <label className="mb-0" style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                      {errors.message}
-                    </label>
+                <div className="row">
+                  <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
+                    <input
+                      type="text"
+                      className="form-control custom-input-height"
+                      name="user_name"
+                      value={formData.user_name}
+                      onChange={handleChange}
+                      placeholder="Your name"
+                      style={{ padding: '20px', backgroundColor: 'rgba(238, 241, 252, 1)', borderRadius: 12, color: 'rgba(128, 128, 146, 1)', fontFamily: 'Montserrat' }}
+                    />
+                    {errors.user_name && (
+                      <div className="d-flex align-items-center mb-2">
+                        <MdError style={{ color: 'red', marginRight: '5px', fontSize: '14px' }} />
+                        <label className="mb-0" style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
+                          {errors.user_name}
+                        </label>
+                      </div>
+                    )}
                   </div>
-                )}
-              </Form.Group>
-            </div>
-          </div>
+                  <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
+                    <input
+                      type="text"
+                      className="form-control custom-input-height"
+                      name="user_phone"
+                      value={formData.user_phone}
+                      onChange={handleChange}
+                      placeholder="Your phone"
+                      style={{ padding: '20px', backgroundColor: 'rgba(238, 241, 252, 1)', borderRadius: 12, color: 'rgba(128, 128, 146, 1)', fontFamily: 'Montserrat' }}
+                    />
+                    {errors.user_phone && (
+                      <div className="d-flex align-items-center mb-2">
+                        <MdError style={{ color: 'red', marginRight: '5px', fontSize: '14px' }} />
+                        <label className="mb-0" style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
+                          {errors.user_phone}
+                        </label>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
-          <div className="row">
-            <div className="col-12">
-              <button
-                type="submit"
-                className="w-100"
-                style={{ marginTop: '20px', backgroundColor: '#1E45E1', padding: '15px 20px', color: 'white', fontFamily: 'Gilroy', borderRadius: 8, border: '1px solid #1E45E1' }}
-              >
-                Submit Message
-              </button>
-            </div>
-          </div>
-        </form>
+                <div className="row mb-3">
+                  <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
+                    <input
+                      type="text"
+                      className="form-control custom-input-height"
+                      name="user_city"
+                      value={formData.user_city}
+                      onChange={handleChange}
+                      placeholder="Your city"
+                      style={{ padding: '20px', backgroundColor: 'rgba(238, 241, 252, 1)', borderRadius: 12, color: 'rgba(128, 128, 146, 1)', fontFamily: 'Montserrat' }}
+                    />
+                  
+                  </div>
+
+                  <div className="col-md-12 col-lg-12 col-sm-12">
+                    <Form.Group className="mb-3">
+                      <Form.Control
+                        as="textarea"
+                        name="message"
+                        rows={3}
+                        placeholder="Tell us more about your requirements"
+                        value={formData.message}
+                        onChange={handleChange}
+                        style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
+                      />
+                    </Form.Group>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12">
+                    <button
+                      type="submit"
+                      className="w-100"
+                      style={{ marginTop: '20px', backgroundColor: '#1E45E1', padding: '15px 20px', color: 'white', fontFamily: 'Gilroy', borderRadius: 8, border: '1px solid #1E45E1' }}
+                    >
+                      Submit Message
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
