@@ -116,7 +116,7 @@ function CreateAccountPage() {
 
       setTimeout(() => {
         setLoading(false)
-        navigate('/login-Page');
+        navigate('/hostel-management-login');
       }, 1000);
 
       setTimeout(() => {
@@ -193,7 +193,7 @@ function CreateAccountPage() {
 
 
   const handleLoginPage = () => {
-    navigate('/login-Page')
+    navigate('/hostel-management-login')
   }
 
   const [firstNameError, setFirstNameError] = useState();

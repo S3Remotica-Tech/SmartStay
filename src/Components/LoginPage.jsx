@@ -37,7 +37,7 @@ const MyComponent = () => {
   };
 
   const handleCreateAccount = () => {
-    navigate('/create-account')
+    navigate('/hostel-management-signup')
   }
   const handleForgetPassword = () => {
     navigate('/forget-password')
