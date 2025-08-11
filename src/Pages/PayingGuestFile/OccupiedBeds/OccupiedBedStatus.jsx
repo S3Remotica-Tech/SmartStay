@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -8,7 +9,7 @@ import Profile from '../../../Assets/Images/New_images/profile-picture.png'
 import { LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
-import { FiCalendar, FiRepeat, FiLogOut } from "react-icons/fi";
+import { FiCalendar, } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
 // import CalenderTick from "../../../Assets/Images/New_images/calendar-tick.svg";
 
@@ -26,7 +27,6 @@ function OccupiedBedStatus({
 
         const state = useSelector(state => state)
         const dispatch = useDispatch();
-        const [formLoading, setFormLoading] = useState(false)
     
         const [customer, setCustomer] = useState([])
 
@@ -44,7 +44,6 @@ function OccupiedBedStatus({
             if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
     
                 dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-                setFormLoading(true)
     
             }
         }, [currentItem])
@@ -52,7 +51,6 @@ function OccupiedBedStatus({
     
         useEffect(() => {
             if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-                setFormLoading(false)
                 setCustomer(state.PgList.OccupiedCustomer)
                 setTimeout(() => {
                     dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
@@ -316,8 +314,8 @@ function OccupiedBedStatus({
 OccupiedBedStatus.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
-    handleReAssignBed: PropTypes.func.isRequired,
-    handleMoveToNoticePeriod: PropTypes.func.isRequired ,
+    // handleReAssignBed: PropTypes.func.isRequired,
+    // handleMoveToNoticePeriod: PropTypes.func.isRequired ,
     currentItem: PropTypes.func.isRequired
 };
 export default OccupiedBedStatus;
