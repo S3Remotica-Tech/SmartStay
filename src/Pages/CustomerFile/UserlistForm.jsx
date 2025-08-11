@@ -1304,9 +1304,9 @@ const handleSaveBookingAdvance = () => {
    
 
 
-    const formattedDatebook = bookingDate
-      ? incrementDateAndFormat(bookingDate)
-      : "";
+    // const formattedDatebook = bookingDate
+    //   ? incrementDateAndFormat(bookingDate)
+    //   : "";
 
    dispatch({
   type: "ADDUSER",
@@ -1716,9 +1716,9 @@ const handleCloseAssignBooking =()=>{
       props.setRoomDetail(false);
     }
 }
-const handleClosecktoCheckin =()=>{
-  props.setBacktoCheckInForm(false)
-}
+// const handleClosecktoCheckin =()=>{
+//   props.setBacktoCheckInForm(false)
+// }
 console.log("bactocheckinForm",props.bactocheckinForm)
 
   return (
@@ -6010,5 +6010,9 @@ UserlistForm.propTypes = {
   setAdvanceForm: PropTypes.func.isRequired,
    setShowAssignMenu: PropTypes.func.isRequired,
   showAssignMenu: PropTypes.func.isRequired,
+  bactocheckinForm:PropTypes.func.isRequired,
+   setBacktoCheckInForm:PropTypes.func.isRequired,
+    BookingAssignForm:PropTypes.func.isRequired,
+   setBookingAssignForm:PropTypes.func.isRequired
 };
 export default UserlistForm;
