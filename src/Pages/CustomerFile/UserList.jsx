@@ -50,7 +50,7 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
-import Addbook from "../../Assets/Images/New_images/calendar-tick.png";
+import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 
 function UserList(props) {

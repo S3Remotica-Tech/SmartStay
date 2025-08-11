@@ -22,6 +22,9 @@ import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 
 function BookingModal(props) {
 
+  console.log("props", props);
+
+
   const state = useSelector((state) => state);
 
 
@@ -101,24 +104,6 @@ function BookingModal(props) {
   };
 
 
-
-
-  // const handleFloor = (floorId) => {
-  //   if (!floorId) {
-  //     setfloorError("Please select a valid floor.");
-  //     setBed("");
-  //     return;
-  //   }
-  //   setFloor(floorId);
-  //   setRoom("")
-  //   setBed("");
-  //   setfloorError("");
-  //   dispatch({
-  //     type: "ROOMDETAILS",
-  //     payload: { floor_Id: floorId, hostel_Id: state.login.selectedHostel_Id },
-  //   });
-  // };
-
   useEffect(() => {
     if (state.login.selectedHostel_Id && floor) {
       dispatch({
@@ -192,9 +177,19 @@ function BookingModal(props) {
     setBookingAmount(e.target.value);
   };
 
+  // const handleJoiningDateChange = (date) => {
+  //   setJoiningDateError("");
+  //   setJoiningDate(date ? date.toDate() : null);
+  // };
+
   const handleJoiningDateChange = (date) => {
-    setJoiningDateError("");
-    setJoiningDate(date ? date.toDate() : null);
+    if (bookingDate && dayjs(date).isBefore(dayjs(bookingDate), "day")) {
+      setJoiningDateError("Joining Date cannot be before Booking Date");
+      setJoiningDate(null); // Optional: clear invalid date
+    } else {
+      setJoiningDateError("");
+      setJoiningDate(date);
+    }
   };
 
 
@@ -208,9 +203,6 @@ function BookingModal(props) {
 
     let isValid = true;
 
-
-
-    // Booking Date
     if (!bookingDate) {
       setDateError("Please select Booking Date");
       isValid = false;
@@ -218,7 +210,7 @@ function BookingModal(props) {
       setDateError("");
     }
 
-    // Booking Amount
+
     if (!bookingAmount) {
       setAmountError("Please enter Booking Amount");
       isValid = false;
@@ -229,7 +221,7 @@ function BookingModal(props) {
       setAmountError("");
     }
 
-    // Joining Date
+
     if (!joiningDate) {
       setJoiningDateError("Please select Joining Date");
       isValid = false;
@@ -237,7 +229,6 @@ function BookingModal(props) {
       setJoiningDateError("");
     }
 
-    // Floor
     if (!floor) {
       setFloorError("Please select Floor");
       isValid = false;
@@ -245,7 +236,6 @@ function BookingModal(props) {
       setFloorError("");
     }
 
-    // Room
     if (!room) {
       setRoomError("Please select Room");
       isValid = false;
@@ -253,7 +243,7 @@ function BookingModal(props) {
       setRoomError("");
     }
 
-    // Bed
+    
     if (!bed) {
       setBedError("Please select Bed");
       isValid = false;
@@ -405,12 +395,17 @@ function BookingModal(props) {
 
               <div onChange={handleFileChange}>
                 <Image
-                  src={file ? URL.createObjectURL(file) : Profiles}
+                  src={
+                    file
+                      ? (typeof file === "string" ? file : URL.createObjectURL(file))
+                      : props.userDetail?.profile || Profiles
+                  }
                   alt="Profile"
                   roundedCircle
                   style={{ height: 60, width: 60 }}
                 />
               </div>
+
 
 
 
@@ -584,18 +579,21 @@ function BookingModal(props) {
                   style={{ position: "relative", width: "100%", marginTop: 6 }}
                 >
 
-
                   <DatePicker
                     style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={joiningDate ? dayjs(joiningDate) : null}
                     onChange={handleJoiningDateChange}
-                    disabledDate={(current) => current && current > dayjs().endOf("day")}
+                    disabledDate={(current) =>
+                      (bookingDate && current && current.isBefore(dayjs(bookingDate), "day")) ||
+                      current.isAfter(dayjs().endOf("day"))
+                    }
                     getPopupContainer={(triggerNode) =>
                       triggerNode.closest(".datepicker-wrapper")
                     }
                   />
+
 
                 </div>
               </Form.Group>
