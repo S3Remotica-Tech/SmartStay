@@ -167,7 +167,7 @@ const CookiesPolicy = () => {
           <p style={paragraphStyle}>
             <strong> Smartstay (Owned by S3 Remotica Technologies)</strong>
           </p>
-          <p style={paragraphStyle}>Email: support@s3remotica.com</p>
+          <p style={paragraphStyle}>Email:  dm@s3remotica.com</p>
           <p style={paragraphStyle}>Phone: +91 8344715078</p>
           <p style={paragraphStyle}>
             Address: 7/96, North Street, Athisayapuram, VK Pudur (PO) Tenkasi –

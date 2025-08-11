@@ -17,15 +17,15 @@ function FrontPage() {
   let navigate = useNavigate();
 
   const handleSignIn = () => { 
-    navigate('/login-Page')
+    navigate('/hostel-management-login')
   }
  
   const handleSignUp = () => {
-    navigate('/create-account')
+    navigate('/hostel-management-signup')
   }
 
   const handleStartNow = () =>{
-    navigate('/create-account')
+    navigate('/hostel-management-signup')
   }  
 
 

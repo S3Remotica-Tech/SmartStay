@@ -28,11 +28,11 @@ function FrontPage() {
   let navigate = useNavigate();
 
   const handleSignIn = () => {
-    navigate("/login-Page");
+    navigate("/hostel-management-login");
   };
 
   const handleSignUp = () => {
-    navigate("/create-account");
+    navigate("/hostel-management-signup");
   };
 
   const [activeSection, setActiveSection] = useState("firstPage");
@@ -41,13 +41,13 @@ function FrontPage() {
     setActiveSection(section);
     switch (section) {
       case "keyFeature":
-        navigate("/features");
+        navigate("/hostel-management-features");
         break;
       case "Pricing":
-        navigate("/pricing");
+        navigate("/hostel-software-pricing");
         break;
       case "Contact_us":
-        navigate("/contact");
+        navigate("/pg-software-contact");
         break;
       case "privacy_policy":
         navigate("/privacy-policy");
@@ -65,14 +65,14 @@ function FrontPage() {
 
   useEffect(() => {
     const path = location.pathname;
-    if (path === "/features") {
+    if (path === "/hostel-management-features") {
       setActiveSection("keyFeature");
       scroll.scrollTo(document.getElementById("keyFeature")?.offsetTop - 70 || 0);
-    } else if (path === "/pricing") {
+    } else if (path === "/hostel-software-pricing") {
       setActiveSection("Pricing");
       scroll.scrollTo(document.getElementById("Pricing")?.offsetTop - 70 || 0);
     }
-    else if (path === "/contact") {
+    else if (path === "/pg-software-contact") {
       setActiveSection("Contact_us");
       scroll.scrollTo(document.getElementById("Contact_us")?.offsetTop - 70 || 0);
     }

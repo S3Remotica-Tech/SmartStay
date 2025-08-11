@@ -11,7 +11,7 @@ const Getanswer = () => {
 
   let navigate = useNavigate();
   const handleSignUp = () => {
-    navigate("/create-account");
+    navigate("/hostel-management-signup");
   };
 
   return (
