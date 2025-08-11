@@ -2168,6 +2168,8 @@ const handleBacktoCheckout = (item)=>{
 
 }
 
+
+
   return (
     <div>
       <Addbooking
@@ -3484,11 +3486,11 @@ const handleBacktoCheckout = (item)=>{
                                                     <div
                                                     className="d-flex align-items-center gap-2"
                                                   
-                                                  //    onClick={() => {
-                                                  //   if (!customerAddPermission) {
-                                                  //     handleCustomerCheckout(user);
-                                                  //   }
-                                                  // }}
+                                                     onClick={() => {
+                                                    if (!customerAddPermission) {
+                                                      handleBacktoCheckout(user);
+                                                    }
+                                                  }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",

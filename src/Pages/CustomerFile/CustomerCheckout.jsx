@@ -25,7 +25,7 @@ function CustomerCheckout(props) {
   const [checkoUtDateError, setCheckOutDateError] = useState('')
   const [joiningError, setJoiningError] = useState('')
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
-  const [file, setFile] = useState(null);
+ 
 
   const handleCloseCheckout = () => {
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
@@ -48,7 +48,7 @@ function CustomerCheckout(props) {
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
-      setFile(null)
+  
       setTimeout(() => {
         dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID } });
       }, 200);
@@ -66,7 +66,7 @@ function CustomerCheckout(props) {
     }
   };
 
-
+console.log("customercheckoutdata",props.data)
   const handleCheckOutCustomer = () => {
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
 
@@ -200,42 +200,37 @@ useEffect(() => {
                                                                         position: "relative",
                                                                       }}
                                                                     >
-                                                                      <Image
+                                                                      {/* <Image
                                                                         src={
-                                                                          file
-                                                                            ? typeof file === "string"
+                                                                          props.data.profile
+                                                                            ? typeof props.data.profile === "string"
                                                                               ? file
-                                                                              : URL.createObjectURL(file)
+                                                                              : URL.createObjectURL(props.data.profile)
                                                                             : Profiles
                                                                         }
                                                                         alt="filee"
                                                                         roundedCircle
                                                                         style={{ height: 60, width: 60 }}
-                                                                      />
+                                                                      /> */}
+                                                                      <Image
+  src={
+    props.data.profile && props.data.profile !== ""
+      ? typeof props.data.profile === "string"
+        ? props.data.profile 
+        : URL.createObjectURL(props.data.profile) 
+      : Profiles 
+  }
+  alt="Profile"
+  roundedCircle
+  style={{ height: 60, width: 60 }}
+  onError={(e) => {
+   
+    e.target.onerror = null;
+    e.target.src = Profiles;
+  }}
+/>
                                 
-                                                                      {/* <label htmlFor="imageInput" className="">
-                                                                        <Image
-                                                                          src={Plus}
-                                                                          roundedCircle
-                                                                          style={{
-                                                                            height: 20,
-                                                                            width: 20,
-                                                                            position: "absolute",
-                                                                            top: 90,
-                                                                            left: 80,
-                                                                            transform: "translate(-50%, -50%)",
-                                                                          }}
-                                                                        />
-                                                                        <input
-                                                                          type="file"
-                                                                          accept="image/*"
-                                                                          multiple
-                                                                          className="sr-only"
-                                                                          id="imageInput"
-                                                                          onChange={handleImageChange}
-                                                                          style={{ display: "none" }}
-                                                                        />
-                                                                      </label> */}
+                                                                     
                                                                     </div>
                                                                     <div style={{display:'flex', flexDirection:'column'}}>
                                                                     <div className="ps-3">
@@ -248,7 +243,7 @@ useEffect(() => {
                                                                             fontFamily: "Gilroy",
                                                                           }}
                                                                         >
-                                                                          Suresh
+                                                                          {props.data?.Name}
                                                                         </label>
                                                                       </div>
                                                                      

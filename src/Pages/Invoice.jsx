@@ -2406,7 +2406,7 @@ useEffect(() => {
     if (customername && !invoiceDetails) {
       dispatch({
         type: "MANUAL-INVOICE-NUMBER-GET",
-        payload: { user_id: customername },
+        payload: { user_id: customername,template_type:"Rental Invoice" },
       });
     }
   }, [customername]);
