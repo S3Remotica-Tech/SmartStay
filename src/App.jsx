@@ -20,6 +20,7 @@ import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
 import LoaderComponent from './Pages/LoaderComponent';
 // import Contact from './NewLandingPage/Contact';
 import ThankYou from './NewLandingPage/ThankYou';
+import Sidebar from './Components/Sidebar';
 
 function App() {
   const cookies = new Cookies();
@@ -112,7 +113,7 @@ function App() {
         <Routes>
           {data || state.login?.isLoggedIn ? (
             <>
-              <Route path="/" element={<Hostel />} />
+              <Route path="/" element={<Sidebar />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>
