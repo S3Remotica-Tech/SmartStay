@@ -28,7 +28,7 @@ import EmptyBed from './EmptyBed';
 import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
 import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
-// import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
+import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
 
 
 
@@ -284,7 +284,7 @@ function ParticularHostelDetails(props) {
     setOccupiedCustomer(false)
   }
 
-  // const [Occubied_bed , setOccubiedBed] = useState(false)
+  const [Occubied_bed , setOccubiedBed] = useState(false)
 
 
   const handleclickBed = (bed, room) => {
@@ -298,9 +298,10 @@ if (bed.isbooked === 1) {
   setOccupiedCustomerDetails({ bed, room });
 
 } 
-// else if (bed.isfilled === 1) {
-//   setOccubiedBed(true);
-// }
+else if (bed.isfilled === 1) {
+  setOccubiedBed(true);
+   setOccupiedCustomerDetails({ bed, room });
+}
 
   }
 
@@ -394,6 +395,10 @@ if (bed.isbooked === 1) {
     setShowInActive(false)
   }
 
+  const handlecloseoccubiedbed = () => {
+    setOccubiedBed(false)
+  }
+
 
   return (
     <>
@@ -453,9 +458,9 @@ if (bed.isbooked === 1) {
             </div>
 
           
-            <div className="d-flex flex-wrap   mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
+            <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
               <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overview
+                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overdue
               </p>
                  <p className="mb-1 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
                 <img className="me-1 mb-1" src={bluedot} alt="reserved" /> No Reserved
@@ -841,9 +846,10 @@ if (bed.isbooked === 1) {
 
       {/* Occubied bed Details */}
 
-      {/* {
-        Occubied_bed && <OccupiedBedStatus />
-      } */}
+      {
+        Occubied_bed && <OccupiedBedStatus    show={Occubied_bed}
+    handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} />
+      }
 
 
     </>
