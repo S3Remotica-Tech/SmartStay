@@ -1,13 +1,12 @@
-
-
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import PropTypes from "prop-types"; // ✅ Import PropTypes
+import PropTypes from "prop-types"; 
 import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FiCalendar, FiRepeat } from "react-icons/fi";
+import CalenderTick from "/src/Assets/Images/New_images/calendar-tick.png";
+import logoutOrange from "/src/Assets/Images/New_images/logoutOrange.svg";
+
 
 
 const CustomToggle = React.forwardRef(function CustomToggle({ onClick }, ref) {
@@ -30,7 +29,6 @@ const CustomToggle = React.forwardRef(function CustomToggle({ onClick }, ref) {
         </div>
     );
 });
-
 
 CustomToggle.propTypes = {
     onClick: PropTypes.func.isRequired,
@@ -59,7 +57,7 @@ const OccupiedBedStatus = () => {
                             className="d-flex align-items-center gap-2"
                             style={{ fontSize: "13px" }}
                         >
-                            <FiRepeat size={16} color="#1E45E1" />
+                            <img src={CalenderTick} alt="Re-Assign Bed" />
                             Re-Assign Bed
                         </Dropdown.Item>
 
@@ -67,7 +65,9 @@ const OccupiedBedStatus = () => {
                             className="d-flex align-items-center gap-2"
                             style={{ fontSize: "13px" }}
                         >
-                            <FiCalendar size={16} color="#1E45E1" /> Move to Notice Period
+                           
+                             <img src={logoutOrange} alt="Logout" />
+                             Move to Notice Period
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
