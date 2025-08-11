@@ -15,7 +15,7 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import {Row,Col, } from "react-bootstrap";
 import dayjs from 'dayjs';
 
- const PGAssignTenant = ({ show, handleClose , advanceform, handleCloseAdvanceForm , handleshowAdvanceForm , currentItem , openAdvanceAndCloseTenant}) => {
+ const PGAssignTenant = ({ show, handleClose  , currentItem , }) => {
 
      const state = useSelector((state) => state);
      const dispatch = useDispatch();
@@ -29,7 +29,6 @@ import dayjs from 'dayjs';
     const [AdvanceAmount, setAdvanceAmount] = useState("");
     const [checkin_joiningDate, setCheckinJoiningDate] = useState(null);
     const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState('')
-    const [loading, setLoading] = useState(false)
 
      const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
@@ -192,39 +191,33 @@ import dayjs from 'dayjs';
   };
 
 
-   const validateField = (value, fieldName) => {
-    const trimmedValue = String(value).trim();
-    if (!trimmedValue) {
-      switch (fieldName) {
-         case "checkin_customername":
-          setCheckinCustomerErrmsg("Please Select Customer");
-          break;
-        case "stay_typename":
-          setStayTypeNameErrMsg("Please Select Staytype");
-          break;
-        case "checkin_joiningDate":
-          setCheckinJoingDateErrmsg("Please Select Joining Date");
-          break;
-        case "AdvanceAmount":
-          setAdvanceAmountError("Please Enter Advance Amount");
-          break;
-        case "RoomRent":
-          setRoomRentError("Please Enter Rental Amount");
-          break;
-
-        default:
-          break;
-      }
-
-      if (!focusedRef.current && ref?.current) {
-        ref.current.focus();
-        focusedRef.current = true;
-      }
-      return false;
+  const validateField = (value, fieldName) => {
+  const trimmedValue = String(value ?? "").trim();
+  if (!trimmedValue) {
+    switch (fieldName) {
+      case "checkin_customername":
+        setCheckinCustomerErrmsg("Please Select Customer");
+        break;
+      case "stay_typename":
+        setStayTypeNameErrMsg("Please Select Staytype");
+        break;
+      case "checkin_joiningDate":
+        setCheckinJoingDateErrmsg("Please Select Joining Date");
+        break;
+      case "AdvanceAmount":
+        setAdvanceAmountError("Please Enter Advance Amount");
+        break;
+      case "RoomRent":
+        setRoomRentError("Please Enter Rental Amount");
+        break;
+      default:
+        break;
     }
+    return false;
+  }
+  return true;
+};
 
-    return true;
-  };
 
    
 
@@ -322,6 +315,21 @@ import dayjs from 'dayjs';
     }, [state?.Booking?.statusCodeForAddBooking]);
 
 
+      useEffect(() => {
+        if (state.UsersList?.statusCodeForAddUser === 200) {
+          dispatch({
+            type: "USERLIST",
+            payload: { hostel_id: state.login.selectedHostel_Id},
+          });
+    
+          handleClose()
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_STATUS_CODES" });
+          }, 2000);
+        }
+      }, [state.UsersList?.statusCodeForAddUser]);
+
+
 
   const [advanceDate , setAdvanceDate] = useState(null)
   const [advanceDueDate , setAdvanceDueDate] = useState(null)
@@ -348,18 +356,33 @@ const handleStayTypeChange = (selectedOption) => {
     }
 };
 
- const handleSaveCheckin = async () => {
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  
+
+
+ const handleSaveCheckin =  () => {
 
     let hasReasonAmountError = false;
     let newErrors = [];
 
 
-    if (!validateField(checkin_customername, "checkin_customername"))
-    if (!validateField(stay_typename, "stay_typename"));
-    if (!validateField(checkin_joiningDate, "checkin_joiningDate"));
-    if (!validateField(AdvanceAmount, "AdvanceAmount"));
-    if (!validateField(RoomRent, "RoomRent"));
+    let hasError = false;
 
+  // Validate basic fields
+  if (!validateField(checkin_customername, "checkin_customername")) hasError = true;
+  if (!validateField(stay_typename, "stay_typename")) hasError = true;
+  if (!validateField(checkin_joiningDate, "checkin_joiningDate")) hasError = true;
+  if (!validateField(AdvanceAmount, "AdvanceAmount")) hasError = true;
+  if (!validateField(RoomRent, "RoomRent")) hasError = true;
+
+
+      
  
 
     if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
@@ -383,16 +406,21 @@ const handleStayTypeChange = (selectedOption) => {
       setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     }
-  fields.map((item) => {
-      let reason_name = "";
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
 
-      const error = { reason: "", amount: "" };
+
+  
+
+    const formattedReasons = fields.map((item) => {
+  let reason_name = "";
+
+  if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    reason_name = item.customReason || item["custom Reason"] || "";
+  } else {
+    reason_name = item.reason || item.reason_name || "";
+  }
+
+    const error = { reason: "", amount: "" };
       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
         error.amount = "Please enter amount";
         hasReasonAmountError = true;
@@ -405,72 +433,33 @@ const handleStayTypeChange = (selectedOption) => {
       }
 
       newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
 
-    setErrors(newErrors)
+  return {
+    reason_name,
+    amount: item.amount || "",
+    showInput: !!item.showInput
+  };
+});
+  setErrors(newErrors)
+
 
     if (hasReasonAmountError) return;
 
+     if (hasError) return
 
+     
 
-    if (
-      checkin_customername && stay_typename &&
-      currentItem?.room?.Floor_Id && currentItem?.room?.Room_Id && currentItem?.bed?.id && 
-      checkin_joiningDate &&
-      Number(AdvanceAmount) > 0 &&
-      Number(RoomRent) > 0
-    ) {
-openAdvanceAndCloseTenant();
-    }
-  };
+        const selectedUser = state?.UsersList?.Users.find(
+        item => item.ID === checkin_customername
+      );
 
+      console.log("selecteduser", hasError , hasReasonAmountError);
 
-  const handleSaveUserlistAddUserButon = () => {
+      const fullName = selectedUser?.Name?.trim() || "";
 
-    let hasReasonAmountError = false;
-    let newErrors = [];
+const [FirstName, ...lastNameParts] = fullName.split(" ");
 
-
-
-    if (!validateField(checkin_customername, "checkin_customername"))
-    if (!validateField(stay_typename, "stay_typename"));
-    if (!validateField(checkin_joiningDate, "checkin_joiningDate"));
-    if (!validateField(AdvanceAmount, "AdvanceAmount"));
-    if (!validateField(RoomRent, "RoomRent"));
-
-
-    if (!RoomRent && RoomRent !== 0) {
-      setRoomRentError("Please Enter Rental Amount");
-      return;
-    }
-    if (RoomRent <= 0) {
-      setRoomRentError("Please Enter Valid Rental Amount");
-      return;
-    }
-    if (!AdvanceAmount && AdvanceAmount !== 0) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      return;
-    }
-
-    if (AdvanceAmount <= 0) {
-      setAdvanceAmountError("Please Enter Valid Advance Amount");
-      return;
-    }
-
-
-  //  floor_id: currentItem?.room?.Floor_Id,
-  //       room_id: currentItem?.room?.Room_Id,
-  //       bed_id: currentItem?.bed?.id,
-
-
-    if (checkin_customername && stay_typename &&
-       currentItem?.room?.Floor_Id && currentItem?.room?.Room_Id && currentItem?.bed?.id && 
-      checkin_joiningDate && AdvanceAmount && RoomRent) {
+const LastName = lastNameParts.join(" ") || "";
 
       const incrementDateAndFormat = (date) => {
         const newDate = new Date(date);
@@ -478,248 +467,80 @@ openAdvanceAndCloseTenant();
 
         return newDate.toISOString().split("T")[0];
       };
+
       const formattedDate = checkin_joiningDate
         ? incrementDateAndFormat(checkin_joiningDate)
         : "";
 
-
-      const formattedReasons = fields.map((item) => {
-        let reason_name = "";
-
-        if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-          reason_name = item.customReason || item["custom Reason"] || "";
-        } else {
-          reason_name = item.reason || item.reason_name || "";
-        }
-
-        const error = { reason: "", amount: "" };
-        if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-          error.amount = "Please enter amount";
-          hasReasonAmountError = true;
-        }
+        console.log("formattedDate", checkin_customername , stay_typename
+         , checkin_joiningDate , AdvanceAmount , RoomRent , currentItem?.room?.Floor_Id , currentItem?.room?.Room_Id , currentItem?.bed?.id 
+        )
+        
 
 
-        if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-          error.reason = "Please enter reason";
-          hasReasonAmountError = true;
-        }
+const invoiceDateObj = new Date(formattedDate);
 
-        newErrors.push(error);
-        return {
-          reason_name,
-          amount: item.amount || "",
-          showInput: !!item.showInput
-        };
-      });
+const dueDateObj = new Date(invoiceDateObj);
+dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
-      setErrors(newErrors)
-
-      if (hasReasonAmountError) return;
+const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
 
 
+
+    if (
+      checkin_customername && stay_typename &&
+      currentItem?.room?.Floor_Id && currentItem?.room?.Room_Id && currentItem?.bed?.id && 
+      checkin_joiningDate &&
+      AdvanceAmount > 0 &&
+      RoomRent > 0
+    ) {
 
       dispatch({
-        type: "ADDUSER",
-        payload: {
-          profile: file,
-          firstname: firstname,
-          lastname: lastname,
-          Phone: Phone,
-          Email: Email,
-          Address: house_no,
-          area: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-          AadharNo: AadharNo,
-          PancardNo: PancardNo,
-          licence: licence,
-          HostelName: HostelName,
-          hostel_Id: hostel_Id,
-          Floor: currentItem?.room?.Floor_Id,
-          Rooms: currentItem?.room?.Room_Id,
-          Bed: currentItem?.bed?.id,
-          joining_date: formattedDate,
-          AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
-          BalanceDue: BalanceDue,
-          PaymentType: PaymentType,
-          paid_advance: paid_advance,
-          paid_rent: paid_rent,
-          payable_rent: payableamount,
-          isadvance: 0,
-          // ID: props.edit === "Edit" ? id : "",
-          reasons: formattedReasons,
-          stay_type: stay_typename
-        },
-      });
-      setLoading(true)
-
-
-    }
-  };
-
-    const handleSaveAdvance = () => {
-    let hasError = false;
-    let hasReasonAmountError = false;
-    let newErrors = [];
-
-
-    if (!advanceDate) {
-      setAdvanceDateError("Please Select Invoice Date");
-      hasError = true;
-    } else {
-      setAdvanceDateError("");
-    }
-
-    if (!advanceDueDate) {
-      setAdvanceDueDateError("Please Select Due Date");
-      hasError = true;
-    } else {
-      setAdvanceDueDateError("");
-    }
-
-
-
-
-    if (advanceDate && advanceDueDate && checkin_customername) {
-      const selectedUser = state.UsersList.Users.find(
-        item => item.ID === checkin_customername
-      );
-
-      if (selectedUser) {
-        const CreateDate = dayjs(state.login.joiningDate).startOf('day');
-
-
-        const InvoiceDate = dayjs(advanceDate).startOf('day');
-
-        const DueDate = dayjs(advanceDueDate).startOf('day');
-        const Today = dayjs().startOf('day');
-
-
-        if (InvoiceDate.isBefore(CreateDate)) {
-
-          setAdvanceDateError("Before joining date not allowed");
-          hasError = true;
-        } else if (InvoiceDate.isAfter(Today)) {
-          setAdvanceDateError("Invoice date cannot be a future date");
-          hasError = true;
-        }
-
-
-        if (DueDate.isBefore(InvoiceDate)) {
-          setAdvanceDueDateError("Due date cannot be before invoice date");
-          hasError = true;
-        }
-      }
-    }
-
-
-
-
-    if (hasError) {
-      return;
-    }
-
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate.toISOString().split("T")[0];
-    };
-
-
-    const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
-      : "";
-    const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
-    const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
-
-  const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
-
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
-
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
-
-
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
-
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
-
-    setErrors(newErrors)
-
-    if (hasReasonAmountError) return;
-
-
-   dispatch({
   type: "ADDUSER",
   payload: {
-    profile: file,
-    firstname: capitalizedFirstname,  
-    LastName: capitalizedLastname,
-    Phone: Phone,
-    Email: Email,
-    Address: house_no,
-    area: street,
-    landmark: landmark,
-    city: city,
-    pincode: pincode,
-    state: state_name,
-    AadharNo: AadharNo,
-    PancardNo: PancardNo,
-    licence: licence,
-    HostelName: HostelName,
-    hostel_Id: hostel_Id,
-    Floor: Floor,
-    Rooms: Rooms,
-    Bed: Bed,
+    profile: selectedUser.profile,
+    firstname: FirstName || "",  
+    LastName: LastName || "",
+    Phone: selectedUser.Phone,
+    Email: selectedUser.Email,
+    Address: selectedUser.Address,
+    area: selectedUser.area,
+    landmark: selectedUser.landmark,
+    city: selectedUser.city,
+    pincode: selectedUser.pincode,
+    state: selectedUser.state,
+    AadharNo: selectedUser.AadharNo,
+    PancardNo: selectedUser.PancardNo,
+    licence: selectedUser.licence,
+    HostelName: selectedUser.HostelName,
+    hostel_Id: state.login.selectedHostel_Id,
+    Floor:  currentItem?.room?.Floor_Id,
+    Rooms: currentItem?.room?.Room_Id,
+    Bed: currentItem?.bed?.id,
     joining_date: formattedDate,
     AdvanceAmount: AdvanceAmount,
     RoomRent: RoomRent,
-    BalanceDue: BalanceDue,
-    PaymentType: PaymentType,
-    paid_advance: paid_advance,
-    paid_rent: paid_rent,
-    payable_rent: payableamount,
+    // BalanceDue: BalanceDue,
+    // PaymentType: PaymentType,
+    // paid_advance: paid_advance,
+    // paid_rent: paid_rent,
+    // payable_rent: payableamount,
     isadvance: 1,
-    invoice_date: formattedAdvanceDate,
-    due_date: formattedAdvanceDateDue,
-    ID: props.edit === "Edit" ? id : "",
+    invoice_date: formattedDate,
+    due_date: formattedAdvanceDueDate,
     reasons: formattedReasons,
-    stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+    stay_type: stay_typename,
   },
 });
 
-    setLoading(true)
 
     dispatch({ type: "INVOICELIST" });
+    }
   };
+
+
+ 
   
 
     return(
@@ -1912,241 +1733,6 @@ openAdvanceAndCloseTenant();
                 </Modal.Dialog>
               </Modal>
 
-              <Modal
-        show={advanceform}
-        onHide={handleCloseAdvanceForm}
-        backdrop="static"
-        centered
-      >
-        <Modal.Dialog
-          style={{
-            maxWidth: 666,
-            paddingRight: "10px",
-            borderRadius: "30px",
-          }}
-          className="m-0 p-0"
-        >
-
-          <Modal.Header style={{ position: "relative" }}>
-            <div
-              style={{
-                fontSize: 20,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-              }}
-            >
-              Generate Advance
-            </div>
-
-            <CloseCircle
-              size="24"
-              color="#000"
-              onClick={handleCloseAdvanceForm}
-              style={{ cursor: "pointer" }}
-            />
-          </Modal.Header>
-          <Modal.Body style={{ paddingTop: 2 }}>
-            <div className="d-flex align-items-center">
-              <div className="container">
-
-
-
-                <div className="row mb-3">
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="checkoutDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Invoice Date{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          *
-                        </span>
-                      </Form.Label>
-
-                      <div
-                        className="datepicker-wrapper"
-                        style={{ position: "relative", width: "100%" }}
-                      >
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                            height: 48,
-                            cursor: "pointer",
-                            fontFamily: "Gilroy"
-                          }}
-                          format="DD/MM/YYYY"
-                          placeholder="DD/MM/YYYY"
-                          value={advanceDate ? dayjs(advanceDate) : null}
-                          onChange={(date) => {
-                            setAdvanceDateError("");
-                            setAdvanceDate(date ? date.toDate() : null);
-                          }}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".datepicker-wrapper")
-                          }
-                          dropdownClassName="custom-datepicker-popup"
-                          disabledDate={(current) => current && current > dayjs().endOf("day")}
-                        />
-                      </div>
-                    </Form.Group>
-                    {advanceDateError && (
-                      <div style={{ color: "red", marginTop: "-7px" }}>
-                        <MdError
-                          style={{ fontSize: "13px", marginRight: "5px" }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {advanceDateError}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="checkoutDate">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Due Date{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          *
-                        </span>
-                      </Form.Label>
-
-                      <div
-                        className="datepicker-wrapper"
-                        style={{ position: "relative", width: "100%" }}
-                      >
-                        <DatePicker
-                          style={{
-                            width: "100%",
-                            height: 48,
-                            cursor: "pointer",
-                            fontFamily: "Gilroy"
-                          }}
-                          format="DD/MM/YYYY"
-                          placeholder="DD/MM/YYYY"
-                          value={advanceDueDate ? dayjs(advanceDueDate) : null}
-                          onChange={(date) => {
-                            setAdvanceDueDateError("");
-                            setAdvanceDueDate(date ? date.toDate() : null);
-                          }}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".datepicker-wrapper")
-                          }
-                          dropdownClassName="custom-datepicker-popup"
-                        />
-                      </div>
-                    </Form.Group>
-                    {advanceDueDateError && (
-                      <div style={{ color: "red", marginTop: "-7px" }}>
-                        <MdError
-                          style={{ fontSize: "13px", marginRight: "5px" }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {advanceDueDateError}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="row col-md-12 col-lg-12">
-                  <div className="col-md-6 col-lg-6">
-                    <Button
-                      variant="secondary"
-                      className="w-100"
-                      style={{
-                        height: 45,
-                        borderRadius: 12,
-                        fontSize: 15,
-                        fontWeight: 500,
-                        fontFamily: "Montserrat",
-                        paddingLeft: 20,
-                        paddingRight: 20,
-                      }}
-                      onClick={handleSaveUserlistAddUserButon}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-
-                  <div className="col-md-6 col-lg-6 mb-2">
-                    <Button
-                      variant="primary"
-                      className="w-100"
-                      style={{
-                        backgroundColor: "#1E45E1",
-                        height: 45,
-                        borderRadius: 12,
-                        fontSize: 15,
-                        fontWeight: 600,
-                        fontFamily: "Montserrat",
-                        paddingLeft: 25,
-                        paddingRight: 25,
-                      }}
-                      onClick={handleSaveAdvance}
-                    >
-                      Save
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </Modal.Body>
-          {loading && <div
-            style={{
-              position: 'absolute',
-              top: 100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
-
-
-        </Modal.Dialog>
-      </Modal>
         </>
     )
  }

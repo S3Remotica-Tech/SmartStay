@@ -140,7 +140,6 @@ const CustomToggle = React.forwardRef(function CustomToggle({ onClick }, ref) {
     );
 });
 
-// ✅ Proper prop validation for CustomToggle
 CustomToggle.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
