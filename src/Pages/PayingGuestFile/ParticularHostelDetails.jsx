@@ -20,6 +20,7 @@ import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 import Select from "react-select";
 // import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
+import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import orangedot from "../../Assets/Images/New_images/orangedot.png";
 import reddot from "../../Assets/Images/New_images/reddot.png";
 import bluedot from "../../Assets/Images/New_images/bluedot.png";
@@ -27,6 +28,7 @@ import EmptyBed from './EmptyBed';
 import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
 import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
+import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
 
 
 
@@ -43,6 +45,9 @@ function ParticularHostelDetails(props) {
   const [details, setDetails] = useState('')
 
   const [emptybed, setEmptyBed] = useState(false)
+  const [showReservedBed, setShowReservedBed] = useState(false)
+  const [showCheckIn, setShowCheckIn] = useState(false)
+  const [showInactive, setShowInActive] = useState(false)
 
 
   useEffect(() => {
@@ -86,12 +91,6 @@ function ParticularHostelDetails(props) {
       setLoader(false)
     }
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
-
-
-
-
-
-
 
 
 
@@ -285,15 +284,25 @@ function ParticularHostelDetails(props) {
     setOccupiedCustomer(false)
   }
 
-
+  const [Occubied_bed , setOccubiedBed] = useState(false)
 
 
   const handleclickBed = (bed, room) => {
-       if (bed.isfilled === 0) {
-      setEmptyBed(true)
-      setDeleteBedDetails({ bed, room })
-      setOccupiedCustomerDetails({ bed: bed, room: room })
-       }
+    console.log("bed", bed);
+    
+if (bed.isbooked === 1) {
+  setShowReservedBed(true);
+} else if (bed.isfilled === 0) {
+  setEmptyBed(true);
+  setDeleteBedDetails({ bed, room });
+  setOccupiedCustomerDetails({ bed, room });
+
+} 
+else if (bed.isfilled === 1) {
+  setOccubiedBed(true);
+   setOccupiedCustomerDetails({ bed, room });
+}
+
   }
 
   const handlecloseBed = () => {
@@ -354,9 +363,7 @@ function ParticularHostelDetails(props) {
     };
   }, []);
 
-  const [showReservedBed, setShowReservedBed] = useState(false)
-  const [showCheckIn, setShowCheckIn] = useState(false)
-  const [showInactive, setShowInActive] = useState(false)
+
 
   const handleShowReservedBed = () => {
     setShowReservedBed(true)
@@ -388,6 +395,10 @@ function ParticularHostelDetails(props) {
     setShowInActive(false)
   }
 
+  const handlecloseoccubiedbed = () => {
+    setOccubiedBed(false)
+  }
+
 
   return (
     <>
@@ -396,7 +407,7 @@ function ParticularHostelDetails(props) {
    
 
       <div >
-        <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button>
+        {/* <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button> */}
 
 
 
@@ -447,9 +458,9 @@ function ParticularHostelDetails(props) {
             </div>
 
           
-            <div className="d-flex flex-wrap   mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
+            <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
               <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overview
+                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overdue
               </p>
                  <p className="mb-1 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
                 <img className="me-1 mb-1" src={bluedot} alt="reserved" /> No Reserved
@@ -538,6 +549,20 @@ function ParticularHostelDetails(props) {
                 <div key={bed.id} className='col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center'>
                   <div className='d-flex flex-column align-items-center w-100'>
                     <div style={{ position: "relative", width: 34, height: 41 }}>
+                       {bed.isbooked === 1 ? (
+      <img
+        src={recerverimg}
+        alt="notice"
+        height={20}
+        width={20}
+        style={{
+          position: "absolute",
+          top: 1,
+          right: -10,
+        }}
+        className="me-1 mb-1"
+      />
+    ): (null)} 
                       
                         <img className='mt-1'
                           src={bed.isfilled ? Green : White}
@@ -817,6 +842,13 @@ function ParticularHostelDetails(props) {
 
       {
         showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
+      }
+
+      {/* Occubied bed Details */}
+
+      {
+        Occubied_bed && <OccupiedBedStatus    show={Occubied_bed}
+    handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} />
       }
 
 
