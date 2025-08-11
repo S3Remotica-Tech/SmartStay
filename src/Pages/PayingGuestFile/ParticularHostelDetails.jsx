@@ -40,7 +40,7 @@ function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-
+console.log("ParticularHostelDetails",state)
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 

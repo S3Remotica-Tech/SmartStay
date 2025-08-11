@@ -178,6 +178,9 @@ function UserList(props) {
       });
     }
   }, [id, billsAddshow]);
+
+
+
   const handleRowTypeSelect = (type) => {
     let newRow = { am_name: "", amount: "0" };
 
@@ -197,10 +200,34 @@ function UserList(props) {
 
     setDropdownValue("");
   };
+    useEffect(() => {
+      if (state?.Booking?.statusCodeForAddBooking === 200) {
+      
+  
+        dispatch({
+          type: "GET_BOOKING_LIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+         dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+        }, 500);
+      }
+    }, [state?.Booking?.statusCodeForAddBooking]);
 
   useEffect(() => {
     if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
       setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
+      dispatch({
+        type: "USERLIST",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,},
+      });
       setTimeout(() => {
         dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
       }, 100);
@@ -2168,6 +2195,8 @@ const handleBacktoCheckout = (item)=>{
 
 }
 
+
+
   return (
     <div>
       <Addbooking
@@ -3484,11 +3513,11 @@ const handleBacktoCheckout = (item)=>{
                                                     <div
                                                     className="d-flex align-items-center gap-2"
                                                   
-                                                  //    onClick={() => {
-                                                  //   if (!customerAddPermission) {
-                                                  //     handleCustomerCheckout(user);
-                                                  //   }
-                                                  // }}
+                                                     onClick={() => {
+                                                    if (!customerAddPermission) {
+                                                      handleBacktoCheckout(user);
+                                                    }
+                                                  }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",

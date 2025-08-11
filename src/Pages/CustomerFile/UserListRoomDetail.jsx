@@ -240,6 +240,13 @@ console.log('customerDetails',customerDetails)
 
   }, []);
 
+  
+  useEffect(() => {
+      if (state.login.selectedHostel_Id) {
+        dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+      }
+    }, [state.login.selectedHostel_Id]);
+
 
 
   useEffect(() => {
@@ -320,6 +327,7 @@ const [ProfilePic,setProfilepic] = useState(false)
 
 const isFirstRun = useRef(true); 
   const MobileNumber = `${countryCode}${props.userData?.Phone}`;
+  console.log("props.userData",props.userData)
  
 useEffect(() => {
   if (isFirstRun.current) {
@@ -2036,9 +2044,7 @@ const handleImageUpload = async (event) => {
     setFirstname(value[0]?.trim());
     setLastname(value[1] ? value[1].trim() : "");
 
-    // const phoneNumber = String(props.userData?.Phone || "");
-    // const mobileNumber = phoneNumber.slice(-10);
-
+    
     const payload = {
       profile: compressedFile,
       firstname: value[0]?.trim(),
@@ -2056,9 +2062,9 @@ const handleImageUpload = async (event) => {
       licence: licence,
       HostelName: HostelName,
       hostel_Id: hostel_Id,
-      Floor: Floor,
-      Rooms: RoomId,
-      Bed: BedId,
+      Floor: props.userData?.Floor,
+      Rooms: props.userData?.Rooms,
+      Bed: props.userData?.Bed,
       joining_date: selectedDate,
       AdvanceAmount: AdvanceAmount,
       RoomRent: RoomRent,
