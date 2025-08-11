@@ -554,5 +554,6 @@ if (due.isBefore(invoice, 'day')) {
 DeleteBed.propTypes = {
   show: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  deleteBedDetails: PropTypes.func.isRequired,
 }
 export default DeleteBed;

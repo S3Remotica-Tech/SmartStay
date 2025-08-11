@@ -331,10 +331,7 @@ import dayjs from 'dayjs';
 
 
 
-  const [advanceDate , setAdvanceDate] = useState(null)
-  const [advanceDueDate , setAdvanceDueDate] = useState(null)
-  const [advanceDateError , setAdvanceDateError] = useState('')
-  const [advanceDueDateError ,  setAdvanceDueDateError] = useState('')
+
   const [stay_typename , setStayTypeName] = useState("")
   const [stay_typenameErrmsg , setStayTypeNameErrMsg] = useState("")
 

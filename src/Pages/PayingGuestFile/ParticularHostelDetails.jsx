@@ -28,7 +28,7 @@ import EmptyBed from './EmptyBed';
 import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
 import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
-import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
+// import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
 
 
 
@@ -284,7 +284,7 @@ function ParticularHostelDetails(props) {
     setOccupiedCustomer(false)
   }
 
-  const [Occubied_bed , setOccubiedBed] = useState(false)
+  // const [Occubied_bed , setOccubiedBed] = useState(false)
 
 
   const handleclickBed = (bed, room) => {
@@ -296,9 +296,11 @@ if (bed.isbooked === 1) {
   setEmptyBed(true);
   setDeleteBedDetails({ bed, room });
   setOccupiedCustomerDetails({ bed, room });
-} else if (bed.isfilled === 1) {
-  setOccubiedBed(true);
-}
+
+} 
+// else if (bed.isfilled === 1) {
+//   setOccubiedBed(true);
+// }
 
   }
 
