@@ -86,22 +86,6 @@ function OccupiedBedStatus({
         };
     }, []);
 
-    // const handleReAssignBed = () => {
-    //     ReAssignBed(true)
-    // }
-
-
-
-    // const handleMoveToNoticePeriod = () => {
-    //     MoveToNoticePeriod(true)
-    // }
-
-
-
-
-
-
-
 
     return (
         <>
