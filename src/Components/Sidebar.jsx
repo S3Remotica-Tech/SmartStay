@@ -106,7 +106,7 @@ function Sidebar() {
       }
     }
 
-  }, [state.login?.isLoggedIn, navigate]);
+  }, [state.login?.isLoggedIn]);
 
 
   const toggleDropdown = () => {

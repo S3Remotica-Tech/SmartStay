@@ -8,7 +8,7 @@ import FrontPage from './NewLandingPage/Topbar';
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
 import ForgetPassword from "./Components/Forgetpass";
-import Hostel from './Components/Hostel_Management';
+// import Hostel from './Components/Hostel_Management';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import CryptoJS from "crypto-js";
