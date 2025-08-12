@@ -164,12 +164,6 @@ function BookingModal(props) {
   const [bedError, setBedError] = useState("");
   const [file, setFile] = useState(null);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-
-
 
   const handleBookingDateChange = (date) => {
     setDateError("");
@@ -196,6 +190,10 @@ function BookingModal(props) {
     setBedError("");
     setBed(selectedOption?.value || "");
   };
+  const handleFileChange = (e) => {
+  setFile(e.target.files[0]);
+};
+
 
 
   const handleBookingSubmit = () => {
@@ -392,7 +390,7 @@ function BookingModal(props) {
               }}
             >
 
-              <Image
+              <Image onChange={handleFileChange}
                 src={
                   file
                     ? (typeof file === "string" ? file : URL.createObjectURL(file))
@@ -605,7 +603,8 @@ function BookingModal(props) {
                       disabledDate={(current) =>
                         bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
                       }
-                      getPopupContainer={(triggerNode) => document.body}
+                      getPopupContainer={() => document.body}
+
                     />
                   </div>
 
