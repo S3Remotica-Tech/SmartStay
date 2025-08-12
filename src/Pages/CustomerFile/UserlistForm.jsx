@@ -1023,7 +1023,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
     reasons: formattedReasons,
     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
     booking_id:props.EditObj.booking_id,
-    booking_date:formattedDate,
+    booking_date:bookingDate,
     booking_amount:props.EditObj.booking_amount
     
   },
@@ -1032,143 +1032,143 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
     dispatch({ type: "INVOICELIST" });
   };
 
-  const handleSaveUserlistAddUserButon = () => {
+  // const handleSaveUserlistAddUserButon = () => {
 
-    let hasReasonAmountError = false;
-    let newErrors = [];
-
-
-    if (!validateAssignField(Floor, "Floor"));
-    if (!validateAssignField(Rooms, "Rooms"));
-    if (!validateAssignField(Bed, "Bed"));
-    if (!validateAssignField(selectedDate, "selectedDate"));
-    if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
-    if (!validateAssignField(RoomRent, "RoomRent"));
-
-    if (Floor === "Selected Floor" || floorError) {
-      setfloorError("Please Select a Valid PG");
-      return;
-    }
-    if (Rooms === "Selected Room" || roomError) {
-      setRoomError("Please Select a Valid PG");
-      return;
-    }
-    if (Bed === "Selected Bed" || bedError) {
-      setBedError("Please Select a Valid PG");
-      return;
-    }
-    if (!RoomRent && RoomRent !== 0) {
-      setRoomRentError("Please Enter Rental Amount");
-      return;
-    }
-    if (RoomRent <= 0) {
-      setRoomRentError("Please Enter Valid Rental Amount");
-      return;
-    }
-    if (!AdvanceAmount && AdvanceAmount !== 0) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      return;
-    }
-
-    if (AdvanceAmount <= 0) {
-      setAdvanceAmountError("Please Enter Valid Advance Amount");
-      return;
-    }
+  //   let hasReasonAmountError = false;
+  //   let newErrors = [];
 
 
+  //   if (!validateAssignField(Floor, "Floor"));
+  //   if (!validateAssignField(Rooms, "Rooms"));
+  //   if (!validateAssignField(Bed, "Bed"));
+  //   if (!validateAssignField(selectedDate, "selectedDate"));
+  //   if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
+  //   if (!validateAssignField(RoomRent, "RoomRent"));
 
+  //   if (Floor === "Selected Floor" || floorError) {
+  //     setfloorError("Please Select a Valid PG");
+  //     return;
+  //   }
+  //   if (Rooms === "Selected Room" || roomError) {
+  //     setRoomError("Please Select a Valid PG");
+  //     return;
+  //   }
+  //   if (Bed === "Selected Bed" || bedError) {
+  //     setBedError("Please Select a Valid PG");
+  //     return;
+  //   }
+  //   if (!RoomRent && RoomRent !== 0) {
+  //     setRoomRentError("Please Enter Rental Amount");
+  //     return;
+  //   }
+  //   if (RoomRent <= 0) {
+  //     setRoomRentError("Please Enter Valid Rental Amount");
+  //     return;
+  //   }
+  //   if (!AdvanceAmount && AdvanceAmount !== 0) {
+  //     setAdvanceAmountError("Please Enter Advance Amount");
+  //     return;
+  //   }
 
-
-    if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
-      const incrementDateAndFormat = (date) => {
-        const newDate = new Date(date);
-        newDate.setDate(newDate.getDate() + 1);
-
-        return newDate.toISOString().split("T")[0];
-      };
-      const formattedDate = selectedDate
-        ? incrementDateAndFormat(selectedDate)
-        : "";
-
-
-      const formattedReasons = fields.map((item) => {
-        let reason_name = "";
-
-        if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-          reason_name = item.customReason || item["custom Reason"] || "";
-        } else {
-          reason_name = item.reason || item.reason_name || "";
-        }
-
-        const error = { reason: "", amount: "" };
-        if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-          error.amount = "Please enter amount";
-          hasReasonAmountError = true;
-        }
-
-
-        if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-          error.reason = "Please enter reason";
-          hasReasonAmountError = true;
-        }
-
-        newErrors.push(error);
-        return {
-          reason_name,
-          amount: item.amount || "",
-          showInput: !!item.showInput
-        };
-      });
-
-      setErrors(newErrors)
-
-      if (hasReasonAmountError) return;
+  //   if (AdvanceAmount <= 0) {
+  //     setAdvanceAmountError("Please Enter Valid Advance Amount");
+  //     return;
+  //   }
 
 
 
 
-      dispatch({
-        type: "ADDUSER",
-        payload: {
-          profile: file,
-          firstname: firstname,
-          lastname: lastname,
-          Phone: Phone,
-          Email: Email,
-          Address: house_no,
-          area: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-          AadharNo: AadharNo,
-          PancardNo: PancardNo,
-          licence: licence,
-          HostelName: HostelName,
-          hostel_Id: hostel_Id,
-          Floor: Floor,
-          Rooms: Rooms,
-          Bed: Bed,
-          joining_date: formattedDate,
-          AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
-          BalanceDue: BalanceDue,
-          PaymentType: PaymentType,
-          paid_advance: paid_advance,
-          paid_rent: paid_rent,
-          payable_rent: payableamount,
-          isadvance: 0,
-          ID: props.edit === "Edit" ? id : "",
-          reasons: formattedReasons,
-          stay_type: activeTab === "long" ? "long_stay" : "short_stay"
-        },
-      });
-      setLoading(true)
+
+  //   if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
+  //     const incrementDateAndFormat = (date) => {
+  //       const newDate = new Date(date);
+  //       newDate.setDate(newDate.getDate() + 1);
+
+  //       return newDate.toISOString().split("T")[0];
+  //     };
+  //     const formattedDate = selectedDate
+  //       ? incrementDateAndFormat(selectedDate)
+  //       : "";
 
 
-    }
-    dispatch({ type: "INVOICELIST" });
-  };
+  //     const formattedReasons = fields.map((item) => {
+  //       let reason_name = "";
+
+  //       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+  //         reason_name = item.customReason || item["custom Reason"] || "";
+  //       } else {
+  //         reason_name = item.reason || item.reason_name || "";
+  //       }
+
+  //       const error = { reason: "", amount: "" };
+  //       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+  //         error.amount = "Please enter amount";
+  //         hasReasonAmountError = true;
+  //       }
+
+
+  //       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+  //         error.reason = "Please enter reason";
+  //         hasReasonAmountError = true;
+  //       }
+
+  //       newErrors.push(error);
+  //       return {
+  //         reason_name,
+  //         amount: item.amount || "",
+  //         showInput: !!item.showInput
+  //       };
+  //     });
+
+  //     setErrors(newErrors)
+
+  //     if (hasReasonAmountError) return;
+
+
+
+
+  //     dispatch({
+  //       type: "ADDUSER",
+  //       payload: {
+  //         profile: file,
+  //         firstname: firstname,
+  //         lastname: lastname,
+  //         Phone: Phone,
+  //         Email: Email,
+  //         Address: house_no,
+  //         area: street,
+  //         landmark: landmark,
+  //         city: city,
+  //         pincode: pincode,
+  //         state: state_name,
+  //         AadharNo: AadharNo,
+  //         PancardNo: PancardNo,
+  //         licence: licence,
+  //         HostelName: HostelName,
+  //         hostel_Id: hostel_Id,
+  //         Floor: Floor,
+  //         Rooms: Rooms,
+  //         Bed: Bed,
+  //         joining_date: formattedDate,
+  //         AdvanceAmount: AdvanceAmount,
+  //         RoomRent: RoomRent,
+  //         BalanceDue: BalanceDue,
+  //         PaymentType: PaymentType,
+  //         paid_advance: paid_advance,
+  //         paid_rent: paid_rent,
+  //         payable_rent: payableamount,
+  //         isadvance: 0,
+  //         ID: props.edit === "Edit" ? id : "",
+  //         reasons: formattedReasons,
+  //         stay_type: activeTab === "long" ? "long_stay" : "short_stay"
+  //       },
+  //     });
+  //     setLoading(true)
+
+
+  //   }
+  //   dispatch({ type: "INVOICELIST" });
+  // };
 
 
 
@@ -1411,134 +1411,134 @@ const bookingDateRef = useRef("");
 
 
 
- const handleSaveBookingCancel = () => {
+//  const handleSaveBookingCancel = () => {
 
-    let hasReasonAmountError = false;
-    let newErrors = [];
-
-
-    if (!RoomRent && RoomRent !== 0) {
-      setRoomRentError("Please Enter Rental Amount");
-      return;
-    }
-    if (RoomRent <= 0) {
-      setRoomRentError("Please Enter Valid Rental Amount");
-      return;
-    }
-    if (!AdvanceAmount && AdvanceAmount !== 0) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      return;
-    }
-
-    if (AdvanceAmount <= 0) {
-      setAdvanceAmountError("Please Enter Valid Advance Amount");
-      return;
-    }
+//     let hasReasonAmountError = false;
+//     let newErrors = [];
 
 
+//     if (!RoomRent && RoomRent !== 0) {
+//       setRoomRentError("Please Enter Rental Amount");
+//       return;
+//     }
+//     if (RoomRent <= 0) {
+//       setRoomRentError("Please Enter Valid Rental Amount");
+//       return;
+//     }
+//     if (!AdvanceAmount && AdvanceAmount !== 0) {
+//       setAdvanceAmountError("Please Enter Advance Amount");
+//       return;
+//     }
+
+//     if (AdvanceAmount <= 0) {
+//       setAdvanceAmountError("Please Enter Valid Advance Amount");
+//       return;
+//     }
 
 
 
-    if (AdvanceAmount && RoomRent) {
-      const incrementDateAndFormat = (date) => {
-        const newDate = new Date(date);
-        newDate.setDate(newDate.getDate() + 1);
-
-        return newDate.toISOString().split("T")[0];
-      };
-      const formattedDate = selectedDate
-        ? incrementDateAndFormat(selectedDate)
-        : "";
 
 
-      const formattedReasons = fields.map((item) => {
-        let reason_name = "";
+//     if (AdvanceAmount && RoomRent) {
+//       const incrementDateAndFormat = (date) => {
+//         const newDate = new Date(date);
+//         newDate.setDate(newDate.getDate() + 1);
 
-        if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-          reason_name = item.customReason || item["custom Reason"] || "";
-        } else {
-          reason_name = item.reason || item.reason_name || "";
-        }
-
-        const error = { reason: "", amount: "" };
-        if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-          error.amount = "Please enter amount";
-          hasReasonAmountError = true;
-        }
+//         return newDate.toISOString().split("T")[0];
+//       };
+//       const formattedDate = selectedDate
+//         ? incrementDateAndFormat(selectedDate)
+//         : "";
 
 
-        if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-          error.reason = "Please enter reason";
-          hasReasonAmountError = true;
-        }
+//       const formattedReasons = fields.map((item) => {
+//         let reason_name = "";
 
-        newErrors.push(error);
-        return {
-          reason_name,
-          amount: item.amount || "",
-          showInput: !!item.showInput
-        };
-      });
+//         if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+//           reason_name = item.customReason || item["custom Reason"] || "";
+//         } else {
+//           reason_name = item.reason || item.reason_name || "";
+//         }
 
-      setErrors(newErrors)
-
-      if (hasReasonAmountError) return;
-      const formatDate = (dateString) => {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}/${month}/${year}`;
-};
-
-const formattedBookingDate = formatDate(bookingDate);
+//         const error = { reason: "", amount: "" };
+//         if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+//           error.amount = "Please enter amount";
+//           hasReasonAmountError = true;
+//         }
 
 
-      dispatch({
-        type: "ADDUSER",
-        payload: {
-          profile: file,
-          firstname: firstname,
-          lastname: lastname,
-          Phone: Phone,
-          Email: Email,
-          Address: house_no,
-          area: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-          AadharNo: AadharNo,
-          PancardNo: PancardNo,
-          licence: licence,
-          HostelName: HostelName,
-          hostel_Id: hostel_Id,
-          Floor: bookingFlooorId,
-          Rooms: bookingRoomId,
-          Bed: bookingBedId,
-          joining_date: formattedDate,
-          AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
-          BalanceDue: BalanceDue,
-          PaymentType: PaymentType,
-          paid_advance: paid_advance,
-          paid_rent: paid_rent,
-          payable_rent: payableamount,
-          ID: props.EditObj.ID,
-          reasons: formattedReasons,
-          stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-           booking_Id:props.EditObj.booking_id,
-    booking_date:formattedBookingDate,
-    booking_amount:bookingAmount
-        },
-      });
-      setLoading(true)
+//         if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+//           error.reason = "Please enter reason";
+//           hasReasonAmountError = true;
+//         }
+
+//         newErrors.push(error);
+//         return {
+//           reason_name,
+//           amount: item.amount || "",
+//           showInput: !!item.showInput
+//         };
+//       });
+
+//       setErrors(newErrors)
+
+//       if (hasReasonAmountError) return;
+//       const formatDate = (dateString) => {
+//   if (!dateString) return "";
+//   const date = new Date(dateString);
+//   const day = String(date.getDate()).padStart(2, "0");
+//   const month = String(date.getMonth() + 1).padStart(2, "0");
+//   const year = date.getFullYear();
+//   return `${day}/${month}/${year}`;
+// };
+
+// const formattedBookingDate = formatDate(bookingDate);
 
 
-    }
-    dispatch({ type: "INVOICELIST" });
-  };
+//       dispatch({
+//         type: "ADDUSER",
+//         payload: {
+//           profile: file,
+//           firstname: firstname,
+//           lastname: lastname,
+//           Phone: Phone,
+//           Email: Email,
+//           Address: house_no,
+//           area: street,
+//           landmark: landmark,
+//           city: city,
+//           pincode: pincode,
+//           state: state_name,
+//           AadharNo: AadharNo,
+//           PancardNo: PancardNo,
+//           licence: licence,
+//           HostelName: HostelName,
+//           hostel_Id: hostel_Id,
+//           Floor: bookingFlooorId,
+//           Rooms: bookingRoomId,
+//           Bed: bookingBedId,
+//           joining_date: formattedDate,
+//           AdvanceAmount: AdvanceAmount,
+//           RoomRent: RoomRent,
+//           BalanceDue: BalanceDue,
+//           PaymentType: PaymentType,
+//           paid_advance: paid_advance,
+//           paid_rent: paid_rent,
+//           payable_rent: payableamount,
+//           ID: props.EditObj.ID,
+//           reasons: formattedReasons,
+//           stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+//            booking_Id:props.EditObj.booking_id,
+//     booking_date:formattedBookingDate,
+//     booking_amount:bookingAmount
+//         },
+//       });
+//       setLoading(true)
+
+
+//     }
+//     dispatch({ type: "INVOICELIST" });
+//   };
  
 
   useEffect(() => {
@@ -1774,8 +1774,168 @@ const handleCloseAssignBooking =()=>{
 const handleCloseBacktoCheckin =()=>{
   props.setBacktoCheckInForm(false)
 }
-console.log("bactocheckinForm",props.bactocheckinForm)
 
+
+useEffect(()=>{
+   if (props.bactocheckinForm) {
+    console.log("bactocheckinForm",props.EditObj)
+      setId(props.EditObj.ID);
+      if (props.EditObj.profile === 0) setFile(null);
+      else {
+        setFile(props.EditObj.profile);
+      }
+
+    
+        if (props.EditObj?.Name) {
+    const value = props.EditObj.Name.trim().split(" ");
+    setFirstname(value[0] || "");
+    setLastname(value[1] || ""); 
+  } else {
+    setFirstname("");
+    setLastname("");
+  }
+      setHouseNo(props.EditObj.Address);
+      setStreet(props.EditObj.area);
+      setLandmark(props.EditObj.landmark);
+      setCity(props.EditObj.city);
+      setPincode(props.EditObj.pincode);
+      setStateName(props.EditObj.state);
+      setAadharNo(props.EditObj.AadharNo);
+      setPancardNo(props.EditObj.PancardNo);
+      setLicence(props.EditObj.licence);
+      setPhone(props.EditObj.Phone);
+      setEmail(props.EditObj.Email);
+      setHostelName(props.EditObj.HostelName);
+      setHostel_Id(props.EditObj.Hostel_Id);
+      setRooms(props.EditObj.hstl_Rooms);
+      setBed(props.EditObj.hstl_Bed)
+      setPaymentType(props.EditObj.PaymentType);
+      setBalanceDue(props.EditObj.BalanceDue);
+      setPaidAdvance(props.EditObj.paid_advance);
+      setFloor(props.EditObj.Floor)
+      setSelectedDate(props.EditObj.joining_Date)
+      setBookingFloorId(props.EditObj.floor_name)
+      setBookingRoomId(props.EditObj.Room_Id)
+       setBookingBedId(props.EditObj.Bed)
+       setBookingAmount(props.EditObj.pending_advance)
+       setAdvanceAmount(props.EditObj.AdvanceAmount)
+        setRoomRent(props.EditObj.RoomRent)
+      setBookingDate(props.EditObj.booking_booking_date)
+setId(props.EditObj.ID)
+    } 
+  if (props.EditObj && Array.isArray(props.EditObj.reasonData)) {
+  const formattedFields = props.EditObj.reasonData.map((entry) => {
+    const isCustom = String(entry.reason) !== "maintenance";
+
+    return {
+      reason_name: entry.reason,
+      amount: entry.amount || "",
+      showInput: isCustom,
+      customReason: isCustom ? entry.reason : "",
+      id: entry.id || ""
+    };
+  });
+
+  setFields(formattedFields);
+}
+  },[props.bactocheckinForm])
+
+  const selectedFloor = React.useMemo(() => {
+  const list = state.UsersList?.hosteldetailslist;
+  if (!list) return null;
+
+  if (Floor) {
+   
+    return list.find((option) => String(option.floor_id) === String(Floor)) || null;
+  } else if (props.EditObj?.floor_name) {
+    return list.find(
+      (option) => option.floor_name?.toLowerCase() === props.EditObj.floor_name?.toLowerCase()
+    ) || null;
+  }
+  return null;
+}, [Floor, props.EditObj?.floor_name, state.UsersList?.hosteldetailslist]);
+
+console.log("props.EditObj.hstl_Bed",props.EditObj)
+
+
+
+const selectedRoom = React.useMemo(() => {
+  const list = state.UsersList?.roomdetails;
+  if (!list) return null;
+
+  if (Rooms) {
+    return list.find(
+      (option) => String(option.Room_Id) === String(Rooms)
+    ) || null;
+  } else if (props.EditObj?.Rooms) {
+    return list.find(
+      (option) =>
+        String(option.Room_Id) === String(props.EditObj.Rooms)
+    ) || null;
+  }
+  return null;
+}, [Rooms, props.EditObj?.Rooms, state.UsersList?.roomdetails]);
+
+
+
+
+let bedOptions =
+  state.UsersList?.bednumberdetails?.bed_details?.filter(
+    (item) =>
+      item.bed_no !== "0" &&
+      item.bed_no !== "undefined" &&
+      item.bed_no !== "" &&
+      item.bed_no !== "null"
+  ) || [];
+
+// Try to find the bed name for the default bed ID
+const selectedBedName =
+  bedOptions.find((item) => item.id === Bed)?.bed_no || props.EditObj?.Bed || "";
+
+// If missing from options, add it
+if (Bed && !bedOptions.some((b) => b.id === Bed)) {
+  bedOptions = [
+    ...bedOptions,
+    { id: Bed, bed_no: selectedBedName }
+  ];
+}
+const handleRecheckin =(e)=>{
+setReason(e.target.value)
+setReasonError("")
+}
+const [recheckinDateError,setRecheckinDateError] = useState("")
+const [reasonError,setReasonError] = useState("")
+const reasonRef = useRef(null);
+const dateRef = useRef(null);
+
+const handleSaveBacktoCheckin =()=>{
+  if (!reason) {
+    setReasonError("Please Enter Reason");
+    reasonRef.current?.focus();
+    return;
+  }
+  if (!recheckInDate) {
+    setRecheckinDateError("Please Select Date");
+    dateRef.current?.focus();
+    return;
+  }
+   
+  dispatch({ type: "BACKTOCHECKIN", payload: { userId:id, RecheckIn_Reason:reason,RecheckIn_Date:recheckInDate } });
+}
+
+ useEffect(() => {
+    if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
+      handleCloseBacktoCheckin()
+    dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+         setTimeout(() => {
+          dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
+        }, 500);
+        
+    }
+  }, [state.UsersList?.StatusCodeBacktoCheckin]);
   return (
     <div>
       <Modal
@@ -1832,7 +1992,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
   height="35"
   onError={(e) => {
     e.target.onerror = null;
-    e.target.src = Profileimage; // Fallback if loading fails
+    e.target.src = Profileimage; 
   }}
 />
                   <div>
@@ -2956,7 +3116,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         </div>
 
 
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <Form.Group>
                               <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                                 Booking Amount
@@ -2964,9 +3124,9 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                               </Form.Label>
                               <FormControl
                                 type="text"
-                                 disabled
                                 placeholder="Enter Amount"
                                 value={bookingAmount}
+                                // onChange={handleAdvanceAmount}
                                 style={{
                                   fontSize: 16,
                                   color: "#4B4B4B",
@@ -2976,11 +3136,25 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                                   border: "1px solid #D9D9D9",
                                   height: 50,
                                   borderRadius: 8,
-                                    backgroundColor:"#EFF2FF"
                                 }}
                               />
                             </Form.Group>
-                            
+                            {advanceAmountError && (
+                              <div style={{ color: "red" }}>
+                                <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                <label
+                                  className="mb-0"
+                                  style={{
+                                    color: "red",
+                                    fontSize: "12px",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {advanceAmountError}
+                                </label>
+                              </div>
+                            )}
                           </div>
 
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
@@ -4715,13 +4889,13 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         paddingRight: 20,
                       }}
                       // onClick={handleSaveUserlistAddUserButon}
-                         onClick={() => {
-  if (props.BookingAssignForm) {
-    handleSaveBookingCancel();
-  } else {
-    handleSaveUserlistAddUserButon();
-  }
-}}
+//                          onClick={() => {
+//   if (props.BookingAssignForm) {
+//     handleSaveBookingCancel();
+//   } else {
+//     handleSaveUserlistAddUserButon();
+//   }
+// }}
                     >
                       Cancel
                     </Button>
@@ -4840,7 +5014,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                   />
                   <div>
                     <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
-                      Rajesh
+                   {props.EditObj?.Name}
                     </p>
                     <div className="d-flex gap-2">
                       <span
@@ -4853,7 +5027,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                           fontWeight: 500,
                         }}
                       >
-                        Ground Floor
+                        {bookingFlooorId}
                       </span>
                       <span
                         style={{
@@ -4865,7 +5039,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                           fontWeight: 500,
                         }}
                       >
-                        G005 - B03
+                        {bookingRoomId} - {bookingBedId}
                       </span>
                     </div>
                   </div>
@@ -4909,7 +5083,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                 </div>
 
                 {activeTab === "long" ? <>
-                  <div style={{ maxHeight: "350px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
+                  <div style={{ maxHeight: "320px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                     <div className="row d-flex align-items-center">
                       <div className="col-12">
                         <Form.Label
@@ -4928,28 +5102,21 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         </Form.Label>
 
                         <Select
-                          options={
-                            state.UsersList?.hosteldetailslist?.map((u) => ({
-                              value: u.floor_id,
-                              label: u.floor_name,
-                            })) || []
-                          }
-                          onChange={handleFloor}
-                          value={
-                            state.UsersList?.hosteldetailslist?.find(
-                              (option) => option.floor_id === Floor
-                            )
-                              ? {
-                                value: Floor,
-                                label: state.UsersList.hosteldetailslist.find(
-                                  (option) => option.floor_id === Floor
-                                )?.floor_name,
-                              }
-                              : null
-                          }
+                       isDisabled={true}
+                       value={
+    selectedFloor
+      ? { value: selectedFloor.floor_id, label: selectedFloor.floor_name }
+      : null
+  }
+  onChange={(option) => setFloor(option?.value || "")}
+  options={state.UsersList?.hosteldetailslist?.map((option) => ({
+    value: option.floor_id,
+    label: option.floor_name,
+  }))}
                           placeholder="Select a Floor"
                           classNamePrefix="custom"
                           menuPlacement="auto"
+                          
                           styles={{
                             control: (base) => ({
                               ...base,
@@ -4997,7 +5164,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                             option: (base, state) => ({
                               ...base,
                               cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              backgroundColor: state.isFocused ? "#dd2525ff" : "white",
                               color: "#000",
                             }),
                           }}
@@ -5039,27 +5206,19 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         </Form.Label>
 
                         <Select
-                          options={
-                            state.UsersList?.roomdetails?.map((item) => ({
-                              value: item.Room_Id,
-                              label: item.Room_Name,
-                            })) || []
-                          }
-                          onChange={(selectedOption) =>
-                            handleRooms(selectedOption?.value)
-                          }
-                          value={
-                            state.UsersList?.roomdetails?.find(
-                              (option) => option.Room_Id === Rooms
-                            )
-                              ? {
-                                value: Rooms,
-                                label: state.UsersList.roomdetails.find(
-                                  (option) => option.Room_Id === Rooms
-                                )?.Room_Name,
-                              }
-                              : null
-                          }
+                         isDisabled={true}
+                         options={
+    state.UsersList?.roomdetails?.map((item) => ({
+      value: item.Room_Id,
+      label: item.Room_Name,
+    })) || []
+  }
+  onChange={(selectedOption) => handleRooms(selectedOption?.value)}
+  value={
+    selectedRoom
+      ? { value: selectedRoom.Room_Id, label: selectedRoom.Room_Name }
+      : null
+  }
                           placeholder="Select a Room"
                           classNamePrefix="custom"
                           menuPlacement="auto"
@@ -5136,7 +5295,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         )}
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Booking Amount
@@ -5145,7 +5304,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                           <FormControl
                             type="text"
                             placeholder="Enter Amount"
-
+value={bookingAmount}
                             style={{
                               fontSize: 16,
                               color: "#4B4B4B",
@@ -5159,7 +5318,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                           />
                         </Form.Group>
 
-                      </div>
+                      </div> */}
 
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
@@ -5178,34 +5337,17 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         </Form.Label>
 
                         <Select
-                          options={
-                            state.UsersList?.bednumberdetails?.bed_details
-                              ?.filter(
-                                (item) =>
-                                  item.bed_no !== "0" &&
-                                  item.bed_no !== "undefined" &&
-                                  item.bed_no !== "" &&
-                                  item.bed_no !== "null"
-                              )
-                              ?.map((item) => ({
-                                value: item.id,
-                                label: item.bed_no,
-                              })) || []
-                          }
-                          onChange={handleBed}
-                          value={
-                            state.UsersList?.bednumberdetails?.bed_details?.find(
-                              (option) => option.id === Bed
-                            )
-                              ? {
-                                value: Bed,
-                                label:
-                                  state.UsersList.bednumberdetails.bed_details.find(
-                                    (option) => option.id === Bed
-                                  )?.bed_no,
-                              }
-                              : null
-                          }
+                         isDisabled={true}
+                          options={bedOptions.map((item) => ({
+    value: item.id,
+    label: item.bed_no
+  }))}
+  onChange={handleBed}
+  value={
+    Bed
+      ? { value: Bed, label: selectedBedName }
+      : null
+  }
                           placeholder="Select a Bed"
                           classNamePrefix="custom"
                           menuPlacement="auto"
@@ -5262,27 +5404,10 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                           }}
                         />
 
-                        {bedError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {bedError}
-                            </label>
-                          </div>
-                        )}
+                      
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Group controlId="bookingDate">
                           <Form.Label
                             style={{
@@ -5311,10 +5436,10 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                               }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
+                              value={bookingDate ? dayjs(bookingDate) : null}
                               onChange={(date) => {
                                 setDateError("");
-                                setSelectedDate(date ? date.toDate() : null);
+                                setBookingDate(date ? date.toDate() : null);
                                 dispatch(JoininDatecustomer(date ? date.toDate() : null));
                               }}
                               getPopupContainer={(triggerNode) =>
@@ -5344,7 +5469,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                             </label>
                           </div>
                         )}
-                      </div>
+                      </div> */}
 
 
 
@@ -5377,6 +5502,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                                 fontFamily: "Gilroy"
                               }}
                               format="DD/MM/YYYY"
+                              disabled
                               placeholder="DD/MM/YYYY"
                               value={selectedDate ? dayjs(selectedDate) : null}
                               onChange={(date) => {
@@ -5433,10 +5559,11 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                               <span style={{ color: "red", fontSize: "20px" }}> *</span>
                             </Form.Label>
                             <FormControl
+                            disabled
                               type="text"
                               placeholder="Enter Amount"
                               value={AdvanceAmount}
-                              onChange={handleAdvanceAmount}
+                              // onChange={handleAdvanceAmount}
                               style={{
                                 fontSize: 16,
                                 color: "#4B4B4B",
@@ -5475,6 +5602,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                               <span style={{ color: "red", fontSize: "20px" }}> *</span>
                             </Form.Label>
                             <FormControl
+                            disabled
                               type="text"
                               placeholder="Enter Amount"
                               value={RoomRent}
@@ -5517,7 +5645,13 @@ console.log("bactocheckinForm",props.bactocheckinForm)
 
                     </div>
 
-                    <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-3 mb-3">
+                    <div style={{
+    backgroundColor: "#F7F9FF",
+    borderRadius: 10,
+    paddingBottom: 5,
+    pointerEvents: "none", // blocks all clicks inside
+    opacity: 0.6, // visual effect for disabled
+  }}className="mt-3 mb-3">
 
                       <div className="d-flex justify-content-between align-items-center p-4">
                         <div>
@@ -5759,83 +5893,48 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                     </div>
 
 
-                    <div className="col-12">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          paddingTop: "6px",
-                        }}
-                      >
-                        Reason(Comments) {" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          *
-                        </span>
-                      </Form.Label>
 
-                      <Select
-
-                        value={reason}
-                        onChange={(e) => setReason(e.target.value)}
-                        placeholder="Cancelled Relocation"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "50px",
-                            border: "1px solid #D9D9D9",
-                            borderRadius: "8px",
-                            fontSize: "16px",
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                            fontFamily: "Gilroy",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                            fontFamily: "Gilroy",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor: "pointer",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            cursor: "pointer",
-                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                            color: "#000",
-                          }),
-                        }}
-                      />
-
-
-                    </div>
+                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                          <Form.Group>
+                            <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                             Reason(Comments) {" "}
+                              <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                            </Form.Label>
+                            <FormControl
+                            ref={reasonRef}
+                              type="text"
+                              placeholder="Enter Comments"
+                              value={reason}
+                              onChange={handleRecheckin}
+                              style={{
+                                fontSize: 16,
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                                border: "1px solid #D9D9D9",
+                                height: 50,
+                                borderRadius: 8,
+                              }}
+                            />
+                          </Form.Group>
+                          {reasonError && (
+                            <div style={{ color: "red" }} >
+                              <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                              <label
+                                className="mb-0"
+                                style={{
+                                  color: "red",
+                                  fontSize: "12px",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {reasonError}
+                              </label>
+                            </div>
+                          )}
+                        </div>
 
 
 
@@ -5855,6 +5954,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                       </Form.Label>
 
                       <DatePicker
+                       ref={dateRef}
                         style={{
                           width: "100%",
                           height: 48,
@@ -5867,6 +5967,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         onChange={(date) => {
                         
                           setRecheckInDate(date ? date.toDate() : null);
+                          setRecheckinDateError("")
                         }}
                         getPopupContainer={(triggerNode) =>
                           triggerNode.closest(".datepicker-wrapper") || document.body
@@ -5874,6 +5975,23 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         dropdownClassName="custom-datepicker-popup"
                         disabledDate={(current) => current && current > dayjs().endOf("day")}
                       />
+
+                       {recheckinDateError && (
+                            <div style={{ color: "red" }} >
+                              <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                              <label
+                                className="mb-0"
+                                style={{
+                                  color: "red",
+                                  fontSize: "12px",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {recheckinDateError}
+                              </label>
+                            </div>
+                          )}
                     </div>
 
 
@@ -5905,7 +6023,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         fontFamily: "Montserrat",
                         cursor: "pointer",
                       }}
-                      onClick={handleCloseAssign}
+                      onClick={handleCloseBacktoCheckin}
                     >
                       Cancel
                     </button>
@@ -5924,7 +6042,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         border: "none",
                         cursor: "pointer",
                       }}
-                      onClick={handleSaveUserlistAddUser}
+                      onClick={handleSaveBacktoCheckin}
                     >
                       Check-In
                     </button>

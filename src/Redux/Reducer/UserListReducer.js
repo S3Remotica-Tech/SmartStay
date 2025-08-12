@@ -120,6 +120,7 @@ export const initialState = {
     nonRefundable_details: [],
     UnAssignCustomerDetails:[],
     statusCodeForUnAssignCustomer:0,
+    StatusCodeBacktoCheckin:0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -596,6 +597,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, UnAssignCustomerDetails: action.payload.response, statusCodeForUnAssignCustomer: action.payload.statusCode }
         case 'REMOVE_UNASSIGN_CUSTOMER':
             return { ...state, statusCodeForUnAssignCustomer: 0 }    
+
+
+               case 'BACK_TO_CHECKIN_USER':
+            return { ...state, StatusCodeBacktoCheckin: action.payload.statusCode }
+        case 'CLEAR_BACK_TO_CHECKIN_USER':
+            return { ...state, StatusCodeBacktoCheckin: 0 }
 
         default:
             return state;

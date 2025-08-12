@@ -404,3 +404,10 @@ export async function CustomerUnAssign(datum) {
     data: datum
   })
 }
+
+export async function backtoCheckin(datum) {
+  console.log("backtoCheckin",datum)
+  return await AxiosConfig.post('reassign_checkIn', datum, {
+    data: datum
+  })
+}
