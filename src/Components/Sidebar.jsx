@@ -52,12 +52,13 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate,useLocation} from "react-router-dom";
+import { Route, Routes, } from "react-router-dom";
 
 function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const state = useSelector((state) => state);
 
   const stateData = useSelector((state) => state.createAccount);
@@ -67,9 +68,28 @@ function Sidebar() {
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState("payingGuest");
   const [isInitialized, setIsInitialized] = useState(false);
-  const [currentPage, setCurrentPage] = useState("dashboard");
+  const [currentPage, setCurrentPage] = useState("pg-management-dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+
+//   useEffect(() => {
+//   navigate("/pg-management-dashboard");
+//   setIsSidebarOpen(true);
+// }, []);
+
+useEffect(() => {
+  const lastPage = localStorage.getItem("lastPage");
+  
+  if (!lastPage || location.pathname === "/") {
+   
+    navigate("/pg-management-dashboard");
+    setIsSidebarOpen(true);
+  } else {
+   
+    navigate(lastPage);
+    setIsSidebarOpen(true);
+  }
+}, []);
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -79,8 +99,8 @@ function Sidebar() {
   };
   const closeSidebar = () => {
     setIsSidebarOpen(false);
-    setCurrentPage("dashboard");
-    localStorage.setItem("currentPage", "dashboard");
+    setCurrentPage("pg-management-dashboard");
+    localStorage.setItem("currentPage", "pg-management-dashboard");
   };
 
   useEffect(() => {
@@ -232,7 +252,7 @@ function Sidebar() {
 
   useEffect(() => {
     if (state.login?.isLoggedIn) {
-      setCurrentPage("dashboard");
+      setCurrentPage("pg-management-dashboard");
     }
   }, [state.login?.isLoggedIn]);
 
@@ -300,6 +320,7 @@ function Sidebar() {
   const handleSettingspage = () => {
     handlePageClick("settingNewDesign");
     setSettingsPGShow(false);
+    navigate("/settingNewDesign")
   };
 
   useEffect(() => {
@@ -490,7 +511,7 @@ function Sidebar() {
                   alt="smartstay"
                   style={{ height: 25.06, width: 134 }}
                   className="Title"
-                  onClick={() => handlePageClick("dashboard")}
+                  onClick={() => handlePageClick("pg-management-dashboard")}
                 />
                 <button
                   onClick={closeSidebar}
@@ -659,11 +680,11 @@ function Sidebar() {
               >
 
                 <li
-                  className={`align-items-center  list-Item ${currentPage === "dashboard" ? "active" : ""
+                  className={`align-items-center  list-Item ${currentPage === "pg-management-dashboard" ? "active" : ""
                     }`}
                   onClick={() => {
-                    handlePageClick("dashboard")
-                    navigate("/dashboard")
+                    handlePageClick("pg-management-dashboard")
+                    navigate("/pg-management-dashboard")
                   }}
                   style={{
                     listStyleType: "none",
@@ -677,7 +698,7 @@ function Sidebar() {
                     viewBox="0 0 20 20"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    stroke={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
+                    stroke={currentPage === "pg-management-dashboard" ? "#1E45E1" : "#4B4B4B"}
                   >
                     <path
                       d="M7.5013 18.3332H12.5013C16.668 18.3332 18.3346 16.6665 18.3346 12.4998V7.49984C18.3346 3.33317 16.668 1.6665 12.5013 1.6665H7.5013C3.33464 1.6665 1.66797 3.33317 1.66797 7.49984V12.4998C1.66797 16.6665 3.33464 18.3332 7.5013 18.3332Z"
@@ -1006,7 +1027,7 @@ function Sidebar() {
                     }`}
                   onClick={() => {
                     handlePageClick("reports")
-                    navigate("/report")
+                    navigate("/reports")
                   }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
@@ -1360,11 +1381,11 @@ function Sidebar() {
               />
             )} */}
 
-            <Router>
-              <Sidebar />
+          
+              
               <Routes>
                 <Route
-                  path="/dashboard"
+                  path="/pg-management-dashboard"
                   element={
                     <Dashboards
                       displayCompliance={handledisplaycompliace}
@@ -1472,7 +1493,7 @@ function Sidebar() {
                   }
                 />
               </Routes>
-            </Router>
+           
           </Col>
         </Row>
       </Container>

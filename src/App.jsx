@@ -110,15 +110,16 @@ function App() {
 
 
       <Router future={{ v7_startTransition: true }}>
-        <Routes>
-          {data || state.login?.isLoggedIn ? (
-            <>
-              <Route path="/" element={<Sidebar />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-
-            </>
-          ) : (
-            <>
+        {/* <Routes> */}
+        {data || state.login?.isLoggedIn ? (
+          <>
+            {/* <Route path="/" element={<Sidebar />} />
+              <Route path="*" element={<Navigate to="/" replace />} /> */}
+            <Sidebar />
+          </>
+        ) : (
+          <>
+            <Routes>
               <Route path="/" element={<FrontPage />} />
               {/* <Route path="/Terms-Condition" element={<TermsAndCondition />} />
               <Route path="/Privacy-Policy" element={<Privacy />} />
@@ -133,10 +134,10 @@ function App() {
               <Route path="/privacy-policy" element={<FrontPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/thankyou" element={<ThankYou />} />
+            </Routes>
+          </>
+        )}
 
-            </>
-          )}
-        </Routes>
       </Router>
     </>
   );
