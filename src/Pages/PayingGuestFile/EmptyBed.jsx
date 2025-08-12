@@ -17,7 +17,7 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
 
     const [assign_tenantform, setAssignTenantForm] = useState(false)
     const [add_customerform, setAddCustomerForm] = useState(false)
-
+    const [advanceform , setAdvanceForm] = useState(false)
     const [showDeleteBed, setShowDeleteBed] = useState(false)
 
 
@@ -49,6 +49,23 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
     const handleCloseAssignTenant = () => {
         setAssignTenantForm(false)
     }
+
+    const handleshowAdvanceForm = () => {
+        setAdvanceForm(true)
+    }
+ 
+
+    const handleCloseAdvanceForm = () => {
+        setAdvanceForm(false)
+    }
+
+    const openAdvanceAndCloseTenant = () => {
+  setAdvanceForm(true);
+  setAssignTenantForm(false);
+};
+
+
+
 
     const handleShowAddCustomer = () => {
           setAddCustomerForm(true)
@@ -147,7 +164,12 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
        }
 
        {
-         assign_tenantform && <PGAssignTenant  show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem = {currentItem} />
+         assign_tenantform && <PGAssignTenant  show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem = {currentItem} advanceform = {advanceform} 
+         handleshowAdvanceForm = {handleshowAdvanceForm}
+         handleCloseAdvanceForm={handleCloseAdvanceForm}
+         openAdvanceAndCloseTenant={openAdvanceAndCloseTenant} 
+         
+         />
        }   
 
        {

@@ -15,7 +15,7 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import {Row,Col, } from "react-bootstrap";
 import dayjs from 'dayjs';
 
- const PGAssignTenant = ({ show, handleClose  , currentItem}) => {
+ const PGAssignTenant = ({ show, handleClose  , currentItem , }) => {
 
      const state = useSelector((state) => state);
      const dispatch = useDispatch();
@@ -27,6 +27,8 @@ import dayjs from 'dayjs';
     const [roomrentError, setRoomRentError] = useState("");
     const [RoomRent, setRoomRent] = useState("");   
     const [AdvanceAmount, setAdvanceAmount] = useState("");
+    const [checkin_joiningDate, setCheckinJoiningDate] = useState(null);
+    const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState('')
 
      const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
@@ -128,7 +130,7 @@ import dayjs from 'dayjs';
 
     setCheckinCustomerName(selectedOption?.value || '');
     if (!selectedOption) {
-      setCheckinCustomerErrmsg("Please Select Name");
+      setCheckinCustomerErrmsg("Please Select Customer");
     } else {
       setCheckinCustomerErrmsg("");
     }
@@ -167,6 +169,10 @@ import dayjs from 'dayjs';
         case "amount":
           setError("Please Enter Amount");
           break;
+
+
+
+
        
         default:
           break;
@@ -184,6 +190,33 @@ import dayjs from 'dayjs';
     }
   };
 
+
+  const validateField = (value, fieldName) => {
+  const trimmedValue = String(value ?? "").trim();
+  if (!trimmedValue) {
+    switch (fieldName) {
+      case "checkin_customername":
+        setCheckinCustomerErrmsg("Please Select Customer");
+        break;
+      case "stay_typename":
+        setStayTypeNameErrMsg("Please Select Staytype");
+        break;
+      case "checkin_joiningDate":
+        setCheckinJoingDateErrmsg("Please Select Joining Date");
+        break;
+      case "AdvanceAmount":
+        setAdvanceAmountError("Please Enter Advance Amount");
+        break;
+      case "RoomRent":
+        setRoomRentError("Please Enter Rental Amount");
+        break;
+      default:
+        break;
+    }
+    return false;
+  }
+  return true;
+};
 
 
    
@@ -280,6 +313,231 @@ import dayjs from 'dayjs';
         }, 500);
       }
     }, [state?.Booking?.statusCodeForAddBooking]);
+
+
+      useEffect(() => {
+        if (state.UsersList?.statusCodeForAddUser === 200) {
+          dispatch({
+            type: "USERLIST",
+            payload: { hostel_id: state.login.selectedHostel_Id},
+          });
+    
+          handleClose()
+          setTimeout(() => {
+            dispatch({ type: "CLEAR_STATUS_CODES" });
+          }, 2000);
+        }
+      }, [state.UsersList?.statusCodeForAddUser]);
+
+
+
+
+  const [stay_typename , setStayTypeName] = useState("")
+  const [stay_typenameErrmsg , setStayTypeNameErrMsg] = useState("")
+
+  const stayTypes = [
+  { value: "short_stay", label: "Short Stay" },
+  { value: "long_stay", label: "Long Stay" },
+  { value: "day_stay", label: "Day Stay" },
+];
+
+  const longStayOnly = stayTypes.filter((s) => s.value === "long_stay");
+
+// onChange handler
+const handleStayTypeChange = (selectedOption) => {
+    setStayTypeName(selectedOption?.value || '');
+    if (!selectedOption) {
+      setStayTypeNameErrMsg("Please Select Staytype");
+    } else {
+      setStayTypeNameErrMsg("");
+    }
+};
+
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
+  }, [state.login.selectedHostel_Id]);
+
+  
+
+
+ const handleSaveCheckin =  () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
+    let hasError = false;
+
+  // Validate basic fields
+  if (!validateField(checkin_customername, "checkin_customername")) hasError = true;
+  if (!validateField(stay_typename, "stay_typename")) hasError = true;
+  if (!validateField(checkin_joiningDate, "checkin_joiningDate")) hasError = true;
+  if (!validateField(AdvanceAmount, "AdvanceAmount")) hasError = true;
+  if (!validateField(RoomRent, "RoomRent")) hasError = true;
+
+
+      
+ 
+
+    if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+      setRoomRentError("Please Enter Rental Amount");
+      return;
+    }
+    if (Number(RoomRent) <= 0) {
+      setRoomRentError("Please Enter Valid Rental Amount");
+      return;
+    }
+
+    if (
+      AdvanceAmount === "" ||
+      AdvanceAmount === null ||
+      AdvanceAmount === undefined
+    ) {
+      setAdvanceAmountError("Please Enter Advance Amount");
+      return;
+    }
+    if (Number(AdvanceAmount) <= 0) {
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
+      return;
+    }
+
+
+
+  
+
+    const formattedReasons = fields.map((item) => {
+  let reason_name = "";
+
+  if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+    reason_name = item.customReason || item["custom Reason"] || "";
+  } else {
+    reason_name = item.reason || item.reason_name || "";
+  }
+
+    const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
+
+  return {
+    reason_name,
+    amount: item.amount || "",
+    showInput: !!item.showInput
+  };
+});
+  setErrors(newErrors)
+
+
+    if (hasReasonAmountError) return;
+
+     if (hasError) return
+
+     
+
+        const selectedUser = state?.UsersList?.Users.find(
+        item => item.ID === checkin_customername
+      );
+
+      console.log("selecteduser", hasError , hasReasonAmountError);
+
+      const fullName = selectedUser?.Name?.trim() || "";
+
+const [FirstName, ...lastNameParts] = fullName.split(" ");
+
+const LastName = lastNameParts.join(" ") || "";
+
+      const incrementDateAndFormat = (date) => {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + 1);
+
+        return newDate.toISOString().split("T")[0];
+      };
+
+      const formattedDate = checkin_joiningDate
+        ? incrementDateAndFormat(checkin_joiningDate)
+        : "";
+
+        console.log("formattedDate", checkin_customername , stay_typename
+         , checkin_joiningDate , AdvanceAmount , RoomRent , currentItem?.room?.Floor_Id , currentItem?.room?.Room_Id , currentItem?.bed?.id 
+        )
+        
+
+
+const invoiceDateObj = new Date(formattedDate);
+
+const dueDateObj = new Date(invoiceDateObj);
+dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
+
+const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+
+
+
+
+    if (
+      checkin_customername && stay_typename &&
+      currentItem?.room?.Floor_Id && currentItem?.room?.Room_Id && currentItem?.bed?.id && 
+      checkin_joiningDate &&
+      AdvanceAmount > 0 &&
+      RoomRent > 0
+    ) {
+
+      dispatch({
+  type: "ADDUSER",
+  payload: {
+    profile: selectedUser.profile,
+    firstname: FirstName || "",  
+    LastName: LastName || "",
+    Phone: selectedUser.Phone,
+    Email: selectedUser.Email,
+    Address: selectedUser.Address,
+    area: selectedUser.area,
+    landmark: selectedUser.landmark,
+    city: selectedUser.city,
+    pincode: selectedUser.pincode,
+    state: selectedUser.state,
+    AadharNo: selectedUser.AadharNo,
+    PancardNo: selectedUser.PancardNo,
+    licence: selectedUser.licence,
+    HostelName: selectedUser.HostelName,
+    hostel_Id: state.login.selectedHostel_Id,
+    Floor:  currentItem?.room?.Floor_Id,
+    Rooms: currentItem?.room?.Room_Id,
+    Bed: currentItem?.bed?.id,
+    joining_date: formattedDate,
+    AdvanceAmount: AdvanceAmount,
+    RoomRent: RoomRent,
+    // BalanceDue: BalanceDue,
+    // PaymentType: PaymentType,
+    // paid_advance: paid_advance,
+    // paid_rent: paid_rent,
+    // payable_rent: payableamount,
+    isadvance: 1,
+    invoice_date: formattedDate,
+    due_date: formattedAdvanceDueDate,
+    reasons: formattedReasons,
+    stay_type: stay_typename,
+  },
+});
+
+
+    dispatch({ type: "INVOICELIST" });
+    }
+  };
+
+
+ 
   
 
     return(
@@ -912,102 +1170,77 @@ import dayjs from 'dayjs';
 
 
 
-                            <Select
-                            //   options={
-                            //     Array.isArray(complainttypelist) && complainttypelist.length > 0
-                            //       ? complainttypelist.map((u) => ({
-                            //         value: u.id,
-                            //         label: u.complaint_name,
-                            //       }))
-                            //       : []
-                            //   }
-                            //   onChange={handleComplaintType}
-                            //   value={
-                            //     edit && editcomplainttype
-                            //       ? { value: editcomplainttype, label: editcomplainttype }
-                            //       : Complainttype
-                            //         ? {
-                            //           value: Complainttype,
-                            //           label: complainttypelist.find((c) => c.id === Complainttype)
-                            //             ?.complaint_name,
-                            //         }
-                            //         : null
-                            //   }
-                              placeholder="Select a type"
-                              classNamePrefix="custom"
-                              menuPlacement="auto"
-                            //   isDisabled={edit}
-                            //   components={
-                            //     edit
-                            //       ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
-                            //       : undefined
-                            //   }
-                              noOptionsMessage={() => "No stay types available"}
-                              styles={{
-                                control: (base) => ({
-                                  ...base,
-                                  height: "50px",
-                                  border: "1px solid #D9D9D9",
-                                  borderRadius: "8px",
-                                  fontSize: "16px",
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                //   backgroundColor: edit ? "#E7F1FF" : "#fff",
-                                  cursor: 'pointer'
-                                }),
-                                menu: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  border: "1px solid #ced4da",
-                                  fontFamily: "Gilroy",
-                                  cursor: 'pointer'
-                                }),
-                                menuList: (base) => ({
-                                  ...base,
-                                  backgroundColor: "#f8f9fa",
-                                  maxHeight: "120px",
-                                  padding: 0,
-                                  scrollbarWidth: "thin",
-                                  overflowY: "auto",
-                                  fontFamily: "Gilroy",
-                                  cursor: 'pointer'
-                                }),
-                                placeholder: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                }),
-                                dropdownIndicator: (base) => ({
-                                  ...base,
-                                  color: "#555",
-                                  display: "inline-block",
-                                  fill: "currentColor",
-                                  lineHeight: 1,
-                                  stroke: "currentColor",
-                                  strokeWidth: 0,
-                                }),
-                                indicatorSeparator: () => ({
-                                  display: "none",
-                                }),
-                                option: (base, state) => ({
-                                  ...base,
-                                  cursor: "pointer",
-                                  color: state.isSelected ? "#fff" : "#000",
-                                  fontFamily: "Gilroy",
-                                }),
-                              }}
-                            />
+                    <Select
+  options={longStayOnly}
+  onChange={handleStayTypeChange}
+  placeholder="Select a type"
+  classNamePrefix="custom"
+  menuPlacement="auto"
+  noOptionsMessage={() => "No stay types available"}
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: "50px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "16px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
+      cursor: "pointer",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+      fontFamily: "Gilroy",
+      cursor: "pointer",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+      fontFamily: "Gilroy",
+      cursor: "pointer",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      display: "inline-block",
+      fill: "currentColor",
+      lineHeight: 1,
+      stroke: "currentColor",
+      strokeWidth: 0,
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      color: state.isSelected ? "#fff" : "#000",
+      fontFamily: "Gilroy",
+    }),
+  }}
+/>
 
 
                           </div>
-                          {/* {complaint_typeerrmsg.trim() !== "" && (
+                          {stay_typenameErrmsg.trim() !== "" && (
                             <div>
                               <p style={{ fontSize: '15px', color: 'red' }}>
-                                {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
+                                {stay_typenameErrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{stay_typenameErrmsg}</span>
                               </p>
                             </div>
-                          )} */}
+                          )}
                                     </Row>
 
                                 <Row>
@@ -1130,20 +1363,20 @@ import dayjs from 'dayjs';
                                                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                                        format="DD/MM/YYYY"
                                                        placeholder="DD/MM/YYYY"
-                                                       value={joiningDate ? dayjs(joiningDate) : null}
+                                                       value={checkin_joiningDate ? dayjs(checkin_joiningDate) : null}
                                                        onChange={(date) => {
-                                                         setDateError("");
-                                                         setJoiningDate(date ? date.toDate() : null);
-                                                         dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+                                                         setCheckinJoingDateErrmsg("");
+                                                         setCheckinJoiningDate(date ? date.toDate() : null);
                                                        }}
                                                        disabledDate={(current) => current && current > dayjs().endOf("day")}
-                                                       getPopupContainer={(triggerNode) =>
-                                                         triggerNode.closest(".datepicker-wrapper")
-                                                       }
+                                                      //  getPopupContainer={(triggerNode) =>
+                                                      //    triggerNode.closest(".datepicker-wrapper")
+                                                      //  }
+                                                       getPopupContainer={() => document.body}
                                                      />
                                                    </div>
                                                  </Form.Group>
-                                                 {/* {dateError && (
+                                                 {Checkin_joiningDateErrmsg && (
                                                    <div style={{ color: "red" }}>
                                                      <MdError
                                                        style={{
@@ -1160,10 +1393,10 @@ import dayjs from 'dayjs';
                                                          fontWeight: 500,
                                                        }}
                                                      >
-                                                       {dateError}
+                                                       {Checkin_joiningDateErrmsg}
                                                      </span>
                                                    </div>
-                                                 )} */}
+                                                 )}
                                                  {/* {state.Booking?.ErrorAssignBookingDate && (
                                                    <div style={{ color: "red" }}>
                                                      <MdError
@@ -1457,6 +1690,7 @@ import dayjs from 'dayjs';
                                                                padding:'5px 40px',
                                                                fontFamily: "Gilroy",
                                                              }}
+                                                             onClick={handleSaveCheckin}
                                                            >
                                                               Check-in
                                                            </Button>
@@ -1495,6 +1729,7 @@ import dayjs from 'dayjs';
         
                 </Modal.Dialog>
               </Modal>
+
         </>
     )
  }
