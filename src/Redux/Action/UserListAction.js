@@ -38,7 +38,7 @@ export async function addUser(params) {
      if (params.stay_type) formData.append("stay_type", params.stay_type)
     
  if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
- if (params.booking_Id) formData.append("booking_Id",params.booking_Id)
+ if (params.booking_id) formData.append("booking_id",params.booking_id)
    if (params.booking_date) formData.append("booking_date",params.booking_date)
 
      if (params.booking_amount) formData.append("booking_amount",params.booking_amount)
