@@ -80,6 +80,8 @@ function UserlistForm(props) {
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
   const [errors, setErrors] = useState([]);
+  const [reason, setReason] = useState("");
+ const [recheckInDate, setRecheckInDate] = useState("");
   const [activeTab, setActiveTab] = useState("long");
   const firstnameRef = useRef(null);
   const phoneRef = useRef(null);
@@ -702,10 +704,10 @@ const handleCloseAssign =()=>{
   
   };
 
-  const handleAdvaceShowForm = () => {
-    props.setShowMenu(false);
-    props.setAdvanceForm(true);
-  };
+  // const handleAdvaceShowForm = () => {
+  //   props.setShowMenu(false);
+  //   props.setAdvanceForm(true);
+  // };
 
   useEffect(() => { }, [props.showMenu]);
 
@@ -757,7 +759,7 @@ const handleCloseAssign =()=>{
       setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     }
-  fields.map((item) => {
+  const formattedReasons = fields.map((item) => {
       let reason_name = "";
 
       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
@@ -790,7 +792,32 @@ const handleCloseAssign =()=>{
 
     if (hasReasonAmountError) return;
 
+      const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate.toISOString().split("T")[0];
+    };
+     const formattedDate = selectedDate
+      ? incrementDateAndFormat(selectedDate)
+      : "";
 
+      
+  const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
+    const capitalizedFirstname = capitalizeFirstLetter(firstname);
+    
+    const capitalizedLastname = capitalizeFirstLetter(lastname);
+   
+
+   
+const invoiceDateObj = new Date(formattedDate);
+ 
+const dueDateObj = new Date(invoiceDateObj);
+dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
+ 
+const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
     if (
       Floor !== "Selected Floor" &&
@@ -799,11 +826,208 @@ const handleCloseAssign =()=>{
       selectedDate &&
       Number(AdvanceAmount) > 0 &&
       Number(RoomRent) > 0
+    ) 
+    {
+       dispatch({
+  type: "ADDUSER",
+  payload: {
+    profile: file,
+    firstname: capitalizedFirstname,  
+    LastName: capitalizedLastname,
+    Phone: Phone,
+    Email: Email,
+    Address: house_no,
+    area: street,
+    landmark: landmark,
+    city: city,
+    pincode: pincode,
+    state: state_name,
+    AadharNo: AadharNo,
+    PancardNo: PancardNo,
+    licence: licence,
+    HostelName: HostelName,
+    hostel_Id: hostel_Id,
+    Floor: Floor,
+    Rooms: Rooms,
+    Bed: Bed,
+    joining_date: formattedDate,
+    AdvanceAmount: AdvanceAmount,
+    RoomRent: RoomRent,
+    BalanceDue: BalanceDue,
+    PaymentType: PaymentType,
+    paid_advance: paid_advance,
+    paid_rent: paid_rent,
+    payable_rent: payableamount,
+    isadvance: 1,
+    invoice_date: formattedDate,
+    due_date: formattedAdvanceDueDate,
+    ID: props.edit === "Edit" ? id : "",
+    reasons: formattedReasons,
+    stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+
+  },
+});
+
+    }
+    dispatch({ type: "INVOICELIST" });
+  };
+
+
+
+useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
+  }, [state.login.selectedHostel_Id]);
+
+
+
+   const handleSaveBookingAdvance = async () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
+   
+    if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+      setRoomRentError("Please Enter Rental Amount");
+      return;
+    }
+    if (Number(RoomRent) <= 0) {
+      setRoomRentError("Please Enter Valid Rental Amount");
+      return;
+    }
+
+    if (
+      AdvanceAmount === "" ||
+      AdvanceAmount === null ||
+      AdvanceAmount === undefined
     ) {
-      handleAdvaceShowForm();
+      setAdvanceAmountError("Please Enter Advance Amount");
+      return;
+    }
+    if (Number(AdvanceAmount) <= 0) {
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
+      return;
+    }
+  
+    setErrors(newErrors)
+
+   
+
+
+       const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate.toISOString().split("T")[0];
+    };
+
+
+    const formattedDate = selectedDate
+      ? incrementDateAndFormat(selectedDate)
+      : "";
+const invoiceDateObj = new Date(formattedDate);
+      const dueDateObj = new Date(invoiceDateObj);
+dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
+ 
+const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+
+  const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
+    const capitalizedFirstname = capitalizeFirstLetter(firstname);
+    
+    const capitalizedLastname = capitalizeFirstLetter(lastname);
+   
+
+    setErrors(newErrors)
+
+     const formattedReasons = fields.map((item) => {
+      let reason_name = "";
+
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
+
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+
+     if (hasReasonAmountError) return;
+
+
+     console.log("apitriggerd" ,hasReasonAmountError , AdvanceAmount , RoomRent);
+
+    if (
      
-      handleCloseAssign()
-      handleCloseAssignBooking()
+      Number(AdvanceAmount) > 0 &&
+      Number(RoomRent) > 0
+    ) {
+     
+
+
+   dispatch({
+  type: "ADDUSER",
+  payload: {
+    profile: file,
+    firstname: capitalizedFirstname,  
+    LastName: capitalizedLastname,
+    Phone: Phone,
+    Email: Email,
+    Address: house_no,
+    area: street,
+    landmark: landmark,
+    city: city,
+    pincode: pincode,
+    state: state_name,
+    AadharNo: AadharNo,
+    PancardNo: PancardNo,
+    licence: licence,
+    HostelName: HostelName,
+    hostel_Id: hostel_Id,
+    Floor: Floor,
+    Rooms: props.EditObj.booking_room_id,
+    Bed: props.EditObj.booking_bed_id,
+    joining_date: formattedDate,
+    AdvanceAmount: AdvanceAmount,
+    RoomRent: RoomRent,
+    BalanceDue: BalanceDue,
+    PaymentType: PaymentType,
+    paid_advance: paid_advance,
+    paid_rent: paid_rent,
+    payable_rent: payableamount,
+    isadvance: 1,
+    invoice_date: formattedDate,
+    due_date: formattedAdvanceDueDate,
+    ID: props.EditObj.ID,
+    reasons: formattedReasons,
+    stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+    booking_Id:props.EditObj.booking_id,
+    booking_date:formattedDate,
+    booking_amount:props.EditObj.booking_amount
+    
+  },
+});
     }
     dispatch({ type: "INVOICELIST" });
   };
@@ -954,166 +1178,166 @@ const handleCloseAssign =()=>{
 
 
 
-  const handleSaveAdvance = () => {
-    let hasError = false;
-    let hasReasonAmountError = false;
-    let newErrors = [];
+//   const handleSaveAdvance = () => {
+//     let hasError = false;
+//     let hasReasonAmountError = false;
+//     let newErrors = [];
 
 
-    if (!advanceDate) {
-      setAdvanceDateError("Please Select Invoice Date");
-      hasError = true;
-    } else {
-      setAdvanceDateError("");
-    }
+//     if (!advanceDate) {
+//       setAdvanceDateError("Please Select Invoice Date");
+//       hasError = true;
+//     } else {
+//       setAdvanceDateError("");
+//     }
 
-    if (!advanceDueDate) {
-      setAdvanceDueDateError("Please Select Due Date");
-      hasError = true;
-    } else {
-      setAdvanceDueDateError("");
-    }
-
-
-
-
-    if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
-      const selectedUser = state.UsersList.Users.find(
-        item => item.User_Id === props.EditObj.User_Id
-      );
-
-      if (selectedUser) {
-        const CreateDate = dayjs(state.login.joiningDate).startOf('day');
-
-
-        const InvoiceDate = dayjs(advanceDate).startOf('day');
-
-        const DueDate = dayjs(advanceDueDate).startOf('day');
-        const Today = dayjs().startOf('day');
-
-
-        if (InvoiceDate.isBefore(CreateDate)) {
-
-          setAdvanceDateError("Before joining date not allowed");
-          hasError = true;
-        } else if (InvoiceDate.isAfter(Today)) {
-          setAdvanceDateError("Invoice date cannot be a future date");
-          hasError = true;
-        }
-
-
-        if (DueDate.isBefore(InvoiceDate)) {
-          setAdvanceDueDateError("Due date cannot be before invoice date");
-          hasError = true;
-        }
-      }
-    }
+//     if (!advanceDueDate) {
+//       setAdvanceDueDateError("Please Select Due Date");
+//       hasError = true;
+//     } else {
+//       setAdvanceDueDateError("");
+//     }
 
 
 
 
-    if (hasError) {
-      return;
-    }
+//     if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
+//       const selectedUser = state.UsersList.Users.find(
+//         item => item.User_Id === props.EditObj.User_Id
+//       );
 
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate.toISOString().split("T")[0];
-    };
+//       if (selectedUser) {
+//         const CreateDate = dayjs(state.login.joiningDate).startOf('day');
 
 
-    const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
-      : "";
-    const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
-    const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
+//         const InvoiceDate = dayjs(advanceDate).startOf('day');
 
-  const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
+//         const DueDate = dayjs(advanceDueDate).startOf('day');
+//         const Today = dayjs().startOf('day');
 
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
+
+//         if (InvoiceDate.isBefore(CreateDate)) {
+
+//           setAdvanceDateError("Before joining date not allowed");
+//           hasError = true;
+//         } else if (InvoiceDate.isAfter(Today)) {
+//           setAdvanceDateError("Invoice date cannot be a future date");
+//           hasError = true;
+//         }
+
+
+//         if (DueDate.isBefore(InvoiceDate)) {
+//           setAdvanceDueDateError("Due date cannot be before invoice date");
+//           hasError = true;
+//         }
+//       }
+//     }
+
+
+
+
+//     if (hasError) {
+//       return;
+//     }
+
+//     const incrementDateAndFormat = (date) => {
+//       const newDate = new Date(date);
+//       newDate.setDate(newDate.getDate() + 1);
+//       return newDate.toISOString().split("T")[0];
+//     };
+
+
+//     const formattedDate = selectedDate
+//       ? incrementDateAndFormat(selectedDate)
+//       : "";
+//     const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
+//     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
+
+//   const capitalizeFirstLetter = (str) => {
+//       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+//     };
+
+//     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
+//     const capitalizedLastname = capitalizeFirstLetter(lastname);
+//     const formattedReasons = fields.map((item) => {
+//       let reason_name = "";
 
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
+//       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+//         reason_name = item.customReason || item["custom Reason"] || "";
+//       } else {
+//         reason_name = item.reason || item.reason_name || "";
+//       }
 
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
-
-
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
-
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
-
-    setErrors(newErrors)
-
-    if (hasReasonAmountError) return;
+//       const error = { reason: "", amount: "" };
+//       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+//         error.amount = "Please enter amount";
+//         hasReasonAmountError = true;
+//       }
 
 
-   dispatch({
-  type: "ADDUSER",
-  payload: {
-    profile: file,
-    firstname: capitalizedFirstname,  
-    LastName: capitalizedLastname,
-    Phone: Phone,
-    Email: Email,
-    Address: house_no,
-    area: street,
-    landmark: landmark,
-    city: city,
-    pincode: pincode,
-    state: state_name,
-    AadharNo: AadharNo,
-    PancardNo: PancardNo,
-    licence: licence,
-    HostelName: HostelName,
-    hostel_Id: hostel_Id,
-    Floor: Floor,
-    Rooms: Rooms,
-    Bed: Bed,
-    joining_date: formattedDate,
-    AdvanceAmount: AdvanceAmount,
-    RoomRent: RoomRent,
-    BalanceDue: BalanceDue,
-    PaymentType: PaymentType,
-    paid_advance: paid_advance,
-    paid_rent: paid_rent,
-    payable_rent: payableamount,
-    isadvance: 1,
-    invoice_date: formattedAdvanceDate,
-    due_date: formattedAdvanceDateDue,
-    ID: props.edit === "Edit" ? id : "",
-    reasons: formattedReasons,
-    stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+//       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+//         error.reason = "Please enter reason";
+//         hasReasonAmountError = true;
+//       }
 
-  },
-});
+//       newErrors.push(error);
+//       return {
+//         reason_name,
+//         amount: item.amount || "",
+//         showInput: !!item.showInput
+//       };
+//     });
 
-    setLoading(true)
+//     setErrors(newErrors)
 
-    dispatch({ type: "INVOICELIST" });
-  };
+//     if (hasReasonAmountError) return;
+
+
+//    dispatch({
+//   type: "ADDUSER",
+//   payload: {
+//     profile: file,
+//     firstname: capitalizedFirstname,  
+//     LastName: capitalizedLastname,
+//     Phone: Phone,
+//     Email: Email,
+//     Address: house_no,
+//     area: street,
+//     landmark: landmark,
+//     city: city,
+//     pincode: pincode,
+//     state: state_name,
+//     AadharNo: AadharNo,
+//     PancardNo: PancardNo,
+//     licence: licence,
+//     HostelName: HostelName,
+//     hostel_Id: hostel_Id,
+//     Floor: Floor,
+//     Rooms: Rooms,
+//     Bed: Bed,
+//     joining_date: formattedDate,
+//     AdvanceAmount: AdvanceAmount,
+//     RoomRent: RoomRent,
+//     BalanceDue: BalanceDue,
+//     PaymentType: PaymentType,
+//     paid_advance: paid_advance,
+//     paid_rent: paid_rent,
+//     payable_rent: payableamount,
+//     isadvance: 1,
+//     invoice_date: formattedAdvanceDate,
+//     due_date: formattedAdvanceDateDue,
+//     ID: props.edit === "Edit" ? id : "",
+//     reasons: formattedReasons,
+//     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+
+//   },
+// });
+
+//     setLoading(true)
+
+//     dispatch({ type: "INVOICELIST" });
+//   };
 
  const [bookingDate,setBookingDate] = useState("")
   const [bookingAmount,setBookingAmount] = useState("")
@@ -1185,176 +1409,7 @@ const bookingDateRef = useRef("");
   
   }, [props.BookingAssignForm]); 
 
-const handleSaveBookingAdvance = () => {
-    let hasError = false;
-    let hasReasonAmountError = false;
-    let newErrors = [];
 
-
-    if (!advanceDate) {
-      setAdvanceDateError("Please Select Invoice Date");
-      hasError = true;
-    } else {
-      setAdvanceDateError("");
-    }
-
-    if (!advanceDueDate) {
-      setAdvanceDueDateError("Please Select Due Date");
-      hasError = true;
-    } else {
-      setAdvanceDueDateError("");
-    }
-
-
-
-
-    if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
-      const selectedUser = state.UsersList.Users.find(
-        item => item.User_Id === props.EditObj.User_Id
-      );
-
-      if (selectedUser) {
-        const CreateDate = dayjs(state.login.joiningDate).startOf('day');
-
-
-        const InvoiceDate = dayjs(advanceDate).startOf('day');
-
-        const DueDate = dayjs(advanceDueDate).startOf('day');
-        const Today = dayjs().startOf('day');
-
-
-        if (InvoiceDate.isBefore(CreateDate)) {
-
-          setAdvanceDateError("Before joining date not allowed");
-          hasError = true;
-        } else if (InvoiceDate.isAfter(Today)) {
-          setAdvanceDateError("Invoice date cannot be a future date");
-          hasError = true;
-        }
-
-
-        if (DueDate.isBefore(InvoiceDate)) {
-          setAdvanceDueDateError("Due date cannot be before invoice date");
-          hasError = true;
-        }
-      }
-    }
-
-
-
-
-    if (hasError) {
-      return;
-    }
-
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate.toISOString().split("T")[0];
-    };
-
-
-    const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
-      : "";
-    const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
-    const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
-
-  const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
-
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
-
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
-
-
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
-
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-
-    });
-
-    setErrors(newErrors)
-
-    if (hasReasonAmountError) return;
-
-   
-
-
-    // const formattedDatebook = bookingDate
-    //   ? incrementDateAndFormat(bookingDate)
-    //   : "";
-
-   dispatch({
-  type: "ADDUSER",
-  payload: {
-    profile: file,
-    firstname: capitalizedFirstname,  
-    LastName: capitalizedLastname,
-    Phone: Phone,
-    Email: Email,
-    Address: house_no,
-    area: street,
-    landmark: landmark,
-    city: city,
-    pincode: pincode,
-    state: state_name,
-    AadharNo: AadharNo,
-    PancardNo: PancardNo,
-    licence: licence,
-    HostelName: HostelName,
-    hostel_Id: hostel_Id,
-    Floor: Floor,
-    Rooms: props.EditObj.booking_room_id,
-    Bed: props.EditObj.booking_bed_id,
-    joining_date: formattedDate,
-    AdvanceAmount: AdvanceAmount,
-    RoomRent: RoomRent,
-    BalanceDue: BalanceDue,
-    PaymentType: PaymentType,
-    paid_advance: paid_advance,
-    paid_rent: paid_rent,
-    payable_rent: payableamount,
-    isadvance: 1,
-    invoice_date: formattedAdvanceDate,
-    due_date: formattedAdvanceDateDue,
-    ID: props.EditObj.ID,
-    reasons: formattedReasons,
-    stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-    booking_Id:props.EditObj.booking_id,
-    booking_date:formattedDate,
-    booking_amount:props.EditObj.booking_amount
-    
-  },
-});
-
-    setLoading(true)
-
-    dispatch({ type: "INVOICELIST" });
-  };
 
  const handleSaveBookingCancel = () => {
 
@@ -1716,9 +1771,9 @@ const handleCloseAssignBooking =()=>{
       props.setRoomDetail(false);
     }
 }
-// const handleClosecktoCheckin =()=>{
-//   props.setBacktoCheckInForm(false)
-// }
+const handleCloseBacktoCheckin =()=>{
+  props.setBacktoCheckInForm(false)
+}
 console.log("bactocheckinForm",props.bactocheckinForm)
 
   return (
@@ -3414,7 +3469,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         fontFamily: "Montserrat",
                         marginTop: 10,
                       }}
-                      onClick={handleSaveUserlistAddUser}
+                      onClick={handleSaveBookingAdvance}
                     >
                       Assign Bed
                     </Button>
@@ -4687,13 +4742,13 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         paddingRight: 25,
                       }}
                       // onClick={handleSaveAdvance}
-                      onClick={() => {
-  if (props.BookingAssignForm) {
-    handleSaveBookingAdvance();
-  } else {
-    handleSaveAdvance();
-  }
-}}
+//                       onClick={() => {
+//   if (props.BookingAssignForm) {
+//     handleSaveBookingAdvance();
+//   } else {
+//     handleSaveAdvance();
+//   }
+// }}
                     >
                       Save
                     </Button>
@@ -4735,9 +4790,9 @@ console.log("bactocheckinForm",props.bactocheckinForm)
       </Modal>
 
 
-{/* <Modal
+ <Modal
         show={props.bactocheckinForm}
-        onHide={handleClosecktoCheckin}
+        onHide={handleCloseBacktoCheckin}
         backdrop="static"
         centered
       >
@@ -4769,7 +4824,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                   <CloseCircle
                     size="24"
                     color="#000"
-                    onClick={handleClosecktoCheckin}
+                    onClick={handleCloseBacktoCheckin}
                     style={{ cursor: "pointer" }}
                   />
                 </Modal.Header>
@@ -5810,7 +5865,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
                         placeholder="DD/MM/YYYY"
                         value={recheckInDate ? dayjs(recheckInDate) : null}
                         onChange={(date) => {
-                          setRecheckInDateError("");
+                        
                           setRecheckInDate(date ? date.toDate() : null);
                         }}
                         getPopupContainer={(triggerNode) =>
@@ -5983,7 +6038,7 @@ console.log("bactocheckinForm",props.bactocheckinForm)
 
 
         </Modal.Dialog>
-      </Modal> */}
+      </Modal> 
 
 
     </div>
