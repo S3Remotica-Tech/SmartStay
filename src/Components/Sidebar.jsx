@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { StoreSelectedHostelAction, setPlanStatus } from "../Redux/Action/smartStayAction";
 import "../Components/Sidebar.css";
@@ -52,7 +52,7 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import { useNavigate,useLocation} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Route, Routes, } from "react-router-dom";
 
 function Sidebar() {
@@ -70,26 +70,45 @@ function Sidebar() {
   const [isInitialized, setIsInitialized] = useState(false);
   const [currentPage, setCurrentPage] = useState("pg-management-dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const isFirstLogin = useRef(true);
+
+  const pageMap = {
+    "/pg-management-dashboard": "pg-management-dashboard",
+    "/pg-list": "pg-list",
+    "/user-list": "user-list",
+    "/invoice": "invoice",
+    "/vendor": "vendor",
+    "/compliance": "compliance",
+    "/asset": "asset",
+    "/reports": "reports",
+    "/eb": "eb",
+    "/expenses": "expenses",
+    "/banking": "banking",
+    "/settingNewDesign": "settingNewDesign",
+  };
 
 
-//   useEffect(() => {
-//   navigate("/pg-management-dashboard");
-//   setIsSidebarOpen(true);
-// }, []);
+  useEffect(() => {
+    const path = location.pathname;
+    if (pageMap[path]) {
+      setCurrentPage(pageMap[path]);
+      localStorage.setItem("lastPage", path);
+    }
+  }, [location.pathname]);
 
-useEffect(() => {
-  const lastPage = localStorage.getItem("lastPage");
-  
-  if (!lastPage || location.pathname === "/") {
-   
-    navigate("/pg-management-dashboard");
-    setIsSidebarOpen(true);
-  } else {
-   
-    navigate(lastPage);
-    setIsSidebarOpen(true);
-  }
-}, []);
+
+  useEffect(() => {
+    if (state.login?.isLoggedIn) {
+      if (isFirstLogin.current) {
+
+        navigate("/pg-management-dashboard", { replace: true });
+        isFirstLogin.current = false;
+      }
+    }
+
+  }, [state.login?.isLoggedIn, navigate]);
+
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -1381,119 +1400,119 @@ useEffect(() => {
               />
             )} */}
 
-          
-              
-              <Routes>
-                <Route
-                  path="/pg-management-dashboard"
-                  element={
-                    <Dashboards
-                      displayCompliance={handledisplaycompliace}
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/pg-list"
-                  element={
-                    <PgLists
-                      displaysettings={handledisplaySettingsPG}
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/user-list"
-                  element={
-                    <UserLists
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/invoice"
-                  element={
-                    <Invoices
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/vendor"
-                  element={
-                    <VendorComponent
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/compliance"
-                  element={
-                    <Compliances
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/asset"
-                  element={<Assets allPageHostel_Id={allPageHostel_Id} />}
-                />
-                <Route
-                  path="/reports"
-                  element={
-                    <Report
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/eb"
-                  element={
-                    <EbHostel
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/expenses"
-                  element={
-                    <Expenses
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/banking"
-                  element={
-                    <Banking
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                    />
-                  }
-                />
-                <Route
-                  path="/settingNewDesign"
-                  element={
-                    <SettingAllPages
-                      allPageHostel_Id={allPageHostel_Id}
-                      setAllPageHostel_Id={setAllPageHostel_Id}
-                      payingGuestName={payingGuestName}
-                      settignspgshow={settignspgshow}
-                      onhandleShowsettingsPG={handleShowsettingsPG}
-                    />
-                  }
-                />
-              </Routes>
-           
+
+
+            <Routes>
+              <Route
+                path="/pg-management-dashboard"
+                element={
+                  <Dashboards
+                    displayCompliance={handledisplaycompliace}
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/pg-list"
+                element={
+                  <PgLists
+                    displaysettings={handledisplaySettingsPG}
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/user-list"
+                element={
+                  <UserLists
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/invoice"
+                element={
+                  <Invoices
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/vendor"
+                element={
+                  <VendorComponent
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/compliance"
+                element={
+                  <Compliances
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/asset"
+                element={<Assets allPageHostel_Id={allPageHostel_Id} />}
+              />
+              <Route
+                path="/reports"
+                element={
+                  <Report
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/eb"
+                element={
+                  <EbHostel
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/expenses"
+                element={
+                  <Expenses
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/banking"
+                element={
+                  <Banking
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/settingNewDesign"
+                element={
+                  <SettingAllPages
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                    payingGuestName={payingGuestName}
+                    settignspgshow={settignspgshow}
+                    onhandleShowsettingsPG={handleShowsettingsPG}
+                  />
+                }
+              />
+            </Routes>
+
           </Col>
         </Row>
       </Container>
