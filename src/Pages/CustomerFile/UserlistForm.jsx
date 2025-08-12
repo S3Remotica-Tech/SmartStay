@@ -1022,7 +1022,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
     ID: props.EditObj.ID,
     reasons: formattedReasons,
     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-    booking_Id:props.EditObj.booking_id,
+    booking_id:props.EditObj.booking_id,
     booking_date:formattedDate,
     booking_amount:props.EditObj.booking_amount
     
