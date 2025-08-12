@@ -177,15 +177,10 @@ function BookingModal(props) {
     setBookingAmount(e.target.value);
   };
 
-  // const handleJoiningDateChange = (date) => {
-  //   setJoiningDateError("");
-  //   setJoiningDate(date ? date.toDate() : null);
-  // };
-
   const handleJoiningDateChange = (date) => {
     if (bookingDate && dayjs(date).isBefore(dayjs(bookingDate), "day")) {
       setJoiningDateError("Joining Date cannot be before Booking Date");
-      setJoiningDate(null); // Optional: clear invalid date
+      setJoiningDate(null);
     } else {
       setJoiningDateError("");
       setJoiningDate(date);
@@ -243,7 +238,7 @@ function BookingModal(props) {
       setRoomError("");
     }
 
-    
+
     if (!bed) {
       setBedError("Please select Bed");
       isValid = false;
@@ -393,18 +388,23 @@ function BookingModal(props) {
               }}
             >
 
-              <div onChange={handleFileChange}>
-                <Image
-                  src={
-                    file
-                      ? (typeof file === "string" ? file : URL.createObjectURL(file))
-                      : props.userDetail?.profile || Profiles
-                  }
-                  alt="Profile"
-                  roundedCircle
-                  style={{ height: 60, width: 60 }}
-                />
-              </div>
+              <Image
+                src={
+                  file
+                    ? (typeof file === "string" ? file : URL.createObjectURL(file))
+                    : (props.userDetail?.profile && props.userDetail.profile.trim() !== ""
+                      ? props.userDetail.profile
+                      : Profiles)
+                }
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = Profiles;
+                }}
+                alt="Profile"
+                roundedCircle
+                style={{ height: 60, width: 60 }}
+              />
+
 
 
 
@@ -541,8 +541,15 @@ function BookingModal(props) {
               </Form.Group>
 
               {amountError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ marginBottom: "3px", fontSize: 14, marginRight: "5px" }} />
+                <div style={{ color: "red"}}>
+                 
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
                   <span
                     style={{
                       color: "red",
@@ -579,20 +586,25 @@ function BookingModal(props) {
                   style={{ position: "relative", width: "100%", marginTop: 6 }}
                 >
 
-                  <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={joiningDate ? dayjs(joiningDate) : null}
-                    onChange={handleJoiningDateChange}
-                    disabledDate={(current) =>
-                      (bookingDate && current && current.isBefore(dayjs(bookingDate), "day")) ||
-                      current.isAfter(dayjs().endOf("day"))
-                    }
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                  />
+                  <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+                    <DatePicker
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                      }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={joiningDate ? dayjs(joiningDate) : null}
+                      onChange={handleJoiningDateChange}
+                      disabledDate={(current) =>
+                        bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
+                      }
+                      getPopupContainer={(triggerNode) => document.body}
+                    />
+                  </div>
+
 
 
                 </div>
@@ -600,7 +612,13 @@ function BookingModal(props) {
 
               {joiningDateError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: 14, marginBottom: "1px" }} />
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
                   <span
                     style={{
                       color: "red",
@@ -614,7 +632,7 @@ function BookingModal(props) {
                 </div>
               )}
 
-              {/* {state.Booking?.ErrorAssignBookingDate && (
+              {state.Booking?.ErrorAssignBookingDate && (
                     <div style={{ color: "red" }}>
                       <MdError
                         style={{
@@ -634,7 +652,7 @@ function BookingModal(props) {
                         {state.Booking?.ErrorAssignBookingDate}
                       </span>
                     </div>
-                  )} */}
+                  )}
 
 
 
@@ -674,14 +692,6 @@ function BookingModal(props) {
                     })) || []
                   }
                   onChange={handleFloor}
-                  // value={
-                  //   state?.UsersList?.hosteldetailslist
-                  //     ?.map((item) => ({
-                  //       value: item.floor_id,
-                  //       label: item.floor_name,
-                  //     }))
-                  //     .find((option) => option.value === floor) || null
-                  // }
 
                   value={
                     state?.UsersList?.hosteldetailslist

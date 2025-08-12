@@ -22,3 +22,7 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+/* Move DatePicker popup lower */
+.ant-picker-dropdown {
+  margin-top: 18px !important; /* You can increase this if you want more gap */
+}
