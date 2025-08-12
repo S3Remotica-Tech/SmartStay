@@ -1287,11 +1287,13 @@ useEffect(() => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
+    console.log('handleShowDots',id)
     if (activeRow === id) {
       setActiveRow(null);
     } else {
       setActiveRow(id);
     }
+    console.log("handleShowDots",activeRow)
     setSearch(false);
 
     const { top, left, height } = event.target.getBoundingClientRect();
@@ -2958,47 +2960,7 @@ const handleBacktoCheckout = (item)=>{
                                     Joining Date
                                   </div>
                                 </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    padding: "10px",
-                                    color: "#939393",
-                                    fontSize: "12px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
-                                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "2px",
-                                      }}
-                                    >
-                                      <ArrowUp2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Email", "asc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <ArrowDown2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Email", "desc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                    </div>
-                                    Email ID
-                                  </div>
-                                </th>
+                               
                                 <th
                                   style={{
                                     textAlign: "start",
@@ -3040,7 +3002,47 @@ const handleBacktoCheckout = (item)=>{
                                     Mobile No
                                   </div>
                                 </th>
-
+ <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("floor_name", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("floor_name", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                   Floor
+                                  </div>
+                                </th>
                               <th
                                 style={{
                                   textAlign: "start",
@@ -3189,7 +3191,8 @@ const handleBacktoCheckout = (item)=>{
                                           verticalAlign: "middle",
                                           borderBottom: "1px solid #E8E8E8",
                                         }}
-                                      > {user.bed_status}</td>
+                                      >
+                                        <span style={{backgroundColor:"#EDD3D8",padding:6,borderRadius:10}}>{user.bed_status}</span> </td>
                                       <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         style={{
                                           paddingTop: 15,
@@ -3200,20 +3203,12 @@ const handleBacktoCheckout = (item)=>{
                                           fontFamily: "Gilroy",
                                           verticalAlign: "middle",
                                           borderBottom: "1px solid #E8E8E8",
+                                          whiteSpace:"nowrap"
                                         }}
                                       >
                                         {user?.user_join_date && user.user_join_date !== "0000-00-00" ? (
                                           <span
-                                            style={{
-                                              padding: "3px 10px",
-                                              borderRadius: "60px",
-                                              backgroundColor: "#EBEBEB",
-                                              textAlign: "center",
-                                              fontSize: "11px",
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              display: "inline-block",
-                                            }}
+                                           
                                           >
                                             {moment(user.user_join_date).format("D MMMM YYYY")}
                                           </span>
@@ -3223,25 +3218,7 @@ const handleBacktoCheckout = (item)=>{
 
                                       </td>
 
-                                      <td
-                                        style={{
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          paddingTop: 15,
-                                          paddingLeft: 20,
-                                          verticalAlign: "middle",
-                                          borderBottom: "1px solid #E8E8E8",
-                                        }}
-                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                      >
-                                        <div className="ps-2">
-                                          {user.Email}
-                                        </div>
-
-                                      </td>
+                                     
                                       <td
                                         style={{
                                           paddingTop: 15,
@@ -3268,6 +3245,35 @@ const handleBacktoCheckout = (item)=>{
                                           String(user.Phone)?.slice(-10)}
                                       </td>
 
+
+                                       <td
+                                        style={{
+                                          border: "none",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          paddingTop: 15,
+                                          paddingLeft: 20,
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
+                                        }}
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                      >
+                                        <div className="ps-2">
+                                         
+                                                                                                         {/* {user.bed_status === "Booking"
+    ? user.Booking_FloorName || "-"
+    : user.floor_name || "-"} */}
+     {user.bed_status === "Booking"
+    ? (user.Booking_FloorName || "-")
+    : user.bed_status === "Check In"
+    ? (user.floor_name || "-")
+    : "-"}
+                                        </div>
+
+                                      </td>
+
                                       <td
                                         style={{
                                           paddingTop: 15,
@@ -3283,7 +3289,10 @@ const handleBacktoCheckout = (item)=>{
                                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
                                       >
                                         {" "}
-                                        {!user.Rooms ? "-" : user.Rooms}
+                                      
+                                                                    {user.bed_status === "Booking"
+    ? user.Booking_Rooms || "-"
+    : user.Rooms || "-"}
                                       </td>
 
                                       <td
@@ -3301,7 +3310,11 @@ const handleBacktoCheckout = (item)=>{
                                           borderBottom: "1px solid #E8E8E8",
                                         }}
                                       >
-                                        {!user.Bed ? "-" : user.Bed}
+                                        {/* {!user.Bed ? "-" : user.Bed} */}
+                                         {/* {user.Booking_Bed || user.floor_name || "-"} */}
+                                          {user.bed_status === "Booking"
+    ? user.Booking_Bed || "-"
+    : user.Bed || "-"}
                                       </td>
                                       <td
                                         style={{
@@ -3350,7 +3363,7 @@ const handleBacktoCheckout = (item)=>{
                                               }}
                                             >
                                               <div>
-                                                {!user.Bed && user.bed_status === "unassigned" &&(
+                                                {!user.Bed && user.bed_status === "Un-Assigned" &&(
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
@@ -3401,7 +3414,7 @@ const handleBacktoCheckout = (item)=>{
 
                                                 )}
 
-                                                {user.Bed &&  user.bed_status === "checkIn" &&(
+                                                {user.Bed &&  user.bed_status === "Check In" &&(
                                                 
                                                     <div
                                                     className="d-flex align-items-center gap-2"
@@ -3454,7 +3467,7 @@ const handleBacktoCheckout = (item)=>{
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                {user.Bed && user.bed_status === "checkIn"  && (
+                                                {user.Bed && user.bed_status === "Check In"  && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                    
@@ -3509,7 +3522,7 @@ const handleBacktoCheckout = (item)=>{
 
 
 
-                                                 {user.Bed &&  user.bed_status === "noticeperiod" &&(
+                                                 {user.Bed &&  user.bed_status === "Notice period" &&(
                                                 <>
                                                     <div
                                                     className="d-flex align-items-center gap-2"
@@ -3564,11 +3577,11 @@ const handleBacktoCheckout = (item)=>{
                                                      <div
                                                     className="d-flex align-items-center gap-2"
                                                   
-                                                     onClick={() => {
-                                                    if (!customerAddPermission) {
-                                                      handleBacktoCheckout(user);
-                                                    }
-                                                  }}
+                                                  //    onClick={() => {
+                                                  //   if (!customerAddPermission) {
+                                                  //     handleBacktoCheckout(user);
+                                                  //   }
+                                                  // }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
@@ -3664,7 +3677,7 @@ const handleBacktoCheckout = (item)=>{
                                                     Add Booking
                                                   </label>
                                                 </div> */}
-                                                {user.bed_status === "unassigned"  && (
+                                                {user.bed_status === "Un-Assigned"  && (
   <div
     className="d-flex align-items-center gap-2"
     style={{
@@ -3716,7 +3729,7 @@ const handleBacktoCheckout = (item)=>{
 
 
 
-                                                {user.bed_status === "booking"  && (
+                                                {user.bed_status === "Booking"  && (
 
                                                   <>
                                                    <div
@@ -3822,7 +3835,7 @@ const handleBacktoCheckout = (item)=>{
 
 
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-{user.bed_status === "unassigned"  && (
+{user.bed_status === "Un-Assigned"  && (
                                                 <div
 
                                                   className="d-flex align-items-center gap-2"
