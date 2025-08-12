@@ -19,13 +19,45 @@ import addcircle from "../../../Assets/Images/New_images/add-circle.png";
 function CheckIn({
     show,
     handleClose,
+    currentItem
 }) {
+
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const [checkOutDate, setCheckOutDate] = useState("");
+
     const [joiningDate, setJoiningDate] = useState(null);
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
+
+     const [customer_name,setCustomerName] = useState("")
+     const [bookingDate,setBookingDate] = useState("")
+     const [bookingAmount,setBookingAmount] = useState("")
+     const [bookingFlooorId,setBookingFloorId] = useState("")
+     const [bookingRoomId,setBookingRoomId] = useState("")
+     const [bookingBedId,setBookingBedId] = useState("")
+     const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
+    const [RoomRent, setRoomRent] = useState("");
+    const [AdvanceAmount, setAdvanceAmount] = useState("");
+    const [advanceAmountError, setAdvanceAmountError] = useState("");
+    const [roomrentError, setRoomRentError] = useState("");
+
+      const handleRoomRent = (e) => {
+    const newAmount = e.target.value;
+    if (!/^\d*$/.test(newAmount)) {
+      return;
+    }
+    setRoomRent(newAmount);
+    setRoomRentError("");
+  };
+
+  const handleAdvanceAmount = (e) => {
+    const advanceAmount = e.target.value;
+    if (!/^\d*$/.test(advanceAmount)) {
+      return;
+    }
+    setAdvanceAmount(advanceAmount);
+    setAdvanceAmountError("");
+  };
 
 
     const customStyles = {
@@ -39,6 +71,7 @@ function CheckIn({
             fontFamily: "Gilroy",
             fontWeight: 500,
             boxShadow: "none",
+            
         }),
         menu: (base) => ({
             ...base,
@@ -80,6 +113,48 @@ function CheckIn({
         }),
     };
 
+     const [customer, setCustomer] = useState([])
+
+     
+                 useEffect(() => {
+             
+                     const Hostel_Id = currentItem?.room.Hostel_Id;
+                     const Floor_Id = currentItem?.room.Floor_Id;
+                     const Bed_Id = currentItem?.bed.id;
+                     const Room_Id = currentItem?.room.Room_Id;
+             
+             
+                     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+             
+                         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+             
+                     }
+                 }, [currentItem])
+             
+             
+                 useEffect(() => {
+                     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+                         setCustomer(state.PgList.OccupiedCustomer)
+                         setTimeout(() => {
+                             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+                         }, 2000)
+                     }
+             
+             
+                 }, [state.PgList.OccupiedCustomerGetStatusCode])
+
+
+    // useEffect(()=> {
+    //     if(customer){
+    //     const selectedUser = state?.UsersList?.Users.find( item => item.User_Id === customer[0].User_Id)
+    //      console.log("selecteduser", customer);
+    //      setBookingAmount(Number(selectedUser[0].booking_amount))
+    //      setBookingDate(selectedUser[0].booking_booking_date)
+    //      setCustomerName(selectedUser[0].ID)  
+    //     }
+    // },[customer])
+
+   
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
@@ -163,6 +238,156 @@ function CheckIn({
         dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
     };
 
+     const handleCheckin = async () => {
+
+    let hasReasonAmountError = false;
+    let newErrors = [];
+
+
+   
+    if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+      setRoomRentError("Please Enter Rental Amount");
+      return;
+    }
+    if (Number(RoomRent) <= 0) {
+      setRoomRentError("Please Enter Valid Rental Amount");
+      return;
+    }
+
+    if (
+      AdvanceAmount === "" ||
+      AdvanceAmount === null ||
+      AdvanceAmount === undefined
+    ) {
+      setAdvanceAmountError("Please Enter Advance Amount");
+      return;
+    }
+    if (Number(AdvanceAmount) <= 0) {
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
+      return;
+    }
+  
+    setErrors(newErrors)
+
+   
+
+
+       const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate.toISOString().split("T")[0];
+    };
+
+
+    const formattedDate = selectedDate
+      ? incrementDateAndFormat(selectedDate)
+      : "";
+const invoiceDateObj = new Date(formattedDate);
+      const dueDateObj = new Date(invoiceDateObj);
+dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
+ 
+const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+
+  const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
+    const capitalizedFirstname = capitalizeFirstLetter(firstname);
+    
+    const capitalizedLastname = capitalizeFirstLetter(lastname);
+   
+
+    setErrors(newErrors)
+
+     const formattedReasons = fields.map((item) => {
+      let reason_name = "";
+
+      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
+
+      const error = { reason: "", amount: "" };
+      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        error.amount = "Please enter amount";
+        hasReasonAmountError = true;
+      }
+
+
+      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        error.reason = "Please enter reason";
+        hasReasonAmountError = true;
+      }
+
+      newErrors.push(error);
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput
+      };
+    });
+
+
+     if (hasReasonAmountError) return;
+
+
+     console.log("apitriggerd" ,hasReasonAmountError , AdvanceAmount , RoomRent);
+
+    if (
+     
+      Number(AdvanceAmount) > 0 &&
+      Number(RoomRent) > 0
+    ) {
+     
+
+
+//    dispatch({
+//   type: "ADDUSER",
+//   payload: {
+//     profile: file,
+//     firstname: capitalizedFirstname,  
+//     LastName: capitalizedLastname,
+//     Phone: Phone,
+//     Email: Email,
+//     Address: house_no,
+//     area: street,
+//     landmark: landmark,
+//     city: city,
+//     pincode: pincode,
+//     state: state_name,
+//     AadharNo: AadharNo,
+//     PancardNo: PancardNo,
+//     licence: licence,
+//     HostelName: HostelName,
+//     hostel_Id: hostel_Id,
+//     Floor: Floor,
+//     Rooms: props.EditObj.booking_room_id,
+//     Bed: props.EditObj.booking_bed_id,
+//     joining_date: formattedDate,
+//     AdvanceAmount: AdvanceAmount,
+//     RoomRent: RoomRent,
+//     BalanceDue: BalanceDue,
+//     PaymentType: PaymentType,
+//     paid_advance: paid_advance,
+//     paid_rent: paid_rent,
+//     payable_rent: payableamount,
+//     isadvance: 1,
+//     invoice_date: formattedDate,
+//     due_date: formattedAdvanceDueDate,
+//     ID: props.EditObj.ID,
+//     reasons: formattedReasons,
+//     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+//     booking_id:props.EditObj.booking_id,
+//     booking_date:formattedDate,
+//     booking_amount:props.EditObj.booking_amount
+    
+//   },
+// });
+    }
+    dispatch({ type: "INVOICELIST" });
+  };
+
 
 
     return (
@@ -209,7 +434,7 @@ function CheckIn({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No G3 </label> <span style={{
+                                        }}>Room No {currentItem?.room.Room_Name} </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -219,7 +444,7 @@ function CheckIn({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed 9</span>
+                                        }}> Bed {currentItem?.bed.bed_no}</span>
                                     </div>
                                 </div>
 
@@ -283,28 +508,24 @@ function CheckIn({
 
                                         </Form.Label>
 
+ <Form.Control
+                                            value={bookingDate}
+                                            type="text"
+                                            placeholder="Booking Date"
+                                            style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 600,
+                                                boxShadow: "none",
+                                                border: "1px solid #D9D9D9",
+                                                height: 50,
+                                                borderRadius: 8,
+                                                backgroundColor:"#EFF2FF"
+                                            }}
+                                        />
 
-
-                                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-
-                                            <DatePicker
-                                                style={{
-                                                    width: "100%",
-                                                    height: 48,
-                                                    cursor: "pointer",
-                                                    fontFamily: "Gilroy",
-                                                }}
-                                                format="DD/MM/YYYY"
-                                                placeholder="DD/MM/YYYY"
-                                                value={checkOutDate ? dayjs(checkOutDate) : null}
-                                                onChange={(date) => {
-                                                    setCheckOutDate(date ? date.toDate() : null);
-                                                }}
-
-                                                getPopupContainer={() => document.body}
-                                            />
-
-                                        </div>
+                                       
                                     </Form.Group>
                                 </div>
 
@@ -325,9 +546,9 @@ function CheckIn({
 
                                         </Form.Label>
                                         <Form.Control
-
+                                            value={bookingAmount}
                                             type="text"
-                                            placeholder="Enter Booking Amount"
+                                            placeholder="Booking Amount"
                                             style={{
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
@@ -337,6 +558,7 @@ function CheckIn({
                                                 border: "1px solid #D9D9D9",
                                                 height: 50,
                                                 borderRadius: 8,
+                                                backgroundColor:"#EFF2FF"
                                             }}
                                         />
                                     </Form.Group>
@@ -362,7 +584,7 @@ function CheckIn({
                                             styles={customStyles}
                                             options={[
                                                 { value: 'long_stay', label: 'Long Stay' },
-                                                { value: 'short_stay', label: 'Short Stay' }
+                                                // { value: 'short_stay', label: 'Short Stay' }
                                             ]}
                                             placeholder="Select a Type"
                                             classNamePrefix="custom"
@@ -391,7 +613,8 @@ function CheckIn({
 
                                         </Form.Label>
                                         <Form.Control
-
+                                           value={RoomRent}
+                                         onChange={handleRoomRent}
                                             type="text"
                                             placeholder="Enter Rental Amount"
                                             style={{
@@ -406,6 +629,22 @@ function CheckIn({
                                             }}
                                         />
                                     </Form.Group>
+                                     {roomrentError && (
+                                                                  <div style={{ color: "red" }}>
+                                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                                                    <label
+                                                                      className="mb-0"
+                                                                      style={{
+                                                                        color: "red",
+                                                                        fontSize: "12px",
+                                                                        fontFamily: "Gilroy",
+                                                                        fontWeight: 500,
+                                                                      }}
+                                                                    >
+                                                                      {roomrentError}
+                                                                    </label>
+                                                                  </div>
+                                                                )}
                                 </div>
 
 
@@ -427,7 +666,8 @@ function CheckIn({
 
                                         </Form.Label>
                                         <Form.Control
-
+                                         value={AdvanceAmount}
+                                        onChange={handleAdvanceAmount}
                                             type="text"
                                             placeholder="Enter   Advance Amount"
                                             style={{
@@ -442,6 +682,23 @@ function CheckIn({
                                             }}
                                         />
                                     </Form.Group>
+
+                                      {advanceAmountError && (
+                                                                  <div style={{ color: "red" }}>
+                                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                                                    <label
+                                                                      className="mb-0"
+                                                                      style={{
+                                                                        color: "red",
+                                                                        fontSize: "12px",
+                                                                        fontFamily: "Gilroy",
+                                                                        fontWeight: 500,
+                                                                      }}
+                                                                    >
+                                                                      {advanceAmountError}
+                                                                    </label>
+                                                                  </div>
+                                                                )}
                                 </div>
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -470,11 +727,22 @@ function CheckIn({
                                                 value={joiningDate ? dayjs(joiningDate) : null}
                                                 onChange={(date) => {
                                                     setJoiningDate(date ? date.toDate() : null);
+                                                    setJoingDateErrmsg('')
+                                                    dispatch(JoininDatecustomer(date ? date.toDate() : null));
                                                 }}
                                                 getPopupContainer={() => document.body}
+                                                disabledDate={(current) => current && current > dayjs().endOf("day")}
                                             />
                                         </div>
                                     </Form.Group>
+                                       {joiningDateErrmsg.trim() !== "" && (
+                                                                <div className="d-flex align-items-center">
+                                                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                                    {joiningDateErrmsg}
+                                                                  </label>
+                                                                </div>
+                                                              )}
                                 </div>
 
                                 <div className="col-lg-12 col-md-12 col-sm-12">
@@ -743,10 +1011,11 @@ function CheckIn({
                                         borderRadius: 12,
                                         fontSize: 16,
                                         fontFamily: "Gilroy",
-                                        padding: "8px 40px"
+                                        padding: "8px 30px"
                                     }}
+                                    onClick={handleCheckin}
                                 >
-                                    Update
+                                    Checkin
                                 </Button>
                             </div>
                         </Modal.Footer>
@@ -760,6 +1029,7 @@ function CheckIn({
 CheckIn.propTypes = {
     handleClose: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
+    currentItem: PropTypes.func.isRequired,
 
 }
 export default CheckIn;
