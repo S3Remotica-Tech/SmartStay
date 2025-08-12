@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { StoreSelectedHostelAction, setPlanStatus } from "../Redux/Action/smartStayAction";
 import "../Components/Sidebar.css";
@@ -52,11 +52,13 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-
-
+import { useNavigate, useLocation } from "react-router-dom";
+import { Route, Routes, } from "react-router-dom";
 
 function Sidebar() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const state = useSelector((state) => state);
 
   const stateData = useSelector((state) => state.createAccount);
@@ -66,8 +68,46 @@ function Sidebar() {
   const [allPageHostel_Id, setAllPageHostel_Id] = useState("");
   const [payingGuestName, setPayingGuestName] = useState("payingGuest");
   const [isInitialized, setIsInitialized] = useState(false);
-  const [currentPage, setCurrentPage] = useState("dashboard");
+  const [currentPage, setCurrentPage] = useState("pg-management-dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const isFirstLogin = useRef(true);
+
+  const pageMap = {
+    "/pg-management-dashboard": "pg-management-dashboard",
+    "/pg-list": "pg-list",
+    "/user-list": "user-list",
+    "/invoice": "invoice",
+    "/vendor": "vendor",
+    "/compliance": "compliance",
+    "/asset": "asset",
+    "/reports": "reports",
+    "/eb": "eb",
+    "/expenses": "expenses",
+    "/banking": "banking",
+    "/settingNewDesign": "settingNewDesign",
+  };
+
+
+  useEffect(() => {
+    const path = location.pathname;
+    if (pageMap[path]) {
+      setCurrentPage(pageMap[path]);
+      localStorage.setItem("lastPage", path);
+    }
+  }, [location.pathname]);
+
+
+  useEffect(() => {
+    if (state.login?.isLoggedIn) {
+      if (isFirstLogin.current) {
+
+        navigate("/pg-management-dashboard", { replace: true });
+        isFirstLogin.current = false;
+      }
+    }
+
+  }, [state.login?.isLoggedIn]);
+
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -78,8 +118,8 @@ function Sidebar() {
   };
   const closeSidebar = () => {
     setIsSidebarOpen(false);
-    setCurrentPage("dashboard");
-    localStorage.setItem("currentPage", "dashboard");
+    setCurrentPage("pg-management-dashboard");
+    localStorage.setItem("currentPage", "pg-management-dashboard");
   };
 
   useEffect(() => {
@@ -101,10 +141,10 @@ function Sidebar() {
     dispatch({ type: "HOSTELIDDETAILS" });
   }, []);
 
- useEffect(() => {
-  if(state.login.selectedHostel_Id){
-    dispatch({ type: "ACCOUNTDETAILS" });
-  }
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "ACCOUNTDETAILS" });
+    }
   }, [state.login.selectedHostel_Id]);
 
 
@@ -231,7 +271,7 @@ function Sidebar() {
 
   useEffect(() => {
     if (state.login?.isLoggedIn) {
-      setCurrentPage("dashboard");
+      setCurrentPage("pg-management-dashboard");
     }
   }, [state.login?.isLoggedIn]);
 
@@ -299,6 +339,7 @@ function Sidebar() {
   const handleSettingspage = () => {
     handlePageClick("settingNewDesign");
     setSettingsPGShow(false);
+    navigate("/settingNewDesign")
   };
 
   useEffect(() => {
@@ -395,35 +436,35 @@ function Sidebar() {
   const handleMouseLeave = () => setHoveredIcon(null);
 
 
- useEffect(() => {
-  if (state?.login?.selectedHostel_Id) {
-    const accountList = state.createAccount?.accountList;
+  useEffect(() => {
+    if (state?.login?.selectedHostel_Id) {
+      const accountList = state.createAccount?.accountList;
 
-    if (
-      accountList &&
-      accountList.length > 0 &&
-      accountList[0]?.plan_data &&
-      accountList[0].plan_data.length > 0
-    ) {
-      if (accountList[0].plan_data[0]?.plan_type === "trail") {
-        const trailPlanStatus = accountList[0].plan_data[0]?.status;
-        if (trailPlanStatus !== "") {
-          dispatch(setPlanStatus(trailPlanStatus));
-        }
-      } else {
-       const hostelDetails = accountList[0].plan_data[0]?.hostel_details || [];
+      if (
+        accountList &&
+        accountList.length > 0 &&
+        accountList[0]?.plan_data &&
+        accountList[0].plan_data.length > 0
+      ) {
+        if (accountList[0].plan_data[0]?.plan_type === "trail") {
+          const trailPlanStatus = accountList[0].plan_data[0]?.status;
+          if (trailPlanStatus !== "") {
+            dispatch(setPlanStatus(trailPlanStatus));
+          }
+        } else {
+          const hostelDetails = accountList[0].plan_data[0]?.hostel_details || [];
 
-        const particularHostelPlan = hostelDetails?.find(
-          (view) => view.id === state.login.selectedHostel_Id
-        );
+          const particularHostelPlan = hostelDetails?.find(
+            (view) => view.id === state.login.selectedHostel_Id
+          );
 
-        if (particularHostelPlan && particularHostelPlan.plan_status !== "") {
-          dispatch(setPlanStatus(particularHostelPlan.plan_status));
+          if (particularHostelPlan && particularHostelPlan.plan_status !== "") {
+            dispatch(setPlanStatus(particularHostelPlan.plan_status));
+          }
         }
       }
     }
-  }
-}, [state.login?.selectedHostel_Id]);
+  }, [state.login?.selectedHostel_Id]);
 
 
 
@@ -489,7 +530,7 @@ function Sidebar() {
                   alt="smartstay"
                   style={{ height: 25.06, width: 134 }}
                   className="Title"
-                  onClick={() => handlePageClick("dashboard")}
+                  onClick={() => handlePageClick("pg-management-dashboard")}
                 />
                 <button
                   onClick={closeSidebar}
@@ -656,10 +697,14 @@ function Sidebar() {
                   paddingBottom: "10px",
                 }}
               >
+
                 <li
-                  className={`align-items-center  list-Item ${currentPage === "dashboard" ? "active" : ""
+                  className={`align-items-center  list-Item ${currentPage === "pg-management-dashboard" ? "active" : ""
                     }`}
-                  onClick={() => handlePageClick("dashboard")}
+                  onClick={() => {
+                    handlePageClick("pg-management-dashboard")
+                    navigate("/pg-management-dashboard")
+                  }}
                   style={{
                     listStyleType: "none",
                     display: "flex",
@@ -672,7 +717,7 @@ function Sidebar() {
                     viewBox="0 0 20 20"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    stroke={currentPage === "dashboard" ? "#1E45E1" : "#4B4B4B"}
+                    stroke={currentPage === "pg-management-dashboard" ? "#1E45E1" : "#4B4B4B"}
                   >
                     <path
                       d="M7.5013 18.3332H12.5013C16.668 18.3332 18.3346 16.6665 18.3346 12.4998V7.49984C18.3346 3.33317 16.668 1.6665 12.5013 1.6665H7.5013C3.33464 1.6665 1.66797 3.33317 1.66797 7.49984V12.4998C1.66797 16.6665 3.33464 18.3332 7.5013 18.3332Z"
@@ -755,7 +800,10 @@ function Sidebar() {
                     <li
                       className={`align-items-center list-sub-Item ${currentPage === "pg-list" ? "active" : ""
                         }`}
-                      onClick={() => handlePageClick("pg-list")}
+                      onClick={() => {
+                        handlePageClick("pg-list")
+                        navigate("/pg-list")
+                      }}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
@@ -778,7 +826,10 @@ function Sidebar() {
                     <li
                       className={`align-items-center list-sub-Item ${currentPage === "user-list" ? "active" : ""
                         }`}
-                      onClick={() => handlePageClick("user-list")}
+                      onClick={() => {
+                        handlePageClick("user-list")
+                        navigate("/user-list")
+                      }}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
@@ -801,7 +852,10 @@ function Sidebar() {
                     <li
                       className={`align-items-center list-sub-Item ${currentPage === "asset" ? "active" : ""
                         }`}
-                      onClick={() => handlePageClick("asset")}
+                      onClick={() => {
+                        handlePageClick("asset")
+                        navigate("/asset")
+                      }}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
@@ -824,7 +878,10 @@ function Sidebar() {
                     <li
                       className={`align-items-center list-sub-Item ${currentPage === "vendor" ? "active" : ""
                         }`}
-                      onClick={() => handlePageClick("vendor")}
+                      onClick={() => {
+                        handlePageClick("vendor")
+                        navigate("/vendor")
+                      }}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
                       <img
@@ -850,7 +907,10 @@ function Sidebar() {
                 <li
                   className={`align-items-center list-Item ${currentPage === "banking" ? "active" : ""
                     }`}
-                  onClick={() => handlePageClick("banking")}
+                  onClick={() => {
+                    handlePageClick("banking")
+                    navigate("/banking")
+                  }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
                   <img
@@ -875,7 +935,10 @@ function Sidebar() {
                 <li
                   className={`align-items-center list-Item ${currentPage === "invoice" ? "active" : ""
                     }`}
-                  onClick={() => handlePageClick("invoice")}
+                  onClick={() => {
+                    handlePageClick("invoice")
+                    navigate("/invoice")
+                  }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
                   <img
@@ -900,7 +963,10 @@ function Sidebar() {
                 <li
                   className={`align-items-center list-Item ${currentPage === "eb" ? "active" : ""
                     }`}
-                  onClick={() => handlePageClick("eb")}
+                  onClick={() => {
+                    handlePageClick("eb")
+                    navigate("/eb")
+                  }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
@@ -924,7 +990,11 @@ function Sidebar() {
                 <li
                   className={` align-items-center list-Item ${currentPage === "compliance" ? "active" : ""
                     }`}
-                  onClick={() => handlePageClick("compliance")}
+                  onClick={() => {
+                    handlePageClick("compliance")
+                    navigate("/compliance")
+                  }}
+
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
@@ -947,7 +1017,10 @@ function Sidebar() {
                 <li
                   className={`align-items-center list-Item ${currentPage === "expenses" ? "active" : ""
                     }`}
-                  onClick={() => handlePageClick("expenses")}
+                  onClick={() => {
+                    handlePageClick("expenses")
+                    navigate("/expenses")
+                  }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
@@ -971,7 +1044,10 @@ function Sidebar() {
                 <li
                   className={` align-items-center list-Item ${currentPage === "reports" ? "active" : ""
                     }`}
-                  onClick={() => handlePageClick("reports")}
+                  onClick={() => {
+                    handlePageClick("reports")
+                    navigate("/reports")
+                  }}
                   style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
@@ -1248,7 +1324,7 @@ function Sidebar() {
               zIndex: 10,
             }}
           >
-            {currentPage === "dashboard" && (
+            {/* {currentPage === "dashboard" && (
               <Dashboards
                 displayCompliance={handledisplaycompliace}
                 allPageHostel_Id={allPageHostel_Id}
@@ -1322,7 +1398,121 @@ function Sidebar() {
                 settignspgshow={settignspgshow}
                 onhandleShowsettingsPG={handleShowsettingsPG}
               />
-            )}
+            )} */}
+
+
+
+            <Routes>
+              <Route
+                path="/pg-management-dashboard"
+                element={
+                  <Dashboards
+                    displayCompliance={handledisplaycompliace}
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/pg-list"
+                element={
+                  <PgLists
+                    displaysettings={handledisplaySettingsPG}
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/user-list"
+                element={
+                  <UserLists
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/invoice"
+                element={
+                  <Invoices
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/vendor"
+                element={
+                  <VendorComponent
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/compliance"
+                element={
+                  <Compliances
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/asset"
+                element={<Assets allPageHostel_Id={allPageHostel_Id} />}
+              />
+              <Route
+                path="/reports"
+                element={
+                  <Report
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/eb"
+                element={
+                  <EbHostel
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/expenses"
+                element={
+                  <Expenses
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/banking"
+                element={
+                  <Banking
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                  />
+                }
+              />
+              <Route
+                path="/settingNewDesign"
+                element={
+                  <SettingAllPages
+                    allPageHostel_Id={allPageHostel_Id}
+                    setAllPageHostel_Id={setAllPageHostel_Id}
+                    payingGuestName={payingGuestName}
+                    settignspgshow={settignspgshow}
+                    onhandleShowsettingsPG={handleShowsettingsPG}
+                  />
+                }
+              />
+            </Routes>
+
           </Col>
         </Row>
       </Container>
