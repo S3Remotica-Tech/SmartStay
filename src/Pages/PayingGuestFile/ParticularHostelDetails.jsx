@@ -21,6 +21,7 @@ import PropTypes from "prop-types"
 import Select from "react-select";
 // import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
+import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import orangedot from "../../Assets/Images/New_images/orangedot.png";
 import reddot from "../../Assets/Images/New_images/reddot.png";
 import bluedot from "../../Assets/Images/New_images/bluedot.png";
@@ -292,6 +293,7 @@ console.log("ParticularHostelDetails",state)
     
 if (bed.isbooked === 1) {
   setShowReservedBed(true);
+  setOccupiedCustomerDetails({ bed, room });
 } else if (bed.isfilled === 0) {
   setEmptyBed(true);
   setDeleteBedDetails({ bed, room });
@@ -552,6 +554,21 @@ else if (bed.isfilled === 1) {
                        {bed.isbooked === 1 ? (
       <img
         src={recerverimg}
+        alt="bookingimg"
+        height={20}
+        width={20}
+        style={{
+          position: "absolute",
+          top: 1,
+          right: -10,
+        }}
+        className="me-1 mb-1"
+      />
+    ): (null)} 
+
+                        {bed.isfilled ===1 && bed.isNoticePeriod === 1 ? (
+      <img
+        src={noticeimg}
         alt="notice"
         height={20}
         width={20}
@@ -563,6 +580,8 @@ else if (bed.isfilled === 1) {
         className="me-1 mb-1"
       />
     ): (null)} 
+
+    
                       
                         <img className='mt-1'
                           src={bed.isfilled ? Green : White}
@@ -833,11 +852,14 @@ else if (bed.isfilled === 1) {
 
       {/* Reserved Bed */}
       {
-        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed} handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive} />
+        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed} 
+        handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
+        currentItem={OccupiedCustomerDetails}
+        />
       }
 
       {
-        showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} />
+        showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In}  currentItem={OccupiedCustomerDetails} />
       }
 
       {
