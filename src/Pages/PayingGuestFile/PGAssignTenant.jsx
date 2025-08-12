@@ -304,10 +304,17 @@ import dayjs from 'dayjs';
 
     useEffect(() => {
       if (state?.Booking?.statusCodeForAddBooking === 200) {
-        handleClose()
+        
         setFormLoading(false)
         setJoingDateErrmsg('');
+          dispatch({
+            type: "USERLIST",
+            payload: { hostel_id: state.login.selectedHostel_Id},
+          });
+
+         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
     
+         handleClose()
         setTimeout(() => {
           dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
         }, 500);

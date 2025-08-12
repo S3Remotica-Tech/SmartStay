@@ -12,17 +12,24 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteRoom from './DeleteRoom';
 import DeleteBed from './DeleteBed';
 import OccupiedCustomer from './OccupiedCustomer'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+// import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+// import Tooltip from 'react-bootstrap/Tooltip';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 import Select from "react-select";
 // import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
+import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
+import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import orangedot from "../../Assets/Images/New_images/orangedot.png";
 import reddot from "../../Assets/Images/New_images/reddot.png";
 import bluedot from "../../Assets/Images/New_images/bluedot.png";
+import EmptyBed from './EmptyBed';
+import BedDetails from './ReservedBed/BedDetails';
+import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
+import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
+import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
 
 
 
@@ -34,11 +41,14 @@ function SettingParticular(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
- 
+console.log("ParticularHostelDetails",state)
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 
-
+  const [emptybed, setEmptyBed] = useState(false)
+  const [showReservedBed, setShowReservedBed] = useState(false)
+  const [showCheckIn, setShowCheckIn] = useState(false)
+  const [showInactive, setShowInActive] = useState(false)
 
 
   useEffect(() => {
@@ -49,13 +59,12 @@ function SettingParticular(props) {
 
 
 
-
   const handleAddBed = (item, Room_Id) => {
     setShowBed(true)
     setDetails({ item, Room_Id });
   }
 
-  
+
 
 
 
@@ -82,13 +91,7 @@ function SettingParticular(props) {
     } else {
       setLoader(false)
     }
-  }, [props.hostel_Id, props.floorID])
-
-
-
-
-
-
+  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
 
 
@@ -186,7 +189,7 @@ function SettingParticular(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
- 
+
 
 
   useEffect(() => {
@@ -201,16 +204,16 @@ function SettingParticular(props) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
- const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(Number(selectedOption.value));
-  setCurrentPage(1);
-};
-const pageSizeOptions = [
-  { value: 4, label: "4" },
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+  const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
+  };
+  const pageSizeOptions = [
+    { value: 4, label: "4" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
 
   const handlePageChange = (pageNumber) => {
@@ -282,18 +285,30 @@ const pageSizeOptions = [
     setOccupiedCustomer(false)
   }
 
+  const [Occubied_bed , setOccubiedBed] = useState(false)
 
-  const handleDeleteBedConfirmation = (bed, room) => {
 
+  const handleclickBed = (bed, room) => {
+    console.log("bed", bed);
+    
+if (bed.isbooked === 1) {
+  setShowReservedBed(true);
+  setOccupiedCustomerDetails({ bed, room });
+} else if (bed.isfilled === 0) {
+  setEmptyBed(true);
+  setDeleteBedDetails({ bed, room });
+  setOccupiedCustomerDetails({ bed, room });
 
-    if (bed.isfilled === 0) {
-      setShowDeleteBed(true)
-      setDeleteBedDetails({ bed, room })
-    } else {
-      setOccupiedCustomer(true)
-      setOccupiedCustomerDetails({ bed: bed, room: room })
-    }
+} 
+else if (bed.isfilled === 1) {
+  setOccubiedBed(true);
+   setOccupiedCustomerDetails({ bed, room });
+}
 
+  }
+
+  const handlecloseBed = () => {
+    setEmptyBed(false)
   }
 
 
@@ -351,10 +366,52 @@ const pageSizeOptions = [
   }, []);
 
 
+
+  const handleShowReservedBed = () => {
+    setShowReservedBed(true)
+  }
+
+  const handleCloseReservedBed = () => {
+    setShowReservedBed(false)
+  }
+
+
+
+  const handleShowCheck_In = () => {
+    setShowCheckIn(true)
+    setShowReservedBed(false)
+
+  }
+
+  const handleCloseCheck_In = () => {
+    setShowCheckIn(false)
+  }
+
+
+  const handleShowMakeAsInActive = () => {
+    setShowInActive(true)
+    setShowReservedBed(false)
+  }
+
+  const handleCloseMakeAsInActive = () => {
+    setShowInActive(false)
+  }
+
+  const handlecloseoccubiedbed = () => {
+    setOccubiedBed(false)
+  }
+
+
   return (
     <>
 
+
+   
+
       <div >
+        {/* <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button> */}
+
+
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
           {loader && <div
@@ -389,23 +446,23 @@ const pageSizeOptions = [
   <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
     {currentItems.length > 0 && currentItems.map((room) => (
       <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center' key={room.Room_Id}>
-        <Card className="w-auto h-auto fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
+        <Card className="w-100 h-100 fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
           <Card.Header className="d-flex justify-content-between align-items-start" style={{ backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
             
           
-            <div style={{ width: "40px" }}>
+            <div style={{ width: "110px" }}>
               <div title={`Room No ${room.Room_Name}`} style={{ fontSize: 14, fontWeight: 600, color: "rgba(34, 34, 34, 1)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {room.Room_Name}
               </div>
-              <div style={{ fontSize: 12, fontWeight: 400, color: "#7C7C7C", marginTop: "-2px",whiteSpace:"nowrap" }}>
+              <div style={{ fontSize: 12, fontWeight: 400, color: "#7C7C7C", marginTop: "-2px" }}>
                 {Array.isArray(room.bed_details) ? `${room.bed_details.length} sharing` : "0 sharing"}
               </div>
             </div>
 
           
-            <div className="d-flex    mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
+            <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
               <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overview
+                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overdue
               </p>
                  <p className="mb-1 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
                 <img className="me-1 mb-1" src={bluedot} alt="reserved" /> No Reserved
@@ -494,20 +551,24 @@ const pageSizeOptions = [
                 <div key={bed.id} className='col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center'>
                   <div className='d-flex flex-column align-items-center w-100'>
                     <div style={{ position: "relative", width: 34, height: 41 }}>
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip id={`tooltip-${bed.id}`}>{bed.isfilled ? "Occupied - Customer info" : "Available - Add or delete"}</Tooltip>}
-                      >
-                        <img className='mt-1'
-                          src={bed.isfilled ? Green : White}
-                          alt='bedd'
-                          style={{ height: 41, width: 34, cursor: "pointer" }}
-                          onClick={() => handleDeleteBedConfirmation(bed, room)}
-                        />
-                      </OverlayTrigger>
-                        {/* {bed.isfilled ? (
+                       {bed.isbooked === 1 ? (
       <img
-        src={overdueimg}
+        src={recerverimg}
+        alt="bookingimg"
+        height={20}
+        width={20}
+        style={{
+          position: "absolute",
+          top: 1,
+          right: -10,
+        }}
+        className="me-1 mb-1"
+      />
+    ): (null)} 
+
+                        {bed.isfilled ===1 && bed.isNoticePeriod === 1 ? (
+      <img
+        src={noticeimg}
         alt="notice"
         height={20}
         width={20}
@@ -518,9 +579,18 @@ const pageSizeOptions = [
         }}
         className="me-1 mb-1"
       />
-    ): (null)} */}
+    ): (null)} 
+
+    
+                      
+                        <img className='mt-1'
+                          src={bed.isfilled ? Green : White}
+                          alt='bedd'
+                          style={{ height: 41, width: 34, cursor: "pointer" }}
+                          onClick={() => handleclickBed(bed, room)}
+                        />
+                     
                     </div>
-      
                     <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
                       {bed.bed_no}
                     </div>
@@ -774,7 +844,36 @@ const pageSizeOptions = [
           occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
         }
 
+        {
+          emptybed && <EmptyBed  show= {emptybed} handleClose={handlecloseBed} currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails} />
+        }
+
       </div>
+
+      {/* Reserved Bed */}
+      {
+        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed} 
+        handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
+        currentItem={OccupiedCustomerDetails}
+        />
+      }
+
+      {
+        showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In}  currentItem={OccupiedCustomerDetails} />
+      }
+
+      {
+        showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
+      }
+
+      {/* Occubied bed Details */}
+
+      {
+        Occubied_bed && <OccupiedBedStatus    show={Occubied_bed}
+    handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} />
+      }
+
+
     </>
   )
 }
@@ -785,7 +884,7 @@ SettingParticular.propTypes = {
   addPermissionError: PropTypes.func.isRequired,
   editPermissionError: PropTypes.func.isRequired,
 };
-export default SettingParticular;
+export default SettingParticular
 
 
 

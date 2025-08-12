@@ -40,11 +40,13 @@ function BedDetails({
         
         
                 if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-        
+                  
                     dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
         
                 }
             }, [currentItem])
+
+
         
         
             useEffect(() => {

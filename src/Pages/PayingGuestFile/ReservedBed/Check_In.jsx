@@ -1,6 +1,6 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect  , useRef} from "react";
 import { MdError } from "react-icons/md";
 import {
     Modal,
@@ -15,6 +15,7 @@ import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import addcircle from "../../../Assets/Images/New_images/add-circle.png";
+// import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 
 function CheckIn({
     show,
@@ -24,6 +25,7 @@ function CheckIn({
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
+    const bookingDateRef = useRef("");
 
     const [joiningDate, setJoiningDate] = useState(null);
     const [fields, setFields] = useState([]);
@@ -32,9 +34,9 @@ function CheckIn({
      const [customer_name,setCustomerName] = useState("")
      const [bookingDate,setBookingDate] = useState("")
      const [bookingAmount,setBookingAmount] = useState("")
-     const [bookingFlooorId,setBookingFloorId] = useState("")
-     const [bookingRoomId,setBookingRoomId] = useState("")
-     const [bookingBedId,setBookingBedId] = useState("")
+    //  const [bookingFlooorId,setBookingFloorId] = useState("")
+    //  const [bookingRoomId,setBookingRoomId] = useState("")
+    //  const [bookingBedId,setBookingBedId] = useState("")
      const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
     const [RoomRent, setRoomRent] = useState("");
     const [AdvanceAmount, setAdvanceAmount] = useState("");
@@ -71,6 +73,7 @@ function CheckIn({
             fontFamily: "Gilroy",
             fontWeight: 500,
             boxShadow: "none",
+             backgroundColor:"#EFF2FF"
             
         }),
         menu: (base) => ({
@@ -125,7 +128,7 @@ function CheckIn({
              
              
                      if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-             
+                         dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: Hostel_Id } });
                          dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
              
                      }
@@ -144,16 +147,56 @@ function CheckIn({
                  }, [state.PgList.OccupiedCustomerGetStatusCode])
 
 
-    // useEffect(()=> {
-    //     if(customer){
-    //     const selectedUser = state?.UsersList?.Users.find( item => item.User_Id === customer[0].User_Id)
-    //      console.log("selecteduser", customer);
-    //      setBookingAmount(Number(selectedUser[0].booking_amount))
-    //      setBookingDate(selectedUser[0].booking_booking_date)
-    //      setCustomerName(selectedUser[0].ID)  
-    //     }
-    // },[customer])
+  const [customer_details , setCustomerDetails] = useState({})
+    const [stay_typename , setStayTypeName] = useState("")
+    const [stay_typenameErrmsg , setStayTypeNameErrMsg] = useState("")
 
+      const stayTypes = [
+  { value: "short_stay", label: "Short Stay" },
+  { value: "long_stay", label: "Long Stay" },
+  { value: "day_stay", label: "Day Stay" },
+];
+
+  const longStayOnly = stayTypes.filter((s) => s.value === "long_stay");
+
+
+    const handleStayTypeChange = (selectedOption) => {
+    setStayTypeName(selectedOption?.value || '');
+    if (!selectedOption) {
+      setStayTypeNameErrMsg("Please Select Staytype");
+    } else {
+      setStayTypeNameErrMsg("");
+    }
+};
+
+    useEffect(()=> {
+        if(customer.length > 0){
+        const selectedUser = state?.UsersList?.Users.find( item => item.User_Id === customer[0]?.User_Id)
+         console.log("selecteduser", selectedUser);
+         setCustomerDetails(selectedUser)
+         setBookingAmount(Number(selectedUser.booking_amount))
+
+          if (selectedUser?.booking_booking_date) {
+      const dateObj = new Date(selectedUser?.booking_booking_date);
+      const day = String(dateObj.getDate()).padStart(2, '0');
+      const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const year = dateObj.getFullYear();
+      const formattedBookingDate = `${day}/${month}/${year}`;
+
+      bookingDateRef.current = formattedBookingDate; 
+      setBookingDate(formattedBookingDate); 
+    }
+         setCustomerName(selectedUser.ID)  
+        }
+    },[customer , state.PgList.OccupiedCustomerGetStatusCode])
+
+
+   
+
+
+    console.log("customer", bookingDate);
+    console.log("customer", state?.UsersList?.Users);
+    
    
 
     useEffect(() => {
@@ -238,11 +281,24 @@ function CheckIn({
         dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
     };
 
+
+
      const handleCheckin = async () => {
 
     let hasReasonAmountError = false;
     let newErrors = [];
 
+      if(!stay_typename){
+    setStayTypeNameErrMsg("Please Select Staytype")
+   }
+
+   if(!joiningDate){
+    setJoingDateErrmsg("Please Select Joining Date")
+   }
+
+   if(!AdvanceAmount){
+setAdvanceAmountError("Please Enter Advance Amount")
+   }
 
    
     if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
@@ -269,7 +325,25 @@ function CheckIn({
   
     setErrors(newErrors)
 
-   
+     if (!RoomRent && RoomRent !== 0) {
+      setRoomRentError("Please Enter Rental Amount");
+      return;
+    }
+    if (RoomRent <= 0) {
+      setRoomRentError("Please Enter Valid Rental Amount");
+      return;
+    }
+    if (!AdvanceAmount && AdvanceAmount !== 0) {
+      setAdvanceAmountError("Please Enter Advance Amount");
+      return;
+    }
+
+    if (AdvanceAmount <= 0) {
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
+      return;
+    }
+
+  
 
 
        const incrementDateAndFormat = (date) => {
@@ -279,22 +353,28 @@ function CheckIn({
     };
 
 
-    const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
+    const formattedDate = joiningDate
+      ? incrementDateAndFormat(joiningDate)
       : "";
+
+
 const invoiceDateObj = new Date(formattedDate);
-      const dueDateObj = new Date(invoiceDateObj);
-dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
- 
-const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+const dueDays = Number(state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth) || 0;
 
-  const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
+const dueDateObj = new Date(invoiceDateObj);
+dueDateObj.setDate(dueDateObj.getDate() + dueDays);
 
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
+const formattedAdvanceDueDate = dueDateObj.toLocaleDateString("en-CA"); 
+
+
+
+
+
+      const fullName = customer_details?.Name?.trim() || "";
+
+const [FirstName, ...lastNameParts] = fullName.split(" ");
+
+const LastName = lastNameParts.join(" ") || "";
    
 
     setErrors(newErrors)
@@ -335,59 +415,66 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
      console.log("apitriggerd" ,hasReasonAmountError , AdvanceAmount , RoomRent);
 
     if (
-     
+      customer_name && formattedDate && stay_typename &&
       Number(AdvanceAmount) > 0 &&
       Number(RoomRent) > 0
     ) {
      
+   dispatch({
+  type: "ADDUSER",
+  payload: {
+    profile: customer_details.profile,
+    firstname: FirstName || "",  
+    LastName: LastName || "",
+    Phone: customer_details.Phone,
+    Email: customer_details.Email,
+    Address: customer_details.Address,
+    area: customer_details.area,
+    landmark: customer_details.landmark,
+    city: customer_details.city,
+    pincode: customer_details.pincode,
+    state: customer_details.state,
+    AadharNo: customer_details.AadharNo,
+    PancardNo: customer_details.PancardNo,
+    licence: customer_details.licence,
+    HostelName: customer_details.HostelName,
 
+   hostel_Id: state.login.selectedHostel_Id,
+    Floor:  currentItem?.room?.Floor_Id,
+    Rooms: currentItem?.room?.Room_Id,
+    Bed: currentItem?.bed?.id,
 
-//    dispatch({
-//   type: "ADDUSER",
-//   payload: {
-//     profile: file,
-//     firstname: capitalizedFirstname,  
-//     LastName: capitalizedLastname,
-//     Phone: Phone,
-//     Email: Email,
-//     Address: house_no,
-//     area: street,
-//     landmark: landmark,
-//     city: city,
-//     pincode: pincode,
-//     state: state_name,
-//     AadharNo: AadharNo,
-//     PancardNo: PancardNo,
-//     licence: licence,
-//     HostelName: HostelName,
-//     hostel_Id: hostel_Id,
-//     Floor: Floor,
-//     Rooms: props.EditObj.booking_room_id,
-//     Bed: props.EditObj.booking_bed_id,
-//     joining_date: formattedDate,
-//     AdvanceAmount: AdvanceAmount,
-//     RoomRent: RoomRent,
-//     BalanceDue: BalanceDue,
-//     PaymentType: PaymentType,
-//     paid_advance: paid_advance,
-//     paid_rent: paid_rent,
-//     payable_rent: payableamount,
-//     isadvance: 1,
-//     invoice_date: formattedDate,
-//     due_date: formattedAdvanceDueDate,
-//     ID: props.EditObj.ID,
-//     reasons: formattedReasons,
-//     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-//     booking_id:props.EditObj.booking_id,
-//     booking_date:formattedDate,
-//     booking_amount:props.EditObj.booking_amount
+    joining_date: formattedDate,
+    AdvanceAmount: AdvanceAmount,
+    RoomRent: RoomRent,
+    isadvance: 1,
+    invoice_date: formattedDate,
+    due_date: formattedAdvanceDueDate,
+    reasons: formattedReasons,
+    stay_type: stay_typename,
+    booking_id:customer_details.booking_id,
+    booking_date: bookingDate,
+    booking_amount:bookingAmount,
+    ID:customer_name
     
-//   },
-// });
+  },
+});
     }
     dispatch({ type: "INVOICELIST" });
   };
 
+
+    useEffect(() => {
+      if (state.UsersList?.statusCodeForAddUser === 200) {
+          dispatch({
+            type: "USERLIST",
+            payload: { hostel_id: state.login.selectedHostel_Id},
+          });
+           handleClose();
+      }
+    }, [state.UsersList?.statusCodeForAddUser]);
+
+    console.log("date",state?.Settings?.SettingsBillsGetRecurring );
 
 
     return (
@@ -478,16 +565,17 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                         </Form.Label>
                                         <Select
                                             styles={customStyles}
-                                            //   value={formatOptions().find(
-                                            //     (opt) => opt.value === selectedCustomer
-                                            //   )}
+                                              value={formatOptions().find(
+                                                (opt) => opt.value === customer_name
+                                              )}
+                                              isDisabled
                                             //   onChange={handleCustomerChange}
                                             options={formatOptions()}
                                             placeholder="Select a Tenant"
                                             classNamePrefix="custom"
                                             menuPlacement="auto"
 
-
+                                         
                                         />
                                     </Form.Group>
 
@@ -582,10 +670,8 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                         </Form.Label>
                                         <Select
                                             styles={customStyles}
-                                            options={[
-                                                { value: 'long_stay', label: 'Long Stay' },
-                                                // { value: 'short_stay', label: 'Short Stay' }
-                                            ]}
+                                           options={longStayOnly}
+                                    onChange={handleStayTypeChange}
                                             placeholder="Select a Type"
                                             classNamePrefix="custom"
                                             menuPlacement="auto"
@@ -593,7 +679,14 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
                                     </Form.Group>
 
-
+  {stay_typenameErrmsg.trim() !== "" && (
+                            <div>
+                              <p style={{ fontSize: '15px', color: 'red' }}>
+                                {stay_typenameErrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{stay_typenameErrmsg}</span>
+                              </p>
+                            </div>
+                          )}
+                             
                                 </div>
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -728,7 +821,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                 onChange={(date) => {
                                                     setJoiningDate(date ? date.toDate() : null);
                                                     setJoingDateErrmsg('')
-                                                    dispatch(JoininDatecustomer(date ? date.toDate() : null));
+                                                    // dispatch(JoininDatecustomer(date ? date.toDate() : null));
                                                 }}
                                                 getPopupContainer={() => document.body}
                                                 disabledDate={(current) => current && current > dayjs().endOf("day")}

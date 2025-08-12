@@ -76,6 +76,19 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
     }
 
 
+     useEffect(() => {
+          if (state?.Booking?.statusCodeForAddBooking === 200) {
+            
+             handleClose()
+            setTimeout(() => {
+              dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+            }, 500);
+          }
+        }, [state?.Booking?.statusCodeForAddBookin])
+
+        
+
+
 
     return (
 
