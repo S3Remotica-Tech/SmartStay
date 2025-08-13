@@ -6299,5 +6299,6 @@ UserlistForm.propTypes = {
     BookingAssignForm:PropTypes.func.isRequired,
    setBookingAssignForm:PropTypes.func.isRequired,
    customer_details: PropTypes.func.isRequired,
+   recheckin: PropTypes.func.isRequired,
 };
 export default UserlistForm;
