@@ -23,6 +23,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
 
 
     const state = useSelector((state) => state);
+    console.log("data",data)
     const dispatch = useDispatch();
     const [checked, setChecked] = useState(false);
 
@@ -63,6 +64,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
                 (deduction) => deduction.amount > 0
             );
+            console.log("deduction_details",deduction_details)
 
             const invoiceTotal = Array.isArray(validInvoices)
                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
@@ -75,7 +77,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
                     amount: Number(item.amount) || 0,
                     showInput: false,
                 }));
-
+           
             
                 formattedFields.unshift({
                     reason_name: "DueAmount",
@@ -89,6 +91,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
                 ]);
             }
+
 
 
         }
@@ -456,7 +459,7 @@ const handleInputChange = (index, field, value) => {
                                         placeholder="Enter Name"
                                         type="text"
 
-                                        value={data?.Floor}
+                                        value={data?.floor_name || data?.floor_name}
                                         style={{
                                             fontSize: 16,
                                             color: "#4B4B4B",
@@ -489,7 +492,7 @@ const handleInputChange = (index, field, value) => {
                                         placeholder="Enter name"
                                         type="text"
 
-                                        value={data?.bed_name}
+                                        value={data?.bed_name || data?.Bed}
                                         style={{
                                             fontSize: 16,
                                             color: "#4B4B4B",

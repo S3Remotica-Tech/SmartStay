@@ -2465,6 +2465,7 @@ const imageUrl = imagePreview
                       </div> */}
 
                       <div
+                     
                         style={{
                           cursor: props.customerEditPermission && !customerDetails[0]?.Bed
                             ? "not-allowed"

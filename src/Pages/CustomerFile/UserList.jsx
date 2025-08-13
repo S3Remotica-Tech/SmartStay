@@ -52,6 +52,7 @@ import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
+import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -2197,8 +2198,42 @@ const handleBacktoCheckout = (item)=>{
   setBacktoCheckInForm(true)
 
 }
+ const [DueCustomerShow, setDueCustomerShow] = useState(false)
+   const [CheckOutDetails, setCheckOutDetails] = useState("");
 
+const handleConformCheckout =(item)=>{
+// setDueCustomerShow(true)
+setCheckOutDetails(item)
+  dispatch({
+        type: "GETCONFIRMCHECKOUTCUSTOMER",
+        payload: { id: item.ID, hostel_id: item.Hostel_Id },
+      });
+}
+  const handleCloseDuePopup = () => {
+    setDueCustomerShow(false)
+  }
+useEffect(() => {
+    if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
+      setDueCustomerShow(false)
 
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
+      }, 1000)
+    }
+
+  }, [state.UsersList.statusCodeAddConfirmCheckout])
+
+useEffect(() => {
+  if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
+            setDueCustomerShow(true);
+
+  }
+
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  }, 500);
+}, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
   return (
     <div>
@@ -3577,11 +3612,11 @@ const handleBacktoCheckout = (item)=>{
                                                      <div
                                                     className="d-flex align-items-center gap-2"
                                                   
-                                                  //    onClick={() => {
-                                                  //   if (!customerAddPermission) {
-                                                  //     handleBacktoCheckout(user);
-                                                  //   }
-                                                  // }}
+                                                     onClick={() => {
+                                                    if (!customerAddPermission) {
+                                                      handleConformCheckout(user);
+                                                    }
+                                                  }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
@@ -5785,6 +5820,9 @@ const handleBacktoCheckout = (item)=>{
       {
         add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} userDetail={userDetail} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking} bookingDet={bookingDet} />
       }
+        {
+                DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup}  />
+              }
     </div>
   );
 }
