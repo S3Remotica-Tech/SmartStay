@@ -1780,6 +1780,8 @@ const handleCloseBacktoCheckin =()=>{
 
  console.log("bactocheckinForm",props.customer_details , props?.EditObj)
 
+ const [recheckinbedname , setRecheckinbedName] = useState("")
+
 useEffect(()=>{
    if (props?.bactocheckinForm) {
    
@@ -1810,6 +1812,7 @@ useEffect(()=>{
       setPhone(props.EditObj?.Phone || props?.customer_details?.Phone);
       setEmail(props.EditObj?.Email || props?.customer_details?.Email);
       setHostelName(props.EditObj?.HostelName || props?.customer_details?.HostelName);
+      setRecheckinbedName(props?.EditObj?.Bed || props?.customer_details?.Bed)
 
       setHostel_Id(props.EditObj?.Hostel_Id || props?.customer_details?.Hostel_Id);
       setRooms(props?.EditObj?.hstl_Rooms || props?.customer_details?.hstl_Rooms);
@@ -1976,38 +1979,38 @@ const selectedRoom = React.useMemo(() => {
 //   ];
 // }
 
-let bedOptions =
-  state.UsersList?.bednumberdetails?.bed_details?.filter(
-    (item) =>
-      item.bed_no !== "0" &&
-      item.bed_no !== "undefined" &&
-      item.bed_no !== "" &&
-      item.bed_no !== "null"
-  ) || [];
-
-// Pick bed ID with same priority
-// Pick bed ID with correct priority
-const bedId =
-  props.EditObj?.hstl_Bed ||          // 1st priority
-  props.customer_details?.hstl_Bed || // 2nd priority
-  Bed;                                // 3rd priority
 
 
-  useEffect(() => {
-  setBed(
-    props.EditObj?.hstl_Bed ??
-    props.customer_details?.hstl_Bed ??
-    Bed
-  );
-}, [props.EditObj?.hstl_Bed, props.customer_details?.hstl_Bed, Bed]);
-// Find bed name for dropdown
-const selectedBedName =
-  bedOptions.find((item) => String(item.id) === String(bedId))?.bed_no || "";
 
-// If missing from options, add it
-if (bedId && !bedOptions.some((b) => String(b.id) === String(bedId))) {
-  bedOptions = [...bedOptions, { id: bedId, bed_no: selectedBedName }];
-}
+// let bedOptions =
+//   state.UsersList?.bednumberdetails?.bed_details?.filter(
+//     (item) =>
+//       item.bed_no !== "0" &&
+//       item.bed_no !== "undefined" &&
+//       item.bed_no !== "" &&
+//       item.bed_no !== "null"
+//   ) || [];
+
+
+// const bedId =
+//   props.EditObj?.hstl_Bed ||          
+//   props.customer_details?.hstl_Bed || 
+//   Bed;                                
+
+
+//   useEffect(() => {
+//   setBed(
+//     props.EditObj?.hstl_Bed ??
+//     props.customer_details?.hstl_Bed ??
+//     Bed
+//   );
+// }, [props.EditObj?.hstl_Bed, props.customer_details?.hstl_Bed, Bed]);
+// const selectedBedName =
+//   bedOptions.find((item) => String(item.id) === String(bedId))?.bed_no || "";
+
+// if (bedId && !bedOptions.some((b) => String(b.id) === String(bedId))) {
+//   bedOptions = [...bedOptions, { id: bedId, bed_no: selectedBedName }];
+// }
 
 
 const handleRecheckin =(e)=>{
@@ -5446,8 +5449,26 @@ value={bookingAmount}
                             *{" "}
                           </span>
                         </Form.Label>
+                              <FormControl
+                                              type="text"
+                                              id="form-controls"
+                                              placeholder="6542310"
+                                              value={recheckinbedname}
+                                              isDisabled
+                                              style={{
+                                                fontSize: 16,
+                                                color: "#4B4B4B",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                boxShadow: "none",
+                                                border: "1px solid #D9D9D9",
+                                                height: 50,
+                                                borderRadius: 8,
+                                                  backgroundColor: "#f8f9fa",
+                                              }}
+                                            />
 
-                        <Select
+                        {/* <Select
    isDisabled={true}
   options={bedOptions.map((item) => ({
     value: item.id,
@@ -5513,7 +5534,7 @@ value={bookingAmount}
                               color: "#000",
                             }),
                           }}
-                        />
+                        /> */}
 
                       
                       </div>
