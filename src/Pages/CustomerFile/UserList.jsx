@@ -2116,6 +2116,28 @@ setBookingDet(userData)
       }
   
     }, [state.createAccount?.networkError])
+
+    console.log("props", props.customer_details);
+
+
+     const [bookingDate, setBookingDate] = useState(null);
+
+    useEffect(() => {
+      if(props?.makeasinactive){
+         setUserList(false);
+         setInActiveForm(true) 
+         setInactiveName(props?.customer_details)
+         setBookingId(props?.customer_details?.booking_id)
+         const bookingDateStr = props?.customer_details?.booking_booking_date; // from API
+         const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
+         setBookingDate(bookingDatevalue)
+      }
+
+    },[props.makeasinactive])
+
+    
+    
+
     const [inactivename,setInactiveName] = useState("")
  
 const[inactiveForm,setInActiveForm] = useState(false)
@@ -2128,10 +2150,14 @@ const handleInActive =(item)=>{
 setInActiveForm(true)
 setBookingId(item.booking_id)
 setInactiveName(item)
+const bookingDateStr = item?.booking_booking_date; // from API
+const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
+ setBookingDate(bookingDatevalue)
 }
 
 const handleCloseInActive =()=>{
   setInActiveForm(false)
+  props.handleCloseBed()
   setIsACtiveDateError("")
   setInActiveComments("")
   setInActiveDate("")
@@ -4293,22 +4319,26 @@ const handleBacktoCheckout = (item)=>{
                         </Form.Label>
 
                         <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                            <DatePicker
-                                style={{
-                                    width: "100%",
-                                    height: 48,
-                                    cursor: "pointer",
-                                    fontFamily: "Gilroy",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={inActiveDate ? dayjs(inActiveDate) : null}
-                                onChange={(date) => {
-                                    setInActiveDate(date ? date.toDate() : null);
-                                    setIsACtiveDateError("")
-                                }}
-                                getPopupContainer={() => document.body}
-                            />
+                          <DatePicker
+    style={{
+        width: "100%",
+        height: 48,
+        cursor: "pointer",
+        fontFamily: "Gilroy",
+    }}
+    format="DD/MM/YYYY"
+    placeholder="DD/MM/YYYY"
+    value={inActiveDate ? dayjs(inActiveDate) : null}
+    onChange={(date) => {
+        setInActiveDate(date ? date.toDate() : null);
+        setIsACtiveDateError("");
+    }}
+    getPopupContainer={() => document.body}
+    disabledDate={(current) => {
+        if (!bookingDate) return true; 
+        return current.isBefore(bookingDate, "day"); 
+    }}
+/>
                         </div>
                     </Form.Group>
                      {isActiveDateError && (

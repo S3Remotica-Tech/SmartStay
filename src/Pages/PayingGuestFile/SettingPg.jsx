@@ -30,6 +30,7 @@ import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
 import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
 import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
+import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
 
 
 
@@ -41,7 +42,7 @@ function SettingParticular(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-console.log("ParticularHostelDetails",state)
+console.log("SettingParticular",state)
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 
@@ -49,6 +50,8 @@ console.log("ParticularHostelDetails",state)
   const [showReservedBed, setShowReservedBed] = useState(false)
   const [showCheckIn, setShowCheckIn] = useState(false)
   const [showInactive, setShowInActive] = useState(false)
+  const [Occubied_bed , setOccubiedBed] = useState(false)
+  const [Noticeperiod_bed , setNoticePeriodBed] = useState(false)
 
 
   useEffect(() => {
@@ -159,7 +162,14 @@ console.log("ParticularHostelDetails",state)
 
 
 
-
+      useEffect(() => {
+        if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
+           setNoticePeriodBed(false)
+             setTimeout(() => {
+              dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
+            }, 2000); 
+        }
+      }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
 
 
@@ -176,6 +186,38 @@ console.log("ParticularHostelDetails",state)
     }
   }, [state.PgList.createBedStatusCode])
 
+  
+
+       useEffect(() => {
+            if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 200) {
+               dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+              setEmptyBed(false);
+
+              setTimeout(() => {
+                dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+              }, 500);
+
+              setTimeout(() => {
+               dispatch({ type: "CLEAR_STATUS_CODES" });
+               }, 500);
+            }
+          }, [state?.Booking?.statusCodeForAddBookin, state.UsersList?.statusCodeForAddUser])
+
+          useEffect(() => {
+            if (state?.Booking?.statusCodeForAddBooking === 200 ) {
+              setEmptyBed(false);
+              dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+
+              setTimeout(() => {
+                dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+              }, 500);
+            }
+          }, [state?.Booking?.statusCodeForAddBookin])
+
+
+
+          console.log("statuscode" , state?.Booking?.statusCodeForAddBooking );
+          
 
 
 
@@ -285,27 +327,35 @@ console.log("ParticularHostelDetails",state)
     setOccupiedCustomer(false)
   }
 
-  const [Occubied_bed , setOccubiedBed] = useState(false)
 
 
-  const handleclickBed = (bed, room) => {
+
+ const handleclickBed = (bed, room) => {
     console.log("bed", bed);
-    
-if (bed.isbooked === 1) {
-  setShowReservedBed(true);
-  setOccupiedCustomerDetails({ bed, room });
-} else if (bed.isfilled === 0) {
-  setEmptyBed(true);
-  setDeleteBedDetails({ bed, room });
-  setOccupiedCustomerDetails({ bed, room });
 
-} 
-else if (bed.isfilled === 1) {
-  setOccubiedBed(true);
-   setOccupiedCustomerDetails({ bed, room });
-}
+    if (bed.isbooked === 1) {
+        setShowReservedBed(true);
+        setOccupiedCustomerDetails({ bed, room });
 
-  }
+    } else if (bed.isfilled === 0) {
+        setEmptyBed(true);
+        setDeleteBedDetails({ bed, room });
+        setOccupiedCustomerDetails({ bed, room });
+
+    } else if (bed.isfilled === 1 && bed.isNoticePeriod === 1) {
+        setOccubiedBed(false);
+        setNoticePeriodBed(true);
+        setOccupiedCustomerDetails({ bed, room });
+
+    } else if (bed.isfilled === 1) {
+        setOccubiedBed(true);
+        setOccupiedCustomerDetails({ bed, room });
+    }
+};
+
+
+
+console.log("noticeperiod", Noticeperiod_bed);
 
   const handlecloseBed = () => {
     setEmptyBed(false)
@@ -317,6 +367,8 @@ else if (bed.isfilled === 1) {
     if (state.PgList.statusCodeDeleteBed === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'HOSTELLIST' })
+      
+      setEmptyBed(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE' })
       }, 2000)
@@ -400,6 +452,14 @@ else if (bed.isfilled === 1) {
   const handlecloseoccubiedbed = () => {
     setOccubiedBed(false)
   }
+
+   const handlecloseNoticePeriodBed = () => {
+    setNoticePeriodBed(false)
+  }
+
+  
+
+
 
 
   return (
@@ -873,10 +933,17 @@ else if (bed.isfilled === 1) {
     handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} />
       }
 
+    {
+        Noticeperiod_bed && <NoticeBedStatusDetails    show={Noticeperiod_bed}
+      handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} />
+      }
+
+
 
     </>
   )
 }
+
 SettingParticular.propTypes = {
   floorID: PropTypes.func.isRequired,
   hostel_Id: PropTypes.func.isRequired,
