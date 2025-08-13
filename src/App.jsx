@@ -8,7 +8,7 @@ import FrontPage from './NewLandingPage/Topbar';
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
 import ForgetPassword from "./Components/Forgetpass";
-import Hostel from './Components/Hostel_Management';
+// import Hostel from './Components/Hostel_Management';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import CryptoJS from "crypto-js";
@@ -20,6 +20,7 @@ import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
 import LoaderComponent from './Pages/LoaderComponent';
 // import Contact from './NewLandingPage/Contact';
 import ThankYou from './NewLandingPage/ThankYou';
+import Sidebar from './Components/Sidebar';
 
 function App() {
   const cookies = new Cookies();
@@ -109,15 +110,16 @@ function App() {
 
 
       <Router future={{ v7_startTransition: true }}>
-        <Routes>
-          {data || state.login?.isLoggedIn ? (
-            <>
-              <Route path="/" element={<Hostel />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-
-            </>
-          ) : (
-            <>
+        {/* <Routes> */}
+        {data || state.login?.isLoggedIn ? (
+          <>
+            {/* <Route path="/" element={<Sidebar />} />
+              <Route path="*" element={<Navigate to="/" replace />} /> */}
+            <Sidebar />
+          </>
+        ) : (
+          <>
+            <Routes>
               <Route path="/" element={<FrontPage />} />
               {/* <Route path="/Terms-Condition" element={<TermsAndCondition />} />
               <Route path="/Privacy-Policy" element={<Privacy />} />
@@ -132,10 +134,10 @@ function App() {
               <Route path="/privacy-policy" element={<FrontPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
               <Route path="/thankyou" element={<ThankYou />} />
+            </Routes>
+          </>
+        )}
 
-            </>
-          )}
-        </Routes>
       </Router>
     </>
   );

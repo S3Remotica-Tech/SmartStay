@@ -13,6 +13,7 @@ import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 
 function CustomerCheckout(props) {
+  console.log("Customer Checkout Props:", props);
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function CustomerCheckout(props) {
   const [checkoUtDateError, setCheckOutDateError] = useState('')
   const [joiningError, setJoiningError] = useState('')
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
- 
+
 
   const handleCloseCheckout = () => {
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
@@ -36,24 +37,6 @@ function CustomerCheckout(props) {
     setComments(event.target.value);
   };
 
-  useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
-      setFormLoading(false)
-      props.setCustomerCheckoutpage(false)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
-      }, 2000);
-    }
-  }, [state.UsersList.addCheckoutCustomerStatusCode]);
-
-  useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
-  
-      setTimeout(() => {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID } });
-      }, 200);
-    }
-  }, [state.UsersList.addCheckoutCustomerStatusCode])
 
 
   const calculateDateDifference = (checkoutDate, reqDate) => {
@@ -66,11 +49,11 @@ function CustomerCheckout(props) {
     }
   };
 
-console.log("customercheckoutdata",props.data)
+
   const handleCheckOutCustomer = () => {
-    dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' })
+  
 
-
+    dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' });
 
     const formattedDate = dayjs(selectedDate).isValid()
       ? dayjs(selectedDate).format("YYYY-MM-DD")
@@ -80,38 +63,39 @@ console.log("customercheckoutdata",props.data)
       ? dayjs(requestDate).format("YYYY-MM-DD")
       : null;
 
-
     if (!selectedDate || !requestDate) {
       if (!selectedDate) {
-        setCheckOutDateError('Please Select  Check-Out Date');
+        setCheckOutDateError('Please Select Check-Out Date');
       }
-
       if (!requestDate) {
-        setCheckOutRequestDateError('Please Select  Request Date');
+        setCheckOutRequestDateError('Please Select Request Date');
       }
-      return
+      return;
     }
 
-    
- if (dayjs(formattedDate).isBefore(dayjs(formattedrequestDate))) {
-    setCheckOutDateError('Before Request Date not allowed');
-    return;
-  }
-    if (props.uniqueostel_Id && formattedDate && formattedrequestDate) {
+    if (dayjs(formattedDate).isBefore(dayjs(formattedrequestDate))) {
+      setCheckOutDateError('Before Request Date not allowed');
+      return;
+    }
+
+    const userId = props.data?.ID || props.data?.id || null;
+    const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
+
+    if (userId && hostelId && formattedDate && formattedrequestDate) {
       dispatch({
-        type: 'ADDCHECKOUTCUSTOMER', payload: {
+        type: 'ADDCHECKOUTCUSTOMER',
+        payload: {
           checkout_date: formattedDate,
-          user_id: props.data.ID,
-          hostel_id: props.uniqueostel_Id,
+          user_id: userId,
+          hostel_id: hostelId,
           comments: comments,
           action: 1,
           req_date: formattedrequestDate
         }
-      })
-      setFormLoading(true)
+      });
+      setFormLoading(true);
     }
-
-  }
+  };
 
 
   useEffect(() => {
@@ -119,8 +103,8 @@ console.log("customercheckoutdata",props.data)
       setFormLoading(false)
     }
   }, [state.UsersList.errorMessageAddCheckOut])
-  
-useEffect(() => {
+
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -138,11 +122,11 @@ useEffect(() => {
           onHide={handleCloseCheckout}
           backdrop="static"
           centered
-         
+
         >
           <Modal.Dialog
             style={{
-             
+
               paddingRight: "10px",
               borderRadius: "30px",
             }}
@@ -157,17 +141,17 @@ useEffect(() => {
                   <Modal.Header
                     style={{ marginBottom: "10px", position: "relative", paddingRight: 1, paddingLeft: 1 }}
                   >
-                    <div style={{display:'flex', flexDirection:'column'}}>
-                    <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                   Move to Notice Period
-                    </div>
-                           {dateDifference !== null && (
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <div
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                        Move to Notice Period
+                      </div>
+                      {dateDifference !== null && (
                         <div className="col-12 mt-1">
                           <p
                             style={{
@@ -177,11 +161,11 @@ useEffect(() => {
                               color: "#1E45E1",
                             }}
                           >
-                             Notice Days* : {dateDifference}  
+                            Notice Days* : {dateDifference}
                           </p>
                         </div>
                       )}
-</div>
+                    </div>
                     <CloseCircle size="24" color="#000" onClick={handleCloseCheckout}
                       style={{ cursor: 'pointer' }} />
                   </Modal.Header>
@@ -192,15 +176,15 @@ useEffect(() => {
                     <div className="row mb-3">
 
                       <div className="d-flex align-items-center">
-                                                                    <div
-                                                                      className=""
-                                                                      style={{
-                                                                        height: 60,
-                                                                        width: 60,
-                                                                        position: "relative",
-                                                                      }}
-                                                                    >
-                                                                      {/* <Image
+                        <div
+                          className=""
+                          style={{
+                            height: 60,
+                            width: 60,
+                            position: "relative",
+                          }}
+                        >
+                          {/* <Image
                                                                         src={
                                                                           props.data.profile
                                                                             ? typeof props.data.profile === "string"
@@ -212,83 +196,83 @@ useEffect(() => {
                                                                         roundedCircle
                                                                         style={{ height: 60, width: 60 }}
                                                                       /> */}
-                                                                      <Image
-  src={
-    props.data.profile && props.data.profile !== ""
-      ? typeof props.data.profile === "string"
-        ? props.data.profile 
-        : URL.createObjectURL(props.data.profile) 
-      : Profiles 
-  }
-  alt="Profile"
-  roundedCircle
-  style={{ height: 60, width: 60 }}
-  onError={(e) => {
-   
-    e.target.onerror = null;
-    e.target.src = Profiles;
-  }}
-/>
-                                
-                                                                     
-                                                                    </div>
-                                                                    <div style={{display:'flex', flexDirection:'column'}}>
-                                                                    <div className="ps-3">
-                                                                      <div>
-                                                                        <label
-                                                                          style={{
-                                                                            fontSize: 16,
-                                                                            fontWeight: 500,
-                                                                            color: "#222222",
-                                                                            fontFamily: "Gilroy",
-                                                                          }}
-                                                                        >
-                                                                          {props.data?.Name}
-                                                                        </label>
-                                                                      </div>
-                                                                     
-                                                                    </div>
+                          <Image
+                            src={
+                              props.data && props.data.profile && props.data.profile !== ""
+                                ? typeof props.data.profile === "string"
+                                  ? props.data.profile
+                                  : URL.createObjectURL(props.data.profile)
+                                : Profiles
+                            }
+                            alt="Profile"
+                            roundedCircle
+                            style={{ height: 60, width: 60 }}
+                            onError={(e) => {
 
-                                                                       <div className="d-flex flex-wrap gap-2 ms-2">
-                                                                        
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            background: "#FFEFCF",
-                            padding: "6px 12px",
-                            borderRadius: "60px",
-                            fontFamily: "Gilroy",
-                            fontSize: 12,
-                            color: "#222",
-                            fontWeight: 500,
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {/* {props.complaints?.floor_name} */}Ground Floor
+                              e.target.onerror = null;
+                              e.target.src = Profiles;
+                            }}
+                          />
+
+
                         </div>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div className="ps-3">
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: 500,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                {props.data?.Name}
+                              </label>
+                            </div>
 
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            background: "#FFE0D9",
-                            padding: "6px 12px",
-                            borderRadius: "60px",
-                            fontFamily: "Gilroy",
-                            fontSize: 12,
-                            color: "#222",
-                            fontWeight: 500,
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {/* {props.complaints?.room_name} - B{props.complaints?.bedName} */}G005 - B03
+                          </div>
+
+                          <div className="d-flex flex-wrap gap-2 ms-2">
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFEFCF",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              {/* {props.complaints?.floor_name} */}Ground Floor
+                            </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFE0D9",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              {/* {props.complaints?.room_name} - B{props.complaints?.bedName} */}G005 - B03
+                            </div>
+
+
+                          </div>
                         </div>
-
-
                       </div>
-                      </div>
-                                                                  </div>
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-2" controlId="requestDate">
@@ -314,7 +298,7 @@ useEffect(() => {
                                 calculateDateDifference(selectedDate, date);
                                 setCheckOutRequestDateError('')
                               }}
-                                disabledDate={(current) => current && current > dayjs().endOf("day")}
+                              disabledDate={(current) => current && current > dayjs().endOf("day")}
                               getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                             />
                           </div>
@@ -355,7 +339,7 @@ useEffect(() => {
                                 setCheckOutDateError('');
                                 setJoiningError('')
                               }}
-                              
+
                               getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                             />
                           </div>
@@ -411,19 +395,19 @@ useEffect(() => {
                       </div>
 
 
-               
+
 
                     </div>
 
                   </ModalBody>
 
 
-{state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
-              : null}
+                  {state.createAccount?.networkError ?
+                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                    </div>
+                    : null}
 
 
                   {formLoading &&
@@ -468,36 +452,36 @@ useEffect(() => {
                   )}
 
 
-                <div className="d-flex justify-content-end">
-                  <Button
-                    style={{
-                      backgroundColor: "white",
-                      fontWeight: 400,
-                      height: 40,
-                      borderRadius: 10,
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                      color:'rgba(75, 75, 75, 1)',
-                      border:'1px solid white'
-                    }}
-                    onClick={handleCloseCheckout}
-                  >
-                   Cancel
-                  </Button>
+                  <div className="d-flex justify-content-end">
+                    <Button
+                      style={{
+                        backgroundColor: "white",
+                        fontWeight: 400,
+                        height: 40,
+                        borderRadius: 10,
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        color: 'rgba(75, 75, 75, 1)',
+                        border: '1px solid white'
+                      }}
+                      onClick={handleCloseCheckout}
+                    >
+                      Cancel
+                    </Button>
 
-                  <Button
-                    style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 500,
-                      height: 40,
-                      borderRadius: 10,
-                      fontSize: 16,
-                      fontFamily: "Gilroy",
-                    }}
-                    onClick={handleCheckOutCustomer}
-                  >
-                     CheckOut
-                  </Button>
+                    <Button
+                      style={{
+                        backgroundColor: "#1E45E1",
+                        fontWeight: 500,
+                        height: 40,
+                        borderRadius: 10,
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                      }}
+                      onClick={handleCheckOutCustomer}
+                    >
+                      CheckOut
+                    </Button>
                   </div>
 
                 </div>
@@ -505,7 +489,7 @@ useEffect(() => {
               </div>
             </Modal.Body>
 
-                     </Modal.Dialog>
+          </Modal.Dialog>
         </Modal>
       </div>
     </>
@@ -514,10 +498,7 @@ useEffect(() => {
 
 CustomerCheckout.propTypes = {
   setCustomerCheckoutpage: PropTypes.func.isRequired,
-  data: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  customerCheckoutpage: PropTypes.func.isRequired,
-  uniqueostel_Id: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  customerCheckoutpage: PropTypes.bool.isRequired,
 };
 export default CustomerCheckout

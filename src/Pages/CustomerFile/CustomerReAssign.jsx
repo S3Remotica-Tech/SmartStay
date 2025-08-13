@@ -1,3 +1,4 @@
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
@@ -14,7 +15,8 @@ import { CloseCircle } from "iconsax-react";
 dayjs.extend(customParseFormat);
 
 function CustomerReAssign(props) {
-  
+
+
   const state = useSelector((state) => state);
  
   const dispatch = useDispatch();
@@ -94,9 +96,11 @@ if(state.UsersList.CustomerdetailsgetStatuscode === 200){
     }, 1000);
   }
 }, [state.UsersList.CustomerdetailsgetStatuscode]);
-  console.log("lastdate",lastDate)
 
-  useEffect(() => {
+
+
+useEffect(() => {
+  if (props.reAssignDetail) {
     setCurrentFloor(props.reAssignDetail.Floor);
     setCurrentRoom(props.reAssignDetail.Rooms);
     setCurrentBed(props.reAssignDetail.Bed);
@@ -105,7 +109,23 @@ if(state.UsersList.CustomerdetailsgetStatuscode === 200){
     setUserId(props.reAssignDetail.ID);
     setCurrentBedId(props.reAssignDetail.hstl_Bed);
     setCurrentRoomId(props.reAssignDetail.room_id);
-  }, [props.reAssignDetail]);
+  } 
+  else if (props.reAssignBedDetail) {
+
+    setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
+    setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
+    setUserId(props.reAssignBedDetail.id);
+    setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
+    setCurrentFloor(props.reAssignBedDetail.room?.Floor_Id);
+    setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
+    setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
+    setCurrentBedId(props.reAssignBedDetail.bed?.id);
+  }
+}, [props.reAssignDetail, props.reAssignBedDetail]);
+
+
+
+
   const handleCloseReAssign = () => {
     props.setCustomerReAssign(false);
     setRentError("");
@@ -237,8 +257,11 @@ if(state.UsersList.CustomerdetailsgetStatuscode === 200){
 
 
 
-if (selectedDate && props.reAssignDetail.user_join_date) {
-  const joiningDate = new Date(props.reAssignDetail.user_join_date);
+
+// Get user_join_date from either reAssignDetail or reAssignBedDetail safely
+const userJoinDate = props.reAssignDetail?.user_join_date || props.reAssignBedDetail?.user_join_date || props.reAssignBedDetail?.bed?.user_join_date;
+if (selectedDate && userJoinDate) {
+  const joiningDate = new Date(userJoinDate);
   const selected = new Date(selectedDate);
   const today = new Date();
 
@@ -249,14 +272,12 @@ if (selectedDate && props.reAssignDetail.user_join_date) {
   let lastDateOnly = null;
   const hasLastDate = lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate);
 
- 
   if (selectedDateOnly < joinDateOnly) {
     setDateError("Before Join Date Not Allowed");
     hasError = true;
     return;
   }
 
-  
   if (hasLastDate) {
     const [dd, mm, yyyy] = lastDate.split("-");
     const last = new Date(`${yyyy}-${mm}-${dd}`);
@@ -269,14 +290,12 @@ if (selectedDate && props.reAssignDetail.user_join_date) {
     }
   }
 
-  
   if (selectedDateOnly > todayOnly) {
     setDateError("Future Date Not Allowed");
     hasError = true;
     return;
   }
 
- 
   setDateError("");
 }
 
@@ -357,7 +376,7 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
     <>
       <div>
         <Modal
-          show={props.customerReassign}
+          show={true}
           onHide={handleCloseReAssign}
           backdrop="static"
           centered
@@ -1102,10 +1121,7 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
 }
 
 CustomerReAssign.propTypes = {
-  customerReassign: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  reAssignDetail: PropTypes.func.isRequired,
+  reAssignDetail: PropTypes.object.isRequired,
   setCustomerReAssign: PropTypes.func.isRequired,
 };
 

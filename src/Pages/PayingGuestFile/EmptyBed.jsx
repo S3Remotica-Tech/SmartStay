@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
+import {  useSelector , useDispatch } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
 import { CloseCircle } from 'iconsax-react';
 import PropTypes from "prop-types";
@@ -14,6 +15,10 @@ import AddCustomer from './AddCustomerPG';
 
 
 function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
+
+
+       const state = useSelector((state) => state);
+       const dispatch = useDispatch
 
     const [assign_tenantform, setAssignTenantForm] = useState(false)
     const [add_customerform, setAddCustomerForm] = useState(false)
@@ -74,6 +79,19 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
     const handleCloseAddCustomer = () => {
         setAddCustomerForm(false)
     }
+
+
+     useEffect(() => {
+          if (state?.Booking?.statusCodeForAddBooking === 200) {
+            
+             handleClose()
+            setTimeout(() => {
+              dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+            }, 500);
+          }
+        }, [state?.Booking?.statusCodeForAddBookin])
+
+
 
 
 

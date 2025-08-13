@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import Profile from '../../../Assets/Images/New_images/profile-picture.png'
 import { AddCircle, LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 
 
@@ -16,10 +17,48 @@ function BedDetails({
     show,
     handleCloseBed,
     handleShowCheck_In,
-    MakeAsInActive
+    MakeAsInActive, 
+    currentItem
 }) {
     // const state = useSelector((state) => state);
     // const dispatch = useDispatch();
+
+           const state = useSelector(state => state)
+            const dispatch = useDispatch();
+
+          const [customer, setCustomer] = useState([])
+    
+            console.log("data", currentItem);
+            
+        
+            useEffect(() => {
+        
+                const Hostel_Id = currentItem?.room.Hostel_Id;
+                const Floor_Id = currentItem?.room.Floor_Id;
+                const Bed_Id = currentItem?.bed.id;
+                const Room_Id = currentItem?.room.Room_Id;
+        
+        
+                if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+                  
+                    dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+        
+                }
+            }, [currentItem])
+
+
+        
+        
+            useEffect(() => {
+                if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+                    setCustomer(state.PgList.OccupiedCustomer)
+                    setTimeout(() => {
+                        dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+                    }, 2000)
+                }
+        
+        
+            }, [state.PgList.OccupiedCustomerGetStatusCode])
 
 
     const [showDots, setShowDots] = useState('')
@@ -50,6 +89,7 @@ function BedDetails({
 
     const handleCheckin = () => {
         handleShowCheck_In(true)
+
     }
 
 
@@ -109,7 +149,7 @@ function BedDetails({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No G3 </label> <span style={{
+                                        }}>Room No  {currentItem?.room.Room_Name} </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -119,7 +159,7 @@ function BedDetails({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed 9</span>
+                                        }}> Bed  {currentItem?.bed.bed_no}</span>
                                     </div>
                                 </div>
 
@@ -217,13 +257,17 @@ function BedDetails({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
-                                            <Image src={Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                                            <Image src={customer[0]?.profile && customer[0]?.profile !== "0" ? customer[0]?.profile : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                                         </div>
                                         <div className="mt-2">
                                             <div>
-                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >Rajesh</label>
+                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{customer?.[0]?.Name || "N/A"}</label>
                                             </div>
-                                            <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>+91 98765 43210</label></div>
+                                            <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                    {customer?.[0]?.Phone
+                    ? `+${String(customer[0].Phone).slice(0, -10)} ${String(customer[0].Phone).slice(-10)}`
+                    : "No phone"}
+                                                </label></div>
                                         </div>
                                     </div>
 
@@ -272,7 +316,8 @@ BedDetails.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
     handleShowCheck_In: PropTypes.func.isRequired,
-    MakeAsInActive: PropTypes.func.isRequired
+    MakeAsInActive: PropTypes.func.isRequired,
+    currentItem: PropTypes.func.isRequired,
 
 };
 export default BedDetails;
