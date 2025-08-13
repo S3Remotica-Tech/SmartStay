@@ -59,6 +59,14 @@ function OccupiedBedStatus({
 
     }, [state.PgList.OccupiedCustomerGetStatusCode])
 
+      useEffect(() => {
+        if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+        //   dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
+          setcheckoutForm(false);
+        }
+      }, [state.UsersList.addCheckoutCustomerStatusCode]);
+    
+
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
 
