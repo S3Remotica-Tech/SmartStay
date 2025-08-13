@@ -3,12 +3,28 @@ import config from '../../WebService/Config';
 import axios from 'axios'
 
 
+// v1
 
-export async function login(EmailId, Password) {
-  return await axios.get(`${config.apiBaseUrl}/login/login`, {
-    params: EmailId, Password
-  })
+// export async function login(EmailId, Password) {
+//   return await axios.get(`${config.apiBaseUrl}/login/login`, {
+//     params: EmailId, Password
+//   })
+// }
+
+
+// v2
+
+export async function login(loginInfo) {
+  return await axios.post(`${config.apiBaseUrl}/v2/users/login`,loginInfo, {
+   data:loginInfo
+
+  });
 }
+
+
+
+
+
 
 export async function CreateAccountAction(params) {
 
@@ -38,9 +54,19 @@ export async function CreateAccountAction(params) {
          }
 
 } 
+//  create-account api version 1
+
+// export async function Addaccount (datum) {
+//   return await AxiosConfig.post('/newaccount/create-account',datum,{
+//     data:datum
+//   })
+// }
+
+
+//  create-account api version 2
 
 export async function Addaccount (datum) {
-  return await AxiosConfig.post('/newaccount/create-account',datum,{
+  return await AxiosConfig.post('/v2/users',datum,{
     data:datum
   })
 }

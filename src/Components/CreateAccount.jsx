@@ -302,17 +302,17 @@ function CreateAccountPage() {
 
     if (hasError) return;
 
-    const mobileNumber = `${countryCode}${phoneNo}`;
+    // const mobileNumber = `${countryCode}${phoneNo}`;
 
     dispatch({
       type: 'CREATE_ACCOUNT_PAGE',
       payload: {
-        first_name: firstName,
-        last_name: lastName,
-        mobileNo: mobileNumber,
-        emailId: emailID,
+        firstName: firstName,
+        lastName: lastName,
+        mobile: phoneNo,
+        mailId: emailID,
         password: password,
-        confirm_password: confirmpassword
+        confirmPassword: confirmpassword
       }
     });
     setLoading(true)

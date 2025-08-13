@@ -99,7 +99,7 @@ const MyComponent = () => {
       return
     }
     if (email_Id && password) {
-      dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
+      dispatch({ type: 'LOGININFO', payload: { emailId: email_Id, password: password } });
       setLoading(true)
     }
   };
