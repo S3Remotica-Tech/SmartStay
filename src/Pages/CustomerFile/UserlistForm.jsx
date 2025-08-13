@@ -6297,6 +6297,7 @@ UserlistForm.propTypes = {
   bactocheckinForm:PropTypes.func.isRequired,
    setBacktoCheckInForm:PropTypes.func.isRequired,
     BookingAssignForm:PropTypes.func.isRequired,
-   setBookingAssignForm:PropTypes.func.isRequired
+   setBookingAssignForm:PropTypes.func.isRequired,
+   customer_details: PropTypes.func.isRequired,
 };
 export default UserlistForm;

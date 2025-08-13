@@ -30,7 +30,7 @@ import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
 import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
 import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
-import BedStatusCard from './NoticePeriod/BedStatus';
+// import BedStatusCard from './NoticePeriod/BedStatus';
 import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
 
 

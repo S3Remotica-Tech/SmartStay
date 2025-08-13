@@ -111,11 +111,11 @@ function NoticeBedStatusDetails({
 
   
 
-    const [checkoutform , setcheckoutform] = useState(false)
+//     const [checkoutform , setcheckoutform] = useState(false)
 
-    const handleCheckout = () => {
-setcheckoutform(true)
-    }
+//     const handleCheckout = () => {
+// setcheckoutform(true)
+//     }
 
     const [recheckin , setRecheckin] = useState(false)
     const [bactocheckinForm,setBacktoCheckInForm] = useState(false)
@@ -291,7 +291,7 @@ setcheckoutform(true)
 
                       <div
                         className="d-flex gap-2 align-items-center"
-                        onClick={() => handleNewBooking()}
+                        // onClick={() => handleNewBooking()}
 
                         style={{
                           padding: "10px",
@@ -303,13 +303,13 @@ setcheckoutform(true)
                         onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                         onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                       >
-                        <img src={TimerPause}></img>
+                        <img src={TimerPause} alt="booking"></img>
                         <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>New Booking</label>
                       </div>
 
                       <div
                         className="d-flex gap-2 align-items-center"
-                        onClick={() => handleCheckout()}
+                        // onClick={() => handleCheckout()}
 
                         style={{
                           padding: "10px",

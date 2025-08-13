@@ -5823,5 +5823,8 @@ UserList.propTypes = {
   id: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  makeasinactive: PropTypes.func.isRequired,
+  handleCloseBed: PropTypes.func.isRequired,
+  customer_details: PropTypes.func.isRequired,
 };
 export default UserList;
