@@ -3297,14 +3297,12 @@ useEffect(() => {
                                       >
                                         <div className="ps-2">
                                          
-                                                                                                         {/* {user.bed_status === "Booking"
-    ? user.Booking_FloorName || "-"
-    : user.floor_name || "-"} */}
-     {user.bed_status === "Booking"
-    ? (user.Booking_FloorName || "-")
-    : user.bed_status === "Check In"
-    ? (user.floor_name || "-")
-    : "-"}
+                                                                                                         
+    {user.bed_status === "Booking"
+  ? (user.Booking_FloorName || "-")
+  : user.bed_status === "Check In" || user.bed_status === "Notice period"
+  ? (user.floor_name || "-")
+  : "-"}
                                         </div>
 
                                       </td>
