@@ -39,7 +39,7 @@ function CustomerReAssign(props) {
   const [bedError, setBedError] = useState("");
   const [rentError, setRentError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  const [lastDate, setLastDate] = useState("");
+  // const [lastDate, setLastDate] = useState("");
 
 
   const rentRef = useRef(null);
@@ -62,7 +62,7 @@ function CustomerReAssign(props) {
     setNewBed("");
     setNewRoomRent("");
     setSelectedDate("");
-    setLastDate("")
+    // setLastDate("")
     setUserId("")
     dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
   };
@@ -288,32 +288,32 @@ if (selectedDate && userJoinDate) {
   }, [state.UsersList.CustomerdetailsgetStatuscode])
 
 
-  useEffect(() => {
-    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-      const invoiceDetails = state.UsersList.customerdetails.invoice_details;
+  // useEffect(() => {
+  //   if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+  //     const invoiceDetails = state.UsersList.customerdetails.invoice_details;
 
-      if (invoiceDetails && invoiceDetails.length > 0) {
-        const dates = invoiceDetails
-          .map(item => item.Date)
-          .filter(date => !!date);
+  //     if (invoiceDetails && invoiceDetails.length > 0) {
+  //       const dates = invoiceDetails
+  //         .map(item => item.Date)
+  //         .filter(date => !!date);
 
-        if (dates.length > 0) {
-          const maxDate = new Date(Math.max(...dates.map(d => new Date(d))));
-          const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(maxDate.getMonth() + 1).padStart(2, "0")}-${maxDate.getFullYear()}`;
-          setLastDate(formatted);
-        } else {
-          setLastDate("");
-        }
-      } else {
-        setLastDate("");
-      }
+  //       if (dates.length > 0) {
+  //         const maxDate = new Date(Math.max(...dates.map(d => new Date(d))));
+  //         const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(maxDate.getMonth() + 1).padStart(2, "0")}-${maxDate.getFullYear()}`;
+  //         // setLastDate(formatted);
+  //       } else {
+  //         // setLastDate("");
+  //       }
+  //     } else {
+  //       // setLastDate("");
+  //     }
 
 
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' });
-      }, 1000);
-    }
-  }, [state.UsersList.CustomerdetailsgetStatuscode]);
+  //     setTimeout(() => {
+  //       dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' });
+  //     }, 1000);
+  //   }
+  // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
 
 
