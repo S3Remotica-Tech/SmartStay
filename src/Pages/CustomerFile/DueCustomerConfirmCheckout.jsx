@@ -364,6 +364,11 @@ const handleInputChange = (index, field, value) => {
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
             setFormLoading(false)
+            handleClose()
+            dispatch({
+                      type: "USERLIST",
+                      payload: { hostel_id: state.login.selectedHostel_Id },
+                    })
             setTimeout(() => {
                 dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
             }, 500);
