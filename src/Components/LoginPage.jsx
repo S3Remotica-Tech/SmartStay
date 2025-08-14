@@ -44,12 +44,14 @@ const MyComponent = () => {
   }
 
   const handleEmailChange = (e) => {
+     dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     setemail_Id(e.target.value.toLowerCase())
     setEmailError('')
   }
 
   const handlePasswordChange = (e) => {
+     dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     setpassword(e.target.value)
     setPasswordError('')
@@ -81,6 +83,7 @@ const MyComponent = () => {
 
 
   const handleLogin = () => {
+     dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
     dispatch({ type: 'RESET_ALL' });
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
@@ -155,11 +158,16 @@ const MyComponent = () => {
   }, [state.login.statusCode]);
 
   useEffect(() => {
-    if (state.login.errorEmail || state.login.errorPassword) {
+    if (state.login.errorEmail || state.login.errorPassword || state.login.invalidCredential) {
       setLoading(false)
+
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
+      }, 2000)
+
     }
   }
-    , [state.login.errorEmail, state.login.errorPassword])
+    , [state.login.errorEmail, state.login.errorPassword, state.login.invalidCredential])
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -170,6 +178,14 @@ const MyComponent = () => {
     }
 
   }, [state.createAccount?.networkError])
+
+
+  console.log("state", state)
+
+
+
+
+
   return (
 
     <div className='container login_page1 h-100'>
@@ -191,6 +207,12 @@ const MyComponent = () => {
           {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
             <MdError style={{ color: "red", marginRight: '5px' }} />
             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+            : null}
+
+          {state.login.invalidCredential ? <div className='d-flex align-items-center p-1'>
+            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login?.invalidCredential}</label>
           </div>
             : null}
 

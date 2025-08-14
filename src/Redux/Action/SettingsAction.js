@@ -107,25 +107,66 @@ export async function GetAllReport() {
   return await AxiosConfig.get("/all_reports", {});
 }
 
+
+//  v1
+// export async function AddGeneral(params) {
+//   const formData = new FormData();
+//   if (params.f_name) formData.append("f_name", params.f_name);
+//   if (params.l_name) formData.append("l_name", params.l_name);
+//   if (params.mob_no) formData.append("mob_no", params.mob_no);
+//   if (params.email_id) formData.append("email_id", params.email_id);
+//   if (params.address) formData.append("address", params.address);
+//   if (params.area) formData.append("area", params.area)
+//   if (params.landmark) formData.append("landmark", params.landmark)
+//   if (params.city) formData.append("city", params.city)
+//   if (params.pin_code) formData.append("pin_code", params.pin_code)
+//   if (params.state) formData.append("state", params.state)
+//   if (params.password) formData.append("password", params.password);
+//   if (params.profile) formData.append("profile", params.profile);
+//   if (params.id) formData.append("id", params.id);
+
+//   try {
+//     const response = await AxiosConfig.post(
+//       "/settings/add_general_user",
+//       formData,
+//       {
+//         headers: {
+//           "Content-type": "multipart/form-data",
+//         },
+//         timeout: 100000000,
+//         onUploadProgress: (event) => {
+//           console.log("event", event);
+//         },
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//   }
+// }
+
+
+// v2
+
 export async function AddGeneral(params) {
   const formData = new FormData();
-  if (params.f_name) formData.append("f_name", params.f_name);
-  if (params.l_name) formData.append("l_name", params.l_name);
-  if (params.mob_no) formData.append("mob_no", params.mob_no);
-  if (params.email_id) formData.append("email_id", params.email_id);
-  if (params.address) formData.append("address", params.address);
-  if (params.area) formData.append("area", params.area)
+  if (params.firstName) formData.append("firstName", params.firstName);
+  if (params.lastName) formData.append("lastName", params.lastName);
+  if (params.mobile) formData.append("mobile", params.mobile);
+  if (params.mailId) formData.append("mailId", params.mailId);
+  if (params.password) formData.append("password", params.password);
+  if (params.houseNo) formData.append("houseNo", params.houseNo);
+  if (params.street) formData.append("area", params.street)
   if (params.landmark) formData.append("landmark", params.landmark)
   if (params.city) formData.append("city", params.city)
-  if (params.pin_code) formData.append("pin_code", params.pin_code)
+  if (params.pincode) formData.append("pincode", params.pincode)
   if (params.state) formData.append("state", params.state)
-  if (params.password) formData.append("password", params.password);
-  if (params.profile) formData.append("profile", params.profile);
+  if (params.profilePic) formData.append("profilePic", params.profilePic);
   if (params.id) formData.append("id", params.id);
 
   try {
     const response = await AxiosConfig.post(
-      "/settings/add_general_user",
+      "/v2/profile/add-admin",
       formData,
       {
         headers: {

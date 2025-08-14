@@ -9,6 +9,9 @@ function* Login(args) {
 
   try {
     const response = yield call(login, args.payload);
+
+console.log("response login", response)
+
     if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'LOGIN-INFO', payload:{ response:response.data,statusCode:response.status || response.statusCode } });
           }
@@ -23,13 +26,24 @@ function* Login(args) {
       yield put({ type: 'OTP_SUCCESS', payload: {response: response.data, statusCode:response.status || response.statusCode} });
          }
   }
-   catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
-   }
+catch (error) {
+  console.log("error", error);
+
+  if (error?.status === 403) {
+       yield put({
+      type: 'INVALID_CREDENTIALS',
+      payload: 'Invalid email or password'
+    });
+  } else if (error.code === 'ERR_NETWORK') {
+    yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+  } else {
+    yield put({
+      type: 'NETWORK_ERROR',
+      payload: error.message || 'Something went wrong'
+    });
+  }
+}
+
 }
 
 

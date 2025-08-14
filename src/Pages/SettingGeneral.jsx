@@ -622,22 +622,24 @@ function SettingGeneral() {
 
 
     const payload = {
-      f_name: firstName,
-      l_name: lastName,
-      mob_no: normalizedPhoneNumber,
-      email_id: emilId,
-      address: house_no,
-      area: street,
+       accountInfo: {
+      firstNam: firstName,
+      lastName: lastName,
+      mobile: normalizedPhoneNumber,
+      mailId: emilId,
+      houseNo: house_no,
+      street: street,
       landmark: landmark,
       city,
-      pin_code: pincode,
-      state: state_name,
-      profile: file,
+      pincode: pincode,
+      state: state_name
+       },
+      profilePic: file,
     };
-    if (!edit) payload.password = password;
-    if (edit && editId) payload.id = editId;
+   if (!edit) payload.accountInfo.password = password;
+if (edit && editId) payload.accountInfo.id = editId;
 
-
+console.log("payload",payload)
 
          
     if (edit && editId) {

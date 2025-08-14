@@ -119,13 +119,20 @@ export async function TwoStepVerification(datum) {
 
 
 
+// v1
 
-
-export async function AccountDetails(user) {
-   return await AxiosConfig.post('/get_user_details',user,{
-    data:user
+// export async function AccountDetails(user) {
+//    return await AxiosConfig.post('/get_user_details',user,{
+//     data:user
    
-  })
+//   })
+// }
+
+
+//v2
+
+export async function AccountDetails() {
+   return await AxiosConfig.get('/v2/profile')
 }
 
 export async function OTPverification(datum) {
