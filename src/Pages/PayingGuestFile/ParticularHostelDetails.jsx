@@ -89,7 +89,7 @@ function ParticularHostelDetails(props) {
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
 
-
+  
   const handleItemsPerPageChange = (selectedOption) => {
     setItemsPerPage(Number(selectedOption.value));
     setCurrentPage(1);

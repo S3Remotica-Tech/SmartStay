@@ -1114,9 +1114,52 @@ function CustomerReAssign(props) {
   );
 }
 
+// CustomerReAssign.propTypes = {
+//   reAssignDetail: PropTypes.object.isRequired,
+//   setCustomerReAssign: PropTypes.func.isRequired,
+//   id: PropTypes.number,
+//   bed_no: PropTypes.string,
+//   bed_amount: PropTypes.number,
+//   user_join_date: PropTypes.string,
+//   Hostel_Id: PropTypes.number,
+//   Floor_Id: PropTypes.number,
+//   Room_Id: PropTypes.number,
+//   Room_Name: PropTypes.string,
+// };
+
+
+
 CustomerReAssign.propTypes = {
-  reAssignDetail: PropTypes.object.isRequired,
-  setCustomerReAssign: PropTypes.func.isRequired,
+
+  setCustomerReAssign: PropTypes.func,
+  reAssignDetail: PropTypes.shape({
+    user_join_date: PropTypes.string,
+    Floor: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    Rooms: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    Bed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    RoomRent: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    hstl_Bed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    room_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+
+  reAssignBedDetail: PropTypes.shape({
+    user_join_date: PropTypes.string,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    bed: PropTypes.shape({
+      user_join_date: PropTypes.string,
+      bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      bed_amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
+    room: PropTypes.shape({
+      Room_Name: PropTypes.string,
+      Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      Room_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
+  }),
 };
+
 
 export default CustomerReAssign;

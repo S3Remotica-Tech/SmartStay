@@ -90,12 +90,12 @@ function OccupiedBedStatus({
 
     }, [state.PgList.OccupiedCustomerGetStatusCode])
 
-    useEffect(() => {
-        if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
-            //   dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
-            setcheckoutForm(false);
-        }
-    }, [state.UsersList.addCheckoutCustomerStatusCode]);
+    // useEffect(() => {
+    //     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+    //         //   dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
+    //         setcheckoutForm(false);
+    //     }
+    // }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
 
 
@@ -305,6 +305,8 @@ function OccupiedBedStatus({
 OccupiedBedStatus.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
-    currentItem: PropTypes.object.isRequired
+    currentItem: PropTypes.object.isRequired,
+     handleShowReassignBed: PropTypes.func.isRequired,
+  handleShowNoticePeriod: PropTypes.func.isRequired,
 };
 export default OccupiedBedStatus;

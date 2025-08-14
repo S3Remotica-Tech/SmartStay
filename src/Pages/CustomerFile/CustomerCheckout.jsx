@@ -495,5 +495,21 @@ CustomerCheckout.propTypes = {
   setCustomerCheckoutpage: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   customerCheckoutpage: PropTypes.bool.isRequired,
+  uniqueostel_Id: PropTypes.number.isRequired,
+  Hostel_Id: PropTypes.number,
+  Floor_Id: PropTypes.number,
+  Room_Name: PropTypes.string,
+  bed_no: PropTypes.string,
+  bed_amount: PropTypes.number,
+   bedData: PropTypes.shape({
+    room: PropTypes.shape({
+      Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      Room_Name: PropTypes.string,
+    }),
+    bed: PropTypes.shape({
+      bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
+  }),
 };
 export default CustomerCheckout
