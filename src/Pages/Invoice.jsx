@@ -910,6 +910,7 @@ useEffect(() => {
   const handleCloseDeleteform = () => {
     setShowDeleteform(false);
   };
+  console.log("invoiceList",invoiceList)
 
   const handleSaveInvoiceList = () => {
     const formatpaiddate = formatDateForPayload(selectedDate);

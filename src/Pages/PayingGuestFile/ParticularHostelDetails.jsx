@@ -70,7 +70,9 @@ function ParticularHostelDetails(props) {
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
 
-  const popupRef = useRef(null);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
 
   const handleAddBed = (item, Room_Id) => {
@@ -78,18 +80,106 @@ function ParticularHostelDetails(props) {
     setDetails({ item, Room_Id });
   }
 
-  const handleShowDots = (roomId) => {
+ const handleShowDots = (roomId) => {
     setShowDots(!showDots)
     setActiveRoomId(activeRoomId === roomId ? null : roomId);
   }
+
+  useEffect(() => {
+    if (props.floorID && props.hostel_Id) {
+      setLoader(true)
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    } else {
+      setLoader(false)
+    }
+  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
+
+  useEffect(() => {
+    if (state.PgList.roomCountStatusCode === 200) {
+      setLoader(false)
+      setTimeout(() => {
+        setLoaderTrigger(false)
+      }, 100)
+      setRoomCountData(state.PgList?.roomCount);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
+      }, 500);
+    }
+  }, [state.PgList?.roomCountStatusCode])
+
+
+
+
+  useEffect(() => {
+    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
+      setLoader(false)
+      setTimeout(() => {
+        setLoaderTrigger(false)
+      }, 100)
+      setRoomCountData([])
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
+      }, 100);
+    }
+
+  }, [state.PgList?.noRoomsInFloorStatusCode])
+
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      dispatch({ type: 'HOSTELLIST' })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODES' })
+      }, 2000)
+      setShowDeleteBed(false)
+      dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+    }
+  }, [state.UsersList?.statusCodeForAddUser]);
+
+useEffect(() => {
+
+    if (state.PgList.statusCodeCreateRoom === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setShowRoom(false)
+      dispatch({ type: 'HOSTELLIST' })
+
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
+      }, 100)
+    }
+  }, [state.PgList.statusCodeCreateRoom])
+
+  useEffect(() => {
+    if (state.PgList.createBedStatusCode === 200) {
+      dispatch({ type: 'HOSTELLIST' })
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setShowBed(false)
+
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
+      }, 4000)
+    }
+  }, [state.PgList.createBedStatusCode])
+
+  useEffect(() => {
+    dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+  }, [])
+
+  useEffect(() => {
+    if (props.floorID) {
+      setCurrentPage(1)
+    }
+  }, [props.floorID])
+
 
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
-
-  
   const handleItemsPerPageChange = (selectedOption) => {
     setItemsPerPage(Number(selectedOption.value));
     setCurrentPage(1);
@@ -104,12 +194,6 @@ function ParticularHostelDetails(props) {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
-
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setActiveRoomId(null);
-    }
   };
 
   const handleShowAddRoom = (floor_Id, hostel_Id) => {
@@ -139,13 +223,21 @@ function ParticularHostelDetails(props) {
     setHostelDetails({ room: null, selectedFloor: null })
   }
 
+
   const handleCloseDeleteBed = () => {
     setShowDeleteBed(false)
   }
 
+
+
+
+
   const handleCloseOccupiedCustomer = () => {
     setOccupiedCustomer(false)
   }
+
+
+
 
   const handleclickBed = (bed, room) => {
     console.log("bed", bed);
@@ -169,6 +261,61 @@ function ParticularHostelDetails(props) {
   const handlecloseBed = () => {
     setEmptyBed(false)
   }
+
+
+
+  useEffect(() => {
+    if (state.PgList.statusCodeDeleteBed === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      dispatch({ type: 'HOSTELLIST' })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE' })
+      }, 2000)
+    }
+
+  }, [state.PgList.statusCodeDeleteBed])
+
+
+
+  useEffect(() => {
+    const appearOptions = {
+      threshold: 0.5
+    };
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOnScro1l = new IntersectionObserver(function (entries) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        else {
+          entry.target.classList.add('appear');
+          appearOnScro1l.unobserve(entry.target);
+        }
+      })
+    }, appearOptions)
+    faders.forEach(fader => {
+      appearOnScro1l.observe(fader);
+    })
+  });
+
+
+
+  const popupRef = useRef(null);
+
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setActiveRoomId(null);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
 
 
   const handleShowReservedBed = () => {
@@ -231,141 +378,6 @@ function ParticularHostelDetails(props) {
     setMoveToNoticePeriodForm(false)
   }
 
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (props.floorID && props.hostel_Id) {
-      setLoader(true)
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-    } else {
-      setLoader(false)
-    }
-  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
-
-  useEffect(() => {
-    if (state.PgList.roomCountStatusCode === 200) {
-      setLoader(false)
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 100)
-      setRoomCountData(state.PgList?.roomCount);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
-      }, 500);
-    }
-  }, [state.PgList?.roomCountStatusCode])
-
-
-
-
-  useEffect(() => {
-    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
-      setLoader(false)
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 100)
-      setRoomCountData([])
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
-      }, 100);
-    }
-
-  }, [state.PgList?.noRoomsInFloorStatusCode])
-
-  useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'HOSTELLIST' })
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUS_CODES' })
-      }, 2000)
-      setShowDeleteBed(false)
-      dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-
-    }
-  }, [state.UsersList?.statusCodeForAddUser]);
-
-  useEffect(() => {
-
-    if (state.PgList.statusCodeCreateRoom === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      setShowRoom(false)
-      dispatch({ type: 'HOSTELLIST' })
-
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
-      }, 100)
-    }
-  }, [state.PgList.statusCodeCreateRoom])
-
-  useEffect(() => {
-    if (state.PgList.createBedStatusCode === 200) {
-      dispatch({ type: 'HOSTELLIST' })
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      setShowBed(false)
-
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
-      }, 4000)
-    }
-  }, [state.PgList.createBedStatusCode])
-
-  useEffect(() => {
-    dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-  }, [])
-
-  useEffect(() => {
-    if (props.floorID) {
-      setCurrentPage(1)
-    }
-  }, [props.floorID])
-
-  useEffect(() => {
-    if (state.PgList.statusCodeDeleteBed === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'HOSTELLIST' })
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE' })
-      }, 2000)
-    }
-
-  }, [state.PgList.statusCodeDeleteBed])
-
-
-
-  useEffect(() => {
-    const appearOptions = {
-      threshold: 0.5
-    };
-    const faders = document.querySelectorAll('.fade-in');
-    const appearOnScro1l = new IntersectionObserver(function (entries) {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-        else {
-          entry.target.classList.add('appear');
-          appearOnScro1l.unobserve(entry.target);
-        }
-      })
-    }, appearOptions)
-    faders.forEach(fader => {
-      appearOnScro1l.observe(fader);
-    })
-  });
-
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
@@ -387,6 +399,14 @@ function ParticularHostelDetails(props) {
 
     }
   }, [state.UsersList.statusCodeForReassinBed]);
+
+
+
+
+
+
+
+
 
 
 

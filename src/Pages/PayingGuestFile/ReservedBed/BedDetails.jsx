@@ -11,13 +11,13 @@ import { AddCircle, LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
+import UserList from "../../CustomerFile/UserList";
 
 
 function BedDetails({
     show,
     handleCloseBed,
     handleShowCheck_In,
-    MakeAsInActive, 
     currentItem
 }) {
     // const state = useSelector((state) => state);
@@ -46,17 +46,32 @@ function BedDetails({
                 }
             }, [currentItem])
 
+ 
+
+              useEffect(()=>{
+                if(state.Booking.StatusCodeInactiveCode === 200){
+                  dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room.Floor_Id, hostel_Id: currentItem?.room.Hostel_Id } })
+                  dispatch({ type: 'HOSTELLIST' })
+               
+                   setTimeout(() => {
+                        dispatch({ type: 'CLEAR_BOOKING_InActive' })
+                      }, 1000)
+              
+                }
+              
+              },[state.Booking.StatusCodeInactiveCode])
+
 
         
         
             useEffect(() => {
                 if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+                   
                     setCustomer(state.PgList.OccupiedCustomer)
                     setTimeout(() => {
                         dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
                     }, 2000)
                 }
-        
         
             }, [state.PgList.OccupiedCustomerGetStatusCode])
 
@@ -93,16 +108,29 @@ function BedDetails({
     }
 
 
+    const [makeasinactive , setMakeasInactive] = useState(false)
+    
+      const [customer_details , setCustomerDetails] = useState({})
 
     const handleMakeInActive = () => {
-        MakeAsInActive(true)
+         setMakeasInactive(true)
     }
 
+        useEffect(()=> {
+            if(customer.length > 0){
+            const selectedUser = state?.UsersList?.Users.find( item => item.User_Id === customer[0]?.User_Id)
+             console.log("selecteduser", selectedUser);
+             setCustomerDetails(selectedUser)
+        }
+             
+        },[customer , state.PgList.OccupiedCustomerGetStatusCode])
 
 
 
 
 
+ 
+  
 
 
     return (
@@ -309,6 +337,13 @@ function BedDetails({
                 </Modal>
             </div>
 
+            {
+                makeasinactive && <UserList  setMakeasInactive={setMakeasInactive} makeasinactive={makeasinactive}
+                 customer_details = {customer_details}
+                handleCloseBed = {handleCloseBed}
+                />
+            }
+
         </>
     );
 }
@@ -316,7 +351,7 @@ BedDetails.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
     handleShowCheck_In: PropTypes.func.isRequired,
-    MakeAsInActive: PropTypes.func.isRequired,
+    // MakeAsInActive: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
 
 };

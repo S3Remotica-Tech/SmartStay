@@ -52,6 +52,7 @@ import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
+import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -2116,6 +2117,28 @@ setBookingDet(userData)
       }
   
     }, [state.createAccount?.networkError])
+
+    console.log("props", props.customer_details);
+
+
+     const [bookingDate, setBookingDate] = useState(null);
+
+    useEffect(() => {
+      if(props?.makeasinactive){
+         setUserList(false);
+         setInActiveForm(true) 
+         setInactiveName(props?.customer_details)
+         setBookingId(props?.customer_details?.booking_id)
+         const bookingDateStr = props?.customer_details?.booking_booking_date; // from API
+         const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
+         setBookingDate(bookingDatevalue)
+      }
+
+    },[props.makeasinactive])
+
+    
+    
+
     const [inactivename,setInactiveName] = useState("")
  
 const[inactiveForm,setInActiveForm] = useState(false)
@@ -2128,10 +2151,14 @@ const handleInActive =(item)=>{
 setInActiveForm(true)
 setBookingId(item.booking_id)
 setInactiveName(item)
+const bookingDateStr = item?.booking_booking_date; // from API
+const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
+ setBookingDate(bookingDatevalue)
 }
 
 const handleCloseInActive =()=>{
   setInActiveForm(false)
+  props.handleCloseBed()
   setIsACtiveDateError("")
   setInActiveComments("")
   setInActiveDate("")
@@ -2197,8 +2224,42 @@ const handleBacktoCheckout = (item)=>{
   setBacktoCheckInForm(true)
 
 }
+ const [DueCustomerShow, setDueCustomerShow] = useState(false)
+   const [CheckOutDetails, setCheckOutDetails] = useState("");
 
+const handleConformCheckout =(item)=>{
+// setDueCustomerShow(true)
+setCheckOutDetails(item)
+  dispatch({
+        type: "GETCONFIRMCHECKOUTCUSTOMER",
+        payload: { id: item.ID, hostel_id: item.Hostel_Id },
+      });
+}
+  const handleCloseDuePopup = () => {
+    setDueCustomerShow(false)
+  }
+useEffect(() => {
+    if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
+      setDueCustomerShow(false)
 
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" })
+      }, 1000)
+    }
+
+  }, [state.UsersList.statusCodeAddConfirmCheckout])
+
+useEffect(() => {
+  if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
+            setDueCustomerShow(true);
+
+  }
+
+  setTimeout(() => {
+    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  }, 500);
+}, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
   return (
     <div>
@@ -3262,14 +3323,12 @@ const handleBacktoCheckout = (item)=>{
                                       >
                                         <div className="ps-2">
                                          
-                                                                                                         {/* {user.bed_status === "Booking"
-    ? user.Booking_FloorName || "-"
-    : user.floor_name || "-"} */}
-     {user.bed_status === "Booking"
-    ? (user.Booking_FloorName || "-")
-    : user.bed_status === "Check In"
-    ? (user.floor_name || "-")
-    : "-"}
+                                                                                                         
+    {user.bed_status === "Booking"
+  ? (user.Booking_FloorName || "-")
+  : user.bed_status === "Check In" || user.bed_status === "Notice period"
+  ? (user.floor_name || "-")
+  : "-"}
                                         </div>
 
                                       </td>
@@ -3577,11 +3636,11 @@ const handleBacktoCheckout = (item)=>{
                                                      <div
                                                     className="d-flex align-items-center gap-2"
                                                   
-                                                  //    onClick={() => {
-                                                  //   if (!customerAddPermission) {
-                                                  //     handleBacktoCheckout(user);
-                                                  //   }
-                                                  // }}
+                                                     onClick={() => {
+                                                    if (!customerAddPermission) {
+                                                      handleConformCheckout(user);
+                                                    }
+                                                  }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
@@ -4293,22 +4352,26 @@ const handleBacktoCheckout = (item)=>{
                         </Form.Label>
 
                         <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                            <DatePicker
-                                style={{
-                                    width: "100%",
-                                    height: 48,
-                                    cursor: "pointer",
-                                    fontFamily: "Gilroy",
-                                }}
-                                format="DD/MM/YYYY"
-                                placeholder="DD/MM/YYYY"
-                                value={inActiveDate ? dayjs(inActiveDate) : null}
-                                onChange={(date) => {
-                                    setInActiveDate(date ? date.toDate() : null);
-                                    setIsACtiveDateError("")
-                                }}
-                                getPopupContainer={() => document.body}
-                            />
+                          <DatePicker
+    style={{
+        width: "100%",
+        height: 48,
+        cursor: "pointer",
+        fontFamily: "Gilroy",
+    }}
+    format="DD/MM/YYYY"
+    placeholder="DD/MM/YYYY"
+    value={inActiveDate ? dayjs(inActiveDate) : null}
+    onChange={(date) => {
+        setInActiveDate(date ? date.toDate() : null);
+        setIsACtiveDateError("");
+    }}
+    getPopupContainer={() => document.body}
+    disabledDate={(current) => {
+        if (!bookingDate) return true; 
+        return current.isBefore(bookingDate, "day"); 
+    }}
+/>
                         </div>
                     </Form.Group>
                      {isActiveDateError && (
@@ -5785,6 +5848,9 @@ const handleBacktoCheckout = (item)=>{
       {
         add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} userDetail={userDetail} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking} bookingDet={bookingDet} />
       }
+        {
+                DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup}  />
+              }
     </div>
   );
 }
@@ -5793,5 +5859,8 @@ UserList.propTypes = {
   id: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  makeasinactive: PropTypes.func.isRequired,
+  handleCloseBed: PropTypes.func.isRequired,
+  customer_details: PropTypes.func.isRequired,
 };
 export default UserList;
