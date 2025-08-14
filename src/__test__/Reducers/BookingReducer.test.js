@@ -21,7 +21,8 @@ describe('It should be check booking reducer', () => {
             statusCodeForBedBooking: "",
             ErrorAssignBooking: "",
              ErrorAssignBookingDate: '',
-  ErrorAssignBookingMobile: ''
+  ErrorAssignBookingMobile: '',
+  StatusCodeInactiveCode:0
         }
         const action = {
             type: 'RESET_ALL',
@@ -305,6 +306,32 @@ it('it should check for  REMOVE_ALREADY_MOBILE_ERROR', () => {
 
 
 
+ it('it should check for  BOOKING_InActive', () => {
+        const action = {
+            type: 'BOOKING_InActive',
+            payload: {
+                StatusCodeInactiveCode: 200
+            }
 
+        }
+        expect(BookingReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            StatusCodeInactiveCode: 200,
+
+        })
+    })
+
+
+       it('it should check for  CLEAR_BOOKING_InActive', () => {
+        const action = {
+            type: 'CLEAR_BOOKING_InActive',
+
+        }
+        expect(BookingReducer({ ...initialState, StatusCodeInactiveCode: 200 }, action)).toStrictEqual({
+            ...initialState,
+            StatusCodeInactiveCode: 0,
+
+        })
+    })
 })
 
