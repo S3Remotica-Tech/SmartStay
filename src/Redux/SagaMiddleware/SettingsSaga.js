@@ -865,6 +865,8 @@ function* handleAddGeneralPage(action) {
    try{
    const response = yield call (AddGeneral, action.payload);
 
+console.log("General response",response)
+
    var toastStyle = {
      backgroundColor: "#E6F6E6",
      color: "black",
@@ -881,7 +883,7 @@ function* handleAddGeneralPage(action) {
     
    };
 
-   if (response.statusCode === 200){
+   if (response.status === 201){
       yield put ({type : 'SETTING_GENERAL_ADD' , payload:{response:response, statusCode: response.statusCode}})
       toast.success(`${response.message}`, {
         position: "bottom-center",
@@ -895,11 +897,11 @@ function* handleAddGeneralPage(action) {
         style: toastStyle,
      });
    }
-   else if(response.statusCode === 202) {
+   else if(response.status === 202) {
          
       yield put({ type: 'GENERAL_EMAIL_ERROR', payload: response.message });
    }
-   else if(response.statusCode === 203) {
+   else if(response.status === 203) {
      
       yield put({ type: 'MOBILE_ERROR', payload: response.message});
    }
@@ -1401,7 +1403,7 @@ function* handleGetTemplatelist(action) {
 
 function* handleAddIGlobalSettings(params) {
    const response = yield call(AddGlobalSettingTemplate, params.payload);
-   console.log("handleAddIGlobalSettings",response)
+  
  
    if (response.successCode === 200 ||  response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ADD_GLOBAL_SETTINGS', payload: { response: response.data, statusCode: response.successCode || response.statusCode , message: response.message } })
@@ -1421,7 +1423,7 @@ function* handleAddIGlobalSettings(params) {
 
 function* handleGetGlobalSetting(user) {
    const response = yield call(SettingsGetGlobal, user.payload);
-   console.log("handleGetGlobalSetting",response)
+ 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'GET_GLOBAL_SETTING', payload: { response: response.data, statusCode: response.status } })
    }

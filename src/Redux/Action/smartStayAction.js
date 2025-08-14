@@ -1,12 +1,14 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
-import config from '../../WebService/Config';
+import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
+import ConfigV1 from '../../WebService/ConfigV1';
+import ConfigV2 from "../../WebService/ConfigV2";
 import axios from 'axios'
 
 
 // v1
 
 // export async function login(EmailId, Password) {
-//   return await axios.get(`${config.apiBaseUrl}/login/login`, {
+//   return await axios.get(`${ConfigV1.apiBaseUrl}/login/login`, {
 //     params: EmailId, Password
 //   })
 // }
@@ -15,7 +17,7 @@ import axios from 'axios'
 // v2
 
 export async function login(loginInfo) {
-  return await axios.post(`${config.apiBaseUrl}/v2/users/login`,loginInfo, {
+  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/login`,loginInfo, {
    data:loginInfo
 
   });
@@ -66,7 +68,7 @@ export async function CreateAccountAction(params) {
 //  create-account api version 2
 
 export async function Addaccount (datum) {
-  return await AxiosConfig.post('/v2/users',datum,{
+  return await AxiosConfigV2.post('/v2/users',datum,{
     data:datum
   })
 }
@@ -132,11 +134,11 @@ export async function TwoStepVerification(datum) {
 //v2
 
 export async function AccountDetails() {
-   return await AxiosConfig.get('/v2/profile')
+   return await AxiosConfigV2.get('/v2/profile')
 }
 
 export async function OTPverification(datum) {
-  return await axios.post(`${config.apiBaseUrl}/otp-send/response`,datum, {
+  return await axios.post(`${ConfigV1.apiBaseUrl}/otp-send/response`,datum, {
     data: datum
   })
 } 

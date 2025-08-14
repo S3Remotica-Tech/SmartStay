@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie';
-import config from './Config';
+import ConfigV1 from './ConfigV1';
 
 
 
@@ -9,11 +9,10 @@ const cookies = new Cookies();
 
 
 const AxiosConfig = axios.create({
-    baseURL: config.apiBaseUrl,
+    baseURL: ConfigV1.apiBaseUrl,
 headers: {
   'Content-Type': 'application/json',
-    // 'Access-Control-Allow-Origin' : '*'
-}
+   }
 })
 AxiosConfig.interceptors.request.use(
   (config) => {
@@ -22,6 +21,7 @@ AxiosConfig.interceptors.request.use(
       if (token) {
           config.headers['Authorization'] = `Bearer ${token}`;
       }
+      
       return config;
   },
   (error) => {

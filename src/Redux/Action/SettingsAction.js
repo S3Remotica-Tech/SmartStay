@@ -1,4 +1,5 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
+import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export async function AddExpencesCategory(Expences) {
   return await AxiosConfig.post("/add/expense-category", Expences, {
@@ -146,43 +147,36 @@ export async function GetAllReport() {
 // }
 
 
-// v2
 
 export async function AddGeneral(params) {
-  const formData = new FormData();
-  if (params.firstName) formData.append("firstName", params.firstName);
-  if (params.lastName) formData.append("lastName", params.lastName);
-  if (params.mobile) formData.append("mobile", params.mobile);
-  if (params.mailId) formData.append("mailId", params.mailId);
-  if (params.password) formData.append("password", params.password);
-  if (params.houseNo) formData.append("houseNo", params.houseNo);
-  if (params.street) formData.append("area", params.street)
-  if (params.landmark) formData.append("landmark", params.landmark)
-  if (params.city) formData.append("city", params.city)
-  if (params.pincode) formData.append("pincode", params.pincode)
-  if (params.state) formData.append("state", params.state)
-  if (params.profilePic) formData.append("profilePic", params.profilePic);
-  if (params.id) formData.append("id", params.id);
-
   try {
-    const response = await AxiosConfig.post(
+    const formData = new FormData();
+
+    if (params.accountInfo) {
+            const accountInfoBlob = new Blob(
+        [JSON.stringify(params.accountInfo)],
+        { type: "application/json" }
+      );
+      formData.append("accountInfo", accountInfoBlob);
+    }
+
+    if (params.profilePic) {
+      formData.append("profilePic", params.profilePic);
+    }
+
+    const response = await AxiosConfigV2.post(
       "/v2/profile/add-admin",
       formData,
-      {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-        timeout: 100000000,
-        onUploadProgress: (event) => {
-          console.log("event", event);
-        },
-      }
+      { headers: { "Content-Type": "multipart/form-data" } }
     );
+
     return response.data;
   } catch (error) {
     console.error("Axios Error", error);
   }
 }
+
+
 
 export async function GetAllGeneral() {
   return await AxiosConfig.get("/settings/all_general_users", {});

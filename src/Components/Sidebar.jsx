@@ -185,13 +185,13 @@ function Sidebar() {
 
   useEffect(() => {
     if (stateData.statusCodeForAccountList === 200) {
-      const loginInfo = stateData.accountList[0].user_details;
+      const loginInfo = stateData.accountList;
 
       if (loginInfo) {
-        const LoginId = loginInfo.id;
+        const LoginId = loginInfo.userId;
         const phoneId = loginInfo.mobileNo;
-        const emilidd = loginInfo.email_Id;
-        const Is_Enable = loginInfo.isEnable;
+        const emilidd = loginInfo.mailId;
+        const Is_Enable = loginInfo?.two_step_verification_status;
 
         const encryptedLoginId = CryptoJS.AES.encrypt(
           LoginId.toString(),
@@ -239,13 +239,13 @@ function Sidebar() {
   const [profilename, setProfileArray] = useState("");
 
   useEffect(() => {
-    if (stateData.accountList.length > 0) {
+    if (stateData.accountList) {
       try {
-        const FilteredProfile = stateData.accountList[0]?.user_details;
+        const FilteredProfile = stateData.accountList;
 
-        const profilePictures = FilteredProfile.profile;
+        const profilePictures = FilteredProfile?.profilePic;
 
-        const profileName = FilteredProfile.first_name;
+        const profileName = FilteredProfile?.firstName;
         setProfiles(profilePictures);
         setProfileArray(profileName);
       } catch (error) {

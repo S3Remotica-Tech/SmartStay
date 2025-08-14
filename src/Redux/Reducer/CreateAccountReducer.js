@@ -56,7 +56,7 @@ const CreateAccountReducer = (state = initialState, action) => {
       case 'CLEAR_STATUS_CODE_TWO_STEP':
          return { ...state, statusCodeTwo: 0 }
       case 'ACCOUNT_DETAILS':
-         return { ...state, accountList: [action.payload.response], statusCodeForAccountList: action.payload.statusCode }
+         return { ...state, accountList: action.payload.response, statusCodeForAccountList: action.payload.statusCode }
 
       case 'CLEAR_ACCOUNT_STATUS_CODE':
          return { ...state, statusCodeForAccountList: 0 }

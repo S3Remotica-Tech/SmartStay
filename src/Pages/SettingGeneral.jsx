@@ -38,6 +38,9 @@ function SettingGeneral() {
 
   const [showFormGeneral, setShowFormGeneral] = useState(false);
   const [file, setFile] = useState(null);
+
+
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [countryCode, setCountryCode] = useState("91");
@@ -145,7 +148,7 @@ function SettingGeneral() {
     setNewPassword(e.target.value);
     setNewPassError("")
 
-    
+
     const hasUppercase = /[A-Z]/.test(newPassword);
     const hasNumber = /[0-9]/.test(newPassword);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
@@ -162,7 +165,7 @@ function SettingGeneral() {
     setConfirmPassword(e.target.value);
     setConformPasswordError("")
 
-     
+
     const hasUppercase = /[A-Z]/.test(ConfirmPassword);
     const hasNumber = /[0-9]/.test(ConfirmPassword);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(ConfirmPassword);
@@ -352,7 +355,7 @@ function SettingGeneral() {
       setPhoneError("");
     } else {
       setPhoneError("Please Enter Valid Mobile Number");
-       setFormError("");
+      setFormError("");
     }
 
     setPhoneErrorMessage("");
@@ -412,13 +415,13 @@ function SettingGeneral() {
       return;
     }
 
-     setFormError("");
+    setFormError("");
     setPincode(value);
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
-       setFormError("");
+      setFormError("");
     }
 
 
@@ -440,7 +443,7 @@ function SettingGeneral() {
     const newPassword = e.target.value;
     setPassword(newPassword);
     setPasswordError("");
-   
+
 
     const hasUppercase = /[A-Z]/.test(newPassword);
     const hasNumber = /[0-9]/.test(newPassword);
@@ -457,7 +460,7 @@ function SettingGeneral() {
   };
 
 
-  const MobileNumber = `${countryCode}${Phone}`;
+  const MobileNumber = `${Phone}`;
 
   const handleEditGeneralUser = (user) => {
 
@@ -559,6 +562,7 @@ function SettingGeneral() {
   const handleSave = () => {
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
     dispatch({ type: 'CLEAR_MOBILE_ERROR' })
+
     let hasError = false;
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     const normalize = (v) => (v ?? "");
@@ -583,23 +587,23 @@ function SettingGeneral() {
 
 
 
-     if (!edit) {
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    if (!edit) {
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-      setPasswordError("Password must include a capital letter, a number, and a special character.");
-      hasError = true;
-    } else {
-      setPasswordError("");
+      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+        setPasswordError("Password must include a capital letter, a number, and a special character.");
+        hasError = true;
+      } else {
+        setPasswordError("");
+      }
     }
-  }
 
-    if(!pincode){
-    setPincodeError("Please Enter Pincode");
-}
-    else if(!/^\d{6}$/.test(pincode)) {
+    if (!pincode) {
+      setPincodeError("Please Enter Pincode");
+    }
+    else if (!/^\d{6}$/.test(pincode)) {
 
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
       hasError = true;
@@ -618,31 +622,35 @@ function SettingGeneral() {
 
 
 
-    if (hasError || validations.includes(false) || !isValidEmail(emilId)) return;
+    if (hasError || validations.includes(false) || !isValidEmail(emilId)) {
+           return;
+    }
+
+
 
 
     const payload = {
-       accountInfo: {
-      firstNam: firstName,
-      lastName: lastName,
-      mobile: normalizedPhoneNumber,
-      mailId: emilId,
-      houseNo: house_no,
-      street: street,
-      landmark: landmark,
-      city,
-      pincode: pincode,
-      state: state_name
-       },
+      accountInfo: {
+        firstName: firstName,
+        lastName: lastName,
+        mobile: normalizedPhoneNumber,
+        mailId: emilId,
+        houseNo: house_no,
+        street: street,
+        landmark: landmark,
+        city: city,
+        pincode: pincode,
+        state: state_name
+      },
       profilePic: file,
     };
-   if (!edit) payload.accountInfo.password = password;
-if (edit && editId) payload.accountInfo.id = editId;
+    if (!edit) payload.accountInfo.password = password;
+    if (edit && editId) payload.accountInfo.id = editId;
 
-console.log("payload",payload)
 
-         
+
     if (edit && editId) {
+
       const isChanged =
         firstName !== initialStateAssign.firstName ||
         Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
@@ -657,14 +665,15 @@ console.log("payload",payload)
         file !== initialStateAssign.file ||
         (!file && initialStateAssign.file);
 
-  
-        
 
-      if (!isChanged) { setFormError("No Changes Detected"); return; }
+
+
+      if (!isChanged) { 
+                 setFormError("No Changes Detected"); 
+        return; }
       setFormError("");
-    }
-
-    dispatch({ type: "ADDGENERALSETTING", payload });
+    } 
+       dispatch({ type: "ADDGENERALSETTING", payload: payload });
     setFormLoading(true)
   };
 
@@ -737,7 +746,7 @@ console.log("payload",payload)
 
 
   useEffect(() => {
-    if (state.Settings?.StatusCodeForSettingGeneral === 200) {
+    if (state.Settings?.StatusCodeForSettingGeneral === 201) {
       setFormLoading(false)
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
@@ -966,7 +975,7 @@ console.log("payload",payload)
       <div className="container show-scrolls mt-0" style={{
         position: "relative",
         overflowY: "auto",
-        maxHeight:500,
+        maxHeight: 500,
       }}>
 
         {loading &&
@@ -1012,8 +1021,8 @@ console.log("payload",payload)
                 className="card p-3 settingGreneral mt-2"
                 style={{
                   borderRadius: 16,
-                  height:230,
-                  overflow:'hidden'
+                  height: 230,
+                  overflow: 'hidden'
                 }}
                 key={item.id}
               >
@@ -1238,21 +1247,21 @@ console.log("payload",payload)
                     >
                       Address
                     </p>
-                  <p
-  style={{
-    fontSize: 16,
-    fontFamily: "Gilroy",
-    fontWeight: 600,
-  }}
->
-  {(item.Address ? item.Address : '') +
-    (item.area ? ' ' + item.area : '') +
-    (item.landmark ? ', ' + item.landmark : '')}
-  <br />
-  {(item.city ? item.city + ', ' : '') +
-    (item.state ? item.state + ' ' : '') +
-    (item.pin_code ? item.pin_code : '')}
-</p>
+                    <p
+                      style={{
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {(item.Address ? item.Address : '') +
+                        (item.area ? ' ' + item.area : '') +
+                        (item.landmark ? ', ' + item.landmark : '')}
+                      <br />
+                      {(item.city ? item.city + ', ' : '') +
+                        (item.state ? item.state + ' ' : '') +
+                        (item.pin_code ? item.pin_code : '')}
+                    </p>
 
                   </div>
 
@@ -1303,7 +1312,7 @@ console.log("payload",payload)
 
       {generalFilterddata?.length > 2 && (
         <nav
-           style={{
+          style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
@@ -1311,11 +1320,11 @@ console.log("payload",payload)
             position: "sticky",
             bottom: "0px",
             right: "0px",
-            left:0,
+            left: 0,
             backgroundColor: "#fff",
             borderRadius: "5px",
             zIndex: 1000,
-                      }}
+          }}
 
         >
 
@@ -1703,7 +1712,7 @@ console.log("payload",payload)
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
                 </div>
               )}
-              
+
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">

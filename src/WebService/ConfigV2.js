@@ -1,5 +1,5 @@
-const config = {
-     apiBaseUrl: import.meta.env.VITE_API_URL
+const ConfigV2 = {
+     apiBaseUrl: import.meta.env.VITE_V2_API_URL
     //  apiBaseUrl: "https://smartstaytestingapi.s3remotica.com",
     // apiBaseUrl: "http://localhost:2001",
 
@@ -7,7 +7,7 @@ const config = {
     // apiBaseUrl: "https://smartstaydevapi.s3remotica.com",
 };
  
-export default config;
+export default ConfigV2;
 
 
 
