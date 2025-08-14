@@ -3474,13 +3474,61 @@ describe('it should check userList reducers', () => {
 
 
 
+   it('it should check UNASSIGN_CUSTOMER', () => {
+        const action = {
+            type: 'UNASSIGN_CUSTOMER',
+            payload: {
+                response: [],
+                statusCode: 200,
+            },
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            ...initialState,
+            UnAssignCustomerDetails: action.payload,
+            statusCodeForUnAssignCustomer: 200,
+        });
+    });
+
+    it('it should check REMOVE_UNASSIGN_CUSTOMER', () => {
+        const action = {
+            type: 'REMOVE_UNASSIGN_CUSTOMER',
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            ...initialState,
+            statusCodeForUnAssignCustomer: 0,
+        });
+    });
 
 
 
 
 
+it('it should check BACK_TO_CHECKIN_USER', () => {
+        const action = {
+            type: 'BACK_TO_CHECKIN_USER',
+            payload: {
+                statusCode: 200
+            }
+        };
 
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            ...initialState,
+            StatusCodeBacktoCheckin: 200
+        });
+    });
 
+    it('it should check CLEAR_BACK_TO_CHECKIN_USER', () => {
+        const action = {
+            type: 'CLEAR_BACK_TO_CHECKIN_USER'
+        };
+
+        expect(UserListReducer(initialState, action)).toStrictEqual({
+            ...initialState,
+            StatusCodeBacktoCheckin: 0
+        });
+    });
 
 
 
