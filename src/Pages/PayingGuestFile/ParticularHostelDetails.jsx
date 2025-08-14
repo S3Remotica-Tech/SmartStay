@@ -22,9 +22,6 @@ import Select from "react-select";
 // import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
-import orangedot from "../../Assets/Images/New_images/orangedot.png";
-import reddot from "../../Assets/Images/New_images/reddot.png";
-import bluedot from "../../Assets/Images/New_images/bluedot.png";
 import EmptyBed from './EmptyBed';
 import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
@@ -32,6 +29,10 @@ import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
 import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
 // import BedStatusCard from './NoticePeriod/BedStatus';
 import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
+import BookingBed from './NoticePeriod/BookingBed';
+import AddCustomer from './AddCustomerPG';
+import PGAssignTenant from './PGAssignTenant';
+import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 
 
 
@@ -53,7 +54,8 @@ console.log("ParticularHostelDetails",state)
   const [showInactive, setShowInActive] = useState(false)
   const [Occubied_bed , setOccubiedBed] = useState(false)
   const [Noticeperiod_bed , setNoticePeriodBed] = useState(false)
-
+  const [Noticeperiod_booking , setNoticePeriodBooking] = useState(false)
+  const [Noticeperiod_checkout , setNoticePeriodCheckout] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -92,41 +94,48 @@ console.log("ParticularHostelDetails",state)
     if (props.floorID && props.hostel_Id) {
       setLoader(true)
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-    } else {
+    }
+     else {
       setLoader(false)
     }
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
 
-
+  console.log("props", loader , state.PgList.roomCountStatusCode);
+  
 
 
   useEffect(() => {
-    if (state.PgList.roomCountStatusCode === 200) {
-      setLoader(false)
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 100)
+    if (state?.PgList?.roomCountStatusCode === 200) {
+   
+    
       setRoomCountData(state.PgList?.roomCount);
+
+        setTimeout(() => {
+        setLoaderTrigger(false)
+      }, 500)
       setTimeout(() => {
+        setLoader(false)
         dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
       }, 500);
     }
-  }, [state.PgList?.roomCountStatusCode])
+  }, [state?.PgList?.roomCountStatusCode])
 
 
 
 
   useEffect(() => {
     if (state.PgList?.noRoomsInFloorStatusCode === 201) {
-      setLoader(false)
+   
+      setRoomCountData([])
       setTimeout(() => {
         setLoaderTrigger(false)
       }, 100)
-      setRoomCountData([])
+   
       setTimeout(() => {
+        setLoader(false)
         dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
-      }, 100);
+      }, 200);
     }
 
   }, [state.PgList?.noRoomsInFloorStatusCode])
@@ -313,7 +322,10 @@ console.log("ParticularHostelDetails",state)
   const [showDeleteBed, setShowDeleteBed] = useState(false)
   const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
 
-
+  const handleShowBed = () => {
+    setShowDeleteBed(true)
+    setEmptyBed(false)
+  }
 
   const handleCloseDeleteBed = () => {
     setShowDeleteBed(false)
@@ -438,6 +450,7 @@ console.log("noticeperiod", Noticeperiod_bed);
 
   const handleCloseCheck_In = () => {
     setShowCheckIn(false)
+  
   }
 
 
@@ -458,8 +471,48 @@ console.log("noticeperiod", Noticeperiod_bed);
     setNoticePeriodBed(false)
   }
 
+  const handleshowNoticePeriodBooking = () => {
+       setNoticePeriodBooking(true)
+       setNoticePeriodBed(false)
+  }
+
+  const handlecloseNoticeperiodBooking = () => {
+        setNoticePeriodBooking(false)
+  }
+
+    const handleshowNoticePeriodCheckout = () => {
+       setNoticePeriodCheckout(true)
+       setNoticePeriodBed(false)
+  }
+
+  const handlecloseNoticeperiodCheckout = () => {
+        setNoticePeriodCheckout(false)
+  }
   
 
+    const [add_customerform, setAddCustomerForm] = useState(false)
+    const [assign_tenantform, setAssignTenantForm] = useState(false)
+
+      const handleShowAddCustomer = () => {
+            setAddCustomerForm(true)
+            setEmptyBed(false)
+      }
+  
+      const handleCloseAddCustomer = () => {
+          setAddCustomerForm(false)
+      }
+
+      const handleShowAssignTenant = () => {
+          setAssignTenantForm(true)
+          setEmptyBed(false)
+      }
+
+      const handleCloseAssignTenant = () => {
+        setAssignTenantForm(false)
+      }
+
+  console.log("bookingshow" , Noticeperiod_booking , Noticeperiod_bed);
+  
 
 
 
@@ -521,7 +574,7 @@ console.log("noticeperiod", Noticeperiod_bed);
             </div>
 
           
-            <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
+            {/* <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
               <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
                 <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overdue
               </p>
@@ -532,7 +585,7 @@ console.log("noticeperiod", Noticeperiod_bed);
                 <img className="me-1 mb-1" src={reddot} alt="notice" /> No Notice Period
               </p>
            
-            </div>
+            </div> */}
 
          
             <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
@@ -609,8 +662,12 @@ console.log("noticeperiod", Noticeperiod_bed);
           <Card.Body>
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
               {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details.map((bed) => (
-                <div key={bed.id} className='col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center'>
-                  <div className='d-flex flex-column align-items-center w-100'>
+                <div key={bed.id} className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center  ${props.addPermissionError ? 'disabled' : ''}`}
+                       
+                >
+                  <div className='d-flex flex-column align-items-center w-100'
+                   style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
+                  >
                     <div style={{ position: "relative", width: 34, height: 41 }}>
                        {bed.isbooked === 1 ? (
       <img
@@ -622,6 +679,7 @@ console.log("noticeperiod", Noticeperiod_bed);
           position: "absolute",
           top: 1,
           right: -10,
+          cursor: props.addPermissionError ? 'not-allowed' : 'pointer'
         }}
         className="me-1 mb-1"
       />
@@ -637,6 +695,7 @@ console.log("noticeperiod", Noticeperiod_bed);
           position: "absolute",
           top: 1,
           right: -10,
+           cursor: props.addPermissionError ? 'not-allowed' : 'pointer'
         }}
         className="me-1 mb-1"
       />
@@ -647,8 +706,12 @@ console.log("noticeperiod", Noticeperiod_bed);
                         <img className='mt-1'
                           src={bed.isfilled ? Green : White}
                           alt='bedd'
-                          style={{ height: 41, width: 34, cursor: "pointer" }}
-                          onClick={() => handleclickBed(bed, room)}
+                          style={{ height: 41, width: 34, cursor: "pointer",  cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
+                           onClick={() => {
+                  if (!props.addPermissionError) {
+                    handleclickBed(bed, room)
+                  }
+                }}
                         />
                      
                     </div>
@@ -906,10 +969,25 @@ console.log("noticeperiod", Noticeperiod_bed);
         }
 
         {
-          emptybed && <EmptyBed  show= {emptybed} handleClose={handlecloseBed} currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails} />
+          emptybed && <EmptyBed  show= {emptybed} handleClose={handlecloseBed} 
+          currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails} 
+             showbed = {handleShowBed}
+             showcustomer ={handleShowAddCustomer}
+             showtenant = {handleShowAssignTenant}
+          />
         }
 
       </div>
+
+       {
+        add_customerform && <AddCustomer  show={add_customerform} handleClose={handleCloseAddCustomer}/>
+       }
+
+      {
+         assign_tenantform && <PGAssignTenant  show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem = {OccupiedCustomerDetails} 
+   
+         />
+       }
 
       {/* Reserved Bed */}
       {
@@ -934,10 +1012,24 @@ console.log("noticeperiod", Noticeperiod_bed);
     handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} />
       }
 
+      {/* Notice period  */}
     {
         Noticeperiod_bed && <NoticeBedStatusDetails    show={Noticeperiod_bed}
-      handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} />
+      handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} 
+      showBooking = {handleshowNoticePeriodBooking} showNoticeperiodCheckout = {handleshowNoticePeriodCheckout}
+      />
+
       }
+
+      {
+        Noticeperiod_booking && <BookingBed show={Noticeperiod_booking}  handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails} />
+      }
+
+      {
+        Noticeperiod_checkout && <CheckoutTenant show ={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout} currentItem={OccupiedCustomerDetails} />
+      }
+
+ 
 
 
 

@@ -7,34 +7,31 @@ import PropTypes from "prop-types";
 import AddSquare from '../../Assets/Images/add-square.png'
 import AssignTenant from '../../Assets/Images/assign_tenant.png'
 import DeleteImage from '../../Assets/Images/Delete_red.png'
-import DeleteBed from './DeleteBed';
-import PGAssignTenant from './PGAssignTenant';
-import AddCustomer from './AddCustomerPG';
 
 
 
 
-function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
+
+function EmptyBed ({ show, handleClose   , showbed  , showcustomer , showtenant}) {
 
 
        const state = useSelector((state) => state);
        const dispatch = useDispatch
 
-    const [assign_tenantform, setAssignTenantForm] = useState(false)
-    const [add_customerform, setAddCustomerForm] = useState(false)
-    const [advanceform , setAdvanceForm] = useState(false)
-    const [showDeleteBed, setShowDeleteBed] = useState(false)
 
+    const handleShowAddCustomer = () => {
+      showcustomer(true)
+     }
 
-  const handleDeleteBed = () => {
-      setShowDeleteBed(true)
-  }
+     const handleShowAssignTenant = () => {
+       showtenant(true)
+     }
 
-   const handleCloseDeleteBed = () => {
-    setShowDeleteBed(false)
-  }
+     const handleDeleteBed = () => {
+      showbed(true)
+     }
 
-
+ 
     useEffect(() => {
         const closeButton = document.querySelector('button[aria-label="close-button"]');
         if (closeButton) {
@@ -47,38 +44,6 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
         }
     }, []);
 
-    const handleShowAssignTenant = () => {
-          setAssignTenantForm(true)
-    }
-
-    const handleCloseAssignTenant = () => {
-        setAssignTenantForm(false)
-    }
-
-    const handleshowAdvanceForm = () => {
-        setAdvanceForm(true)
-    }
- 
-
-    const handleCloseAdvanceForm = () => {
-        setAdvanceForm(false)
-    }
-
-    const openAdvanceAndCloseTenant = () => {
-  setAdvanceForm(true);
-  setAssignTenantForm(false);
-};
-
-
-
-
-    const handleShowAddCustomer = () => {
-          setAddCustomerForm(true)
-    }
-
-    const handleCloseAddCustomer = () => {
-        setAddCustomerForm(false)
-    }
 
 
      useEffect(() => {
@@ -146,25 +111,25 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
   <Modal.Body className="px-4 pb-4">
     <div className="d-flex flex-column gap-3">
 
-      <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }} >
+      <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }} onClick={handleShowAddCustomer}>
         <span style={{ fontSize: 14, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
           Add Customer
         </span>
-        <img src={AddSquare} height={20} width={20} color="#1E45E1" alt='addcustomer' onClick={handleShowAddCustomer}/>
+        <img src={AddSquare} height={20} width={20} color="#1E45E1" alt='addcustomer' />
       </div>
 
-      <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }} >
+      <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }} onClick={handleShowAssignTenant}>
         <span style={{ fontSize: 14, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
           Assign Tenant
         </span>
-        <img src={AssignTenant} color="#1E45E1" alt='assign_tenant' onClick={handleShowAssignTenant}/>
+        <img src={AssignTenant} color="#1E45E1" alt='assign_tenant' />
       </div>
 
-      <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }} >
+      <div className="d-flex justify-content-between align-items-center" style={{ cursor: "pointer" }} onClick={handleDeleteBed}>
         <span style={{ fontSize: 14, color: "#FF0000", fontFamily: "Gilroy", fontWeight: 400 }}>
           Delete
         </span>
-       <img src={DeleteImage} height={20} width={20} color="#FF0000" alt='deleteicon' onClick={handleDeleteBed}/>
+       <img src={DeleteImage} height={20} width={20} color="#FF0000" alt='deleteicon' />
       </div>
 
     </div>
@@ -177,26 +142,6 @@ function EmptyBed ({ show, handleClose , currentItem , deleteBedDetails }) {
 
         
 
-       {
-         showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
-       }
-
-       {
-         assign_tenantform && <PGAssignTenant  show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem = {currentItem} advanceform = {advanceform} 
-         handleshowAdvanceForm = {handleshowAdvanceForm}
-         handleCloseAdvanceForm={handleCloseAdvanceForm}
-         openAdvanceAndCloseTenant={openAdvanceAndCloseTenant} 
-         
-         />
-       }   
-
-       {
-        add_customerform && <AddCustomer  show={add_customerform} handleClose={handleCloseAddCustomer}/>
-       }
-    
-         
-
-
         </>
     )
 }
@@ -204,6 +149,7 @@ EmptyBed.propTypes = {
     show: PropTypes.func.isRequired,
     handleClose: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
-    deleteBedDetails: PropTypes.func.isRequired
+    showbed:  PropTypes.func.isRequired,
+    showtenant:  PropTypes.func.isRequired,
 }
 export default EmptyBed

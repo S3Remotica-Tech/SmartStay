@@ -20,7 +20,9 @@ import UserlistForm from "../../CustomerFile/UserlistForm";
 function NoticeBedStatusDetails({
     show,
     handleCloseBed,
-    currentItem
+    currentItem,
+    showBooking,
+    showNoticeperiodCheckout
 }) {
     // const state = useSelector((state) => state);
     // const dispatch = useDispatch();
@@ -170,8 +172,13 @@ function NoticeBedStatusDetails({
 
 
 
-
-
+  const handleNewBooking = () => {
+       showBooking(true)    
+  }
+ 
+  const handleCheckout = () => {
+       showNoticeperiodCheckout(true)
+  }
 
 
 
@@ -291,7 +298,7 @@ function NoticeBedStatusDetails({
 
                       <div
                         className="d-flex gap-2 align-items-center"
-                        // onClick={() => handleNewBooking()}
+                        onClick={() => handleNewBooking()}
 
                         style={{
                           padding: "10px",
@@ -309,7 +316,7 @@ function NoticeBedStatusDetails({
 
                       <div
                         className="d-flex gap-2 align-items-center"
-                        // onClick={() => handleCheckout()}
+                        onClick={() => handleCheckout()}
 
                         style={{
                           padding: "10px",
@@ -397,6 +404,7 @@ NoticeBedStatusDetails.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
+    showNoticeperiodCheckout: PropTypes.func.isRequired,
 
 };
 export default NoticeBedStatusDetails;

@@ -9,11 +9,13 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
-import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
+// import addcircle from "../../Assets/Images/New_images/add-circle.png";
+// import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 
 
-function CheckoutTenant(props) {
+function CheckoutTenant({show , handleClose ,
+  currentItem
+}) {
 
   const [checkoutDate, setCheckoutDate] = useState(null);
   const [AdvanceAmount, setAdvanceAmount] = useState("");
@@ -36,19 +38,19 @@ function CheckoutTenant(props) {
     setAdvanceAmount(advanceAmount);
   };
 
-  const handleCloseAssign = () => {
-    props.setShowAssignMenu(false);
-    props.setShowForm(false);
-    props.OnShowTable(true);
-    if (props.edit === "Edit") {
-      props.OnShowTable(true);
-    } else {
-      props.setRoomDetail(false);
-    }
-  }
+  // const handleCloseAssign = () => {
+  //   props.setShowAssignMenu(false);
+  //   props.setShowForm(false);
+  //   props.OnShowTable(true);
+  //   if (props.edit === "Edit") {
+  //     props.OnShowTable(true);
+  //   } else {
+  //     props.setRoomDetail(false);
+  //   }
+  // }
 
 
-  useEffect(() => { }, [props.showMenu]);
+  // useEffect(() => { }, [props.showMenu]);
 
   const handleAddField = () => {
     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
@@ -93,8 +95,8 @@ function CheckoutTenant(props) {
   return (
     <div>
       <Modal
-        show={props.showAssignMenu}
-        onHide={handleCloseAssign}
+        show={show}
+        onHide={handleClose}
         backdrop="static"
         centered
       >
@@ -135,7 +137,7 @@ function CheckoutTenant(props) {
                     <CloseCircle
                       size="24"
                       color="#000"
-                      onClick={handleCloseAssign}
+                      onClick={handleClose}
                       style={{ cursor: "pointer" }}
                     />
                   </div>
@@ -144,20 +146,20 @@ function CheckoutTenant(props) {
                     className="text-primary"
                     style={{ fontSize: "13px", color: "#1E45E1", fontWeight: 600, fontFamily: "Gilroy" }}
                   >
-                    Room No G3 &nbsp; | &nbsp; Bed 9
+                    Room No {currentItem?.room.Room_Name} &nbsp; | &nbsp; Bed {currentItem?.bed.bed_no}
                   </span>
                 </Modal.Header>
 
 
 
                 <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-                  <img
+                  {/* <img
                     src={Profileimage}
                     alt="Profile"
                     className="rounded-circle"
                     width="40"
                     height="40"
-                  />
+                  /> */}
                   <div>
                     <p className="mb-1"
                       style={{ fontWeight: 600, fontSize: "14px", marginBottom: "4px", color: "#1B1B1B" }}>
@@ -307,7 +309,7 @@ function CheckoutTenant(props) {
                             marginBottom: 0,
                           }}
                         >
-                          <img
+                          {/* <img
                             src={addcircle}
                             alt="Assign Bed"
                             style={{
@@ -315,7 +317,7 @@ function CheckoutTenant(props) {
                               width: 16,
                               filter: "brightness(0) invert(1)",
                             }}
-                          />
+                          /> */}
                           Add
                         </Button>
                       </div>
@@ -535,7 +537,7 @@ function CheckoutTenant(props) {
                       fontFamily: "Montserrat",
                       cursor: "pointer",
                     }}
-                    onClick={handleCloseAssign}
+                    onClick={handleClose}
                   >
                     Cancel
                   </button>
@@ -577,23 +579,8 @@ function CheckoutTenant(props) {
 }
 
 CheckoutTenant.propTypes = {
-  setRoomDetail: PropTypes.func.isRequired,
-  setUserClicked: PropTypes.func.isRequired,
-  setShowMenu: PropTypes.func.isRequired,
-  setShowForm: PropTypes.func.isRequired,
-  OnShowTable: PropTypes.func.isRequired,
-  setEdit: PropTypes.func.isRequired,
-  edit: PropTypes.func.isRequired,
-  AfterEditFloors: PropTypes.func.isRequired,
-  AfterEditRoomses: PropTypes.func.isRequired,
-  AfterEditBeds: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
-  displayDetail: PropTypes.func.isRequired,
-  showMenu: PropTypes.func.isRequired,
-  advanceForm: PropTypes.func.isRequired,
-  setAdvanceForm: PropTypes.func.isRequired,
-  setShowAssignMenu: PropTypes.func.isRequired,
-  showAssignMenu: PropTypes.func.isRequired,
+    handleCloseBed: PropTypes.func.isRequired,
+    show: PropTypes.func.isRequired,
+    currentItem: PropTypes.func.isRequired,
 };
 export default CheckoutTenant;

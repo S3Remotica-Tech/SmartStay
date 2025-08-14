@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, FormControl } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useState ,useRef , useEffect} from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,38 +10,246 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
+import { MdError } from "react-icons/md";
 
-function BookingBed(props) {
-  const [tenant, setTenant] = useState("");
-  const [bookingDate, setBookingDate] = useState(null);
-  const [bookingAmount, setBookingAmount] = useState(null);
-  const [joiningDate, setJoiningDate] = useState(null);
+function BookingBed({
+  show, handleClose , currentItem
+}) 
+{
+ 
+     const state = useSelector(state => state)
+     const dispatch = useDispatch();
 
-  const handleBookingDate = (date) => setBookingDate(date);
-  const handleJoiningDate = (date) => setJoiningDate(date);
 
-  const handleBookingAmount = (e) => {
-    const value = e.target.value;
-    if (!/^\d*$/.test(value)) return;
-    setBookingAmount(value);
-  };
+    const bookingcustomerRef = useRef();
+    const dateRef = useRef();
+    const amountRef = useRef();
+    const bookingDateRef = useRef();
 
-  const handleCloseAssign = () => {
-    props.setShowAssignMenu(false);
-    props.setShowForm(false);
-    props.OnShowTable(true);
-    if (props.edit === "Edit") {
-      props.OnShowTable(true);
+     const [amount, setAmount] = useState("");
+     const [amountError, setamountError] = useState("");
+     const [joiningDate, setJoiningDate] = useState(null);
+     const [bookingDate, setBookingDate] = useState(null);
+     const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
+     const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
+     const [formLoading, setFormLoading] = useState(false)
+     const [dateError, setDateError] = useState("");
+
+    const [booking_customername, setBookingCustomerName] = useState("");
+    const [booking_customererrmsg, setBookingCustomerErrmsg] = useState("");
+    const [customer_details , setCustomerDetails] = useState({})
+
+  
+
+          useEffect(() => {
+
+        const usersList = state?.UsersList?.Users;
+        const userDetails = state?.PgList?.OccupiedCustomer; 
+        
+        if (
+            Array.isArray(usersList) &&
+            Array.isArray(userDetails) &&
+            usersList.length > 0 &&
+            userDetails.length > 0
+        ) {
+            const targetUserId = userDetails[0]?.User_Id?.trim()?.toLowerCase();
+    
+            const foundCustomer = usersList.find(
+                (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
+            );
+    
+            setCustomerDetails(foundCustomer || null);
+        }
+    }, [state?.UsersList?.Users , state?.PgList?.OccupiedCustomer]);
+
+
+      useEffect(() => {
+              if(customer_details){
+                setBookingCustomerName(customer_details.ID)
+              }
+      },[customer_details])
+
+      console.log("customer", customer_details);
+      
+
+     
+         const handleBookingCustomerName = (selectedOption) => {
+     
+         setBookingCustomerName(selectedOption?.value || '');
+         if (!selectedOption) {
+           setBookingCustomerErrmsg("Please Select Name");
+         } else {
+           setBookingCustomerErrmsg("");
+         }
+       };
+
+      const handleAmount = (e) => {
+      const newAmount = e.target.value;
+      if (!/^\d*$/.test(newAmount)) {
+        return;
+      }
+      setAmount(newAmount);
+      setamountError("");
+    };
+
+
+     const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
+    if (!value || value === "Select a PG") {
+
+      switch (fieldName) {
+          case "bookingcustomername":
+          setError("Please Select Customer");
+          break;
+        case "joiningDate":
+          setError("Please Select Joining Date");
+          break;
+        case "bookingDate":
+          setError("Please Select Booking Date");
+          break;
+        case "amount":
+          setError("Please Enter Amount");
+          break;
+
+
+
+
+       
+        default:
+          break;
+      }
+
+
+      if (ref?.current && !focusedRef.current) {
+        ref.current.focus();
+        focusedRef.current = true;
+      }
+      return false;
     } else {
-      props.setRoomDetail(false);
+      setError("");
+      return true;
     }
   };
+
+       const handleSubmitBooking = () => {
+    
+        let hasError = false;
+        const focusedRef = { current: false };
+        const isCustomerValid = validateAssignField(booking_customername, "bookingcustomername", bookingcustomerRef, setBookingCustomerErrmsg, focusedRef);
+        const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
+        const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
+        const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
+    
+      
+    
+        if (!bookingDate) {
+          if (!focusedRef.current && bookingDateRef?.current) {
+            bookingDateRef.current.focus();
+            focusedRef.current = true;
+          }
+          hasError = true;
+        }
+       
+        if (hasError) return;
+        if (
+          !isCustomerValid ||
+          !isJoiningDateValid ||
+          !isAmountValid ||
+          !isBookingDateValid
+        ) {
+          return;
+        }
+    
+    
+    
+        let formattedDate = null;
+         let bookingFormattedDate = null;
+        try {
+          const date = new Date(joiningDate);
+          date.setDate(date.getDate() + 1);
+          formattedDate = date.toISOString().split("T")[0];
+        } catch (error) {
+          console.error("Error formatting date:", error);
+          setDateError("Please Select Date");
+          return;
+        }
+    
+    
+        try {
+          const date = new Date(bookingDate);
+          date.setDate(date.getDate() + 1);
+          bookingFormattedDate = date.toISOString().split("T")[0];
+        } catch (error) {
+          console.error("Error formatting date:", error);
+          setDateError("Please Select Date");
+          return;
+        }
+    
+        const userDetails = state.UsersList.Users.find(
+      (u) => u.ID === booking_customername
+    );
+       
+    
+    
+        dispatch({
+          type: "ADD_BOOKING",
+          payload: {
+            joining_date: formattedDate,
+            booking_date:  bookingFormattedDate,
+            amount: amount,
+            hostel_id: state.login.selectedHostel_Id,
+            floor_id: currentItem?.room?.Floor_Id,
+            room_id: currentItem?.room?.Room_Id,
+            bed_id: currentItem?.bed?.id,
+            customer_Id: booking_customername,
+            mob_no: userDetails.Phone,
+            email: userDetails.Email,
+            profile: userDetails.profile
+          },
+        });
+        setFormLoading(true)
+      };
+    
+    
+        useEffect(() => {
+          if (state?.Booking?.statusCodeForAddBooking === 200) {
+            
+            setFormLoading(false)
+            setJoingDateErrmsg('');
+              dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id},
+              });
+    
+             dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
+        
+             handleClose()
+            setTimeout(() => {
+              dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+            }, 500);
+          }
+        }, [state?.Booking?.statusCodeForAddBooking]);
+
+      useEffect(() => {
+        dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id} })
+      },[])
+
+
+  // const handleCloseAssign = () => {
+  //   props.setShowAssignMenu(false);
+  //   props.setShowForm(false);
+  //   props.OnShowTable(true);
+  //   if (props.edit === "Edit") {
+  //     props.OnShowTable(true);
+  //   } else {
+  //     props.setRoomDetail(false);
+  //   }
+  // };
 
   return (
     <div>
       <Modal
-        show={props.showAssignMenu}
-        onHide={handleCloseAssign}
+        show={show}
+        onHide={handleClose}
         backdrop="static"
         centered
       >
@@ -54,7 +263,7 @@ function BookingBed(props) {
         >
           <Modal.Body>
             <Modal.Header
-              className="pt-0 pb-2 mb-3"
+              className="pt-0 pb-2 mb-1"
               style={{
                 position: "relative",
                 borderBottom: "1px solid #e0e0e0",
@@ -77,7 +286,7 @@ function BookingBed(props) {
                 <CloseCircle
                   size="24"
                   color="#000"
-                  onClick={handleCloseAssign}
+                  onClick={handleClose}
                   style={{ cursor: "pointer" }}
                 />
               </div>
@@ -91,13 +300,13 @@ function BookingBed(props) {
                   fontFamily: "Gilroy",
                 }}
               >
-                Room No G3 &nbsp; | &nbsp; Bed 9
+                Room No {currentItem?.room.Room_Name} &nbsp; | &nbsp; Bed {currentItem?.bed.bed_no}
               </span>
             </Modal.Header>
 
             <div
               style={{ maxHeight: "350px", overflowY: "scroll" }}
-              className="show-scroll p-2 mt-2 me-1"
+              className="show-scroll p-2 mt-1 me-1"
             >
               <div className="col-12 mb-3">
                 <Form.Label
@@ -111,59 +320,103 @@ function BookingBed(props) {
                   Select Tenant{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <Select
-                  value={tenant}
-                  onChange={(option) => setTenant(option)}
-                  placeholder="Select Tenant"
-                  options={[
-                    { label: "Priya", value: "Priya" },
-                    { label: "Karthik", value: "Karthik" },
-                    { label: "Meena", value: "Meena" },
-                  ]}
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: 48,
-                      minHeight: 48,
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      boxShadow: "none",
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      fontWeight: 500,
-                      color: "#4B4B4B",
-                      backgroundColor: "#fff",
-                      zIndex: 10,
-                      "&:hover": {
-                        border: "1px solid #D9D9D9",
-                      },
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
-                      color: "#000",
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      fontWeight: 500,
-                      zIndex: 10,
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      borderRadius: 8,
-                      fontFamily: "Gilroy",
-                      zIndex: 10,
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                  }}
-                />
+                  <Select
+                                                      options={
+                                                        state.UsersList?.users?.length > 0 &&
+                                                           state.UsersList?.UnAssignCustomerDetails.map((u) => ({
+                                                            value: u.id,
+                                                            label: u.Name,
+                                                          }))
+                                                        
+                                                      }
+                                                      onChange={handleBookingCustomerName}
+                                                      value={
+                                                        booking_customername
+                                                          ? {
+                                                            value: booking_customername,
+                                                            label:
+                                                              state.UsersList?.Users?.find((u) => u.ID === booking_customername)?.Name ||
+                                                              "Select Customer",
+                                                          }
+                                                          : null
+                                                      }
+                                                      isDisabled
+                                                      placeholder="Select Customer"
+                                                      classNamePrefix="custom"
+                                                      menuPlacement="auto"
+                                                      noOptionsMessage={() => "No customers available"}
+                                                      styles={{
+                                                        control: (base) => ({
+                                                          ...base,
+                                                          padding: "3px 5px ",
+                                                          border: "1px solid #D9D9D9",
+                                                          borderRadius: "8px",
+                                                          fontSize: "16px",
+                                                          color: "#4B4B4B",
+                                                          fontFamily: "Gilroy",
+                                                          fontWeight: booking_customername ? 600 : 500,
+                                                          boxShadow: "none",
+                                                        }),
+                                                        menu: (base) => ({
+                                                          ...base,
+                                                          backgroundColor: "#f8f9fa",
+                                                          border: "1px solid #ced4da",
+                                                        }),
+                                                        menuList: (base) => ({
+                                                          ...base,
+                                                          backgroundColor: "#f8f9fa",
+                                                          maxHeight: "120px",
+                                                          padding: 0,
+                                                          scrollbarWidth: "thin",
+                                                          overflowY: "auto",
+                                                          fontFamily: "Gilroy"
+                                                        }),
+                                                        placeholder: (base) => ({
+                                                          ...base,
+                                                          color: "#555",
+                                                        }),
+                                                        dropdownIndicator: (base) => ({
+                                                          ...base,
+                                                          color: "#555",
+                                                          cursor: "pointer",
+                                                        }),
+                                                        indicatorSeparator: () => ({
+                                                          display: "none",
+                                                        }),
+                                                        option: (base, state) => ({
+                                                          ...base,
+                                                          cursor: "pointer",
+                                                          backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                                          color: "#000",
+                                                        }),
+                                                      }}
+                                                    />
+                                    
+                                    
+                                                    {booking_customererrmsg.trim() !== "" && (
+                                                      <div>
+                                                        <p
+                                                          style={{
+                                                            fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
+                                                            fontWeight: 500,
+                                                          }}
+                                                        >
+                                                          {booking_customererrmsg !== " " && (
+                                                            <MdError
+                                                              style={{
+                                                                fontSize: "14px",
+                                                                color: "red",
+                                                                marginRight: "3px",
+                                                                marginBottom: "3px",
+                                                                fontFamily: "Gilroy",
+                                                                fontWeight: 500,
+                                                              }}
+                                                            />
+                                                          )}{" "}
+                                                          {booking_customererrmsg}
+                                                        </p>
+                                                      </div>
+                                                    )}
               </div>
 
               <div className="row">
@@ -181,27 +434,50 @@ function BookingBed(props) {
                       <span style={{ color: "red", fontSize: "20px" }}>*</span>
                     </Form.Label>
 
-                    <DatePicker
-                      style={{
-                        width: "100%",
-                        height: 48,
-                        fontFamily: "Gilroy",
-                        fontSize: 15,
-                        borderRadius: 8,
-                        border: "1px solid #D9D9D9",
-                        boxShadow: "none",
-                      }}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                      value={bookingDate ? dayjs(bookingDate) : null}
-                      onChange={handleBookingDate}
-                      getPopupContainer={(triggerNode) =>
-                        triggerNode.closest(".show-scroll") || document.body
-                      }
-                      disabledDate={(current) =>
-                        current && current > dayjs().endOf("day")
-                      }
-                    />
+                     <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                                                 <DatePicker
+                                                                   ref={bookingDateRef}
+                                                                   style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
+                                                                   format="DD/MM/YYYY"
+                                                                   placeholder="DD/MM/YYYY"
+                                                                   value={bookingDate ? dayjs(bookingDate) : null}
+                                                                   onChange={(date) => {
+                                                                     setDateError("");
+                                                                     setBookingDate(date ? date.toDate() : null);
+                                                                     setBookingDateErrmsg('');
+                                                                   }}
+                                                                   disabledDate={(current) => {
+                                                                     return current && current > dayjs().endOf('day');
+                                                                   }}
+                                                                   // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                                                   getPopupContainer={() => document.body}
+                                                                 />
+                                                               </div>
+
+                                                               {dateError && (
+                                                                                                           <div style={{ color: "red" }}>
+                                                                                                             <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
+                                                                                                             <span
+                                                                                                               style={{
+                                                                                                                 color: "red",
+                                                                                                                 fontSize: 12,
+                                                                                                                 fontFamily: "Gilroy",
+                                                                                                                 fontWeight: 500,
+                                                                                                               }}
+                                                                                                             >
+                                                                                                               {dateError}
+                                                                                                             </span>
+                                                                                                           </div>
+                                                                                                         )}
+                                                                                           
+                                                                                                         {bookingDateErrmsg.trim() !== "" && (
+                                                                                                           <div className="d-flex align-items-center mt-2">
+                                                                                                             <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                                                                             <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                                                                               {bookingDateErrmsg}
+                                                                                                             </label>
+                                                                                                           </div>
+                                                                                                         )}
                   </Form.Group>
                 </div>
 
@@ -219,7 +495,7 @@ function BookingBed(props) {
                     </Form.Label>
 
                     <div style={{ position: "relative" }}>
-                      <span
+                      {/* <span
                         style={{
                           position: "absolute",
                           top: "50%",
@@ -233,28 +509,43 @@ function BookingBed(props) {
                         }}
                       >
                         ₹
-                      </span>
+                      </span> */}
 
-                      <FormControl
-                        type="text"
-                        placeholder="Enter Amount"
-                        value={bookingAmount}
-                        onChange={handleBookingAmount}
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 48,
-                          width: "100%",
-                          borderRadius: 8,
-                          paddingLeft: 30,
-                        }}
-                      />
+                       <FormControl
+                                                                   type="text"
+                                                                   ref={amountRef}
+                                                                   id="form-controls"
+                                                                   placeholder="Enter Booking Amount"
+                                                                   value={amount}
+                                                                   onChange={(e) => handleAmount(e)}
+                                                                   style={{
+                                                                     fontSize: 16,
+                                                                     color: "#4B4B4B",
+                                                                     fontFamily: "Gilroy",
+                                                                     fontWeight: 500,
+                                                                     boxShadow: "none",
+                                                                     border: "1px solid #D9D9D9",
+                                                                     height: 50,
+                                                                     borderRadius: 8,
+                                                                   }}
+                                                                 />
                     </div>
                   </Form.Group>
+                    {amountError && (
+                                                              <div style={{ color: "red" }}>
+                                                                <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
+                                                                <span
+                                                                  style={{
+                                                                    color: "red",
+                                                                    fontSize: 12,
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                  }}
+                                                                >
+                                                                  {amountError}
+                                                                </span>
+                                                              </div>
+                                                            )}
                 </div>
               </div>
 
@@ -272,28 +563,61 @@ function BookingBed(props) {
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
-                  <DatePicker
-                    style={{
-                      width: "100%",
-                      height: 48,
-                      fontFamily: "Gilroy",
-                      fontSize: 15,
-                      borderRadius: 8,
-                      border: "1px solid #D9D9D9",
-                      boxShadow: "none",
-                    }}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={joiningDate ? dayjs(joiningDate) : null}
-                    onChange={handleJoiningDate}
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".show-scroll") || document.body
-                    }
-                    disabledDate={(current) =>
-                      current && current > dayjs().endOf("day")
-                    }
-                  />
+                    <div
+                                                                       className="datepicker-wrapper"
+                                                                       style={{ position: "relative", width: "100%", marginTop: 6 }}
+                                                                     >
+                                                                       <DatePicker
+                                                                         style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                                                                         format="DD/MM/YYYY"
+                                                                         placeholder="DD/MM/YYYY"
+                                                                         value={joiningDate ? dayjs(joiningDate) : null}
+                                                                         onChange={(date) => {
+                                                                           setDateError("");
+                                                                           setJoiningDate(date ? date.toDate() : null);
+                                                                           dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+                                                                           setJoingDateErrmsg("")
+                                                                         }}
+                                                                          disabledDate={(current) => current && current < dayjs().startOf("day")}
+
+                                                                        //  getPopupContainer={(triggerNode) =>
+                                                                        //    triggerNode.closest(".datepicker-wrapper")
+                                                                        //  }
+                                                                        getPopupContainer={() => document.body}
+                                                                       />
+                                                                     </div>
                 </Form.Group>
+                     {dateError && (
+                                                                   <div style={{ color: "red" }} className="mt-2">
+                                                                     <MdError
+                                                                       style={{
+                                                                         marginRight: "5px",
+                                                                         fontSize: 14,
+                                                                         marginBottom: "1px",
+                                                                       }}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         color: "red",
+                                                                         fontSize: 12,
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                       }}
+                                                                     >
+                                                                       {dateError}
+                                                                     </span>
+                                                                   </div>
+                                                                 )}
+                
+                                                                        {joiningDateErrmsg.trim() !== "" && (
+                                                            <div className="d-flex align-items-center mt-2">
+                                                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                              <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                                {joiningDateErrmsg}
+                                                              </label>
+                                                            </div>
+                                                          )}
+                                                             
               </div>
             </div>
 
@@ -317,7 +641,7 @@ function BookingBed(props) {
                   fontFamily: "Montserrat",
                   cursor: "pointer",
                 }}
-                onClick={handleCloseAssign}
+                onClick={handleClose}
               >
                 Cancel
               </button>
@@ -336,8 +660,9 @@ function BookingBed(props) {
                   border: "none",
                   cursor: "pointer",
                 }}
+                onClick={handleSubmitBooking}
               >
-                Back
+                Book
               </button>
             </div>
           </Modal.Body>
@@ -348,24 +673,11 @@ function BookingBed(props) {
 }
 
 BookingBed.propTypes = {
-  setRoomDetail: PropTypes.func.isRequired,
-  setUserClicked: PropTypes.func.isRequired,
-  setShowMenu: PropTypes.func.isRequired,
-  setShowForm: PropTypes.func.isRequired,
-  OnShowTable: PropTypes.func.isRequired,
-  setEdit: PropTypes.func.isRequired,
-  edit: PropTypes.any,
-  AfterEditFloors: PropTypes.func.isRequired,
-  AfterEditRoomses: PropTypes.func.isRequired,
-  AfterEditBeds: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
-  displayDetail: PropTypes.func.isRequired,
-  showMenu: PropTypes.func.isRequired,
-  advanceForm: PropTypes.func.isRequired,
-  setAdvanceForm: PropTypes.func.isRequired,
-  setShowAssignMenu: PropTypes.func.isRequired,
-  showAssignMenu: PropTypes.bool.isRequired,
+  show:PropTypes.func.isRequired,
+  handleClose:PropTypes.func.isRequired,
+  currentItem: PropTypes.func.isRequired,
+
+ 
 };
 
 export default BookingBed;

@@ -1776,6 +1776,7 @@ const handleCloseAssignBooking =()=>{
 }
 const handleCloseBacktoCheckin =()=>{
   props.setBacktoCheckInForm(false)
+  props.handleCloseBed()
 }
 
  console.log("bactocheckinForm",props.customer_details , props?.EditObj)
