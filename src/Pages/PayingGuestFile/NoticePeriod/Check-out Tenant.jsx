@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Form, FormControl } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
+import React, { useState,  } from "react";
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -579,8 +579,8 @@ function CheckoutTenant({show , handleClose ,
 }
 
 CheckoutTenant.propTypes = {
-    handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
 };
 export default CheckoutTenant;

@@ -706,7 +706,7 @@ console.log("noticeperiod", Noticeperiod_bed);
                         <img className='mt-1'
                           src={bed.isfilled ? Green : White}
                           alt='bedd'
-                          style={{ height: 41, width: 34, cursor: "pointer",  cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
+                          style={{ height: 41, width: 34,   cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
                            onClick={() => {
                   if (!props.addPermissionError) {
                     handleclickBed(bed, room)

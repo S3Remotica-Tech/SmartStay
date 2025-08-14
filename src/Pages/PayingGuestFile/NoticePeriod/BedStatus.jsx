@@ -405,6 +405,7 @@ NoticeBedStatusDetails.propTypes = {
     show: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
     showNoticeperiodCheckout: PropTypes.func.isRequired,
+    showBooking: PropTypes.func.isRequired
 
 };
 export default NoticeBedStatusDetails;

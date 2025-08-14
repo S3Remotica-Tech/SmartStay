@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect } from 'react';
 import {  useSelector , useDispatch } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
 import { CloseCircle } from 'iconsax-react';
@@ -151,5 +151,6 @@ EmptyBed.propTypes = {
     currentItem: PropTypes.func.isRequired,
     showbed:  PropTypes.func.isRequired,
     showtenant:  PropTypes.func.isRequired,
+    showcustomer: PropTypes.func.isRequired
 }
 export default EmptyBed

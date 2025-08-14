@@ -32,7 +32,6 @@ function BookingBed({
      const [bookingDate, setBookingDate] = useState(null);
      const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
      const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
-     const [formLoading, setFormLoading] = useState(false)
      const [dateError, setDateError] = useState("");
 
     const [booking_customername, setBookingCustomerName] = useState("");
@@ -206,14 +205,12 @@ function BookingBed({
             profile: userDetails.profile
           },
         });
-        setFormLoading(true)
       };
     
     
         useEffect(() => {
           if (state?.Booking?.statusCodeForAddBooking === 200) {
             
-            setFormLoading(false)
             setJoingDateErrmsg('');
               dispatch({
                 type: "USERLIST",
