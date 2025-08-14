@@ -1776,6 +1776,7 @@ const handleCloseAssignBooking =()=>{
 }
 const handleCloseBacktoCheckin =()=>{
   props.setBacktoCheckInForm(false)
+  props.handleCloseBed()
 }
 
  console.log("bactocheckinForm",props.customer_details , props?.EditObj)
@@ -6321,5 +6322,6 @@ UserlistForm.propTypes = {
    setBookingAssignForm:PropTypes.func.isRequired,
    customer_details: PropTypes.func.isRequired,
    recheckin: PropTypes.func.isRequired,
+   handleCloseBed:PropTypes.func.isRequired,
 };
 export default UserlistForm;

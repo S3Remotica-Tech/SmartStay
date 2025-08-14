@@ -105,9 +105,18 @@ function PgList() {
     setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
   }, [selectedHostel, hostel_Id]);
 
+  useEffect(() => {
+  if (showHostelDetails?.floorDetails?.length > 0) {
+    setFloorClick(showHostelDetails.floorDetails[0].floor_id);
+  }
+}, [showHostelDetails?.floorDetails]);
 
 
 
+  console.log("floorid" , showHostelDetails?.floorDetails?.[0]?.floor_id);
+  
+  console.log("floorid", );
+  
 
   useEffect(() => {
 
