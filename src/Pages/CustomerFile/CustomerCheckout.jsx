@@ -13,7 +13,7 @@ import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 
 function CustomerCheckout(props) {
-  console.log("Customer Checkout Props:", props);
+
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ function CustomerCheckout(props) {
 
 
   const handleCheckOutCustomer = () => {
-  
+
 
 
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' });
@@ -82,7 +82,7 @@ function CustomerCheckout(props) {
     const userId = props.data?.ID || props.data[0]?.id || null;
     const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
 
-console.log("UserId:", userId, "HostelId:", hostelId);
+    console.log("UserId:", userId, "HostelId:", hostelId);
 
 
     if (userId && hostelId && formattedDate && formattedrequestDate) {
@@ -190,18 +190,7 @@ console.log("UserId:", userId, "HostelId:", hostelId);
                             position: "relative",
                           }}
                         >
-                          {/* <Image
-                                                                        src={
-                                                                          props.data.profile
-                                                                            ? typeof props.data.profile === "string"
-                                                                              ? file
-                                                                              : URL.createObjectURL(props.data.profile)
-                                                                            : Profiles
-                                                                        }
-                                                                        alt="filee"
-                                                                        roundedCircle
-                                                                        style={{ height: 60, width: 60 }}
-                                                                      /> */}
+
                           <Image
                             src={
                               props.data && props.data.profile && props.data.profile !== ""

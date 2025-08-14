@@ -19,9 +19,9 @@ import { useDispatch, useSelector } from 'react-redux';
 function OccupiedBedStatus({
     show,
     handleCloseBed,
-    currentItem ,
-handleShowReassignBed,
-handleShowNoticePeriod
+    currentItem,
+    handleShowReassignBed,
+    handleShowNoticePeriod
 }) {
 
 
@@ -30,8 +30,37 @@ handleShowNoticePeriod
     const dispatch = useDispatch();
 
     const [customer, setCustomer] = useState([])
+    const [showDots, setShowDots] = useState('')
+    const [activeRoomId, setActiveRoomId] = useState(null);
 
-    // console.log("data", currentItem);
+
+    const popupRef = useRef(null);
+
+
+    const handleReAssignBed = () => {
+        handleShowReassignBed(true, customer?.[0]?.id)
+    };
+
+    const handleMoveToNoticePeriod = () => {
+        handleShowNoticePeriod(true, customer)
+    };
+    const handleShowDots = (roomId) => {
+        setShowDots(!showDots)
+        setActiveRoomId(activeRoomId === roomId ? null : roomId);
+    }
+
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setActiveRoomId(null);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
 
     useEffect(() => {
@@ -61,52 +90,13 @@ handleShowNoticePeriod
 
     }, [state.PgList.OccupiedCustomerGetStatusCode])
 
-      useEffect(() => {
-        if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
-        //   dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
-          setcheckoutForm(false);
-        }
-      }, [state.UsersList.addCheckoutCustomerStatusCode]);
-    
-
-    const [showDots, setShowDots] = useState('')
-    const [activeRoomId, setActiveRoomId] = useState(null);
-
-    
-
-    const popupRef = useRef(null);
-
-
-       const handleReAssignBed = () => {
-       handleShowReassignBed(true,customer?.[0]?.id )
-    };
-
-    const handleMoveToNoticePeriod = () => {
-        handleShowNoticePeriod(true, customer )
-    };
-
-   
-
-    const handleShowDots = (roomId) => {
-        setShowDots(!showDots)
-        setActiveRoomId(activeRoomId === roomId ? null : roomId);
-    }
-
-
-
-
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setActiveRoomId(null);
-        }
-    };
-
     useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+        if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+            //   dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
+            setcheckoutForm(false);
+        }
+    }, [state.UsersList.addCheckoutCustomerStatusCode]);
+
 
 
     return (
@@ -281,12 +271,6 @@ handleShowNoticePeriod
                         </Modal.Body>
 
 
-
-
-
-
-
-
                         <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
                             <Button
 
@@ -311,7 +295,7 @@ handleShowNoticePeriod
             </div>
 
 
-           
+
 
 
 

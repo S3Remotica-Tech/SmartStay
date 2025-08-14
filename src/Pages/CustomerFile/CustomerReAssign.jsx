@@ -18,7 +18,7 @@ function CustomerReAssign(props) {
 
 
   const state = useSelector((state) => state);
- 
+
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(null);
   const [dateError, setDateError] = useState("");
@@ -38,92 +38,16 @@ function CustomerReAssign(props) {
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [rentError, setRentError] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false);
+  const [lastDate, setLastDate] = useState("");
 
 
-  useEffect(() => {
-    if (state.createAccount?.networkError) {
-      setFormLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
-    }
-
-  }, [state.createAccount?.networkError])
-
-useEffect(()=>{
-  if(userId){
-dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: userId } });
-  }
- 
-},[userId])
-
-const [lastDate, setLastDate] = useState("");
-
-useEffect(()=>{
-if(state.UsersList.CustomerdetailsgetStatuscode === 200){
-  setTimeout(() => {
-        dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
-      }, 500)
-}
-
-},[state.UsersList.CustomerdetailsgetStatuscode])
-
-
- useEffect(() => {
-  if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-    const invoiceDetails = state.UsersList.customerdetails.invoice_details;
-
-    if (invoiceDetails && invoiceDetails.length > 0) {
-      const dates = invoiceDetails
-        .map(item => item.Date)
-        .filter(date => !!date);
-
-      if (dates.length > 0) {
-        const maxDate = new Date(Math.max(...dates.map(d => new Date(d))));
-        const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(maxDate.getMonth() + 1).padStart(2, "0")}-${maxDate.getFullYear()}`;
-        setLastDate(formatted);
-      } else {
-        setLastDate("");
-      }
-    } else {
-      setLastDate(""); 
-    }
-
-   
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' });
-    }, 1000);
-  }
-}, [state.UsersList.CustomerdetailsgetStatuscode]);
-
-
-
-useEffect(() => {
-  if (props.reAssignDetail) {
-    setCurrentFloor(props.reAssignDetail.Floor);
-    setCurrentRoom(props.reAssignDetail.Rooms);
-    setCurrentBed(props.reAssignDetail.Bed);
-    setCurrentRoomRent(props.reAssignDetail.RoomRent);
-    setCurrentHostel_Id(state.login.selectedHostel_Id);
-    setUserId(props.reAssignDetail.ID);
-    setCurrentBedId(props.reAssignDetail.hstl_Bed);
-    setCurrentRoomId(props.reAssignDetail.room_id);
-  } 
-  else if (props.reAssignBedDetail) {
-
-    setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
-    setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
-    setUserId(props.reAssignBedDetail.id);
-    setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
-    setCurrentFloor(props.reAssignBedDetail.room?.Floor_Id);
-    setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
-    setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
-    setCurrentBedId(props.reAssignBedDetail.bed?.id);
-  }
-}, [props.reAssignDetail, props.reAssignBedDetail]);
-
-
+  const rentRef = useRef(null);
+  const floorRef = useRef(null);
+  const roomRef = useRef(null);
+  const BedRef = useRef(null);
+  const selectedDateRef = useRef(null);
+  const focusedRef = useRef(false);
 
 
   const handleCloseReAssign = () => {
@@ -140,27 +64,10 @@ useEffect(() => {
     setSelectedDate("");
     setLastDate("")
     setUserId("")
-     dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
+    dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
   };
 
-  useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: state.login.selectedHostel_Id },
-    });
-  }, [currentHostel_id]);
 
-  useEffect(() => {
-    if (currentHostel_id && newFloor) {
-      dispatch({
-        type: "ROOMDETAILS",
-        payload: {
-          hostel_Id: state.login.selectedHostel_Id,
-          floor_Id: newFloor,
-        },
-      });
-    }
-  }, [newFloor]);
   const handleFloor = (selectedOption) => {
     setNewFloor(selectedOption?.value || "");
 
@@ -186,14 +93,14 @@ useEffect(() => {
     setRoomError("");
   };
 
-  const rentRef = useRef(null);
-  const floorRef = useRef(null);
-  const roomRef = useRef(null);
-  const BedRef = useRef(null);
-  const selectedDateRef = useRef(null);
-  const focusedRef = useRef(false);
-
-
+  const handleNewRoomRent = (e) => {
+    const newAmount = e.target.value;
+    if (!/^\d*$/.test(newAmount)) {
+      return;
+    }
+    setNewRoomRent(newAmount);
+    setRentError("");
+  };
 
 
   const validateAssignField = (value, fieldName, ref, focusedRef, setError) => {
@@ -241,7 +148,7 @@ useEffect(() => {
     return true;
   };
 
-  
+
 
   const handleSaveReassignBed = () => {
     focusedRef.current = false;
@@ -255,49 +162,45 @@ useEffect(() => {
 
 
 
+    const userJoinDate = props.reAssignDetail?.user_join_date || props.reAssignBedDetail?.user_join_date || props.reAssignBedDetail?.bed?.user_join_date;
+    if (selectedDate && userJoinDate) {
+      const joiningDate = new Date(userJoinDate);
+      const selected = new Date(selectedDate);
+      const today = new Date();
 
+      const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
+      const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
+      const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
+      let lastDateOnly = null;
+      const hasLastDate = lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate);
 
-// Get user_join_date from either reAssignDetail or reAssignBedDetail safely
-const userJoinDate = props.reAssignDetail?.user_join_date || props.reAssignBedDetail?.user_join_date || props.reAssignBedDetail?.bed?.user_join_date;
-if (selectedDate && userJoinDate) {
-  const joiningDate = new Date(userJoinDate);
-  const selected = new Date(selectedDate);
-  const today = new Date();
+      if (selectedDateOnly < joinDateOnly) {
+        setDateError("Before Join Date Not Allowed");
+        hasError = true;
+        return;
+      }
 
-  const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
-  const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
-  const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      if (hasLastDate) {
+        const [dd, mm, yyyy] = lastDate.split("-");
+        const last = new Date(`${yyyy}-${mm}-${dd}`);
+        lastDateOnly = new Date(last.getFullYear(), last.getMonth(), last.getDate());
 
-  let lastDateOnly = null;
-  const hasLastDate = lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate);
+        if (selectedDateOnly <= lastDateOnly) {
+          setDateError("Billed up to this Date");
+          hasError = true;
+          return;
+        }
+      }
 
-  if (selectedDateOnly < joinDateOnly) {
-    setDateError("Before Join Date Not Allowed");
-    hasError = true;
-    return;
-  }
+      if (selectedDateOnly > todayOnly) {
+        setDateError("Future Date Not Allowed");
+        hasError = true;
+        return;
+      }
 
-  if (hasLastDate) {
-    const [dd, mm, yyyy] = lastDate.split("-");
-    const last = new Date(`${yyyy}-${mm}-${dd}`);
-    lastDateOnly = new Date(last.getFullYear(), last.getMonth(), last.getDate());
-
-    if (selectedDateOnly <= lastDateOnly) {
-      setDateError("Billed up to this Date");
-      hasError = true;
-      return;
+      setDateError("");
     }
-  }
-
-  if (selectedDateOnly > todayOnly) {
-    setDateError("Future Date Not Allowed");
-    hasError = true;
-    return;
-  }
-
-  setDateError("");
-}
 
 
 
@@ -309,21 +212,21 @@ if (selectedDate && userJoinDate) {
     } else {
       setRoomError("");
     }
-  
 
 
 
 
 
-  const formatToISODate = (date) => {
-  const d = new Date(date);
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
-  return `${yyyy}-${mm}-${dd}`;
-};
 
-const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
+    const formatToISODate = (date) => {
+      const d = new Date(date);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    };
+
+    const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
 
 
     dispatch({
@@ -345,7 +248,105 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
   };
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
+
+  useEffect(() => {
+    if (userId) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: userId } });
+    }
+
+  }, [userId])
+
+  useEffect(() => {
+    dispatch({
+      type: "HOSTELDETAILLIST",
+      payload: { hostel_Id: state.login.selectedHostel_Id },
+    });
+  }, [currentHostel_id]);
+
+  useEffect(() => {
+    if (currentHostel_id && newFloor) {
+      dispatch({
+        type: "ROOMDETAILS",
+        payload: {
+          hostel_Id: state.login.selectedHostel_Id,
+          floor_Id: newFloor,
+        },
+      });
+    }
+  }, [newFloor]);
+
+
+  useEffect(() => {
+    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
+      }, 500)
+    }
+
+  }, [state.UsersList.CustomerdetailsgetStatuscode])
+
+
+  useEffect(() => {
+    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+      const invoiceDetails = state.UsersList.customerdetails.invoice_details;
+
+      if (invoiceDetails && invoiceDetails.length > 0) {
+        const dates = invoiceDetails
+          .map(item => item.Date)
+          .filter(date => !!date);
+
+        if (dates.length > 0) {
+          const maxDate = new Date(Math.max(...dates.map(d => new Date(d))));
+          const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(maxDate.getMonth() + 1).padStart(2, "0")}-${maxDate.getFullYear()}`;
+          setLastDate(formatted);
+        } else {
+          setLastDate("");
+        }
+      } else {
+        setLastDate("");
+      }
+
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' });
+      }, 1000);
+    }
+  }, [state.UsersList.CustomerdetailsgetStatuscode]);
+
+
+
+  useEffect(() => {
+    if (props.reAssignDetail) {
+      setCurrentFloor(props.reAssignDetail.Floor);
+      setCurrentRoom(props.reAssignDetail.Rooms);
+      setCurrentBed(props.reAssignDetail.Bed);
+      setCurrentRoomRent(props.reAssignDetail.RoomRent);
+      setCurrentHostel_Id(state.login.selectedHostel_Id);
+      setUserId(props.reAssignDetail.ID);
+      setCurrentBedId(props.reAssignDetail.hstl_Bed);
+      setCurrentRoomId(props.reAssignDetail.room_id);
+    }
+    else if (props.reAssignBedDetail) {
+
+      setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
+      setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
+      setUserId(props.reAssignBedDetail.id);
+      setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
+      setCurrentFloor(props.reAssignBedDetail.room?.Floor_Id);
+      setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
+      setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
+      setCurrentBedId(props.reAssignBedDetail.bed?.id);
+    }
+  }, [props.reAssignDetail, props.reAssignBedDetail]);
 
 
   useEffect(() => {
@@ -363,14 +364,7 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
     }
   }, [state.UsersList.statusCodeForReassinBed]);
 
-  const handleNewRoomRent = (e) => {
-    const newAmount = e.target.value;
-    if (!/^\d*$/.test(newAmount)) {
-      return;
-    }
-    setNewRoomRent(newAmount);
-    setRentError("");
-  };
+
 
   return (
     <>
@@ -389,28 +383,28 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
             }}
             className="m-0 p-0"
           >
-              <Modal.Header
-                    style={{ position: "relative" }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Reassign Bed
-                    </div>
+            <Modal.Header
+              style={{ position: "relative" }}
+            >
+              <div
+                style={{
+                  fontSize: 20,
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                }}
+              >
+                Reassign Bed
+              </div>
 
-                    <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
-                      style={{ cursor: 'pointer' }} />
-                  </Modal.Header>
-            <Modal.Body  className="pb-1 pt-0">
+              <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
+                style={{ cursor: 'pointer' }} />
+            </Modal.Header>
+            <Modal.Body className="pb-1 pt-0">
               <div className="d-flex align-items-center">
                 <div >
-           
 
-                
+
+
                   <div style={{ maxHeight: "390px", overflowY: "scroll" }} className="show-scroll p-2 mt-0 me-0">
 
                     <div className="row  d-flex align-items-center">
@@ -943,32 +937,32 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".datepicker-wrapper")
                               }
-                               disabledDate={(current) => current && current > dayjs().endOf("day")}
+                              disabledDate={(current) => current && current > dayjs().endOf("day")}
                             />
                           </div>
-                            {dateError && (
-                          <div style={{ color: "red", marginTop: "1px" }}>
-                            {" "}
-                            <MdError
-                              style={{ fontSize: "14px", marginRight: "4px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
+                          {dateError && (
+                            <div style={{ color: "red", marginTop: "1px" }}>
                               {" "}
-                              {dateError}
-                            </span>
-                          </div>
-                        )}
+                              <MdError
+                                style={{ fontSize: "14px", marginRight: "4px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {" "}
+                                {dateError}
+                              </span>
+                            </div>
+                          )}
                         </Form.Group>
 
 
-                      
+
                       </div>
 
 
@@ -1034,28 +1028,28 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                               marginTop: 8,
                             }}
                           />
-                                {rentError && (
-                          <div style={{ color: "red", marginTop: "0px" }}>
-                            {" "}
-                            <MdError
-                              style={{ fontSize: "14px", marginRight: "4px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
+                          {rentError && (
+                            <div style={{ color: "red", marginTop: "0px" }}>
                               {" "}
-                              {rentError}
-                            </span>
-                          </div>
-                        )}
+                              <MdError
+                                style={{ fontSize: "14px", marginRight: "4px" }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {" "}
+                                {rentError}
+                              </span>
+                            </div>
+                          )}
                         </Form.Group>
 
-                  
+
                       </div>
                     </div>
                   </div>
