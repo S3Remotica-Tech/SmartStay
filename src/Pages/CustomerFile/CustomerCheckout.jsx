@@ -48,7 +48,7 @@ function CustomerCheckout(props) {
       setDateDifference(null);
     }
   };
-
+console.log("datadata",props.data)
 
   const handleCheckOutCustomer = () => {
 
@@ -82,7 +82,8 @@ function CustomerCheckout(props) {
     const userId = props.data?.ID || props.data[0]?.id || null;
     const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
 
-    console.log("UserId:", userId, "HostelId:", hostelId);
+    console.log("UserId:", userId, "HostelId:", props.bedData);
+
 
 
     if (userId && hostelId && formattedDate && formattedrequestDate) {
@@ -119,6 +120,15 @@ function CustomerCheckout(props) {
     }
 
   }, [state.createAccount?.networkError])
+
+  useEffect(()=>{
+if(state.UsersList.addCheckoutCustomerStatusCode === 200){
+handleCloseCheckout()
+  setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
+      }, 1000);
+}
+  },[state.UsersList.addCheckoutCustomerStatusCode])
 
   return (
     <>
@@ -244,7 +254,7 @@ function CustomerCheckout(props) {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {/* {props.complaints?.floor_name} */}{props.bedData?.room?.Floor_Id}
+                             {props.bedData?.room?.Floor_Id || props.data.floor_name}
                             </div>
 
                             <div
@@ -261,7 +271,7 @@ function CustomerCheckout(props) {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {/* {props.complaints?.room_name} - B{props.complaints?.bedName} */}{props.bedData?.room?.Room_Name}  - {props.bedData?.bed?.bed_no}
+                             {props.bedData?.room?.Room_Name || props.data.Rooms}  - {props.bedData?.bed?.bed_no || props.data.Bed}
                             </div>
 
 
