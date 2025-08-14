@@ -561,7 +561,7 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Select Tenant {" "}
-
+                           <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Select
                                             styles={customStyles}
@@ -593,10 +593,10 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Booking Date {" "}
-
+                                 <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
 
- <Form.Control
+                                          <Form.Control
                                             value={bookingDate}
                                             type="text"
                                             placeholder="Booking Date"
@@ -631,7 +631,7 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Booking Amount
-
+                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Form.Control
                                             value={bookingAmount}
@@ -666,7 +666,7 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Stay Type {" "}
-
+                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Select
                                             styles={customStyles}
@@ -703,7 +703,7 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Rental Amount
-
+                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Form.Control
                                            value={RoomRent}
@@ -756,7 +756,7 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Advance Amount
-
+                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Form.Control
                                          value={AdvanceAmount}
@@ -804,7 +804,7 @@ const LastName = lastNameParts.join(" ") || "";
                                                 fontWeight: 500,
                                             }}
                                         >
-                                            Joining Date
+                                            Joining Date   <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
 
                                         <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>

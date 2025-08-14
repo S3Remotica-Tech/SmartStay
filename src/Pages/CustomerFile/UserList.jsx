@@ -4348,7 +4348,7 @@ useEffect(() => {
                                 fontWeight: 500,
                             }}
                         >
-                            Date
+                            Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                         </Form.Label>
 
                         <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
