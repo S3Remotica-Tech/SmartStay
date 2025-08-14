@@ -162,45 +162,38 @@ function CustomerReAssign(props) {
 
 
 
-    const userJoinDate = props.reAssignDetail?.user_join_date || props.reAssignBedDetail?.user_join_date || props.reAssignBedDetail?.bed?.user_join_date;
-    if (selectedDate && userJoinDate) {
-      const joiningDate = new Date(userJoinDate);
-      const selected = new Date(selectedDate);
-      const today = new Date();
+ 
+    const userJoinDate =
+  props.reAssignDetail?.user_join_date ||
+  props.reAssignBedDetail?.user_join_date ||
+  props.reAssignBedDetail?.bed?.user_join_date;
 
-      const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
-      const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
-      const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+if (selectedDate && userJoinDate) {
+  const joiningDate = new Date(userJoinDate);
+  const selected = new Date(selectedDate);
+  const today = new Date();
 
-      let lastDateOnly = null;
-      const hasLastDate = lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate);
+  const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
+  const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
+  const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
-      if (selectedDateOnly < joinDateOnly) {
-        setDateError("Before Join Date Not Allowed");
-        hasError = true;
-        return;
-      }
+ 
+  if (selectedDateOnly < joinDateOnly) {
+    setDateError("Before Join Date Not Allowed");
+    hasError = true;
+    return;
+  }
 
-      if (hasLastDate) {
-        const [dd, mm, yyyy] = lastDate.split("-");
-        const last = new Date(`${yyyy}-${mm}-${dd}`);
-        lastDateOnly = new Date(last.getFullYear(), last.getMonth(), last.getDate());
 
-        if (selectedDateOnly <= lastDateOnly) {
-          setDateError("Billed up to this Date");
-          hasError = true;
-          return;
-        }
-      }
+  if (selectedDateOnly > todayOnly) {
+    setDateError("Future Date Not Allowed");
+    hasError = true;
+    return;
+  }
 
-      if (selectedDateOnly > todayOnly) {
-        setDateError("Future Date Not Allowed");
-        hasError = true;
-        return;
-      }
+  setDateError("");
+}
 
-      setDateError("");
-    }
 
 
 
