@@ -29,6 +29,7 @@ import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
 import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
 import CustomerReAssign from "../CustomerFile/CustomerReAssign";
 import CustomerCheckout from "../CustomerFile/CustomerCheckout";
+import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
 
 
 
@@ -63,6 +64,7 @@ function ParticularHostelDetails(props) {
   const [occupiedCustomer, setOccupiedCustomer] = useState(false)
   const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
   const [Occubied_bed, setOccubiedBed] = useState(false)
+  const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
 
   const [loader, setLoader] = useState(false)
   const [loaderTrigger, setLoaderTrigger] = useState(true);
@@ -70,9 +72,6 @@ function ParticularHostelDetails(props) {
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
 
   const handleAddBed = (item, Room_Id) => {
@@ -80,99 +79,12 @@ function ParticularHostelDetails(props) {
     setDetails({ item, Room_Id });
   }
 
- const handleShowDots = (roomId) => {
+  const handleShowDots = (roomId) => {
     setShowDots(!showDots)
     setActiveRoomId(activeRoomId === roomId ? null : roomId);
   }
 
-  useEffect(() => {
-    if (props.floorID && props.hostel_Id) {
-      setLoader(true)
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-    } else {
-      setLoader(false)
-    }
-  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
-  useEffect(() => {
-    if (state.PgList.roomCountStatusCode === 200) {
-      setLoader(false)
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 100)
-      setRoomCountData(state.PgList?.roomCount);
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
-      }, 500);
-    }
-  }, [state.PgList?.roomCountStatusCode])
-
-
-
-
-  useEffect(() => {
-    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
-      setLoader(false)
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 100)
-      setRoomCountData([])
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
-      }, 100);
-    }
-
-  }, [state.PgList?.noRoomsInFloorStatusCode])
-
-  useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'HOSTELLIST' })
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUS_CODES' })
-      }, 2000)
-      setShowDeleteBed(false)
-      dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-
-    }
-  }, [state.UsersList?.statusCodeForAddUser]);
-
-useEffect(() => {
-
-    if (state.PgList.statusCodeCreateRoom === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      setShowRoom(false)
-      dispatch({ type: 'HOSTELLIST' })
-
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
-      }, 100)
-    }
-  }, [state.PgList.statusCodeCreateRoom])
-
-  useEffect(() => {
-    if (state.PgList.createBedStatusCode === 200) {
-      dispatch({ type: 'HOSTELLIST' })
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      setShowBed(false)
-
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
-      }, 4000)
-    }
-  }, [state.PgList.createBedStatusCode])
-
-  useEffect(() => {
-    dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-  }, [])
-
-  useEffect(() => {
-    if (props.floorID) {
-      setCurrentPage(1)
-    }
-  }, [props.floorID])
 
 
 
@@ -180,6 +92,7 @@ useEffect(() => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
+
   const handleItemsPerPageChange = (selectedOption) => {
     setItemsPerPage(Number(selectedOption.value));
     setCurrentPage(1);
@@ -238,29 +151,267 @@ useEffect(() => {
 
 
 
-
   const handleclickBed = (bed, room) => {
     console.log("bed", bed);
 
     if (bed.isbooked === 1) {
       setShowReservedBed(true);
       setOccupiedCustomerDetails({ bed, room });
+
     } else if (bed.isfilled === 0) {
       setEmptyBed(true);
       setDeleteBedDetails({ bed, room });
       setOccupiedCustomerDetails({ bed, room });
 
-    }
-    else if (bed.isfilled === 1) {
+    } else if (bed.isfilled === 1 && bed.isNoticePeriod === 1) {
+      setOccubiedBed(false);
+      setNoticePeriodBed(true);
+      setOccupiedCustomerDetails({ bed, room });
+
+    } else if (bed.isfilled === 1) {
       setOccubiedBed(true);
       setOccupiedCustomerDetails({ bed, room });
     }
+  };
 
-  }
+
 
   const handlecloseBed = () => {
     setEmptyBed(false)
+
   }
+
+
+
+
+  const popupRef = useRef(null);
+
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setActiveRoomId(null);
+    }
+  };
+
+
+
+
+
+  const handleShowReservedBed = () => {
+    setShowReservedBed(true)
+  }
+
+  const handleCloseReservedBed = () => {
+    setShowReservedBed(false)
+  }
+
+
+
+  const handleShowCheck_In = () => {
+    setShowCheckIn(true)
+    setShowReservedBed(false)
+
+  }
+
+  const handleCloseCheck_In = () => {
+    setShowCheckIn(false)
+  }
+
+
+  const handleShowMakeAsInActive = () => {
+    setShowInActive(true)
+    setShowReservedBed(false)
+  }
+
+  const handleCloseMakeAsInActive = () => {
+    setShowInActive(false)
+  }
+
+  const handlecloseoccubiedbed = () => {
+    setOccubiedBed(false)
+  }
+  const handlecloseNoticePeriodBed = () => {
+    setNoticePeriodBed(false)
+  }
+
+
+  const handleShowReAssignBedPopup = (isVisible, customer_id) => {
+    setOccubiedBed(false)
+    setShowReAssignBedForm(isVisible)
+    console.log("customer_id", customer_id)
+    setCustomerId(customer_id)
+
+  }
+
+  const handleCloseReassignForm = () => {
+    setShowReAssignBedForm(false)
+  }
+
+
+  const handleShowNoticePeriod = (isVisible, customer) => {
+    setOccubiedBed(false)
+    setMoveToNoticePeriodForm(isVisible)
+    console.log("customer", customer)
+    setCustomerDetails(customer)
+
+  }
+
+  const handleCloseNoticePeriod = () => {
+    setMoveToNoticePeriodForm(false)
+  }
+
+  useEffect(() => {
+    if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
+      setNoticePeriodBed(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
+      }, 2000);
+    }
+  }, [state.UsersList?.StatusCodeBacktoCheckin]);
+
+  useEffect(() => {
+    if (props.floorID && props.hostel_Id) {
+      setLoader(true)
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+    } else {
+      setLoader(false)
+    }
+  }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
+
+  useEffect(() => {
+    if (state.PgList.roomCountStatusCode === 200) {
+      setLoader(false)
+      setTimeout(() => {
+        setLoaderTrigger(false)
+      }, 100)
+      setRoomCountData(state.PgList?.roomCount);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
+      }, 500);
+    }
+  }, [state.PgList?.roomCountStatusCode])
+
+
+
+
+  useEffect(() => {
+    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
+      setLoader(false)
+      setTimeout(() => {
+        setLoaderTrigger(false)
+      }, 100)
+      setRoomCountData([])
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
+      }, 100);
+    }
+
+  }, [state.PgList?.noRoomsInFloorStatusCode])
+
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      dispatch({ type: 'HOSTELLIST' })
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODES' })
+      }, 2000)
+      setShowDeleteBed(false)
+      dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+    }
+  }, [state.UsersList?.statusCodeForAddUser]);
+
+  useEffect(() => {
+
+    if (state.PgList.statusCodeCreateRoom === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setShowRoom(false)
+      dispatch({ type: 'HOSTELLIST' })
+
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
+      }, 100)
+    }
+  }, [state.PgList.statusCodeCreateRoom])
+
+  useEffect(() => {
+    if (state.PgList.createBedStatusCode === 200) {
+      dispatch({ type: 'HOSTELLIST' })
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setShowBed(false)
+
+
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
+      }, 4000)
+    }
+  }, [state.PgList.createBedStatusCode])
+
+  useEffect(() => {
+    dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+  }, [])
+
+  useEffect(() => {
+    if (props.floorID) {
+      setCurrentPage(1)
+    }
+  }, [props.floorID])
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setMoveToNoticePeriodForm(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
+      }, 3000);
+
+    }
+  }, [state.UsersList.addCheckoutCustomerStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList.statusCodeForReassinBed === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setShowReAssignBedForm(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_REASSIGN_BED" });
+      }, 3000);
+
+    }
+  }, [state.UsersList.statusCodeForReassinBed]);
+
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 200) {
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      setEmptyBed(false);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_STATUS_CODES" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForAddBookin, state.UsersList?.statusCodeForAddUser])
+
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+      setEmptyBed(false);
+      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForAddBookin])
 
 
 
@@ -298,116 +449,9 @@ useEffect(() => {
     })
   });
 
-
-
-  const popupRef = useRef(null);
-
-
-  const handleClickOutside = (event) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setActiveRoomId(null);
-    }
-  };
-
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    window.scrollTo(0, 0);
   }, []);
-
-
-
-  const handleShowReservedBed = () => {
-    setShowReservedBed(true)
-  }
-
-  const handleCloseReservedBed = () => {
-    setShowReservedBed(false)
-  }
-
-
-
-  const handleShowCheck_In = () => {
-    setShowCheckIn(true)
-    setShowReservedBed(false)
-
-  }
-
-  const handleCloseCheck_In = () => {
-    setShowCheckIn(false)
-  }
-
-
-  const handleShowMakeAsInActive = () => {
-    setShowInActive(true)
-    setShowReservedBed(false)
-  }
-
-  const handleCloseMakeAsInActive = () => {
-    setShowInActive(false)
-  }
-
-  const handlecloseoccubiedbed = () => {
-    setOccubiedBed(false)
-  }
-
-
-  const handleShowReAssignBedPopup = (isVisible, customer_id) => {
-    setOccubiedBed(false)
-    setShowReAssignBedForm(isVisible)
-    console.log("customer_id", customer_id)
-    setCustomerId(customer_id)
-
-  }
-
-  const handleCloseReassignForm = () => {
-    setShowReAssignBedForm(false)
-  }
-
-
-  const handleShowNoticePeriod = (isVisible, customer) => {
-    setOccubiedBed(false)
-    setMoveToNoticePeriodForm(isVisible)
-    console.log("customer", customer)
-    setCustomerDetails(customer)
-
-  }
-
-  const handleCloseNoticePeriod = () => {
-    setMoveToNoticePeriodForm(false)
-  }
-
-  useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      setMoveToNoticePeriodForm(false)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
-      }, 3000);
-
-    }
-  }, [state.UsersList.addCheckoutCustomerStatusCode]);
-
-  useEffect(() => {
-    if (state.UsersList.statusCodeForReassinBed === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      setShowReAssignBedForm(false)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_REASSIGN_BED" });
-      }, 3000);
-
-    }
-  }, [state.UsersList.statusCodeForReassinBed]);
-
-
-
-
-
-
-
-
-
 
 
   return (
@@ -881,6 +925,10 @@ useEffect(() => {
           handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
       }
 
+      {
+        Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
+          handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} />
+      }
 
       {showReAssignBedForm &&
         <CustomerReAssign
