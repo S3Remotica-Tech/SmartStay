@@ -53,6 +53,7 @@ function CustomerCheckout(props) {
   const handleCheckOutCustomer = () => {
   
 
+
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' });
 
     const formattedDate = dayjs(selectedDate).isValid()
@@ -78,10 +79,15 @@ function CustomerCheckout(props) {
       return;
     }
 
-    const userId = props.data?.ID || props.data?.id || null;
+    const userId = props.data?.ID || props.data[0]?.id || null;
     const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
 
+console.log("UserId:", userId, "HostelId:", hostelId);
+
+
     if (userId && hostelId && formattedDate && formattedrequestDate) {
+      console.log("Dispatching ADDCHECKOUTCUSTOMER now...");
+
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER',
         payload: {
@@ -227,7 +233,7 @@ function CustomerCheckout(props) {
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name}
+                                {props.data?.Name || props.data[0]?.Name}
                               </label>
                             </div>
 
@@ -249,7 +255,7 @@ function CustomerCheckout(props) {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {/* {props.complaints?.floor_name} */}Ground Floor
+                              {/* {props.complaints?.floor_name} */}{props.bedData?.room?.Floor_Id}
                             </div>
 
                             <div
@@ -266,7 +272,7 @@ function CustomerCheckout(props) {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {/* {props.complaints?.room_name} - B{props.complaints?.bedName} */}G005 - B03
+                              {/* {props.complaints?.room_name} - B{props.complaints?.bedName} */}{props.bedData?.room?.Room_Name}  - {props.bedData?.bed?.bed_no}
                             </div>
 
 

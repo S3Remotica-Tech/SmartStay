@@ -11,8 +11,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
 import { FiCalendar, } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
-import CustomerReAssign from "../../CustomerFile/CustomerReAssign";
-import CustomerCheckout from "../../CustomerFile/CustomerCheckout";
+
 
 
 
@@ -20,7 +19,10 @@ import CustomerCheckout from "../../CustomerFile/CustomerCheckout";
 function OccupiedBedStatus({
     show,
     handleCloseBed,
-    currentItem }) {
+    currentItem ,
+handleShowReassignBed,
+handleShowNoticePeriod
+}) {
 
 
 
@@ -70,21 +72,20 @@ function OccupiedBedStatus({
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
 
-    const [showReAssignBedForm, setShowReAssignBedForm] = useState(false);
-    const [moveToNoticePeriodForm, setMoveToNoticePeriodForm] = useState(false);
-
-
+    
 
     const popupRef = useRef(null);
 
 
-    const handleReAssignBed = () => {
-        setShowReAssignBedForm(true);
+       const handleReAssignBed = () => {
+       handleShowReassignBed(true,customer?.[0]?.id )
     };
 
     const handleMoveToNoticePeriod = () => {
-        setMoveToNoticePeriodForm(true);
+        handleShowNoticePeriod(true, customer )
     };
+
+   
 
     const handleShowDots = (roomId) => {
         setShowDots(!showDots)
@@ -309,26 +310,6 @@ function OccupiedBedStatus({
                 </Modal>
             </div>
 
-            {showReAssignBedForm && (() => {
-                const userId = customer?.[0]?.id || "";
-                return (
-                    <CustomerReAssign
-                        reAssignBedDetail={{ ...currentItem, id: userId }}
-                        setCustomerReAssign={setShowReAssignBedForm}
-                    />
-                );
-            })()}
-            {moveToNoticePeriodForm && (() => {
-                const customerData = customer?.[0] || {};
-                return (
-                    <CustomerCheckout
-                        bedData={currentItem}
-                        data={customerData}
-                        customerCheckoutpage={moveToNoticePeriodForm}
-                        setCustomerCheckoutpage={setMoveToNoticePeriodForm}
-                    />
-                );
-            })()}
 
            
 
