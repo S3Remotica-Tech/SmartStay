@@ -424,7 +424,8 @@ function Sidebar() {
 
 
   const handleShowsettingsPG = (settingNewDesign) => {
-    handlePageClick("settingNewDesign");
+    // handlePageClick("settingNewDesign");
+     navigate("/settingNewDesign"); 
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
     setIsSidebarOpen(false);
