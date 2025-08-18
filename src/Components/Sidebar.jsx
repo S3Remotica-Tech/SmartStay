@@ -54,6 +54,7 @@ import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Route, Routes, } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -421,7 +422,7 @@ function Sidebar() {
     state.UsersList.statusCodeForhostelListNewDetails,
   ]);
 
-
+console.log("state sidebar",state)
 
   const handleShowsettingsPG = (settingNewDesign) => {
     handlePageClick("settingNewDesign");
@@ -1156,7 +1157,7 @@ function Sidebar() {
                         color: "blue",
                       }}
                     >
-                      Admin
+                 {stateData?.accountList?.roleName}
                     </span>
                   </div>
                 </div>

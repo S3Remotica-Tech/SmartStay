@@ -51,6 +51,10 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     });
 
+
+
+    console.log("permissionRole", permissionRole)
+
     const handleCheckboxChange = (row, index) => {
         setErrorPermission('')
         setErrorIsChanged("")
@@ -97,11 +101,11 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
             }
 
             return {
-                permission_id: permissionMapping[key],
-                per_create: values[0] ? 1 : 0,
-                per_view: values[1] ? 1 : 0,
-                per_edit: values[2] ? 1 : 0,
-                per_delete: values[3] ? 1 : 0
+                moduleId: permissionMapping[key],
+                canWrite: values[0] ? 1 : 0,
+                canRead: values[1] ? 1 : 0,
+                canUpdate: values[2] ? 1 : 0,
+                canDelete: values[3] ? 1 : 0
             };
         }).filter(Boolean);
 
@@ -143,15 +147,15 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
             editPermissionDetails.forEach((permission) => {
                 const permissionName = Object.keys(permissionMapping).find(
-                    (key) => permissionMapping[key] === permission.permission_id
+                    (key) => permissionMapping[key] === permission.moduleId
                 );
 
                 if (permissionName) {
                     updatedCheckboxValues[permissionName] = [
-                        permission.per_create === 1,
-                        permission.per_view === 1,
-                        permission.per_edit === 1,
-                        permission.per_delete === 1,
+                        permission.canWrite === 1,
+                        permission.canRead === 1,
+                        permission.canUpdate === 1,
+                        permission.canDelete === 1,
                     ];
                 }
             });
@@ -229,13 +233,10 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
     const normalizePermissions = (permissions) =>
-        permissions.map(({ permission_id, per_create, per_view, per_edit, per_delete }) => ({
-            permission_id,
-            per_create,
-            per_view,
-            per_edit,
-            per_delete,
-        })).sort((a, b) => a.permission_id - b.permission_id);
+        permissions.map(({ moduleId, canWrite, canRead, canUpdate, canDelete }) => ({
+            moduleId,
+            canWrite, canRead, canUpdate, canDelete,
+        })).sort((a, b) => a.moduleId - b.moduleId);
 
 
 
@@ -249,7 +250,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
             isValid = false;
         }
         const hasPermissionSelected = permissionRole.some(permission =>
-            permission.per_create !== 0 || permission.per_delete !== 0 || permission.per_edit !== 0 || permission.per_view !== 0
+            permission.canWrite !== 0 || permission.canDelete !== 0 || permission.canUpdate !== 0 || permission.canRead !== 0
         )
 
         if (!hasPermissionSelected) {
@@ -279,11 +280,28 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
         if (!isValid) return;
+
+
+        const formattedPermissionList = permissionRole
+            .map(permission => ({
+                moduleId: permission.moduleId,
+                canRead: permission.canRead === 1,
+                canWrite: permission.canWrite === 1,
+                canUpdate: permission.canUpdate === 1,
+                canDelete: permission.canDelete === 1,
+            }))
+            .filter(permission =>
+                permission.canRead ||
+                permission.canWrite ||
+                permission.canUpdate ||
+                permission.canDelete
+            );
+
         const payload = {
-            id: editRoleDetails.id || null,
-            hostel_id: state.login.selectedHostel_Id,
-            role_name: roleName,
-            permissions: permissionRole,
+            // id: editRoleDetails.id || null,
+            // hostel_id: state.login.selectedHostel_Id,
+            roleName: roleName,
+            permissionList: formattedPermissionList,
 
         };
 
@@ -321,18 +339,18 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     }, [showRole]);
 
 
-useEffect(() => {
-    if (state.createAccount?.networkError) {
-      setFormLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-      }, 3000)
-    }
+    useEffect(() => {
+        if (state.createAccount?.networkError) {
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+            }, 3000)
+        }
 
-  }, [state.createAccount?.networkError])
+    }, [state.createAccount?.networkError])
 
 
-    
+
     return (
         <div
             className="modal show"
@@ -411,7 +429,7 @@ useEffect(() => {
 
                             {roleError && (
                                 <div className="d-flex align-items-center" style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px" }} />
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {roleError}
                                     </label>
@@ -419,7 +437,7 @@ useEffect(() => {
                             )}
                             {editRoleError && (
                                 <div className="d-flex align-items-center  " style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px" }} />
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {editRoleError}
                                     </label>
@@ -491,12 +509,12 @@ useEffect(() => {
 
                     </Modal.Body>
 
-                     {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-3 mb-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
-              : null}
+                    {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-3 mb-1'>
+                            <MdError style={{ color: "red", marginRight: '5px' }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                        </div>
+                        : null}
                     {formLoading &&
                         <div
                             style={{

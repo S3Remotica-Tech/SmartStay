@@ -137,6 +137,8 @@ export async function AccountDetails() {
    return await AxiosConfigV2.get('/v2/profile')
 }
 
+
+
 export async function OTPverification(datum) {
   return await axios.post(`${ConfigV1.apiBaseUrl}/otp-send/response`,datum, {
     data: datum

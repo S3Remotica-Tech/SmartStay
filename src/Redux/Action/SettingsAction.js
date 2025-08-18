@@ -63,17 +63,39 @@ export async function GetEBBillingUnit(hostel_Id) {
   });
 }
 
+
+// v1
+
+// export async function GetAllRoles(payload) {
+//   return await AxiosConfig.post("/all_roles", payload, {
+//     data: payload,
+//   });
+// }
+
+// v2 
+
 export async function GetAllRoles(payload) {
-  return await AxiosConfig.post("/all_roles", payload, {
+  return await AxiosConfigV2.get("/v2/role", payload, {
     data: payload,
   });
 }
 
+// v1
+// export async function AddSettingRole(datum) {
+//   return await AxiosConfig.post("/add_role", datum, {
+//     data: datum,
+//   });
+// }
+
+// v2
+
 export async function AddSettingRole(datum) {
-  return await AxiosConfig.post("/add_role", datum, {
+  return await AxiosConfigV2.post("/v2/role", datum, {
     data: datum,
   });
 }
+
+
 
 export async function AddSettingPermission(datum) {
   return await AxiosConfig.post("/role_permissions", datum, {
@@ -92,8 +114,18 @@ export async function deleteRolePermission(datum) {
   });
 }
 
+
+// v1
+// export async function addStaffUser(datum) {
+//   return await AxiosConfig.post("/add_staff_user", datum, {
+//     data: datum,
+//   });
+// }
+
+
+// v2
 export async function addStaffUser(datum) {
-  return await AxiosConfig.post("/add_staff_user", datum, {
+  return await AxiosConfigV2.post("/v2/profile/add-user", datum, {
     data: datum,
   });
 }

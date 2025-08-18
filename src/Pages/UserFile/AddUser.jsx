@@ -275,12 +275,12 @@ const handlePassword = (e) => {
     }
 
     if (isValid) {
-      const MobileNumber = `${countryCode}${mobile}`;
+      const MobileNumber = `${mobile}`;
       const payload = {
-        user_name: name,
-        phone: MobileNumber,
-        email_id: email,
-        role_id: role,
+        name: name,
+        mobile: MobileNumber,
+        emailId: email,
+        roleId: role,
         description: description,
       };
 
@@ -298,9 +298,10 @@ const handlePassword = (e) => {
     }
   };
 
+  console.log("state",state)
 
   useEffect(() => {
-    if (state.Settings.StatusForaddSettingUser === 200) {
+    if (state.Settings.StatusForaddSettingUser === 201) {
       setFormLoading(false)
       handleCloseForm();
       dispatch({
@@ -750,7 +751,7 @@ const handlePassword = (e) => {
                     options={
                       state.Settings?.getsettingRoleList?.map((u) => ({
                         value: u.id,
-                        label: u.role_name,
+                        label: u.name,
                       })) || []
                     }
                     onChange={handleRoleChange}
@@ -762,7 +763,7 @@ const handlePassword = (e) => {
                           value: role,
                           label: state.Settings.getsettingRoleList.find(
                             (option) => option.id === role
-                          )?.role_name,
+                          )?.name,
                         }
                         : null
                     }

@@ -576,8 +576,11 @@ function* handleDeleteElectricity(action) {
 function* handleGetAllRoles(action) {
    const response = yield call(GetAllRoles, action.payload)
    
+   console.log("response get",response)
+
+
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ROLE_LIST', payload:{response: response.data.roles, statusCode:response.status || response.statusCode}})
+      yield put({ type: 'ROLE_LIST', payload:{response: response.data, statusCode:response.status || response.statusCode}})
    }
    else {
       yield put({ type: 'ERROR_ROLE', payload: {statusCode:response.status || response.statusCode}})
@@ -590,6 +593,8 @@ function* handleGetAllRoles(action) {
 function* handleAddSettingRole(action) {
    try{
    const response = yield call (AddSettingRole, action.payload);
+
+   console.log("response add role",response)
 
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -607,9 +612,9 @@ function* handleAddSettingRole(action) {
     
    };
 
-   if (response.data.status === 200 || response.data.statusCode === 200){
-      yield put ({type : 'ADD_SETTING_ROLE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
-      toast.success(`${response.data.message}`, {
+   if (response.status === 201){
+      yield put ({type : 'ADD_SETTING_ROLE' , payload:{response:response.data, statusCode:response.status}})
+      toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -797,9 +802,9 @@ function* handleAddStaffUserPage(detail) {
     
    };
 
-   if (response.data.status === 200 || response.data.statusCode === 200){
-      yield put ({type : 'ADD_STAFF_USER' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
-      toast.success(`${response.data.message}`, {
+   if (response.status === 201){
+      yield put ({type : 'ADD_STAFF_USER' , payload:{response:response.data, statusCode:response.status}})
+      toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,

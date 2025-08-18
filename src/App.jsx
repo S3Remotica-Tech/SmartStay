@@ -87,7 +87,8 @@ function App() {
 
   useEffect(() => {
     if (!state.login?.isLoggedIn && !data) {
-
+cookies.remove('v2-token', { path: '/' });
+  cookies.remove('token', { path: '/' });
       dispatch({ type: 'CLEAR_DASHBOARD' })
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });

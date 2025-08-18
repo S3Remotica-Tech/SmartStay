@@ -102,8 +102,12 @@ const MyComponent = () => {
       return
     }
     if (email_Id && password) {
+        dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
+        setTimeout(()=>{
+
+        })
       dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025'  } });
-       dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
+     
       setLoading(true)
     }
   };
@@ -146,8 +150,8 @@ const MyComponent = () => {
 
   useEffect(() => {
     if (state.login.statusCode === 200) {
-      setLoading(false)
-      dispatch({ type: 'LOGIN-SUCCESS' });
+      // setLoading(false)
+      // dispatch({ type: 'LOGIN-SUCCESS' });
       const token = state.login.JWTtoken
       const cookies = new Cookies()
       cookies.set('token', token, { path: '/' });
@@ -159,19 +163,27 @@ const MyComponent = () => {
   }, [state.login.statusCode]);
 
 
+console.log("state.login",state.login)
+
   useEffect(() => {
-    if (state.login.statusCodeForV2Login === 200) {
+    if (state.login.statusCodeForV2Login) {
       setLoading(false)
       dispatch({ type: 'LOGIN-SUCCESS' });
       const token = state.login?.JWTtokenV2
+
+      console.log("version2 token",token)
+
       const cookies = new Cookies()
       cookies.set('v2-token', token, { path: '/' });
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUSCODE' });
+      if(token){
+    setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUSCODE_VERSION_2' });
       }, 100);
+      }
+     
     }
 
-  }, [state.login.statusCode]);
+  }, [state.login.statusCodeForV2Login]);
 
 
 

@@ -104,7 +104,7 @@ useEffect(() => {
 
 
    
-
+console.log("state",state)
 
   useEffect(() => {
     if (state.Settings.statusCodeForRoleList === 200) {
@@ -175,7 +175,7 @@ const options = [
 
 
   useEffect(() => {
-    if (state.Settings.statusCodeForAddRole === 200)
+    if (state.Settings.statusCodeForAddRole === 201)
 
       setShowRole(false)
     dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -291,7 +291,7 @@ style={{maxHeight:475, overflowY:"auto"}}
                     className="ms-3  text-truncate d-inline-block"
                     style={{ fontSize: 16, maxWidth: 100, fontWeight: 500, fontFamily: "Gilroy" }}
                   >
-                    {view.role_name}
+                    {view.name}
                   </span>
                 </div>
 

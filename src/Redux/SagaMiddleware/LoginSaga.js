@@ -52,10 +52,10 @@ function* LoginV2(args) {
   try {
     const response = yield call(loginV2, args.payload);
 
-    console.log("response login", response)
+    console.log("response login version 2", response)
 
-    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'LOGIN-VERSION-2', payload: { response: response.data, statusCode: response.status || response.statusCode } });
+    if (response.status === 200) {
+      yield put({ type: 'LOGIN_VERSION_2', payload: { response: response.data, statusCode: response.status || response.statusCode } });
     }
     else if (response.status === 203 || response.statusCode === 203) {
       yield put({ type: 'OTP_SUCCESS', payload: { response: response.data, statusCode: response.status || response.statusCode } });
