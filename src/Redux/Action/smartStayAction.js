@@ -7,16 +7,16 @@ import axios from 'axios'
 
 // v1
 
-// export async function login(EmailId, Password) {
-//   return await axios.get(`${ConfigV1.apiBaseUrl}/login/login`, {
-//     params: EmailId, Password
-//   })
-// }
+export async function login(EmailId, Password) {
+  return await axios.get(`${ConfigV1.apiBaseUrl}/login/login`, {
+    params: EmailId, Password
+  })
+}
 
 
 // v2
 
-export async function login(loginInfo) {
+export async function loginV2(loginInfo) {
   return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/login`,loginInfo, {
    data:loginInfo
 

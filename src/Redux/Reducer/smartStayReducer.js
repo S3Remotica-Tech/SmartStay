@@ -23,7 +23,9 @@
    errorPasswordStatusCode:0,
     planStatus: null,
     joiningDate:"",
-    invalidCredential: ''
+    invalidCredential: '',
+    statusCodeForV2Login:0,
+    JWTtokenV2: '',
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -64,8 +66,14 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'LOGIN-INFO':
-         return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken: action.payload.response }
-      case 'ERROR_EMAIL':
+         return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
+     
+     case 'LOGIN-VERSION-2':
+              return { ...state, statusCodeForV2Login: action.payload.statusCode, JWTtokenV2: action.payload.response }
+
+     
+     
+         case 'ERROR_EMAIL':
          return { ...state, errorEmail: action.payload.response, errorStatusCode: action.payload.statusCode }
       case 'ERROR_PASSWORD':
          return { ...state, errorPassword: action.payload.response,  errorPasswordStatusCode: action.payload.statusCode }
@@ -83,7 +91,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'LOG_OUT':
          return { ...state, isLoggedIn: false  , selectedHostel_Id: null}
       case 'CLEAR_STATUSCODE':
-         return { ...state, statusCode: 0 }
+         return { ...state, statusCode: 0 , statusCodeForV2Login: 0}
       case 'OTP_SUCCESS':
          return { ...state, loginInformation: action.payload.response.Data, otpSuccessStatusCode: action.payload.statusCode }
       case 'CLEAR_OTP_STATUSCODE':

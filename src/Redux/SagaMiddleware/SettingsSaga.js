@@ -884,8 +884,8 @@ console.log("General response",response)
    };
 
    if (response.status === 201){
-      yield put ({type : 'SETTING_GENERAL_ADD' , payload:{response:response, statusCode: response.statusCode}})
-      toast.success(`${response.message}`, {
+      yield put ({type : 'SETTING_GENERAL_ADD' , payload:{response:response, statusCode: response.status}})
+      toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -897,7 +897,7 @@ console.log("General response",response)
         style: toastStyle,
      });
    }
-   else if(response.status === 202) {
+   else if(response.status === 400) {
          
       yield put({ type: 'GENERAL_EMAIL_ERROR', payload: response.message });
    }

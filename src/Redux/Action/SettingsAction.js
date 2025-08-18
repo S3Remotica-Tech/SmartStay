@@ -148,12 +148,14 @@ export async function GetAllReport() {
 
 
 
+// v2
+
 export async function AddGeneral(params) {
   try {
     const formData = new FormData();
 
     if (params.accountInfo) {
-            const accountInfoBlob = new Blob(
+      const accountInfoBlob = new Blob(
         [JSON.stringify(params.accountInfo)],
         { type: "application/json" }
       );
@@ -162,19 +164,28 @@ export async function AddGeneral(params) {
 
     if (params.profilePic) {
       formData.append("profilePic", params.profilePic);
+    } else {
+      formData.append(
+        "profilePic",
+        new Blob([], { type: "application/octet-stream" }),
+        "empty.txt"
+      );
     }
-
     const response = await AxiosConfigV2.post(
       "/v2/profile/add-admin",
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Axios Error", error);
   }
 }
+
+
+
+
 
 
 
@@ -251,7 +262,7 @@ export async function SettingsGetRecurring(reccurring) {
 
 
 export async function AddInvoiceSettings(params) {
-  
+
   const formData = new FormData();
 
   if (params.hostelId) formData.append("hostelId", params.hostelId);
@@ -369,10 +380,10 @@ export async function AddGlobalSettingTemplate(params) {
   if (params.hostel_Id)
     formData.append("hostel_Id", params.hostel_Id);
 
-  if (params.logo_url)formData.append("logo_url", params.logo_url);
-   
+  if (params.logo_url) formData.append("logo_url", params.logo_url);
 
-  if (params.digital_signature_url)formData.append("digital_signature_url", params.digital_signature_url);
+
+  if (params.digital_signature_url) formData.append("digital_signature_url", params.digital_signature_url);
 
   try {
     const response = await AxiosConfig.post(

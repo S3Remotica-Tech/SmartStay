@@ -102,7 +102,8 @@ const MyComponent = () => {
       return
     }
     if (email_Id && password) {
-      dispatch({ type: 'LOGININFO', payload: { emailId: email_Id, password: password } });
+      dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025'  } });
+       dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
       setLoading(true)
     }
   };
@@ -157,6 +158,25 @@ const MyComponent = () => {
 
   }, [state.login.statusCode]);
 
+
+  useEffect(() => {
+    if (state.login.statusCodeForV2Login === 200) {
+      setLoading(false)
+      dispatch({ type: 'LOGIN-SUCCESS' });
+      const token = state.login?.JWTtokenV2
+      const cookies = new Cookies()
+      cookies.set('v2-token', token, { path: '/' });
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUSCODE' });
+      }, 100);
+    }
+
+  }, [state.login.statusCode]);
+
+
+
+
+
   useEffect(() => {
     if (state.login.errorEmail || state.login.errorPassword || state.login.invalidCredential) {
       setLoading(false)
@@ -180,7 +200,6 @@ const MyComponent = () => {
   }, [state.createAccount?.networkError])
 
 
-  console.log("state", state)
 
 
 

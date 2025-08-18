@@ -16,7 +16,7 @@ headers: {
 })
 AxiosConfigV2.interceptors.request.use(
   (config) => {
-      const token = cookies.get('token');
+      const token = cookies.get('v2-token');
      
       if (token) {
           config.headers['Authorization'] = `Bearer ${token}`;
