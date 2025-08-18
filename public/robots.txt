@@ -1,24 +1,7 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
 User-agent: *
-Disallow: /admin/
-Disallow: /login/
-Disallow: /register/
-Disallow: /checkout/
-Disallow: /cart/
-Disallow: /user/
-Disallow: /account/
-Disallow: /orders/
-Disallow: /api/
-Disallow: /backend/
-Disallow: /payment/
-Disallow: /profile/
-Disallow: /settings/
-Allow: /wp-admin/admin-ajax.php
-Crawl-delay: 10
+Disallow: /hostel-management-login
+Disallow: /hostel-management-signup
+Disallow: /pg-management-dashboard
+Allow: /sitemap.xml
 
 Sitemap: https://smartstay.qbatz.com/sitemap.xml
