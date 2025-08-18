@@ -36,6 +36,7 @@ import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 
 function ParticularHostelDetails(props) {
 
+console.log("props",props);
 
 
   const dispatch = useDispatch();
@@ -1153,7 +1154,7 @@ function ParticularHostelDetails(props) {
       {/* Notice period  */}
     {
         Noticeperiod_bed && <NoticeBedStatusDetails    show={Noticeperiod_bed}
-      handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} 
+      handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails}
       showBooking = {handleshowNoticePeriodBooking} showNoticeperiodCheckout = {handleshowNoticePeriodCheckout}
       />}
 
@@ -1173,7 +1174,11 @@ function ParticularHostelDetails(props) {
       }
 
       {
-        Noticeperiod_checkout && <CheckoutTenant show ={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout} currentItem={OccupiedCustomerDetails} />
+        Noticeperiod_checkout && <CheckoutTenant show ={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}  
+             customerDetails={customerDetails}
+
+        data={OccupiedCustomerDetails }
+        />
       }
 
  

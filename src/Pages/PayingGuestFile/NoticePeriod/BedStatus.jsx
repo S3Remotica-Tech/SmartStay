@@ -31,6 +31,7 @@ function NoticeBedStatusDetails({
             const dispatch = useDispatch();
 
           const [customer, setCustomer] = useState([])
+          const [customerId, setCustomerId] = useState("")
     
             console.log("data", currentItem);
             
@@ -75,6 +76,7 @@ function NoticeBedStatusDetails({
                 if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
                     console.log("customer", state.PgList.OccupiedCustomer);
                     setCustomer(state.PgList.OccupiedCustomer)
+                    setCustomerId(state.PgList.OccupiedCustomer.id)
                     setTimeout(() => {
                         dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
                     }, 2000)
@@ -176,7 +178,13 @@ function NoticeBedStatusDetails({
        showBooking(true)    
   }
  
-  const handleCheckout = () => {
+  const handleCheckout = (item) => {
+    console.log("item",item);
+      dispatch({
+        type: "GETCONFIRMCHECKOUTCUSTOMER",
+        payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+      });
+    
        showNoticeperiodCheckout(true)
   }
 
@@ -316,7 +324,7 @@ function NoticeBedStatusDetails({
 
                       <div
                         className="d-flex gap-2 align-items-center"
-                        onClick={() => handleCheckout()}
+                        onClick={() => handleCheckout(currentItem)}
 
                         style={{
                           padding: "10px",
