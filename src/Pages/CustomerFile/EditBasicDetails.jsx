@@ -30,14 +30,16 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
    
     const handleFirstNameChange = (e) => {
-        setFirstName(e.target.value);
+        const lettersOnly = e.target.value.replace(/[^A-Za-z]/g, "")
+        setFirstName(lettersOnly);
         setFirstNameError("")
         setIsChanged("")
         
     };
 
     const handleLastNameChange = (e) => {
-        setLastName(e.target.value);
+        const lettersOnly = e.target.value.replace(/[^A-Za-z]/g, "");
+        setLastName(lettersOnly);
         setIsChanged("")
     };
 
@@ -107,6 +109,7 @@ setIsChanged("")
             setPhone(mobileNumber);
             setCountryCode(countryCode);
             setId(basicDetails[0].ID);
+            setEmail(basicDetails[0].Email || "")
 
           
             setInitialValues({
@@ -127,7 +130,8 @@ setIsChanged("")
 
 
 
-
+  console.log("bascisdetails", basicDetails[0].Email);
+  
 
 
     useEffect(() => {

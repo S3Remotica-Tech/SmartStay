@@ -600,9 +600,15 @@ function BookingModal(props) {
                       placeholder="DD/MM/YYYY"
                       value={joiningDate ? dayjs(joiningDate) : null}
                       onChange={handleJoiningDateChange}
-                      disabledDate={(current) =>
-                        bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
-                      }
+                      // disabledDate={(current) =>
+                      //   bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
+                      // }
+                        disabledDate={(current) => {
+    if (!bookingDate) {
+      return true; 
+    }
+    return current && current.isBefore(dayjs(bookingDate), "day");
+  }}
                       getPopupContainer={() => document.body}
 
                     />

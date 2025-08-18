@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import Addbtn from "../../Assets/Images/New_images/add-circle.png"
-import { Edit, Trash } from "iconsax-react";
+// import { Edit, Trash } from "iconsax-react";
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -14,8 +14,8 @@ import { MdError } from "react-icons/md";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {
   Table,
-  Button,
-  Modal,
+  // Button,
+  // Modal,
 
 } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -33,16 +33,16 @@ function CheckOut(props) {
 
 
   const [activeDotsId, setActiveDotsId] = useState(null);
-  const [modalType, setModalType] = useState(null);
+  // const [modalType, setModalType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
-  const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
-  const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
+  // const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
+  // const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader, setCheckOutLoader] = useState(false)
-  const [cofirmForm, setConfirmForm] = useState(false)
+  // const [cofirmForm, setConfirmForm] = useState(false)
 
 
   useEffect(() => {
@@ -51,13 +51,13 @@ function CheckOut(props) {
     if (isAdmin) {
       if (state?.login?.planStatus === 0) {
         setcheckOutPermissionError("");
-        setcheckOutEditPermissionError("Permission Denied");
-        setcheckOutDeletePermissionError("Permission Denied");
+        // setcheckOutEditPermissionError("Permission Denied");
+        // setcheckOutDeletePermissionError("Permission Denied");
 
       } else if (state?.login?.planStatus === 1) {
         setcheckOutPermissionError("");
-        setcheckOutEditPermissionError("");
-        setcheckOutDeletePermissionError("");
+        // setcheckOutEditPermissionError("");
+        // setcheckOutDeletePermissionError("");
       }
     }
 
@@ -84,17 +84,17 @@ function CheckOut(props) {
 
 
 
-    if (checkoutPermission.per_edit === 1 && planActive) {
-      setcheckOutEditPermissionError("");
-    } else {
-      setcheckOutEditPermissionError("Permission Denied");
-    }
+    // if (checkoutPermission.per_edit === 1 && planActive) {
+    //   setcheckOutEditPermissionError("");
+    // } else {
+    //   setcheckOutEditPermissionError("Permission Denied");
+    // }
 
-    if (checkoutPermission.per_delete === 1 && planActive) {
-      setcheckOutDeletePermissionError("");
-    } else {
-      setcheckOutDeletePermissionError("Permission Denied");
-    }
+    // if (checkoutPermission.per_delete === 1 && planActive) {
+    //   setcheckOutDeletePermissionError("");
+    // } else {
+    //   setcheckOutDeletePermissionError("Permission Denied");
+    // }
   }, [props.customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
@@ -178,7 +178,7 @@ function CheckOut(props) {
 
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
-      setModalType(null);
+      // setModalType(null);
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 3000);
@@ -256,29 +256,30 @@ function CheckOut(props) {
     }
   }, [props.resetPage]);
 
-  const [checkOutEdit, setCheckOutEdit] = useState("");
-  const [checkouteditaction, setCheckoutEditAction] = useState(false)
+  // const [checkOutEdit, setCheckOutEdit] = useState("");
+  // const [checkouteditaction, setCheckoutEditAction] = useState(false)
   const [checkOutconfirm, setCheckOutConfirm] = useState("");
-  const [deleteCheckOutCustomer, setDeleteCheckOutCustomer] = useState("");
-  const [checkoutaction, setCheckoutAction] = useState(false)
-  const [conformEdit, setConformEdit] = useState(false)
+  // const [deleteCheckOutCustomer, setDeleteCheckOutCustomer] = useState("");
+  // const [checkoutaction, setCheckoutAction] = useState(false)
+  // const [conformEdit, setConformEdit] = useState(false)
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
 
 
-  const handleEdit = (checkout) => {
-    setActiveDotsId(null);
-    setcheckoutForm(true);
-    setConfirmForm(false);
-    setCheckOutEdit(checkout);
-    setCheckoutEditAction(true)
-    setCheckoutAction(false)
-    setCheckOutDetails('')
-  };
-  const handleConformEdit = () => {
-    setConfirmForm(true);
-    setConformEdit(true)
-  }
+  // const handleEdit = (checkout) => {
+  //   setActiveDotsId(null);
+  //   setcheckoutForm(true);
+  //   setConfirmForm(false);
+  //   setCheckOutEdit(checkout);
+  //   setCheckoutEditAction(true)
+  //   setCheckoutAction(false)
+  //   setCheckOutDetails('')
+  // };
+
+  // const handleConformEdit = () => {
+  //   setConfirmForm(true);
+  //   setConformEdit(true)
+  // }
 
 
 
@@ -384,28 +385,28 @@ useEffect(() => {
   }
 
 
-  const handleCloseConformForm = () => {
-    setConfirmForm(false);
-  }
+  // const handleCloseConformForm = () => {
+  //   setConfirmForm(false);
+  // }
 
-  const handleDelete = (checkout) => {
-    setActiveDotsId(null);
-    setDeleteCheckOutCustomer(checkout);
-    setModalType("delete");
-  };
+  // const handleDelete = (checkout) => {
+  //   setActiveDotsId(null);
+  //   setDeleteCheckOutCustomer(checkout);
+  //   setModalType("delete");
+  // };
 
-  const confirmDelete = () => {
-    if (deleteCheckOutCustomer.ID) {
-      dispatch({
-        type: "DELETECHECKOUTCUSTOMER",
-        payload: { user_id: deleteCheckOutCustomer.ID },
-      });
-    }
-  };
+  // const confirmDelete = () => {
+  //   if (deleteCheckOutCustomer.ID) {
+  //     dispatch({
+  //       type: "DELETECHECKOUTCUSTOMER",
+  //       payload: { user_id: deleteCheckOutCustomer.ID },
+  //     });
+  //   }
+  // };
 
-  const handleModalClose = () => {
-    setModalType(null);
-  };
+  // const handleModalClose = () => {
+  //   setModalType(null);
+  // };
 
 
 
@@ -954,14 +955,14 @@ useEffect(() => {
                                         display: "flex",
                                         flexDirection: "column",
                                         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-
+                                        padding:10,
                                         zIndex: 10,
                                       }}
                                     >
                                       {checkout.isActive !== 0 && (
                                     
                                         <div
-                                          className="d-flex align-items-center mb-2"
+                                          className="d-flex align-items-center "
                                           onClick={() => {
                                             if (!props.customerCheckoutPermission) {
                                               handleConfirmCheckout(checkout);
@@ -1004,7 +1005,7 @@ useEffect(() => {
 
                                       )}
 
-                                      <div
+                                      {/* <div
                                         className="d-flex align-items-center mb-2"
                                         onClick={() => {
                                           if (!checkOutEditPermissionError) {
@@ -1045,10 +1046,10 @@ useEffect(() => {
                                         >
                                           Edit
                                         </label>
-                                      </div>
+                                      </div> */}
 
 
-                                      <div
+                                      {/* <div
                                         className="d-flex align-items-center"
                                         onClick={() => {
                                           if (!checkOutDeletePermissionError) {
@@ -1088,7 +1089,7 @@ useEffect(() => {
                                         >
                                           Delete
                                         </label>
-                                      </div>
+                                      </div> */}
 
                                     </div>
 
@@ -1288,24 +1289,24 @@ useEffect(() => {
           </div>
 
         }
-        {(checkoutForm || cofirmForm) && (
+        {(checkoutForm ) && (
           <CheckOutForm
             show={checkoutForm}
             item={checkOutCustomer}
             handleClose={checkoutcloseModal}
-            currentItem={checkOutEdit}
+            // currentItem={checkOutEdit}
             data={checkOutconfirm}
-            checkouteditaction={checkouteditaction}
-            checkoutaction={checkoutaction}
-            cofirmForm={cofirmForm}
-            setConfirmForm={setConfirmForm}
-            handleCloseConformForm={handleCloseConformForm}
-            conformEdit={conformEdit}
+            // checkouteditaction={checkouteditaction}
+            // checkoutaction={checkoutaction}
+            // cofirmForm={cofirmForm}
+            // setConfirmForm={setConfirmForm}
+            // handleCloseConformForm={handleCloseConformForm}
+            // conformEdit={conformEdit}
           />
         )}
 
 
-        <Modal
+        {/* <Modal
           show={modalType === "delete"}
           onHide={handleModalClose}
           centered
@@ -1388,7 +1389,7 @@ useEffect(() => {
               Delete
             </Button>
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
 
 
 

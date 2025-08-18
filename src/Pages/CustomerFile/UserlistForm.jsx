@@ -83,6 +83,9 @@ function UserlistForm(props) {
   const [reason, setReason] = useState("");
  const [recheckInDate, setRecheckInDate] = useState("");
   const [activeTab, setActiveTab] = useState("long");
+  const[floor_name , setFloorName] = useState("")
+  const[room_name , setRoomName] = useState("")
+  const[bed_name , setBedName] = useState("")
   const firstnameRef = useRef(null);
   const phoneRef = useRef(null);
   const cityRef = useRef(null);
@@ -370,6 +373,7 @@ function UserlistForm(props) {
     setFloor(selectedOption?.value || "");
     setRooms("");
     setBed("");
+    setRoomRent("");
     setfloorError("");
   };
 
@@ -384,7 +388,7 @@ function UserlistForm(props) {
         room_id: selectedValue,
       },
     });
-
+    
     setRoomRent("");
     setRoomError("");
   };
@@ -826,6 +830,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
       Floor !== "Selected Floor" &&
       Rooms !== "Selected Room" &&
       Bed !== "Selected Bed" &&
+      Floor && Rooms && Bed &&
       selectedDate &&
       Number(AdvanceAmount) > 0 &&
       Number(RoomRent) > 0
@@ -1355,6 +1360,8 @@ const bookingDateRef = useRef("");
 
  useEffect(() => {
     if (props.BookingAssignForm) {
+      console.log("props", props.EditObj);
+      
     
       setId(props.EditObj.ID);
       if (props.EditObj.profile === 0) setFile(null);
@@ -1394,6 +1401,26 @@ const bookingDateRef = useRef("");
       setBookingFloorId(props.EditObj.Booking_FloorName)
       setBookingRoomId(props.EditObj.booking_room_id)
        setBookingBedId(props.EditObj.booking_bed_id)
+      setFloorName(props?.EditObj?.Booking_FloorName)
+      setRoomName(props?.EditObj?.Booking_Rooms)
+      setBedName(props?.EditObj?.Booking_Bed)
+
+        const Bedfilter = state?.UsersList?.roomdetails?.filter(
+      (u) =>
+        String(u.Hostel_Id) === String(props?.EditObj?.Hostel_Id) &&
+        String(u.Floor_Id) === String(props?.EditObj?.booking_floor_id) &&
+        String(u.Room_Id) === String(props?.EditObj?.booking_room_id)
+    );
+
+    const Roomamountfilter =
+      Bedfilter?.[0]?.bed_details?.filter(
+        (amount) => String(amount.id) === String(props?.EditObj?.booking_bed_id)
+      ) ?? [];
+
+    if (Roomamountfilter.length > 0) {
+      setRoomRent(Roomamountfilter[0]?.bed_amount);
+    }
+       
       // setBookingDate(props.EditObj.booking_booking_date)
  if (props.EditObj?.booking_booking_date) {
       const dateObj = new Date(props.EditObj.booking_booking_date);
@@ -1627,10 +1654,14 @@ const bookingDateRef = useRef("");
       updatedFields[index].customReason = value;
       if (updatedErrors[index]) updatedErrors[index].reason = "";
     } else if (field === "amount") {
-      updatedFields[index].amount = value;
 
+        // Allow only numbers
+  const numericValue = value.replace(/[^0-9]/g, ""); 
+  updatedFields[index].amount = numericValue;
+  if (updatedErrors[index]) updatedErrors[index].amount = "";
 
-      if (updatedErrors[index]) updatedErrors[index].amount = "";
+      // updatedFields[index].amount = value;
+      // if (updatedErrors[index]) updatedErrors[index].amount = "";
     }
 
     setFields(updatedFields);
@@ -3179,7 +3210,7 @@ const handleSaveBacktoCheckin =()=>{
                            <FormControl
                                 type="text"
                                 placeholder="Enter Amount"
-                                value={Floor}
+                                value={floor_name}
                                  disabled
                                 style={{
                                   fontSize: 16,
@@ -3212,7 +3243,7 @@ const handleSaveBacktoCheckin =()=>{
                                 type="text"
                                  disabled
                                 placeholder="Enter Amount"
-                                value={Rooms}
+                                value={room_name}
                                 style={{
                                   fontSize: 16,
                                   color: "#4B4B4B",
@@ -3232,7 +3263,44 @@ const handleSaveBacktoCheckin =()=>{
                         </div>
 
 
-                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                     
+
+                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            Bed {" "}
+                           
+                          </Form.Label>
+
+
+                             <FormControl
+                                type="text"
+                                 disabled
+                                placeholder="Enter Amount"
+                                value={bed_name}
+                               
+                                style={{
+                                  fontSize: 16,
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  border: "1px solid #D9D9D9",
+                                  height: 50,
+                                  borderRadius: 8,
+                                    backgroundColor:"#EFF2FF"
+                                }}
+                              />
+
+                         
+                        </div>
+
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <Form.Group>
                               <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                                 Booking Amount
@@ -3272,42 +3340,6 @@ const handleSaveBacktoCheckin =()=>{
                               </div>
                             )}
                           </div>
-
-                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            Bed {" "}
-                           
-                          </Form.Label>
-
-
-                             <FormControl
-                                type="text"
-                                 disabled
-                                placeholder="Enter Amount"
-                                value={Bed}
-                               
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                    backgroundColor:"#EFF2FF"
-                                }}
-                              />
-
-                         
-                        </div>
-
 
 
 

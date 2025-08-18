@@ -2157,8 +2157,10 @@ const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") :
 }
 
 const handleCloseInActive =()=>{
+   if (typeof props?.handleCloseBed === "function") {
+    props.handleCloseBed();
+  }
   setInActiveForm(false)
-  props.handleCloseBed()
   setIsACtiveDateError("")
   setInActiveComments("")
   setInActiveDate("")
@@ -2176,11 +2178,22 @@ const SubmitInActiveForm = () =>{
     return; 
   }
 
+        const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate.toISOString().split("T")[0];
+    };
+     const formattedDate = inActiveDate
+      ? incrementDateAndFormat(inActiveDate)
+      : "";
+
   setIsACtiveDateError("");
+  if(formattedDate){
  dispatch({
           type: "BOOKINGACTIVE",
-          payload: { booking_id: bookingId,Inactive_date:inActiveDate,Inactive_Reason: inActiveComments},
+          payload: { booking_id: bookingId,Inactive_date:formattedDate,Inactive_Reason: inActiveComments},
         });
+  }
 }
 
 
