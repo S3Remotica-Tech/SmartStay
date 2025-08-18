@@ -70,13 +70,13 @@ function NoticeBedStatusDetails({
               },[state.Booking.StatusCodeInactiveCode])
 
 
-        
+        console.log("state",state)
         
             useEffect(() => {
                 if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
                     console.log("customer", state.PgList.OccupiedCustomer);
                     setCustomer(state.PgList.OccupiedCustomer)
-                    setCustomerId(state.PgList.OccupiedCustomer.id)
+                    setCustomerId(state.PgList.OccupiedCustomer[0]?.id)
                     setTimeout(() => {
                         dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
                     }, 2000)
@@ -185,10 +185,9 @@ function NoticeBedStatusDetails({
         payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
       });
     
-       showNoticeperiodCheckout(true)
+       showNoticeperiodCheckout(true, customerId )
   }
-
-
+console.log("customerId",customerId)
 
 
 

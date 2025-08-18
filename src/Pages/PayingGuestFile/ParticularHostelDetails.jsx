@@ -616,9 +616,13 @@ console.log("props",props);
         setNoticePeriodBooking(false)
   }
 
-    const handleshowNoticePeriodCheckout = () => {
-       setNoticePeriodCheckout(true)
+const [customerID, setCustomerID] = useState('')
+
+    const handleshowNoticePeriodCheckout = (isVisible, customerId) => {
+       setNoticePeriodCheckout(isVisible)
        setNoticePeriodBed(false)
+       setCustomerID(customerId)
+
   }
 
   const handlecloseNoticeperiodCheckout = () => {
@@ -1175,7 +1179,7 @@ console.log("props",props);
 
       {
         Noticeperiod_checkout && <CheckoutTenant show ={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}  
-             customerDetails={customerDetails}
+             customerID={customerID}
 
         data={OccupiedCustomerDetails }
         />
