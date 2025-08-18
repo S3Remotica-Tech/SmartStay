@@ -913,12 +913,11 @@ useEffect(() => {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8",
-                                whiteSpace: "nowrap", color: checkout.BalanceDue === 0 ? "green" : "red"
+                                whiteSpace: "nowrap",
                               }}
                                 className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                               >
-                                {checkout.isActive === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Completed</span> : <span
-                                  style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Pending</span>}</td>
+                               <span style={{backgroundColor:"pink",padding:8,borderRadius:10}}>{checkout.status}</span> </td>
 
 
                               <td style={{ borderBottom: "1px solid #E8E8E8" }}>
@@ -960,44 +959,7 @@ useEffect(() => {
                                       }}
                                     >
                                       {checkout.isActive !== 0 && (
-                                        //                   <div
-                                        //                     className="d-flex align-items-center mb-2"
-                                        //                     onClick={() => {
-                                        //                       if (!props.customerCheckoutPermission) {
-                                        //                         handleConfirmCheckout(checkout);
-                                        //                       }
-                                        //                     }}
-                                        //                     style={{
-                                        //                       cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
-                                        //                       pointerEvents: props.customerCheckoutPermission ? "none" : "auto",
-                                        //                       opacity: props.customerCheckoutPermission ? 0.5 : 1,
-                                        //                       padding: "6px 8px",
-                                        //                       borderRadius: 6,
-                                        //                     }}
-                                        //                     onMouseEnter={(e) => {
-                                        //                       if (!props.customerCheckoutPermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                        //                     }}
-                                        //                     onMouseLeave={(e) => {
-                                        //                       e.currentTarget.style.backgroundColor = "transparent";
-                                        //                     }}
-                                        //                   >
-                                        //                     <img
-                                        //                       src={Addbtn}
-                                        //                       alt="checkout icon"
-                                        //                       style={{ height: 16, width: 16, marginRight: 8 }}
-                                        //                     />
-                                        //                     <label
-                                        //                       style={{
-                                        //                         fontSize: 14,
-                                        //                         fontWeight: 600,
-                                        //                         fontFamily: "Gilroy, sans-serif",
-                                        //                           color: props.customerCheckoutPermission ? "#A9A9A9" : "#222222",
-                                        // cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
-                                        //                       }}
-                                        //                     >
-                                        //                       Confirm Check-Out
-                                        //                     </label>
-                                        //                   </div>
+                                    
                                         <div
                                           className="d-flex align-items-center mb-2"
                                           onClick={() => {

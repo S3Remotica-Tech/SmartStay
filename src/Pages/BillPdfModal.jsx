@@ -74,7 +74,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     setIsVisible(true)
   }, [rowData])
 
-
+const [billTransaction,setBillTransaction]= useState("")
+const [billReceipt,setBillReceipt] =useState("")
 
   useEffect(() => {
     if (state.InvoiceList.BillsPdfSuccessCode === 200) {
@@ -84,11 +85,14 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       setInvoiceDetails(state.InvoiceList.BillsPdfDetails.invoice_details)
       setBillTemplate(state.InvoiceList.BillsPdfDetails.bill_template)
       setBankingDetails(state.InvoiceList.BillsPdfDetails.banking_details)
+      setBillTransaction(state.InvoiceList.BillsPdfDetails.Transaction)
+      setBillReceipt(state.InvoiceList.BillsPdfDetails)
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE" });
       }, 100);
     }
   }, [state.InvoiceList.BillsPdfSuccessCode]);
+  console.log("billTransaction",billReceipt.subtotal)
 
   console.log("template" , invoice_details);
   
@@ -205,12 +209,12 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 
 
-  const taxAmount = (invoice_details?.total_amount * bill_template?.tax) / 100;
+  // const taxAmount = (invoice_details?.total_amount * bill_template?.tax) / 100;
 
-  const totalAmount = invoice_details?.total_amount + taxAmount;
+  // const totalAmount = invoice_details?.total_amount + taxAmount;
 
 
-  console.log("rowData" , rowData);
+  console.log("rowData" , state);
   
 
   return (
@@ -515,7 +519,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   </div>
   {invoice_details.invoice_type === "advance" && item.am_name !== "Advance" && (
     <div style={{ fontSize: '12px', marginTop: '2px', color: '#666' }}>
-    <p>(Refundable Amount)</p>  
+    <p>(Non Refundable Amount)</p>  
     </div>
   )}
 </td>
@@ -538,38 +542,156 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         </div>
                       )}
 {invoice_details.invoice_type === "advance" ? (
-    <div className="mt-3 ms-auto me-5" style={{ minWidth: '200px' }}>
-     
+   
+
+
+
+    <div className="mt-3 ms-auto" style={{ minWidth: '300px'}}>
         <div className="d-flex justify-content-between py-1">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payable Amount</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)',marginRight:50 }}>Rs. {billReceipt.subtotal}</span>
                         </div>
-                        <div className="d-flex justify-content-between py-1">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Non Refundable</span>
-                          <span className="me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs.{invoice_details?.non_refundable_amount}</span>
-                        </div>
-                           <div className="d-flex justify-content-between py-1">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Refundable Amount</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.refundable_Amount}</span>
-                        </div>
+    
                       
-                     
+                        {Number(billReceipt.tax) > 0 && (
+  <div className="d-flex justify-content-between py-1">
+    <span
+      style={{
+        fontSize: '13px',
+        fontFamily: 'Gilroy',
+        fontWeight: 500,
+        color: 'rgba(23, 23, 23, 1)',
+      }}
+    >
+      Tax({billReceipt.tax}%)
+    </span>
+    <span
+      className="me-1"
+      style={{
+        fontSize: '13px',
+        fontFamily: 'Gilroy',
+        fontWeight: 500,
+        color: 'rgba(23, 23, 23, 1)',
+        marginRight:50
+      }}
+    >
+      Rs. {billReceipt.taxAmount}
+    </span>
+  </div>
+)}
+
+                          <div className="d-flex justify-content-between fw-bold py-2">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total Bill Amount </span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',paddingLeft:10,marginRight:50 }}>Rs.{billReceipt.totalBillAmount}</span>
+                        </div>
+
+                         {/* <div className="d-flex justify-content-between fw-bold py-2">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Payment made</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs.</span>
+                        </div> */}
+ {billTransaction?.length > 0 &&
+  billTransaction.map((item, index) => (
+    <div
+      key={index}
+      className="d-flex justify-content-between fw-bold py-2"
+    >
+      <span
+        style={{
+          fontSize: '13px',
+          fontFamily: 'Gilroy',
+          fontWeight: 600,
+          color: 'rgba(23, 23, 23, 1)',
+        }}
+      >
+        {/* Payment made(receibtId{item.reference_id}) */}
+         Payment made <p style={{fontSize:10}}>(receiptId:  {item.reference_id}) </p>
+      </span>
+      <span
+        style={{
+          fontSize: '13px',
+          fontFamily: 'Gilroy',
+          fontWeight: 600,
+          color: 'red',
+          marginRight:50
+        }}
+      >
+        Rs. {Number(item.amount || 0)}
+      </span>
+    </div>
+  ))}
+
+                      
+                        <div className="d-flex justify-content-between fw-bold py-2">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>BalanceDue</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', marginRight:50}}>Rs. {billReceipt.BalanceDueAmount}</span>
+                        </div>
+
+                         <div className="d-flex justify-content-between fw-bold py-2">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Non Refundable</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginRight:"60px" }}>Rs. {invoice_details?.non_refundable_amount}</span>
+                        </div>
+                        <div className="d-flex justify-content-between fw-bold py-2">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Refundable</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginRight:"60px" }}>Rs. {invoice_details?.refundable_Amount}</span>
+                        </div>
                       </div>
 
 ):(
-  <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
-                        <div className="d-flex justify-content-between py-1">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-                          <span className="me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {taxAmount}</span>
-                        </div>
-                        <div className="d-flex justify-content-between py-1">
+  <div className="mt-3 ms-auto" style={{ minWidth: '300px'}}>
+        <div className="d-flex justify-content-between py-1">
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
+                          <span  style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)',marginRight:"60px" }}>Rs. {billReceipt.subtotal}</span>
                         </div>
+         {Number(billReceipt.tax) > 0 && (
+                        <div className="d-flex justify-content-between py-1">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax({billReceipt.tax}%)</span>
+                          <span  style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)',marginRight:"60px"}}>Rs. {billReceipt.taxAmount}</span>
+                        </div>
+         )}
+                          <div className="d-flex justify-content-between fw-bold py-2">
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total Bill Amount </span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',paddingLeft:10,marginRight:"60px" }}>Rs.{billReceipt.totalBillAmount}</span>
+                        </div>
+
+                       
+ {billTransaction?.length > 0 &&
+  billTransaction.map((item, index) => (
+    <div
+      key={index}
+      className="d-flex justify-content-between fw-bold py-2"
+    >
+      <span
+        style={{
+          fontSize: '13px',
+          fontFamily: 'Gilroy',
+          fontWeight: 600,
+          color: 'rgba(23, 23, 23, 1)',
+        }}
+      >
+        {/* Payment made(receibtId{item.reference_id}) */}
+         Payment made <p style={{fontSize:10}}>(receiptId: {item.reference_id}) </p>
+      </span>
+      <span
+        style={{
+          fontSize: '13px',
+          fontFamily: 'Gilroy',
+          fontWeight: 600,
+          color: 'red',
+          marginRight:"60px"
+        }}
+      >
+        Rs. {Number(item.amount || 0)}
+      </span>
+    </div>
+  ))}
+
+                      
                         <div className="d-flex justify-content-between fw-bold py-2">
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs. {totalAmount}</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>BalanceDue</span>
+                          <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginRight:"60px" }}>Rs. {billReceipt.BalanceDueAmount}</span>
                         </div>
+
+                       
                       </div>
 )}
                     

@@ -11,67 +11,43 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
 import { FiCalendar, } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
-// import CalenderTick from "../../../Assets/Images/New_images/calendar-tick.svg";
+
+
+
 
 
 function OccupiedBedStatus({
     show,
     handleCloseBed,
-    currentItem
-    // handleReAssignBed,
-    // MoveToNoticePeriod
-   
+    currentItem,
+    handleShowReassignBed,
+    handleShowNoticePeriod
 }) {
 
 
 
-        const state = useSelector(state => state)
-        const dispatch = useDispatch();
-    
-        const [customer, setCustomer] = useState([])
+    const state = useSelector(state => state)
+    const dispatch = useDispatch();
 
-        console.log("data", currentItem);
-        
-    
-        useEffect(() => {
-    
-            const Hostel_Id = currentItem?.room.Hostel_Id;
-            const Floor_Id = currentItem?.room.Floor_Id;
-            const Bed_Id = currentItem?.bed.id;
-            const Room_Id = currentItem?.room.Room_Id;
-    
-    
-            if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-    
-                dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-    
-            }
-        }, [currentItem])
-    
-    
-        useEffect(() => {
-            if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-                setCustomer(state.PgList.OccupiedCustomer)
-                setTimeout(() => {
-                    dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-                }, 2000)
-            }
-    
-    
-        }, [state.PgList.OccupiedCustomerGetStatusCode])
-
+    const [customer, setCustomer] = useState([])
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
+
+
     const popupRef = useRef(null);
 
 
+    const handleReAssignBed = () => {
+        handleShowReassignBed(true, customer?.[0]?.id)
+    };
+
+    const handleMoveToNoticePeriod = () => {
+        handleShowNoticePeriod(true, customer)
+    };
     const handleShowDots = (roomId) => {
         setShowDots(!showDots)
         setActiveRoomId(activeRoomId === roomId ? null : roomId);
     }
-
-
-
 
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -85,6 +61,42 @@ function OccupiedBedStatus({
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+
+    useEffect(() => {
+
+        const Hostel_Id = currentItem?.room.Hostel_Id;
+        const Floor_Id = currentItem?.room.Floor_Id;
+        const Bed_Id = currentItem?.bed.id;
+        const Room_Id = currentItem?.room.Room_Id;
+
+
+        if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+
+            dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+
+        }
+    }, [currentItem])
+
+
+    useEffect(() => {
+        if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+            setCustomer(state.PgList.OccupiedCustomer)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+            }, 2000)
+        }
+
+
+    }, [state.PgList.OccupiedCustomerGetStatusCode])
+
+    // useEffect(() => {
+    //     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+    //         //   dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
+    //         setcheckoutForm(false);
+    //     }
+    // }, [state.UsersList.addCheckoutCustomerStatusCode]);
+
 
 
     return (
@@ -106,11 +118,11 @@ function OccupiedBedStatus({
                         style={{ maxWidth: "100%", width: "100%", borderRadius: 16 }}
                         className="m-0 p-0"
                     >
-                           
+
                         <Modal.Header className="pb-0"
                             style={{ border: "1px solid #E7E7E7" }}
                         >
-                          
+
                             <div className="d-flex justify-content-between w-100" style={{ padding: "5px  10px 5px 5px" }}>
                                 <div>
                                     <div>
@@ -180,7 +192,7 @@ function OccupiedBedStatus({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                // onClick={() => handleReAssignBed()}
+                                                onClick={() => handleReAssignBed()}
 
 
                                                 style={{
@@ -192,11 +204,7 @@ function OccupiedBedStatus({
                                                 onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                                                 onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                             >
-                                                {/* <AddCircle
-                                                    size="18"
-                                                    color="#1E45E1"
-                                                /> */}
-                                                {/* <img src={CalenderTick} alt="Re-Assign Bed" /> */}
+
                                                 <FiCalendar size={16} color="#1E45E1" />
                                                 <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Re-Assign Bed</label>
                                             </div>
@@ -206,7 +214,7 @@ function OccupiedBedStatus({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                // onClick={() => handleMoveToNoticePeriod()}
+                                                onClick={() => handleMoveToNoticePeriod()}
 
                                                 style={{
                                                     padding: "15px",
@@ -244,12 +252,12 @@ function OccupiedBedStatus({
                                                 <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} > {customer?.[0]?.Name || "N/A"}</label>
                                             </div>
                                             <div>
-                                               <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500 }}>
-                  {customer?.[0]?.Phone
-                    ? `+${String(customer[0].Phone).slice(0, -10)} ${String(customer[0].Phone).slice(-10)}`
-                    : "No phone"}
-                </label>
-                                                </div>
+                                                <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500 }}>
+                                                    {customer?.[0]?.Phone
+                                                        ? ` +${String(customer[0].Phone).slice(0, -10)} ${String(customer[0].Phone).slice(-10)}`
+                                                        : "No phone"}
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -261,12 +269,6 @@ function OccupiedBedStatus({
 
                             </div>
                         </Modal.Body>
-                    
-
-
-
-
-
 
 
                         <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
@@ -292,14 +294,19 @@ function OccupiedBedStatus({
                 </Modal>
             </div>
 
+
+
+
+
+
         </>
     );
 }
 OccupiedBedStatus.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
-    show: PropTypes.func.isRequired,
-    // handleReAssignBed: PropTypes.func.isRequired,
-    // handleMoveToNoticePeriod: PropTypes.func.isRequired ,
-    currentItem: PropTypes.func.isRequired
+    show: PropTypes.bool.isRequired,
+    currentItem: PropTypes.object.isRequired,
+     handleShowReassignBed: PropTypes.func.isRequired,
+  handleShowNoticePeriod: PropTypes.func.isRequired,
 };
 export default OccupiedBedStatus;

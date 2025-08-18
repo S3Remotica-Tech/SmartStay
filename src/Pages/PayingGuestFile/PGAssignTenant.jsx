@@ -525,11 +525,6 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
     joining_date: formattedDate,
     AdvanceAmount: AdvanceAmount,
     RoomRent: RoomRent,
-    // BalanceDue: BalanceDue,
-    // PaymentType: PaymentType,
-    // paid_advance: paid_advance,
-    // paid_rent: paid_rent,
-    // payable_rent: payableamount,
     isadvance: 1,
     invoice_date: formattedDate,
     due_date: formattedAdvanceDueDate,
@@ -908,6 +903,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                       //  getPopupContainer={(triggerNode) =>
                                                       //    triggerNode.closest(".datepicker-wrapper")
                                                       //  }
+                                                      disabledDate={(current) => current && current < dayjs().startOf("day")}
                                                       getPopupContainer={() => document.body}
                                                      />
                                                    </div>

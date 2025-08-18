@@ -241,11 +241,11 @@ console.log('customerDetails',customerDetails)
   }, []);
 
   
-  useEffect(() => {
-      if (state.login.selectedHostel_Id) {
-        dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
-      }
-    }, [state.login.selectedHostel_Id]);
+  // useEffect(() => {
+  //     if (state.login.selectedHostel_Id) {
+  //       dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+  //     }
+  //   }, [state.login.selectedHostel_Id]);
 
 
 
@@ -2465,6 +2465,7 @@ const imageUrl = imagePreview
                       </div> */}
 
                       <div
+                     
                         style={{
                           cursor: props.customerEditPermission && !customerDetails[0]?.Bed
                             ? "not-allowed"
@@ -2481,11 +2482,11 @@ const imageUrl = imagePreview
                           backgroundColor:
                             activeRow === item.ID ? "#E7F1FF" : "white",
                         }}
-                        onClick={() => {
-                          if (!props.customerEditPermission && customerDetails[0]?.Bed) {
-                            handleShowEditBed(customerDetails);
-                          }
-                        }}
+                        // onClick={() => {
+                        //   if (!props.customerEditPermission && customerDetails[0]?.Bed) {
+                        //     handleShowEditBed(customerDetails);
+                        //   }
+                        // }}
                       >
                         <PiDotsThreeOutlineVerticalFill
                           style={{

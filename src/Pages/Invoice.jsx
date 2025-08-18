@@ -614,50 +614,94 @@ useEffect(() => {
     return date.toISOString().split("T")[0];
   };
 
+//  console.log("invoiceList",invoiceList)
+//  console.log("invoiceList",invoiceList.payableAmount)
+  console.log("invoiceList",invoiceList.balanceDue)
+const [payableAmount, setPayableAmount] = useState("");
+const [balance, setBalance] = useState(0);
 
+// const handleAmount = (e) => {
+//   const value = Number(e.target.value) || 0; 
+//   setPayableAmount(value);
 
-  const handleAmount = (e) => {
-    const inputValue = e.target.value.trim();
+//   const remaining = (invoiceList.balanceDue || 0) - value;
+//   setBalance(remaining >= 0 ? remaining : 0);
+// };
+// const handleAmount = (e) => {
+//   let value = Number(e.target.value) || 0;
 
-    if (!inputValue) {
-      setAmountErrmsg("Please Enter Amount");
+//   // Prevent typing more than balanceDue
+//   if (value > (invoiceList.balanceDue || 0)) {
+//     value = invoiceList.balanceDue || 0;
+//   }
 
-      setInvoiceList((prevState) => ({
-        ...prevState,
-        payableAmount: "",
-        balanceDue: prevState.amount - prevState.paidAmount,
-      }));
-      return;
-    } else {
-      setAmountErrmsg("");
+//   setPayableAmount(value);
+
+//   const remaining = (invoiceList.balanceDue || 0) - value;
+//   setBalance(remaining >= 0 ? remaining : 0);
+// };
+const handleAmount = (e) => {
+  let value = e.target.value; 
+
+  // If user typed something, convert & limit
+  if (value !== "") {
+    let numValue = Number(value);
+    if (numValue > (invoiceList.balanceDue || 0)) {
+      numValue = invoiceList.balanceDue || 0;
     }
+    value = numValue;
+    setBalance((invoiceList.balanceDue || 0) - numValue);
+  } else {
+  
+    setBalance(invoiceList.balanceDue || 0);
+  }
 
-    const payableAmount = parseFloat(inputValue);
-    if (isNaN(payableAmount)) {
-      setAmountErrmsg("Invalid amount entered");
-      return;
-    }
+  setPayableAmount(value);
+};
 
-    setInvoiceList((prevState) => {
-      const totalAmount = parseFloat(prevState.amount) || 0;
-      const paidAmount = parseFloat(prevState.paidAmount) || 0;
+console.log("balance",balance)
+  // const handleAmount = (e) => {
+  //   const inputValue = e.target.value.trim();
 
-      const newPaidAmount = paidAmount + payableAmount;
-      const newBalanceDue = totalAmount - newPaidAmount;
+  //   if (!inputValue) {
+  //     setAmountErrmsg("Please Enter Amount");
+
+  //     setInvoiceList((prevState) => ({
+  //       ...prevState,
+  //       payableAmount: "",
+  //       balanceDue: prevState.amount - prevState.paidAmount,
+  //     }));
+  //     return;
+  //   } else {
+  //     setAmountErrmsg("");
+  //   }
+
+  //   const payableAmount = parseFloat(inputValue);
+  //   if (isNaN(payableAmount)) {
+  //     setAmountErrmsg("Invalid amount entered");
+  //     return;
+  //   }
+
+  //   setInvoiceList((prevState) => {
+  //     const totalAmount = parseFloat(prevState.amount) || 0;
+  //     const paidAmount = parseFloat(prevState.paidAmount) || 0;
+
+  //     const newPaidAmount = paidAmount + payableAmount;
+  //     const newBalanceDue = totalAmount - newPaidAmount;
 
 
-      if (newPaidAmount > totalAmount) {
-        setAmountErrmsg("Payable Amount Cannot Exceed Due Amount");
-        return prevState;
-      }
+  //     if (newPaidAmount > totalAmount) {
+  //       setAmountErrmsg("Payable Amount Cannot Exceed Due Amount");
+  //       return prevState;
+  //     }
 
-      return {
-        ...prevState,
-        payableAmount,
-        balanceDue: newBalanceDue >= 0 ? newBalanceDue : prevState.balanceDue,
-      };
-    });
-  };
+  //     return {
+  //       ...prevState,
+  //       payableAmount,
+  //       balanceDue: newBalanceDue >= 0 ? newBalanceDue : prevState.balanceDue,
+  //     };
+  //   });
+  // };
 
 
 
@@ -888,6 +932,8 @@ useEffect(() => {
     setDateErrmsg("")
     setAmountErrmsg("")
     setShowform(false);
+    setBalance("")
+    setPayableAmount("")
     setInvoiceList({
       firstName: "",
       lastName: "",
@@ -910,13 +956,14 @@ useEffect(() => {
   const handleCloseDeleteform = () => {
     setShowDeleteform(false);
   };
+ 
 
   const handleSaveInvoiceList = () => {
     const formatpaiddate = formatDateForPayload(selectedDate);
     const billDate = new Date(invoiceValue.Date);
     const paidDate = new Date(formatpaiddate);
 
-    if (!invoiceList.payableAmount) {
+    if (!payableAmount) {
       setAmountErrmsg("Please Enter Amount");
     }
 
@@ -940,7 +987,7 @@ useEffect(() => {
     }
 
     if (
-      !invoiceList.payableAmount ||
+      !payableAmount ||
       !formatpaiddate ||
       !invoiceList.transaction
     ) {
@@ -954,7 +1001,7 @@ useEffect(() => {
 
     if (
       invoiceList.InvoiceId &&
-      invoiceList.payableAmount &&
+      payableAmount &&
       invoiceList.transaction &&
       formatpaiddate
     ) {
@@ -964,8 +1011,8 @@ useEffect(() => {
           id: invoiceList.id,
           invoice_id: invoiceList.InvoiceId,
           invoice_type: 1,
-          amount: invoiceList.payableAmount,
-          balance_due: invoiceList.balanceDue,
+          amount: payableAmount,
+          balance_due: balance,
           payment_by: invoiceList.transaction,
           payment_date: formatpaiddate,
           bank_id: account,
@@ -1939,6 +1986,8 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
+      setPayableAmount("")
+      setBalance("")
       setFormRecordLoading(false)
       setShowform(false)
       dispatch({
@@ -3606,11 +3655,11 @@ useEffect(() => {
                                       }}
                                       placeholder="Enter Amount"
                                       className="no-spinner"
-                                      value={invoiceList.payableAmount || ""}
-                                      onChange={(e) => handleAmount(e)}
-                                      onKeyDown={(e) => {
-                                        if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
-                                      }}
+                                     value={payableAmount}
+  onChange={handleAmount}
+                                      // onKeyDown={(e) => {
+                                      //   if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
+                                      // }}
                                     />
 
 
@@ -3640,6 +3689,61 @@ useEffect(() => {
                                         </p>
                                       </div>
                                     )}
+                                  </Form.Group>
+                                </div>
+
+                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <Form.Group
+
+                                    controlId="exampleForm.ControlInput3"
+                                  >
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        marginBottom: 2
+
+
+                                      }}
+                                    >
+                                      Balance Amount {" "}
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        *
+                                      </span>
+                                    </Form.Label>
+
+                                    <Form.Control
+                                    disabled
+                                      type="number"
+                                      min="0"
+                                      step="1"
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+
+                                      }}
+                                      placeholder="Enter Amount"
+                                      className="no-spinner"
+                                     value={balance}
+
+                                    />
+
+
+
+                                  
                                   </Form.Group>
                                 </div>
 
@@ -3728,6 +3832,8 @@ useEffect(() => {
 
 
                                 </div>
+
+                                
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
