@@ -24,17 +24,72 @@ function NoticeBedStatusDetails({
     showBooking,
     showNoticeperiodCheckout
 }) {
-    // const state = useSelector((state) => state);
-    // const dispatch = useDispatch();
+
 
            const state = useSelector(state => state)
-            const dispatch = useDispatch();
+          const dispatch = useDispatch();
 
           const [customer, setCustomer] = useState([])
+          const [customerId, setCustomerId] = useState("")
+          
+    const [showDots, setShowDots] = useState('')
+    const [activeRoomId, setActiveRoomId] = useState(null);
+     const [recheckin , setRecheckin] = useState(false)
+    const [bactocheckinForm,setBacktoCheckInForm] = useState(false)
+
+      const [customer_details , setCustomerDetails] = useState({})
+      
+    const popupRef = useRef(null);
     
-            console.log("data", currentItem);
             
-        
+     
+
+
+
+    const handleShowDots = (roomId) => {
+        setShowDots(!showDots)
+        setActiveRoomId(activeRoomId === roomId ? null : roomId);
+    }
+
+
+
+
+    const handleClickOutside = (event) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            setActiveRoomId(null);
+        }
+    };
+
+  
+
+
+   
+
+    const handleRecheckInBed = () => {
+         setBacktoCheckInForm(true)
+         setRecheckin(true)
+    }
+
+ 
+
+
+
+  const handleNewBooking = () => {
+       showBooking(true)    
+  }
+ 
+  const handleCheckout = () => {
+  
+      showNoticeperiodCheckout(true, customerId )
+      dispatch({
+        type: "GETCONFIRMCHECKOUTCUSTOMER",
+        payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+      });
+    
+     
+  }
+
+     
             useEffect(() => {
         
                 const Hostel_Id = currentItem?.room.Hostel_Id;
@@ -69,12 +124,12 @@ function NoticeBedStatusDetails({
               },[state.Booking.StatusCodeInactiveCode])
 
 
-        
-        
+
             useEffect(() => {
                 if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-                    console.log("customer", state.PgList.OccupiedCustomer);
+                   
                     setCustomer(state.PgList.OccupiedCustomer)
+                    setCustomerId(state.PgList.OccupiedCustomer[0]?.id)
                     setTimeout(() => {
                         dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
                     }, 2000)
@@ -82,54 +137,14 @@ function NoticeBedStatusDetails({
         
             }, [state.PgList.OccupiedCustomerGetStatusCode])
 
-
-
-
-    const [showDots, setShowDots] = useState('')
-    const [activeRoomId, setActiveRoomId] = useState(null);
-    const popupRef = useRef(null);
-
-
-    const handleShowDots = (roomId) => {
-        setShowDots(!showDots)
-        setActiveRoomId(activeRoomId === roomId ? null : roomId);
-    }
-
-
-
-
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setActiveRoomId(null);
-        }
-    };
-
-    useEffect(() => {
+  useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
-  
-
-//     const [checkoutform , setcheckoutform] = useState(false)
-
-//     const handleCheckout = () => {
-// setcheckoutform(true)
-//     }
-
-    const [recheckin , setRecheckin] = useState(false)
-    const [bactocheckinForm,setBacktoCheckInForm] = useState(false)
-
-      const [customer_details , setCustomerDetails] = useState({})
-
-    const handleRecheckInBed = () => {
-         setBacktoCheckInForm(true)
-         setRecheckin(true)
-    }
-
-      useEffect(() => {
+         useEffect(() => {
         if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
           handleCloseBed()
           dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
@@ -139,15 +154,6 @@ function NoticeBedStatusDetails({
             }, 500); 
         }
       }, [state.UsersList?.StatusCodeBacktoCheckin]);
-
-        // useEffect(()=> {
-        //     if(customer.length > 0){
-        //     const selectedUser = state?.UsersList?.Users.find( item => item.ID === customer[0]?.id)
-        //      console.log("selecteduser", selectedUser);
-        //      setCustomerDetails(selectedUser)
-        // }
-             
-        // },[customer , state.PgList.OccupiedCustomerGetStatusCode])
 
       useEffect(() => {
     const usersList = state?.UsersList?.Users;
@@ -169,18 +175,7 @@ function NoticeBedStatusDetails({
         setCustomerDetails(foundCustomer || null);
     }
 }, [state?.UsersList?.Users, customer]);
-
-
-
-  const handleNewBooking = () => {
-       showBooking(true)    
-  }
- 
-  const handleCheckout = () => {
-       showNoticeperiodCheckout(true)
-  }
-
-
+  
 
 
 
@@ -316,7 +311,7 @@ function NoticeBedStatusDetails({
 
                       <div
                         className="d-flex gap-2 align-items-center"
-                        onClick={() => handleCheckout()}
+                        onClick={() => handleCheckout(currentItem)}
 
                         style={{
                           padding: "10px",
