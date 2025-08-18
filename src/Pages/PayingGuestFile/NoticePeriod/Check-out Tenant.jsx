@@ -8,7 +8,6 @@ import { MdError } from "react-icons/md";
 import Image from "react-bootstrap/Image";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -22,17 +21,10 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
 
   const state = useSelector((state) => state);
-  console.log("data", data)
-  // console.log("customerDetails",customerDetails);
-
   const dispatch = useDispatch();
+
   const [checked, setChecked] = useState(false);
   const [customer, setCustomer] = useState(false);
-
-
-
-
-
   const [fields, setFields] = useState([]);
   const [errors, setErrors] = useState([]);
   const [modeOfPayment, setModeOfPayment] = useState("");
@@ -48,107 +40,13 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
   const modeOfPaymentRef = useRef(null);
 
 
-
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    }
-  }, []);
-
   const reasonOptions = [
     { value: "DueAmount", label: "Due Amount" },
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
 
-  useEffect(() => {
-
-    const Hostel_Id = data?.room.Hostel_Id;
-    const Floor_Id = data?.room.Floor_Id;
-    const Bed_Id = data?.bed.id;
-    const Room_Id = data?.room.Room_Id;
-
-
-    if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-
-      dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: Hostel_Id },
-      });
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-
-      setCustomer(state.PgList.OccupiedCustomer)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-      }, 2000)
-    }
-
-  }, [state.PgList.OccupiedCustomerGetStatusCode])
-
-  useEffect(() => {
-    if (state.UsersList.statusCodegetConfirmCheckout) {
-      const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-        (invoice) => invoice.balance > 0
-      );
-
-      const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-        (deduction) => deduction.amount > 0
-      );
-      console.log("deduction_details", deduction_details)
-
-      const invoiceTotal = Array.isArray(validInvoices)
-        ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
-        : 0;
-
-
-      if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-        const formattedFields = deduction_details.map((item) => ({
-          reason_name: item.reason || "",
-          amount: Number(item.amount) || 0,
-          showInput: false,
-        }));
-
-
-        formattedFields.unshift({
-          reason_name: "DueAmount",
-          amount: invoiceTotal,
-          showInput: false,
-        });
-
-        setFields(formattedFields);
-      } else {
-        setFields([
-          { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
-        ]);
-      }
-
-
-
-    }
-
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    }, 500);
-  }, [state.UsersList.statusCodegetConfirmCheckout, data]);
-
-
   const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
-
-
-  useEffect(() => {
-    if (fields || advanceAmount) {
-      const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
-      const returnAmount = Number(advanceAmount || 0) - totalDeductions;
-      setReturnAmount(returnAmount)
-    }
-  }, [fields, advanceAmount])
-
-
 
 
 
@@ -166,11 +64,6 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
-
-
-
-
-
 
   const handleInputChange = (index, field, value) => {
     const updatedFields = [...fields];
@@ -206,12 +99,6 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     setErrors(updatedErrors);
   };
 
-
-
-console.log("customerID",customerID)
-
-
-
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
     updatedFields.splice(index, 1);
@@ -236,23 +123,6 @@ console.log("customerID",customerID)
     setChecked((prev) => !prev);
 
   };
-
-
-
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    }
-  }, []);
-
-
-  useEffect(() => {
-    if (state.UsersList.conformChekoutError) {
-      setFormLoading(false)
-
-    }
-  }, [state.UsersList.conformChekoutError])
-
   const handleConfirmCheckout = () => {
 
     console.log("handleConfirmCheckout called");
@@ -370,7 +240,7 @@ console.log("customerID",customerID)
         const payload = {
           checkout_date: formattedDate,
           id: customerID,
-            hostel_id: data?.room.Hostel_Id,
+          hostel_id: data?.room.Hostel_Id,
           advance_return: ReturnAmount,
           reinburse: 1,
           reasons: formattedReasons,
@@ -392,9 +262,99 @@ console.log("customerID",customerID)
 
 
 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
+  }, [dispatch, state.login.selectedHostel_Id]);
+
+  useEffect(() => {
+    const Hostel_Id = data?.room.Hostel_Id;
+    const Floor_Id = data?.room.Floor_Id;
+    const Bed_Id = data?.bed.id;
+    const Room_Id = data?.room.Room_Id;
+
+    if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+      dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: Hostel_Id },
+      });
+    }
+  }, [dispatch, data, state.PgList.OccupiedCustomer]);
+
+  useEffect(() => {
+    if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+      setCustomer(state.PgList.OccupiedCustomer)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+      }, 2000)
+    }
+  }, [dispatch, state.PgList.OccupiedCustomerGetStatusCode, state.PgList.OccupiedCustomer])
+
+  useEffect(() => {
+    if (state.UsersList.statusCodegetConfirmCheckout) {
+      const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+        (invoice) => invoice.balance > 0
+      );
+
+      const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+        (deduction) => deduction.amount > 0
+      );
+      console.log("deduction_details", deduction_details)
+
+      const invoiceTotal = Array.isArray(validInvoices)
+        ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
+        : 0;
+
+      if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+        const formattedFields = deduction_details.map((item) => ({
+          reason_name: item.reason || "",
+          amount: Number(item.amount) || 0,
+          showInput: false,
+        }));
+
+        formattedFields.unshift({
+          reason_name: "DueAmount",
+          amount: invoiceTotal,
+          showInput: false,
+        });
+
+        setFields(formattedFields);
+      } else {
+        setFields([
+          { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
+        ]);
+      }
+    }
+
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+    }, 500);
+  }, [dispatch, state.UsersList.statusCodegetConfirmCheckout, data, state.UsersList?.GetconfirmcheckoutBillDetails, state.UsersList?.nonRefundable_details]);
+
+  useEffect(() => {
+    if (fields || advanceAmount) {
+      const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
+      const returnAmount = Number(advanceAmount || 0) - totalDeductions;
+      setReturnAmount(returnAmount)
+    }
+  }, [fields, advanceAmount])
 
 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
+  }, [dispatch, state.login.selectedHostel_Id]);
 
+
+  useEffect(() => {
+    if (state.UsersList.conformChekoutError) {
+      setFormLoading(false)
+
+    }
+  }, [state.UsersList.conformChekoutError])
 
   useEffect(() => {
     if (data) {
@@ -411,12 +371,16 @@ console.log("customerID",customerID)
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       })
+      dispatch({
+        type: "ROOMCOUNT",
+        payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: data.room.Floor_Id },
+      })
       setTimeout(() => {
         dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
       }, 500);
     }
 
-  }, [state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout])
+  }, [dispatch, state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout, data.room.Floor_Id, handleClose, state.login.selectedHostel_Id])
 
 
   useEffect(() => {
@@ -427,7 +391,7 @@ console.log("customerID",customerID)
       }, 3000)
     }
 
-  }, [state.createAccount?.networkError])
+  }, [dispatch, state.createAccount?.networkError])
 
 
 
@@ -443,26 +407,7 @@ console.log("customerID",customerID)
         className="m-0 p-0"
 
       >
-        {/* <Modal.Header className="d-flex justify-content-between align-items-center">
-                    <Modal.Title
-                        style={{
-                            fontWeight: "600",
-                            fontSize: "18px",
-                            fontFamily: "Gilroy",
-                        }}
-                    >
-                        Confirm Check-Out
-                    </Modal.Title>
-                    <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
-
-<span
-                    className="text-primary"
-                    style={{ fontSize: "13px", color: "#1E45E1", fontWeight: 600, fontFamily: "Gilroy" }}
-                  >
-                    Room No {data.room.Room_Name} &nbsp; | &nbsp; Bed {data.bed.bed_no}
-                  </span>
-
-                </Modal.Header> */}
+       
         <Modal.Header
           className="pt-0 pb-2 mb-3"
           style={{
@@ -519,37 +464,10 @@ console.log("customerID",customerID)
                     roundedCircle
                     style={{ height: 55, width: 55, cursor: "pointer" }}
                   />
-                  {/* <div>
-                                        <label style={{
-                                            fontSize: 20,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 600,
-                                        }}>
-                                          {data?.Name}
-                                          
-                                          </label>
-                                    </div> */}
-                  {/* <div className="mt-2">
-                      <div>
-                        <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{customer?.[0]?.Name || "N/A"}</label>
-                      </div>
-                      <div>
-                        <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                       {customer?.[0]?.Phone
-                    ? `+${String(customer[0].Phone).slice(0, -10)} ${String(customer[0].Phone).slice(-10)}`
-                    : "No phone"}
-                        </label></div>
-                    </div> */}
+               
 
                   <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-                    {/* <img
-                    src={Profileimage}
-                    alt="Profile"
-                    className="rounded-circle"
-                    width="40"
-                    height="40"
-                  /> */}
+                   
                     <div>
                       <p className="mb-1"
                         style={{ fontWeight: 600, fontSize: "14px", marginBottom: "4px", color: "#1B1B1B" }}>
@@ -569,72 +487,7 @@ console.log("customerID",customerID)
                 </div>
               </div>
 
-              {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <Form.Group className="mb-2">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        Current Floor{" "}
-
-                                    </Form.Label>
-                                    <FormControl
-                                        id="form-controls"
-                                        placeholder="Enter Name"
-                                        type="text"
-
-                                        value={data?.floor_name || data?.floor_name}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #E7F1FF",
-                                            height: 50,
-                                            borderRadius: 8,
-                                            backgroundColor: "#E7F1FF",
-                                        }}
-                                    />
-                                </Form.Group>
-                            </div>
-
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <Form.Group className="mb-2">
-                                    <Form.Label
-                                        style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        Current Bed{" "}
-                                    </Form.Label>
-                                    <FormControl
-                                        id="form-controls"
-                                        placeholder="Enter name"
-                                        type="text"
-
-                                        value={data?.bed_name || data?.Bed}
-                                        style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #E7F1FF",
-                                            height: 50,
-                                            borderRadius: 8,
-                                            backgroundColor: "#E7F1FF",
-                                        }}
-                                    />
-                                </Form.Group>
-                            </div> */}
+        
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group className="mb-2" controlId="purchaseDate">
@@ -1396,6 +1249,7 @@ CheckoutTenant.propTypes = {
   show: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   data: PropTypes.func.isRequired,
+  customerID: PropTypes.string.isRequired,
 
 
 };
