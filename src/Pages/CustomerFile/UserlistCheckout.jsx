@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import Addbtn from "../../Assets/Images/New_images/add-circle.png"
-import { Edit, Trash } from "iconsax-react";
+// import { Edit, Trash } from "iconsax-react";
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -14,8 +14,8 @@ import { MdError } from "react-icons/md";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {
   Table,
-  Button,
-  Modal,
+  // Button,
+  // Modal,
 
 } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -33,7 +33,7 @@ function CheckOut(props) {
 
 
   const [activeDotsId, setActiveDotsId] = useState(null);
-  const [modalType, setModalType] = useState(null);
+  // const [modalType, setModalType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -178,7 +178,7 @@ function CheckOut(props) {
 
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setcheckoutForm(false);
-      setModalType(null);
+      // setModalType(null);
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 3000);

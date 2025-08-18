@@ -41,19 +41,19 @@ const CheckOutForm = ({
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [comments, setComments] = useState("");
   // const [advanceamount, setAdvanceAmount] = useState("");
-  const [dueamount, SetDueAmount] = useState('');
-  const [invoicenumber, SetInvoiceNumber] = useState([]);
+  // const [dueamount, SetDueAmount] = useState('');
+  // const [invoicenumber, SetInvoiceNumber] = useState([]);
   const [bedname, setBedname] = useState("");
   const [floorname, setFloorname] = useState("");
-  const [paymentDate, setPaymentDate] = useState("")
-  const [fields, setFields] = useState([]);
+  // const [paymentDate, setPaymentDate] = useState("")
+  // const [fields, setFields] = useState([]);
   // const [noChangeMessage, setNoChangeMessage] = useState("");
   // const [modeOfPayment, setModeOfPayment] = useState("");
-  const errorRef = useRef(null);
+  // const errorRef = useRef(null);
   const [formLoading, setFormLoading] = useState(false)
-  const [formCheckoutLoading, setFormCheckoutLoading] = useState(false)
-  const nochangeRef = useRef(null)
-  const [errors, setErrors] = useState([]);
+  // const [formCheckoutLoading, setFormCheckoutLoading] = useState(false)
+  // const nochangeRef = useRef(null)
+  // const [errors, setErrors] = useState([]);
 
 
 
@@ -69,7 +69,7 @@ const CheckOutForm = ({
     setCustomerError("");
     setCheckOutRequestDateError("");
     setDateDifference(null);
-    SetDueAmount('')
+    // SetDueAmount('')
     setFormLoading(false)
     // setFormCheckoutLoading(false)
 
@@ -159,31 +159,31 @@ const CheckOutForm = ({
 
 
 
-  useEffect(() => {
-    if (data) {
+  // useEffect(() => {
+  //   if (data) {
 
-      setCheckOutDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null);
-      setPaymentDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null)
-      setCheckOutRequestDate(data.req_date ? new Date(data.req_date) : null);
-      setSelectedCustomer(data.ID);
+  //     setCheckOutDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null);
+  //     setPaymentDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null)
+  //     setCheckOutRequestDate(data.req_date ? new Date(data.req_date) : null);
+  //     setSelectedCustomer(data.ID);
 
-      setComments(data.checkout_comment);
-      setBedname(data.bed_name);
-      setFloorname(data.floor_name);
-      setModeOfPayment(data.bank_id)
+  //     setComments(data.checkout_comment);
+  //     setBedname(data.bed_name);
+  //     setFloorname(data.floor_name);
+  //     setModeOfPayment(data.bank_id)
 
-    } else {
-      setCheckOutDate("");
-      setCheckOutRequestDate("");
-      setSelectedCustomer("");
-      setComments("");
-      setBedname("");
-      setFloorname("");
-      setModeOfPayment("")
+  //   } else {
+  //     setCheckOutDate("");
+  //     setCheckOutRequestDate("");
+  //     setSelectedCustomer("");
+  //     setComments("");
+  //     setBedname("");
+  //     setFloorname("");
+  //     setModeOfPayment("")
 
-      dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
-    }
-  }, [data, show]);
+  //     dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+  //   }
+  // }, [data, show]);
 
 
 
@@ -204,31 +204,31 @@ const CheckOutForm = ({
 
   
 
-  useEffect(() => {
-    if (data?.amenities?.length > 0) {
-      let outstandingDueAmount = "";
-      const amenityFields = data.amenities
-        .filter(item => {
-          if (item.reason === "Outstanding Due") {
-            outstandingDueAmount = String(item.amount || "");
-            return false;
-          }
-          return true;
-        })
-        .map(item => ({
-          id: item?.id || "",
-          reason: item.reason || "",
-          amount: String(item.amount || "")
-        }));
+  // useEffect(() => {
+  //   if (data?.amenities?.length > 0) {
+  //     let outstandingDueAmount = "";
+  //     const amenityFields = data.amenities
+  //       .filter(item => {
+  //         if (item.reason === "Outstanding Due") {
+  //           outstandingDueAmount = String(item.amount || "");
+  //           return false;
+  //         }
+  //         return true;
+  //       })
+  //       .map(item => ({
+  //         id: item?.id || "",
+  //         reason: item.reason || "",
+  //         amount: String(item.amount || "")
+  //       }));
 
-      const dueAmountValue = outstandingDueAmount || String(dueamount || "");
+  //     const dueAmountValue = outstandingDueAmount || String(dueamount || "");
 
-      setFields([
-        { id: "", reason: "DueAmount", amount: dueAmountValue },
-        ...amenityFields,
-      ]);
-    }
-  }, [data?.amenities, dueamount]);
+  //     setFields([
+  //       { id: "", reason: "DueAmount", amount: dueAmountValue },
+  //       ...amenityFields,
+  //     ]);
+  //   }
+  // }, [data?.amenities, dueamount]);
 
 
   useEffect(() => {
@@ -512,23 +512,23 @@ const CheckOutForm = ({
 
 
 
-  const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
+  // const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
 
-  const hasBalance =
-    Array.isArray(validInvoices) &&
-    validInvoices.some((invoice) => invoice.balance > 0);
+  // const hasBalance =
+  //   Array.isArray(validInvoices) &&
+  //   validInvoices.some((invoice) => invoice.balance > 0);
 
-  useEffect(() => {
-    if (validInvoices && hasBalance) {
-      const totaldueamount = validInvoices.reduce(
-        (total, invoice) => total + invoice.balance,
-        0
-      );
-      SetDueAmount(totaldueamount);
+  // useEffect(() => {
+  //   if (validInvoices && hasBalance) {
+  //     const totaldueamount = validInvoices.reduce(
+  //       (total, invoice) => total + invoice.balance,
+  //       0
+  //     );
+  //     SetDueAmount(totaldueamount);
 
-    }
-  }, [validInvoices]);
+  //   }
+  // }, [validInvoices]);
 
 
 
