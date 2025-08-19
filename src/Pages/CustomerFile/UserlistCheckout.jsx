@@ -940,8 +940,9 @@ useEffect(() => {
                                   <PiDotsThreeOutlineVerticalFill
                                     style={{ height: 20, width: 20 }}
                                   />
-
-                                  {activeDotsId === checkout.ID && (
+                                  { checkout.isActive === 1 &&
+                                    <>
+                                   {activeDotsId === checkout.ID && (
                                     <div
                                       ref={popupRef}
                                       style={{
@@ -1093,7 +1094,9 @@ useEffect(() => {
 
                                     </div>
 
-                                  )}
+                                    )}
+                                     </>
+                                     }
                                 </div>
                               </td>
                             </tr>
