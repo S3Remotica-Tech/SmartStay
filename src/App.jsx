@@ -36,9 +36,10 @@ function App() {
 console.log("app",state)
 
   useEffect(() => {
-if(state.createAccount.statusCodeForAccountList === 200){
+
     try {
-      if (login) {
+      if (login && state.createAccount.statusCodeForAccountList) {
+
         const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parseData = JSON.parse(decryptedString);
@@ -61,10 +62,10 @@ console.log("parseddtata",parseData)
     } finally {
       setLoading(false);
     }
-  }
 
 
-  }, [login,  state.login?.isLoggedIn, state.createAccount.statusCodeForAccountList]);
+
+  }, [login, state.createAccount, state.login?.isLoggedIn,state.createAccount.statusCodeForAccountList]);
 
 
   useEffect(() => {
