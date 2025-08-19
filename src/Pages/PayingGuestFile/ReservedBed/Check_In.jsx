@@ -1045,7 +1045,7 @@ const LastName = lastNameParts.join(" ") || "";
 
                                                     <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                                        {index !== 0 && (
+                                                     
                                                             <Trash
                                                                 size="20"
                                                                 color="red"
@@ -1053,7 +1053,7 @@ const LastName = lastNameParts.join(" ") || "";
                                                                 style={{ cursor: "pointer" }}
                                                                 onClick={() => handleRemoveField(index)}
                                                             />
-                                                        )}
+                                                  
                                                     </div>
                                                 </div>
                                             );

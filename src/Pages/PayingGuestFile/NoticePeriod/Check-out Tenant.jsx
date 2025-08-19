@@ -811,7 +811,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
                         <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                          {index !== 0 && (
+                       
                             <Trash
                               size="20"
                               color="red"
@@ -819,7 +819,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
                               style={{ cursor: "pointer" }}
                               onClick={() => handleRemoveField(index)}
                             />
-                          )}
+                        
                         </div>
                       </div>
                     );
