@@ -3280,15 +3280,24 @@ useEffect(() => {
                                           whiteSpace:"nowrap"
                                         }}
                                       >
-                                        {user?.user_join_date && user.user_join_date !== "0000-00-00" ? (
-                                          <span
-                                           
-                                          >
-                                            {moment(user.user_join_date).format("D MMMM YYYY")}
-                                          </span>
-                                        )
-                                          :
-                                          '-'}
+                                       {/* {user && (user.user_join_date && user.user_join_date !== "0000-00-00"
+  ? <span>{moment(user.user_join_date).format("D MMMM YYYY")}</span>
+  : user.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
+    ? <span>{moment(user.RecheckIn_Date).format("D MMMM YYYY")}</span>
+    : "-"
+)} */}
+<span>
+  {user?.user_join_date && user.user_join_date !== "0000-00-00"
+    ? moment(user.user_join_date).format("D MMMM YYYY")
+    : user?.booking_joining_date && user.booking_joining_date !== "0000-00-00"
+      ? moment(user.booking_joining_date).format("D MMMM YYYY")
+      : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
+        ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
+        : "-"
+  }
+</span>
+
+
 
                                       </td>
 
