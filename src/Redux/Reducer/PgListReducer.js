@@ -164,7 +164,7 @@ const PgListReducer = (state = initialState, action) => {
             }
         case 'CLEAR_DELETE_ROOM':
             return { ...state, statusCodeForDeleteRoom: 0 }
-        case 'PG_LIST':
+        case 'CREATE_PG':
             return { ...state, message: action.payload.message, createPgStatusCode: action.payload.statusCode }
         case 'CLEAR_PG_STATUS_CODE':
             return { ...state, createPgStatusCode: 0 }

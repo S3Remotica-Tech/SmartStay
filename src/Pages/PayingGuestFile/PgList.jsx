@@ -261,7 +261,7 @@ function PgList() {
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
       dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
       setTimeout(() => {
@@ -293,7 +293,7 @@ function PgList() {
   }, [state.PgList.dleteHostelImagesStatusCode,]);
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode === 200) {
+    if (state.PgList?.createPgStatusCode === 201) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
 
@@ -305,6 +305,9 @@ function PgList() {
 
     }
   }, [state.PgList.createPgStatusCode]);
+
+
+console.log("state.PgList?.createPgStatusCode",state.PgList)
 
   useEffect(() => {
     if (selectedHostel && showHostelDetails) {

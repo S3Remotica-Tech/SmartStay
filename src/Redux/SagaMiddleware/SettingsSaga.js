@@ -681,9 +681,9 @@ function* handleEditRolePermission(detail) {
     
    };
 
-   if (response.data.status === 200 || response.data.statusCode === 200){
-      yield put ({type : 'EDIT_SETTING_ROLE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
-      toast.success(`${response.data.message}`, {
+   if (response.status === 200){
+      yield put ({type : 'EDIT_SETTING_ROLE' , payload:{response:response.data, statusCode:response.status}})
+      toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -696,9 +696,9 @@ function* handleEditRolePermission(detail) {
      });
    }
 
-   else if (response.data.status === 201 || response.data.statusCode === 201) {
+   else if (response.status === 201) {
      
-      yield put({ type: 'ROLE_EDIT_ERROR', payload: response.data.message });
+      yield put({ type: 'ROLE_EDIT_ERROR', payload: response.data });
    }
 
    else {
@@ -722,8 +722,6 @@ function* handleEditRolePermission(detail) {
 function* handleDeleteRolePermission(detail) {
    const response = yield call (deleteRolePermission, detail.payload);
 
-
-
    var toastStyle = {
      backgroundColor: "#E6F6E6",
      color: "black",
@@ -740,9 +738,9 @@ function* handleDeleteRolePermission(detail) {
     
    };
 
-   if (response.data.status === 200 || response.data.statusCode === 200){
-      yield put ({type : 'DELETE_SETTING_ROLE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
-      toast.success(`${response.data.message}`, {
+   if (response.status === 204 || response.status  === 200){
+      yield put ({type : 'DELETE_SETTING_ROLE' , payload:{response:response.data, statusCode:response.status}})
+      toast.success(`Deleted Successfully`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -755,8 +753,8 @@ function* handleDeleteRolePermission(detail) {
      });
    }
 
-  else if (response.data.status === 202 || response.data.statusCode === 202 || response.status === 202){
-      yield put ({type : 'ASSIGNED_ERROR' , payload:{statusCode:response.data.status || response.data.statusCode }});
+  else if (response.status === 202){
+      yield put ({type : 'ASSIGNED_ERROR' , payload:{statusCode:response.status}});
       toast.error("This role is assigned to user", {
         position: "bottom-center",
         autoClose: 2000,
@@ -770,10 +768,6 @@ function* handleDeleteRolePermission(detail) {
      });
    }
 
-
-   // else {
-   //    yield put ({type:'ERROR', payload:response.data.message})
-   // }
    if(response){
       refreshToken(response)
    }

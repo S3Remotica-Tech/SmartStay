@@ -33,24 +33,26 @@ function App() {
   const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('access-denied')));
 
 
-
+console.log("app",state)
 
   useEffect(() => {
-
+if(state.createAccount.statusCodeForAccountList === 200){
     try {
       if (login) {
         const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parseData = JSON.parse(decryptedString);
-        const is_Enable = state.createAccount?.accountList[0]?.user_details?.isEnable;
+        const is_Enable = state.createAccount?.accountList?.two_step_verification_status;
 
+console.log("parseddtata",parseData)
 
-
-        if (is_Enable === 1 || !parseData) {
+        if (is_Enable === true || !parseData) {
           setData(false);
-        } else {
+        } else if (is_Enable === false ){
           setData(true);
         }
+
+        console.log("is_Enable",is_Enable, "data",data)
       }
 
     } catch (error) {
@@ -59,10 +61,10 @@ function App() {
     } finally {
       setLoading(false);
     }
+  }
 
 
-
-  }, [login, state.createAccount, state.login?.isLoggedIn]);
+  }, [login,  state.login?.isLoggedIn, state.createAccount.statusCodeForAccountList]);
 
 
   useEffect(() => {

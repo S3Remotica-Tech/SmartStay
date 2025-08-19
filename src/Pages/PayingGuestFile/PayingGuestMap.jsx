@@ -114,6 +114,12 @@ function PayingGuestMap(props) {
     setHoverPgCard(false);
   };
 
+
+  console.log('props', props)
+
+
+
+
   return (
     <>
       <Card
@@ -139,10 +145,10 @@ function PayingGuestMap(props) {
                 <Image
                   src={
                     props.hostel &&
-                      props.hostel.profile !== undefined &&
-                      props.hostel.profile !== null &&
-                      props.hostel.profile !== "0"
-                      ? props.hostel.profile
+                      props.hostel.mainImage !== undefined &&
+                      props.hostel.mainImage !== null &&
+                      props.hostel.mainImage !== "0"
+                      ? props.hostel.mainImage
                       : Vendors
                   }
                   roundedCircle
@@ -164,7 +170,7 @@ function PayingGuestMap(props) {
                       textDecoration: "underline",
                     }}
                   >
-                    {props.hostel && props.hostel.Name}
+                    {props?.hostel && props?.hostel.name}
                   </label>
                 </div>
                 <div>
@@ -460,9 +466,9 @@ function PayingGuestMap(props) {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  {props.hostel.email_id &&
-                    props.hostel.email_id !== "undefined"
-                    ? props.hostel.email_id
+                  {props.hostel.emailId &&
+                    props.hostel.emailId !== "undefined"
+                    ? props.hostel.emailId
                     : "N/A"}
                 </label>
               </div>
@@ -520,14 +526,14 @@ function PayingGuestMap(props) {
                     marginRight: 5,
                   }}
                 >
-                  +
+
                   {props.hostel &&
-                    String(props.hostel.hostel_PhoneNo).slice(
+                    String(props.hostel.mobile).slice(
                       0,
-                      String(props.hostel.hostel_PhoneNo).length - 10
+                      String(props.hostel.mobile).length - 10
                     )}{" "}
                   {props.hostel &&
-                    String(props.hostel.hostel_PhoneNo).slice(-10)}
+                    String(props.hostel.mobile).slice(-10)}
                 </label>
               </div>
             </div>
@@ -560,34 +566,41 @@ function PayingGuestMap(props) {
                 fontWeight: 600,
                 fontFamily: "Gilroy",
               }}
-              title={`
-                        ${props.hostel?.Address || ""}
-                        ${props.hostel?.area ? ", " + props.hostel.area : ""}
-                        ${props.hostel?.city ? ", " + props.hostel.city : ""}
-                        ${props.hostel?.pincode
-                  ? " - " + props.hostel.pincode
-                  : ""
-                }
-                        ${props.hostel?.state ? ", " + props.hostel.state : ""}
-                      `}
+              title={[
+                props.hostel?.houseNo,
+                props.hostel?.street,
+                props.hostel?.area,
+                props.hostel?.landmark,
+                props.hostel?.city,
+                props.hostel?.pincode ? `- ${props.hostel.pincode}` : "",
+                props.hostel?.state,
+              ]
+                .filter(Boolean) 
+                .join(", ")}
             >
-              {(
-                props.hostel?.city ||
-                props.hostel?.pincode ||
-                props.hostel?.state) && (
-                  <>
-                    {props.hostel?.Address ? props.hostel.Address + ", " : ""}
-                    {props.hostel?.area || ""}
-                    {props.hostel?.landmark || ""}<br></br>
-                    {props.hostel?.city ? props.hostel.city : ""}
-                    {props.hostel?.pin_code
-                      ? " - " + props.hostel.pin_code
-                      : ""}{" "} {props.hostel?.state ? props.hostel.state : ""}
-                    <br></br>
+              {(() => {
+                const addressParts = [
+                  props.hostel?.houseNo,
+                  props.hostel?.street,
+                  props.hostel?.area,
+                  props.hostel?.landmark,
+                ].filter(Boolean);
 
+                const cityStatePin = [
+                  props.hostel?.city,
+                                   props.hostel?.state,
+                   props.hostel?.pincode ? `- ${props.hostel.pincode}` : "",
+                ].filter(Boolean);
+
+                return (
+                  <>
+                    {addressParts.length > 0 && <>{addressParts.join(", ")}<br /></>}
+                    {cityStatePin.length > 0 && <>{cityStatePin.join(" ")}<br /></>}
                   </>
-                )}
+                );
+              })()}
             </div>
+
           </div>
         </Card.Body>
       </Card>

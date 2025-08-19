@@ -138,9 +138,19 @@ export async function AccountDetails() {
 }
 
 
+// v1
+
+// export async function OTPverification(datum) {
+//   return await axios.post(`${ConfigV1.apiBaseUrl}/otp-send/response`,datum, {
+//     data: datum
+//   })
+// } 
+
+
+// v2
 
 export async function OTPverification(datum) {
-  return await axios.post(`${ConfigV1.apiBaseUrl}/otp-send/response`,datum, {
+  return await axios.post(`${ConfigV2.apiBaseUrl}/v2/users/verify-otp`,datum, {
     data: datum
   })
 } 

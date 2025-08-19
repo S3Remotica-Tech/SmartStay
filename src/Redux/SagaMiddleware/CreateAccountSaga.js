@@ -26,7 +26,7 @@ function* CreateNewAccount(args) {
 
     };
 
-    if (response.status === 200 || response.statusCode === 200) {
+    if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode } });
 
       toast.success('created successfully', {

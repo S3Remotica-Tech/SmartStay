@@ -206,8 +206,8 @@ function AddCustomer({  show, handleClose   }) {
   
     useEffect(() => {
       const selectedHostel =
-        state.UsersList.hostelListNewDetails.data &&
-        state.UsersList.hostelListNewDetails.data?.filter(
+         state.UsersList.hostelList &&
+         state.UsersList.hostelList?.filter(
           (item) => item.id === state.login.selectedHostel_Id
         );
       setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");

@@ -249,9 +249,9 @@ function SettingManage() {
   ]);
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode === 200) {
+    if (state.PgList.createPgStatusCode === 201) {
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
 
 
       setShowAddPg(false);
@@ -567,6 +567,7 @@ function SettingManage() {
 
 
   useEffect(() => {
+    if(rolePermission[0]?.is_owner){
     if (
       rolePermission[0]?.is_owner === 1 ||
       rolePermission[0]?.role_permissions[3]?.per_view === 1
@@ -575,9 +576,10 @@ function SettingManage() {
     } else {
       setPermissionError("Permission Denied");
     }
+  }
   }, [rolePermission]);
   useEffect(() => {
-
+if(rolePermission[0]?.is_owner){
     if (
       rolePermission[0]?.is_owner === 1 ||
       rolePermission[0]?.role_permissions[3]?.per_create === 1
@@ -586,9 +588,10 @@ function SettingManage() {
     } else {
       setAddPermissionError("Permission Denied");
     }
+  }
   }, [rolePermission]);
   useEffect(() => {
-
+if(rolePermission[0]?.is_owner){
     if (
       rolePermission[0]?.is_owner === 1 ||
       rolePermission[0]?.role_permissions[3]?.per_edit === 1
@@ -597,9 +600,10 @@ function SettingManage() {
     } else {
       setEditPermissionError("Permission Denied");
     }
+  }
   }, [rolePermission]);
   useEffect(() => {
-
+if(rolePermission[0]?.is_owner){
     if (
       rolePermission[0]?.is_owner === 1 ||
       rolePermission[0]?.role_permissions[3]?.per_delete === 1
@@ -608,9 +612,10 @@ function SettingManage() {
     } else {
       setDeletePermissionError("Permission Denied");
     }
+  }
   }, [rolePermission]);
 
-
+console.log("state",state)
 
 
   return (

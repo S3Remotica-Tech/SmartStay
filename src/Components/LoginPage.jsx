@@ -44,14 +44,14 @@ const MyComponent = () => {
   }
 
   const handleEmailChange = (e) => {
-     dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
+    dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     setemail_Id(e.target.value.toLowerCase())
     setEmailError('')
   }
 
   const handlePasswordChange = (e) => {
-     dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
+    dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     setpassword(e.target.value)
     setPasswordError('')
@@ -83,7 +83,7 @@ const MyComponent = () => {
 
 
   const handleLogin = () => {
-     dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
+    dispatch({ type: 'REMOVE_INVALID_CREDENTIALS' })
     dispatch({ type: 'RESET_ALL' });
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
@@ -102,12 +102,12 @@ const MyComponent = () => {
       return
     }
     if (email_Id && password) {
-        dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
-        setTimeout(()=>{
+      dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
+      setTimeout(() => {
 
-        })
-      dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025'  } });
-     
+      })
+      dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
+
       setLoading(true)
     }
   };
@@ -134,16 +134,6 @@ const MyComponent = () => {
     })
   });
 
-  useEffect(() => {
-    if (state.login?.otpSuccessStatusCode === 203) {
-      setShowOtpVerification(true)
-      setLoading(false)
-    }
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_OTP_STATUSCODE' })
-    }, 100)
-
-  }, [state.login.otpSuccessStatusCode])
 
 
 
@@ -163,24 +153,33 @@ const MyComponent = () => {
   }, [state.login.statusCode]);
 
 
-console.log("state.login",state.login)
+  console.log("state.login", state)
 
   useEffect(() => {
     if (state.login.statusCodeForV2Login) {
-      setLoading(false)
-      dispatch({ type: 'LOGIN-SUCCESS' });
-      const token = state.login?.JWTtokenV2
+      if (state.login?.isOtpRequired === true) {
 
-      console.log("version2 token",token)
-
-      const cookies = new Cookies()
-      cookies.set('v2-token', token, { path: '/' });
-      if(token){
-    setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUSCODE_VERSION_2' });
-      }, 100);
+        setShowOtpVerification(true)
+        setLoading(false)
       }
-     
+      else {
+        setLoading(false)
+        dispatch({ type: 'LOGIN-SUCCESS' });
+        const token = state.login?.JWTtokenV2
+
+        console.log("version2 token", token)
+
+        const cookies = new Cookies()
+        cookies.set('v2-token', token, { path: '/' });
+        if (token) {
+          setTimeout(() => {
+            dispatch({ type: 'CLEAR_STATUSCODE_VERSION_2' });
+          }, 100);
+        }
+      }
+
+
+
     }
 
   }, [state.login.statusCodeForV2Login]);

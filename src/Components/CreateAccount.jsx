@@ -103,7 +103,7 @@ function CreateAccountPage() {
 
 
   useEffect(() => {
-    if (state.createAccount.statusCodeCreateAccount === 200) {
+    if (state.createAccount.statusCodeCreateAccount === 201) {
 
       setFirstName('')
       setLastName('')

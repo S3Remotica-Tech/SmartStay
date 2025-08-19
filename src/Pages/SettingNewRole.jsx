@@ -187,7 +187,7 @@ const options = [
 
 
   useEffect(() => {
-    if (state.Settings.StatusForDeletePermission === 200) {
+    if (state.Settings.StatusForDeletePermission === 204) {
       setDeleteRole(false)
       dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {

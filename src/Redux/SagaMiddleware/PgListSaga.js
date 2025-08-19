@@ -9,6 +9,8 @@ function* handlePgList(datum) {
   try{
   const response = yield call(createPgList, datum.payload);
 
+console.log("response for create pg",response)
+
   var toastStyle = {
     backgroundColor: "#E6F6E6",
     color: "black",
@@ -25,15 +27,15 @@ function* handlePgList(datum) {
 
   };
 
-  if (response.statusCode === 200 || response.status === 200) {
+  if (response.statusCode === 201 || response.status === 201) {
     yield put({
-      type: "PG_LIST",
+      type: "CREATE_PG",
       payload: {
         response: response.data,
         statusCode: response.statusCode || response.status,
       },
     });
-    toast.success(`${response.message}`, {
+    toast.success(`${response.data}`, {
       position: "bottom-center",
       autoClose: 2000,
       hideProgressBar: true,
@@ -52,7 +54,7 @@ function* handlePgList(datum) {
         statusCode: response.statusCode || response.status,
       },
     });
-    toast.error(`${response.message}`, {
+    toast.error(`${response.data}`, {
       style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
       position: "bottom-center",
       autoClose: 2000,
@@ -1188,7 +1190,7 @@ function refreshToken(response) {
 }
 
 function* PgListSaga() {
-  yield takeEvery("PGLIST", handlePgList);
+  yield takeEvery("CREATEPG", handlePgList);
   yield takeEvery("CREATEROOM", handleCreateRoom);
   yield takeEvery("CHECKROOM", handleCheckRoom);
   yield takeEvery("BEDDETAILS", handleCheckBedDetails);

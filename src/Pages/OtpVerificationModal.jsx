@@ -47,9 +47,10 @@ const OtpVerificationModal = ({ show, handleClose, Email_Id }) => {
     if (state.login.OtpVerifyStatusCode === 200) {
       setFormLoading(false)
       dispatch({ type: 'LOGIN-SUCCESS' })
-      const token = state.login.JWTtoken
-      const cookies = new Cookies()
-      cookies.set('token', token, { path: '/' });
+      const token = state.login?.JWTtokenV2
+                  console.log("version2 token", token)
+                  const cookies = new Cookies()
+             cookies.set('v2-token', token, { path: '/' });
       setTimeout(() => {
         dispatch({ type: 'CLEAR_OTP_VERIFIED' })
       }, 1000)
@@ -67,7 +68,7 @@ const OtpVerificationModal = ({ show, handleClose, Email_Id }) => {
       return;
     }
 
-    dispatch({ type: 'OTPVERIFY', payload: { Email_Id: Email_Id, OTP: otpValue } });
+    dispatch({ type: 'OTPVERIFY', payload: { userId: state?.login?.userId, otp: otpValue } });
     setFormLoading(true)
     if (inputRefs) {
       inputRefs.forEach(ref => {

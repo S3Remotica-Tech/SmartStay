@@ -26,6 +26,8 @@
     invalidCredential: '',
     statusCodeForV2Login:0,
     JWTtokenV2: '',
+    isOtpRequired: false,
+    userId: ''
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -71,7 +73,7 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
      
      case 'LOGIN_VERSION_2':
-              return { ...state, statusCodeForV2Login: action.payload.statusCode, JWTtokenV2: action.payload.response }
+              return { ...state, statusCodeForV2Login: action.payload.statusCode, JWTtokenV2: action.payload.response, isOtpRequired:action.payload.response.isOtpRequired , userId:action.payload.response.userId }
 
      case 'CLEAR_STATUSCODE_VERSION_2':
          return { ...state, statusCodeForV2Login: 0}
@@ -100,7 +102,7 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'CLEAR_OTP_STATUSCODE':
          return { ...state, otpSuccessStatusCode: 0 }
       case 'OTP_VERIFY':
-         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
+         return { ...state, sendOtpValue: action.payload.response.Data, OtpVerifyStatusCode: action.payload.statusCode, JWTtokenV2: action.payload.response }
       case 'CLEAR_OTP_VERIFIED':
          return { ...state, OtpVerifyStatusCode: 0 }
       case 'ALL_NOTIFICATION_LIST':

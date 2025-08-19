@@ -414,49 +414,53 @@ function AddPg({ show, handleClose, currentItem }) {
       setIsChangedError("");
     }
 
-
-    const MobileNumber = `${countryCode}${mobile}`;
+   
 
     dispatch({
-      type: "PGLIST",
-      payload: {
-        profile: file,
-        name: pgName,
-        phoneNo: MobileNumber,
-        email_Id: email,
-        location: house_no,
-        area: street,
-        landmark: landmark,
-        city: city,
-        pin_code: pincode,
-        state: state_name,
-        id: currentItem.id,
-        image1: images[0]?.isChanged
-          ? images[0].image
-          : currentItem.image_list?.[0]?.image || null,
-        image2: images[1]?.isChanged
-          ? images[1].image
-          : currentItem.image_list?.[1]?.image || null,
-        image3: images[2]?.isChanged
-          ? images[2].image
-          : currentItem.image_list?.[2]?.image || null,
-        image4: images[3]?.isChanged
-          ? images[3].image
-          : currentItem.image_list?.[3]?.image || null,
-      },
-    });
+  type: "CREATEPG",
+  payload: {
+    mainImage: file, 
+    additionalImages: [
+      images[0]?.isChanged
+        ? images[0].image
+        : currentItem.image_list?.[0]?.image || null,
+      images[1]?.isChanged
+        ? images[1].image
+        : currentItem.image_list?.[1]?.image || null,
+      images[2]?.isChanged
+        ? images[2].image
+        : currentItem.image_list?.[2]?.image || null,
+      images[3]?.isChanged
+        ? images[3].image
+        : currentItem.image_list?.[3]?.image || null,
+    ].filter(Boolean), 
+
+    payloads: {
+      hostelName: pgName,
+      mobile: `${mobile}`,
+      pincode: Number(pincode),
+      city: city,
+      state: state_name,
+      emailId: email,
+      houseNo: house_no,
+      street: street,
+      landmark: landmark,
+    },
+  },
+});
+
 
     setFormLoading(true)
-    setFile("");
-    setPgName("");
-    setMobile("");
-    setEmail("");
-    setHouseNo("");
-    setStreet("");
-    setLandmark("");
-    setPincode("");
-    setCity("");
-    setStateName("");
+    // setFile("");
+    // setPgName("");
+    // setMobile("");
+    // setEmail("");
+    // setHouseNo("");
+    // setStreet("");
+    // setLandmark("");
+    // setPincode("");
+    // setCity("");
+    // setStateName("");
   };
 
 
@@ -465,12 +469,13 @@ function AddPg({ show, handleClose, currentItem }) {
   }, [state?.login?.selectedHostel_Id]);
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode === 200) {
+    if (state.PgList.createPgStatusCode === 201) {
       dispatch({
         type: "ALL_HOSTEL_DETAILS",
         payload: { hostel_id: hostel_Id },
       });
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
+       dispatch({ type: "HOSTELLIST" })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
@@ -610,12 +615,12 @@ const handleFileChange = (index) => async (e) => {
 
 
   useEffect(() => {
-    if (state.PgList.createPgStatusCode === 200) {
+    if (state.PgList.createPgStatusCode === 201) {
       setFormLoading(false)
     }
   }, [state.PgList.createPgStatusCode])
 
-
+console.log("state.PgList?.createPgStatusCode",state.PgList)
 useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)

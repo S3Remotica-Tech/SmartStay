@@ -25,7 +25,11 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     const [errorIsChanged, setErrorIsChanged] = useState("");
     const [roleError, setRoleError] = useState("")
     const [editRoleError, setEditRoleError] = useState("")
-    const initialFormState = useRef(null);
+    const initialFormState = useRef({
+        roleName: "",
+        permissionRole: []
+    });
+
     const [formLoading, setFormLoading] = useState(false)
 
     const [checkboxValues, setCheckboxValues] = useState({
@@ -53,7 +57,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
 
-    console.log("permissionRole", permissionRole)
+
 
     const handleCheckboxChange = (row, index) => {
         setErrorPermission('')
@@ -121,54 +125,46 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     }, [checkboxValues, permissionMapping]);
 
 
+
+
     useEffect(() => {
         if (editRoleDetails) {
-            dispatch({ type: "EDITPERMISSIONROLE", payload: { role_id: editRoleDetails.id } });
-        }
 
-    }, [editRoleDetails])
-
-
-    useEffect(() => {
-        if (state.Settings.editStatusCosePermission === 200) {
-            setEditPermissionDetails(state.Settings?.editRolePermission?.role_details)
-        }
-
-    }, [state.Settings.editStatusCosePermission])
-
-
-    useEffect(() => {
-        if (editPermissionDetails) {
-
-            setRoleName(editRoleDetails.role_name ? editRoleDetails.role_name.trim() : '');
-
+            setRoleName(editRoleDetails.name ? editRoleDetails.name.trim() : '');
 
             const updatedCheckboxValues = { ...checkboxValues };
 
-            editPermissionDetails.forEach((permission) => {
+            editRoleDetails.rolesPermissionDetails.forEach((permission) => {
                 const permissionName = Object.keys(permissionMapping).find(
                     (key) => permissionMapping[key] === permission.moduleId
                 );
 
                 if (permissionName) {
                     updatedCheckboxValues[permissionName] = [
-                        permission.canWrite === 1,
-                        permission.canRead === 1,
-                        permission.canUpdate === 1,
-                        permission.canDelete === 1,
+                        permission.canWrite ? true : false,
+                        permission.canRead ? true : false,
+                        permission.canUpdate ? true : false,
+                        permission.canDelete ? true : false,
                     ];
                 }
             });
 
+
             setCheckboxValues(updatedCheckboxValues);
+
             initialFormState.current = {
-                roleName: editRoleDetails.role_name ? editRoleDetails.role_name.trim() : '',
-                permissionRole: editPermissionDetails,
+                roleName: editRoleDetails.name ? editRoleDetails.name.trim() : '',
+                permissionRole: editRoleDetails.rolesPermissionDetails.map((p) => ({
+                    moduleId: p.moduleId,
+                    canRead: p.canRead ? 1 : 0,
+                    canWrite: p.canWrite ? 1 : 0,
+                    canUpdate: p.canUpdate ? 1 : 0,
+                    canDelete: p.canDelete ? 1 : 0,
+                })),
             };
-
-
         }
-    }, [editPermissionDetails]);
+    }, [editRoleDetails]);
+
 
 
     const handleClose = () => {
@@ -183,11 +179,11 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     }
 
     const handleRoleName = (e) => {
-        const value = e.target.value.trim()
-        const pattern = /^[a-zA-Z\s]*$/;
-        if (!pattern.test(value)) {
-            return;
-        }
+        const value = e.target.value
+        // const pattern = /^[a-zA-Z\s]*$/;
+        // if (!pattern.test(value)) {
+        //     return;
+        // }
         setErrorForm('')
         setRoleName(value);
 
@@ -232,6 +228,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     );
 
 
+
     const normalizePermissions = (permissions) =>
         permissions.map(({ moduleId, canWrite, canRead, canUpdate, canDelete }) => ({
             moduleId,
@@ -245,7 +242,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
         dispatch({ type: "CLEAR_ROLE_EDIT_ERROR" })
         let isValid = true;
 
-        if (!roleName.trim()) {
+        if (!roleName) {
             setErrorForm("Please Enter Role Name");
             isValid = false;
         }
@@ -263,11 +260,18 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
             permissionRole,
         };
 
-        const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole);
-        const normalizedCurrent = normalizePermissions(currentState.permissionRole);
+        let hasRoleNameChanged = true;
+        let hasPermissionRoleChanged = true;
 
-        const hasRoleNameChanged = initialFormState.current.roleName?.trim() !== currentState.roleName?.trim();
-        const hasPermissionRoleChanged = JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent);
+        if (editRoleDetails) {
+            const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole || []);
+            const normalizedCurrent = normalizePermissions(currentState.permissionRole);
+
+            hasRoleNameChanged =
+                initialFormState.current.roleName?.trim() !== currentState.roleName?.trim();
+            hasPermissionRoleChanged =
+                JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent);
+        }
 
 
 
@@ -297,13 +301,24 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                 permission.canDelete
             );
 
-        const payload = {
-            // id: editRoleDetails.id || null,
-            // hostel_id: state.login.selectedHostel_Id,
-            roleName: roleName,
-            permissionList: formattedPermissionList,
+        let payload;
 
-        };
+        if (editRoleDetails) {
+
+            payload = {
+                id: editRoleDetails.id || null,
+                roleName: roleName,
+                permissionList: formattedPermissionList,
+            };
+        } else {
+            payload = {
+
+                roleName: roleName,
+                permissionList: formattedPermissionList,
+            };
+        }
+
+
 
         if (isValid) {
             if (editRoleDetails) {

@@ -1,45 +1,99 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
+import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-// export async function createPgList(datum){
-//     return await AxiosConfig.post('/add/new-hostel',datum,{
-//       data:datum
-//     })
+
+// V1
+
+// export async function createPgList(params) {
+
+//   const formData = new FormData();
+//   if (params.profile) formData.append("profile", params.profile);
+//   if (params.name) formData.append("name", params.name);
+//   if (params.phoneNo) formData.append("phoneNo", params.phoneNo);
+//   if (params.email_Id) formData.append("email_Id", params.email_Id);
+//   if (params.location) formData.append("location", params.location);
+//   if (params.area) formData.append("area", params.area);
+//   if (params.landmark) formData.append("landmark", params.landmark);
+//   if (params.pin_code) formData.append("pin_code", params.pin_code);
+//   if (params.city) formData.append("city", params.city);
+//   if (params.state) formData.append("state", params.state);
+//   if (params.id) formData.append("id", params.id);
+//   if (params.image1) formData.append("image1", params.image1);
+//   if (params.image2) formData.append("image2", params.image2);
+//   if (params.image3) formData.append("image3", params.image3);
+//   if (params.image4) formData.append("image4", params.image4);
+
+//   try {
+//     const response = await AxiosConfig.post("/add/new-hostel", formData, {
+//       headers: {
+//         "Content-type": "multipart/form-data",
+//       },
+//       timeout: 100000000,
+//       onUploadProgress: (event) => {
+//         console.log("event", event);
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
 //   }
+// }
+
+// V2
 
 export async function createPgList(params) {
 
-  const formData = new FormData();
-  if (params.profile) formData.append("profile", params.profile);
-  if (params.name) formData.append("name", params.name);
-  if (params.phoneNo) formData.append("phoneNo", params.phoneNo);
-  if (params.email_Id) formData.append("email_Id", params.email_Id);
-  if (params.location) formData.append("location", params.location);
-  if (params.area) formData.append("area", params.area);
-  if (params.landmark) formData.append("landmark", params.landmark);
-  if (params.pin_code) formData.append("pin_code", params.pin_code);
-  if (params.city) formData.append("city", params.city);
-  if (params.state) formData.append("state", params.state);
-  if (params.id) formData.append("id", params.id);
-  if (params.image1) formData.append("image1", params.image1);
-  if (params.image2) formData.append("image2", params.image2);
-  if (params.image3) formData.append("image3", params.image3);
-  if (params.image4) formData.append("image4", params.image4);
+  console.log("params",params)
 
   try {
-    const response = await AxiosConfig.post("/add/new-hostel", formData, {
-      headers: {
-        "Content-type": "multipart/form-data",
-      },
+    const formData = new FormData();
+
+ 
+    if (params.payloads) {
+      const payloadsBlob = new Blob(
+        [JSON.stringify(params.payloads)],
+        { type: "application/json" }
+      );
+      formData.append("payloads", payloadsBlob);
+    }
+
+      if (params.mainImage) {
+      formData.append("mainImage", params.mainImage);
+    } else {
+      
+      // formData.append(
+      //   "mainImage",
+      //   new Blob([], { type: "application/octet-stream" }),
+      //   "empty.txt"
+      // );
+    }
+
+       if (params.additionalImages && params.additionalImages.length > 0) {
+      params.additionalImages.forEach((img, index) => {
+        if (img) {
+          formData.append("additionalImages", img);
+        }
+      });
+    }else {
+            // formData.append(
+      //   "additionalImages",
+      //   new Blob([], { type: "application/octet-stream" }),
+      //   "empty.txt"
+      // );
+    }
+
+    const response = await AxiosConfigV2.post("/v2/hostel", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
       timeout: 100000000,
-      onUploadProgress: (event) => {
-        console.log("event", event);
-      },
+     
     });
-    return response.data;
+
+    return response;
   } catch (error) {
     console.error("Axios Error", error);
   }
 }
+
 
 export async function Checkeblist(datum) {
   return await AxiosConfig.post("/EB/Hostel_Room_based", datum, {

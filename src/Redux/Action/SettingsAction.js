@@ -102,17 +102,40 @@ export async function AddSettingPermission(datum) {
     data: datum,
   });
 }
-export async function editRolePermission(datum) {
-  return await AxiosConfig.post("/edit_role", datum, {
-    data: datum,
+
+// v1
+
+// export async function editRolePermission(datum) {
+//   return await AxiosConfig.post("/edit_role", datum, {
+//     data: datum,
+//   });
+// }
+
+// v2
+
+export async function editRolePermission(role) {
+  console.log("role edit ", role)
+  return await AxiosConfigV2.put(`/v2/role/${role.id}`, role,{
+     data: role,
   });
 }
 
+
+// v1
+
+// export async function deleteRolePermission(datum) {
+//   return await AxiosConfig.post("/delete_role", datum, {
+//     data: datum,
+//   });
+// }
+
+
+// v2
+
 export async function deleteRolePermission(datum) {
-  return await AxiosConfig.post("/delete_role", datum, {
-    data: datum,
-  });
+  return await AxiosConfigV2.delete(`/v2/role/remove-role/${datum.id}`);
 }
+
 
 
 // v1
@@ -196,13 +219,7 @@ export async function AddGeneral(params) {
 
     if (params.profilePic) {
       formData.append("profilePic", params.profilePic);
-    } else {
-      formData.append(
-        "profilePic",
-        new Blob([], { type: "application/octet-stream" }),
-        "empty.txt"
-      );
-    }
+    } 
     const response = await AxiosConfigV2.post(
       "/v2/profile/add-admin",
       formData,

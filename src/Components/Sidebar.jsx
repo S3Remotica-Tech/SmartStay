@@ -139,7 +139,7 @@ function Sidebar() {
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
   useEffect(() => {
-    dispatch({ type: "HOSTELIDDETAILS" });
+    dispatch({ type: "HOSTELLIST" })
   }, []);
 
   useEffect(() => {
@@ -151,7 +151,8 @@ function Sidebar() {
 
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
-      dispatch({ type: "HOSTELIDDETAILS" });
+      // dispatch({ type: "HOSTELIDDETAILS" });
+        dispatch({ type: "HOSTELLIST" })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
@@ -163,13 +164,13 @@ function Sidebar() {
 
 
   useEffect(() => {
-    if (state.UsersList.statusCodeForhostelListNewDetails === 200) {
-      setHostelDetail(state.UsersList.hostelListNewDetails.data);
+    if (state.UsersList.hosteListStatusCode === 200) {
+      setHostelDetail(state.UsersList.hostelList);
       setTimeout(() => {
-        dispatch({ type: "CLEAR_HOSTEL_ID_LIST" });
+        dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE" });
       }, 500);
     }
-  }, [state.UsersList.statusCodeForhostelListNewDetails]);
+  }, [state.UsersList.hosteListStatusCode === 200]);
 
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
@@ -216,15 +217,15 @@ function Sidebar() {
         localStorage.setItem("emilidd", encryptedemail);
         localStorage.setItem("IsEnable", encryptIsEnable);
 
-        if (Is_Enable === 0) {
+        if (Is_Enable === true) {
           const encryptData = CryptoJS.AES.encrypt(
-            JSON.stringify(true),
+            JSON.stringify(false),
             "abcd"
           );
           localStorage.setItem("login", encryptData.toString());
         } else {
           const encryptData = CryptoJS.AES.encrypt(
-            JSON.stringify(false),
+            JSON.stringify(true),
             "abcd"
           );
           localStorage.setItem("login", encryptData.toString());
@@ -255,7 +256,7 @@ function Sidebar() {
     }
   }, [
     stateData.accountList,
-    state.UsersList.hostelListNewDetails.data,
+    state.UsersList.hostelList,
     stateData.statusCodeForAccount,
   ]);
 
@@ -298,6 +299,7 @@ function Sidebar() {
 
   const handleLogout = () => {
     dispatch({ type: "LOG_OUT" });
+    dispatch({type: 'RESET_ALL'})
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
     localStorage.setItem("loginId", "");
@@ -355,7 +357,7 @@ function Sidebar() {
     if (
       !isInitialized &&
       hostelListDetail?.length > 0 &&
-      state.UsersList.statusCodeForhostelListNewDetails === 200
+      state.UsersList.hosteListStatusCode === 200
     ) {
       const currentHostel =
         savedHostelId &&
@@ -391,9 +393,9 @@ function Sidebar() {
       setIsInitialized(true);
     }
   }, [
-    state.UsersList.hostelListNewDetails.data,
+    state.UsersList.hostelList,
     hostelListDetail,
-    state.UsersList.statusCodeForhostelListNewDetails,
+    state.UsersList.hosteListStatusCode,
     isInitialized,
   ]);
 
@@ -403,23 +405,23 @@ function Sidebar() {
         prev.id < current.id ? prev : current
       );
 
-      setAllPageHostel_Id(firstHostel.id);
-      setPayingGuestName(firstHostel.Name);
+      setAllPageHostel_Id(firstHostel.hostelId);
+      setPayingGuestName(firstHostel.name);
       setSelectedProfileImage(
-        firstHostel.profile &&
-          firstHostel.profile !== "0" &&
-          firstHostel.profile !== ""
-          ? firstHostel.profile
+        firstHostel.mainImage &&
+          firstHostel.mainImage !== "0" &&
+          firstHostel.mainImage !== ""
+          ? firstHostel.mainImage
           : Profile
       );
 
-      dispatch(StoreSelectedHostelAction(firstHostel.id));
+      dispatch(StoreSelectedHostelAction(firstHostel.hostelId));
     }
   }, [
     state.login?.isLoggedIn,
-    state.UsersList.hostelListNewDetails.data,
+    state.UsersList.hostelList,
     hostelListDetail,
-    state.UsersList.statusCodeForhostelListNewDetails,
+    state.UsersList.hosteListStatusCode,
   ]);
 
 console.log("state sidebar",state)
@@ -638,18 +640,18 @@ console.log("state sidebar",state)
                               alignItems: "center",
                               padding: "8px 12px",
                               cursor: "pointer",
-                              color: "#007bff",
+                              color: "#1e45e1",
                             }}
                             onClick={() =>
-                              handleHostelId(item.id, item.Name, item.profile)
+                              handleHostelId(item.hostelId, item.name, item.mainImage)
                             }
                           >
                             <img
                               src={
-                                item.profile &&
-                                  item.profile !== "0" &&
-                                  item.profile !== ""
-                                  ? item.profile
+                                item.mainImage &&
+                                  item.mainImage !== "0" &&
+                                  item.mainImage !== ""
+                                  ? item.mainImage
                                   : Profile
                               }
                               style={{
@@ -658,9 +660,9 @@ console.log("state sidebar",state)
                                 borderRadius: "50%",
                                 marginRight: 8,
                               }}
-                              alt={item.Name || "Default Profile"}
+                              alt={item.name || "Default Profile"}
                             />
-                            {item.Name}
+                            {item.name}
                           </li>
                         ))}
                       </ul>
