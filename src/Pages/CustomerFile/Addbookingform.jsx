@@ -931,20 +931,24 @@ function BookingModal(props) {
 
               <Select
                 options={
-                  state.UsersList?.bednumberdetails?.bed_details?.length > 0
-                    ? state.UsersList.bednumberdetails.bed_details
-                      .filter(
-                        (item) =>
-                          item.bed_no !== "0" &&
-                          item.bed_no !== "undefined" &&
-                          item.bed_no !== "" &&
-                          item.bed_no !== "null"
-                      )
-                      .map((item) => ({
-                        value: item.id,
-                        label: item.bed_no,
-                      }))
-                    : []
+                  (() => {
+                    const bookedBeds = (state.Booking?.CustomerBookingList?.bookings || []).map(b => b.bed_id);
+                    return state.UsersList?.bednumberdetails?.bed_details?.length > 0
+                      ? state.UsersList.bednumberdetails.bed_details
+                        .filter(
+                          (item) =>
+                            item.bed_no !== "0" &&
+                            item.bed_no !== "undefined" &&
+                            item.bed_no !== "" &&
+                            item.bed_no !== "null" &&
+                            !bookedBeds.includes(item.id)
+                        )
+                        .map((item) => ({
+                          value: item.id,
+                          label: item.bed_no,
+                        }))
+                      : [];
+                  })()
                 }
                 onChange={handleBedChange}
                 value={

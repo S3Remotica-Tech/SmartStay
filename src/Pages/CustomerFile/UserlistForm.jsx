@@ -2909,7 +2909,6 @@ const handleSaveBacktoCheckin =()=>{
 
                               <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                {index !== 0 && (
                                   <Trash
                                     size="20"
                                     color="red"
@@ -2917,7 +2916,7 @@ const handleSaveBacktoCheckin =()=>{
                                     style={{ cursor: "pointer" }}
                                     onClick={() => handleRemoveField(index)}
                                   />
-                                )}
+                             
                               </div>
                             </div>
                           );
