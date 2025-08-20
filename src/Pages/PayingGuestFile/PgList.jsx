@@ -113,9 +113,7 @@ function PgList() {
 
 
 
-  console.log("floorid" , showHostelDetails?.floorDetails?.[0]?.floor_id);
-  
-  console.log("floorid", );
+  console.log("state",state)
   
 
   useEffect(() => {
@@ -307,24 +305,27 @@ function PgList() {
   }, [state.PgList.createPgStatusCode]);
 
 
-console.log("state.PgList?.createPgStatusCode",state.PgList)
+console.log("state.PgList?.createPgStatusCode",state.UsersList.hotelDetailsinPg)
+
 
   useEffect(() => {
-    if (selectedHostel && showHostelDetails) {
-      const selected = state.UsersList.hotelDetailsinPg?.find(
-        (item) => item.id === showHostelDetails.id
-      );
+  if (selectedHostel && showHostelDetails) {
+    const selected = state.UsersList.hotelDetailsinPg?.find(
+      (item) => item.hostelId === state.login.selectedHostel_Id
+    );
+
+    if (selected) {
       setShowHostelDetails(selected);
 
-      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id === floorClick;
-      }) || [];
+      const FloorNameData = selected?.floorDetails?.filter(
+        (item) => item.floor_id === floorClick
+      ) || [];
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
-
-
     }
-  }, [state.UsersList.hotelDetailsinPg]);
+  }
+}, [state.UsersList.hotelDetailsinPg, floorClick, selectedHostel, showHostelDetails]);
+
 
 
 
@@ -498,18 +499,27 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
 
+
 useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-    const selected = state.UsersList.hotelDetailsinPg?.find((item) => {
-      return item.id === state.login.selectedHostel_Id;
-    });
+  if (state.login.selectedHostel_Id) {
+    const hostelList = Array.isArray(state.UsersList?.hotelDetailsinPg)
+      ? state.UsersList.hotelDetailsinPg
+      : []; 
+
+    const selected = hostelList.find(
+      (item) => item.hostelId === state.login.selectedHostel_Id
+    );
+
+    console.log("selected*****", selected);
+
     setSelectedHostel(true);
-
     setShowHostelDetails(selected);
-
-    }
-  }, [state.login?.selectedHostel_Id, selectedHostel,state.UsersList.hotelDetailsinPg])
-
+  }
+}, [
+  state.login?.selectedHostel_Id,
+  selectedHostel,
+  state.UsersList?.hotelDetailsinPg
+]);
 
 
   const handleClickOutside = (event) => {

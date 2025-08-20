@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc , CustomerUnAssign,backtoCheckin} from "../Action/UserListAction"
+import {getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc , CustomerUnAssign,backtoCheckin} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -116,8 +116,8 @@ function* handleHostelList(hostel) {
    }
 }
 
-function* handleAllHostelList(action) {
-   const response = yield call(hostelList, action.payload)
+function* handleGetParticularHostelList(action) {
+   const response = yield call(getParticularHostelList, action.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST_All', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -1960,7 +1960,7 @@ function* UserListSaga() {
    yield takeEvery('CUSTOMERADDCONTACT', handleCustomerAddContact)
    yield takeEvery('CONTACTALLDETAILS', handleCustomerAllDetails)
    yield takeEvery('CONTACTDELETE', handleDeleteContact)
-   yield takeEvery('ALL_HOSTEL_DETAILS', handleAllHostelList)
+   yield takeEvery('ALL_HOSTEL_DETAILS', handleGetParticularHostelList)
    yield takeEvery('ADVANCEGENERATE', handleGenerateAdvance)
    yield takeEvery('UPLOADDOCUMENT', handleUploadDocument)
    yield takeEvery('UPLOADOTHERDOCUMENT', handleUploadOtherDocument)

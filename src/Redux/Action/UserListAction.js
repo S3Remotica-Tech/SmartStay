@@ -71,10 +71,20 @@ export async function addUser(params) {
 // }
 
 
-// v2
+// v2 all pg details 
 
 export async function hostelList() {
   return await AxiosConfigV2.get('/v2/hostel')
+}
+
+// v2 single pg details
+
+
+export async function getParticularHostelList(hostel) {
+  console.log("hostel",hostel)
+  return await AxiosConfigV2.get(`/v2/hostel/${hostel.hostel_id}`, hostel,{
+data: hostel
+  } )
 }
 
 export async function roomsCount(floorAndHostelID) {
