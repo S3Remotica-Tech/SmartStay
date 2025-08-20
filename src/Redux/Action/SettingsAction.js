@@ -133,7 +133,7 @@ export async function editRolePermission(role) {
 // v2
 
 export async function deleteRolePermission(datum) {
-  return await AxiosConfigV2.delete(`/v2/role/remove-role/${datum.id}`);
+  return await AxiosConfigV2.delete(`/v2/role/${datum.id}`);
 }
 
 
