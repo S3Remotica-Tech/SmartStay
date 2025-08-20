@@ -43,6 +43,7 @@ function OccupiedBedStatus({
 
     const handleMoveToNoticePeriod = () => {
         handleShowNoticePeriod(true, customer)
+        
     };
     const handleShowDots = (roomId) => {
         setShowDots(!showDots)
