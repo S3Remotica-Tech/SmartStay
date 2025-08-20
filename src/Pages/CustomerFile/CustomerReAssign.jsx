@@ -73,10 +73,34 @@ function CustomerReAssign(props) {
 
     setfloorError("");
   };
+  // const handleBed = (selectedOption) => {
+  //   setNewBed(selectedOption?.value || "");
+
+  //   setBedError("");
+  // };
+
   const handleBed = (selectedOption) => {
-    setNewBed(selectedOption?.value || "");
+    const selectedBedId = selectedOption?.value || "";
+    setNewBed(selectedBedId);
+
+    const Bedfilter = state?.UsersList?.roomdetails?.filter(
+      (u) =>
+        String(u.Hostel_Id) === String(state.login.selectedHostel_Id) &&
+        String(u.Floor_Id) === String(newFloor) &&
+        String(u.Room_Id) === String(newRoom)
+    );
+
+    const Roomamountfilter =
+      Bedfilter?.[0]?.bed_details?.filter(
+        (amount) => String(amount.id) === String(selectedBedId)
+      ) ?? [];
+
+    if (Roomamountfilter.length > 0) {
+      setNewRoomRent(Roomamountfilter[0]?.bed_amount);
+    }
 
     setBedError("");
+    setRentError("");
   };
   const handleRooms = (selectedOption) => {
     const value = selectedOption?.value || "";

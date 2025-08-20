@@ -170,10 +170,20 @@ function BookingModal(props) {
     setBookingDate(date ? date.toDate() : null);
   };
 
+  // const handleBookingAmountChange = (e) => {
+  //   setAmountError("");
+  //   setBookingAmount(e.target.value);
+  // };
   const handleBookingAmountChange = (e) => {
+  const value = e.target.value;
+
+  // only allow numbers
+  if (/^\d*$/.test(value)) {
     setAmountError("");
-    setBookingAmount(e.target.value);
-  };
+    setBookingAmount(value);
+  }
+};
+
 
   const handleJoiningDateChange = (date) => {
     if (bookingDate && dayjs(date).isBefore(dayjs(bookingDate), "day")) {
@@ -529,6 +539,11 @@ function BookingModal(props) {
                   placeholder="Enter Booking Amount"
                   value={bookingAmount}
                   onChange={(e) => handleBookingAmountChange(e)}
+                   onKeyPress={(e) => {
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  }}
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",

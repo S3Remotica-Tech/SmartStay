@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
  const PGAssignTenant = ({ show, handleClose  , currentItem , }) => {
 
      const state = useSelector((state) => state);
+     console.log("PGAssignTenant",state)
      const dispatch = useDispatch();
 
     const [activeTab, setActiveTab] = useState("long");
@@ -34,7 +35,15 @@ import dayjs from 'dayjs';
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
+useEffect(() => {
+const matchedBed = state.PgList.roomCount[0].bed_details.find(
+  (item) => item.id === currentItem?.bed?.id
+);
 
+if (matchedBed) {
+  setRoomRent(matchedBed.bed_amount);
+}
+}, [state.PgList, currentItem]);
 
     const handleRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -80,12 +89,20 @@ import dayjs from 'dayjs';
     } else if (field === "customReason") {
       updatedFields[index].customReason = value;
       if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "amount") {
-      updatedFields[index].amount = value;
-
-
-      if (updatedErrors[index]) updatedErrors[index].amount = "";
     }
+    //  else if (field === "amount") {
+    //   updatedFields[index].amount = value;
+
+
+    //   if (updatedErrors[index]) updatedErrors[index].amount = "";
+    // }
+    else if (field === "amount") {
+  // allow only numbers
+  if (/^\d*$/.test(value)) {
+    updatedFields[index].amount = value;
+    if (updatedErrors[index]) updatedErrors[index].amount = "";
+  }
+}
 
     setFields(updatedFields);
     setErrors(updatedErrors);
@@ -152,6 +169,7 @@ import dayjs from 'dayjs';
     setAmount(newAmount);
     setamountError("");
   };
+  
 
    const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
     if (!value || value === "Select a PG") {
