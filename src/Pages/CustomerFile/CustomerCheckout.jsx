@@ -26,6 +26,78 @@ function CustomerCheckout(props) {
   const [checkoUtDateError, setCheckOutDateError] = useState('')
   const [joiningError, setJoiningError] = useState('')
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
+  const [lastDate, setLastDate] = useState("");
+  const [joiningdate , setJoiningDate] = useState("")
+
+    // useEffect(() => {
+    //   if(props?.data?.ID || props?.data[0]?.id ){
+    //   dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props?.data?.ID || props?.data[0]?.id } });
+    //      }
+     
+    //   }, [props]);
+
+
+useEffect(() => {
+  let userId = null;
+
+  if (props?.data) {
+    if (Array.isArray(props.data) && props.data[0]?.id) {
+      userId = props.data[0].id;
+    } else if (props.data?.ID) {
+      userId = props.data.ID;
+    }
+  }
+
+  console.log("userid", userId);
+
+  if (userId) {
+    dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: userId } });
+    
+  }
+}, [props?.data, dispatch]);  
+
+
+      console.log("props", props?.data?.ID , props?.data[0]?.id );
+      
+
+    useEffect(() => {
+         if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+           const customerData = state.UsersList.customerdetails?.data?.[0]
+           const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
+       
+           // 🔹 1. Store Joining Date
+           if (customerData?.joining_Date) {
+             const joining = new Date(customerData.joining_Date);
+             const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
+               joining.getMonth() + 1
+             ).padStart(2, "0")}-${joining.getFullYear()}`;
+             setJoiningDate(formattedJoining);
+           } else {
+             setJoiningDate("");
+           }
+       
+           // 🔹 2. Store Last Bill Date
+           if (invoiceDetails && invoiceDetails.length > 0) {
+             const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
+             if (dates.length > 0) {
+               const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
+               const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
+                 maxDate.getMonth() + 1
+               ).padStart(2, "0")}-${maxDate.getFullYear()}`;
+               setLastDate(formatted);
+             } else {
+               setLastDate("");
+             }
+           } else {
+             setLastDate("");
+           }
+       
+           // clear details after some time
+           setTimeout(() => {
+             dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+           }, 1000);
+         }
+       }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
 
   const handleCloseCheckout = () => {
@@ -293,7 +365,7 @@ handleCloseCheckout()
                           </Form.Label>
 
                           <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                            <DatePicker
+                            {/* <DatePicker
                               style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
@@ -305,7 +377,77 @@ handleCloseCheckout()
                               }}
                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                               getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                            /> */}
+
+                            <DatePicker
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                border: "1px solid lightgrey",
+                                cursor: "pointer",
+                                fontFamily: "Gilroy",
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                             value={requestDate ? dayjs(requestDate) : null}
+                              // ref={selectedDateRef}
+                              onChange={(date) => {
+                                setCheckOutRequestDateError("");
+                                setRequestDate(date ? date.toDate() : null);
+                                calculateDateDifference(selectedDate, date);
+                              }}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".datepicker-wrapper")
+                              }
+                              disabledDate={(current) => {
+                                if (!current) return false;
+                            
+                                const today = dayjs().endOf("day");
+                            
+                                // 🔹 Parse joiningDate from state (DD-MM-YYYY)
+                                let joining = null;
+                                if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
+                                  const [dd, mm, yyyy] = joiningdate.split("-");
+                                  joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                                }
+                            
+                                // 🔹 Parse last bill date from state (DD-MM-YYYY)
+                                let lastBillDate = null;
+                                if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
+                                  const [dd, mm, yyyy] = lastDate.split("-");
+                                  lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                                }
+                            
+                                let minAllowedDate = null;
+                            
+                                if (joining) {
+                                  const sameMonth =
+                                    joining.month() === today.month() &&
+                                    joining.year() === today.year();
+                            
+                                  if (sameMonth) {
+                                    // ✅ Case 1: Joining date is in current month → allow from joining date onwards
+                                    minAllowedDate = joining;
+                                  } else if (lastBillDate) {
+                                    // ✅ Case 2: Joining date not in current month → allow from last bill date onwards
+                                    minAllowedDate = lastBillDate;
+                                  }
+                                }
+                            
+                                // ❌ Block future dates
+                                if (current.isAfter(today)) {
+                                  return true;
+                                }
+                            
+                                // ❌ Block all dates before minAllowedDate
+                                if (minAllowedDate && current.isBefore(minAllowedDate)) {
+                                  return true;
+                                }
+                            
+                                return false;
+                              }}
                             />
+
                           </div>
                         </Form.Group>
                         {checkoUtrequestDateError && (
@@ -333,7 +475,7 @@ handleCloseCheckout()
                           </Form.Label>
 
                           <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                            <DatePicker
+                            {/* <DatePicker
                               style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
@@ -346,7 +488,37 @@ handleCloseCheckout()
                               }}
 
                               getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                            />
+                            /> */}
+
+                            <DatePicker
+  style={{
+    width: "100%",
+    height: 48,
+    cursor: "pointer",
+    fontFamily: "Gilroy",
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={selectedDate ? dayjs(selectedDate) : null}
+  onChange={(date) => {
+    setSelectedDate(date);
+    calculateDateDifference(date, requestDate);
+    setCheckOutDateError('');
+    setJoiningError('');
+  }}
+  disabledDate={(current) => {
+    // if no requestDate → disable all dates
+    if (!requestDate) {
+      return true;
+    }
+    // disable dates before requestDate
+    return current && current.isBefore(dayjs(requestDate), "day");
+  }}
+  getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".datepicker-wrapper")
+  }
+/>
+
                           </div>
 
                         </Form.Group>
