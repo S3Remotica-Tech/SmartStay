@@ -87,12 +87,21 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
       }
     }
 
-    if (field === "amount") {
+    // if (field === "amount") {
+    //   fieldData.amount = value;
+    //   if (updatedErrors[index]) {
+    //     updatedErrors[index].amount = "";
+    //   }
+    // }
+     if (field === "amount") {
+    // allow only digits
+    if (/^\d*$/.test(value)) {
       fieldData.amount = value;
       if (updatedErrors[index]) {
         updatedErrors[index].amount = "";
       }
     }
+  }
 
     updatedFields[index] = fieldData;
     setFields(updatedFields);

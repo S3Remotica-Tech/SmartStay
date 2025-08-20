@@ -157,13 +157,22 @@ const handleInputChange = (index, field, value) => {
             updatedErrors[index].reason = "";
         }
     }
-
     if (field === "amount") {
-        fieldData.amount = value;
-        if (updatedErrors[index]) {
-            updatedErrors[index].amount = "";
-        }
+    // allow only digits
+    if (/^\d*$/.test(value)) {
+      fieldData.amount = value;
+      if (updatedErrors[index]) {
+        updatedErrors[index].amount = "";
+      }
     }
+  }
+
+    // if (field === "amount") {
+    //     fieldData.amount = value;
+    //     if (updatedErrors[index]) {
+    //         updatedErrors[index].amount = "";
+    //     }
+    // }
 
     updatedFields[index] = fieldData;
     setFields(updatedFields);
