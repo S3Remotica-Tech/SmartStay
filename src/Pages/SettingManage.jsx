@@ -75,19 +75,26 @@ function SettingManage() {
   }, [showHostelDetails])
 
 
+  console.log("floorList?.[0]?.id", floorList?.[0]?.id)
+
+
 
 
 
   useEffect(() => {
-    setFloorClick(floorList?.[0]?.id);
-  }, [selectedHostel]);
+    if (floorList?.length > 0 && selectedHostel) {
+      setFloorClick(floorList?.[0]?.id);
+    }
+  }, [floorList, showHostelDetails.hostelId, selectedHostel]);
 
 
   useEffect(() => {
-    if (floorList?.length > 0) {
+    if (floorList?.length === 1) {
       setFloorClick(floorList?.[0]?.id);
     }
   }, [floorList]);
+
+
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
@@ -125,11 +132,6 @@ function SettingManage() {
     }
   }, [state.UsersList?.noHosteListStatusCode]);
 
-  useEffect(() => {
-    if (floorList?.length === 1) {
-      setFloorClick(floorList?.[0]?.id);
-    }
-  }, [floorList]);
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -161,7 +163,7 @@ function SettingManage() {
       state.PgList.updateFloorSuccessStatusCode === 200
     ) {
       dispatch({ type: "HOSTELLIST" });
-      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: showHostelDetails.hostelId  } })
+      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: showHostelDetails.hostelId } })
 
 
       setShowFloor(false);
@@ -179,7 +181,7 @@ function SettingManage() {
 
 
   useEffect(() => {
-    if (state.UsersList.createFloorSuccessStatusCode === 201 || state.PgList.updateFloorSuccessStatusCode === 200 || floorList?.length > 0) {
+    if (state.UsersList.createFloorSuccessStatusCode === 201 || state.PgList.updateFloorSuccessStatusCode === 200) {
       const updatedFloors = floorList || [];
 
       if (updatedFloors?.length > 0) {
@@ -190,13 +192,8 @@ function SettingManage() {
         setKey(lastFloor?.id?.toString() || "");
         setFloorName(lastFloor?.name || "");
 
-
-
         const newStartIndex = Math.max(0, lastIndex - 2);
         const newEndIndex = lastIndex;
-
-
-
 
         setVisibleRange([newStartIndex, newEndIndex]);
       } else {
@@ -205,7 +202,7 @@ function SettingManage() {
         setFloorName("");
       }
     }
-  }, [state.UsersList.createFloorSuccessStatusCode, floorList ,state.PgList.updateFloorSuccessStatusCode]);
+  }, [state.UsersList.createFloorSuccessStatusCode, state.PgList.updateFloorSuccessStatusCode]);
 
 
 
@@ -218,6 +215,7 @@ function SettingManage() {
 
 
 
+  console.log("floorClisk", floorClick)
 
 
 
@@ -225,36 +223,47 @@ function SettingManage() {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
       dispatch({ type: "HOSTELLIST" });
       setShowDelete(false);
-
+      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: showHostelDetails.hostelId } })
 
       setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_FLOOR" });
+      const updatedFloors = floorList || [];
 
-        const updatedFloors = floorList || [];
+      if (updatedFloors.length > 0) {
+               let [start, end] = visibleRange;
 
-        if (updatedFloors.length > 0) {
-
-          const firstVisibleFloor = updatedFloors.find(
-            (_, index) => index >= visibleRange[0] && index <= visibleRange[1]
-          );
-
-          if (firstVisibleFloor) {
-            setFloorClick(firstVisibleFloor?.id);
-            setKey(firstVisibleFloor?.id.toString());
-            setFloorName(firstVisibleFloor.name);
-          } else {
-
-            setFloorClick(updatedFloors[0]?.id || null);
-            setKey(updatedFloors[0]?.id?.toString() || "");
-            setFloorName(updatedFloors[0]?.name || "");
-          }
-        } else {
-
-          setFloorClick(null);
-          setKey("");
-          setFloorName("");
+        if (end >= updatedFloors.length) {
+          end = updatedFloors.length - 1;
         }
-      }, 500);
+        if (start > end) {
+          start = Math.max(0, end - 1);
+        }
+
+        const newRange = [start, end];
+
+                const firstVisibleFloor = updatedFloors.find(
+          (_, index) => index >= newRange[0] && index <= newRange[1]
+        );
+
+      
+        if (firstVisibleFloor) {
+          setFloorClick(firstVisibleFloor.id);
+          setKey(firstVisibleFloor.id);
+          setFloorName(firstVisibleFloor.name);
+        } else {
+          setFloorClick(updatedFloors[0]?.id || null);
+          setKey(updatedFloors[0]?.id || "");
+          setFloorName(updatedFloors[0]?.name || "");
+        }
+
+        
+      } else {
+        setFloorClick(null);
+        setKey("");
+        setFloorName("");
+      }
+
+      dispatch({ type: "CLEAR_DELETE_FLOOR" });
+    }, 500);
 
 
 
@@ -416,7 +425,7 @@ function SettingManage() {
     setFloorClick("");
     setFloorName("");
     setHidePgList(true);
-    setVisibleRange([0, 2])
+    // setVisibleRange([0, 2])
   };
 
   const handleDIsplayFloorClick = () => {
@@ -535,7 +544,7 @@ function SettingManage() {
   const [showDots, setShowDots] = useState(false);
 
   useEffect(() => {
-    if (state.PgList.statusCodeCreateRoom === 200) {
+    if (state.PgList.statusCodeCreateRoom === 201) {
       setShowRoom(false);
     }
   }, [state.PgList.statusCodeCreateRoom]);
@@ -947,7 +956,7 @@ function SettingManage() {
                         fontFamily: "Gilroy",
                       }}
                       disabled={addPermissionError}
-                      onClick={() => handleAddFloors(showHostelDetails.id)}
+                      onClick={() => handleAddFloors(showHostelDetails.hostelId)}
                     >
                       +  Floor
                     </Button>
@@ -1166,7 +1175,7 @@ function SettingManage() {
                                         className="d-flex gap-2 align-items-center"
                                         onClick={
                                           !editPermissionError
-                                            ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
+                                            ? () => handleEditFloor(floorClick, showHostelDetails.hostelId, floorName)
                                             : undefined
                                         }
                                         style={{
@@ -1196,7 +1205,7 @@ function SettingManage() {
                                         className="d-flex gap-2 align-items-center"
                                         onClick={
                                           !deletePermissionError
-                                            ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
+                                            ? () => handleShowDelete(floorClick, showHostelDetails.hostelId, floorName)
                                             : undefined
                                         }
                                         style={{
@@ -1231,7 +1240,7 @@ function SettingManage() {
                         <Tab.Content>
                           <SettingParticular
                             floorID={floorClick}
-                            hostel_Id={showHostelDetails.id}
+                            hostel_Id={showHostelDetails.hostelId}
                             phoneNumber={showHostelDetails.hostel_PhoneNo}
                             editPermissionError={editPermissionError}
                             deletePermissionError={deletePermissionError}

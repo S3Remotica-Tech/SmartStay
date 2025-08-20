@@ -342,7 +342,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
 
-    if (state.PgList.statusCodeCreateRoom === 200) {
+    if (state.PgList.statusCodeCreateRoom === 201) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowRoom(false)
       dispatch({ type: 'HOSTELLIST' })

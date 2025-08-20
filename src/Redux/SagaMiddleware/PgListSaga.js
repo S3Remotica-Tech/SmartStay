@@ -101,7 +101,7 @@ function* handleCreateRoom(datum) {
     padding: "10px",
 
   };
-  if (response.status === 200 || response.statusCode === 200) {
+  if (response.status === 201) {
     yield put({
       type: "CREATE_ROOM",
       payload: {
@@ -114,7 +114,7 @@ function* handleCreateRoom(datum) {
       message: "CREATED SUCCESSFULLY",
     });
 
-    toast.success(`${response.data.message}`, {
+    toast.success(`${response.data}`, {
       position: "bottom-center",
       autoClose: 2000,
       hideProgressBar: true,

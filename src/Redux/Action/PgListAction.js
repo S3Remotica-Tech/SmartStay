@@ -122,11 +122,24 @@ data:datum,
   });
 }
 
+
+// v1
+
+// export async function createRoom(datum) {
+//   return await AxiosConfig.post("/room/create-room", datum, {
+//     data: datum,
+//   });
+// }
+
+// v2
 export async function createRoom(datum) {
-  return await AxiosConfig.post("/room/create-room", datum, {
+  return await AxiosConfigV2.post("/v2/room", datum, {
     data: datum,
   });
 }
+
+
+
 
 export async function CheckRoomId() {
   return await AxiosConfig.get("/room-id/check-room-id", {});

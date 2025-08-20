@@ -116,7 +116,6 @@ function PgList() {
   }, [floorList]);
 
 
-
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
       setLoading(false)
@@ -229,46 +228,98 @@ function PgList() {
 
 
 
-  useEffect(() => {
-    if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
-      dispatch({ type: "HOSTELLIST" });
-       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
-      setShowDelete(false);
+//   useEffect(() => {
+//     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
+//       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
+//       dispatch({ type: "HOSTELLIST" });
+//        dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
+//       setShowDelete(false);
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_FLOOR" });
+//       setTimeout(() => {
+//                 const updatedFloors = floorList || [];
 
-        const updatedFloors = floorList || [];
+//         if (updatedFloors.length > 0) {
 
-        if (updatedFloors.length > 0) {
+//           const firstVisibleFloor = updatedFloors.find(
+//             (_, index) => index >= visibleRange[0] && index <= visibleRange[1]
+//           );
 
-          const firstVisibleFloor = updatedFloors.find(
-            (_, index) => index >= visibleRange[0] && index <= visibleRange[1]
-          );
+// console.log("firstVisibleFloor",firstVisibleFloor)
 
-          if (firstVisibleFloor) {
-            setFloorClick(firstVisibleFloor.id);
-            setKey(firstVisibleFloor.id.toString());
-            setFloorName(firstVisibleFloor.name);
-          } else {
+//           if (firstVisibleFloor) {
+//             setFloorClick(firstVisibleFloor.id);
+//             setKey(firstVisibleFloor.id);
+//             setFloorName(firstVisibleFloor.name);
+//           } else {
 
-            setFloorClick(updatedFloors[0]?.id || null);
-            setKey(updatedFloors[0]?.id?.toString() || "");
-            setFloorName(updatedFloors[0]?.name || "");
-          }
-        } else {
-          setFloorClick(null);
-          setKey("");
-          setFloorName("");
+//             setFloorClick(updatedFloors[0]?.id || null);
+//             setKey(updatedFloors[0]?.id || "");
+//             setFloorName(updatedFloors[0]?.name || "");
+//           }
+//         } else {
+//           setFloorClick(null);
+//           setKey("");
+//           setFloorName("");
+//         }
+
+//         dispatch({ type: "CLEAR_DELETE_FLOOR" });
+//       }, 500);
+      
+//     }
+//   }, [state.UsersList.deleteFloorSuccessStatusCode,]);
+
+
+
+
+useEffect(() => {
+  if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
+    dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
+    dispatch({ type: "HOSTELLIST" });
+    dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: hostel_Id } });
+    setShowDelete(false);
+
+    setTimeout(() => {
+      const updatedFloors = floorList || [];
+
+      if (updatedFloors.length > 0) {
+               let [start, end] = visibleRange;
+
+        if (end >= updatedFloors.length) {
+          end = updatedFloors.length - 1;
         }
-      }, 500);
-    }
-  }, [state.UsersList.deleteFloorSuccessStatusCode,]);
+        if (start > end) {
+          start = Math.max(0, end - 1);
+        }
 
+        const newRange = [start, end];
 
+                const firstVisibleFloor = updatedFloors.find(
+          (_, index) => index >= newRange[0] && index <= newRange[1]
+        );
 
+        console.log("firstVisibleFloor", firstVisibleFloor);
 
+        if (firstVisibleFloor) {
+          setFloorClick(firstVisibleFloor.id);
+          setKey(firstVisibleFloor.id);
+          setFloorName(firstVisibleFloor.name);
+        } else {
+          setFloorClick(updatedFloors[0]?.id || null);
+          setKey(updatedFloors[0]?.id || "");
+          setFloorName(updatedFloors[0]?.name || "");
+        }
+
+        
+      } else {
+        setFloorClick(null);
+        setKey("");
+        setFloorName("");
+      }
+
+      dispatch({ type: "CLEAR_DELETE_FLOOR" });
+    }, 500);
+  }
+}, [state.UsersList.deleteFloorSuccessStatusCode]);
 
 
 
@@ -414,7 +465,7 @@ function PgList() {
   const [showDots, setShowDots] = useState(false);
 
   useEffect(() => {
-    if (state.PgList.statusCodeCreateRoom === 200) {
+    if (state.PgList.statusCodeCreateRoom === 201) {
       setShowRoom(false);
     }
   }, [state.PgList.statusCodeCreateRoom]);

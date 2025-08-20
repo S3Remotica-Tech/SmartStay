@@ -93,10 +93,10 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
         setFormLoading(true)
       }
     } else {
-      if (floorId && hostel_Id && room) {
+      if (floorId  && room) {
         dispatch({
           type: "CREATEROOM",
-          payload: { hostel_id: hostel_Id, floorId: floorId, roomId: room },
+          payload: {  floorId: floorId, roomName: room },
         });
         setFormLoading(true)
       }
