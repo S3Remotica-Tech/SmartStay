@@ -1292,7 +1292,7 @@ useEffect(() => {
 
 
 CustomerReAssign.propTypes = {
-
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   setCustomerReAssign: PropTypes.func,
   reAssignDetail: PropTypes.shape({
     user_join_date: PropTypes.string,
