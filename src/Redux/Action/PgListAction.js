@@ -162,11 +162,23 @@ export async function DeletePG(datum) {
   });
 }
 
+
+// v1
+
+// export async function UpdateFloor(datum) {
+//   return await AxiosConfig.post("/update_floor", datum, {
+//     data: datum,
+//   });
+// }
+
+// v2
+
 export async function UpdateFloor(datum) {
-  return await AxiosConfig.post("/update_floor", datum, {
+  return await AxiosConfigV2.put(`/v2/floor/${datum.id}`, datum, {
     data: datum,
   });
 }
+
 
 export async function OccupiedCustomer(datum) {
   return await AxiosConfig.post("/get_beduser_details", datum, {

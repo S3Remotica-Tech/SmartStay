@@ -73,7 +73,7 @@ export const initialState = {
     statusCodegetConfirmCheckout: 0,
     GetconfirmcheckoutBillDetails: [],
     GetconfirmcheckoutUserDetails: '',
-        statusCodeAddConfirmCheckout: 0,
+    statusCodeAddConfirmCheckout: 0,
     reassignbeddetails: [],
     statusCodeForReassinBed: 0,
     statusCodeForCustomerCoatact: 0,
@@ -116,11 +116,13 @@ export const initialState = {
     statusCodeForCustomerDetails: 0,
     kycnotadded: '',
     KYCStatusCode: 0,
-    statusCodeForDueCustomer:0,
+    statusCodeForDueCustomer: 0,
     nonRefundable_details: [],
-    UnAssignCustomerDetails:[],
-    statusCodeForUnAssignCustomer:0,
-    StatusCodeBacktoCheckin:0
+    UnAssignCustomerDetails: [],
+    statusCodeForUnAssignCustomer: 0,
+    StatusCodeBacktoCheckin: 0,
+    floorListStatusCode: 0,
+    floorList: [],
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -214,6 +216,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, hostelList: action.payload.response, hosteListStatusCode: action.payload.statusCode }
         case 'CLEAR_HOSTELLIST_STATUS_CODE':
             return { ...state, hosteListStatusCode: 0 }
+
+        case 'ALL_FLOOR_LIST':
+            return { ...state, floorList: action.payload.response, floorListStatusCode: action.payload.statusCode }
+        case 'REMOVE_ALL_FLOOR_LIST':
+            return { ...state, floorListStatusCode: 0 }
+
 
         case 'NO_HOSTEL':
             return { ...state, noHosteListStatusCode: action.payload.statusCode }
@@ -435,7 +443,7 @@ const UserListReducer = (state = initialState, action) => {
             return {
                 ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
                 GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
-             nonRefundable_details:action.payload.response.deduction_details,
+                nonRefundable_details: action.payload.response.deduction_details,
                 statusCodegetConfirmCheckout: action.payload.statusCode,
             };
         case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":
@@ -596,10 +604,10 @@ const UserListReducer = (state = initialState, action) => {
         case 'UNASSIGN_CUSTOMER':
             return { ...state, UnAssignCustomerDetails: action.payload.response, statusCodeForUnAssignCustomer: action.payload.statusCode }
         case 'REMOVE_UNASSIGN_CUSTOMER':
-            return { ...state, statusCodeForUnAssignCustomer: 0 }    
+            return { ...state, statusCodeForUnAssignCustomer: 0 }
 
 
-               case 'BACK_TO_CHECKIN_USER':
+        case 'BACK_TO_CHECKIN_USER':
             return { ...state, StatusCodeBacktoCheckin: action.payload.statusCode }
         case 'CLEAR_BACK_TO_CHECKIN_USER':
             return { ...state, StatusCodeBacktoCheckin: 0 }

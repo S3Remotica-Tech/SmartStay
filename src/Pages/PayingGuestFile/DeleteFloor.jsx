@@ -17,13 +17,13 @@ function DeleteFloor({ show, handleClose, currentItem }) {
   const dispatch = useDispatch();
 
 
-
+console.log("currentItem",currentItem)
 
 
   const handleDelete = () => {
 
-    if (currentItem.hostel_Id && currentItem.floor_Id) {
-      dispatch({ type: 'DELETEFLOOR', payload: { id: currentItem.hostel_Id, floor_id: currentItem.floor_Id } })
+    if (currentItem.floor_Id) {
+      dispatch({ type: 'DELETEFLOOR', payload: {floor_Id: currentItem.floor_Id } })
 
     }
   }

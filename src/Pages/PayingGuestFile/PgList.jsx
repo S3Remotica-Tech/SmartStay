@@ -51,22 +51,25 @@ function PgList() {
 
 
 
- 
+
   const [floorClick, setFloorClick] = useState("");
   const [floorName, setFloorName] = useState("");
   const [selectedHostel, setSelectedHostel] = useState(true);
 
   const [filteredData, setFilteredData] = useState([]);
 
- 
+
 
   const [showAddPg, setShowAddPg] = useState(false);
+  const [floorList, setFloorList] = useState([])
+
 
 
 
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
   const [hostelFloor, setHostelFloor] = useState("");
+  const [loading, setLoading] = useState(false)
   const hostelDetails = {
     room: null,
     selectedFloor: null,
@@ -78,14 +81,14 @@ function PgList() {
     floorName: null,
   });
 
-  
+
   const [hostel_Id, setHostel_Id] = useState("")
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id);
-          }
+    }
   }, [state?.login?.selectedHostel_Id]);
 
 
@@ -93,8 +96,9 @@ function PgList() {
 
   useEffect(() => {
     if (hostel_Id) {
-  
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
+      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
+      setLoading(true)
     }
   }, [hostel_Id]);
 
@@ -102,27 +106,35 @@ function PgList() {
 
 
   useEffect(() => {
-    setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
+    setFloorClick(floorList?.[0]?.id);
   }, [selectedHostel, hostel_Id]);
 
   useEffect(() => {
-  if (showHostelDetails?.floorDetails?.length > 0) {
-    setFloorClick(showHostelDetails.floorDetails[0].floor_id);
-  }
-}, [showHostelDetails?.floorDetails]);
+    if (floorList?.length > 0) {
+      setFloorClick(floorList?.[0]?.id);
+    }
+  }, [floorList]);
 
 
 
-  console.log("state",state)
-  
+  useEffect(() => {
+    if (state.UsersList.floorListStatusCode === 200) {
+      setLoading(false)
+      setFloorList(state.UsersList.floorList)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_ALL_FLOOR_LIST' })
+      }, 500)
+    }
+
+  }, [state.UsersList.floorListStatusCode])
+
+
+
+
 
   useEffect(() => {
 
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-
-
-    
-
       setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
         dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
@@ -132,7 +144,7 @@ function PgList() {
 
   useEffect(() => {
     if (state.UsersList?.noAllHosteListStatusCode === 201) {
-          setFilteredData([]);
+      setFilteredData([]);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
       }, 1000);
@@ -140,10 +152,10 @@ function PgList() {
   }, [state.UsersList?.noAllHosteListStatusCode]);
 
   useEffect(() => {
-    if (showHostelDetails?.floorDetails?.length === 1) {
-      setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
+    if (floorList?.length === 1) {
+      setFloorClick(floorList?.[0]?.id);
     }
-  }, [filteredData[0]]);
+  }, [floorList[0]]);
 
 
 
@@ -156,7 +168,7 @@ function PgList() {
 
   useEffect(() => {
     if (state.UsersList?.noHosteListStatusCode === 201) {
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_STATUS_CODE" });
       }, 100);
     }
@@ -165,11 +177,12 @@ function PgList() {
 
   useEffect(() => {
     if (
-      state.UsersList.createFloorSuccessStatusCode === 200 ||
+      state.UsersList.createFloorSuccessStatusCode === 201 ||
       state.PgList.updateFloorSuccessStatusCode === 200
     ) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      // dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
 
 
 
@@ -188,14 +201,14 @@ function PgList() {
 
 
   useEffect(() => {
-    if (state.UsersList.createFloorSuccessStatusCode === 200 && showHostelDetails?.floorDetails.length > 0) {
-      const updatedFloors = showHostelDetails?.floorDetails || [];
+    if (state.UsersList.createFloorSuccessStatusCode === 201 && floorList.length > 0) {
+      const updatedFloors = floorList || [];
       if (updatedFloors.length > 0) {
         const lastFloor = updatedFloors[updatedFloors.length - 1];
         const lastIndex = updatedFloors.length - 1;
-        setFloorClick(lastFloor?.floor_id || null);
-        setKey(lastFloor?.floor_id?.toString() || "");
-        setFloorName(lastFloor?.floor_name || "");
+        setFloorClick(lastFloor?.id || null);
+        setKey(lastFloor?.id?.toString() || "");
+        setFloorName(lastFloor?.name || "");
 
 
         const newStart = Math.max(0, lastIndex - 2);
@@ -211,19 +224,22 @@ function PgList() {
         setFloorName("");
       }
     }
-  }, [state.UsersList.createFloorSuccessStatusCode, showHostelDetails?.floorDetails])
+  }, [state.UsersList.createFloorSuccessStatusCode, floorList])
+
+
 
 
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "HOSTELLIST" });
+       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
       setShowDelete(false);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
 
-        const updatedFloors = showHostelDetails?.floorDetails || [];
+        const updatedFloors = floorList || [];
 
         if (updatedFloors.length > 0) {
 
@@ -232,14 +248,14 @@ function PgList() {
           );
 
           if (firstVisibleFloor) {
-            setFloorClick(firstVisibleFloor.floor_id);
-            setKey(firstVisibleFloor.floor_id.toString());
-            setFloorName(firstVisibleFloor.floor_name);
+            setFloorClick(firstVisibleFloor.id);
+            setKey(firstVisibleFloor.id.toString());
+            setFloorName(firstVisibleFloor.name);
           } else {
 
-            setFloorClick(updatedFloors[0]?.floor_id || null);
-            setKey(updatedFloors[0]?.floor_id?.toString() || "");
-            setFloorName(updatedFloors[0]?.floor_name || "");
+            setFloorClick(updatedFloors[0]?.id || null);
+            setKey(updatedFloors[0]?.id?.toString() || "");
+            setFloorName(updatedFloors[0]?.name || "");
           }
         } else {
           setFloorClick(null);
@@ -258,7 +274,7 @@ function PgList() {
 
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       // dispatch({ type: "HOSTELIDDETAILS" });
       dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
@@ -277,7 +293,7 @@ function PgList() {
 
   useEffect(() => {
     if (state.PgList.dleteHostelImagesStatusCode === 200) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" })
 
       setTimeout(() => {
@@ -292,7 +308,7 @@ function PgList() {
 
   useEffect(() => {
     if (state.PgList?.createPgStatusCode === 201) {
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
 
       setShowAddPg(false);
@@ -305,26 +321,22 @@ function PgList() {
   }, [state.PgList.createPgStatusCode]);
 
 
-console.log("state.PgList?.createPgStatusCode",state.UsersList.hotelDetailsinPg)
+
 
 
   useEffect(() => {
-  if (selectedHostel && showHostelDetails) {
-    const selected = state.UsersList.hotelDetailsinPg?.find(
-      (item) => item.hostelId === state.login.selectedHostel_Id
-    );
+    if (selectedHostel) {
 
-    if (selected) {
-      setShowHostelDetails(selected);
+      if (state.UsersList?.hotelDetailsinPg) {
+        setShowHostelDetails(state.UsersList?.hotelDetailsinPg);
+        const FloorNameData = floorList?.filter(
+          (item) => item.id === floorClick
+        ) || [];
 
-      const FloorNameData = selected?.floorDetails?.filter(
-        (item) => item.floor_id === floorClick
-      ) || [];
-
-      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+        setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
+      }
     }
-  }
-}, [state.UsersList.hotelDetailsinPg, floorClick, selectedHostel, showHostelDetails]);
+  }, [state.UsersList.hotelDetailsinPg, floorClick, selectedHostel]);
 
 
 
@@ -332,32 +344,31 @@ console.log("state.PgList?.createPgStatusCode",state.UsersList.hotelDetailsinPg)
 
   useEffect(() => {
     if (floorClick) {
-      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id === floorClick;
-      }) || [];
+      const FloorNameData = floorList?.filter(
+        (item) => item.id === floorClick
+      ) || [];
 
-      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
     }
   }, [selectedHostel, floorClick]);
 
   useEffect(() => {
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-
-        return item.floor_id === floorClick;
+      const FloorNameData = floorList?.filter((item) => {
+        return item.id === floorClick;
       }) || [];
-      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
 
     }
-  }, [state.UsersList.statuscodeForhotelDetailsinPg, showHostelDetails, floorClick]);
+  }, [state.UsersList.statuscodeForhotelDetailsinPg, floorClick, floorList]);
 
   useEffect(() => {
     if (state.UsersList.hosteListStatusCode === 200) {
-      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id === floorClick;
+      const FloorNameData = floorList?.filter((item) => {
+        return item.id === floorClick;
       }) || [];
 
-      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_HOSTELLIST_STATUS_CODE' })
@@ -369,18 +380,18 @@ console.log("state.PgList?.createPgStatusCode",state.UsersList.hotelDetailsinPg)
 
 
 
-  useEffect(() => {
-    if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-      const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
-        return item.floor_id === floorClick;
-      }) || [];
+  // useEffect(() => {
+  //   if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
+  //     const FloorNameData = showHostelDetails?.floorDetails?.filter((item) => {
+  //       return item.floor_id === floorClick;
+  //     }) || [];
 
-      setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
+  //     setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
 
 
-    }
+  //   }
 
-  }, [state.UsersList?.statuscodeForhotelDetailsinPg])
+  // }, [state.UsersList?.statuscodeForhotelDetailsinPg])
 
 
   useEffect(() => {
@@ -390,7 +401,7 @@ console.log("state.PgList?.createPgStatusCode",state.UsersList.hotelDetailsinPg)
         payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
       });
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
 
 
@@ -438,88 +449,78 @@ console.log("state.PgList?.createPgStatusCode",state.UsersList.hotelDetailsinPg)
 
   useEffect(() => {
     const userType = rolePermission[0]?.user_details?.user_type;
-const isAdmin = userType === "admin" || userType === "agent";
+    const isAdmin = userType === "admin" || userType === "agent";
 
-     if (isAdmin) {
-    if (state?.login?.planStatus === 0) {
-      setPermissionError("");
-      setAddPermissionError("Permission Denied");
-      setEditPermissionError("Permission Denied");
-      setDeletePermissionError("Permission Denied");
+    if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        setPermissionError("");
+        setAddPermissionError("Permission Denied");
+        setEditPermissionError("Permission Denied");
+        setDeletePermissionError("Permission Denied");
 
-    } else if (state?.login?.planStatus === 1) {
-      setPermissionError("");
-      setAddPermissionError("");
-      setEditPermissionError("");
-      setDeletePermissionError("");
+      } else if (state?.login?.planStatus === 1) {
+        setPermissionError("");
+        setAddPermissionError("");
+        setEditPermissionError("");
+        setDeletePermissionError("");
+      }
     }
-  }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,rolePermission ])
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission])
 
 
   useEffect(() => {
-  if (rolePermission[0]?.user_details?.user_type === "staff") {
-    const rolesPermission = rolePermission[0]?.role_permissions?.find(
-      (perm) => perm.permission_name === "Paying Guest"
-    );
+    if (rolePermission[0]?.user_details?.user_type === "staff") {
+      const rolesPermission = rolePermission[0]?.role_permissions?.find(
+        (perm) => perm.permission_name === "Paying Guest"
+      );
 
-    const planActive = state?.login?.planStatus === 1;
+      const planActive = state?.login?.planStatus === 1;
 
-    if (rolesPermission) {
-      if (rolesPermission.per_view === 1 && planActive) {
-        setPermissionError("");
-      } else {
-        setPermissionError("Permission Denied");
-      }
-
- 
-      if (rolesPermission.per_create === 1 && planActive) {
-        setAddPermissionError("");
-      } else {
-        setAddPermissionError("Permission Denied");
-      }
-
- 
-      if (rolesPermission.per_edit === 1 && planActive) {
-        setEditPermissionError("");
-      } else {
-        setEditPermissionError("Permission Denied");
-      }
+      if (rolesPermission) {
+        if (rolesPermission.per_view === 1 && planActive) {
+          setPermissionError("");
+        } else {
+          setPermissionError("Permission Denied");
+        }
 
 
-      if (rolesPermission.per_delete === 1 && planActive) {
-        setDeletePermissionError("");
-      } else {
-        setDeletePermissionError("Permission Denied");
+        if (rolesPermission.per_create === 1 && planActive) {
+          setAddPermissionError("");
+        } else {
+          setAddPermissionError("Permission Denied");
+        }
+
+
+        if (rolesPermission.per_edit === 1 && planActive) {
+          setEditPermissionError("");
+        } else {
+          setEditPermissionError("Permission Denied");
+        }
+
+
+        if (rolesPermission.per_delete === 1 && planActive) {
+          setDeletePermissionError("");
+        } else {
+          setDeletePermissionError("Permission Denied");
+        }
       }
     }
-  } 
-}, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission]);
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, rolePermission]);
 
 
 
 
-useEffect(() => {
-  if (state.login.selectedHostel_Id) {
-    const hostelList = Array.isArray(state.UsersList?.hotelDetailsinPg)
-      ? state.UsersList.hotelDetailsinPg
-      : []; 
-
-    const selected = hostelList.find(
-      (item) => item.hostelId === state.login.selectedHostel_Id
-    );
-
-    console.log("selected*****", selected);
-
-    setSelectedHostel(true);
-    setShowHostelDetails(selected);
-  }
-}, [
-  state.login?.selectedHostel_Id,
-  selectedHostel,
-  state.UsersList?.hotelDetailsinPg
-]);
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      setSelectedHostel(true);
+      setShowHostelDetails(state.UsersList?.hotelDetailsinPg);
+    }
+  }, [
+    state.login?.selectedHostel_Id,
+    selectedHostel,
+    state.UsersList?.hotelDetailsinPg
+  ]);
 
 
   const handleClickOutside = (event) => {
@@ -528,7 +529,7 @@ useEffect(() => {
     }
   };
 
-  
+
 
 
 
@@ -545,8 +546,8 @@ useEffect(() => {
 
 
 
-  
- 
+
+
 
 
 
@@ -574,48 +575,33 @@ useEffect(() => {
     setShowRoom(false);
   };
 
- 
+
 
   const handleDIsplayFloorClick = () => {
-    setFloorClick(showHostelDetails?.floorDetails?.[0]?.floor_id);
+    setFloorClick(floorList?.[0]?.id);
   };
 
 
 
 
-
-
- 
-
-  
-
-
-
-
-
- 
-
-
-
-  const numberOfFloors =
-    showHostelDetails && showHostelDetails?.floorDetails?.length;
+  const numberOfFloors = floorList && floorList?.length;
 
 
 
   const handlePrev = () => {
     if (floorClick > 0) {
 
-      const prevFloorIndex = showHostelDetails.floorDetails.findIndex(
-        (floor) => floor.floor_id === floorClick
+      const prevFloorIndex = floorList?.findIndex(
+        (floor) => floor.id === floorClick
       ) - 1;
 
       if (prevFloorIndex >= 0) {
-        const prevFloor = showHostelDetails.floorDetails[prevFloorIndex];
+        const prevFloor = floorList[prevFloorIndex];
 
 
-        setKey(prevFloor.floor_id.toString());
-        setFloorClick(prevFloor.floor_id);
-        setFloorName(prevFloor.floor_name);
+        setKey(prevFloor.id.toString());
+        setFloorClick(prevFloor.id);
+        setFloorName(prevFloor.name);
 
 
         if (prevFloorIndex < visibleRange[0]) {
@@ -629,17 +615,17 @@ useEffect(() => {
 
 
   const handleNext = () => {
-    const floorIndex = showHostelDetails.floorDetails.findIndex(
-      (floor) => floor.floor_id === floorClick
+    const floorIndex = floorList?.findIndex(
+      (floor) => floor.id === floorClick
     );
 
-    if (floorIndex !== -1 && floorIndex < showHostelDetails.floorDetails.length - 1) {
-      const nextFloor = showHostelDetails.floorDetails[floorIndex + 1];
+    if (floorIndex !== -1 && floorIndex < floorList?.length - 1) {
+      const nextFloor = floorList[floorIndex + 1];
 
 
-      setKey(nextFloor.floor_id.toString());
-      setFloorClick(nextFloor.floor_id);
-      setFloorName(nextFloor.floor_name);
+      setKey(nextFloor.id.toString());
+      setFloorClick(nextFloor.id);
+      setFloorName(nextFloor.name);
 
       if (floorIndex + 1 > visibleRange[1]) {
         setVisibleRange([visibleRange[0] + 1, visibleRange[1] + 1]);
@@ -674,7 +660,7 @@ useEffect(() => {
   });
 
 
- 
+
 
   const handleCloseDelete = () => setShowDelete(false);
 
@@ -696,6 +682,7 @@ useEffect(() => {
     setEditFloor({ hostel_Id, floor_Id, floorName });
     setUpdate(true);
   };
+
 
 
 
@@ -745,13 +732,50 @@ useEffect(() => {
           </div>
         </>
       ) : (
-        <div className="container">
-    
+<>
+
+           {loading && <div
+            style={{
+              position: 'absolute',
+             top: '50%', 
+             left: '60%', 
+             transform: 'translate(-50%, -50%)',
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+              height: "100%",
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+        <div className="container" style={{ position: "relative" }} >
+
+
+       
+
+
           {selectedHostel && (
-            <div className="container mt-3">
+            <div className="container mt-3" >
+
+
+
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <div className="d-flex align-items-center">
-                 
+
+
+
                   <label
                     className="ms-4"
                     style={{
@@ -761,7 +785,7 @@ useEffect(() => {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    {showHostelDetails?.Name}
+                    {showHostelDetails?.name}
                   </label>
                 </div>
 
@@ -793,293 +817,292 @@ useEffect(() => {
 
               <div className="show-scroll"
               >
-                {showHostelDetails?.floorDetails?.length > 0 ? (
+                {floorList?.length > 0 ? (
                   <Tab.Container
                     activeKey={key}
                     onSelect={(k) => setKey(k)}
                     id="vertical-tabs-example"
                   >
-                 <Row className="g-0">
- 
-  <Col xs={12} md={1} className="mb-3 mb-md-0">
-    <div style={{ position: "sticky", top: 80, zIndex: 10 }}>
-      <div className="d-flex justify-content-center mb-2">
-        <div
-          onClick={handlePrev}
-          disabled={visibleRange[0] === 0}
-          style={{
-            border: "1px solid rgba(239, 239, 239, 1)",
-            width: "fit-content",
-            borderRadius: 50,
-            cursor: "pointer",
-            padding: 3,
-          }}
-        >
-          <ArrowUp2
-            size="32"
-            color={
-              visibleRange[0] === 0 ? "rgba(156, 156, 156, 1)" : "#000000"
-            }
-            variant="Bold"
-          />
-        </div>
-      </div>
+                    <Row className="g-0">
 
-      <Nav variant="" className="flex-column align-items-center">
-        {showHostelDetails.floorDetails.map((floor, index) =>
-          index >= visibleRange[0] && index <= visibleRange[1] ? (
-            <Nav.Item
-              key={floor.floor_id}
-              onClick={() =>
-                handleFloorClick(floor.floor_id, floor.floor_name)
-              }
-              className={`mb-3 d-flex justify-content-center align-items-center ${
-                Number(floorClick) === Number(floor.floor_id)
-                  ? "active-floor"
-                  : "Navs-Item"
-              }`}
-              style={{
-                border: "1px solid rgba(156, 156, 156, 1)",
-                borderRadius: 16,
-                height: 95,
-                width: 95,
-                overflowY: "auto",
-              }}
-            >
-              <Nav.Link
-                className="text-center Paying-Guest"
-                style={{ padding: "unset" }}
-              >
-                <div
-                  className={
-                    Number(floorClick) === Number(floor.floor_id)
-                      ? "ActiveNumberFloor"
-                      : "UnActiveNumberFloor"
-                  }
-                  style={{
-                    fontSize: 32,
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {floor.floor_name
-                    ? isNaN(floor.floor_name)
-                      ? floor.floor_name.charAt(0)
-                      : floor.floor_name
-                    : floor.floor_id}
-                </div>
-                <div
-                  className={
-                    Number(floorClick) === Number(floor.floor_id)
-                      ? "ActiveFloortext"
-                      : "UnActiveFloortext"
-                  }
-                  style={{
-                    fontSize: 14,
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    wordBreak: "break-word",
-                    whiteSpace: "normal",
-                    overflowWrap: "break-word",
-                    width: "100%",
-                    textAlign: "center",
-                    padding: "1px 8px",
-                  }}
-                >
-                  {typeof floor.floor_name === "string" &&
-                  floor.floor_name.trim() !== "" &&
-                  floor.floor_name !== "null"
-                    ? floor.floor_name
-                    : floor.floor_id}
-                </div>
-              </Nav.Link>
-            </Nav.Item>
-          ) : null
-        )}
-      </Nav>
+                      <Col xs={12} md={1} className="mb-3 mb-md-0">
+                        <div style={{ position: "sticky", top: 80, zIndex: 10 }}>
+                          <div className="d-flex justify-content-center mb-2">
+                            <div
+                              onClick={handlePrev}
+                              disabled={visibleRange[0] === 0}
+                              style={{
+                                border: "1px solid rgba(239, 239, 239, 1)",
+                                width: "fit-content",
+                                borderRadius: 50,
+                                cursor: "pointer",
+                                padding: 3,
+                              }}
+                            >
+                              <ArrowUp2
+                                size="32"
+                                color={
+                                  visibleRange[0] === 0 ? "rgba(156, 156, 156, 1)" : "#000000"
+                                }
+                                variant="Bold"
+                              />
+                            </div>
+                          </div>
 
-      <div className="d-flex justify-content-center mt-2">
-        <div
-          onClick={handleNext}
-          disabled={visibleRange[1] === numberOfFloors - 1}
-          style={{
-            border: "1px solid rgba(239, 239, 239, 1)",
-            width: "fit-content",
-            borderRadius: 50,
-            padding: 3,
-            cursor: "pointer",
-          }}
-        >
-          <ArrowDown2
-            size="32"
-            color={
-              visibleRange[1] === numberOfFloors - 1
-                ? "rgba(156, 156, 156, 1)"
-                : "#000000"
-            }
-            variant="Bold"
-          />
-        </div>
-      </div>
-    </div>
-  </Col>
+                          <Nav variant="" className="flex-column align-items-center">
+                            {floorList?.map((floor, index) =>
+                              index >= visibleRange[0] && index <= visibleRange[1] ? (
+                                <Nav.Item
+                                  key={floor.id}
+                                  onClick={() =>
+                                    handleFloorClick(floor.id, floor.name)
+                                  }
+                                  className={`mb-3 d-flex justify-content-center align-items-center ${Number(floorClick) === Number(floor.id)
+                                    ? "active-floor"
+                                    : "Navs-Item"
+                                    }`}
+                                  style={{
+                                    border: "1px solid rgba(156, 156, 156, 1)",
+                                    borderRadius: 16,
+                                    height: 95,
+                                    width: 95,
+                                    overflowY: "auto",
+                                  }}
+                                >
+                                  <Nav.Link
+                                    className="text-center Paying-Guest"
+                                    style={{ padding: "unset" }}
+                                  >
+                                    <div
+                                      className={
+                                        Number(floorClick) === Number(floor.id)
+                                          ? "ActiveNumberFloor"
+                                          : "UnActiveNumberFloor"
+                                      }
+                                      style={{
+                                        fontSize: 32,
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 600,
+                                        textTransform: "capitalize",
+                                      }}
+                                    >
+                                      {floor.name
+                                        ? isNaN(floor.name)
+                                          ? floor.name.charAt(0)
+                                          : floor.name
+                                        : floor.id}
+                                    </div>
+                                    <div
+                                      className={
+                                        Number(floorClick) === Number(floor.id)
+                                          ? "ActiveFloortext"
+                                          : "UnActiveFloortext"
+                                      }
+                                      style={{
+                                        fontSize: 14,
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 600,
+                                        wordBreak: "break-word",
+                                        whiteSpace: "normal",
+                                        overflowWrap: "break-word",
+                                        width: "100%",
+                                        textAlign: "center",
+                                        padding: "1px 8px",
+                                      }}
+                                    >
+                                      {typeof floor.name === "string" &&
+                                        floor.name.trim() !== "" &&
+                                        floor.name !== "null"
+                                        ? floor.name
+                                        : floor.id}
+                                    </div>
+                                  </Nav.Link>
+                                </Nav.Item>
+                              ) : null
+                            )}
+                          </Nav>
 
-  
-  <Col xs={12} md={11} className="ps-md-4"  >
-    <div className="container">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div
-          style={{
-            fontSize: 20,
-            fontFamily: "Gilroy",
-            fontWeight: 600,
-            textTransform: "capitalize",
-          }}
-        >
-          {floorName && floorName.trim() !== "" ? floorName : ""}
-        </div>
+                          <div className="d-flex justify-content-center mt-2">
+                            <div
+                              onClick={handleNext}
+                              disabled={visibleRange[1] === numberOfFloors - 1}
+                              style={{
+                                border: "1px solid rgba(239, 239, 239, 1)",
+                                width: "fit-content",
+                                borderRadius: 50,
+                                padding: 3,
+                                cursor: "pointer",
+                              }}
+                            >
+                              <ArrowDown2
+                                size="32"
+                                color={
+                                  visibleRange[1] === numberOfFloors - 1
+                                    ? "rgba(156, 156, 156, 1)"
+                                    : "#000000"
+                                }
+                                variant="Bold"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
 
-        <div className="d-flex align-items-center gap-3">
-          <div className="d-flex flex-row flex-wrap">
-            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-              <img className="me-1 mb-1" src={availabeimg} alt="available" />
-              Available
-            </p>
-            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-              <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
-              Occupied
-            </p>
-            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-              <img className="me-1 mb-1" src={recerverimg} alt="reserved" />
-              Reserved
-            </p>
-            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-              <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
-              Overdue
-            </p>
-            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
-              <img className="me-1 mb-1" src={noticeimg} alt="notice" />
-              Notice Period
-            </p>
-          </div>
 
-    
-          <div
-            style={{
-              cursor: "pointer",
-              height: 40,
-              width: 40,
-              borderRadius: 100,
-              border: "1px solid #EFEFEF",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              position: "relative",
-              zIndex: showDots ? 1000 : "auto",
-              backgroundColor: showDots ? "#E7F1FF" : "#fff",
-            }}
-            onClick={handleShowDots}
-          >
-            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-            {showDots && (
-              <div
-                ref={popupRef}
-                className="pg-card"
-                style={{
-                  backgroundColor: "#fff",
-                  position: "absolute",
-                  right: 40,
-                  top: 10,
-                  border: "1px solid #E0E0E0",
-                  borderRadius: 10,
-                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                  width: 140,
-                  zIndex: 1000,
-                }}
-              >
-                <div>
-                  <div
-                    className="d-flex gap-2 align-items-center"
-                    onClick={
-                      !editPermissionError
-                        ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
-                        : undefined
-                    }
-                    style={{
-                      padding: "8px 12px",
-                      borderRadius: 6,
-                      pointerEvents: editPermissionError ? "none" : "auto",
-                      opacity: editPermissionError ? 0.5 : 1,
-                      cursor: editPermissionError ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    <Edit size="16" color={editPermissionError ? "#A0A0A0" : "#1E45E1"} />
-                    <span
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: editPermissionError ? "#A0A0A0" : "#1E45E1",
-                      }}
-                    >
-                      Edit
-                    </span>
-                  </div>
+                      <Col xs={12} md={11} className="ps-md-4"  >
+                        <div className="container">
+                          <div className="d-flex justify-content-between align-items-center mb-3">
+                            <div
+                              style={{
+                                fontSize: 20,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                textTransform: "capitalize",
+                              }}
+                            >
+                              {floorName && floorName.trim() !== "" ? floorName : ""}
+                            </div>
 
-                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "4px 0" }} />
+                            <div className="d-flex align-items-center gap-3">
+                              <div className="d-flex flex-row flex-wrap">
+                                <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                  <img className="me-1 mb-1" src={availabeimg} alt="available" />
+                                  Available
+                                </p>
+                                <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                  <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
+                                  Occupied
+                                </p>
+                                <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                  <img className="me-1 mb-1" src={recerverimg} alt="reserved" />
+                                  Reserved
+                                </p>
+                                <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                  <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
+                                  Overdue
+                                </p>
+                                <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+                                  <img className="me-1 mb-1" src={noticeimg} alt="notice" />
+                                  Notice Period
+                                </p>
+                              </div>
 
-                  <div
-                    className="d-flex gap-2 align-items-center"
-                    onClick={
-                      !deletePermissionError
-                        ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
-                        : undefined
-                    }
-                    style={{
-                      padding: "8px 12px",
-                      borderRadius: 6,
-                      pointerEvents: deletePermissionError ? "none" : "auto",
-                      opacity: deletePermissionError ? 0.5 : 1,
-                      cursor: deletePermissionError ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    <Trash size="16" color={deletePermissionError ? "#A0A0A0" : "#FF0000"} />
-                    <span
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        color: deletePermissionError ? "#A0A0A0" : "#FF0000",
-                      }}
-                    >
-                      Delete
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
 
-      </div>
-    </div>
+                              <div
+                                style={{
+                                  cursor: "pointer",
+                                  height: 40,
+                                  width: 40,
+                                  borderRadius: 100,
+                                  border: "1px solid #EFEFEF",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  position: "relative",
+                                  zIndex: showDots ? 1000 : "auto",
+                                  backgroundColor: showDots ? "#E7F1FF" : "#fff",
+                                }}
+                                onClick={handleShowDots}
+                              >
+                                <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                                {showDots && (
+                                  <div
+                                    ref={popupRef}
+                                    className="pg-card"
+                                    style={{
+                                      backgroundColor: "#fff",
+                                      position: "absolute",
+                                      right: 40,
+                                      top: 10,
+                                      border: "1px solid #E0E0E0",
+                                      borderRadius: 10,
+                                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                      width: 140,
+                                      zIndex: 1000,
+                                    }}
+                                  >
+                                    <div>
+                                      <div
+                                        className="d-flex gap-2 align-items-center"
+                                        onClick={
+                                          !editPermissionError
+                                            ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
+                                            : undefined
+                                        }
+                                        style={{
+                                          padding: "8px 12px",
+                                          borderRadius: 6,
+                                          pointerEvents: editPermissionError ? "none" : "auto",
+                                          opacity: editPermissionError ? 0.5 : 1,
+                                          cursor: editPermissionError ? "not-allowed" : "pointer",
+                                        }}
+                                      >
+                                        <Edit size="16" color={editPermissionError ? "#A0A0A0" : "#1E45E1"} />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            color: editPermissionError ? "#A0A0A0" : "#1E45E1",
+                                          }}
+                                        >
+                                          Edit
+                                        </span>
+                                      </div>
 
-    <Tab.Content>
-      <ParticularHostelDetails
-        floorID={floorClick}
-        hostel_Id={state.login?.selectedHostel_Id}
-        phoneNumber={showHostelDetails.hostel_PhoneNo}
-        editPermissionError={editPermissionError}
-        deletePermissionError={deletePermissionError}
-        addPermissionError={addPermissionError}
-      />
-    </Tab.Content>
-  </Col>
-</Row>
+                                      <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "4px 0" }} />
+
+                                      <div
+                                        className="d-flex gap-2 align-items-center"
+                                        onClick={
+                                          !deletePermissionError
+                                            ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
+                                            : undefined
+                                        }
+                                        style={{
+                                          padding: "8px 12px",
+                                          borderRadius: 6,
+                                          pointerEvents: deletePermissionError ? "none" : "auto",
+                                          opacity: deletePermissionError ? 0.5 : 1,
+                                          cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                        }}
+                                      >
+                                        <Trash size="16" color={deletePermissionError ? "#A0A0A0" : "#FF0000"} />
+                                        <span
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            color: deletePermissionError ? "#A0A0A0" : "#FF0000",
+                                          }}
+                                        >
+                                          Delete
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <Tab.Content>
+                          <ParticularHostelDetails
+                            floorID={floorClick}
+                            hostel_Id={state.login?.selectedHostel_Id}
+                            phoneNumber={showHostelDetails.hostel_PhoneNo}
+                            editPermissionError={editPermissionError}
+                            deletePermissionError={deletePermissionError}
+                            addPermissionError={addPermissionError}
+                          />
+                        </Tab.Content>
+                      </Col>
+                    </Row>
 
                   </Tab.Container>
-                ) : (
+                ) : (!loading) && (
                   <div
                     className="d-flex align-items-center justify-content-center animated-text mt-5"
                     style={{
@@ -1139,7 +1162,7 @@ useEffect(() => {
             <AddPg
               show={showAddPg}
               handleClose={handleCloses}
-                   editPermissionError={editPermissionError}
+              editPermissionError={editPermissionError}
               deletePermissionError={deletePermissionError}
               addPermissionError={addPermissionError}
             />
@@ -1180,6 +1203,7 @@ useEffect(() => {
 
 
         </div>
+        </>
       )}
 
 

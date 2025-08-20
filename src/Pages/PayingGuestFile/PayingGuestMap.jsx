@@ -31,6 +31,7 @@ function PayingGuestMap(props) {
   };
 
   const handleSelectedHostel = (selectedHostel) => {
+    console.log("selectedHostel",selectedHostel)
     props.OnSelectHostel(selectedHostel);
     props.onRowVisiblity(false);
   };
@@ -158,7 +159,7 @@ function PayingGuestMap(props) {
               <div>
                 <div
                   className="pb-2"
-                  onClick={() => handleSelectedHostel(props.hostel.id)}
+                  onClick={() => handleSelectedHostel(props.hostel.hostelId)}
                 >
                   <label
                     className="hover-hostel-name"

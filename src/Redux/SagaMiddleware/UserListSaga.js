@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc , CustomerUnAssign,backtoCheckin} from "../Action/UserListAction"
+import {GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc , CustomerUnAssign,backtoCheckin} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -202,6 +202,8 @@ function* handleCreateFloor(data) {
    try {
       const response = yield call(createFloor, data.payload);
 
+console.log("response for add floor",response)
+
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -219,8 +221,8 @@ function* handleCreateFloor(data) {
       };
 
 
-      if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'CREATE_FLOOR', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response.status === 201) {
+         yield put({ type: 'CREATE_FLOOR', payload: { response: response.data, statusCode: response.status } })
 
          toast.success('Created successfully!', {
             position: "bottom-center",
@@ -1917,8 +1919,35 @@ function* handleBackToCheckin(action) {
 }
 
 
+function* handleGetAllFloor(floor) {
+   try {
+      const response = yield call(GetAllFloor, floor.payload);
+      console.log("get floor response",response)
+      if (response.status === 200) {
+         yield put({ type: 'ALL_FLOOR_LIST', payload: { response: response.data, statusCode: response.status } })
+      }
+       
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+      const error = err || {};
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+}
+
+
+
 
 function* UserListSaga() {
+    yield takeEvery('ALLFLOORLIST',handleGetAllFloor)
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
    yield takeEvery('HOSTELLIST', handleHostelList)
@@ -1960,7 +1989,7 @@ function* UserListSaga() {
    yield takeEvery('CUSTOMERADDCONTACT', handleCustomerAddContact)
    yield takeEvery('CONTACTALLDETAILS', handleCustomerAllDetails)
    yield takeEvery('CONTACTDELETE', handleDeleteContact)
-   yield takeEvery('ALL_HOSTEL_DETAILS', handleGetParticularHostelList)
+   yield takeEvery('PARTICULAR_HOSTEL_DETAILS', handleGetParticularHostelList)
    yield takeEvery('ADVANCEGENERATE', handleGenerateAdvance)
    yield takeEvery('UPLOADDOCUMENT', handleUploadDocument)
    yield takeEvery('UPLOADOTHERDOCUMENT', handleUploadOtherDocument)

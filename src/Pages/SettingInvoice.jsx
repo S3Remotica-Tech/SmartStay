@@ -734,7 +734,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     if (hostelid) {
       setLoading(true)
       dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: state.login.selectedHostel_Id } });
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
   }, [hostelid]);
 
@@ -824,7 +824,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   useEffect(() => {
     if (state.InvoiceList?.invoiceSettingsStatusCode === 200) {
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
       setSelectedDate('')
       setInvoiceDueDate('')
 

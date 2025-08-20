@@ -38,7 +38,7 @@ console.log("app",state)
   useEffect(() => {
 
     try {
-      if (login && state.createAccount.statusCodeForAccountList) {
+      if (login && state.createAccount) {
 
         const decryptedData = CryptoJS.AES.decrypt(login, 'abcd');
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);

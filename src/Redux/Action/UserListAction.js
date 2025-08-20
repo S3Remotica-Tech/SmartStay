@@ -102,11 +102,31 @@ export async function userBillPaymentHistory() {
   return await AxiosConfig.get('/user-list/bill-payment', {
   })
 }
+
+
+// v1
+// export async function createFloor(id) {
+//   return await AxiosConfig.post('/floor/create-floor', id, {
+//     data: id
+//   })
+// }
+
+// v2
+
 export async function createFloor(id) {
-  return await AxiosConfig.post('/floor/create-floor', id, {
+  return await AxiosConfigV2.post('/v2/floor', id, {
     data: id
   })
 }
+
+// v2 Get all floor details
+
+export async function GetAllFloor(id) {
+  return await AxiosConfigV2.get(`/v2/floor/all-floors/${id.hostel_id}`)
+}
+
+
+
 
 export async function roomFullCheck(roomCheck) {
   return await AxiosConfig.post('/check/room-full', roomCheck, {
@@ -121,11 +141,22 @@ export async function checkOutUser(check) {
   })
 }
 
-export async function deleteFloor(hosteID) {
-  return await AxiosConfig.post('/delete/delete-floor', hosteID, {
-    data: hosteID
-  })
+// v1
+
+// export async function deleteFloor(hosteID) {
+//   return await AxiosConfig.post('/delete/delete-floor', hosteID, {
+//     data: hosteID
+//   })
+// }
+
+
+
+// v2
+export async function deleteFloor(floorId) {
+  return await AxiosConfigV2.delete(`/v2/floor/${floorId.floor_Id}`)
 }
+
+
 
 export async function deleteRoom(roomDetails) {
   return await AxiosConfig.post('/delete/delete-room', roomDetails, {

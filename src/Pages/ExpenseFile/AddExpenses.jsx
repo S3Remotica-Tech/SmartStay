@@ -59,7 +59,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
       type: "EXPENCES-CATEGORY-LIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
-    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+    dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
   }, []);
 
   useEffect(() => {

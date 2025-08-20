@@ -471,7 +471,7 @@ function AddPg({ show, handleClose, currentItem }) {
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 201) {
       dispatch({
-        type: "ALL_HOSTEL_DETAILS",
+        type: "PARTICULAR_HOSTEL_DETAILS",
         payload: { hostel_id: hostel_Id },
       });
       // dispatch({ type: "HOSTELIDDETAILS" });

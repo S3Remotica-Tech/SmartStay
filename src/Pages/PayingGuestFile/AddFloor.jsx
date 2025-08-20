@@ -29,7 +29,7 @@ function StaticExample({
 
 
 
-
+console.log("editFloor",editFloor)
 
 
 
@@ -59,7 +59,7 @@ function StaticExample({
   }, []);
 
   useEffect(() => {
-    if (state.UsersList.createFloorSuccessStatusCode === 200) {
+    if (state.UsersList.createFloorSuccessStatusCode === 201) {
       setFloorNo("");
       setFormLoading(false)
     }
@@ -100,8 +100,8 @@ function StaticExample({
         dispatch({
           type: "UPDATEFLOOR",
           payload: {
-            floor_Id: floorNo,
-            hostel_Id: editFloor.hostel_Id,
+            floorName: floorNo,
+            isActive:true,
             id: editFloor.floor_Id,
           },
         });
@@ -109,7 +109,7 @@ function StaticExample({
       } else {
         dispatch({
           type: "CREATEFLOOR",
-          payload: { hostel_Id: hostelFloor, floor_Id: floorNo },
+          payload: { hostelId: hostelFloor, floorName: floorNo },
         });
         setFormLoading(true)
       }

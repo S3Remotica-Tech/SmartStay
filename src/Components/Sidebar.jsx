@@ -73,6 +73,9 @@ function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const isFirstLogin = useRef(true);
 
+
+
+
   const pageMap = {
     "/pg-management-dashboard": "pg-management-dashboard",
     "/pg-list": "pg-list",
@@ -170,7 +173,7 @@ function Sidebar() {
         dispatch({ type: "CLEAR_HOSTELLIST_STATUS_CODE" });
       }, 500);
     }
-  }, [state.UsersList.hosteListStatusCode === 200]);
+  }, [state.UsersList.hosteListStatusCode]);
 
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
@@ -326,11 +329,13 @@ function Sidebar() {
 
   const [selectedProfileImage, setSelectedProfileImage] = useState("");
 
-  const handleHostelId = (id, name, profile) => {
+  const handleHostelId = (id, name, mainImage) => {
+
+
     setPayingGuestName(name);
     setAllPageHostel_Id(id);
     setSelectedProfileImage(
-      profile && profile !== "0" && profile !== "" ? profile : Profile
+      mainImage && mainImage !== "0" && mainImage !== "" ? mainImage : mainImage
     );
     setIsDropdownOpen(false);
 
@@ -351,9 +356,11 @@ function Sidebar() {
     }
   }, [allPageHostel_Id]);
 
+
+
+
   useEffect(() => {
     const savedHostelId = localStorage.getItem("selectedHostelId");
-
     if (
       !isInitialized &&
       hostelListDetail?.length > 0 &&
@@ -362,30 +369,34 @@ function Sidebar() {
       const currentHostel =
         savedHostelId &&
         hostelListDetail?.find(
-          (item) => item.id === parseInt(savedHostelId, 10)
+          (item) => item.hostelId === parseInt(savedHostelId, 10)
         );
 
+    
       if (currentHostel) {
         setPayingGuestName(currentHostel.Name);
-        setAllPageHostel_Id(currentHostel.id);
+        setAllPageHostel_Id(currentHostel.hostelId);
         setSelectedProfileImage(
-          currentHostel.profile &&
-            currentHostel.profile !== "0" &&
-            currentHostel.profile !== ""
-            ? currentHostel.profile
+          currentHostel.mainImage &&
+            currentHostel.mainImage !== "0" &&
+            currentHostel.mainImage !== ""
+            ? currentHostel.mainImage
             : Profile
         );
       } else {
         const lowestIdItem = hostelListDetail?.reduce((prev, current) =>
-          prev.id < current.id ? prev : current
+         prev.id < current.id ? prev : current
         );
+
+
+
         setPayingGuestName(lowestIdItem.Name);
-        setAllPageHostel_Id(lowestIdItem.id);
+        setAllPageHostel_Id(lowestIdItem.hostelId);
         setSelectedProfileImage(
-          lowestIdItem.profile &&
-            lowestIdItem.profile !== "0" &&
-            lowestIdItem.profile !== ""
-            ? lowestIdItem.profile
+          lowestIdItem.mainImage &&
+            lowestIdItem.mainImage !== "0" &&
+            lowestIdItem.mainImage !== ""
+            ? lowestIdItem.mainImage
             : Profile
         );
       }
@@ -397,13 +408,17 @@ function Sidebar() {
     hostelListDetail,
     state.UsersList.hosteListStatusCode,
     isInitialized,
-  ]);
+     ]);
+
+
+
 
   useEffect(() => {
     if (state.login?.isLoggedIn && hostelListDetail?.length > 0) {
-      const firstHostel = hostelListDetail.reduce((prev, current) =>
-        prev.id < current.id ? prev : current
-      );
+     const firstHostel = hostelListDetail[0];
+
+
+
 
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
@@ -424,7 +439,7 @@ function Sidebar() {
     state.UsersList.hosteListStatusCode,
   ]);
 
-console.log("state sidebar",state)
+
 
   const handleShowsettingsPG = (settingNewDesign) => {
     handlePageClick("settingNewDesign");
