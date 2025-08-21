@@ -1814,6 +1814,7 @@ const handleCloseBacktoCheckin =()=>{
  console.log("bactocheckinForm",props.customer_details , props?.EditObj)
 
  const [recheckinbedname , setRecheckinbedName] = useState("")
+ const [RequestDate , setRequestDate] = useState(null)
 
 useEffect(()=>{
    if (props?.bactocheckinForm) {
@@ -1862,8 +1863,11 @@ useEffect(()=>{
        setBookingBedId(props.EditObj?.Bed || props?.customer_details?.Bed)
        setBookingAmount(props.EditObj?.pending_advance || props?.customer_details?.pending_advance)
        setAdvanceAmount(props.EditObj?.AdvanceAmount || props?.customer_details?.AdvanceAmount)
-        setRoomRent(props.EditObj?.RoomRent || props?.customer_details?.RoomRent)
+      setRoomRent(props.EditObj?.RoomRent || props?.customer_details?.RoomRent)
       setBookingDate(props.EditObj?.booking_booking_date || props?.customer_details?.booking_booking_date)
+     if (props.EditObj?.req_date || props.customer_details?.req_date) {
+     setRequestDate(dayjs(props.EditObj?.req_date || props.customer_details?.req_date));
+      }
     } 
 //   if ( (props?.EditObj && Array.isArray(props.EditObj?.reasonData)) ||
 //   (props?.customer_details && Array.isArray(props?.customer_details?.reasonData))) {
@@ -6118,7 +6122,7 @@ value={bookingAmount}
                         </span>
                       </Form.Label>
 
-                      <DatePicker
+                      {/* <DatePicker
                        ref={dateRef}
                         style={{
                           width: "100%",
@@ -6139,7 +6143,35 @@ value={bookingAmount}
                         }
                         dropdownClassName="custom-datepicker-popup"
                         disabledDate={(current) => current && current > dayjs().endOf("day")}
-                      />
+                      /> */}
+
+                      <DatePicker
+  ref={dateRef}
+  style={{
+    width: "100%",
+    height: 48,
+    cursor: "pointer",
+    fontFamily: "Gilroy"
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={recheckInDate ? dayjs(recheckInDate) : null}
+  onChange={(date) => {
+    setRecheckInDate(date ? date.toDate() : null);
+    setRecheckinDateError("");
+  }}
+  getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".datepicker-wrapper") || document.body
+  }
+  dropdownClassName="custom-datepicker-popup"
+  disabledDate={(current) => {
+    if (!RequestDate) {
+      return current && current > dayjs().endOf("day");
+    }
+    return current && current < dayjs(RequestDate).startOf("day");
+  }}
+/>
+
 
                        {recheckinDateError && (
                             <div style={{ color: "red" }} >

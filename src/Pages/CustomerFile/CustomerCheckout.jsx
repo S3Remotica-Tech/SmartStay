@@ -41,23 +41,28 @@ useEffect(() => {
   let userId = null;
 
   if (props?.data) {
-    if (Array.isArray(props.data) && props.data[0]?.id) {
-      userId = props.data[0].id;
+    if (Array.isArray(props.data) && props.data) {
+      userId = props.data
     } else if (props.data?.ID) {
       userId = props.data.ID;
     }
   }
 
-  console.log("userid", userId);
+     console.log("userid", props.data);
 
-  if (userId) {
-    dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: userId } });
-    
+  if (props.data.ID ||  props.data) {
+    // alert("api call")
+     console.log("userid", props.data.ID ,   props.data);
+ 
+    dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID ||  props.data } });
+    // dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: userId } }) 
   }
-}, [props?.data, dispatch]);  
+}, [props.data]);  
+
+ 
 
 
-      console.log("props", props?.data?.ID , props?.data[0]?.id );
+      console.log("props", props?.data?.ID , props?.data );
       
 
     useEffect(() => {
@@ -304,7 +309,7 @@ handleCloseCheckout()
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name || props.data[0]?.Name}
+                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name}
                               </label>
                             </div>
 
@@ -326,7 +331,7 @@ handleCloseCheckout()
                                 whiteSpace: "nowrap",
                               }}
                             >
-                             {props.bedData?.room?.Floor_Id || props.data.floor_name}
+                             {state.UsersList.customerdetails?.data?.[0].floor_name || props.data.floor_name}
                             </div>
 
                             <div

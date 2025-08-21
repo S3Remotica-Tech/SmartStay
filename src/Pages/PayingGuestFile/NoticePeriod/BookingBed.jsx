@@ -30,6 +30,7 @@ function BookingBed({
      const [amountError, setamountError] = useState("");
      const [joiningDate, setJoiningDate] = useState(null);
      const [bookingDate, setBookingDate] = useState(null);
+     const [checkoutDate , setCheckoutDate] = useState(null);
      const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
      const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
      const [dateError, setDateError] = useState("");
@@ -65,6 +66,8 @@ function BookingBed({
       useEffect(() => {
               if(customer_details){
                 setBookingCustomerName(customer_details.ID)
+                const checkoutDate = customer_details?.CheckoutDate ? dayjs(customer_details?.CheckoutDate) : null;
+                setCheckoutDate(checkoutDate)
               }
       },[customer_details])
 
@@ -564,7 +567,7 @@ function BookingBed({
                                                                        className="datepicker-wrapper"
                                                                        style={{ position: "relative", width: "100%", marginTop: 6 }}
                                                                      >
-                                                                       <DatePicker
+                                                                       {/* <DatePicker
                                                                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                                                          format="DD/MM/YYYY"
                                                                          placeholder="DD/MM/YYYY"
@@ -577,11 +580,33 @@ function BookingBed({
                                                                          }}
                                                                           disabledDate={(current) => current && current < dayjs().startOf("day")}
 
-                                                                        //  getPopupContainer={(triggerNode) =>
-                                                                        //    triggerNode.closest(".datepicker-wrapper")
-                                                                        //  }
+                                                                      
                                                                         getPopupContainer={() => document.body}
-                                                                       />
+                                                                       /> */}
+
+                                                                       <DatePicker
+                                                                  style={{
+                                                              width: "100%",
+                                                              height: 48,
+                                                              cursor: "pointer",
+                                                              fontFamily: "Gilroy",
+                                                                 }}
+                                                        format="DD/MM/YYYY"
+                                                        placeholder="DD/MM/YYYY"
+                                                        value={joiningDate ? dayjs(joiningDate) : null}
+                                                        onChange={(date) => {
+                                                                           setDateError("");
+                                                                           setJoiningDate(date ? date.toDate() : null);
+                                                                           dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+                                                                           setJoingDateErrmsg("")
+                                                                         }}
+                                                        getPopupContainer={() => document.body}
+                                                        disabledDate={(current) => {
+                                                      if (!checkoutDate) return true; 
+                                                      return current.isBefore(dayjs(checkoutDate), "day"); 
+                                                            }}
+                                                             />
+
                                                                      </div>
                 </Form.Group>
                      {dateError && (
