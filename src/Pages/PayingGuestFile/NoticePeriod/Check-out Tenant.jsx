@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
@@ -275,7 +276,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
-  }, [dispatch, state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     const Hostel_Id = data?.room.Hostel_Id;
@@ -290,7 +291,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
         payload: { hostel_id: Hostel_Id },
       });
     }
-  }, [dispatch, data, state.PgList.OccupiedCustomer]);
+  }, [data]);
 
   useEffect(() => {
     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
@@ -299,7 +300,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
         dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
       }, 2000)
     }
-  }, [dispatch, state.PgList.OccupiedCustomerGetStatusCode, state.PgList.OccupiedCustomer])
+  }, [state.PgList.OccupiedCustomerGetStatusCode, state.PgList.OccupiedCustomer])
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -340,7 +341,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     setTimeout(() => {
       dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
     }, 500);
-  }, [dispatch, state.UsersList.statusCodegetConfirmCheckout, data, state.UsersList?.GetconfirmcheckoutBillDetails, state.UsersList?.nonRefundable_details]);
+  }, [state.UsersList.statusCodegetConfirmCheckout, data, state.UsersList?.GetconfirmcheckoutBillDetails, state.UsersList?.nonRefundable_details]);
 
   useEffect(() => {
     if (fields || advanceAmount) {
@@ -355,7 +356,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
-  }, [dispatch, state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id]);
 
 
   useEffect(() => {
@@ -389,7 +390,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
       }, 500);
     }
 
-  }, [dispatch, state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout, data.room.Floor_Id, handleClose, state.login.selectedHostel_Id])
+  }, [state.UsersList.statusCodeForDueCustomer, state.UsersList.statusCodeAddConfirmCheckout, data.room.Floor_Id, handleClose, state.login.selectedHostel_Id])
 
 
   useEffect(() => {
@@ -400,7 +401,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
       }, 3000)
     }
 
-  }, [dispatch, state.createAccount?.networkError])
+  }, [state.createAccount?.networkError])
 
 
 

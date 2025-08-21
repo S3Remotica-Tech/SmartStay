@@ -342,6 +342,7 @@ if (matchedBed) {
 
       useEffect(() => {
         if (state.UsersList?.statusCodeForAddUser === 200) {
+          setFormLoading(false)
           dispatch({
             type: "USERLIST",
             payload: { hostel_id: state.login.selectedHostel_Id},
@@ -551,7 +552,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
     ID:checkin_customername
   },
 });
-
+setFormLoading(true)
 
     dispatch({ type: "INVOICELIST" });
     }
@@ -1654,7 +1655,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
         
                                       <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
         
-                                        {index !== 0 && (
+                                      
                                           <Trash
                                             size="20"
                                             color="red"
@@ -1662,7 +1663,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                             style={{ cursor: "pointer" }}
                                             onClick={() => handleRemoveField(index)}
                                           />
-                                        )}
+                                      
                                       </div>
                                     </div>
                                   );
