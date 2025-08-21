@@ -38,31 +38,16 @@ function CustomerCheckout(props) {
 
 
 useEffect(() => {
-  let userId = null;
-
-  if (props?.data) {
-    if (Array.isArray(props.data) && props.data) {
-      userId = props.data
-    } else if (props.data?.ID) {
-      userId = props.data.ID;
-    }
-  }
-
-     console.log("userid", props.data);
 
   if (props.data.ID ||  props.data) {
-    // alert("api call")
-     console.log("userid", props.data.ID ,   props.data);
- 
     dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID ||  props.data } });
-    // dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: userId } }) 
   }
 }, [props.data]);  
 
  
 
 
-      console.log("props", props?.data?.ID , props?.data );
+   
       
 
     useEffect(() => {
