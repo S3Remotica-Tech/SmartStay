@@ -147,11 +147,11 @@ function AddCustomer({  show, handleClose   }) {
     };
   
     useEffect(() => {
-      if (state.UsersList.phoneErrorAddUser) {
-        setphonenumError(state.UsersList.phoneErrorAddUser);
+      if (state.UsersList.phoneError) {
+        setphonenumError(state.UsersList.phoneError);
       }
       setFormLoading(false)
-    }, [state.UsersList.phoneErrorAddUser]);
+    }, [state.UsersList.phoneError]);
   
     useEffect(() => {
       if (state.UsersList.emailError) {
