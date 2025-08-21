@@ -35,11 +35,12 @@ import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 
 
 function SettingParticular(props) {
-
+  console.log("Setting PG props",props)
 
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+
 
 
   const [showBed, setShowBed] = useState(false)
@@ -48,11 +49,11 @@ function SettingParticular(props) {
   const [showReservedBed, setShowReservedBed] = useState(false)
   const [showCheckIn, setShowCheckIn] = useState(false)
   const [showInactive, setShowInActive] = useState(false)
-
-  const [Occubied_bed , setOccubiedBed] = useState(false)
-  const [Noticeperiod_bed , setNoticePeriodBed] = useState(false)
-  const [Noticeperiod_booking , setNoticePeriodBooking] = useState(false)
-  const [Noticeperiod_checkout , setNoticePeriodCheckout] = useState(false)
+ const [roomList, setRoomList] = useState([])
+  const [Occubied_bed, setOccubiedBed] = useState(false)
+  const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
+  const [Noticeperiod_booking, setNoticePeriodBooking] = useState(false)
+  const [Noticeperiod_checkout, setNoticePeriodCheckout] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -84,7 +85,9 @@ function SettingParticular(props) {
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
 
+console.log("roomList",roomList)
 
+console.log("state",state)
 
   const handleAddBed = (item, Room_Id) => {
     setShowBed(true)
@@ -285,8 +288,10 @@ function SettingParticular(props) {
     if (props.floorID && props.hostel_Id) {
       setLoader(true)
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+
     }
-     else {
+    else {
       setLoader(false)
     }
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
@@ -294,11 +299,11 @@ function SettingParticular(props) {
 
   useEffect(() => {
     if (state?.PgList?.roomCountStatusCode === 200) {
-   
-    
+
+
       setRoomCountData(state.PgList?.roomCount);
 
-        setTimeout(() => {
+      setTimeout(() => {
         setLoaderTrigger(false)
       }, 500)
       setTimeout(() => {
@@ -308,17 +313,51 @@ function SettingParticular(props) {
     }
   }, [state?.PgList?.roomCountStatusCode])
 
+useEffect(() => {
+    if (state?.PgList?.getAllRoomSuccessStatus === 200) {
+      setRoomList(state.PgList?.roomsList);
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
+      }, 100)
+    }
+
+  }, [state?.PgList?.getAllRoomSuccessStatus])
 
 
+
+
+    useEffect(() => {
+      if (roomList && roomList.length > 0) {
+        roomList.forEach((room) => {
+          dispatch({
+            type: "GETALLBEDSLIST",
+            payload: { roomId: room.id }
+          });
+  
+          setTimeout(() => {
+            dispatch({ type: 'REMOVE_GET_ALL_BEDS_STATUS_CODE' })
+          }, 100)
+  
+  
+        });
+      }
+    }, [roomList, state?.PgList?.getAllRoomSuccessStatus]);
+
+useEffect(() => {
+    if (state?.PgList.getAllBedSuccessStatus === 200) {
+      setBedList(state.PgList?.bedList)
+    }
+
+  }, [state?.PgList.getAllBedSuccessStatus])
 
   useEffect(() => {
     if (state.PgList?.noRoomsInFloorStatusCode === 201) {
-   
+
       setRoomCountData([])
       setTimeout(() => {
         setLoaderTrigger(false)
       }, 100)
-   
+
       setTimeout(() => {
         setLoader(false)
         dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
@@ -330,6 +369,7 @@ function SettingParticular(props) {
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
@@ -344,6 +384,7 @@ function SettingParticular(props) {
 
     if (state.PgList.statusCodeCreateRoom === 201) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowRoom(false)
       dispatch({ type: 'HOSTELLIST' })
 
@@ -358,8 +399,16 @@ function SettingParticular(props) {
     if (state.PgList.createBedStatusCode === 201) {
       dispatch({ type: 'HOSTELLIST' })
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowBed(false)
-
+if (roomList && roomList.length > 0) {
+        roomList.forEach((room) => {
+          dispatch({
+            type: "GETALLBEDSLIST",
+            payload: { roomId: room.id }
+          });
+        });
+      }
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
@@ -387,18 +436,19 @@ function SettingParticular(props) {
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setMoveToNoticePeriodForm(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 3000);
-        }
+    }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
+  const currentItems = roomList?.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(roomList.length / itemsPerPage);
   const handleItemsPerPageChange = (selectedOption) => {
     setItemsPerPage(Number(selectedOption.value));
     setCurrentPage(1);
@@ -490,6 +540,7 @@ function SettingParticular(props) {
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowReAssignBedForm(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_REASSIGN_BED" });
@@ -501,6 +552,7 @@ function SettingParticular(props) {
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setEmptyBed(false);
 
       setTimeout(() => {
@@ -517,6 +569,8 @@ function SettingParticular(props) {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setEmptyBed(false);
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+
+       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -585,7 +639,7 @@ function SettingParticular(props) {
 
   const handleCloseCheck_In = () => {
     setShowCheckIn(false)
-  
+
   }
 
 
@@ -602,56 +656,56 @@ function SettingParticular(props) {
     setOccubiedBed(false)
   }
 
-   const handlecloseNoticePeriodBed = () => {
+  const handlecloseNoticePeriodBed = () => {
     setNoticePeriodBed(false)
   }
 
   const handleshowNoticePeriodBooking = () => {
-       setNoticePeriodBooking(true)
-       setNoticePeriodBed(false)
+    setNoticePeriodBooking(true)
+    setNoticePeriodBed(false)
   }
 
   const handlecloseNoticeperiodBooking = () => {
-        setNoticePeriodBooking(false)
+    setNoticePeriodBooking(false)
   }
 
-    const handleshowNoticePeriodCheckout = () => {
-       setNoticePeriodCheckout(true)
-       setNoticePeriodBed(false)
+  const handleshowNoticePeriodCheckout = () => {
+    setNoticePeriodCheckout(true)
+    setNoticePeriodBed(false)
   }
 
   const handlecloseNoticeperiodCheckout = () => {
-        setNoticePeriodCheckout(false)
+    setNoticePeriodCheckout(false)
   }
-  
 
-    const [add_customerform, setAddCustomerForm] = useState(false)
-    const [assign_tenantform, setAssignTenantForm] = useState(false)
 
-      const handleShowAddCustomer = () => {
-            setAddCustomerForm(true)
-            setEmptyBed(false)
-      }
-  
-      const handleCloseAddCustomer = () => {
-          setAddCustomerForm(false)
-      }
+  const [add_customerform, setAddCustomerForm] = useState(false)
+  const [assign_tenantform, setAssignTenantForm] = useState(false)
 
-      const handleShowAssignTenant = () => {
-          setAssignTenantForm(true)
-          setEmptyBed(false)
-      }
+  const handleShowAddCustomer = () => {
+    setAddCustomerForm(true)
+    setEmptyBed(false)
+  }
 
-      const handleCloseAssignTenant = () => {
-        setAssignTenantForm(false)
-      }
+  const handleCloseAddCustomer = () => {
+    setAddCustomerForm(false)
+  }
+
+  const handleShowAssignTenant = () => {
+    setAssignTenantForm(true)
+    setEmptyBed(false)
+  }
+
+  const handleCloseAssignTenant = () => {
+    setAssignTenantForm(false)
+  }
 
 
   return (
     <>
 
 
-    <div >
+      <div >
         {/* <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button> */}
 
 
@@ -686,24 +740,24 @@ function SettingParticular(props) {
         </div>
 
         <div className='container-fluid show-scroll' style={{ maxHeight: "400px", overflowY: "auto", marginTop: "-25px" }}>
-  <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
-    {currentItems.length > 0 && currentItems.map((room) => (
-      <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center' key={room.Room_Id}>
-        <Card className="w-100 h-100 fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
-          <Card.Header className="d-flex justify-content-between align-items-start" style={{ backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
-            
-          
-            <div style={{ width: "110px" }}>
-              <div title={`Room No ${room.Room_Name}`} style={{ fontSize: 14, fontWeight: 600, color: "rgba(34, 34, 34, 1)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {room.Room_Name}
-              </div>
-              <div style={{ fontSize: 12, fontWeight: 400, color: "#7C7C7C", marginTop: "-2px" }}>
-                {Array.isArray(room.bed_details) ? `${room.bed_details.length} sharing` : "0 sharing"}
-              </div>
-            </div>
+          <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
+            {currentItems.length > 0 && currentItems.map((room) => (
+              <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center' key={room.id}>
+                <Card className="w-100 h-100 fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
+                  <Card.Header className="d-flex justify-content-between align-items-start" style={{ backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
 
-          
-            {/* <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
+
+                    <div style={{ width: "110px" }}>
+                      <div title={`Room No ${room.name}`} style={{ fontSize: 14, fontWeight: 600, color: "rgba(34, 34, 34, 1)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        {room.name}
+                      </div>
+                      <div style={{ fontSize: 12, fontWeight: 400, color: "#7C7C7C", marginTop: "-2px" }}>
+                        {Array.isArray(room.bed_details) ? `${room.bed_details.length} sharing` : "0 sharing"}
+                      </div>
+                    </div>
+
+
+                    {/* <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
               <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
                 <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overdue
               </p>
@@ -716,193 +770,193 @@ function SettingParticular(props) {
            
             </div> */}
 
-         
-            <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
-              <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-              {String(activeRoomId) === String(room.Room_Id) && (
-                <div
-                  ref={popupRef}
-                  className="position-absolute"
-                  style={{
-                    right: 0,
-                    top: 30,
-                    width: 140,
-                    border: "1px solid #EBEBEB",
-                    borderRadius: 10,
-                    backgroundColor: "#f9f9f9",
-                    display: "flex",
-                    flexDirection: "column",
-                    zIndex: 1000,
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                  }}
-                >
-                 
-                  <div
-                    className="d-flex gap-2 align-items-center"
-                    onClick={() => {
-                      if (!props.editPermissionError) {
-                        handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
-                      }
-                    }}
-                    style={{
-                      padding: "10px",
-                      borderTopLeftRadius: 10,
-                      borderTopRightRadius: 10,
-                      pointerEvents: props.editPermissionError ? "none" : "auto",
-                      opacity: props.editPermissionError ? 0.5 : 1,
-                      cursor: props.editPermissionError ? "not-allowed" : "pointer"
-                    }}
-                    onMouseEnter={(e) => { if (!props.editPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                  >
-                    <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
-                    <label style={{ fontSize: 14, fontWeight: 500, color: props.editPermissionError ? "#888888" : "#222222", marginBottom: 0 }}>Edit</label>
-                  </div>
 
-                  <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+                    <div onClick={() => handleShowDots(room.id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
+                      <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                      {String(activeRoomId) === String(room.id) && (
+                        <div
+                          ref={popupRef}
+                          className="position-absolute"
+                          style={{
+                            right: 0,
+                            top: 30,
+                            width: 140,
+                            border: "1px solid #EBEBEB",
+                            borderRadius: 10,
+                            backgroundColor: "#f9f9f9",
+                            display: "flex",
+                            flexDirection: "column",
+                            zIndex: 1000,
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                          }}
+                        >
 
-                 
-                  <div
-                    className="d-flex gap-2 align-items-center"
-                    onClick={() => {
-                      if (!props.deletePermissionError) {
-                        handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
-                      }
-                    }}
-                    style={{
-                      padding: "10px",
-                      borderBottomLeftRadius: 10,
-                      borderBottomRightRadius: 10,
-                      pointerEvents: props.deletePermissionError ? "none" : "auto",
-                      opacity: props.deletePermissionError ? 0.5 : 1,
-                      cursor: props.deletePermissionError ? "not-allowed" : "pointer"
-                    }}
-                    onMouseEnter={(e) => { if (!props.deletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                  >
-                    <Trash size="16" color={props.deletePermissionError ? "#888888" : "red"} />
-                    <label style={{ fontSize: 14, fontWeight: 500, color: props.deletePermissionError ? "#888888" : "#FF0000", marginBottom: 0 }}>Delete</label>
-                  </div>
-                </div>
-              )}
-            </div>
-          </Card.Header>
+                          <div
+                            className="d-flex gap-2 align-items-center"
+                            onClick={() => {
+                              if (!props.editPermissionError) {
+                                handleEditRoom(room.hostelId, room.floorId, room.id, room.name);
+                              }
+                            }}
+                            style={{
+                              padding: "10px",
+                              borderTopLeftRadius: 10,
+                              borderTopRightRadius: 10,
+                              pointerEvents: props.editPermissionError ? "none" : "auto",
+                              opacity: props.editPermissionError ? 0.5 : 1,
+                              cursor: props.editPermissionError ? "not-allowed" : "pointer"
+                            }}
+                            onMouseEnter={(e) => { if (!props.editPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                          >
+                            <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
+                            <label style={{ fontSize: 14, fontWeight: 500, color: props.editPermissionError ? "#888888" : "#222222", marginBottom: 0 }}>Edit</label>
+                          </div>
 
-          <Card.Body>
-            <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
-              {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details.map((bed) => (
-                <div key={bed.id} className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center  ${props.addPermissionError ? 'disabled' : ''}`}
-                       
-                >
-                  <div className='d-flex flex-column align-items-center w-100'
-                   style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
-                  >
-                    <div style={{ position: "relative", width: 34, height: 41 }}>
-                       {bed.isbooked === 1 ? (
-      <img
-        src={recerverimg}
-        alt="bookingimg"
-        height={20}
-        width={20}
-        style={{
-          position: "absolute",
-          top: 1,
-          right: -10,
-          cursor: props.addPermissionError ? 'not-allowed' : 'pointer'
-        }}
-        className="me-1 mb-1"
-      />
-    ): (null)} 
+                          <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
 
-                        {bed.isfilled ===1 && bed.isNoticePeriod === 1 ? (
-      <img
-        src={noticeimg}
-        alt="notice"
-        height={20}
-        width={20}
-        style={{
-          position: "absolute",
-          top: 1,
-          right: -10,
-           cursor: props.addPermissionError ? 'not-allowed' : 'pointer'
-        }}
-        className="me-1 mb-1"
-      />
-    ): (null)} 
 
-    
-                      
-                        <img className='mt-1'
-                          src={bed.isfilled ? Green : White}
-                          alt='bedd'
-                          style={{ height: 41, width: 34,  cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
-                           onClick={() => {
-                  if (!props.addPermissionError) {
-                    handleclickBed(bed, room)
-                  }
-                }}
-                        />
-                     
+                          <div
+                            className="d-flex gap-2 align-items-center"
+                            onClick={() => {
+                              if (!props.deletePermissionError) {
+                                handleDeleteRoom(room.hostelId, room.floorId, room.id);
+                              }
+                            }}
+                            style={{
+                              padding: "10px",
+                              borderBottomLeftRadius: 10,
+                              borderBottomRightRadius: 10,
+                              pointerEvents: props.deletePermissionError ? "none" : "auto",
+                              opacity: props.deletePermissionError ? 0.5 : 1,
+                              cursor: props.deletePermissionError ? "not-allowed" : "pointer"
+                            }}
+                            onMouseEnter={(e) => { if (!props.deletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                          >
+                            <Trash size="16" color={props.deletePermissionError ? "#888888" : "red"} />
+                            <label style={{ fontSize: 14, fontWeight: 500, color: props.deletePermissionError ? "#888888" : "#FF0000", marginBottom: 0 }}>Delete</label>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
-                      {bed.bed_no}
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  </Card.Header>
 
-              {/* Add Bed */}
-              <div
-                className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
-                onClick={() => {
-                  if (!props.addPermissionError) {
-                    handleAddBed(props, room.Room_Id);
-                  }
-                }}
-                style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
-              >
-                <div className='d-flex flex-column align-items-center w-100'>
-                  <div>
-                    <FaSquarePlus style={{ height: 41, width: 34, color: props.addPermissionError ? "#888888" : "#1E45E1" }} />
-                  </div>
-                  <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: props.addPermissionError ? "#888888" : "#1E45E1" }}>
-                    Add bed
-                  </div>
+                  <Card.Body>
+                    <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
+                      {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details.map((bed) => (
+                        <div key={bed.id} className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center  ${props.addPermissionError ? 'disabled' : ''}`}
+
+                        >
+                          <div className='d-flex flex-column align-items-center w-100'
+                            style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
+                          >
+                            <div style={{ position: "relative", width: 34, height: 41 }}>
+                              {bed.isbooked === 1 ? (
+                                <img
+                                  src={recerverimg}
+                                  alt="bookingimg"
+                                  height={20}
+                                  width={20}
+                                  style={{
+                                    position: "absolute",
+                                    top: 1,
+                                    right: -10,
+                                    cursor: props.addPermissionError ? 'not-allowed' : 'pointer'
+                                  }}
+                                  className="me-1 mb-1"
+                                />
+                              ) : (null)}
+
+                              {bed.isfilled === 1 && bed.isNoticePeriod === 1 ? (
+                                <img
+                                  src={noticeimg}
+                                  alt="notice"
+                                  height={20}
+                                  width={20}
+                                  style={{
+                                    position: "absolute",
+                                    top: 1,
+                                    right: -10,
+                                    cursor: props.addPermissionError ? 'not-allowed' : 'pointer'
+                                  }}
+                                  className="me-1 mb-1"
+                                />
+                              ) : (null)}
+
+
+
+                              <img className='mt-1'
+                                src={bed.isfilled ? Green : White}
+                                alt='bedd'
+                                style={{ height: 41, width: 34, cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
+                                onClick={() => {
+                                  if (!props.addPermissionError) {
+                                    handleclickBed(bed, room)
+                                  }
+                                }}
+                              />
+
+                            </div>
+                            <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
+                              {bed.bed_no}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Add Bed */}
+                      <div
+                        className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
+                        onClick={() => {
+                          if (!props.addPermissionError) {
+                            handleAddBed(props, room.Room_Id);
+                          }
+                        }}
+                        style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
+                      >
+                        <div className='d-flex flex-column align-items-center w-100'>
+                          <div>
+                            <FaSquarePlus style={{ height: 41, width: 34, color: props.addPermissionError ? "#888888" : "#1E45E1" }} />
+                          </div>
+                          <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: props.addPermissionError ? "#888888" : "#1E45E1" }}>
+                            Add bed
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+            ))}
+
+            {/* Empty State */}
+            {!loader && !loaderTrigger && currentItems.length === 0 && (
+              <div className='d-flex flex-column align-items-center justify-content-center text-center w-100 px-3 fade-in'>
+                <div><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                <div className="pb-1 mt-1" style={{ fontWeight: 600, fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
+                <div className="pb-1 mt-1" style={{ fontWeight: 500, fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
+                <div className='d-flex justify-content-center pb-1 mt-3'>
+                  <Button
+                    style={{
+                      fontSize: 16,
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: 12,
+                      padding: "10px 20px",
+                      fontFamily: "Gilroy"
+                    }}
+                    disabled={props.addPermissionError}
+                    onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}
+                  >
+                    + Add Room
+                  </Button>
                 </div>
               </div>
-            </div>
-          </Card.Body>
-        </Card>
-      </div>
-    ))}
-
-    {/* Empty State */}
-    {!loader && !loaderTrigger && currentItems.length === 0 && (
-      <div className='d-flex flex-column align-items-center justify-content-center text-center w-100 px-3 fade-in'>
-        <div><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-        <div className="pb-1 mt-1" style={{ fontWeight: 600, fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
-        <div className="pb-1 mt-1" style={{ fontWeight: 500, fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
-        <div className='d-flex justify-content-center pb-1 mt-3'>
-          <Button
-            style={{
-              fontSize: 16,
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: 12,
-              padding: "10px 20px",
-              fontFamily: "Gilroy"
-            }}
-            disabled={props.addPermissionError}
-            onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}
-          >
-            + Add Room
-          </Button>
+            )}
+          </div>
         </div>
-      </div>
-    )}
-  </div>
-</div>
 
 
         {currentItems.length > 0 && <>
@@ -935,10 +989,10 @@ function SettingParticular(props) {
 
 
         {
-          roomCountData.length > 4 &&
+          roomList.length > 4 &&
 
-           <nav
-           
+          <nav
+
             className="pagination-container"
             style={{
               display: "flex",
@@ -954,68 +1008,68 @@ function SettingParticular(props) {
               zIndex: 1000,
             }}
           >
-              <div>
-                <Select
-                  options={pageSizeOptions}
-                  value={
-                    itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null
-                  }
-                  onChange={handleItemsPerPageChange}
-                  placeholder="Items per page"
-                  classNamePrefix="custom"
-                   menuPlacement="auto"
-                      noOptionsMessage={() => "No options"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      padding: "0 5px",
-                      height: "40px",
-                      borderRadius: "5px",
-                      fontSize: "14px",
-                      color: "#1E45E1",
-                      fontWeight: "bold",
-                      fontFamily: "Gilroy",
-                      border: "1px solid #1E45E1",
-                      boxShadow: "0 0 0 1px #1E45E1",
-                      cursor: "pointer",
-                      width: 90,
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "200px",
-                      padding: 0,
-                      overflowY: "auto",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#1E45E1",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                      color: state.isFocused ? "#fff" : "#000",
-                      cursor: "pointer",
-                    }),
-                  }}
-                />
-              </div>
+            <div>
+              <Select
+                options={pageSizeOptions}
+                value={
+                  itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null
+                }
+                onChange={handleItemsPerPageChange}
+                placeholder="Items per page"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No options"}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    padding: "0 5px",
+                    height: "40px",
+                    borderRadius: "5px",
+                    fontSize: "14px",
+                    color: "#1E45E1",
+                    fontWeight: "bold",
+                    fontFamily: "Gilroy",
+                    border: "1px solid #1E45E1",
+                    boxShadow: "0 0 0 1px #1E45E1",
+                    cursor: "pointer",
+                    width: 90,
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                    fontFamily: "Gilroy",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "200px",
+                    padding: 0,
+                    overflowY: "auto",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#1E45E1",
+                    cursor: "pointer",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                    color: state.isFocused ? "#fff" : "#000",
+                    cursor: "pointer",
+                  }),
+                }}
+              />
+            </div>
 
-          
+
             <ul
               style={{
                 display: "flex",
@@ -1025,7 +1079,7 @@ function SettingParticular(props) {
                 padding: 0,
               }}
             >
-            
+
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
@@ -1047,12 +1101,12 @@ function SettingParticular(props) {
                 </button>
               </li>
 
-            
+
               <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                 {currentPage} of {totalPages}
               </li>
 
-             
+
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
@@ -1100,98 +1154,98 @@ function SettingParticular(props) {
 
         {
 
-          emptybed && <EmptyBed  show= {emptybed} handleClose={handlecloseBed} 
-          currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails} 
-             showbed = {handleShowBed}
-             showcustomer ={handleShowAddCustomer}
-             showtenant = {handleShowAssignTenant}
+          emptybed && <EmptyBed show={emptybed} handleClose={handlecloseBed}
+            currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails}
+            showbed={handleShowBed}
+            showcustomer={handleShowAddCustomer}
+            showtenant={handleShowAssignTenant}
           />
 
         }
 
-      
-
-       {
-        add_customerform && <AddCustomer  show={add_customerform} handleClose={handleCloseAddCustomer}/>
-       }
-
-      {
-         assign_tenantform && <PGAssignTenant  show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem = {OccupiedCustomerDetails} 
-   
-         />
-       }
-
-      {/* Reserved Bed */}
-      {
-        showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed}
-          handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
-          currentItem={OccupiedCustomerDetails}
-        />
-      }
-
-      {
-        showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={OccupiedCustomerDetails} />
-      }
-
-      {
-        showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
-      }
-
-      {/* Occubied bed Details */}
-
-      {
-        Occubied_bed && <OccupiedBedStatus show={Occubied_bed}
-          handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
-      }
-
-      {
-        Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
-          handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} />
-      }
 
 
-      {/* Notice period  */}
-    {
-        Noticeperiod_bed && <NoticeBedStatusDetails    show={Noticeperiod_bed}
-      handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} 
-      showBooking = {handleshowNoticePeriodBooking} showNoticeperiodCheckout = {handleshowNoticePeriodCheckout}
-      />}
+        {
+          add_customerform && <AddCustomer show={add_customerform} handleClose={handleCloseAddCustomer} />
+        }
 
+        {
+          assign_tenantform && <PGAssignTenant show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem={OccupiedCustomerDetails}
 
-      {showReAssignBedForm &&
-        <CustomerReAssign
-          show={showReAssignBedForm}
-
-          reAssignBedDetail={{ ...OccupiedCustomerDetails, id: customerId }}
-          setCustomerReAssign={handleCloseReassignForm}
-        />
-
-      }
-
-      {
-        Noticeperiod_booking && <BookingBed show={Noticeperiod_booking}  handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails} />
-      }
-
-      {
-        Noticeperiod_checkout && <CheckoutTenant show ={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout} currentItem={OccupiedCustomerDetails} />
-      }
-
- 
-
-
-      {moveToNoticePeriodForm && (() => {
-        return (
-          <CustomerCheckout
-            bedData={OccupiedCustomerDetails}
-            data={customerDetails}
-            customerCheckoutpage={moveToNoticePeriodForm}
-            setCustomerCheckoutpage={handleCloseNoticePeriod}
           />
-        );
-      })()}
+        }
+
+        {/* Reserved Bed */}
+        {
+          showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed}
+            handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
+            currentItem={OccupiedCustomerDetails}
+          />
+        }
+
+        {
+          showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={OccupiedCustomerDetails} />
+        }
+
+        {
+          showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
+        }
+
+        {/* Occubied bed Details */}
+
+        {
+          Occubied_bed && <OccupiedBedStatus show={Occubied_bed}
+            handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
+        }
+
+        {
+          Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
+            handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} />
+        }
 
 
-</div>
+        {/* Notice period  */}
+        {
+          Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
+            handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails}
+            showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout}
+          />}
+
+
+        {showReAssignBedForm &&
+          <CustomerReAssign
+            show={showReAssignBedForm}
+
+            reAssignBedDetail={{ ...OccupiedCustomerDetails, id: customerId }}
+            setCustomerReAssign={handleCloseReassignForm}
+          />
+
+        }
+
+        {
+          Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails} />
+        }
+
+        {
+          Noticeperiod_checkout && <CheckoutTenant show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout} currentItem={OccupiedCustomerDetails} />
+        }
+
+
+
+
+        {moveToNoticePeriodForm && (() => {
+          return (
+            <CustomerCheckout
+              bedData={OccupiedCustomerDetails}
+              data={customerDetails}
+              customerCheckoutpage={moveToNoticePeriodForm}
+              setCustomerCheckoutpage={handleCloseNoticePeriod}
+            />
+          );
+        })()}
+
+
+      </div>
 
 
     </>

@@ -32,6 +32,8 @@ import occubiedimg from "../Assets/Images/New_images/occubied-circle.png";
 import recerverimg from "../Assets/Images/New_images/recervedimg.png";
 import overdueimg from "../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../Assets/Images/New_images/noticeperiodimg.png";
+import ParticularHostelDetails from "./PayingGuestFile/ParticularHostelDetails";
+
 
 
 
@@ -531,7 +533,7 @@ function SettingManage() {
         type: "ROOMCOUNT",
         payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
       });
-
+dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
       dispatch({ type: "HOSTELLIST" });
 
 
@@ -1116,8 +1118,7 @@ function SettingManage() {
                               <div className="d-flex flex-row flex-wrap">
                                 <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
                                   <img className="me-1 mb-1" src={availabeimg} alt="available" />
-                                  Available
-                                </p>
+                                  Available                                </p>
                                 <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
                                   <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
                                   Occupied
@@ -1238,7 +1239,7 @@ function SettingManage() {
                         </div>
 
                         <Tab.Content>
-                          <SettingParticular
+                          <ParticularHostelDetails
                             floorID={floorClick}
                             hostel_Id={showHostelDetails.hostelId}
                             phoneNumber={showHostelDetails.hostel_PhoneNo}

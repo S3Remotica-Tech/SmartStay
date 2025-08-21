@@ -202,11 +202,17 @@ export async function getAllBed(datum) {
 }
 
 
+// v1
+// export async function DeleteBed(datum) {
+//   return await AxiosConfig.post("/delete/delete-bed", datum, {
+//     data: datum,
+//   });
+// }
+
+// v2
 
 export async function DeleteBed(datum) {
-  return await AxiosConfig.post("/delete/delete-bed", datum, {
-    data: datum,
-  });
+  return await AxiosConfigV2.post(`/v2/bed/${datum.bedId}`);
 }
 
 export async function DeletePG(datum) {
@@ -231,6 +237,18 @@ export async function UpdateFloor(datum) {
     data: datum,
   });
 }
+
+
+
+// v2
+
+export async function UpdateBed(datum) {
+  return await AxiosConfigV2.put(`/v2/bed/${datum.bedId}`, datum, {
+    data: datum,
+  });
+}
+
+
 
 
 export async function OccupiedCustomer(datum) {

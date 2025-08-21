@@ -93,8 +93,9 @@ export const initialState = {
     roomsList: [],
     getAllRoomSuccessStatus: 0,
     statusCodeUpdateRoom: 0,
-    bedList: [], 
-    getAllBedSuccessStatus:0,
+    bedList: [],
+    getAllBedSuccessStatus: 0,
+    updateBedStatusCode:0,
 
 
 
@@ -127,7 +128,7 @@ const PgListReducer = (state = initialState, action) => {
         case 'GET_ALL_BEDS':
             return { ...state, bedList: action.payload.response, getAllBedSuccessStatus: action.payload.statusCode }
         case 'REMOVE_GET_ALL_BEDS_STATUS_CODE':
-            return { ...state,  getAllBedSuccessStatus: 0 }
+            return { ...state, getAllBedSuccessStatus: 0 }
 
         case 'UPGRADE_PLAN':
             return { ...state, UpgradestatusCode: action.payload.statusCode }
@@ -276,6 +277,12 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, createBedStatusCode: action.payload.statusCode }
         case 'CLEAR_CREATE_BED_STATUS_CODE':
             return { ...state, createBedStatusCode: 0 }
+        case 'UPDATE_BED':
+            return { ...state, updateBedStatusCode: action.payload.statusCode }
+        case 'CLEAR_UPDATE_BED_STATUS_CODE':
+            return { ...state, updateBedStatusCode: 0 }
+
+
         case 'DELETE_BED':
             return { ...state, statusCodeDeleteBed: action.payload.statusCode }
         case 'CLEAR_DELETE_BED_STATUS_CODE':

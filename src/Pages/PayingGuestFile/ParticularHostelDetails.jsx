@@ -37,6 +37,8 @@ import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 function ParticularHostelDetails(props) {
 
 
+  console.log("props",props)
+
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
@@ -95,8 +97,7 @@ function ParticularHostelDetails(props) {
 
 
   const handleclickBed = (bed, room) => {
-
-
+   
     if (bed.isbooked === 1) {
       setShowReservedBed(true);
       setOccupiedCustomerDetails({ bed, room });
@@ -447,7 +448,7 @@ function ParticularHostelDetails(props) {
   }, [state.PgList.statusCodeCreateRoom, state.PgList.statusCodeUpdateRoom])
 
   useEffect(() => {
-    if (state.PgList.createBedStatusCode === 201) {
+    if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
       dispatch({ type: 'HOSTELLIST' })
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
@@ -466,7 +467,7 @@ function ParticularHostelDetails(props) {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
       }, 4000)
     }
-  }, [state.PgList.createBedStatusCode])
+  }, [state.PgList.createBedStatusCode, state.PgList.updateBedStatusCode])
 
   useEffect(() => {
     dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
@@ -797,7 +798,7 @@ function ParticularHostelDetails(props) {
                                 style={{ height: 41, width: 34, cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
                                 onClick={() => {
                                   if (!props.addPermissionError) {
-                                    handleclickBed(bed.id, bed.roomId)
+                                    handleclickBed(bed, bed.roomId)
                                   }
                                 }}
                               />

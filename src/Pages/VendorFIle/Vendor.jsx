@@ -119,7 +119,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
   useEffect(() => {
     setLoading(true)
-    dispatch({ type: 'VENDORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+    dispatch({ type: 'VENDORLIST', payload: { hostelId  : state.login.selectedHostel_Id } })
 
   }, [state.login.selectedHostel_Id])
 
@@ -148,11 +148,11 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
   useEffect(() => {
-    if (state.ComplianceList.addVendorSuccessStatusCode === 200 || state.ComplianceList.deleteVendorStatusCode === 200) {
+    if (state.ComplianceList.addVendorSuccessStatusCode === 201 || state.ComplianceList.deleteVendorStatusCode === 200) {
       setShow(false);
       setShowDeleteVendor(false)
       setTimeout(() => {
-        dispatch({ type: 'VENDORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+        dispatch({ type: 'VENDORLIST', payload: { hostelId  : state.login.selectedHostel_Id } })
 
       }, 100)
       setTimeout(() => {
@@ -240,7 +240,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem);
   const [currentItem, setCurrentItem] = useState('')
 
   const handlePageChange = (pageNumber) => {
@@ -586,7 +586,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                 ))
                 }
 
-                {!loading && filteredData.length === 0 && (
+                {!loading && filteredData?.length === 0 && (
                   <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
                     <div>
                       <div className='d-flex justify-content-center'>

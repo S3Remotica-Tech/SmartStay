@@ -109,6 +109,12 @@ console.log("currentItem ",currentItem )
           amount: amount,
         },
       });
+
+// dispatch({ type: 'UPDATEBED', payload: {
+//   bedName: bedNo,
+//   isActive: true
+// }})
+
       setFormLoading(true)
       setGeneralError("");
     }

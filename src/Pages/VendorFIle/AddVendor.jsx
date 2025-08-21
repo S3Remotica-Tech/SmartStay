@@ -497,25 +497,28 @@ function AddVendor({ show, setShow, currentItem }) {
         });
         setFormLoading(true)
       } else {
-        dispatch({
-          type: "ADDVENDOR",
-          payload: {
-            hostel_id: state.login.selectedHostel_Id,
-            profile: file,
-            first_Name: first_Name,
-            Last_Name: last_Name,
-            Vendor_Mobile: MobileNumber,
-            Vendor_Email: email_Id,
-            Business_Name: business_Name,
-            Country: country,
-            Vendor_Address: house_no,
-            Pincode: pinCode,
-            area: street,
-            landmark: landmark,
-            city: city,
-            state: state_name,
-          },
-        });
+       dispatch({
+  type: "ADDVENDOR",
+  payload: {
+    profilePic: file,
+    payLoads: {
+      hostelId: state.login.selectedHostel_Id,
+      firstName: first_Name,
+      lastName: last_Name,
+      mobile: MobileNumber,
+      mailId: email_Id,
+      businessName: business_Name,
+      country: country,
+      houseNo: house_no,
+      pinCode: pinCode,
+      area: street,
+      landmark: landmark,
+      city: city,
+      state: state_name,
+    },
+  },
+});
+
         setFormLoading(true)
       }
 
@@ -526,7 +529,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
   useEffect(() => {
-    if (state.ComplianceList.addVendorSuccessStatusCode === 200) {
+    if (state.ComplianceList.addVendorSuccessStatusCode === 201) {
       setFormLoading(false)
       setFile("");
       setFirst_Name("");

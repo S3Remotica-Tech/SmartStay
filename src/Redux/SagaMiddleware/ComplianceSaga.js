@@ -91,6 +91,8 @@ function* handleAddVendor(action) {
    try {
       const response = yield call(addVendor, action.payload);
 
+console.log("response",response)
+
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -107,9 +109,9 @@ function* handleAddVendor(action) {
 
       };
 
-      if (response.statusCode === 200 || response.status === 200) {
-         yield put({ type: 'ADD_VENDOR', payload: { response: response.data, statusCode: response.statusCode || response.status } })
-         toast.success(`${response.message}`, {
+      if (response.status === 201) {
+         yield put({ type: 'ADD_VENDOR', payload: { response: response.data, statusCode: response.status } })
+         toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -121,28 +123,20 @@ function* handleAddVendor(action) {
             style: toastStyle,
          });
       }
-      else if (response.statusCode === 202 || response.status === 202) {
-
-         yield put({ type: 'ALREADY_VENDOR_ERROR', payload: response.message })
-
-      }
-      else if (response.statusCode === 203 || response.status === 203) {
-
-         yield put({ type: 'ALREADY_VENDOR_EMAIL_ERROR', payload: response.message })
-
-      }
+     
       if (response) {
          refreshToken(response)
       }
    }
   catch (error) {
-        if (error.code === 'ERR_NETWORK') {
-           yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-        } else {
-           yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      if (error.code === 'ERR_BAD_REQUEST') {
+        if (error.status === 400) {
+          yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
         }
-     }
-
+      } else if (error.code === 'ERR_NETWORK') {
+        yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+    }
 }
 
 

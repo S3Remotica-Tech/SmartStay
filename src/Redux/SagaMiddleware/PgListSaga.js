@@ -1,8 +1,67 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement } from "../Action/PgListAction";
+import {UpdateBed,  getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement } from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+
+
+function* handleUpdateBed(datum) {
+  try {
+    const response = yield call(UpdateBed, datum.payload);
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+
+    };
+    if (response.status === 200) {
+      yield put({
+        type: "UPDATE_BED",
+        payload: {
+          response: response.data,
+          statusCode: response.status
+        },
+      });
+
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+    if (response) {
+      refreshToken(response);
+    }
+  }
+  catch (error) {
+    if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.status === 409) {
+        yield put({ type: 'ALREADY_BED', payload: error.response.data });
+      }
+    } else if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+    }
+  }
+}
+
+
+
 
 
 function* handleGetAllRooms(action) {
@@ -1300,7 +1359,7 @@ function refreshToken(response) {
 }
 
 function* PgListSaga() {
-
+  yield takeEvery("UPDATEBED", handleUpdateBed );
   yield takeEvery("GETALLROOMSLIST", handleGetAllRooms);
   yield takeEvery("GETALLBEDSLIST", handleGetAllBed)
   yield takeEvery("CREATEPG", handlePgList);
