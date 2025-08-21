@@ -58,6 +58,7 @@ import EditBasicDetails from "./EditBasicDetails";
 import EditAddressDetails from "./EditAddressDetails";
 import EditStayDetails from "./EditStayDetails";
 import StayHistory from "./StayHistory";
+import Retry from "../../Assets/Images/New_images/reload.png";
 
 
 
@@ -291,7 +292,7 @@ console.log('customerDetails',customerDetails)
       setRooms(props.userData[0]?.Rooms || "");
       setRoomId(props.userData[0]?.room_id || "");
       setBedId(props.userData[0]?.hstl_Bed || "");
-      setSelectedDate(props.userData[0]?.user_join_date || "");
+      setSelectedDate(props.userData[0]?.joining_Date || "");
       setAdvanceAmount(props.userData[0]?.AdvanceAmount || "");
       setRoomRent(props.userData[0]?.RoomRent || "");
       setPaymentType(props.userData[0]?.PaymentType || "");
@@ -2346,7 +2347,7 @@ const imageUrl = imagePreview
                           }
 
 
-                          {state.UsersList?.KycCustomerDetails?.message === "KYC Pending" &&
+                          {/* {state.UsersList?.KycCustomerDetails?.message === "KYC Pending" &&
                             <>
                               <Button
                                 style={{
@@ -2373,7 +2374,71 @@ const imageUrl = imagePreview
                                   marginTop: 4,
                                 }}
                               >
-                                Last Attempt: 03 June, 2025 – 04:22 PM
+                                Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
+                              </p>
+                            </>
+                          } */}
+                            {state.UsersList?.KycCustomerDetails?.retry_completed === false &&
+                            <>
+                              <Button
+                                style={{
+                                  borderRadius: "20px",
+                                  backgroundColor: "#f59e0b",
+                                  border: "none",
+                                  padding: "0 16px",
+                                  height: "32px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  fontSize: "14px",
+                                  color: "#fff",
+                                }}
+
+                              >
+                                <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
+                                Pending
+                              </Button>
+                              <p
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 400,
+                                  fontFamily: "Gilroy",
+                                  marginTop: 4,
+                                }}
+                              >
+                                Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
+                              </p>
+                            </>
+                          }
+                          
+                           {state.UsersList?.KycCustomerDetails?.retry_completed === true &&
+                            <>
+                              <Button
+                               onClick={handleKYCSubmit}
+                                style={{
+                                  borderRadius: "20px",
+                                    backgroundColor: "#1848f1",
+                                  border: "none",
+                                  padding: "0 16px",
+                                  height: "32px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  fontSize: "14px",
+                                  color: "#fff",
+                                }}
+
+                              >
+                                <img src={Retry} alt="time" style={{ width: "16px", marginRight: 8 }} />
+                                Retry KYC
+                              </Button>
+                              <p
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 400,
+                                  fontFamily: "Gilroy",
+                                  marginTop: 4,
+                                }}
+                              >
+                                 Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
                               </p>
                             </>
                           }

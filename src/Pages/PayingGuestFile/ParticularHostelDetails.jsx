@@ -37,7 +37,6 @@ import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 function ParticularHostelDetails(props) {
 
 
-
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
@@ -53,11 +52,6 @@ function ParticularHostelDetails(props) {
   const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
   const [Noticeperiod_booking, setNoticePeriodBooking] = useState(false)
   const [Noticeperiod_checkout, setNoticePeriodCheckout] = useState(false)
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const [showReAssignBedForm, setShowReAssignBedForm] = useState(false);
   const [moveToNoticePeriodForm, setMoveToNoticePeriodForm] = useState(false);
   const [customerId, setCustomerId] = useState('')
@@ -66,24 +60,23 @@ function ParticularHostelDetails(props) {
   const [roomCountData, setRoomCountData] = useState([])
   const [roomList, setRoomList] = useState([])
   const [activeRoomId, setActiveRoomId] = useState(null);
-  // const [showRoom, setShowRoom] = useState(false)
-  // const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
-  // const [showDeleteRoom, setShowDeleteRoom] = useState(false)
-  // const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
-  // const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
-  // const [showDeleteBed, setShowDeleteBed] = useState(false)
-  // const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
-  // const [occupiedCustomer, setOccupiedCustomer] = useState(false)
-  // const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
-  // const [Occubied_bed, setOccubiedBed] = useState(false)
-  // const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
-
-
   const [loader, setLoader] = useState(false)
   const [loaderTrigger, setLoaderTrigger] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4)
+  const [showRoom, setShowRoom] = useState(false)
+  const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
+  const [showDeleteRoom, setShowDeleteRoom] = useState(false)
+  const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
+  const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
 
+  const [showDeleteBed, setShowDeleteBed] = useState(false)
+  const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
+  const [occupiedCustomer, setOccupiedCustomer] = useState(false)
+  const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
+  const [customerID, setCustomerID] = useState('')
+  const [add_customerform, setAddCustomerForm] = useState(false)
+  const [assign_tenantform, setAssignTenantForm] = useState(false)
 
 
 
@@ -100,74 +93,8 @@ function ParticularHostelDetails(props) {
 
 
 
-
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
-  // const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
-
-  // const handleItemsPerPageChange = (selectedOption) => {
-  //   setItemsPerPage(Number(selectedOption.value));
-  //   setCurrentPage(1);
-  // };
-  // const pageSizeOptions = [
-  //   { value: 4, label: "4" },
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
-
-
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
-
-  // const handleShowAddRoom = (floor_Id, hostel_Id) => {
-  //   setShowRoom(true)
-  //   setHostelDetails({ hostel_Id, floor_Id });
-  //   setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
-
-  // }
-  // const handlecloseRoom = () => {
-  //   setShowRoom(false)
-  // }
-
-
-  // const handleDeleteRoom = (Hostel_Id, Floor_Id, Room_Id) => {
-  //   setShowDeleteRoom(true)
-  //   setDeleteRoomDetails({ Hostel_Id, Floor_Id, Room_Id })
-  // }
-
-
-  // const handleCloseDeleteRoom = () => {
-  //   setShowDeleteRoom(false)
-  // }
-
-  // const handleEditRoom = (Hostel_Id, Floor_Id, Room_Id, Room_Name) => {
-  //   setShowRoom(true)
-  //   setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id, Room_Name: Room_Name })
-  //   setHostelDetails({ room: null, selectedFloor: null })
-  // }
-
-
-  // const handleCloseDeleteBed = () => {
-  //   setShowDeleteBed(false)
-  // }
-
-
-
-
-
-  // const handleCloseOccupiedCustomer = () => {
-  //   setOccupiedCustomer(false)
-  // }
-
-
-  console.log("props.hostel_Id ", props)
-
-
   const handleclickBed = (bed, room) => {
-    console.log("bed", bed);
+
 
     if (bed.isbooked === 1) {
       setShowReservedBed(true);
@@ -209,51 +136,9 @@ function ParticularHostelDetails(props) {
   };
 
 
-
-
-
-  // const handleShowReservedBed = () => {
-  //   setShowReservedBed(true)
-  // }
-
-  // const handleCloseReservedBed = () => {
-  //   setShowReservedBed(false)
-  // }
-
-
-
-  // const handleShowCheck_In = () => {
-  //   setShowCheckIn(true)
-  //   setShowReservedBed(false)
-
-  // }
-
-  // const handleCloseCheck_In = () => {
-  //   setShowCheckIn(false)
-  // }
-
-
-  // const handleShowMakeAsInActive = () => {
-  //   setShowInActive(true)
-  //   setShowReservedBed(false)
-  // }
-
-  // const handleCloseMakeAsInActive = () => {
-  //   setShowInActive(false)
-  // }
-
-  // const handlecloseoccubiedbed = () => {
-  //   setOccubiedBed(false)
-  // }
-  // const handlecloseNoticePeriodBed = () => {
-  //   setNoticePeriodBed(false)
-  // }
-
-
   const handleShowReAssignBedPopup = (isVisible, customer_id) => {
     setOccubiedBed(false)
     setShowReAssignBedForm(isVisible)
-    console.log("customer_id", customer_id)
     setCustomerId(customer_id)
 
   }
@@ -266,7 +151,6 @@ function ParticularHostelDetails(props) {
   const handleShowNoticePeriod = (isVisible, customer) => {
     setOccubiedBed(false)
     setMoveToNoticePeriodForm(isVisible)
-    console.log("customer", customer)
     setCustomerDetails(customer)
 
   }
@@ -274,6 +158,151 @@ function ParticularHostelDetails(props) {
   const handleCloseNoticePeriod = () => {
     setMoveToNoticePeriodForm(false)
   }
+
+
+
+
+
+
+
+
+  const handleShowAddRoom = (floor_Id, hostel_Id) => {
+    setShowRoom(true)
+    setHostelDetails({ hostel_Id, floor_Id });
+    setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
+
+  }
+  const handlecloseRoom = () => {
+    setShowRoom(false)
+  }
+
+
+
+  const handleDeleteRoom = (Hostel_Id, Floor_Id, Room_Id) => {
+    setShowDeleteRoom(true)
+    setDeleteRoomDetails({ Hostel_Id, Floor_Id, Room_Id })
+  }
+
+
+  const handleCloseDeleteRoom = () => {
+    setShowDeleteRoom(false)
+  }
+
+
+
+
+
+  const handleEditRoom = (Hostel_Id, Floor_Id, Room_Id, Room_Name) => {
+    setShowRoom(true)
+    setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id, Room_Name: Room_Name })
+    setHostelDetails({ room: null, selectedFloor: null })
+  }
+
+
+
+  const handleShowReservedBed = () => {
+    setShowReservedBed(true)
+  }
+
+  const handleCloseReservedBed = () => {
+    setShowReservedBed(false)
+  }
+
+
+
+  const handleShowCheck_In = () => {
+    setShowCheckIn(true)
+    setShowReservedBed(false)
+
+  }
+
+  const handleCloseCheck_In = () => {
+    setShowCheckIn(false)
+
+  }
+
+
+  const handleShowMakeAsInActive = () => {
+    setShowInActive(true)
+    setShowReservedBed(false)
+  }
+
+  const handleCloseMakeAsInActive = () => {
+    setShowInActive(false)
+  }
+
+  const handlecloseoccubiedbed = () => {
+    setOccubiedBed(false)
+  }
+
+  const handlecloseNoticePeriodBed = () => {
+    setNoticePeriodBed(false)
+  }
+
+  const handleshowNoticePeriodBooking = () => {
+    setNoticePeriodBooking(true)
+    setNoticePeriodBed(false)
+  }
+
+  const handlecloseNoticeperiodBooking = () => {
+    setNoticePeriodBooking(false)
+  }
+
+
+  const handleshowNoticePeriodCheckout = (isVisible, customerId) => {
+    setNoticePeriodCheckout(isVisible)
+    setNoticePeriodBed(false)
+    setCustomerID(customerId)
+
+  }
+
+  const handlecloseNoticeperiodCheckout = () => {
+    setNoticePeriodCheckout(false)
+  }
+
+  const handleShowAddCustomer = () => {
+    setAddCustomerForm(true)
+    setEmptyBed(false)
+  }
+
+  const handleCloseAddCustomer = () => {
+    setAddCustomerForm(false)
+  }
+
+  const handleShowAssignTenant = () => {
+    setAssignTenantForm(true)
+    setEmptyBed(false)
+  }
+
+  const handleCloseAssignTenant = () => {
+    setAssignTenantForm(false)
+  }
+
+
+
+
+
+
+
+
+  const handleShowBed = () => {
+    setShowDeleteBed(true)
+    setEmptyBed(false)
+  }
+
+  const handleCloseDeleteBed = () => {
+    setShowDeleteBed(false)
+  }
+
+  const handleCloseOccupiedCustomer = () => {
+    setOccupiedCustomer(false)
+  }
+
+
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
@@ -441,74 +470,6 @@ console.log("room list", roomList)
 
 
 
-
-  const [showRoom, setShowRoom] = useState(false)
-  const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
-
-  const handleShowAddRoom = (floor_Id, hostel_Id) => {
-    setShowRoom(true)
-    setHostelDetails({ hostel_Id, floor_Id });
-    setEditRoom({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
-
-  }
-  const handlecloseRoom = () => {
-    setShowRoom(false)
-  }
-
-  const [showDeleteRoom, setShowDeleteRoom] = useState(false)
-  const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
-
-  const handleDeleteRoom = (Hostel_Id, Floor_Id, Room_Id) => {
-    setShowDeleteRoom(true)
-    setDeleteRoomDetails({ Hostel_Id, Floor_Id, Room_Id })
-  }
-
-
-  const handleCloseDeleteRoom = () => {
-    setShowDeleteRoom(false)
-  }
-
-
-  const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
-
-
-  const handleEditRoom = (Hostel_Id, Floor_Id, Room_Id, Room_Name) => {
-    setShowRoom(true)
-    setEditRoom({ hostel_Id: Hostel_Id, floor_Id: Floor_Id, room_Id: Room_Id, Room_Name: Room_Name })
-    setHostelDetails({ room: null, selectedFloor: null })
-  }
-
-
-
-
-
-
-
-  const [showDeleteBed, setShowDeleteBed] = useState(false)
-  const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
-
-  const handleShowBed = () => {
-    setShowDeleteBed(true)
-    setEmptyBed(false)
-  }
-
-  const handleCloseDeleteBed = () => {
-    setShowDeleteBed(false)
-  }
-
-  const [occupiedCustomer, setOccupiedCustomer] = useState(false)
-  const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
-
-
-
-  const handleCloseOccupiedCustomer = () => {
-    setOccupiedCustomer(false)
-  }
-
-
-
-
-
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
@@ -590,87 +551,6 @@ console.log("room list", roomList)
     window.scrollTo(0, 0);
   }, []);
 
-
-
-
-  const handleShowReservedBed = () => {
-    setShowReservedBed(true)
-  }
-
-  const handleCloseReservedBed = () => {
-    setShowReservedBed(false)
-  }
-
-
-
-  const handleShowCheck_In = () => {
-    setShowCheckIn(true)
-    setShowReservedBed(false)
-
-  }
-
-  const handleCloseCheck_In = () => {
-    setShowCheckIn(false)
-
-  }
-
-
-  const handleShowMakeAsInActive = () => {
-    setShowInActive(true)
-    setShowReservedBed(false)
-  }
-
-  const handleCloseMakeAsInActive = () => {
-    setShowInActive(false)
-  }
-
-  const handlecloseoccubiedbed = () => {
-    setOccubiedBed(false)
-  }
-
-  const handlecloseNoticePeriodBed = () => {
-    setNoticePeriodBed(false)
-  }
-
-  const handleshowNoticePeriodBooking = () => {
-    setNoticePeriodBooking(true)
-    setNoticePeriodBed(false)
-  }
-
-  const handlecloseNoticeperiodBooking = () => {
-    setNoticePeriodBooking(false)
-  }
-
-  const handleshowNoticePeriodCheckout = () => {
-    setNoticePeriodCheckout(true)
-    setNoticePeriodBed(false)
-  }
-
-  const handlecloseNoticeperiodCheckout = () => {
-    setNoticePeriodCheckout(false)
-  }
-
-
-  const [add_customerform, setAddCustomerForm] = useState(false)
-  const [assign_tenantform, setAssignTenantForm] = useState(false)
-
-  const handleShowAddCustomer = () => {
-    setAddCustomerForm(true)
-    setEmptyBed(false)
-  }
-
-  const handleCloseAddCustomer = () => {
-    setAddCustomerForm(false)
-  }
-
-  const handleShowAssignTenant = () => {
-    setAssignTenantForm(true)
-    setEmptyBed(false)
-  }
-
-  const handleCloseAssignTenant = () => {
-    setAssignTenantForm(false)
-  }
 
 
   return (
@@ -1199,7 +1079,11 @@ console.log("room list", roomList)
         }
 
         {
-          Noticeperiod_checkout && <CheckoutTenant show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout} currentItem={OccupiedCustomerDetails} />
+          Noticeperiod_checkout && <CheckoutTenant show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
+            customerID={customerID}
+
+            data={OccupiedCustomerDetails}
+          />
         }
 
 

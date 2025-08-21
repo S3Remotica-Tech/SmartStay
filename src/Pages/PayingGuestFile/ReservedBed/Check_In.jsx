@@ -43,6 +43,16 @@ function CheckIn({
     const [advanceAmountError, setAdvanceAmountError] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
 
+    useEffect(() => {
+    const matchedBed = state.PgList.roomCount[0].bed_details.find(
+      (item) => item.id === currentItem?.bed?.id
+    );
+    
+    if (matchedBed) {
+      setRoomRent(matchedBed.bed_amount);
+    }
+    }, [state.PgList, currentItem]);
+
       const handleRoomRent = (e) => {
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
@@ -260,12 +270,20 @@ function CheckIn({
         } else if (field === "customReason") {
             updatedFields[index].customReason = value;
             if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } else if (field === "amount") {
-            updatedFields[index].amount = value;
+        } 
+        // else if (field === "amount") {
+        //     updatedFields[index].amount = value;
 
 
-            if (updatedErrors[index]) updatedErrors[index].amount = "";
-        }
+        //     if (updatedErrors[index]) updatedErrors[index].amount = "";
+        // }
+         else if (field === "amount") {
+    // allow only digits
+    if (/^\d*$/.test(value)) {
+      updatedFields[index].amount = value;
+      if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+  }
 
         setFields(updatedFields);
         setErrors(updatedErrors);
@@ -1044,8 +1062,7 @@ const LastName = lastNameParts.join(" ") || "";
 
 
                                                     <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-
-                                                        {index !== 0 && (
+   
                                                             <Trash
                                                                 size="20"
                                                                 color="red"
@@ -1053,7 +1070,7 @@ const LastName = lastNameParts.join(" ") || "";
                                                                 style={{ cursor: "pointer" }}
                                                                 onClick={() => handleRemoveField(index)}
                                                             />
-                                                        )}
+                                                  
                                                     </div>
                                                 </div>
                                             );

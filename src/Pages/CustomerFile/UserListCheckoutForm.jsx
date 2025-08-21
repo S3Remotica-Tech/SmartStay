@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
-import Closecircle from "../../Assets/Images/close-circle.svg";
+// import Closecircle from "../../Assets/Images/close-circle.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import moment from "moment";
@@ -16,9 +16,9 @@ import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
-import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import { Trash } from 'iconsax-react';
-import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
+// import addcircle from "../../Assets/Images/New_images/add-circle.png";
+// import { Trash } from 'iconsax-react';
+// import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 
 
 const CheckOutForm = ({
@@ -27,10 +27,10 @@ const CheckOutForm = ({
   handleClose,
   currentItem,
   data,
-  checkouteditaction,
-  cofirmForm,
-  conformEdit,
-  handleCloseConformForm
+  // checkouteditaction,
+  // cofirmForm,
+  // conformEdit,
+  // handleCloseConformForm
 }) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -40,20 +40,20 @@ const CheckOutForm = ({
   const [checkOutrequestDate, setCheckOutRequestDate] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [comments, setComments] = useState("");
-  const [advanceamount, setAdvanceAmount] = useState("");
-  const [dueamount, SetDueAmount] = useState('');
-  const [invoicenumber, SetInvoiceNumber] = useState([]);
+  // const [advanceamount, setAdvanceAmount] = useState("");
+  // const [dueamount, SetDueAmount] = useState('');
+  // const [invoicenumber, SetInvoiceNumber] = useState([]);
   const [bedname, setBedname] = useState("");
   const [floorname, setFloorname] = useState("");
-  const [paymentDate, setPaymentDate] = useState("")
-  const [fields, setFields] = useState([]);
-  const [noChangeMessage, setNoChangeMessage] = useState("");
-  const [modeOfPayment, setModeOfPayment] = useState("");
-  const errorRef = useRef(null);
+  // const [paymentDate, setPaymentDate] = useState("")
+  // const [fields, setFields] = useState([]);
+  // const [noChangeMessage, setNoChangeMessage] = useState("");
+  // const [modeOfPayment, setModeOfPayment] = useState("");
+  // const errorRef = useRef(null);
   const [formLoading, setFormLoading] = useState(false)
-  const [formCheckoutLoading, setFormCheckoutLoading] = useState(false)
-  const nochangeRef = useRef(null)
-  const [errors, setErrors] = useState([]);
+  // const [formCheckoutLoading, setFormCheckoutLoading] = useState(false)
+  // const nochangeRef = useRef(null)
+  // const [errors, setErrors] = useState([]);
 
 
 
@@ -69,25 +69,25 @@ const CheckOutForm = ({
     setCustomerError("");
     setCheckOutRequestDateError("");
     setDateDifference(null);
-    SetDueAmount('')
+    // SetDueAmount('')
     setFormLoading(false)
-    setFormCheckoutLoading(false)
+    // setFormCheckoutLoading(false)
 
   };
 
-  const handleCloseConfirmFormPage = () => {
+  // const handleCloseConfirmFormPage = () => {
 
-    if (typeof handleCloseConformForm === "function") {
-      handleCloseConformForm();
-    }
-    dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-    dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-    setConformCheckErr("")
-    setNoChangeMessage("")
-    setModeOfPaymentError("")
+  //   if (typeof handleCloseConformForm === "function") {
+  //     handleCloseConformForm();
+  //   }
+  //   dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+  //   dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+  //   setConformCheckErr("")
+  //   setNoChangeMessage("")
+  //   setModeOfPaymentError("")
 
-    setFields([{ reason: "", amount: "", }]);
-  }
+  //   setFields([{ reason: "", amount: "", }]);
+  // }
 
 
 
@@ -99,12 +99,12 @@ const CheckOutForm = ({
     }
   }, []);
 
-  const handleModeOfPaymentChange = (e) => {
-    setModeOfPayment(e.target.value);
-    setModeOfPaymentError("")
+  // const handleModeOfPaymentChange = (e) => {
+  //   setModeOfPayment(e.target.value);
+  //   setModeOfPaymentError("")
 
 
-  };
+  // };
 
 
 
@@ -121,7 +121,7 @@ const CheckOutForm = ({
 
   const handleCommentsChange = (event) => {
     setComments(event.target.value);
-    setNoChangeMessage("")
+    // setNoChangeMessage("")
     setIsChangedError("")
   };
 
@@ -159,31 +159,31 @@ const CheckOutForm = ({
 
 
 
-  useEffect(() => {
-    if (data) {
+  // useEffect(() => {
+  //   if (data) {
 
-      setCheckOutDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null);
-      setPaymentDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null)
-      setCheckOutRequestDate(data.req_date ? new Date(data.req_date) : null);
-      setSelectedCustomer(data.ID);
+  //     setCheckOutDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null);
+  //     setPaymentDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null)
+  //     setCheckOutRequestDate(data.req_date ? new Date(data.req_date) : null);
+  //     setSelectedCustomer(data.ID);
 
-      setComments(data.checkout_comment);
-      setBedname(data.bed_name);
-      setFloorname(data.floor_name);
-      setModeOfPayment(data.bank_id)
+  //     setComments(data.checkout_comment);
+  //     setBedname(data.bed_name);
+  //     setFloorname(data.floor_name);
+  //     setModeOfPayment(data.bank_id)
 
-    } else {
-      setCheckOutDate("");
-      setCheckOutRequestDate("");
-      setSelectedCustomer("");
-      setComments("");
-      setBedname("");
-      setFloorname("");
-      setModeOfPayment("")
+  //   } else {
+  //     setCheckOutDate("");
+  //     setCheckOutRequestDate("");
+  //     setSelectedCustomer("");
+  //     setComments("");
+  //     setBedname("");
+  //     setFloorname("");
+  //     setModeOfPayment("")
 
-      dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
-    }
-  }, [data, show]);
+  //     dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+  //   }
+  // }, [data, show]);
 
 
 
@@ -204,31 +204,31 @@ const CheckOutForm = ({
 
   
 
-  useEffect(() => {
-    if (data?.amenities?.length > 0) {
-      let outstandingDueAmount = "";
-      const amenityFields = data.amenities
-        .filter(item => {
-          if (item.reason === "Outstanding Due") {
-            outstandingDueAmount = String(item.amount || "");
-            return false;
-          }
-          return true;
-        })
-        .map(item => ({
-          id: item?.id || "",
-          reason: item.reason || "",
-          amount: String(item.amount || "")
-        }));
+  // useEffect(() => {
+  //   if (data?.amenities?.length > 0) {
+  //     let outstandingDueAmount = "";
+  //     const amenityFields = data.amenities
+  //       .filter(item => {
+  //         if (item.reason === "Outstanding Due") {
+  //           outstandingDueAmount = String(item.amount || "");
+  //           return false;
+  //         }
+  //         return true;
+  //       })
+  //       .map(item => ({
+  //         id: item?.id || "",
+  //         reason: item.reason || "",
+  //         amount: String(item.amount || "")
+  //       }));
 
-      const dueAmountValue = outstandingDueAmount || String(dueamount || "");
+  //     const dueAmountValue = outstandingDueAmount || String(dueamount || "");
 
-      setFields([
-        { id: "", reason: "DueAmount", amount: dueAmountValue },
-        ...amenityFields,
-      ]);
-    }
-  }, [data?.amenities, dueamount]);
+  //     setFields([
+  //       { id: "", reason: "DueAmount", amount: dueAmountValue },
+  //       ...amenityFields,
+  //     ]);
+  //   }
+  // }, [data?.amenities, dueamount]);
 
 
   useEffect(() => {
@@ -492,391 +492,387 @@ const CheckOutForm = ({
 
 
 
-  useEffect(() => {
-    if (state.UsersList.statusCodegetConfirmCheckout === 200) {
-      setFormLoading(false)
-      setAdvanceAmount(
-        state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
-      );
+  // useEffect(() => {
+  //   if (state.UsersList.statusCodegetConfirmCheckout === 200) {
+  //     setFormLoading(false)
+  //     setAdvanceAmount(
+  //       state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
+  //     );
 
-      SetInvoiceNumber(state?.UsersList?.GetconfirmcheckoutBillDetails);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-      }, 500);
-    }
-  }, [state.UsersList.statusCodegetConfirmCheckout]);
-
-
+  //     SetInvoiceNumber(state?.UsersList?.GetconfirmcheckoutBillDetails);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  //     }, 500);
+  //   }
+  // }, [state.UsersList.statusCodegetConfirmCheckout]);
 
 
 
 
 
-  const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
 
-  const hasBalance =
-    Array.isArray(validInvoices) &&
-    validInvoices.some((invoice) => invoice.balance > 0);
-
-  useEffect(() => {
-    if (validInvoices && hasBalance) {
-      const totaldueamount = validInvoices.reduce(
-        (total, invoice) => total + invoice.balance,
-        0
-      );
-      SetDueAmount(totaldueamount);
-
-    }
-  }, [validInvoices]);
+  // const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
 
+  // const hasBalance =
+  //   Array.isArray(validInvoices) &&
+  //   validInvoices.some((invoice) => invoice.balance > 0);
 
-  const [returnAmount, setReturnAmount] = useState("")
+  // useEffect(() => {
+  //   if (validInvoices && hasBalance) {
+  //     const totaldueamount = validInvoices.reduce(
+  //       (total, invoice) => total + invoice.balance,
+  //       0
+  //     );
+  //     SetDueAmount(totaldueamount);
+
+  //   }
+  // }, [validInvoices]);
 
 
-  const [modeOfPaymentError, setModeOfPaymentError] = useState("")
 
-  const handleConfirmCheckout = () => {
+  // const [returnAmount, setReturnAmount] = useState("")
+
+
+  // const [modeOfPaymentError, setModeOfPaymentError] = useState("")
+
+//   const handleConfirmCheckout = () => {
    
-    let hasReasonAmountError = false;
-    let newErrors = [];
-
-
-    dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-    dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-    let hasError = false;
-
-    if (!selectedCustomer) {
-      setCustomerError("Please Select a Customer");
-      hasError = true;
-    }
-
-    if (!checkOutDate) {
-      setCheckOutDateError("Please select a checkout Date");
-      hasError = true;
-    }
-
-    if (!modeOfPayment) {
-      setModeOfPaymentError("Please Select Mode Of Payment");
-      hasError = true;
-    }
-
-    if (!data.Hostel_Id) {
-      hasError = true;
-    }
-
-    if (hasError) {
-      return;
-    }
-
-    const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
-    const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
-    const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
-
-    if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
-      setCheckOutDateError("Before Request Date not allowed");
-      return;
-    }
-
-
-
-    if (advanceamount) {
-      // const nonEmptyFields = fields.filter(
-      //   (field) =>
-      //     field.reason !== "DueAmount" &&
-      //     (field.reason?.trim() !== "" || field?.amount.trim() !== "")
-      // );
-
-
-
- const formattedReasons = fields.map((item) => {
-      let reason_name = "";
-
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
-
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
-
-
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
-
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
-
-    setErrors(newErrors)
-
-    if (hasReasonAmountError) return;
-
-
-console.log("Payload****************", {
-  checkout_date: formattedDate,
-  id: selectedCustomer,
-  hostel_id: data.Hostel_Id,
-  comments: comments,
-  advance_return: returnAmount,
-  reinburse: 1,
-  reasons: formattedReasons,
-  payment_id: modeOfPayment,
-});
-      dispatch({
-        type: "ADDCONFIRMCHECKOUTCUSTOMER",
-        payload: {
-          checkout_date: formattedDate,
-          id: selectedCustomer,
-          hostel_id: data.Hostel_Id,
-          comments: comments,
-          advance_return: returnAmount,
-          reinburse: 1,
-          reasons: formattedReasons,
-          payment_id: modeOfPayment,
-        },
-      });
-      setFormCheckoutLoading(true)
-    }
-  };
-
-
-
-  const [initialData, setInitialData] = useState({});
-
-  useEffect(() => {
-    if (data) {
-      const initialReasons = (data.amenities || []).map((item) => ({
-        reason: item.reason || "",
-        amount: String(item.amount || ""),
-      }));
-
-      setInitialData({
-        comments: data.checkout_comment || "",
-        modeOfPayment: data.bank_id || "",
-        reason: initialReasons,
-        paymentDate: data.CheckoutDate ? moment(data.CheckoutDate).format("YYYY-MM-DD") : "",
-      });
-    }
-  }, [data]);
-
-
-
-  const handleConfirmEditCheckout = () => {
-    dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-    dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-    if (!conformEdit) return;
-
-    let hasError = false;
-    setNoChangeMessage("");
-    setModeOfPaymentError("");
-
-    if (!selectedCustomer) {
-      setNoChangeMessage("Please select a customer.");
-      hasError = true;
-    }
-
-    if (!data.Hostel_Id) {
-      setNoChangeMessage("Hostel ID is missing.");
-      hasError = true;
-    }
-
-    if (!checkOutDate) {
-      setNoChangeMessage("Please select a checkout date.");
-      hasError = true;
-    }
-
-    if (!modeOfPayment) {
-      setModeOfPaymentError("Please select mode of payment.");
-      hasError = true;
-    }
-
-    if (hasError) return;
-    const filterUserList = state.UsersList.Users?.filter(
-      (u) => u.ID === selectedCustomer
-    );
-
-    const joiningDate = filterUserList?.[0]?.user_join_date;
-
-    if (
-      joiningDate &&
-      moment(checkOutDate, "DD-MM-YYYY").isBefore(moment(joiningDate, "YYYY-MM-DD"))
-    ) {
-      setNoChangeMessage("Before join date not allowed");
-      return;
-    }
-
-    const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
-
-    const currentReasonFields = fields.filter(
-      (field) =>
-        field.reason !== "DueAmount" &&
-        field.reason !== "Outstanding Due" &&
-        (field.reason.trim() !== "" || field.amount.trim() !== "")
-    );
-
-    const formattedPaymentDate = paymentDate
-      ? moment(paymentDate).format("YYYY-MM-DD")
-      : "";
-
-    const formattedIniatialDate = initialData.paymentDate
-      ? moment(initialData.paymentDate).format("YYYY-MM-DD")
-      : "";
-
-    const hasCommentsChanged = comments !== initialData.comments;
-    const hasBankIdChanged = modeOfPayment !== initialData.modeOfPayment;
-    const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
-
-    const areFieldsEqual = (a = [], b = []) => {
-      const filterFields = (fields) =>
-        fields
-          .filter(
-            (item) =>
-              item.reason?.trim() !== "DueAmount" &&
-              item.reason?.trim() !== "Outstanding Due"
-          )
-          .map((item) => ({
-            reason: (item.reason || "").trim(),
-            amount: (item.amount || "").trim(),
-          }));
-
-      const aFiltered = filterFields(a);
-      const bFiltered = filterFields(b);
-
-      if (aFiltered.length !== bFiltered.length) return false;
-
-      for (let i = 0; i < aFiltered.length; i++) {
-        if (
-          aFiltered[i].reason !== bFiltered[i].reason ||
-          aFiltered[i].amount !== bFiltered[i].amount
-        ) {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    const haveFieldsChanged = !areFieldsEqual(currentReasonFields, initialData.reason);
-
-
-
-    if (
-      !hasCommentsChanged &&
-      !haveFieldsChanged &&
-      !hasPaymentDateChanged &&
-      !hasBankIdChanged
-    ) {
-      setNoChangeMessage("No Changes Detected");
-      setTimeout(() => {
-        nochangeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 100);
-
-      return;
-    }
-
-    dispatch({
-      type: "EDITCONFIRMCHECKOUTCUSTOMER",
-      payload: {
-        checkout_date: formattedDate,
-        id: selectedCustomer,
-        hostel_id: data.Hostel_Id,
-        comments: comments,
-        advance_return: returnAmount,
-        reinburse: 1,
-        reasons: currentReasonFields,
-        payment_date: formattedPaymentDate,
-        payment_id: modeOfPayment,
-        user_id: selectedCustomer || currentItem?.ID,
-      },
-    });
-    setFormCheckoutLoading(true)
-  };
-
-
-
-
-  useEffect(() => {
-    if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
-      setFormCheckoutLoading(false)
-      setFormLoading(false)
-      handleCloseConfirmFormPage()
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
-      }, 500);
-    }
-  }, [state.UsersList.statusCodeAddConfirmCheckout]);
-
-
-
-  useEffect(() => {
-    if (state.UsersList.statusCodeConformEdit === 200) {
-      setFormCheckoutLoading(false)
-      setFormLoading(false)
-      handleCloseConfirmFormPage()
-      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER" });
-      }, 500);
-    }
-  }, [state.UsersList.statusCodeConformEdit]);
-
-
-
-  const [conformcheckErr, setConformCheckErr] = useState("")
-  useEffect(() => {
-    if (state.UsersList.conformChekoutError) {
-      setFormCheckoutLoading(false)
-      setConformCheckErr(state.UsersList.conformChekoutError)
-
-    }
-  }, [state.UsersList.conformChekoutError])
-
-
-  useEffect(() => {
-    if (state.UsersList.conformChekoutEditError) {
-      setFormCheckoutLoading(false)
-      setConformCheckErr(state.UsersList.conformChekoutEditError)
-
-    }
-  }, [state.UsersList.conformChekoutEditError])
-
-  useEffect(() => {
-    if (conformcheckErr && errorRef.current) {
-      errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }, [conformcheckErr]);
-
-
- useEffect(() => {
-  const advance = parseFloat(advanceamount) || 0;
-
-  // Ignore the first field only if not in conformEdit mode
- 
-
-  // Sum of all amounts excluding "advance return"
-  const totalFieldAmount = fields.reduce((acc, curr) => {
+//     let hasReasonAmountError = false;
+//     let newErrors = [];
+
+
+//     dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+//     dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+//     let hasError = false;
+
+//     if (!selectedCustomer) {
+//       setCustomerError("Please Select a Customer");
+//       hasError = true;
+//     }
+
+//     if (!checkOutDate) {
+//       setCheckOutDateError("Please select a checkout Date");
+//       hasError = true;
+//     }
+
+//     if (!modeOfPayment) {
+//       setModeOfPaymentError("Please Select Mode Of Payment");
+//       hasError = true;
+//     }
+
+//     if (!data.Hostel_Id) {
+//       hasError = true;
+//     }
+
+//     if (hasError) {
+//       return;
+//     }
+
+//     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+//     const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
+//     const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
+
+//     if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
+//       setCheckOutDateError("Before Request Date not allowed");
+//       return;
+//     }
+
+
+
+//     if (advanceamount) {
+//       // const nonEmptyFields = fields.filter(
+//       //   (field) =>
+//       //     field.reason !== "DueAmount" &&
+//       //     (field.reason?.trim() !== "" || field?.amount.trim() !== "")
+//       // );
+
+
+
+//  const formattedReasons = fields.map((item) => {
+//       let reason_name = "";
+
+//       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+//         reason_name = item.customReason || item["custom Reason"] || "";
+//       } else {
+//         reason_name = item.reason || item.reason_name || "";
+//       }
+
+//       const error = { reason: "", amount: "" };
+//       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+//         error.amount = "Please enter amount";
+//         hasReasonAmountError = true;
+//       }
+
+
+//       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+//         error.reason = "Please enter reason";
+//         hasReasonAmountError = true;
+//       }
+
+//       newErrors.push(error);
+//       return {
+//         reason_name,
+//         amount: item.amount || "",
+//         showInput: !!item.showInput
+//       };
+//     });
+
+//     setErrors(newErrors)
+
+//     if (hasReasonAmountError) return;
+
+
+// console.log("Payload****************", {
+//   checkout_date: formattedDate,
+//   id: selectedCustomer,
+//   hostel_id: data.Hostel_Id,
+//   comments: comments,
+//   advance_return: returnAmount,
+//   reinburse: 1,
+//   reasons: formattedReasons,
+//   payment_id: modeOfPayment,
+// });
+//       dispatch({
+//         type: "ADDCONFIRMCHECKOUTCUSTOMER",
+//         payload: {
+//           checkout_date: formattedDate,
+//           id: selectedCustomer,
+//           hostel_id: data.Hostel_Id,
+//           comments: comments,
+//           advance_return: returnAmount,
+//           reinburse: 1,
+//           reasons: formattedReasons,
+//           payment_id: modeOfPayment,
+//         },
+//       });
+//       setFormCheckoutLoading(true)
+//     }
+//   };
+
+
+
+  // const [initialData, setInitialData] = useState({});
+
+  // useEffect(() => {
+  //   if (data) {
+  //     const initialReasons = (data.amenities || []).map((item) => ({
+  //       reason: item.reason || "",
+  //       amount: String(item.amount || ""),
+  //     }));
+
+  //     setInitialData({
+  //       comments: data.checkout_comment || "",
+  //       modeOfPayment: data.bank_id || "",
+  //       reason: initialReasons,
+  //       paymentDate: data.CheckoutDate ? moment(data.CheckoutDate).format("YYYY-MM-DD") : "",
+  //     });
+  //   }
+  // }, [data]);
+
+
+
+  // const handleConfirmEditCheckout = () => {
+  //   dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+  //   dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+  //   if (!conformEdit) return;
+
+  //   let hasError = false;
+  //   setNoChangeMessage("");
+  //   setModeOfPaymentError("");
+
+  //   if (!selectedCustomer) {
+  //     setNoChangeMessage("Please select a customer.");
+  //     hasError = true;
+  //   }
+
+  //   if (!data.Hostel_Id) {
+  //     setNoChangeMessage("Hostel ID is missing.");
+  //     hasError = true;
+  //   }
+
+  //   if (!checkOutDate) {
+  //     setNoChangeMessage("Please select a checkout date.");
+  //     hasError = true;
+  //   }
+
+  //   if (!modeOfPayment) {
+  //     setModeOfPaymentError("Please select mode of payment.");
+  //     hasError = true;
+  //   }
+
+  //   if (hasError) return;
+  //   const filterUserList = state.UsersList.Users?.filter(
+  //     (u) => u.ID === selectedCustomer
+  //   );
+
+  //   const joiningDate = filterUserList?.[0]?.user_join_date;
+
+  //   if (
+  //     joiningDate &&
+  //     moment(checkOutDate, "DD-MM-YYYY").isBefore(moment(joiningDate, "YYYY-MM-DD"))
+  //   ) {
+  //     setNoChangeMessage("Before join date not allowed");
+  //     return;
+  //   }
+
+  //   const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
+
+  //   const currentReasonFields = fields.filter(
+  //     (field) =>
+  //       field.reason !== "DueAmount" &&
+  //       field.reason !== "Outstanding Due" &&
+  //       (field.reason.trim() !== "" || field.amount.trim() !== "")
+  //   );
+
+  //   const formattedPaymentDate = paymentDate
+  //     ? moment(paymentDate).format("YYYY-MM-DD")
+  //     : "";
+
+  //   const formattedIniatialDate = initialData.paymentDate
+  //     ? moment(initialData.paymentDate).format("YYYY-MM-DD")
+  //     : "";
+
+  //   const hasCommentsChanged = comments !== initialData.comments;
+  //   const hasBankIdChanged = modeOfPayment !== initialData.modeOfPayment;
+  //   const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
+
+  //   const areFieldsEqual = (a = [], b = []) => {
+  //     const filterFields = (fields) =>
+  //       fields
+  //         .filter(
+  //           (item) =>
+  //             item.reason?.trim() !== "DueAmount" &&
+  //             item.reason?.trim() !== "Outstanding Due"
+  //         )
+  //         .map((item) => ({
+  //           reason: (item.reason || "").trim(),
+  //           amount: (item.amount || "").trim(),
+  //         }));
+
+  //     const aFiltered = filterFields(a);
+  //     const bFiltered = filterFields(b);
+
+  //     if (aFiltered.length !== bFiltered.length) return false;
+
+  //     for (let i = 0; i < aFiltered.length; i++) {
+  //       if (
+  //         aFiltered[i].reason !== bFiltered[i].reason ||
+  //         aFiltered[i].amount !== bFiltered[i].amount
+  //       ) {
+  //         return false;
+  //       }
+  //     }
+
+  //     return true;
+  //   };
+
+  //   const haveFieldsChanged = !areFieldsEqual(currentReasonFields, initialData.reason);
+
+
+
+  //   if (
+  //     !hasCommentsChanged &&
+  //     !haveFieldsChanged &&
+  //     !hasPaymentDateChanged &&
+  //     !hasBankIdChanged
+  //   ) {
+  //     setNoChangeMessage("No Changes Detected");
+  //     setTimeout(() => {
+  //       nochangeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  //     }, 100);
+
+  //     return;
+  //   }
+
+  //   dispatch({
+  //     type: "EDITCONFIRMCHECKOUTCUSTOMER",
+  //     payload: {
+  //       checkout_date: formattedDate,
+  //       id: selectedCustomer,
+  //       hostel_id: data.Hostel_Id,
+  //       comments: comments,
+  //       advance_return: returnAmount,
+  //       reinburse: 1,
+  //       reasons: currentReasonFields,
+  //       payment_date: formattedPaymentDate,
+  //       payment_id: modeOfPayment,
+  //       user_id: selectedCustomer || currentItem?.ID,
+  //     },
+  //   });
+  //   setFormCheckoutLoading(true)
+  // };
+
+
+
+
+  // useEffect(() => {
+  //   if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
+  //     setFormCheckoutLoading(false)
+  //     setFormLoading(false)
+  //     handleCloseConfirmFormPage()
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
+  //     }, 500);
+  //   }
+  // }, [state.UsersList.statusCodeAddConfirmCheckout]);
+
+
+
+  // useEffect(() => {
+  //   if (state.UsersList.statusCodeConformEdit === 200) {
+  //     setFormCheckoutLoading(false)
+  //     setFormLoading(false)
+  //     handleCloseConfirmFormPage()
+  //     dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER" });
+  //     }, 500);
+  //   }
+  // }, [state.UsersList.statusCodeConformEdit]);
+
+
+
+  // const [conformcheckErr, setConformCheckErr] = useState("")
+  // useEffect(() => {
+  //   if (state.UsersList.conformChekoutError) {
+  //     setFormCheckoutLoading(false)
+  //     setConformCheckErr(state.UsersList.conformChekoutError)
+
+  //   }
+  // }, [state.UsersList.conformChekoutError])
+
+
+  // useEffect(() => {
+  //   if (state.UsersList.conformChekoutEditError) {
+  //     setFormCheckoutLoading(false)
+  //     setConformCheckErr(state.UsersList.conformChekoutEditError)
+
+  //   }
+  // }, [state.UsersList.conformChekoutEditError])
+
+  // useEffect(() => {
+  //   if (conformcheckErr && errorRef.current) {
+  //     errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  //   }
+  // }, [conformcheckErr]);
+
+
+//  useEffect(() => {
+//   const advance = parseFloat(advanceamount) || 0;
+
+//   const totalFieldAmount = fields.reduce((acc, curr) => {
    
-    const amt = parseFloat(curr.amount);
-    return acc + (isNaN(amt) ? 0 : amt);
-  }, 0);
+//     const amt = parseFloat(curr.amount);
+//     return acc + (isNaN(amt) ? 0 : amt);
+//   }, 0);
 
-  const due = advance - totalFieldAmount;
-   setReturnAmount(due); 
-}, [advanceamount, fields, conformEdit]);
+//   const due = advance - totalFieldAmount;
+//    setReturnAmount(due); 
+// }, [advanceamount, fields, conformEdit]);
 
-console.log("fields",fields)
+// console.log("fields",fields)
 
 
   // const handleInputChange = (index, field, value) => {
@@ -926,70 +922,70 @@ console.log("fields",fields)
 
 
 
-  const reasonOptions = [
-    { value: "maintenance", label: "Maintenance" },
-    { value: "others", label: "Others" },
-  ];
+  // const reasonOptions = [
+  //   { value: "maintenance", label: "Maintenance" },
+  //   { value: "others", label: "Others" },
+  // ];
 
 
 
-  const handleAddField = () => {
-    setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
-    setNoChangeMessage("")
-    setConformCheckErr("")
-    dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
-  };
+  // const handleAddField = () => {
+  //   setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
+  //   setNoChangeMessage("")
+  //   setConformCheckErr("")
+  //   dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
+  // };
 
-  const handleInputChange = (index, field, value) => {
-    setNoChangeMessage("")
-    const updatedFields = [...fields];
-    const updatedErrors = [...errors];
+  // const handleInputChange = (index, field, value) => {
+  //   setNoChangeMessage("")
+  //   const updatedFields = [...fields];
+  //   const updatedErrors = [...errors];
 
-    if (field === "reason") {
-      if (value === "others") {
-        updatedFields[index].showInput = true;
-        updatedFields[index].reason_name = "others";
-        updatedFields[index].customReason = "";
-      } else {
-        updatedFields[index].showInput = false;
-        updatedFields[index].reason = value;
-        updatedFields[index].reason_name = value;
-        updatedFields[index].customReason = "";
-      }
-
-
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "customReason") {
-      updatedFields[index].customReason = value;
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "amount") {
-      updatedFields[index].amount = value;
+  //   if (field === "reason") {
+  //     if (value === "others") {
+  //       updatedFields[index].showInput = true;
+  //       updatedFields[index].reason_name = "others";
+  //       updatedFields[index].customReason = "";
+  //     } else {
+  //       updatedFields[index].showInput = false;
+  //       updatedFields[index].reason = value;
+  //       updatedFields[index].reason_name = value;
+  //       updatedFields[index].customReason = "";
+  //     }
 
 
-      if (updatedErrors[index]) updatedErrors[index].amount = "";
-    }
-
-    setFields(updatedFields);
-    setErrors(updatedErrors);
-  };
-
-
-
-  const handleRemoveField = (index) => {
-    const updatedFields = [...fields];
-    updatedFields.splice(index, 1);
-    setFields(updatedFields);
-    setConformCheckErr("")
-    setNoChangeMessage("")
-    dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
-  };
+  //     if (updatedErrors[index]) updatedErrors[index].reason = "";
+  //   } else if (field === "customReason") {
+  //     updatedFields[index].customReason = value;
+  //     if (updatedErrors[index]) updatedErrors[index].reason = "";
+  //   } else if (field === "amount") {
+  //     updatedFields[index].amount = value;
 
 
+  //     if (updatedErrors[index]) updatedErrors[index].amount = "";
+  //   }
+
+  //   setFields(updatedFields);
+  //   setErrors(updatedErrors);
+  // };
+
+
+
+  // const handleRemoveField = (index) => {
+  //   const updatedFields = [...fields];
+  //   updatedFields.splice(index, 1);
+  //   setFields(updatedFields);
+  //   setConformCheckErr("")
+  //   setNoChangeMessage("")
+  //   dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
+  // };
 
 
 
 
-console.log("checkouteditaction",checkouteditaction)
+
+
+// console.log("checkouteditaction",checkouteditaction)
 
 
 
@@ -1019,10 +1015,7 @@ console.log("checkouteditaction",checkouteditaction)
                 fontFamily: "Gilroy",
               }}
             >
-              {
-                currentItem && checkouteditaction
-                  ? "Edit Check-Out"
-                  : "Add Check-Out"}
+               Add Check-Out
             </Modal.Title>
             <CloseCircle size="24" color="#000" onClick={handlecloseform}
               style={{ cursor: 'pointer' }} />
@@ -1032,7 +1025,7 @@ console.log("checkouteditaction",checkouteditaction)
             <div >
               <div className="d-flex align-items-center">
                 <div className="row row-gap-2">
-                  {!checkouteditaction && (
+                
                     <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
                       <div className="form-group">
                         <label
@@ -1085,7 +1078,7 @@ console.log("checkouteditaction",checkouteditaction)
                         )}
                       </div>
                     </div>
-                  )}
+                 
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2">
@@ -1102,7 +1095,7 @@ console.log("checkouteditaction",checkouteditaction)
                       </Form.Label>
                       <FormControl
                         id="form-controls"
-                        placeholder="Enter Name"
+                        placeholder="Current Floor"
                         type="text"
                         value={floorname}
 
@@ -1135,7 +1128,7 @@ console.log("checkouteditaction",checkouteditaction)
                       </Form.Label>
                       <FormControl
                         id="form-controls"
-                        placeholder="Enter name"
+                        placeholder="Current Bed"
                         type="text"
                         value={bedname}
 
@@ -1422,23 +1415,22 @@ console.log("checkouteditaction",checkouteditaction)
               }}
 
               onClick={() => {
-                if (checkouteditaction) {
+                // if (checkouteditaction) {
+                //   handleCheckOutCustomer();
+                // } else {
                   handleCheckOutCustomer();
-                } else {
-                  handleCheckOutCustomer();
-                }
+                // }
               }}
             >
-              {currentItem && checkouteditaction
-                ? "Save Changes"
-                : "Add Check-Out"}
+
+               Add Check-Out
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>
 
 
-
+{/* 
       <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static" dialogClassName="custom-modals-style"
       >
         <Modal.Dialog
@@ -1513,7 +1505,7 @@ console.log("checkouteditaction",checkouteditaction)
                     </Form.Label>
                     <FormControl
                       id="form-controls"
-                      placeholder="Enter Name"
+                      placeholder="Current Floor"
                       type="text"
                       value={floorname}
 
@@ -1546,7 +1538,7 @@ console.log("checkouteditaction",checkouteditaction)
                     </Form.Label>
                     <FormControl
                       id="form-controls"
-                      placeholder="Enter name"
+                      placeholder="Current Bed"
                       type="text"
                       value={bedname}
 
@@ -2226,7 +2218,7 @@ console.log("checkouteditaction",checkouteditaction)
 
         </Modal.Dialog>
 
-      </Modal>
+      </Modal> */}
 
     </>
   );
@@ -2239,13 +2231,12 @@ CheckOutForm.propTypes = {
   currentItem: PropTypes.func.isRequired,
   checkoutaction: PropTypes.func.isRequired,
   data: PropTypes.func.isRequired,
-  checkouteditaction: PropTypes.func.isRequired,
   checkoutaddform: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
-  cofirmForm: PropTypes.func.isRequired,
-  handleCloseConformForm: PropTypes.func.isRequired,
-  conformEdit: PropTypes.func.isRequired,
+  // cofirmForm: PropTypes.func.isRequired,
+  // handleCloseConformForm: PropTypes.func.isRequired,
+  // conformEdit: PropTypes.func.isRequired,
 };
 
 export default CheckOutForm;

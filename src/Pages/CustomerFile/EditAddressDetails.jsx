@@ -130,33 +130,95 @@ setStateName(
         setFormError("")
 
     };
+    useEffect(() => {
+  const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+
+  if (rawAddress) {
+    const parts = rawAddress.split(",").map((part) => part.trim());
+
+    // remove the `S/O:` part
+    const addressParts = parts.slice(1);
+
+    // pincode, state and city from the END
+    const pincodePart = addressParts[addressParts.length - 1];
+    const statePart   = addressParts[addressParts.length - 2];
+    const cityPart    = addressParts[addressParts.length - 3];
+
+    // remaining items are house/street/area/landmark
+    const others = addressParts.slice(0, addressParts.length - 3);
+    const [streetNumber, streetName, areaPart, landmarkPart] = others;
+
+    setHouseNo(`${streetNumber} ${streetName}`);
+    setStreet(areaPart);
+    setLandmark(landmarkPart);
+    setCity(cityPart);
+    setStateName(statePart);
+    setPincode(pincodePart);
+  }
+}, [state.UsersList.KycCustomerDetails?.address]);
 
 
-     useEffect(() => {
-        const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+
+//     useEffect(() => {
+//   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+
+//   if (rawAddress) {
+//     const parts = rawAddress.split(",").map((part) => part.trim());
+
+//     // Remove "S/O..." and get the rest of the parts
+//     const addressParts = parts.slice(1);
+
+//     // pincode is always the last element
+//     const pincodePart = addressParts[addressParts.length - 1];
+
+//     // The rest of the address without pincode
+//     const withoutPincode = addressParts.slice(0, -1);
+
+//     const [
+//       streetNumber,
+//       streetName,
+//       areaPart,
+//       landmarkPart,
+//       _repeatedLandmark,
+//       cityPart,
+//       statePart,
+//     ] = withoutPincode;
+
+//     setHouseNo(`${streetNumber} ${streetName}`);
+//     setStreet(areaPart);
+//     setLandmark(landmarkPart);
+//     setCity(cityPart);
+//     setStateName(statePart);
+//     setPincode(pincodePart);
+//   }
+// }, [state.UsersList.KycCustomerDetails?.address]);
+
+
+    //  useEffect(() => {
+    //     const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
     
-        if (rawAddress) {
-          const parts = rawAddress.split(",").map((part) => part.trim());
+    //     if (rawAddress) {
+    //       const parts = rawAddress.split(",").map((part) => part.trim());
     
-          const [
-            streetNumber,
-            streetName,
-            areaPart,
-            landmarkPart,
-            _repeatedLandmark,
-            cityPart,
-            statePart,
-            pincodePart,
-          ] = parts.slice(1); 
-     console.log("streetNumber",_repeatedLandmark)
-          setHouseNo(`${streetNumber} ${streetName}`);
-          setStreet(areaPart);
-          setLandmark(landmarkPart);
-          setCity(cityPart);
-          setStateName(statePart);
-          setPincode(pincodePart);
-        }
-      }, [state.UsersList.KycCustomerDetails?.address]);
+    //       const [
+    //         streetNumber,
+    //         streetName,
+    //         areaPart,
+    //         landmarkPart,
+    //         _repeatedLandmark,
+    //         cityPart,
+    //         statePart,
+    //         pincodePart,
+    //       ] = parts.slice(1); 
+    //  console.log("streetNumber",_repeatedLandmark)
+    //       setHouseNo(`${streetNumber} ${streetName}`);
+    //       setStreet(areaPart);
+    //       setLandmark(landmarkPart);
+    //       setCity(cityPart);
+    //       setStateName(statePart);
+    //       setPincode(pincodePart);
+    //     }
+    //   }, [state.UsersList.KycCustomerDetails?.address]);
 
     
      

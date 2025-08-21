@@ -73,10 +73,34 @@ function CustomerReAssign(props) {
 
     setfloorError("");
   };
+  // const handleBed = (selectedOption) => {
+  //   setNewBed(selectedOption?.value || "");
+
+  //   setBedError("");
+  // };
+
   const handleBed = (selectedOption) => {
-    setNewBed(selectedOption?.value || "");
+    const selectedBedId = selectedOption?.value || "";
+    setNewBed(selectedBedId);
+
+    const Bedfilter = state?.UsersList?.roomdetails?.filter(
+      (u) =>
+        String(u.Hostel_Id) === String(state.login.selectedHostel_Id) &&
+        String(u.Floor_Id) === String(newFloor) &&
+        String(u.Room_Id) === String(newRoom)
+    );
+
+    const Roomamountfilter =
+      Bedfilter?.[0]?.bed_details?.filter(
+        (amount) => String(amount.id) === String(selectedBedId)
+      ) ?? [];
+
+    if (Roomamountfilter.length > 0) {
+      setNewRoomRent(Roomamountfilter[0]?.bed_amount);
+    }
 
     setBedError("");
+    setRentError("");
   };
   const handleRooms = (selectedOption) => {
     const value = selectedOption?.value || "";
@@ -148,7 +172,58 @@ function CustomerReAssign(props) {
     return true;
   };
 
+  const [lastDate, setLastDate] = useState("");
+  const [joiningdate , setJoiningDate] = useState("")
 
+
+  console.log("props" , lastDate , joiningdate);
+  
+
+    useEffect(() => {
+      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props?.id } });
+    }, [props]);
+
+
+useEffect(() => {
+  if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+    const customerData = state.UsersList.customerdetails?.data?.[0]; // first object in "data"
+    const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
+
+    // 🔹 1. Store Joining Date
+    if (customerData?.joining_Date) {
+      const joining = new Date(customerData.joining_Date);
+      const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
+        joining.getMonth() + 1
+      ).padStart(2, "0")}-${joining.getFullYear()}`;
+      setJoiningDate(formattedJoining);
+    } else {
+      setJoiningDate("");
+    }
+
+    // 🔹 2. Store Last Bill Date
+    if (invoiceDetails && invoiceDetails.length > 0) {
+      const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
+      if (dates.length > 0) {
+        const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
+        const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
+          maxDate.getMonth() + 1
+        ).padStart(2, "0")}-${maxDate.getFullYear()}`;
+        setLastDate(formatted);
+      } else {
+        setLastDate("");
+      }
+    } else {
+      setLastDate("");
+    }
+
+    // clear details after some time
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+    }, 1000);
+  }
+}, [state.UsersList.CustomerdetailsgetStatuscode]);
+
+  console.log("lastdate",lastDate)
 
   const handleSaveReassignBed = () => {
     focusedRef.current = false;
@@ -163,36 +238,81 @@ function CustomerReAssign(props) {
 
 
  
-    const userJoinDate =
-  props.reAssignDetail?.user_join_date ||
-  props.reAssignBedDetail?.user_join_date ||
-  props.reAssignBedDetail?.bed?.user_join_date;
+  //   const userJoinDate =
+  // props.reAssignDetail?.user_join_date ||
+  // props.reAssignBedDetail?.user_join_date ||
+  // props.reAssignBedDetail?.bed?.user_join_date;
 
-if (selectedDate && userJoinDate) {
-  const joiningDate = new Date(userJoinDate);
-  const selected = new Date(selectedDate);
-  const today = new Date();
+// if (selectedDate && userJoinDate) {
+//   const joiningDate = new Date(userJoinDate);
+//   const selected = new Date(selectedDate);
+//   const today = new Date();
 
-  const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
-  const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
-  const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+//   const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
+//   const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
+//   const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
  
-  if (selectedDateOnly < joinDateOnly) {
-    setDateError("Before Join Date Not Allowed");
-    hasError = true;
-    return;
-  }
+//   if (selectedDateOnly < joinDateOnly) {
+//     setDateError("Before Join Date Not Allowed");
+//     hasError = true;
+//     return;
+//   }
 
 
-  if (selectedDateOnly > todayOnly) {
-    setDateError("Future Date Not Allowed");
-    hasError = true;
-    return;
-  }
+//   if (selectedDateOnly > todayOnly) {
+//     setDateError("Future Date Not Allowed");
+//     hasError = true;
+//     return;
+//   }
 
-  setDateError("");
-}
+//   setDateError("");
+// }
+
+
+// if (selectedDate && props.reAssignDetail?.user_join_date) {
+//   const joiningDate = new Date(props.reAssignDetail?.user_join_date);
+//   const selected = new Date(selectedDate);
+//   const today = new Date();
+
+//   const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
+//   const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
+//   const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+//   let lastDateOnly = null;
+//   const hasLastDate = lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate);
+
+ 
+//   if (selectedDateOnly < joinDateOnly) {
+//     setDateError("Before Join Date Not Allowed");
+//     hasError = true;
+//     return;
+//   }
+
+  
+//   if (hasLastDate) {
+//     const [dd, mm, yyyy] = lastDate.split("-");
+//     const last = new Date(`${yyyy}-${mm}-${dd}`);
+//     lastDateOnly = new Date(last.getFullYear(), last.getMonth(), last.getDate());
+
+//     if (selectedDateOnly <= lastDateOnly) {
+//       setDateError("Billed up to this Date");
+//       hasError = true;
+//       return;
+//     }
+//   }
+
+  
+//   if (selectedDateOnly > todayOnly) {
+//     setDateError("Future Date Not Allowed");
+//     hasError = true;
+//     return;
+//   }
+
+ 
+//   setDateError("");
+// }
+
 
 
 
@@ -917,7 +1037,7 @@ if (selectedDate && userJoinDate) {
                             className="datepicker-wrapper"
                             style={{ position: "relative", width: "100%" }}
                           >
-                            <DatePicker
+                            {/* <DatePicker
                               style={{ width: "100%", height: 48, border: "1px solid lightgrey", cursor: "pointer", fontFamily: "Gilroy", }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
@@ -931,7 +1051,80 @@ if (selectedDate && userJoinDate) {
                                 triggerNode.closest(".datepicker-wrapper")
                               }
                               disabledDate={(current) => current && current > dayjs().endOf("day")}
-                            />
+                            /> */}
+
+<DatePicker
+  style={{
+    width: "100%",
+    height: 48,
+    border: "1px solid lightgrey",
+    cursor: "pointer",
+    fontFamily: "Gilroy",
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={selectedDate ? dayjs(selectedDate) : null}
+  ref={selectedDateRef}
+  onChange={(date) => {
+    setDateError("");
+    setSelectedDate(date ? date.toDate() : null);
+  }}
+  getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".datepicker-wrapper")
+  }
+  disabledDate={(current) => {
+    if (!current) return false;
+
+    const today = dayjs().endOf("day");
+
+    // 🔹 Parse joiningDate from state (DD-MM-YYYY)
+    let joining = null;
+    if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
+      const [dd, mm, yyyy] = joiningdate.split("-");
+      joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+    }
+
+    // 🔹 Parse last bill date from state (DD-MM-YYYY)
+    let lastBillDate = null;
+    if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
+      const [dd, mm, yyyy] = lastDate.split("-");
+      lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+    }
+
+    let minAllowedDate = null;
+
+    if (joining) {
+      const sameMonth =
+        joining.month() === today.month() &&
+        joining.year() === today.year();
+
+      if (sameMonth) {
+        // ✅ Case 1: Joining date is in current month → allow from joining date onwards
+        minAllowedDate = joining;
+      } else if (lastBillDate) {
+        // ✅ Case 2: Joining date not in current month → allow from last bill date onwards
+        minAllowedDate = lastBillDate;
+      }
+    }
+
+    // ❌ Block future dates
+    if (current.isAfter(today)) {
+      return true;
+    }
+
+    // ❌ Block all dates before minAllowedDate
+    if (minAllowedDate && current.isBefore(minAllowedDate)) {
+      return true;
+    }
+
+    return false;
+  }}
+/>
+
+
+
+
+
                           </div>
                           {dateError && (
                             <div style={{ color: "red", marginTop: "1px" }}>
@@ -1123,7 +1316,7 @@ if (selectedDate && userJoinDate) {
 
 
 CustomerReAssign.propTypes = {
-
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   setCustomerReAssign: PropTypes.func,
   reAssignDetail: PropTypes.shape({
     user_join_date: PropTypes.string,

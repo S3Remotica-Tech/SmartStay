@@ -170,10 +170,20 @@ function BookingModal(props) {
     setBookingDate(date ? date.toDate() : null);
   };
 
+  // const handleBookingAmountChange = (e) => {
+  //   setAmountError("");
+  //   setBookingAmount(e.target.value);
+  // };
   const handleBookingAmountChange = (e) => {
+  const value = e.target.value;
+
+  // only allow numbers
+  if (/^\d*$/.test(value)) {
     setAmountError("");
-    setBookingAmount(e.target.value);
-  };
+    setBookingAmount(value);
+  }
+};
+
 
   const handleJoiningDateChange = (date) => {
     if (bookingDate && dayjs(date).isBefore(dayjs(bookingDate), "day")) {
@@ -529,6 +539,11 @@ function BookingModal(props) {
                   placeholder="Enter Booking Amount"
                   value={bookingAmount}
                   onChange={(e) => handleBookingAmountChange(e)}
+                   onKeyPress={(e) => {
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  }}
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -600,9 +615,15 @@ function BookingModal(props) {
                       placeholder="DD/MM/YYYY"
                       value={joiningDate ? dayjs(joiningDate) : null}
                       onChange={handleJoiningDateChange}
-                      disabledDate={(current) =>
-                        bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
-                      }
+                      // disabledDate={(current) =>
+                      //   bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
+                      // }
+                        disabledDate={(current) => {
+    if (!bookingDate) {
+      return true; 
+    }
+    return current && current.isBefore(dayjs(bookingDate), "day");
+  }}
                       getPopupContainer={() => document.body}
 
                     />
@@ -925,20 +946,24 @@ function BookingModal(props) {
 
               <Select
                 options={
-                  state.UsersList?.bednumberdetails?.bed_details?.length > 0
-                    ? state.UsersList.bednumberdetails.bed_details
-                      .filter(
-                        (item) =>
-                          item.bed_no !== "0" &&
-                          item.bed_no !== "undefined" &&
-                          item.bed_no !== "" &&
-                          item.bed_no !== "null"
-                      )
-                      .map((item) => ({
-                        value: item.id,
-                        label: item.bed_no,
-                      }))
-                    : []
+                  (() => {
+                    const bookedBeds = (state.Booking?.CustomerBookingList?.bookings || []).map(b => b.bed_id);
+                    return state.UsersList?.bednumberdetails?.bed_details?.length > 0
+                      ? state.UsersList.bednumberdetails.bed_details
+                        .filter(
+                          (item) =>
+                            item.bed_no !== "0" &&
+                            item.bed_no !== "undefined" &&
+                            item.bed_no !== "" &&
+                            item.bed_no !== "null" &&
+                            !bookedBeds.includes(item.id)
+                        )
+                        .map((item) => ({
+                          value: item.id,
+                          label: item.bed_no,
+                        }))
+                      : [];
+                  })()
                 }
                 onChange={handleBedChange}
                 value={
