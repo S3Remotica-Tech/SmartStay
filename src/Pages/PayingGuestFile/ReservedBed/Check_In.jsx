@@ -182,7 +182,7 @@ function CheckIn({
             const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
             console.log("selecteduser", selectedUser);
             setCustomerDetails(selectedUser)
-            setBookingAmount(Number(selectedUser.booking_amount))
+            setBookingAmount(Number(selectedUser?.booking_amount))
 
             if (selectedUser?.booking_booking_date) {
                 const dateObj = new Date(selectedUser?.booking_booking_date);
@@ -194,7 +194,7 @@ function CheckIn({
                 bookingDateRef.current = formattedBookingDate;
                 setBookingDate(formattedBookingDate);
             }
-            setCustomerName(selectedUser.ID)
+            setCustomerName(selectedUser?.ID)
         }
     }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
 
@@ -296,27 +296,31 @@ function CheckIn({
 
         let hasReasonAmountError = false;
         let newErrors = [];
+        let hasError = false;
 
         if (!stay_typename) {
             setStayTypeNameErrMsg("Please Select Staytype")
+            hasError = true;
         }
 
         if (!joiningDate) {
             setJoingDateErrmsg("Please Select Joining Date")
+             hasError = true;
         }
 
         if (!AdvanceAmount) {
             setAdvanceAmountError("Please Enter Advance Amount")
+            hasError = true;
         }
 
 
         if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
             setRoomRentError("Please Enter Rental Amount");
-            return;
+            hasError = true;
         }
         if (Number(RoomRent) <= 0) {
             setRoomRentError("Please Enter Valid Rental Amount");
-            return;
+            hasError = true;
         }
 
         if (
@@ -325,34 +329,36 @@ function CheckIn({
             AdvanceAmount === undefined
         ) {
             setAdvanceAmountError("Please Enter Advance Amount");
-            return;
+             hasError = true;
         }
         if (Number(AdvanceAmount) <= 0) {
             setAdvanceAmountError("Please Enter Valid Advance Amount");
-            return;
+           hasError = true;
         }
 
         setErrors(newErrors)
 
         if (!RoomRent && RoomRent !== 0) {
             setRoomRentError("Please Enter Rental Amount");
-            return;
+           hasError = true;
         }
         if (RoomRent <= 0) {
             setRoomRentError("Please Enter Valid Rental Amount");
-            return;
+           hasError = true;
         }
         if (!AdvanceAmount && AdvanceAmount !== 0) {
             setAdvanceAmountError("Please Enter Advance Amount");
-            return;
+            hasError = true;
         }
 
         if (AdvanceAmount <= 0) {
             setAdvanceAmountError("Please Enter Valid Advance Amount");
-            return;
+            hasError = true;
         }
 
-
+ if (hasError) {
+    return;
+  }
 
 
         const incrementDateAndFormat = (date) => {
@@ -469,8 +475,9 @@ function CheckIn({
                 },
             });
         }
+         setFormLoading(true)
         dispatch({ type: "INVOICELIST" });
-        setFormLoading(true)
+       
     };
 
 

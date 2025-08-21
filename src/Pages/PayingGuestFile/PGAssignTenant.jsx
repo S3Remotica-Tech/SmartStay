@@ -552,10 +552,11 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
     ID:checkin_customername
   },
 });
-setFormLoading(true)
+
 
     dispatch({ type: "INVOICELIST" });
     }
+    setFormLoading(true)
   };
 
 
@@ -1449,6 +1450,33 @@ setFormLoading(true)
         
         
                               </div>
+                                             {formLoading &&
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
         
                               <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-3 mb-3">
         
