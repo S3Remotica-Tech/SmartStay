@@ -256,9 +256,6 @@ const UserListReducer = (state = initialState, action) => {
         case 'COUNTRY_LIST':
             return { ...state, countrycode: action.payload };
 
-        case 'PHONE_ERROR':
-            return { ...state, phoneError: action.payload }
-
         case 'EMAIL_ERROR':
             return { ...state, emailError: action.payload }
 
