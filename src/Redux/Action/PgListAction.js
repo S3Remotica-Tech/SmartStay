@@ -148,6 +148,19 @@ export async function getAllRoom(datum) {
 
 
 
+// v2
+  
+export async function updateRoom(datum) {
+  return await AxiosConfigV2.put(`/v2/room/${datum.roomId}/${datum.hostelId}`, datum, {
+    data: datum,
+  });
+}
+
+
+
+
+
+
 export async function CheckRoomId() {
   return await AxiosConfig.get("/room-id/check-room-id", {});
 }
@@ -164,11 +177,31 @@ export async function createAllPGDetails(datum) {
   });
 }
 
+// v1
+
+// export async function createBed(datum) {
+//   return await AxiosConfig.post("/create-bed", datum, {
+//     data: datum,
+//   });
+// }
+
+// v2
+
 export async function createBed(datum) {
-  return await AxiosConfig.post("/create-bed", datum, {
+  return await AxiosConfigV2.post("/v2/bed", datum, {
     data: datum,
   });
 }
+
+
+// v2
+export async function getAllBed(datum) {
+  return await AxiosConfigV2.get(`/v2/bed/all-beds/${datum.roomId}`, datum, {
+    data: datum,
+  });
+}
+
+
 
 export async function DeleteBed(datum) {
   return await AxiosConfig.post("/delete/delete-bed", datum, {

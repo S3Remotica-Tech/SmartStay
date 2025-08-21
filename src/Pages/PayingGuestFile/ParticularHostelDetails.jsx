@@ -77,10 +77,11 @@ function ParticularHostelDetails(props) {
   const [customerID, setCustomerID] = useState('')
   const [add_customerform, setAddCustomerForm] = useState(false)
   const [assign_tenantform, setAssignTenantForm] = useState(false)
-
+  const [bedList, setBedList] = useState([])
 
 
   const handleAddBed = (item, Room_Id) => {
+    console.log("itemmmmm", item, Room_Id)
     setShowBed(true)
     setDetails({ item, Room_Id });
   }
@@ -199,6 +200,7 @@ function ParticularHostelDetails(props) {
   }
 
 
+  console.log("edit****", editRoom)
 
   const handleShowReservedBed = () => {
     setShowReservedBed(true)
@@ -336,7 +338,35 @@ function ParticularHostelDetails(props) {
   }, [state?.PgList?.getAllRoomSuccessStatus])
 
 
-console.log("room list", roomList)
+  console.log("room list", roomList)
+
+  useEffect(() => {
+    if (roomList && roomList.length > 0) {
+      roomList.forEach((room) => {
+        dispatch({
+          type: "GETALLBEDSLIST",
+          payload: { roomId: room.id }
+        });
+
+        setTimeout(() => {
+          dispatch({ type: 'REMOVE_GET_ALL_BEDS_STATUS_CODE' })
+        }, 100)
+
+
+      });
+    }
+  }, [roomList, state?.PgList?.getAllRoomSuccessStatus]);
+
+
+
+  useEffect(() => {
+    if (state?.PgList.getAllBedSuccessStatus === 200) {
+      setBedList(state.PgList?.bedList)
+    }
+
+  }, [state?.PgList.getAllBedSuccessStatus])
+
+
 
 
   useEffect(() => {
@@ -388,9 +418,22 @@ console.log("room list", roomList)
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
+
+  useEffect(() => {
+    if (state.PgList.statusCodeForDeleteRoom === 200) {
+
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_ROOM" });
+      }, 100);
+    }
+  }, [state.PgList.statusCodeForDeleteRoom]);
+
   useEffect(() => {
 
-    if (state.PgList.statusCodeCreateRoom === 201) {
+    if (state.PgList.statusCodeCreateRoom === 201 || state.PgList.statusCodeUpdateRoom === 200) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowRoom(false)
@@ -401,15 +444,23 @@ console.log("room list", roomList)
         dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' })
       }, 100)
     }
-  }, [state.PgList.statusCodeCreateRoom])
+  }, [state.PgList.statusCodeCreateRoom, state.PgList.statusCodeUpdateRoom])
 
   useEffect(() => {
-    if (state.PgList.createBedStatusCode === 200) {
+    if (state.PgList.createBedStatusCode === 201) {
       dispatch({ type: 'HOSTELLIST' })
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowBed(false)
 
+      if (roomList && roomList.length > 0) {
+        roomList.forEach((room) => {
+          dispatch({
+            type: "GETALLBEDSLIST",
+            payload: { roomId: room.id }
+          });
+        });
+      }
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
@@ -552,6 +603,8 @@ console.log("room list", roomList)
   }, []);
 
 
+  console.log("room details", currentItems)
+
 
   return (
     <>
@@ -647,7 +700,7 @@ console.log("room list", roomList)
                             className="d-flex gap-2 align-items-center"
                             onClick={() => {
                               if (!props.editPermissionError) {
-                                handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
+                                handleEditRoom(room.hostelId, room.floorId, room.id, room.name);
                               }
                             }}
                             style={{
@@ -672,7 +725,7 @@ console.log("room list", roomList)
                             className="d-flex gap-2 align-items-center"
                             onClick={() => {
                               if (!props.deletePermissionError) {
-                                handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
+                                handleDeleteRoom(room.hostelId, room.floorId, room.id);
                               }
                             }}
                             style={{
@@ -696,7 +749,7 @@ console.log("room list", roomList)
 
                   <Card.Body>
                     <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
-                      {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details.map((bed) => (
+                      {Array.isArray(bedList) && bedList.length > 0 && bedList?.filter((bed) => bed.roomId === room.id).map((bed) => (
                         <div key={bed.id} className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center  ${props.addPermissionError ? 'disabled' : ''}`}
 
                         >
@@ -744,14 +797,14 @@ console.log("room list", roomList)
                                 style={{ height: 41, width: 34, cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}
                                 onClick={() => {
                                   if (!props.addPermissionError) {
-                                    handleclickBed(bed, room)
+                                    handleclickBed(bed.id, bed.roomId)
                                   }
                                 }}
                               />
 
                             </div>
                             <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
-                              {bed.bed_no}
+                              {bed.name}
                             </div>
                           </div>
                         </div>
@@ -762,7 +815,7 @@ console.log("room list", roomList)
                         className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
                         onClick={() => {
                           if (!props.addPermissionError) {
-                            handleAddBed(props, room.Room_Id);
+                            handleAddBed(props, room.id);
                           }
                         }}
                         style={{ cursor: props.addPermissionError ? 'not-allowed' : 'pointer' }}

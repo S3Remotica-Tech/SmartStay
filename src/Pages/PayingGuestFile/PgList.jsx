@@ -470,6 +470,13 @@ useEffect(() => {
     }
   }, [state.PgList.statusCodeCreateRoom]);
 
+  useEffect(()=>{
+    if(state.PgList.statusCodeUpdateRoom === 200){
+      setShowRoom(false);
+    }
+
+  },[state.PgList.statusCodeUpdateRoom])
+
 
   useEffect(() => {
     const appearOptions = {

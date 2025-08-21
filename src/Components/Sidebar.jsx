@@ -198,6 +198,9 @@ function Sidebar() {
         const emilidd = loginInfo.mailId;
         const Is_Enable = loginInfo?.two_step_verification_status;
 
+        console.log("iiiiiiiiiiiii",Is_Enable)
+
+
         const encryptedLoginId = CryptoJS.AES.encrypt(
           LoginId.toString(),
           "abcd"
@@ -220,7 +223,7 @@ function Sidebar() {
         localStorage.setItem("emilidd", encryptedemail);
         localStorage.setItem("IsEnable", encryptIsEnable);
 
-        if (Is_Enable === true) {
+        if (Is_Enable) {
           const encryptData = CryptoJS.AES.encrypt(
             JSON.stringify(false),
             "abcd"
@@ -238,7 +241,7 @@ function Sidebar() {
         dispatch({ type: "CLEAR_ACCOUNT_STATUS_CODE" });
       }, 100);
     }
-  }, [stateData.statusCodeForAccountList]);
+  }, [stateData.statusCodeForAccountList,]);
 
   const [profiles, setProfiles] = useState(null);
   const [profilename, setProfileArray] = useState("");

@@ -355,7 +355,7 @@ function SettingParticular(props) {
   }, [state.PgList.statusCodeCreateRoom])
 
   useEffect(() => {
-    if (state.PgList.createBedStatusCode === 200) {
+    if (state.PgList.createBedStatusCode === 201) {
       dispatch({ type: 'HOSTELLIST' })
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       setShowBed(false)

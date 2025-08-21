@@ -720,7 +720,10 @@ function* handleEditRolePermission(detail) {
 
 
 function* handleDeleteRolePermission(detail) {
+      try{
    const response = yield call (deleteRolePermission, detail.payload);
+
+ console.log("response", response)
 
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -753,9 +756,20 @@ function* handleDeleteRolePermission(detail) {
      });
    }
 
-  else if (response.status === 202){
+  else if (response.status === 400){
       yield put ({type : 'ASSIGNED_ERROR' , payload:{statusCode:response.status}});
-      toast.error("This role is assigned to user", {
+     
+   }
+
+   if(response){
+      refreshToken(response)
+   }
+}
+ catch (error) {
+   console.log("error",error)
+      if (error.response.status === 400) {
+         yield put ({type : 'ASSIGNED_ERROR' , payload:{statusCode:error.response.status}});
+          toast.error("This role is assigned to user", {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -767,9 +781,9 @@ function* handleDeleteRolePermission(detail) {
         style: toastStyle,
      });
    }
-
-   if(response){
-      refreshToken(response)
+      // } else {
+      //    yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      // }
    }
 }
 
@@ -810,28 +824,22 @@ function* handleAddStaffUserPage(detail) {
         style: toastStyle,
      });
    }
-
-   else if(response.data.statusCode === 202) {
-     
-      yield put({ type: 'EMAIL_ID_ERROR', payload: response.data.message });
-   }
-
-   else if(response.data.statusCode === 203) {
-         
-      yield put({ type: 'PHONE_NUM_ERROR', payload: response.data.message });
-   }
-   
+    
    if(response){
       refreshToken(response)
    }
    }
  catch (error) {
-       if (error.code === 'ERR_NETWORK') {
-          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-       } else {
-          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-       }
+        if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.response.data.emailStatus !== "") {
+        yield put({ type: 'EMAIL_ID_ERROR', payload: error.response.data.emailStatus });
+      } else if (error.response.data.mobileStatus !== "") {
+        yield put({ type: 'PHONE_NUM_ERROR', payload: error.response.data.mobileStatus });
+      }
+    } else  if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
     }
+  }
 }
 
 function* handleGetAllStaffs(action) {
@@ -882,7 +890,7 @@ console.log("General response",response)
     
    };
 
-   if (response.status === 201){
+   if (response?.status === 201){
       yield put ({type : 'SETTING_GENERAL_ADD' , payload:{response:response, statusCode: response.status}})
       toast.success(`${response.data}`, {
         position: "bottom-center",
@@ -896,29 +904,22 @@ console.log("General response",response)
         style: toastStyle,
      });
    }
-   else if(response.status === 400) {
-         
-      yield put({ type: 'GENERAL_EMAIL_ERROR', payload: response.message });
-   }
-   else if(response.status === 203) {
-     
-      yield put({ type: 'MOBILE_ERROR', payload: response.message});
-   }
-
-   else {
-      yield put ({type:'ERROR', payload:response.message})
-   }
+  
    if(response){
       refreshToken(response)
    }
    }
  catch (error) {
-       if (error.code === 'ERR_NETWORK') {
-          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-       } else {
-          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-       }
+        if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.response.data.emailStatus !== "") {
+        yield put({ type: 'GENERAL_EMAIL_ERROR', payload: error.response.data.emailStatus });
+      } else if (error.response.data.mobileStatus !== "") {
+        yield put({ type: 'MOBILE_ERROR', payload: error.response.data.mobileStatus });
+      }
+    } else  if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
     }
+  }
 }
 
 

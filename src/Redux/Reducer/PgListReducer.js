@@ -92,6 +92,9 @@ export const initialState = {
     SameTitleErrorStatusCode: 0,
     roomsList: [],
     getAllRoomSuccessStatus: 0,
+    statusCodeUpdateRoom: 0,
+    bedList: [], 
+    getAllBedSuccessStatus:0,
 
 
 
@@ -121,7 +124,10 @@ const PgListReducer = (state = initialState, action) => {
         case 'REMOVE_GET_ALL_ROOMS_STATUS_CODE':
             return { ...state, getAllRoomSuccessStatus: 0 }
 
-
+        case 'GET_ALL_BEDS':
+            return { ...state, bedList: action.payload.response, getAllBedSuccessStatus: action.payload.statusCode }
+        case 'REMOVE_GET_ALL_BEDS_STATUS_CODE':
+            return { ...state,  getAllBedSuccessStatus: 0 }
 
         case 'UPGRADE_PLAN':
             return { ...state, UpgradestatusCode: action.payload.statusCode }
@@ -189,6 +195,11 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, roomCreationSuccess: true, floor_Id: action.payload.floorId, room_Id: action.payload.roomId, number_Of_Bed: action.payload.number_of_beds, statusCodeCreateRoom: action.payload.statusCode, }
         case 'CLEAR_CREATE_ROOM_STATUS_CODE':
             return { ...state, statusCodeCreateRoom: 0 }
+        case 'UPDATE_ROOM':
+            return { ...state, statusCodeUpdateRoom: action.payload.statusCode }
+        case 'REMOVE_UPDATE_ROOM':
+            return { ...state, statusCodeUpdateRoom: 0 }
+
         case 'CHECK_ROOM':
             return { ...state, checkRoomList: action.payload }
         case 'CHECK_EB':
@@ -270,7 +281,7 @@ const PgListReducer = (state = initialState, action) => {
         case 'CLEAR_DELETE_BED_STATUS_CODE':
             return { ...state, statusCodeDeleteBed: 0 }
         case 'ALREADY_BED':
-            return { ...state, alreadyBedAvailable: action.payload.response }
+            return { ...state, alreadyBedAvailable: action.payload }
         case 'CLEAR_ALREADY_BED':
             return { ...state, alreadyBedAvailable: "" }
 

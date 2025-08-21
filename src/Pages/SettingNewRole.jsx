@@ -71,7 +71,7 @@ function SettingNewRole({ hostelid }) {
   }
 
   useEffect(() => {
-    if (state.Settings?.assignedUserRoleStatusCode === 202) {
+    if (state.Settings?.assignedUserRoleStatusCode === 400) {
       setDeleteRole(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_ASSIGNED_ERROR' })

@@ -334,6 +334,7 @@ function SettingGeneral() {
 
 
   const handlePhone = (e) => {
+    dispatch({ type: "CLEAR_MOBILE_ERROR" });
     const value = e.target.value;
     if (!/^\d{0,10}$/.test(value)) {
       return;
@@ -364,9 +365,11 @@ function SettingGeneral() {
 
 
   const handleEmailId = (e) => {
+     dispatch({ type: "CLEAR_EMAIL_ERROR" });
+     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
     const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
-    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
+   
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     const isValidEmail = emailRegex.test(emailValue);
 
@@ -382,7 +385,7 @@ function SettingGeneral() {
       setFormError("");
     }
 
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+   
   };
 
 
@@ -1706,10 +1709,10 @@ function SettingGeneral() {
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
                 </div>
               )}
-              {phoneAlready && (
+              {state.Settings?.generalMobileError && (
                 <div style={{ color: "red", marginTop: "-14px" }}>
                   <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{state.Settings?.generalMobileError} </span>
                 </div>
               )}
 
@@ -1754,10 +1757,10 @@ function SettingGeneral() {
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
                 </div>
               )}
-              {emailAlready && (
+              {state.Settings?.generalEmailError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{state.Settings?.generalEmailError}</span>
                 </div>
               )}
 

@@ -20,6 +20,11 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const modalTitle = isEditing ? "Edit Room" : "Add Room";
   const [formLoading, setFormLoading] = useState(false)
 
+  console.log('editRoom', editRoom)
+  console.log("hostelDetails", hostelDetails)
+
+
+
   useEffect(() => {
     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
   }, []);
@@ -80,23 +85,24 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     }
 
     if (isEditing) {
-      if (floorId && hostel_Id) {
+      if (room_Id) {
         dispatch({
-          type: "CREATEROOM",
+          type: "UPDATEROOM",
           payload: {
-            hostel_id: hostel_Id,
-            floorId: floorId,
-            roomId: room,
-            id: room_Id,
+            hostelId: hostel_Id,
+            // floorId: floorId,
+            roomName: room,
+            isActive: true,
+            roomId: Number(room_Id),
           },
         });
         setFormLoading(true)
       }
     } else {
-      if (floorId  && room) {
+      if (floorId && room) {
         dispatch({
           type: "CREATEROOM",
-          payload: {  floorId: floorId, roomName: room },
+          payload: { hostelId: hostel_Id, floorId: floorId, roomName: room },
         });
         setFormLoading(true)
       }
@@ -276,10 +282,10 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           )}
 
           {state.PgList && state.PgList?.alreadyRoomHere && (
-            <div className="d-flex align-items- justify-content-center">
+            <div className="d-flex align-items-center justify-content-start">
               <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
               <label
-                className="mb-0"
+                className="mb-1"
                 style={{
                   color: "red",
                   fontSize: "13px",

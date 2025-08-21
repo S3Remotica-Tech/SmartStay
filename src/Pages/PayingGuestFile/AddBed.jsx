@@ -41,7 +41,7 @@ function AddBed({ show, setShowBed, currentItem }) {
   }, []);
 
   useEffect(() => {
-    if (state.PgList.createBedStatusCode === 200) {
+    if (state.PgList.createBedStatusCode === 201) {
       setBedNo("");
       setAmount("");
       setFormLoading(false)
@@ -49,7 +49,7 @@ function AddBed({ show, setShowBed, currentItem }) {
   }, [state.PgList.createBedStatusCode]);
 
 
-
+console.log("currentItem ",currentItem )
 
 
   const handleBedNoChange = (e) => {
@@ -94,8 +94,7 @@ function AddBed({ show, setShowBed, currentItem }) {
     }
     if (
       currentItem.item.hostel_Id &&
-      currentItem.item.floorID &&
-      currentItem.Room_Id &&
+            currentItem.Room_Id &&
       bedNo &&
       amount
       && amount > 0
@@ -103,10 +102,10 @@ function AddBed({ show, setShowBed, currentItem }) {
       dispatch({
         type: "CREATEBED",
         payload: {
-          hostel_id: currentItem.item.hostel_Id,
-          floor_id: currentItem.item.floorID,
-          room_id: currentItem.Room_Id,
-          bed_no: bedNo,
+          hostelId: currentItem.item.hostel_Id,
+          // floor_id: currentItem.item.floorID,
+          roomId: currentItem.Room_Id,
+          bedName: bedNo,
           amount: amount,
         },
       });

@@ -206,8 +206,7 @@ export async function GetAllReport() {
 // v2
 
 export async function AddGeneral(params) {
-  try {
-    const formData = new FormData();
+     const formData = new FormData();
 
     if (params.accountInfo) {
       const accountInfoBlob = new Blob(
@@ -227,9 +226,7 @@ export async function AddGeneral(params) {
     );
 
     return response;
-  } catch (error) {
-    console.error("Axios Error", error);
-  }
+  
 }
 
 

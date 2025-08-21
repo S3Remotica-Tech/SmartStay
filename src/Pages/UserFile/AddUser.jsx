@@ -572,10 +572,7 @@ const handlePassword = (e) => {
                       }}
                     />
                   </InputGroup>
-                  <p
-                    id="MobileNumberError"
-                    style={{ color: "red", fontSize: 11, marginTop: 5 }}
-                  ></p>
+                 
                 </Form.Group>
 
                 {mobileError && (

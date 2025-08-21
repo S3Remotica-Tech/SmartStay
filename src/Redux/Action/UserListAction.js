@@ -157,11 +157,17 @@ export async function deleteFloor(floorId) {
 }
 
 
+// v1
 
+// export async function deleteRoom(roomDetails) {
+//   return await AxiosConfig.post('/delete/delete-room', roomDetails, {
+//     data: roomDetails
+//   })
+// }
+
+// v2
 export async function deleteRoom(roomDetails) {
-  return await AxiosConfig.post('/delete/delete-room', roomDetails, {
-    data: roomDetails
-  })
+  return await AxiosConfigV2.delete(`/v2/room/${roomDetails.roomId}`)
 }
 
 export async function deleteBed(bedDetails) {

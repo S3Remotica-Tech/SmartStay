@@ -25,9 +25,9 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
     dispatch({
       type: "DELETEROOM",
       payload: {
-        hostelId: deleteRoomDetails.Hostel_Id,
-        floorId: deleteRoomDetails.Floor_Id,
-        roomNo: deleteRoomDetails.Room_Id,
+        // hostelId: deleteRoomDetails.Hostel_Id,
+        // floorId: deleteRoomDetails.Floor_Id,
+        roomId: deleteRoomDetails.Room_Id,
       },
     });
   };
