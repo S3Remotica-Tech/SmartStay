@@ -77,6 +77,7 @@ function UserlistForm(props) {
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
+ 
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
   const [errors, setErrors] = useState([]);
@@ -259,6 +260,7 @@ function UserlistForm(props) {
     }
 
     setPhoneErrorMessage("");
+    setphonenumError("")
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
 
@@ -279,6 +281,7 @@ function UserlistForm(props) {
       setEmailErrorMessage("");
     }
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setemailIdError("")
   };
 
   useEffect(() => {
@@ -708,6 +711,7 @@ const handleCloseAssign =()=>{
       type: "ADDUSER",
       payload: payload,
     });
+    setFormLoading(true)
   
   };
 
@@ -877,6 +881,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 });
 
     }
+    setFormLoading(true)
     dispatch({ type: "INVOICELIST" });
   };
 
@@ -1037,6 +1042,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
   },
 });
     }
+    setFormLoading(true)
     dispatch({ type: "INVOICELIST" });
   };
 
@@ -1786,7 +1792,7 @@ const bookingDateRef = useRef("");
       payload: payload,
     });
     
-  
+  setFormLoading(true)
 
   };
  
@@ -2072,10 +2078,12 @@ const handleSaveBacktoCheckin =()=>{
   }
    
   dispatch({ type: "BACKTOCHECKIN", payload: { userId:id, RecheckIn_Reason:reason,RecheckIn_Date:recheckInDate } });
+  setFormLoading(true)
 }
 
  useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
+      setFormLoading(false)
       handleCloseBacktoCheckin()
     dispatch({
           type: "USERLIST",
@@ -4824,6 +4832,40 @@ const handleSaveBacktoCheckin =()=>{
                     : null}
 
                   </div>
+                  {phonenumError && (
+                          <div style={{ color: "red" }}>
+                            <MdError
+                              style={{ fontSize: "13px", marginBottom: "2px" }}
+                            />
+                            <span
+                              style={{
+                                fontSize: "12px",
+                                color: "red",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                marginRight: "3px"
+                              }}
+                            >
+                              {" "}
+                              {phonenumError}
+                            </span>
+                          </div>
+                        )}
+                         {emailIdError && (
+                            <div style={{ color: "red" }}>
+                              <MdError />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {emailIdError}
+                              </span>
+                            </div>
+                          )}
                   <div className="d-flex justify-content-end mt-3">
                     <Button style={{  fontFamily: "Gilroy",
     fontSize: "14px",
@@ -4859,6 +4901,33 @@ const handleSaveBacktoCheckin =()=>{
         </div>
          </div>
     </Modal.Body>
+      {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+
   </Modal.Dialog>
 </Modal>
 
@@ -6205,7 +6274,32 @@ value={bookingAmount}
                     : null}
 
 
-
+  {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
 
                   <div style={{ display: "flex", gap: "16px", alignItems: "center", marginTop: 10, justifyContent: "flex-end" }}>

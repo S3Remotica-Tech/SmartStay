@@ -140,6 +140,7 @@ function UserList(props) {
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
   const [add_bookingshow, setAddBookingsShow] = useState(false) 
+  const [formLoading, setFormLoading] = useState(false)
 
 
 
@@ -2196,11 +2197,13 @@ const SubmitInActiveForm = () =>{
           payload: { booking_id: bookingId,Inactive_date:formattedDate,Inactive_Reason: inActiveComments},
         });
   }
+  setFormLoading(true)
 }
 
 
 useEffect(()=>{
   if(state.Booking.StatusCodeInactiveCode === 200){
+     setFormLoading(false)
     handleCloseInActive()
      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
      setTimeout(() => {
@@ -4510,6 +4513,32 @@ useEffect(() => {
 
                 </Modal.Footer>
             </Modal.Body>
+            {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
         </Modal>
 

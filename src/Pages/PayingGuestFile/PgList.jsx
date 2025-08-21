@@ -112,12 +112,6 @@ function PgList() {
 }, [showHostelDetails?.floorDetails]);
 
 
-
-  console.log("floorid" , showHostelDetails?.floorDetails?.[0]?.floor_id);
-  
-  console.log("floorid", );
-  
-
   useEffect(() => {
 
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {

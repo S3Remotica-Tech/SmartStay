@@ -169,6 +169,7 @@ console.log("datadata",props.data)
 
   useEffect(() => {
     if (state.UsersList.errorMessageAddCheckOut) {
+      
       setFormLoading(false)
     }
   }, [state.UsersList.errorMessageAddCheckOut])
@@ -383,6 +384,8 @@ handleCloseCheckout()
                               // ref={selectedDateRef}
                               onChange={(date) => {
                                 setCheckOutRequestDateError("");
+                                 dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+                               
                                 setRequestDate(date ? date.toDate() : null);
                                 calculateDateDifference(selectedDate, date);
                               }}
@@ -495,6 +498,8 @@ handleCloseCheckout()
     calculateDateDifference(date, requestDate);
     setCheckOutDateError('');
     setJoiningError('');
+      dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+    
   }}
   disabledDate={(current) => {
     // if no requestDate → disable all dates

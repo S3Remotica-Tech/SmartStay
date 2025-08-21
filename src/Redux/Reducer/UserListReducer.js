@@ -2,6 +2,7 @@
 export const initialState = {
     Users: [],
     addUser: [],
+    phoneErrorAddUser:'',
     errorMessage: {},
     hostelList: [],
     roomCount: [],
@@ -209,6 +210,10 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }
+        case 'ADD_USER_PHONE_ERROR' :
+             return { ...state, phoneErrorAddUser: action.payload }
+        case 'ADD_USER_CLEAR_PHONE_ERROR':
+            return { ...state, phoneErrorAddUser: '' }
         case 'ERROR':
             return { ...state, errorMessage: action.payload, roomdetails: [], bednumberdetails: [] }
         case 'HOSTEL_LIST':

@@ -342,6 +342,7 @@ if (matchedBed) {
 
       useEffect(() => {
         if (state.UsersList?.statusCodeForAddUser === 200) {
+          setFormLoading(false)
           dispatch({
             type: "USERLIST",
             payload: { hostel_id: state.login.selectedHostel_Id},
@@ -555,6 +556,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
     dispatch({ type: "INVOICELIST" });
     }
+    setFormLoading(true)
   };
 
 
@@ -1454,6 +1456,33 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
         
         
                               </div>
+                                             {formLoading &&
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
         
                               <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-3 mb-3">
         
@@ -1660,7 +1689,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
         
                                       <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
         
-                                        {index !== 0 && (
+                                      
                                           <Trash
                                             size="20"
                                             color="red"
@@ -1668,7 +1697,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                             style={{ cursor: "pointer" }}
                                             onClick={() => handleRemoveField(index)}
                                           />
-                                        )}
+                                      
                                       </div>
                                     </div>
                                   );
