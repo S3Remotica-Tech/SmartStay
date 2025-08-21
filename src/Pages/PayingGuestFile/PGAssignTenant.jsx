@@ -923,7 +923,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                       //  getPopupContainer={(triggerNode) =>
                                                       //    triggerNode.closest(".datepicker-wrapper")
                                                       //  }
-                                                      disabledDate={(current) => current && current < dayjs().startOf("day")}
+                                                      disabledDate={(current) => {
+                                                          if (!bookingDate) {
+                                                            return true; 
+                                                          }
+                                                          return current && current.isBefore(dayjs(bookingDate), "day");
+                                                        }}
+                                                      // disabledDate={(current) => current && current < dayjs().startOf("day")}
                                                       getPopupContainer={() => document.body}
                                                      />
                                                    </div>

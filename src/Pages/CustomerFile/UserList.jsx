@@ -2119,7 +2119,7 @@ setBookingDet(userData)
   
     }, [state.createAccount?.networkError])
 
-    console.log("props", props.customer_details);
+    console.log("props", props);
 
 
      const [bookingDate, setBookingDate] = useState(null);
@@ -2172,6 +2172,8 @@ const handleInActiveReason = (e)=>{
 
 }
 const [isActiveDateError,setIsACtiveDateError] = useState("")
+
+
 
 const SubmitInActiveForm = () =>{
     if (!inActiveDate) {
@@ -4377,7 +4379,7 @@ useEffect(() => {
                         </Form.Label>
 
                         <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                          <DatePicker
+                          {/* <DatePicker
     style={{
         width: "100%",
         height: 48,
@@ -4396,7 +4398,33 @@ useEffect(() => {
         if (!bookingDate) return true; 
         return current.isBefore(bookingDate, "day"); 
     }}
+/> */}
+
+<DatePicker
+  style={{
+    width: "100%",
+    height: 48,
+    cursor: "pointer",
+    fontFamily: "Gilroy",
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={inActiveDate ? dayjs(inActiveDate) : null}
+  onChange={(date) => {
+    setInActiveDate(date ? date.toDate() : null);
+    setIsACtiveDateError("");
+  }}
+  getPopupContainer={() => document.body}
+  disabledDate={(current) => {
+    if (!bookingDate) return true; 
+    // Disable before bookingDate OR after today
+    return (
+      current.isBefore(dayjs(bookingDate), "day") ||
+      current.isAfter(dayjs(), "day")
+    );
+  }}
 />
+
                         </div>
                     </Form.Group>
                      {isActiveDateError && (

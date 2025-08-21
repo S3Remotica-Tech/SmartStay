@@ -42,9 +42,9 @@ function OccupiedBedStatus({
     };
 
     const handleMoveToNoticePeriod = () => {
-        handleShowNoticePeriod(true, customer)
-        
-    };
+        handleShowNoticePeriod(true, customer?.[0]?.id)
+    }
+
     const handleShowDots = (roomId) => {
         setShowDots(!showDots)
         setActiveRoomId(activeRoomId === roomId ? null : roomId);

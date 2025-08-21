@@ -39,6 +39,8 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
   const [formLoading, setFormLoading] = useState(false)
   const checkOutDateRef = useRef(null);
   const modeOfPaymentRef = useRef(null);
+  const [customer_details , setCustomerDetails] = useState({})
+  const [RequestDate , setRequestDate] = useState(null);
 
 
   const reasonOptions = [
@@ -276,6 +278,8 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
+
+
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -293,6 +297,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     }
   }, [data]);
 
+
   useEffect(() => {
     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
       setCustomer(state.PgList.OccupiedCustomer)
@@ -301,6 +306,41 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
       }, 2000)
     }
   }, [state.PgList.OccupiedCustomerGetStatusCode, state.PgList.OccupiedCustomer])
+
+
+  
+    
+  
+            useEffect(() => {
+  
+          const usersList = state?.UsersList?.Users;
+          const userDetails = state?.PgList?.OccupiedCustomer; 
+          
+          if (
+              Array.isArray(usersList) &&
+              Array.isArray(userDetails) &&
+              usersList.length > 0 &&
+              userDetails.length > 0
+          ) {
+              const targetUserId = userDetails[0]?.User_Id?.trim()?.toLowerCase();
+      
+              const foundCustomer = usersList.find(
+                  (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
+              );
+      
+              setCustomerDetails(foundCustomer || null);
+          }
+      }, [state?.UsersList?.Users , state?.PgList?.OccupiedCustomer]);
+
+
+           useEffect(() => {
+                    if(customer_details){
+                      const RequestDate = customer_details?.req_date ? dayjs(customer_details?.req_date) : null;
+                      setRequestDate(RequestDate)
+                    }
+            },[customer_details])
+      
+            console.log("customer", customer_details);
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -516,7 +556,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
 
                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
-                    <DatePicker
+                    {/* <DatePicker
                       ref={checkOutDateRef}
                       style={{
                         width: "100%", height: 48, cursor: "pointer",
@@ -533,7 +573,33 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
                       }}
                       getPopupContainer={() => document.body}
 
-                    />
+                    /> */}
+
+                    <DatePicker
+  ref={checkOutDateRef}
+  style={{
+    width: "100%", height: 48, cursor: "pointer",
+    backgroundColor: "#FFF",
+    color: "#000",
+    fontFamily: "Gilroy"
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+ value={checkOutDate ? dayjs(checkOutDate) : null}
+                      onChange={(date) => {
+                        setCheckOutDate(date ? date.toDate() : null);
+                        setCheckOutDateError("");
+                      }}
+  getPopupContainer={() => document.body}
+  disabledDate={(current) => {
+    // RequestDate set aagum bodhu mattum check pannanum
+    if (RequestDate) {
+      return current && current < RequestDate.startOf("day");
+    }
+    return false; // illa na ellam allow
+  }}
+/>
+
                   </div>
                 </Form.Group>
                 {checkoUtDateError && (
