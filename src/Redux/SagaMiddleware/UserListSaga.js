@@ -313,7 +313,7 @@ function* handleAddUser(datum) {
       }
       else if (response.statusCode === 202) {
 
-         yield put({ type: 'ADD_USER_PHONE_ERROR', payload: response.message });
+         yield put({ type: 'PHONE_ERROR', payload: response.message });
       }
       else if (response.statusCode === 203) {
 
