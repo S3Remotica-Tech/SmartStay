@@ -1,8 +1,46 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement } from "../Action/PgListAction";
+import { getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement } from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+
+function* handleGetAllRooms(action) {
+  try{
+  const response = yield call(getAllRoom, action.payload);
+
+console.log("response for get room",response)
+
+  if (response.status === 200) {
+    yield put({ type: 'GET_ALL_ROOMS', payload: { response: response.data, statusCode: response.status } })
+   
+  }
+  if (response) {
+    refreshToken(response)
+  }
+  }
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function* handlePgList(datum) {
@@ -1190,6 +1228,8 @@ function refreshToken(response) {
 }
 
 function* PgListSaga() {
+  
+  yield takeEvery("GETALLROOMSLIST", handleGetAllRooms);
   yield takeEvery("CREATEPG", handlePgList);
   yield takeEvery("CREATEROOM", handleCreateRoom);
   yield takeEvery("CHECKROOM", handleCheckRoom);

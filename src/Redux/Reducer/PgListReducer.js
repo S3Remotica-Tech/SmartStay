@@ -87,10 +87,13 @@ export const initialState = {
     NoDashboardStatusCode: 0,
     nostatusCodeforEbHostelBased: 0,
     UpgradestatusCode: 0,
-
     dashboardFilterAdvance: [],
     statusCodeForAdvanceFilter: 0,
-     SameTitleErrorStatusCode:0,
+    SameTitleErrorStatusCode: 0,
+    roomsList: [],
+    getAllRoomSuccessStatus: 0,
+
+
 
 }
 
@@ -100,7 +103,7 @@ const PgListReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'RESET_ALL':
-              return initialState;
+            return initialState;
         case 'MANAGE_PG':
             return { ...state, isManageEnable: true }
 
@@ -112,6 +115,12 @@ const PgListReducer = (state = initialState, action) => {
 
         case 'REMOVE_DELETE_ANNOUNCEMENT':
             return { ...state, deleteAnnounmentSuccessStatus: 0 }
+
+        case 'GET_ALL_ROOMS':
+            return { ...state, roomsList: action.payload.response, getAllRoomSuccessStatus: action.payload.statusCode }
+        case 'REMOVE_GET_ALL_ROOMS_STATUS_CODE':
+            return { ...state, getAllRoomSuccessStatus: 0 }
+
 
 
         case 'UPGRADE_PLAN':
@@ -434,14 +443,14 @@ const PgListReducer = (state = initialState, action) => {
 
 
         case 'SAME_TITLE':
-            return { ...state, TitleAlready: action.payload.response , SameTitleErrorStatusCode: action.payload.statusCode}
+            return { ...state, TitleAlready: action.payload.response, SameTitleErrorStatusCode: action.payload.statusCode }
 
         case 'CLEAR_SAME_TITLE':
             return { ...state, TitleAlready: '', SameTitleErrorStatusCode: 0 }
 
 
         case 'TITTLE_UNIQUE':
-            return { ...state, TittleUnique: action.payload.response, SameTitleErrorStatusCode:  action.payload.statusCode}
+            return { ...state, TittleUnique: action.payload.response, SameTitleErrorStatusCode: action.payload.statusCode }
 
         case 'CLEAR_TITTLE_UNIQUE':
             return { ...state, TittleUnique: '', SameTitleErrorStatusCode: 0 }

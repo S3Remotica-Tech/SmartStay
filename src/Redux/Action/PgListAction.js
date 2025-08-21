@@ -139,6 +139,13 @@ export async function createRoom(datum) {
 }
 
 
+// v2
+
+export async function getAllRoom(datum) {
+  console.log("datum", datum)
+  return await AxiosConfigV2.get(`/v2/room/all-rooms/${datum.floor_Id}`);
+}
+
 
 
 export async function CheckRoomId() {
