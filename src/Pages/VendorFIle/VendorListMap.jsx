@@ -79,8 +79,8 @@ function VendorListMap(props) {
               <div className="">
                 <Image
                   src={
-                    props.vendor && props.vendor.Vendor_profile
-                      ? props.vendor.Vendor_profile
+                    props.vendor && props.vendor.profilePic
+                      ? props.vendor.profilePic
                       : Vendors
                   }
                   roundedCircle
@@ -97,7 +97,7 @@ function VendorListMap(props) {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    {props.vendor && props.vendor.Vendor_Name}
+                    {props.vendor && props.vendor.vendorName}
                   </label>
                 </div>
                 <div>
@@ -112,7 +112,7 @@ function VendorListMap(props) {
                       fontSize: 14,
                     }}
                   >
-                    {props.vendor && props.vendor.Business_Name}
+                    {props.vendor && props.vendor.businessName || 'N/A'}
                   </div>
                 </div>
               </div>
@@ -287,9 +287,9 @@ function VendorListMap(props) {
                   }}
                 >
                   {props.vendor &&
-                    props.vendor.Vendor_Email &&
-                    props.vendor.Vendor_Email !== "undefined"
-                    ? props.vendor.Vendor_Email
+                    props.vendor.emailId &&
+                    props.vendor.emailId !== "undefined"
+                    ? props.vendor.emailId
                     : "N/A"}
                 </label>
               </div>
@@ -317,13 +317,7 @@ function VendorListMap(props) {
                   }}
                 >
 
-                  {props.vendor &&
-                    String(props.vendor.Vendor_Mobile).slice(
-                      0,
-                      String(props.vendor.Vendor_Mobile).length - 10
-                    )}{" "}
-                  {props.vendor &&
-                    String(props.vendor.Vendor_Mobile).slice(-10)}
+                  {props.vendor && props.vendor.mobileNumber}
                 </label>
               </div>
             </div>

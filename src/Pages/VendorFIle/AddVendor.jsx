@@ -62,7 +62,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const countryRef = useRef(null);
 
 
-
+console.log("currentItem",currentItem )
 
 
   const indianStates = [
@@ -567,15 +567,15 @@ function AddVendor({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (currentItem) {
-      const nameParts = currentItem.Vendor_Name.split(" ");
+      const nameParts = currentItem.vendorName.split(" ");
       const firstName = nameParts[0];
       const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
 
-      const phoneNumber = String(currentItem.Vendor_Mobile || "");
+      const phoneNumber = String(currentItem.mobileNumber || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
 
-      const emailValue = currentItem.Vendor_Email;
+      const emailValue = currentItem.emailId      ;
       const normalizedEmail =
         emailValue === "undefined" ||
           emailValue === null ||
@@ -602,7 +602,7 @@ function AddVendor({ show, setShow, currentItem }) {
       setBusiness_Name(currentItem.Business_Name);
       setId(currentItem.id);
 
-      setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
+      setFile(currentItem.profilePic ? currentItem.profilePic : null);
       setCountry(currentItem.Country);
       setPinCode(currentItem.Pincode);
 

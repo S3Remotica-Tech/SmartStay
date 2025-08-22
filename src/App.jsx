@@ -29,54 +29,50 @@ function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  
+
   const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('access-denied')));
 
 
-console.log("app",state)
-const login = localStorage.getItem("login");
+    const login = localStorage.getItem("login");
   const TwoStepEnable = localStorage.getItem("IsEnable");
 
-useEffect(() => {
-  
-  try {
-    if (login) {
-      console.log("executeeeeeeeeeeeeeeee")
-      const decryptedData = CryptoJS.AES.decrypt(login, "abcd");
-      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-      const parseData = JSON.parse(decryptedString);
+  useEffect(() => {
 
-      console.log("parseData",parseData)
-const decryptedDataTwoStepEnable = CryptoJS.AES.decrypt(TwoStepEnable, "abcd");
-const decryptedStringTwoStepEnable = decryptedDataTwoStepEnable?.toString(CryptoJS.enc.Utf8);
+    try {
+      if (login) {
 
-// Always parse to boolean safely
-let parseDataTwoStepEnable = false;
-try {
-  parseDataTwoStepEnable = JSON.parse(decryptedStringTwoStepEnable);
-} catch {
-  parseDataTwoStepEnable = decryptedStringTwoStepEnable === "true"; 
-}
-
-console.log("is_Enable", parseDataTwoStepEnable); // boolean
+        const decryptedData = CryptoJS.AES.decrypt(login, "abcd");
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parseData = JSON.parse(decryptedString);
+        const decryptedDataTwoStepEnable = CryptoJS.AES.decrypt(TwoStepEnable, "abcd");
+        const decryptedStringTwoStepEnable = decryptedDataTwoStepEnable?.toString(CryptoJS.enc.Utf8);
 
 
-      if (is_Enable === true || !parseData) {
-        setData(false);
-      } else if (is_Enable === false && parseData) {
-        setData(true);
+        let parseDataTwoStepEnable = false;
+        try {
+          parseDataTwoStepEnable = JSON.parse(decryptedStringTwoStepEnable);
+        } catch {
+          parseDataTwoStepEnable = decryptedStringTwoStepEnable === "true";
+        }
+
+
+
+        if (is_Enable === true || !parseData) {
+          setData(false);
+        } else if (is_Enable === false && parseData) {
+          setData(true);
+        }
       }
+    } catch {
+      setData(false);
+    } finally {
+      setLoading(false);
     }
-  } catch {
-    setData(false);
-  } finally {
-    setLoading(false);
-  }
-}, [state.createAccount?.accountList,state.login?.isLoggedIn ,login,TwoStepEnable]);
+  }, [state.createAccount?.accountList, state.login?.isLoggedIn, login, TwoStepEnable]);
 
 
 
-  
+
   useEffect(() => {
     if (tokenAccessDenied === 206) {
       dispatch({ type: 'LOG_OUT' });
@@ -99,15 +95,14 @@ console.log("is_Enable", parseDataTwoStepEnable); // boolean
 
   useEffect(() => {
     if (!state.login?.isLoggedIn && !data) {
-cookies.remove('v2-token', { path: '/' });
-  cookies.remove('token', { path: '/' });
+      cookies.remove('v2-token', { path: '/' });
+      cookies.remove('token', { path: '/' });
       dispatch({ type: 'CLEAR_DASHBOARD' })
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
     }
   }, [state.login?.isLoggedIn]);
 
-console.log("state.login?.isLoggedIn",state.login?.isLoggedIn, "data",data)
 
   if (loading) {
     return <LoaderComponent />;

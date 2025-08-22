@@ -3,11 +3,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Green from '../../Assets/Images/New_images/Frame.png'
-import White from '../../Assets/Images/New_images/empty_bed.png'
 import AddRoom from './AddRoom';
 import AddBedUI from './AddBed';
-import { FaSquarePlus } from "react-icons/fa6";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteRoom from './DeleteRoom';
 import DeleteBed from './DeleteBed';
@@ -17,8 +14,6 @@ import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 import Select from "react-select";
-import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
-import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import EmptyBed from './EmptyBed';
 import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
@@ -31,6 +26,7 @@ import BookingBed from './NoticePeriod/BookingBed';
 import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
 import CheckoutTenant from './NoticePeriod/Check-out Tenant';
+import BedDetailsMap from './BedDetailsMap';
 
 
 
@@ -319,7 +315,7 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (props.floorID && props.hostel_Id) {
       setLoader(true)
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
     }
     else {
@@ -331,6 +327,8 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
       setRoomList(state.PgList?.roomsList);
+       setLoaderTrigger(false)
+       setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
       }, 100)
@@ -341,31 +339,7 @@ function ParticularHostelDetails(props) {
 
   console.log("room list", roomList)
 
-  useEffect(() => {
-    if (roomList && roomList.length > 0) {
-      roomList.forEach((room) => {
-        dispatch({
-          type: "GETALLBEDSLIST",
-          payload: { roomId: room.id }
-        });
 
-        setTimeout(() => {
-          dispatch({ type: 'REMOVE_GET_ALL_BEDS_STATUS_CODE' })
-        }, 100)
-
-
-      });
-    }
-  }, [roomList, state?.PgList?.getAllRoomSuccessStatus]);
-
-
-
-  useEffect(() => {
-    if (state?.PgList.getAllBedSuccessStatus === 200) {
-      setBedList(state.PgList?.bedList)
-    }
-
-  }, [state?.PgList.getAllBedSuccessStatus])
 
 
 
@@ -407,7 +381,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
@@ -435,7 +409,7 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
 
     if (state.PgList.statusCodeCreateRoom === 201 || state.PgList.statusCodeUpdateRoom === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowRoom(false)
       dispatch({ type: 'HOSTELLIST' })
@@ -450,7 +424,7 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
       dispatch({ type: 'HOSTELLIST' })
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowBed(false)
 
@@ -488,7 +462,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setMoveToNoticePeriodForm(false)
       setTimeout(() => {
@@ -524,7 +498,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowReAssignBedForm(false)
       setTimeout(() => {
@@ -536,7 +510,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setEmptyBed(false);
 
@@ -553,7 +527,7 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setEmptyBed(false);
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
 
       setTimeout(() => {
@@ -566,7 +540,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.PgList.statusCodeDeleteBed === 200) {
-      dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
+      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
@@ -663,18 +637,7 @@ function ParticularHostelDetails(props) {
                     </div>
 
 
-                    {/* <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
-              <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overdue
-              </p>
-                 <p className="mb-1 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={bluedot} alt="reserved" /> No Reserved
-              </p>
-              <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={reddot} alt="notice" /> No Notice Period
-              </p>
-           
-            </div> */}
+                    
 
 
                     <div onClick={() => handleShowDots(room.id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
@@ -749,7 +712,8 @@ function ParticularHostelDetails(props) {
                   </Card.Header>
 
                   <Card.Body>
-                    <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
+                    <BedDetailsMap room={room} propsValue={props}/>
+                    {/* <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
                       {Array.isArray(bedList) && bedList.length > 0 && bedList?.filter((bed) => bed.roomId === room.id).map((bed) => (
                         <div key={bed.id} className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center  ${props.addPermissionError ? 'disabled' : ''}`}
 
@@ -811,7 +775,7 @@ function ParticularHostelDetails(props) {
                         </div>
                       ))}
 
-                      {/* Add Bed */}
+                 
                       <div
                         className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
                         onClick={() => {
@@ -830,7 +794,7 @@ function ParticularHostelDetails(props) {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </Card.Body>
                 </Card>
               </div>

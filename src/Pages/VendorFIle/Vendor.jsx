@@ -287,7 +287,7 @@ const isAdmin = userType === "admin" || userType === "agent";
       dispatch({
         type: 'DELETEVENDOR',
         payload: {
-          id: showDeleteVendorDetails.id,
+          vendorId: showDeleteVendorDetails.id,
           // Status: 0,
         },
       });
