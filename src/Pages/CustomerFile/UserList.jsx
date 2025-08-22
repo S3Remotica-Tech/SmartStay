@@ -1707,6 +1707,7 @@ setBookingDet(userData)
 
   useEffect(() => {
     if (state.UsersList?.deleteCustomerSuccessStatusCode === 200) {
+      setFormLoading(false)
       setDeleteShow(false);
       dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
 
@@ -1725,6 +1726,7 @@ setBookingDet(userData)
         payload: { id: deleteDetails?.user.ID },
       });
     }
+    setFormLoading(true)
   };
 
   const handleDeleteBill = () => {
@@ -4267,6 +4269,32 @@ useEffect(() => {
         >
           Are you sure you want to delete this Customer?
         </Modal.Body>
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 70,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
         <Modal.Footer
           className="d-flex justify-content-center"

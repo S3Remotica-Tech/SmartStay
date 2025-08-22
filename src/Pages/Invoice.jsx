@@ -657,6 +657,8 @@ const handleAmount = (e) => {
   }
 
   setPayableAmount(value);
+  setPayableAmountError("")
+   dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
 };
 
 console.log("balance",balance)
@@ -712,6 +714,8 @@ console.log("balance",balance)
   const [totalAmountPayable, setTotalAmountPayable] = useState(0);
   const [nonRefundableAmount, setNonRefundableAmount] = useState(0);
   const [refundableAmount, setRefundableAmount] = useState(0);
+  const [payableamountError,setPayableAmountError]=useState("")
+
 
 
 
@@ -933,7 +937,13 @@ console.log("balance",balance)
     setAmountErrmsg("")
     setShowform(false);
     setBalance("")
+     setSelectedDate(null);
+      setAmountErrmsg("");
+      setDateErrmsg("");
+      setPaymodeErrmsg("");
     setPayableAmount("")
+      setPayableAmountError("")
+   dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
     setInvoiceList({
       firstName: "",
       lastName: "",
@@ -1018,13 +1028,11 @@ console.log("balance",balance)
           bank_id: account,
         },
       });
-      setFormRecordLoading(true)
+      
 
-      setSelectedDate(null);
-      setAmountErrmsg("");
-      setDateErrmsg("");
-      setPaymodeErrmsg("");
+     
     }
+    setFormRecordLoading(true)
   };
 
   const options = {
@@ -1982,7 +1990,16 @@ console.log("balance",balance)
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
+  useEffect(() => {
+    if (state.InvoiceList.payapleAmountError) {
+       setFormRecordLoading(false)
+       setFormLoading(false)
+       setLoading(false)
+      setPayableAmountError(state.InvoiceList.payapleAmountError)
+    
+    }
 
+  }, [state.InvoiceList.payapleAmountError])
 
   useEffect(() => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
@@ -4099,6 +4116,12 @@ console.log("balance",balance)
                               <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
                                 <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                              </div>
+                              : null}
+                                 {payableamountError ?
+                              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{payableamountError}</label>
                               </div>
                               : null}
 

@@ -275,7 +275,7 @@ function* handleAddInvoiceDetails(param) {
    try {
       const response = yield call(UpdateInvoice, param.payload)
 
-
+console.log("handleAddInvoiceDetails",response)
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'UPDATEINVOICE_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
 
@@ -307,6 +307,10 @@ function* handleAddInvoiceDetails(param) {
             style: toastStyle
          })
       }
+      else if (response.data.statusCode === 201 || response.status === 201) {
+    
+             yield put({ type: 'PAYABLE_AMOUNT', payload: response.data.message });
+          }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
       }
