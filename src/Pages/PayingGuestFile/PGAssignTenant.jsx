@@ -655,7 +655,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                             <div style={{ maxHeight: "350px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                               <div className="row d-flex align-items-center">
 
-                                <Row>
+                               
                                      <div style={{ display: 'flex', flexDirection: 'row' }}>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput5">
@@ -772,7 +772,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                     
                                                
                                               </div>
-                                </Row>
+                              
                                         <Col md={6}>
                                           <Form.Group controlId="">
                                             <Form.Label
@@ -889,7 +889,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                           )}
                                         </Col>
                                    
-                                             <Row>
+                                            
                                                 <Col md={12}>
                                                  <Form.Group controlId="joiningDate">
                                                    <Form.Label
@@ -969,7 +969,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                    
                                    
                                                </Col>
-                                             </Row>
+                                            
         
         
                               </div>

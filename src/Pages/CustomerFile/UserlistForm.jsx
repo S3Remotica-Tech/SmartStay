@@ -931,7 +931,7 @@ useEffect(() => {
 
        const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
+      newDate.setDate(newDate.getDate());
       return newDate.toISOString().split("T")[0];
     };
 
