@@ -19,7 +19,7 @@ import "./Settings.css";
 import './SettingAll.css';
 import { useSelector } from 'react-redux';
 import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
-import SettingsBills from "./SettingsBills";
+// import SettingsBills from "./SettingsBills";
 import SettingsNotifications from "./SettingsNotifications";
 import SettingAgreement from "./SettingAgreement";
 import BillingRule from "./Settings/BillingRule/BillingRule";
@@ -311,7 +311,7 @@ function SettingAllPages() {
                 </p>
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
-                <p
+                {/* <p
 
                   onClick={() => handleTabClick('Bills')}
                   style={{
@@ -334,7 +334,7 @@ function SettingAllPages() {
                     alt="Arrow Icon"
                   />
                 </p>
-                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+                  <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} /> */}
 
                 <p
 
@@ -591,7 +591,7 @@ function SettingAllPages() {
             {activePage === 'Integration' && <SettingIntergration />}
             {activePage === 'Electricity' && <SettingElectricity hostelid={hostel_Id} />}
             {activePage === 'Billing_Rule' && <BillingRule hostelid={hostel_Id} />}
-            {activePage === 'Bills' && <SettingsBills hostelid={hostel_Id} />}
+            {/* {activePage === 'Bills' && <SettingsBills hostelid={hostel_Id} />} */}
             {activePage === 'SettingsNotifications' && <SettingsNotifications hostelid={hostel_Id} />}
             {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id}  
             handleAddInvoiceClick={handleAddInvoiceClick}
