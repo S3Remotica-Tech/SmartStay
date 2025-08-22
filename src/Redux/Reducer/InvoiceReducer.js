@@ -74,6 +74,8 @@ export const initialState = {
     triggeredBy: '',  
     CustomerRecurringEnableDisableStatusCode:0,
     pdfErrorStatusCode:0,
+    statusodeForPayableAmount:0,
+    payapleAmountError:'',
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
             0: false,
@@ -359,6 +361,11 @@ case 'CUSTOMER_RECURRING_ENABLE_DISABLE':
     whatsappSettings: updated,
   };
 }
+
+  case 'PAYABLE_AMOUNT' :
+             return { ...state, payapleAmountError: action.payload }
+        case 'CLEAR_PAYABLE_AMOUNT':
+            return { ...state, payapleAmountError: '' }
 
         default:
             return state;
