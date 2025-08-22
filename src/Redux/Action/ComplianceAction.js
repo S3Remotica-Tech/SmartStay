@@ -106,11 +106,53 @@ export async function addVendor(params) {
 }
 
 
+//  v2
 
+export async function updateVendor(params) {
+
+console.log("params",params)
+
+  const formData = new FormData();
+
+  
+  if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
+  }
+
+
+  if (params.payLoads) {
+    const payloadBlob = new Blob(
+      [JSON.stringify(params.payLoads)],
+      { type: "application/json" }
+    );
+    formData.append("payLoads", payloadBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.post(`/v2/vendors/${params.vendorId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      timeout: 100000000,
+    });
+    return response;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
+
+// v1
+
+  // export async function DeleteVendorList(vendor) {
+  //   return await AxiosConfig.post('/delete-vendor-list', vendor, {
+  //     data: vendor
+  //   })
+  // }
+
+  // v2
   export async function DeleteVendorList(vendor) {
-    return await AxiosConfig.post('/delete-vendor-list', vendor, {
-      data: vendor
-    })
+    return await AxiosConfigV2.delete(`/v2/vendors/${vendor.vendorId}`)
   }
   
   export async function ComplianceChange(compliance) {
