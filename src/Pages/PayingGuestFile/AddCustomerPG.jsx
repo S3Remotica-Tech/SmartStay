@@ -386,7 +386,7 @@ function AddCustomer({  show, handleClose   }) {
   
   
     useEffect(() => {
-      if (state.UsersList?.statusCodeForAddUser === 200) {
+      if (state.UsersList?.statusCodeForAddUser === 201) {
         handleClose(); 
       }
     }, [state.UsersList?.statusCodeForAddUser]);

@@ -34,7 +34,7 @@ export async function VendorList(vendor) {
 // v1
 
 // export async function addVendor(params) {
- 
+
 //   const formData = new FormData();
 
 //   if (params.profile) formData.append("profile", params.profile);
@@ -55,7 +55,7 @@ export async function VendorList(vendor) {
 //           if(params.Country) formData.append("Country", params.Country)
 //             if(params.Pincode) formData.append("Pincode", params.Pincode)
 
-              
+
 //   try {
 //     const response = await AxiosConfigV2.post('/v2/vendors', formData, {
 //       headers: {
@@ -77,7 +77,7 @@ export async function VendorList(vendor) {
 export async function addVendor(params) {
   const formData = new FormData();
 
-  
+
   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
@@ -109,13 +109,9 @@ export async function addVendor(params) {
 //  v2
 
 export async function updateVendor(params) {
-
-console.log("params",params)
-
   const formData = new FormData();
 
-  
-  if (params.profilePic) {
+   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
 
@@ -128,14 +124,17 @@ console.log("params",params)
     formData.append("updateVendor", payloadBlob);
   }
 
-  console.log("headers", AxiosConfigV2.defaults.headers);
   try {
-    const response = await AxiosConfigV2.put(`/v2/vendors/${params?.updateVendor?.vendorId}`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      timeout: 100000000,
-    });
+    const response = await AxiosConfigV2.put(
+      `/v2/vendors/${params?.updateVendor?.vendorId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+      }
+    );
     return response;
   } catch (error) {
     console.error("Axios Error", error);
@@ -143,49 +142,52 @@ console.log("params",params)
   }
 }
 
+
+
+
 // v1
 
-  // export async function DeleteVendorList(vendor) {
-  //   return await AxiosConfig.post('/delete-vendor-list', vendor, {
-  //     data: vendor
-  //   })
-  // }
+// export async function DeleteVendorList(vendor) {
+//   return await AxiosConfig.post('/delete-vendor-list', vendor, {
+//     data: vendor
+//   })
+// }
 
-  // v2
-  export async function DeleteVendorList(vendor) {
-    return await AxiosConfigV2.delete(`/v2/vendors/${vendor.vendorId}`)
-  }
-  
-  export async function ComplianceChange(compliance) {
-    return await AxiosConfig.post('/compliance/change_details', compliance, {
-      data: compliance
-    })
-  }
+// v2
+export async function DeleteVendorList(vendor) {
+  return await AxiosConfigV2.delete(`/v2/vendors/${vendor.vendorId}`)
+}
 
-  export async function ComplianceChangeStatus(compliance) {
-    return await AxiosConfig.post('/compliance/change_details', compliance, {
-      data: compliance
-    })
-  }
+export async function ComplianceChange(compliance) {
+  return await AxiosConfig.post('/compliance/change_details', compliance, {
+    data: compliance
+  })
+}
 
-
+export async function ComplianceChangeStatus(compliance) {
+  return await AxiosConfig.post('/compliance/change_details', compliance, {
+    data: compliance
+  })
+}
 
 
-  export async function complianceDelete(datum) {
-    return await AxiosConfig.post('/complaint/delete_compliant', datum, {
-      data: datum
-    })
-  }
 
 
-  // 
-  export async function getComplianceComment(datum) {
-    return await AxiosConfig.post('/complaints/all_complaint_comments', datum, {
-      data: datum
-    })
-  }
-  export async function addComplianceComment(datum) {
-    return await AxiosConfig.post('/complaints/add_complaint_comment', datum, {
-      data: datum
-    })
-  }
+export async function complianceDelete(datum) {
+  return await AxiosConfig.post('/complaint/delete_compliant', datum, {
+    data: datum
+  })
+}
+
+
+// 
+export async function getComplianceComment(datum) {
+  return await AxiosConfig.post('/complaints/all_complaint_comments', datum, {
+    data: datum
+  })
+}
+export async function addComplianceComment(datum) {
+  return await AxiosConfig.post('/complaints/add_complaint_comment', datum, {
+    data: datum
+  })
+}

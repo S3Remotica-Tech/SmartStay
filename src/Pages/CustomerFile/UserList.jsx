@@ -1165,7 +1165,7 @@ useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
         ? userListDetail.filter((item) =>
-          item.Name.toLowerCase().includes(filterInput.toLowerCase())
+          item.firstName.toLowerCase().includes(filterInput.toLowerCase())
         )
         : [];
 
@@ -1244,10 +1244,10 @@ useEffect(() => {
 
   const handleUserSelect = (user) => {
     if (value === "1") {
-      setFilterInput(user?.Name || "");
+      setFilterInput(user?.firstName || "");
     } else if (value === "2") {
       setFilterInput(
-        [user?.first_name, user?.last_name].filter(Boolean).join(" ")
+        [user?.firstName, user?.last_name].filter(Boolean).join(" ")
       );
     } else if (value === "3") {
       setFilterInput(user?.Name || "");
@@ -1511,7 +1511,7 @@ setBookingDet(userData)
   }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 200) {
+    if (state.UsersList?.statusCodeForAddUser === 201) {
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: uniqueostel_Id },
@@ -3251,7 +3251,7 @@ useEffect(() => {
                                             handleRoomDetailsPage(user)
                                           }
                                         >
-                                          {user.Name}
+                                          {user.firstName}
                                         </span>
                                       </td>
  <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
@@ -3266,7 +3266,7 @@ useEffect(() => {
                                           borderBottom: "1px solid #E8E8E8",
                                         }}
                                       >
-                                        <span style={{backgroundColor:"#EDD3D8",padding:6,borderRadius:10}}>{user.bed_status}</span> </td>
+                                        <span style={{backgroundColor:"#EDD3D8",padding:6,borderRadius:10}}>{user.currentStatus}</span> </td>
                                       <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         style={{
                                           paddingTop: 15,
@@ -3320,12 +3320,12 @@ useEffect(() => {
                                       >
                                         +
                                         {user &&
-                                          String(user.Phone)?.slice(
+                                          String(user.mobile)?.slice(
                                             0,
-                                            String(user.Phone).length - 10
+                                            String(user.mobile).length - 10
                                           )}{" "}
                                         {user &&
-                                          String(user.Phone)?.slice(-10)}
+                                          String(user.mobile)?.slice(-10)}
                                       </td>
 
 
@@ -3417,7 +3417,7 @@ useEffect(() => {
                                             alignItems: "center",
                                             position: "relative",
                                             backgroundColor:
-                                              activeRow === user.ID
+                                              activeRow === user.customerId
                                                 ? "#E7F1FF"
                                                 : "white",
                                           }}
@@ -3428,7 +3428,7 @@ useEffect(() => {
                                           <PiDotsThreeOutlineVerticalFill
                                             style={{ height: 20, width: 20 }}
                                           />
-                                          {activeRow === user.ID && (
+                                          {activeRow === user.customerId && (
                                             <div
                                               ref={popupRef}
                                               style={{

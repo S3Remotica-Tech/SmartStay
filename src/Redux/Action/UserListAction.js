@@ -2,64 +2,121 @@ import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 
+// v1
+
+// export async function userlist(users) {
+//   return await AxiosConfig.post('/users/user-list', users, {
+//     data: users
+//   })
+// }
+
+
+// v2
+
 export async function userlist(users) {
-  return await AxiosConfig.post('/users/user-list', users, {
-    data: users
-  })
+  return await AxiosConfigV2.get(`/v2/customers/${users.hostel_id}`)
 }
+
+
+
+
+
+// v1
+
+// export async function addUser(params) {
+
+//   console.log("params",params)
+
+//   const formData = new FormData();
+//   if (params.profile) formData.append("profile", params.profile);
+//   if (params.lastname) formData.append("lastname", params.lastname)
+//   if (params.firstname) formData.append("firstname", params.firstname)
+//   if (params.Address) formData.append("Address", params.Address)
+//   if (params.area) formData.append("area", params.area)
+//   if (params.landmark) formData.append("landmark", params.landmark)
+//   if (params.city) formData.append("city", params.city)
+//   if (params.pincode) formData.append("pincode", params.pincode)
+//   if (params.state) formData.append("state", params.state)
+//   if (params.hostel_Id) formData.append("hostel_Id", params.hostel_Id)
+//   if (params.Email) formData.append("Email", params.Email)
+//   if (params.Phone) formData.append("Phone", params.Phone)
+//   if (params.HostelName) formData.append("HostelName", params.HostelName)
+//   if (params.joining_date) formData.append("joining_date", params.joining_date)
+//   if (params.Floor) formData.append("Floor", params.Floor)
+//   if (params.Rooms) formData.append("Rooms", params.Rooms)
+//   if (params.Bed) formData.append("Bed", params.Bed)
+//   if (params.AdvanceAmount) formData.append("AdvanceAmount", params.AdvanceAmount)
+//   if (params.RoomRent) formData.append("RoomRent", params.RoomRent)
+//   if (params.isadvance) formData.append("isadvance", params.isadvance)
+//   if (params.due_date) formData.append("due_date", params.due_date)
+//   if (params.invoice_date) formData.append("invoice_date", params.invoice_date)
+//   if (params.ID) formData.append("ID", params.ID)
+//      if (params.stay_type) formData.append("stay_type", params.stay_type)
+    
+//  if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
+//  if (params.booking_id) formData.append("booking_id",params.booking_id)
+//    if (params.booking_date) formData.append("booking_date",params.booking_date)
+
+//      if (params.booking_amount) formData.append("booking_amount",params.booking_amount)
+
+
+//   try {
+//     const response = await AxiosConfig.post('/add/adduser-list', formData, {
+//       headers: {
+//         "Content-type": "multipart/form-data",
+//       },
+//       timeout: 100000000,
+//       onUploadProgress: (event) => {
+//         console.log("event", event)
+//       }
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//   }
+// }
+
+
+// v2
+
+
 
 export async function addUser(params) {
-
-  console.log("params",params)
-
+  
   const formData = new FormData();
-  if (params.profile) formData.append("profile", params.profile);
-  if (params.lastname) formData.append("lastname", params.lastname)
-  if (params.firstname) formData.append("firstname", params.firstname)
-  if (params.Address) formData.append("Address", params.Address)
-  if (params.area) formData.append("area", params.area)
-  if (params.landmark) formData.append("landmark", params.landmark)
-  if (params.city) formData.append("city", params.city)
-  if (params.pincode) formData.append("pincode", params.pincode)
-  if (params.state) formData.append("state", params.state)
-  if (params.hostel_Id) formData.append("hostel_Id", params.hostel_Id)
-  if (params.Email) formData.append("Email", params.Email)
-  if (params.Phone) formData.append("Phone", params.Phone)
-  if (params.HostelName) formData.append("HostelName", params.HostelName)
-  if (params.joining_date) formData.append("joining_date", params.joining_date)
-  if (params.Floor) formData.append("Floor", params.Floor)
-  if (params.Rooms) formData.append("Rooms", params.Rooms)
-  if (params.Bed) formData.append("Bed", params.Bed)
-  if (params.AdvanceAmount) formData.append("AdvanceAmount", params.AdvanceAmount)
-  if (params.RoomRent) formData.append("RoomRent", params.RoomRent)
-  if (params.isadvance) formData.append("isadvance", params.isadvance)
-  if (params.due_date) formData.append("due_date", params.due_date)
-  if (params.invoice_date) formData.append("invoice_date", params.invoice_date)
-  if (params.ID) formData.append("ID", params.ID)
-     if (params.stay_type) formData.append("stay_type", params.stay_type)
-    
- if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
- if (params.booking_id) formData.append("booking_id",params.booking_id)
-   if (params.booking_date) formData.append("booking_date",params.booking_date)
 
-     if (params.booking_amount) formData.append("booking_amount",params.booking_amount)
+  if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
+  }
 
+
+  if (params.customerInfo) {
+    const customerInfoBlob = new Blob(
+      [JSON.stringify(params.customerInfo)],
+      { type: "application/json" }
+    );
+    formData.append("customerInfo", customerInfoBlob);
+  }
 
   try {
-    const response = await AxiosConfig.post('/add/adduser-list', formData, {
-      headers: {
-        "Content-type": "multipart/form-data",
-      },
-      timeout: 100000000,
-      onUploadProgress: (event) => {
-        console.log("event", event)
+    const response = await AxiosConfigV2.post(
+      `/v2/customers/${params.hostelId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+        
       }
-    });
-    return response.data;
+    );
+    return response;
   } catch (error) {
     console.error("Axios Error", error);
+    throw error;
   }
 }
+
 
 // v1
 

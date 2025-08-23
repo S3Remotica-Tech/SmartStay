@@ -341,7 +341,7 @@ if (matchedBed) {
 
 
       useEffect(() => {
-        if (state.UsersList?.statusCodeForAddUser === 200) {
+        if (state.UsersList?.statusCodeForAddUser === 201) {
           dispatch({
             type: "USERLIST",
             payload: { hostel_id: state.login.selectedHostel_Id},

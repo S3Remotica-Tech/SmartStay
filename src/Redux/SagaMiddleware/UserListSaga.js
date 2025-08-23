@@ -10,7 +10,7 @@ function* handleuserlist(user) {
    try {
       const response = yield call(userlist, user.payload);
       if (response.status === 200) {
-         yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status } })
+         yield put({ type: 'USER_LIST', payload: { response: response.data, statusCode: response.status } })
       }
 
       else if (response.status === 201 || response.data.statusCode === 201) {
@@ -278,10 +278,10 @@ function* handleAddUser(datum) {
       const response = yield call(addUser, datum.payload);
       console.log("handleAddUser", response)
 
-      if (response.statusCode === 200 || response.status === 200) {
+      if (response.status === 201) {
          yield put({
             type: 'ADD_USER',
-            payload: { response: response.message, statusCode: response.statusCode || response.status },
+            payload: { response: response.message, statusCode:response.status },
          });
 
 
@@ -301,7 +301,7 @@ function* handleAddUser(datum) {
 
          };
 
-         toast.success(response.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,

@@ -363,7 +363,21 @@ function Sidebar() {
   }, [allPageHostel_Id]);
 
 
-
+useEffect(() => {
+    if (hostelListDetail && hostelListDetail?.length > 0) {
+     const firstHostel = hostelListDetail[0]
+ 
+      setAllPageHostel_Id(firstHostel.hostelId);
+      setPayingGuestName(firstHostel.name);
+      setSelectedProfileImage(
+        firstHostel.mainImage &&
+          firstHostel.mainImage !== "0" &&
+          firstHostel.mainImage !== ""
+          ? firstHostel.mainImage
+          : Profile
+      );
+    }
+  }, [hostelListDetail]);
 
   useEffect(() => {
     const savedHostelId = localStorage.getItem("selectedHostelId");

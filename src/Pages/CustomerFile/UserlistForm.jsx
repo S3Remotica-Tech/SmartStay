@@ -671,33 +671,40 @@ const handleCloseAssign =()=>{
     const capitalizedLastname = capitalizeFirstLetter(lastname);
   
     const payload = {
-      profile: file,
-      firstname: capitalizedFirstname,
-      lastname: capitalizedLastname,
-      Phone: MobileNumber,
-      Email: Email,
-      AadharNo: AadharNo,
-      PancardNo: PancardNo,
-      licence: licence,
-      HostelName: HostelName,
-      hostel_Id: hostel_Id,
-      Floor: Floor,
-      Rooms: Rooms,
-      Bed: Bed,
-      joining_date: selectedDate,
-      AdvanceAmount: AdvanceAmount,
-      RoomRent: RoomRent,
-      BalanceDue: BalanceDue,
-      PaymentType: PaymentType,
-      paid_advance: paid_advance,
-      paid_rent: paid_rent,
-      payable_rent: payableamount,
-      Address: house_no,
-      area: street,
+      profilePic: file,
+      hostelId:state.login.selectedHostel_Id,
+      customerInfo: {
+      firstName: capitalizedFirstname,
+      lastName: capitalizedLastname,
+      mobileNumber: MobileNumber,
+      emailId: Email,
+      type: 1,
+      address: {  
+      houseNo: house_no,
+      street: street,
       landmark: landmark,
       city: city,
       pincode: pincode,
       state: state_name,
+      },
+      // AadharNo: AadharNo,
+      // PancardNo: PancardNo,
+      // licence: licence,
+      // HostelName: HostelName,
+      // hostel_Id: hostel_Id,
+      // Floor: Floor,
+      // Rooms: Rooms,
+      // Bed: Bed,
+      // joining_date: selectedDate,
+      // AdvanceAmount: AdvanceAmount,
+      // RoomRent: RoomRent,
+      // BalanceDue: BalanceDue,
+      // PaymentType: PaymentType,
+      // paid_advance: paid_advance,
+      // paid_rent: paid_rent,
+      // payable_rent: payableamount,
+      
+      }
     };
 
     if (props?.edit === "Edit") {
@@ -1572,7 +1579,7 @@ const bookingDateRef = useRef("");
  
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 200) {
+    if (state.UsersList?.statusCodeForAddUser === 201) {
       setFormLoading(false)
       setLoading(false)
          handleClose();
@@ -1747,35 +1754,75 @@ const bookingDateRef = useRef("");
 
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
+    // const payload = {
+    //   profile: file,
+    //   firstname: capitalizedFirstname,
+    //   lastname: capitalizedLastname,
+    //   Phone: MobileNumber,
+    //   Email: Email,
+    //   AadharNo: AadharNo,
+    //   PancardNo: PancardNo,
+    //   licence: licence,
+    //   HostelName: HostelName,
+    //   hostel_Id: hostel_Id,
+    //   Floor: Floor,
+    //   Rooms: Rooms,
+    //   Bed: Bed,
+    //   joining_date: selectedDate,
+    //   AdvanceAmount: AdvanceAmount,
+    //   RoomRent: RoomRent,
+    //   BalanceDue: BalanceDue,
+    //   PaymentType: PaymentType,
+    //   paid_advance: paid_advance,
+    //   paid_rent: paid_rent,
+    //   payable_rent: payableamount,
+    //   Address: house_no,
+    //   area: street,
+    //   landmark: landmark,
+    //   city: city,
+    //   pincode: pincode,
+    //   state: state_name,
+    // };
+
+
     const payload = {
-      profile: file,
-      firstname: capitalizedFirstname,
-      lastname: capitalizedLastname,
-      Phone: MobileNumber,
-      Email: Email,
-      AadharNo: AadharNo,
-      PancardNo: PancardNo,
-      licence: licence,
-      HostelName: HostelName,
-      hostel_Id: hostel_Id,
-      Floor: Floor,
-      Rooms: Rooms,
-      Bed: Bed,
-      joining_date: selectedDate,
-      AdvanceAmount: AdvanceAmount,
-      RoomRent: RoomRent,
-      BalanceDue: BalanceDue,
-      PaymentType: PaymentType,
-      paid_advance: paid_advance,
-      paid_rent: paid_rent,
-      payable_rent: payableamount,
-      Address: house_no,
-      area: street,
+      profilePic: file,
+      hostelId:state.login.selectedHostel_Id,
+      customerInfo: {
+      firstName: capitalizedFirstname,
+      lastName: capitalizedLastname,
+      mobileNumber: MobileNumber,
+      emailId: Email,
+      type: 1,
+      address: {  
+      houseNo: house_no,
+      street: street,
       landmark: landmark,
       city: city,
       pincode: pincode,
       state: state_name,
+      },
+      // AadharNo: AadharNo,
+      // PancardNo: PancardNo,
+      // licence: licence,
+      // HostelName: HostelName,
+      // hostel_Id: hostel_Id,
+      // Floor: Floor,
+      // Rooms: Rooms,
+      // Bed: Bed,
+      // joining_date: selectedDate,
+      // AdvanceAmount: AdvanceAmount,
+      // RoomRent: RoomRent,
+      // BalanceDue: BalanceDue,
+      // PaymentType: PaymentType,
+      // paid_advance: paid_advance,
+      // paid_rent: paid_rent,
+      // payable_rent: payableamount,
+      
+      }
     };
+
+
 
     if (props.edit === "Edit") {
       payload.ID = id;
@@ -3947,12 +3994,12 @@ const handleSaveBacktoCheckin =()=>{
             borderBottomLeftRadius: '20px',
           }}
         >
-          <h5 className="mb-4">Add New Customer</h5>
-          <div className="d-flex align-items-center">
+          <h5 className="mb-4" style={{fontFamily:"Gilroy"}}>Add New Customer</h5>
+          <div className="d-flex align-items-center ">
             <div className=" text-white rounded-circle d-flex justify-content-center align-items-center" style={{ width: '30px', height: '30px' , backgroundColor:'rgba(30, 69, 225, 1)' }}><img src={Store_Icon} alt="storeicon" height={15} width={15}/> </div>
             <span className="ms-2" style={{fontFamily: "Gilroy",fontSize: "14px"}}>Step 1<br /><small>Basic Details</small></span>
           </div>
-<div className="d-flex align-items-center">
+<div className="d-flex align-items-center mb-2">
   <div
     className="rounded-circle d-flex justify-content-center align-items-center"
     style={{
@@ -3993,7 +4040,7 @@ const handleSaveBacktoCheckin =()=>{
           </div> */}
 
            <div
-        className="d-flex justify-content-between align-items-start px-4 py-3"
+        className="d-flex justify-content-between align-items-start px-2 py-1"
         style={{
           position: 'sticky',
           top: 0,
@@ -4007,7 +4054,7 @@ const handleSaveBacktoCheckin =()=>{
         </h5>
         <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: 'pointer' }} />
       </div>
-              <div className="" style={{overflowY:'auto' , maxHeight: "440px",overflowX:'hidden'}}>
+              <div className="show-scroll ms-2 mt-1" style={{overflowY:'auto' , maxHeight: "440px",overflowX:'hidden'}}>
               {step === 1 && (
                 <>
                   <div className="row">

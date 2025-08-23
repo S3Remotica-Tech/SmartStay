@@ -62,7 +62,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const countryRef = useRef(null);
 
 
-console.log("currentItem",currentItem )
+  console.log("currentItem", currentItem)
 
 
   const indianStates = [
@@ -104,6 +104,12 @@ console.log("currentItem",currentItem )
     { value: "Puducherry", label: "Puducherry" },
   ];
 
+
+
+  const countryList = [
+    { value: "1", label: "India" },
+  ];
+
   const handleCountryChange = (e) => {
     const value = e.target.value
     const pattern = /^[a-zA-Z\s]*$/;
@@ -111,9 +117,7 @@ console.log("currentItem",currentItem )
       return;
     }
     setCountry(value);
-    setGeneralError("");
-    setIsChangedError("");
-    setCountryError("");
+
   };
 
   const handlePinCodeChange = (e) => {
@@ -493,7 +497,7 @@ console.log("currentItem",currentItem )
               landmark: landmark,
               city: city,
               state: state_name,
-              vendorId: currentItem.id
+              vendorId: Number(currentItem.id)
             },
           },
         });
@@ -568,12 +572,12 @@ console.log("currentItem",currentItem )
 
   useEffect(() => {
     if (currentItem) {
-           const phoneNumber = String(currentItem.mobile || "");
+      const phoneNumber = String(currentItem.mobile || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
 
       const mobileNumber = phoneNumber.slice(-10);
 
-      const emailValue = currentItem.emailId      ;
+      const emailValue = currentItem.emailId;
       const normalizedEmail =
         emailValue === "undefined" ||
           emailValue === null ||
@@ -606,7 +610,7 @@ console.log("currentItem",currentItem )
 
       setHouseNo(sanitize(currentItem.houseNo))
       setStreet(sanitize(currentItem.area))
-      setLandmark(sanitize(currentItem.landmark))
+      setLandmark(sanitize(currentItem.landMark))
       setCity(currentItem.city)
       setStateName(currentItem.state)
 
@@ -620,11 +624,11 @@ console.log("currentItem",currentItem )
         street: sanitize(currentItem.area) || '',
         city: sanitize(currentItem.city) || '',
 
-        landmark: sanitize(currentItem.landmark) || '',
+        landmark: sanitize(currentItem.landMark) || '',
         state: currentItem.state || '',
         email_Id: normalizedEmail,
         business_Name: currentItem.businessName,
-        file: currentItem.profilePic ? currentItem.Vendor_profile : null,
+        file: currentItem.profilePic ? currentItem.profilePic : null,
         country: currentItem.country,
         pinCode: currentItem.pincode,
       });
@@ -1448,7 +1452,7 @@ console.log("currentItem",currentItem )
                     Country {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <Form.Control
+                  {/* <Form.Control
                     value={country}
                     ref={countryRef}
                     onChange={(e) => handleCountryChange(e)}
@@ -1464,7 +1468,77 @@ console.log("currentItem",currentItem )
                       height: 50,
                       borderRadius: 8,
                     }}
+                  /> */}
+
+                  <Select
+                    options={countryList}
+                    ref={countryRef}
+                    onChange={(selectedOption) => {
+                      setCountry(selectedOption?.label);
+                      setGeneralError("");
+                      setIsChangedError("");
+                      setCountryError("");
+                    }}
+                    onInputChange={(inputValue, { action }) => {
+                      if (action === "input-change") {
+                        const lettersOnly = inputValue.replace(/[^a-zA-Z\s]/g, "");
+                        return lettersOnly;
+                      }
+                      return inputValue;
+                    }}
+                    value={countryList.find((c) => c.value === country) || null}
+                    placeholder="Select Country"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No country available"}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        height: "50px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        fontSize: "16px",
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: country ? 600 : 500,
+                        boxShadow: "none",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                      }),
+                    }}
                   />
+
                   {countryError && (
                     <div className="d-flex align-items-center p-1 mb-2">
                       <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
