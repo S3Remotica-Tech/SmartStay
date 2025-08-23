@@ -169,6 +169,10 @@ const InvoicePage = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [startDate, endDate] = dateRange;
   const [checkedRows, setCheckedRows] = useState({});
+  const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
+  const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
+
+
 
   const [activeStay, setActiveStay] = useState("long_stay");
 
@@ -319,17 +323,6 @@ const InvoicePage = () => {
     setInvoiceDetails(null);
   };
 
-  // const handleRecurrBillShow = () => {
-  //   if (!state.login.selectedHostel_Id) {
-  //     toast.error('Please add a hostel before adding Recurring bill information.', {
-  //       hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-  //     });
-  //     return;
-  //   }
-  //   setShowAllBill(false);
-  //   setShowRecurringBillForm(true);
-  // };
-
   const handleReceiptShow = () => {
     if (!state.login.selectedHostel_Id) {
       toast.error('Please add a hostel before adding receipt information.', {
@@ -437,9 +430,9 @@ const InvoicePage = () => {
       }, 100);
     }
   }, [state.InvoiceList.pdfErrorStatusCode]);
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
-       setLoading(false)
+      setLoading(false)
       setShowLoader(false);
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
@@ -614,52 +607,54 @@ useEffect(() => {
     return date.toISOString().split("T")[0];
   };
 
-//  console.log("invoiceList",invoiceList)
-//  console.log("invoiceList",invoiceList.payableAmount)
-  console.log("invoiceList",invoiceList.balanceDue)
-const [payableAmount, setPayableAmount] = useState("");
-const [balance, setBalance] = useState(0);
+  //  console.log("invoiceList",invoiceList)
+  //  console.log("invoiceList",invoiceList.payableAmount)
+  console.log("invoiceList", invoiceList.balanceDue)
+  const [payableAmount, setPayableAmount] = useState("");
+  const [balance, setBalance] = useState(0);
 
-// const handleAmount = (e) => {
-//   const value = Number(e.target.value) || 0; 
-//   setPayableAmount(value);
+  // const handleAmount = (e) => {
+  //   const value = Number(e.target.value) || 0; 
+  //   setPayableAmount(value);
 
-//   const remaining = (invoiceList.balanceDue || 0) - value;
-//   setBalance(remaining >= 0 ? remaining : 0);
-// };
-// const handleAmount = (e) => {
-//   let value = Number(e.target.value) || 0;
+  //   const remaining = (invoiceList.balanceDue || 0) - value;
+  //   setBalance(remaining >= 0 ? remaining : 0);
+  // };
+  // const handleAmount = (e) => {
+  //   let value = Number(e.target.value) || 0;
 
-//   // Prevent typing more than balanceDue
-//   if (value > (invoiceList.balanceDue || 0)) {
-//     value = invoiceList.balanceDue || 0;
-//   }
+  //   // Prevent typing more than balanceDue
+  //   if (value > (invoiceList.balanceDue || 0)) {
+  //     value = invoiceList.balanceDue || 0;
+  //   }
 
-//   setPayableAmount(value);
+  //   setPayableAmount(value);
 
-//   const remaining = (invoiceList.balanceDue || 0) - value;
-//   setBalance(remaining >= 0 ? remaining : 0);
-// };
-const handleAmount = (e) => {
-  let value = e.target.value; 
+  //   const remaining = (invoiceList.balanceDue || 0) - value;
+  //   setBalance(remaining >= 0 ? remaining : 0);
+  // };
+  const handleAmount = (e) => {
+    let value = e.target.value;
 
-  // If user typed something, convert & limit
-  if (value !== "") {
-    let numValue = Number(value);
-    if (numValue > (invoiceList.balanceDue || 0)) {
-      numValue = invoiceList.balanceDue || 0;
+    // If user typed something, convert & limit
+    if (value !== "") {
+      let numValue = Number(value);
+      if (numValue > (invoiceList.balanceDue || 0)) {
+        numValue = invoiceList.balanceDue || 0;
+      }
+      value = numValue;
+      setBalance((invoiceList.balanceDue || 0) - numValue);
+    } else {
+
+      setBalance(invoiceList.balanceDue || 0);
     }
-    value = numValue;
-    setBalance((invoiceList.balanceDue || 0) - numValue);
-  } else {
-  
-    setBalance(invoiceList.balanceDue || 0);
-  }
 
-  setPayableAmount(value);
-};
+    setPayableAmount(value);
+    setPayableAmountError("")
+    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+  };
 
-console.log("balance",balance)
+  console.log("balance", balance)
   // const handleAmount = (e) => {
   //   const inputValue = e.target.value.trim();
 
@@ -712,6 +707,8 @@ console.log("balance",balance)
   const [totalAmountPayable, setTotalAmountPayable] = useState(0);
   const [nonRefundableAmount, setNonRefundableAmount] = useState(0);
   const [refundableAmount, setRefundableAmount] = useState(0);
+  const [payableamountError, setPayableAmountError] = useState("")
+
 
 
 
@@ -933,7 +930,17 @@ console.log("balance",balance)
     setAmountErrmsg("")
     setShowform(false);
     setBalance("")
+    setSelectedDate(null);
+    setAmountErrmsg("");
+    setDateErrmsg("");
+    setPaymodeErrmsg("");
     setPayableAmount("")
+    setPayableAmountError("")
+    setManualInvoiceNumberError("")
+    setUnableAddInvoiceDetailsError("")
+    dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
+    dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
+    dispatch({ type: 'CLEAR_UNABLE_ADD_INVOICE_DETAILS' })
     setInvoiceList({
       firstName: "",
       lastName: "",
@@ -956,7 +963,7 @@ console.log("balance",balance)
   const handleCloseDeleteform = () => {
     setShowDeleteform(false);
   };
- 
+
 
   const handleSaveInvoiceList = () => {
     const formatpaiddate = formatDateForPayload(selectedDate);
@@ -1018,13 +1025,11 @@ console.log("balance",balance)
           bank_id: account,
         },
       });
-      setFormRecordLoading(true)
 
-      setSelectedDate(null);
-      setAmountErrmsg("");
-      setDateErrmsg("");
-      setPaymodeErrmsg("");
+
+
     }
+    setFormRecordLoading(true)
   };
 
   const options = {
@@ -1939,8 +1944,8 @@ console.log("balance",balance)
     setDownloadReceipt(isVisible);
     setShowPdfReceiptModal(true);
     setRowData(rowData);
-    if(rowData?.id){
-    dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload:  {id: rowData?.id} })
+    if (rowData?.id) {
+      dispatch({ type: "RECEIPTPDF_NEWCHANGES", payload: { id: rowData?.id } })
     }
 
   };
@@ -1982,6 +1987,36 @@ console.log("balance",balance)
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
+  useEffect(() => {
+    if (state.InvoiceList.payapleAmountError) {
+      setFormRecordLoading(false)
+      setFormLoading(false)
+      setLoading(false)
+      setPayableAmountError(state.InvoiceList.payapleAmountError)
+
+    }
+
+  }, [state.InvoiceList.payapleAmountError])
+
+  useEffect(() => {
+    if (state.InvoiceList.ManualInvoiceNumberError) {
+      setFormLoading(false)
+      setLoading(false)
+      setManualInvoiceNumberError(state.InvoiceList.ManualInvoiceNumberError)
+
+    }
+
+  }, [state.InvoiceList.ManualInvoiceNumberError])
+
+  useEffect(() => {
+    if (state.InvoiceList.unableAddInvoiceDetailsError) {
+      setFormLoading(false)
+      setLoading(false)
+      setUnableAddInvoiceDetailsError(state.InvoiceList.unableAddInvoiceDetailsError)
+
+    }
+
+  }, [state.InvoiceList.unableAddInvoiceDetailsError])
 
 
   useEffect(() => {
@@ -2455,7 +2490,7 @@ console.log("balance",balance)
     if (customername && !invoiceDetails) {
       dispatch({
         type: "MANUAL-INVOICE-NUMBER-GET",
-        payload: { user_id: customername,template_type:"Rental Invoice" },
+        payload: { user_id: customername, template_type: "Rental Invoice" },
       });
     }
   }, [customername]);
@@ -3655,11 +3690,11 @@ console.log("balance",balance)
                                       }}
                                       placeholder="Enter Amount"
                                       className="no-spinner"
-                                     value={payableAmount}
-  onChange={handleAmount}
-                                      // onKeyDown={(e) => {
-                                      //   if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
-                                      // }}
+                                      value={payableAmount}
+                                      onChange={handleAmount}
+                                    // onKeyDown={(e) => {
+                                    //   if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
+                                    // }}
                                     />
 
 
@@ -3692,7 +3727,7 @@ console.log("balance",balance)
                                   </Form.Group>
                                 </div>
 
-                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
 
                                     controlId="exampleForm.ControlInput3"
@@ -3720,7 +3755,7 @@ console.log("balance",balance)
                                     </Form.Label>
 
                                     <Form.Control
-                                    disabled
+                                      disabled
                                       type="number"
                                       min="0"
                                       step="1"
@@ -3737,13 +3772,13 @@ console.log("balance",balance)
                                       }}
                                       placeholder="Enter Amount"
                                       className="no-spinner"
-                                     value={balance}
+                                      value={balance}
 
                                     />
 
 
 
-                                  
+
                                   </Form.Group>
                                 </div>
 
@@ -3833,7 +3868,7 @@ console.log("balance",balance)
 
                                 </div>
 
-                                
+
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
@@ -4101,6 +4136,13 @@ console.log("balance",balance)
                                 <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                               </div>
                               : null}
+                            {payableamountError ?
+                              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{payableamountError}</label>
+                              </div>
+                              : null}
+
 
                             {formRecordLoading && <div
                               style={{
@@ -6245,6 +6287,7 @@ console.log("balance",balance)
                     </p>
                   </div>
                 )}
+
               </Form.Group>
             </div>
           </div>
@@ -6669,8 +6712,23 @@ console.log("balance",balance)
 
             <div className="mb-3"></div>
           </div>
+
         </div>
+
       )}
+      {manualInvoiceNumberError ?
+        <div className='d-flex align-items-center justify-content-center  mb-2' style={{ marginTop: "30px", marginLeft: "30px" }}>
+          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{manualInvoiceNumberError}</label>
+        </div>
+        : null}
+
+      {unableAddInvoiceDetailsError ?
+        <div className='d-flex align-items-center justify-content-center mb-2' style={{ marginTop: "10px", marginLeft: "30px" }}>
+          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{unableAddInvoiceDetailsError}</label>
+        </div>
+        : null}
 
       {showRecurringBillForm && (
         <>

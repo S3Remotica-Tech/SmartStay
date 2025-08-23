@@ -126,7 +126,8 @@ export const initialState = {
 }
 
 const UserListReducer = (state = initialState, action) => {
-
+    console.log("action" , action.type);
+    
 
     switch (action.type) {
 
@@ -210,6 +211,10 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }
+        case 'PHONE_ERROR' :
+             return { ...state, phoneError: action.payload }
+        case 'CLEAR_PHONE_ERROR':
+            return { ...state, phoneError: '' }
         case 'ERROR':
             return { ...state, errorMessage: action.payload, roomdetails: [], bednumberdetails: [] }
         case 'HOSTEL_LIST':
@@ -259,12 +264,6 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'COUNTRY_LIST':
             return { ...state, countrycode: action.payload };
-
-        case 'PHONE_ERROR':
-            return { ...state, phoneError: action.payload }
-
-        case 'CLEAR_PHONE_ERROR':
-            return { ...state, phoneError: '' }
 
         case 'EMAIL_ERROR':
             return { ...state, emailError: action.payload }

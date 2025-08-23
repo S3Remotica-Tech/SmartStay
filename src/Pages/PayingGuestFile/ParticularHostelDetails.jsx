@@ -4,17 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import AddRoom from './AddRoom';
-import AddBedUI from './AddBed';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import DeleteRoom from './DeleteRoom';
-import DeleteBed from './DeleteBed';
-import OccupiedCustomer from './OccupiedCustomer'
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 import Select from "react-select";
-
 import BedDetailsMap from './BedDetailsMap';
 
 
@@ -28,8 +24,8 @@ function ParticularHostelDetails(props) {
   const state = useSelector((state) => state);
 
 
-  const [showBed, setShowBed] = useState(false)
-  const [details, setDetails] = useState('')
+  // const [showBed, setShowBed] = useState(false)
+  // const [details, setDetails] = useState('')
 
   
   const [showDots, setShowDots] = useState('')
@@ -46,9 +42,8 @@ function ParticularHostelDetails(props) {
   const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
   const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
 
-  const [showDeleteBed, setShowDeleteBed] = useState(false)
-  const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
- 
+  // const [showDeleteBed, setShowDeleteBed] = useState(false)
+
   
 
 
@@ -104,29 +99,6 @@ function ParticularHostelDetails(props) {
   };
 
 
-  const handleShowReAssignBedPopup = (isVisible, customer_id) => {
-    setOccubiedBed(false)
-    setShowReAssignBedForm(isVisible)
-    setCustomerId(customer_id)
-
-  }
-
-  const handleCloseReassignForm = () => {
-    setShowReAssignBedForm(false)
-  }
-
-
-  const handleShowNoticePeriod = (isVisible, customer) => {
-    setOccubiedBed(false)
-    setMoveToNoticePeriodForm(isVisible)
-    setCustomerDetails(customer)
-
-  }
-
-  const handleCloseNoticePeriod = () => {
-    setMoveToNoticePeriodForm(false)
-  }
-
 
 
 
@@ -178,7 +150,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
-      setNoticePeriodBed(false)
+      // setNoticePeriodBed(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
       }, 2000);
@@ -255,7 +227,7 @@ function ParticularHostelDetails(props) {
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
       }, 2000)
-      setShowDeleteBed(false)
+      // setShowDeleteBed(false)
       dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
     }
@@ -294,7 +266,7 @@ function ParticularHostelDetails(props) {
       dispatch({ type: 'HOSTELLIST' })
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-      setShowBed(false)
+      // setShowBed(false)
 
       if (roomList && roomList.length > 0) {
         roomList.forEach((room) => {
@@ -332,7 +304,7 @@ function ParticularHostelDetails(props) {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-      setMoveToNoticePeriodForm(false)
+      // setMoveToNoticePeriodForm(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 3000);
@@ -368,7 +340,7 @@ function ParticularHostelDetails(props) {
     if (state.UsersList.statusCodeForReassinBed === 200) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-      setShowReAssignBedForm(false)
+      // setShowReAssignBedForm(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_REASSIGN_BED" });
       }, 3000);
@@ -380,7 +352,7 @@ function ParticularHostelDetails(props) {
     if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 201) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-      setEmptyBed(false);
+      // setEmptyBed(false);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
@@ -394,7 +366,7 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      setEmptyBed(false);
+      // setEmptyBed(false);
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
 
@@ -873,7 +845,7 @@ function ParticularHostelDetails(props) {
         }
 
 
-        {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} />}
+        {/* {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} />} */}
         {showRoom && <AddRoom show={showRoom}
           handleClose={handlecloseRoom} hostelDetails={hostelDetails} editRoom={editRoom}
         />}
@@ -883,9 +855,6 @@ function ParticularHostelDetails(props) {
         }
 
 
-        {
-          showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
-        }
         
 
 
@@ -898,9 +867,9 @@ function ParticularHostelDetails(props) {
 ParticularHostelDetails.propTypes = {
   floorID: PropTypes.func.isRequired,
   hostel_Id: PropTypes.func.isRequired,
-  // deletePermissionError: PropTypes.func.isRequired,
-  // addPermissionError: PropTypes.func.isRequired,
-  // editPermissionError: PropTypes.func.isRequired,
+  deletePermissionError: PropTypes.func.isRequired,
+  addPermissionError: PropTypes.func.isRequired,
+  editPermissionError: PropTypes.func.isRequired,
 };
 export default ParticularHostelDetails
 

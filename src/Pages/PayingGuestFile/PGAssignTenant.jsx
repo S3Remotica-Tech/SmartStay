@@ -342,6 +342,7 @@ if (matchedBed) {
 
       useEffect(() => {
         if (state.UsersList?.statusCodeForAddUser === 201) {
+          setFormLoading(false)
           dispatch({
             type: "USERLIST",
             payload: { hostel_id: state.login.selectedHostel_Id},
@@ -555,6 +556,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
     dispatch({ type: "INVOICELIST" });
     }
+    setFormLoading(true)
   };
 
 
@@ -653,7 +655,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                             <div style={{ maxHeight: "350px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                               <div className="row d-flex align-items-center">
 
-                                <Row>
+                               
                                      <div style={{ display: 'flex', flexDirection: 'row' }}>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput5">
@@ -770,7 +772,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                     
                                                
                                               </div>
-                                </Row>
+                              
                                         <Col md={6}>
                                           <Form.Group controlId="">
                                             <Form.Label
@@ -887,7 +889,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                           )}
                                         </Col>
                                    
-                                             <Row>
+                                            
                                                 <Col md={12}>
                                                  <Form.Group controlId="joiningDate">
                                                    <Form.Label
@@ -921,7 +923,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                       //  getPopupContainer={(triggerNode) =>
                                                       //    triggerNode.closest(".datepicker-wrapper")
                                                       //  }
-                                                      disabledDate={(current) => current && current < dayjs().startOf("day")}
+                                                      disabledDate={(current) => {
+                                                          if (!bookingDate) {
+                                                            return true; 
+                                                          }
+                                                          return current && current.isBefore(dayjs(bookingDate), "day");
+                                                        }}
+                                                      // disabledDate={(current) => current && current < dayjs().startOf("day")}
                                                       getPopupContainer={() => document.body}
                                                      />
                                                    </div>
@@ -961,7 +969,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                    
                                    
                                                </Col>
-                                             </Row>
+                                            
         
         
                               </div>
@@ -1448,6 +1456,33 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
         
         
                               </div>
+                                             {formLoading &&
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
         
                               <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-3 mb-3">
         
@@ -1654,7 +1689,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
         
                                       <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
         
-                                        {index !== 0 && (
+                                      
                                           <Trash
                                             size="20"
                                             color="red"
@@ -1662,7 +1697,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                             style={{ cursor: "pointer" }}
                                             onClick={() => handleRemoveField(index)}
                                           />
-                                        )}
+                                      
                                       </div>
                                     </div>
                                   );

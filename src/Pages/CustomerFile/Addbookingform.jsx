@@ -22,7 +22,6 @@ import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 
 function BookingModal(props) {
 
-  console.log("props", props);
 
 
   const state = useSelector((state) => state);

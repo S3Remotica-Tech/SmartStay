@@ -415,6 +415,8 @@ export async function customerAddContact(datum) {
 }
 
 export async function customerAllContact(datum) {
+  console.log("datum" , datum);
+  
   return await AxiosConfig.post('/users/all_contacts', datum, {
     data: datum
   })

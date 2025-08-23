@@ -141,6 +141,7 @@ function Sidebar() {
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
+  
   useEffect(() => {
     dispatch({ type: "HOSTELLIST" })
   }, []);
@@ -198,9 +199,7 @@ function Sidebar() {
         const emilidd = loginInfo.mailId;
         const Is_Enable = loginInfo?.two_step_verification_status;
 
-        console.log("iiiiiiiiiiiii",Is_Enable)
-
-
+  
         const encryptedLoginId = CryptoJS.AES.encrypt(
           LoginId.toString(),
           "abcd"

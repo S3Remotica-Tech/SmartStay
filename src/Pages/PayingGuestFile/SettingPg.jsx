@@ -64,7 +64,6 @@ function SettingParticular(props) {
   const [customerId, setCustomerId] = useState('')
   const [customerDetails, setCustomerDetails] = useState('');
   const [showDots, setShowDots] = useState('')
-  const [roomCountData, setRoomCountData] = useState([])
   const [activeRoomId, setActiveRoomId] = useState(null);
   // const [showRoom, setShowRoom] = useState(false)
   // const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
@@ -80,7 +79,7 @@ function SettingParticular(props) {
 
 
   const [loader, setLoader] = useState(false)
-  const [loaderTrigger, setLoaderTrigger] = useState(true);
+  // const [loaderTrigger, setLoaderTrigger] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
@@ -297,21 +296,21 @@ console.log("state",state)
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
 
-  useEffect(() => {
-    if (state?.PgList?.roomCountStatusCode === 200) {
+  // useEffect(() => {
+  //   if (state?.PgList?.roomCountStatusCode === 200) {
 
 
-      setRoomCountData(state.PgList?.roomCount);
+  //     setRoomCountData(state.PgList?.roomCount);
 
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 500)
-      setTimeout(() => {
-        setLoader(false)
-        dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
-      }, 500);
-    }
-  }, [state?.PgList?.roomCountStatusCode])
+  //     setTimeout(() => {
+  //       setLoaderTrigger(false)
+  //     }, 500)
+  //     setTimeout(() => {
+  //       setLoader(false)
+  //       dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
+  //     }, 500);
+  //   }
+  // }, [state?.PgList?.roomCountStatusCode])
 
 useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
@@ -343,28 +342,28 @@ useEffect(() => {
       }
     }, [roomList, state?.PgList?.getAllRoomSuccessStatus]);
 
-useEffect(() => {
-    if (state?.PgList.getAllBedSuccessStatus === 200) {
-      setBedList(state.PgList?.bedList)
-    }
+// useEffect(() => {
+//     if (state?.PgList.getAllBedSuccessStatus === 200) {
+//       setBedList(state.PgList?.bedList)
+//     }
 
-  }, [state?.PgList.getAllBedSuccessStatus])
+//   }, [state?.PgList.getAllBedSuccessStatus])
 
-  useEffect(() => {
-    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
+  // useEffect(() => {
+  //   if (state.PgList?.noRoomsInFloorStatusCode === 201) {
 
-      setRoomCountData([])
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 100)
+  //     setRoomCountData([])
+  //     setTimeout(() => {
+  //       setLoaderTrigger(false)
+  //     }, 100)
 
-      setTimeout(() => {
-        setLoader(false)
-        dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
-      }, 200);
-    }
+  //     setTimeout(() => {
+  //       setLoader(false)
+  //       dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
+  //     }, 200);
+  //   }
 
-  }, [state.PgList?.noRoomsInFloorStatusCode])
+  // }, [state.PgList?.noRoomsInFloorStatusCode])
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201) {
@@ -931,7 +930,7 @@ if (roomList && roomList.length > 0) {
             ))}
 
             {/* Empty State */}
-            {!loader && !loaderTrigger && currentItems.length === 0 && (
+            {!loader &&  currentItems.length === 0 && (
               <div className='d-flex flex-column align-items-center justify-content-center text-center w-100 px-3 fade-in'>
                 <div><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
                 <div className="pb-1 mt-1" style={{ fontWeight: 600, fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>

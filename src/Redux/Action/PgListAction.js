@@ -43,7 +43,6 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export async function createPgList(params) {
 
-  console.log("params",params)
 
   try {
     const formData = new FormData();
@@ -69,7 +68,7 @@ export async function createPgList(params) {
     }
 
        if (params.additionalImages && params.additionalImages.length > 0) {
-      params.additionalImages.forEach((img, index) => {
+      params.additionalImages.forEach((img) => {
         if (img) {
           formData.append("additionalImages", img);
         }

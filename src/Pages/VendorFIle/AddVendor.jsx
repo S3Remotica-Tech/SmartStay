@@ -21,7 +21,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [first_Name, setFirst_Name] = useState("");
   const [last_Name, setLast_Name] = useState("");
   const [vendor_Mobile, setVendor_Mobile] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -29,7 +29,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
   const [business_Name, setBusiness_Name] = useState("");
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
   const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
 
@@ -110,15 +110,15 @@ function AddVendor({ show, setShow, currentItem }) {
     { value: "1", label: "India" },
   ];
 
-  const handleCountryChange = (e) => {
-    const value = e.target.value
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setCountry(value);
+  // const handleCountryChange = (e) => {
+  //   const value = e.target.value
+  //   const pattern = /^[a-zA-Z\s]*$/;
+  //   if (!pattern.test(value)) {
+  //     return;
+  //   }
+  //   setCountry(value);
 
-  };
+  // };
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -541,7 +541,7 @@ function AddVendor({ show, setShow, currentItem }) {
       setFirst_Name("");
       setLast_Name("");
       setVendor_Mobile("");
-      setAddress("");
+      // setAddress("");
       setEmail_Id("");
       setBusiness_Name("");
       setHouseNo("")
@@ -597,12 +597,12 @@ function AddVendor({ show, setShow, currentItem }) {
       setLast_Name(currentItem.lastName);
       setVendor_Mobile(mobileNumber);
       setCountryCode(countryCode);
-      setAddress(currentItem?.houseNo);
+      // setAddress(currentItem?.houseNo);
 
       setEmail_Id(normalizedEmail);
 
       setBusiness_Name(currentItem.businessName);
-      setId(currentItem.id);
+      // setId(currentItem.id);
 
       setFile(currentItem.profilePic ? currentItem.profilePic : null);
       setCountry(currentItem.country);

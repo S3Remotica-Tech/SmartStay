@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Green from '../../Assets/Images/New_images/Frame.png'
 import White from '../../Assets/Images/New_images/empty_bed.png';
@@ -6,7 +7,7 @@ import { FaSquarePlus } from "react-icons/fa6";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import AddBedUI from './AddBed';
-// import PropTypes from "prop-types"
+import PropTypes from "prop-types"
 import EmptyBed from './EmptyBed';
 import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
@@ -19,11 +20,12 @@ import BookingBed from './NoticePeriod/BookingBed';
 import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
 import CheckoutTenant from './NoticePeriod/Check-out Tenant';
+import OccupiedCustomer from './OccupiedCustomer';
+import DeleteBed from './DeleteBed';
 
 function BedDetailsMap({ room, propsValue }) {
 
-    console.log("room", room)
-    console.log("propsValue", propsValue)
+   
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     const [bedList, setBedList] = useState([])
@@ -40,12 +42,13 @@ function BedDetailsMap({ room, propsValue }) {
     const [customerDetails, setCustomerDetails] = useState('');
     const [Occubied_bed, setOccubiedBed] = useState(false)
     const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
-
+  const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
+ 
     const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
     const [customerID, setCustomerID] = useState('')
     const [add_customerform, setAddCustomerForm] = useState(false)
     const [assign_tenantform, setAssignTenantForm] = useState(false)
-
+  const [showDeleteBed, setShowDeleteBed] = useState(false)
     const [showBed, setShowBed] = useState(false)
     const [details, setDetails] = useState('')
 
@@ -56,6 +59,29 @@ function BedDetailsMap({ room, propsValue }) {
     const handleCloseReservedBed = () => {
         setShowReservedBed(false)
     }
+
+
+
+  const handleCloseReassignForm = () => {
+    setShowReAssignBedForm(false)
+  }
+
+  const handleShowReAssignBedPopup = (isVisible, customer_id) => {
+    setOccubiedBed(false)
+    setShowReAssignBedForm(isVisible)
+    setCustomerId(customer_id)
+
+  }
+  const handleShowNoticePeriod = (isVisible, customer) => {
+    setOccubiedBed(false)
+    setMoveToNoticePeriodForm(isVisible)
+    setCustomerDetails(customer)
+
+  }
+
+  const handleCloseNoticePeriod = () => {
+    setMoveToNoticePeriodForm(false)
+  }
 
 
 
@@ -71,8 +97,7 @@ function BedDetailsMap({ room, propsValue }) {
     }
 
 
-    console.log("showReservedBed",showReservedBed)
-
+    
     const handleShowMakeAsInActive = () => {
         setShowInActive(true)
         setShowReservedBed(false)
@@ -155,25 +180,28 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
-    
-        if (!bed.isBooked) {
+    // once changed the condition when api integration 
+        if (bed.isBooked) {
             setShowReservedBed(true);
             setOccupiedCustomerDetails({ bed, room });
 
-        } else if (bed.isOccupied) {
+        } 
+        else if (bed.isOccupied) {
             setEmptyBed(true);
             setDeleteBedDetails({ bed, room });
             setOccupiedCustomerDetails({ bed, room });
 
-        } else if (bed.isOccupied && bed.onNotice) {
+        } 
+        else if ( bed.onNotice) {
             setOccubiedBed(false);
             setNoticePeriodBed(true);
             setOccupiedCustomerDetails({ bed, room });
 
-        } else if (bed.isOccupied) {
-            setOccubiedBed(true);
-            setOccupiedCustomerDetails({ bed, room });
-        }
+        } 
+        // else if (bed.isOccupied) {
+        //     setOccubiedBed(true);
+        //     setOccupiedCustomerDetails({ bed, room });
+        // }
     };
 
 
@@ -188,7 +216,7 @@ function BedDetailsMap({ room, propsValue }) {
         }
     }, [state?.PgList?.getAllRoomSuccessStatus]);
 
-    console.log("state", state)
+
 
     useEffect(() => {
         if (state?.PgList.getAllBedSuccessStatus === 200) {
@@ -198,9 +226,7 @@ function BedDetailsMap({ room, propsValue }) {
     }, [state?.PgList.getAllBedSuccessStatus])
 
 
-    console.log("bedList**********", bedList)
-
-    useEffect(() => {
+        useEffect(() => {
         if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
 
             setShowBed(false)
@@ -228,10 +254,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     }, [state.PgList.statusCodeDeleteBed])
 
-    const bedsForRoom = state.PgList.bedList?.[room.id] || [];
-
-
-    console.log("bedsForRoom", bedsForRoom)
+    const bedsForRoom = bedList?.[room.id] || [];
 
 
     return (
@@ -239,6 +262,10 @@ function BedDetailsMap({ room, propsValue }) {
         <div>
             {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} />}
 
+{
+          showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
+        }
+        
             {
                 occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
             }
@@ -430,11 +457,9 @@ function BedDetailsMap({ room, propsValue }) {
         </div>
     )
 }
-// BedDetailsMap.propTypes = {
-//   floorID: PropTypes.func.isRequired,
-//   hostel_Id: PropTypes.func.isRequired,
-//   deletePermissionError: PropTypes.func.isRequired,
-//   addPermissionError: PropTypes.func.isRequired,
-//   editPermissionError: PropTypes.func.isRequired,
-// };
+BedDetailsMap.propTypes = {
+  room: PropTypes.func.isRequired,
+propsValue: PropTypes.func.isRequired,
+  
+};
 export default BedDetailsMap

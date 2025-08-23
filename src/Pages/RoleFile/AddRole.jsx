@@ -21,7 +21,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     const [roleName, setRoleName] = useState('')
     const [errorForm, setErrorForm] = useState("")
     const [errorPermission, setErrorPermission] = useState("")
-    const [editPermissionDetails, setEditPermissionDetails] = useState([])
+    // const [editPermissionDetails, setEditPermissionDetails] = useState([])
     const [errorIsChanged, setErrorIsChanged] = useState("");
     const [roleError, setRoleError] = useState("")
     const [editRoleError, setEditRoleError] = useState("")
@@ -335,7 +335,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     useEffect(() => {
         if (addRole) {
-            setEditPermissionDetails([])
+            // setEditPermissionDetails([])
             setRoleName("")
             setPermissionRole([])
             setCheckboxValues((prevValues) => {

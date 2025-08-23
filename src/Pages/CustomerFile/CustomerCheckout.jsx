@@ -38,26 +38,16 @@ function CustomerCheckout(props) {
 
 
 useEffect(() => {
-  let userId = null;
 
-  if (props?.data) {
-    if (Array.isArray(props.data) && props.data[0]?.id) {
-      userId = props.data[0].id;
-    } else if (props.data?.ID) {
-      userId = props.data.ID;
-    }
+  if (props.data.ID ||  props.data) {
+    dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID ||  props.data } });
   }
+}, [props.data]);  
 
-  console.log("userid", userId);
-
-  if (userId) {
-    dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: userId } });
-    
-  }
-}, [props?.data, dispatch]);  
+ 
 
 
-      console.log("props", props?.data?.ID , props?.data[0]?.id );
+   
       
 
     useEffect(() => {
@@ -179,6 +169,7 @@ console.log("datadata",props.data)
 
   useEffect(() => {
     if (state.UsersList.errorMessageAddCheckOut) {
+      
       setFormLoading(false)
     }
   }, [state.UsersList.errorMessageAddCheckOut])
@@ -304,7 +295,7 @@ handleCloseCheckout()
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name || props.data[0]?.Name}
+                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name}
                               </label>
                             </div>
 
@@ -326,7 +317,7 @@ handleCloseCheckout()
                                 whiteSpace: "nowrap",
                               }}
                             >
-                             {props.bedData?.room?.Floor_Id || props.data.floor_name}
+                             {state.UsersList.customerdetails?.data?.[0].floor_name || props.data.floor_name}
                             </div>
 
                             <div
@@ -393,6 +384,8 @@ handleCloseCheckout()
                               // ref={selectedDateRef}
                               onChange={(date) => {
                                 setCheckOutRequestDateError("");
+                                 dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+                               
                                 setRequestDate(date ? date.toDate() : null);
                                 calculateDateDifference(selectedDate, date);
                               }}
@@ -505,6 +498,8 @@ handleCloseCheckout()
     calculateDateDifference(date, requestDate);
     setCheckOutDateError('');
     setJoiningError('');
+      dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+    
   }}
   disabledDate={(current) => {
     // if no requestDate → disable all dates

@@ -276,7 +276,7 @@ function* handleRoomsDetails(ID) {
 function* handleAddUser(datum) {
    try {
       const response = yield call(addUser, datum.payload);
-      console.log("handleAddUser", response)
+    
 
       if (response.status === 201) {
          yield put({
@@ -1273,9 +1273,68 @@ function* handleCheckoutExportDetails(action) {
       refreshToken(response)
    }
 }
+// function* handleReAssignPage(action) {
+//    try {
+//       const response = yield call(customerReAssignBed, action.payload);
+
+//       var toastStyle = {
+//          backgroundColor: "#E6F6E6",
+//          color: "black",
+//          width: "auto",
+//          borderRadius: "60px",
+//          height: "20px",
+//          fontFamily: "Gilroy",
+//          fontWeight: 600,
+//          fontSize: 14,
+//          textAlign: "start",
+//          display: "flex",
+//          alignItems: "center",
+//          padding: "10px",
+
+//       };
+//       if (response.status === 200 || response.data.statusCode === 200) {
+
+//          yield put({ type: 'REASSIGN_BED', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+//          toast.success(`${response.data.message}`, {
+//             position: "bottom-center",
+//             autoClose: 2000,
+//             hideProgressBar: true,
+//             closeButton: false,
+//             closeOnClick: true,
+//             pauseOnHover: true,
+//             draggable: true,
+//             progress: undefined,
+//             style: toastStyle,
+//          });
+//       }
+
+//       else {
+//          yield put({ type: 'ERROR', payload: response.message })
+//       }
+     
+//       if (response) {
+//          refreshToken(response)
+//       }
+//    }
+//    catch (err) {
+//       const error = err || {};
+
+//       yield put({
+//          type: 'NETWORK_ERROR',
+//          payload:
+//             error?.code === 'ERR_NETWORK'
+//                ? 'Network error occurred'
+//                : error?.message || 'Something went wrong',
+//       });
+//    }
+// }
+
 function* handleReAssignPage(action) {
    try {
+      console.log("▶️ Reassign Page Saga Triggered with payload:", action.payload);
+
       const response = yield call(customerReAssignBed, action.payload);
+      console.log("✅ API Response:", response);
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -1290,11 +1349,19 @@ function* handleReAssignPage(action) {
          display: "flex",
          alignItems: "center",
          padding: "10px",
-
       };
-      if (response.status === 200 || response.data.statusCode === 200) {
 
-         yield put({ type: 'REASSIGN_BED', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      if (response.status === 200 || response.data.statusCode === 200) {
+         console.log("🎯 Success Response Data:", response.data);
+
+         yield put({
+            type: 'REASSIGN_BED',
+            payload: {
+               response: response.data,
+               statusCode: response.status || response.data.statusCode
+            }
+         });
+
          toast.success(`${response.data.message}`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -1306,17 +1373,19 @@ function* handleReAssignPage(action) {
             progress: undefined,
             style: toastStyle,
          });
+      } else {
+         console.warn("⚠️ Error Response:", response);
+         yield put({ type: 'ERROR', payload: response.message });
       }
 
-      else {
-         yield put({ type: 'ERROR', payload: response.message })
-      }
       if (response) {
-         refreshToken(response)
+         console.log("🔄 Refreshing Token with response...");
+         refreshToken(response);
       }
    }
    catch (err) {
       const error = err || {};
+      console.error("❌ Caught Error in Saga:", error);
 
       yield put({
          type: 'NETWORK_ERROR',

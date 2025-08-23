@@ -112,7 +112,7 @@ function VendorListMap(props) {
                       fontSize: 14,
                     }}
                   >
-                    {props.vendor && props.vendor.businessName || 'N/A'}
+                    {props.vendor?.businessName || 'N/A'}
                   </div>
                 </div>
               </div>
