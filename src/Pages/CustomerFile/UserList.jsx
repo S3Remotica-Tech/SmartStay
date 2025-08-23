@@ -3422,7 +3422,7 @@ useEffect(() => {
                                                 : "white",
                                           }}
                                           onClick={(e) =>
-                                            handleShowDots(user.ID, e)
+                                            handleShowDots(user.customerId, e)
                                           }
                                         >
                                           <PiDotsThreeOutlineVerticalFill
@@ -3444,7 +3444,7 @@ useEffect(() => {
                                               }}
                                             >
                                               <div>
-                                                {!user.Bed && user.bed_status === "Un-Assigned" &&(
+                                                {!user.Bed && user.currentStatus === "INACTIVE" &&(
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
@@ -3495,7 +3495,7 @@ useEffect(() => {
 
                                                 )}
 
-                                                {user.Bed &&  user.bed_status === "Check In" &&(
+                                                {user.Bed &&  user.currentStatus === "Check In" &&(
                                                 
                                                     <div
                                                     className="d-flex align-items-center gap-2"
@@ -3548,7 +3548,7 @@ useEffect(() => {
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                {user.Bed && user.bed_status === "Check In"  && (
+                                                {user.Bed && user.currentStatus === "Check In"  && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                    
@@ -3603,7 +3603,7 @@ useEffect(() => {
 
 
 
-                                                 {user.Bed &&  user.bed_status === "Notice period" &&(
+                                                 {user.Bed &&  user.currentStatus === "Notice period" &&(
                                                 <>
                                                     <div
                                                     className="d-flex align-items-center gap-2"
