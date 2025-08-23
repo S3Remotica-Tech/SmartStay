@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Green from '../../Assets/Images/New_images/Frame.png'
 import White from '../../Assets/Images/New_images/empty_bed.png';
@@ -25,10 +25,10 @@ import DeleteBed from './DeleteBed';
 
 function BedDetailsMap({ room, propsValue }) {
 
-   
+
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
-    const [bedList, setBedList] = useState([])
+    // const [bedList, setBedList] = useState([])
     const [emptybed, setEmptyBed] = useState(false)
     const [showReservedBed, setShowReservedBed] = useState(false)
     const [occupiedCustomer, setOccupiedCustomer] = useState(false)
@@ -42,13 +42,13 @@ function BedDetailsMap({ room, propsValue }) {
     const [customerDetails, setCustomerDetails] = useState('');
     const [Occubied_bed, setOccubiedBed] = useState(false)
     const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
-  const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
- 
+    const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
+
     const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
     const [customerID, setCustomerID] = useState('')
     const [add_customerform, setAddCustomerForm] = useState(false)
     const [assign_tenantform, setAssignTenantForm] = useState(false)
-  const [showDeleteBed, setShowDeleteBed] = useState(false)
+    const [showDeleteBed, setShowDeleteBed] = useState(false)
     const [showBed, setShowBed] = useState(false)
     const [details, setDetails] = useState('')
 
@@ -62,26 +62,26 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-  const handleCloseReassignForm = () => {
-    setShowReAssignBedForm(false)
-  }
+    const handleCloseReassignForm = () => {
+        setShowReAssignBedForm(false)
+    }
 
-  const handleShowReAssignBedPopup = (isVisible, customer_id) => {
-    setOccubiedBed(false)
-    setShowReAssignBedForm(isVisible)
-    setCustomerId(customer_id)
+    const handleShowReAssignBedPopup = (isVisible, customer_id) => {
+        setOccubiedBed(false)
+        setShowReAssignBedForm(isVisible)
+        setCustomerId(customer_id)
 
-  }
-  const handleShowNoticePeriod = (isVisible, customer) => {
-    setOccubiedBed(false)
-    setMoveToNoticePeriodForm(isVisible)
-    setCustomerDetails(customer)
+    }
+    const handleShowNoticePeriod = (isVisible, customer) => {
+        setOccubiedBed(false)
+        setMoveToNoticePeriodForm(isVisible)
+        setCustomerDetails(customer)
 
-  }
+    }
 
-  const handleCloseNoticePeriod = () => {
-    setMoveToNoticePeriodForm(false)
-  }
+    const handleCloseNoticePeriod = () => {
+        setMoveToNoticePeriodForm(false)
+    }
 
 
 
@@ -97,7 +97,7 @@ function BedDetailsMap({ room, propsValue }) {
     }
 
 
-    
+
     const handleShowMakeAsInActive = () => {
         setShowInActive(true)
         setShowReservedBed(false)
@@ -180,24 +180,24 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
-    // once changed the condition when api integration 
+        // once changed the condition when api integration 
         if (bed.isBooked) {
             setShowReservedBed(true);
             setOccupiedCustomerDetails({ bed, room });
 
-        } 
+        }
         else if (bed.isOccupied) {
             setEmptyBed(true);
             setDeleteBedDetails({ bed, room });
             setOccupiedCustomerDetails({ bed, room });
 
-        } 
-        else if ( bed.onNotice) {
+        }
+        else if (bed.onNotice) {
             setOccubiedBed(false);
             setNoticePeriodBed(true);
             setOccupiedCustomerDetails({ bed, room });
 
-        } 
+        }
         // else if (bed.isOccupied) {
         //     setOccubiedBed(true);
         //     setOccupiedCustomerDetails({ bed, room });
@@ -218,15 +218,15 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
+    // useEffect(() => {
+    //     if (state?.PgList.getAllBedSuccessStatus === 200) {
+    //         // setBedList(state.PgList?.bedList)
+    //     }
+
+    // }, [state?.PgList.getAllBedSuccessStatus])
+
+
     useEffect(() => {
-        if (state?.PgList.getAllBedSuccessStatus === 200) {
-            setBedList(state.PgList?.bedList)
-        }
-
-    }, [state?.PgList.getAllBedSuccessStatus])
-
-
-        useEffect(() => {
         if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
 
             setShowBed(false)
@@ -254,18 +254,17 @@ function BedDetailsMap({ room, propsValue }) {
 
     }, [state.PgList.statusCodeDeleteBed])
 
-    const bedsForRoom = bedList?.[room.id] || [];
-
+    const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
     return (
 
         <div>
             {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} />}
 
-{
-          showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
-        }
-        
+            {
+                showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
+            }
+
             {
                 occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
             }
@@ -458,8 +457,8 @@ function BedDetailsMap({ room, propsValue }) {
     )
 }
 BedDetailsMap.propTypes = {
-  room: PropTypes.func.isRequired,
-propsValue: PropTypes.func.isRequired,
-  
+    room: PropTypes.func.isRequired,
+    propsValue: PropTypes.func.isRequired,
+
 };
 export default BedDetailsMap
