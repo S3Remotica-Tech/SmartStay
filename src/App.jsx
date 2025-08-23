@@ -33,33 +33,27 @@ function App() {
   const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('access-denied')));
 
 
-    const login = localStorage.getItem("login");
+  const login = localStorage.getItem("login");
   const TwoStepEnable = localStorage.getItem("IsEnable");
 
   useEffect(() => {
 
     try {
       if (login) {
-
         const decryptedData = CryptoJS.AES.decrypt(login, "abcd");
         const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
         const parseData = JSON.parse(decryptedString);
         const decryptedDataTwoStepEnable = CryptoJS.AES.decrypt(TwoStepEnable, "abcd");
         const decryptedStringTwoStepEnable = decryptedDataTwoStepEnable?.toString(CryptoJS.enc.Utf8);
-
-
         let parseDataTwoStepEnable = false;
         try {
           parseDataTwoStepEnable = JSON.parse(decryptedStringTwoStepEnable);
         } catch {
           parseDataTwoStepEnable = decryptedStringTwoStepEnable === "true";
         }
-
-
-
-        if (is_Enable === true || !parseData) {
+        if (parseDataTwoStepEnable === true || !parseData) {
           setData(false);
-        } else if (is_Enable === false && parseData) {
+        } else if (parseDataTwoStepEnable === false && parseData) {
           setData(true);
         }
       }
@@ -95,8 +89,7 @@ function App() {
 
   useEffect(() => {
     if (!state.login?.isLoggedIn && !data) {
-      cookies.remove('v2-token', { path: '/' });
-      cookies.remove('token', { path: '/' });
+     
       dispatch({ type: 'CLEAR_DASHBOARD' })
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });

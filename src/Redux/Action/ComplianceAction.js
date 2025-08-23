@@ -120,16 +120,17 @@ console.log("params",params)
   }
 
 
-  if (params.payLoads) {
+  if (params.updateVendor) {
     const payloadBlob = new Blob(
-      [JSON.stringify(params.payLoads)],
+      [JSON.stringify(params.updateVendor)],
       { type: "application/json" }
     );
-    formData.append("payLoads", payloadBlob);
+    formData.append("updateVendor", payloadBlob);
   }
 
+  console.log("headers", AxiosConfigV2.defaults.headers);
   try {
-    const response = await AxiosConfigV2.post(`/v2/vendors/${params.vendorId}`, formData, {
+    const response = await AxiosConfigV2.put(`/v2/vendors/${params?.updateVendor?.vendorId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

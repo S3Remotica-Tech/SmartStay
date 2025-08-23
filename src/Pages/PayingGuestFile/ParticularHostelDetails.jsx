@@ -14,18 +14,7 @@ import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 import Select from "react-select";
-import EmptyBed from './EmptyBed';
-import BedDetails from './ReservedBed/BedDetails';
-import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
-import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
-import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
-import CustomerReAssign from "../CustomerFile/CustomerReAssign";
-import CustomerCheckout from "../CustomerFile/CustomerCheckout";
-import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
-import BookingBed from './NoticePeriod/BookingBed';
-import AddCustomer from './AddCustomerPG';
-import PGAssignTenant from './PGAssignTenant';
-import CheckoutTenant from './NoticePeriod/Check-out Tenant';
+
 import BedDetailsMap from './BedDetailsMap';
 
 
@@ -33,7 +22,7 @@ import BedDetailsMap from './BedDetailsMap';
 function ParticularHostelDetails(props) {
 
 
-  console.log("props",props)
+
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -41,21 +30,10 @@ function ParticularHostelDetails(props) {
 
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
-  const [emptybed, setEmptyBed] = useState(false)
-  const [showReservedBed, setShowReservedBed] = useState(false)
-  const [showCheckIn, setShowCheckIn] = useState(false)
-  const [showInactive, setShowInActive] = useState(false)
 
-  const [Occubied_bed, setOccubiedBed] = useState(false)
-  const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
-  const [Noticeperiod_booking, setNoticePeriodBooking] = useState(false)
-  const [Noticeperiod_checkout, setNoticePeriodCheckout] = useState(false)
-  const [showReAssignBedForm, setShowReAssignBedForm] = useState(false);
-  const [moveToNoticePeriodForm, setMoveToNoticePeriodForm] = useState(false);
-  const [customerId, setCustomerId] = useState('')
-  const [customerDetails, setCustomerDetails] = useState('');
+  
   const [showDots, setShowDots] = useState('')
-  const [roomCountData, setRoomCountData] = useState([])
+  // const [roomCountData, setRoomCountData] = useState([])
   const [roomList, setRoomList] = useState([])
   const [activeRoomId, setActiveRoomId] = useState(null);
   const [loader, setLoader] = useState(false)
@@ -70,19 +48,14 @@ function ParticularHostelDetails(props) {
 
   const [showDeleteBed, setShowDeleteBed] = useState(false)
   const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
-  const [occupiedCustomer, setOccupiedCustomer] = useState(false)
-  const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
-  const [customerID, setCustomerID] = useState('')
-  const [add_customerform, setAddCustomerForm] = useState(false)
-  const [assign_tenantform, setAssignTenantForm] = useState(false)
-  const [bedList, setBedList] = useState([])
+ 
+  
 
 
-  const handleAddBed = (item, Room_Id) => {
-    console.log("itemmmmm", item, Room_Id)
-    setShowBed(true)
-    setDetails({ item, Room_Id });
-  }
+  // const handleAddBed = (item, Room_Id) => {
+  //   setShowBed(true)
+  //   setDetails({ item, Room_Id });
+  // }
 
   const handleShowDots = (roomId) => {
     setShowDots(!showDots)
@@ -92,34 +65,31 @@ function ParticularHostelDetails(props) {
 
 
 
-  const handleclickBed = (bed, room) => {
-   
-    if (bed.isbooked === 1) {
-      setShowReservedBed(true);
-      setOccupiedCustomerDetails({ bed, room });
+  // const handleclickBed = (bed, room) => {
 
-    } else if (bed.isfilled === 0) {
-      setEmptyBed(true);
-      setDeleteBedDetails({ bed, room });
-      setOccupiedCustomerDetails({ bed, room });
+  //   if (bed.isbooked === 1) {
+  //     setShowReservedBed(true);
+  //     setOccupiedCustomerDetails({ bed, room });
 
-    } else if (bed.isfilled === 1 && bed.isNoticePeriod === 1) {
-      setOccubiedBed(false);
-      setNoticePeriodBed(true);
-      setOccupiedCustomerDetails({ bed, room });
+  //   } else if (bed.isfilled === 0) {
+  //     setEmptyBed(true);
+  //     setDeleteBedDetails({ bed, room });
+  //     setOccupiedCustomerDetails({ bed, room });
 
-    } else if (bed.isfilled === 1) {
-      setOccubiedBed(true);
-      setOccupiedCustomerDetails({ bed, room });
-    }
-  };
+  //   } else if (bed.isfilled === 1 && bed.isNoticePeriod === 1) {
+  //     setOccubiedBed(false);
+  //     setNoticePeriodBed(true);
+  //     setOccupiedCustomerDetails({ bed, room });
+
+  //   } else if (bed.isfilled === 1) {
+  //     setOccubiedBed(true);
+  //     setOccupiedCustomerDetails({ bed, room });
+  //   }
+  // };
 
 
 
-  const handlecloseBed = () => {
-    setEmptyBed(false)
-
-  }
+  
 
 
 
@@ -197,106 +167,9 @@ function ParticularHostelDetails(props) {
   }
 
 
-  console.log("edit****", editRoom)
+ 
 
-  const handleShowReservedBed = () => {
-    setShowReservedBed(true)
-  }
-
-  const handleCloseReservedBed = () => {
-    setShowReservedBed(false)
-  }
-
-
-
-  const handleShowCheck_In = () => {
-    setShowCheckIn(true)
-    setShowReservedBed(false)
-
-  }
-
-  const handleCloseCheck_In = () => {
-    setShowCheckIn(false)
-
-  }
-
-
-  const handleShowMakeAsInActive = () => {
-    setShowInActive(true)
-    setShowReservedBed(false)
-  }
-
-  const handleCloseMakeAsInActive = () => {
-    setShowInActive(false)
-  }
-
-  const handlecloseoccubiedbed = () => {
-    setOccubiedBed(false)
-  }
-
-  const handlecloseNoticePeriodBed = () => {
-    setNoticePeriodBed(false)
-  }
-
-  const handleshowNoticePeriodBooking = () => {
-    setNoticePeriodBooking(true)
-    setNoticePeriodBed(false)
-  }
-
-  const handlecloseNoticeperiodBooking = () => {
-    setNoticePeriodBooking(false)
-  }
-
-
-  const handleshowNoticePeriodCheckout = (isVisible, customerId) => {
-    setNoticePeriodCheckout(isVisible)
-    setNoticePeriodBed(false)
-    setCustomerID(customerId)
-
-  }
-
-  const handlecloseNoticeperiodCheckout = () => {
-    setNoticePeriodCheckout(false)
-  }
-
-  const handleShowAddCustomer = () => {
-    setAddCustomerForm(true)
-    setEmptyBed(false)
-  }
-
-  const handleCloseAddCustomer = () => {
-    setAddCustomerForm(false)
-  }
-
-  const handleShowAssignTenant = () => {
-    setAssignTenantForm(true)
-    setEmptyBed(false)
-  }
-
-  const handleCloseAssignTenant = () => {
-    setAssignTenantForm(false)
-  }
-
-
-
-
-
-
-
-
-  const handleShowBed = () => {
-    setShowDeleteBed(true)
-    setEmptyBed(false)
-  }
-
-  const handleCloseDeleteBed = () => {
-    setShowDeleteBed(false)
-  }
-
-  const handleCloseOccupiedCustomer = () => {
-    setOccupiedCustomer(false)
-  }
-
+  
 
 
   useEffect(() => {
@@ -327,8 +200,8 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
       setRoomList(state.PgList?.roomsList);
-       setLoaderTrigger(false)
-       setLoader(false)
+      setLoaderTrigger(false)
+      setLoader(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
       }, 100)
@@ -337,47 +210,42 @@ function ParticularHostelDetails(props) {
   }, [state?.PgList?.getAllRoomSuccessStatus])
 
 
-  console.log("room list", roomList)
+
+
+  // useEffect(() => {
+  //   if (state?.PgList?.roomCountStatusCode === 200) {
+
+
+  //     setRoomCountData(state.PgList?.roomCount);
+
+  //     setTimeout(() => {
+  //       setLoaderTrigger(false)
+  //     }, 500)
+  //     setTimeout(() => {
+  //       setLoader(false)
+  //       dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
+  //     }, 500);
+  //   }
+  // }, [state?.PgList?.roomCountStatusCode])
 
 
 
 
+  // useEffect(() => {
+  //   if (state.PgList?.noRoomsInFloorStatusCode === 201) {
 
+  //     setRoomCountData([])
+  //     setTimeout(() => {
+  //       setLoaderTrigger(false)
+  //     }, 100)
 
-  useEffect(() => {
-    if (state?.PgList?.roomCountStatusCode === 200) {
+  //     setTimeout(() => {
+  //       setLoader(false)
+  //       dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
+  //     }, 200);
+  //   }
 
-
-      setRoomCountData(state.PgList?.roomCount);
-
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 500)
-      setTimeout(() => {
-        setLoader(false)
-        dispatch({ type: 'CLEAR_STATUS_CODE_ROOM_COUNT' })
-      }, 500);
-    }
-  }, [state?.PgList?.roomCountStatusCode])
-
-
-
-
-  useEffect(() => {
-    if (state.PgList?.noRoomsInFloorStatusCode === 201) {
-
-      setRoomCountData([])
-      setTimeout(() => {
-        setLoaderTrigger(false)
-      }, 100)
-
-      setTimeout(() => {
-        setLoader(false)
-        dispatch({ type: 'CLEAR_NO_ROOM_STATUS_CODE' })
-      }, 200);
-    }
-
-  }, [state.PgList?.noRoomsInFloorStatusCode])
+  // }, [state.PgList?.noRoomsInFloorStatusCode])
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
@@ -578,7 +446,7 @@ function ParticularHostelDetails(props) {
   }, []);
 
 
-  console.log("room details", currentItems)
+ 
 
 
   return (
@@ -637,7 +505,7 @@ function ParticularHostelDetails(props) {
                     </div>
 
 
-                    
+
 
 
                     <div onClick={() => handleShowDots(room.id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
@@ -712,7 +580,7 @@ function ParticularHostelDetails(props) {
                   </Card.Header>
 
                   <Card.Body>
-                    <BedDetailsMap room={room} propsValue={props}/>
+                    <BedDetailsMap room={room} propsValue={props} />
                     {/* <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
                       {Array.isArray(bedList) && bedList.length > 0 && bedList?.filter((bed) => bed.roomId === room.id).map((bed) => (
                         <div key={bed.id} className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center  ${props.addPermissionError ? 'disabled' : ''}`}
@@ -1018,105 +886,7 @@ function ParticularHostelDetails(props) {
         {
           showDeleteBed && <DeleteBed show={showDeleteBed} handleClose={handleCloseDeleteBed} deleteBedDetails={deleteBedDetails} />
         }
-        {
-          occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
-        }
-
-        {
-
-          emptybed && <EmptyBed show={emptybed} handleClose={handlecloseBed}
-            currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails}
-            showbed={handleShowBed}
-            showcustomer={handleShowAddCustomer}
-            showtenant={handleShowAssignTenant}
-          />
-
-        }
-
-
-
-        {
-          add_customerform && <AddCustomer show={add_customerform} handleClose={handleCloseAddCustomer} />
-        }
-
-        {
-          assign_tenantform && <PGAssignTenant show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem={OccupiedCustomerDetails}
-
-          />
-        }
-
-        {/* Reserved Bed */}
-        {
-          showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed}
-            handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
-            currentItem={OccupiedCustomerDetails}
-          />
-        }
-
-        {
-          showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={OccupiedCustomerDetails} />
-        }
-
-        {
-          showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
-        }
-
-        {/* Occubied bed Details */}
-
-        {
-          Occubied_bed && <OccupiedBedStatus show={Occubied_bed}
-            handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
-        }
-
-        {
-          Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
-            handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} />
-        }
-
-
-        {/* Notice period  */}
-        {
-          Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
-            handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails}
-            showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout}
-          />}
-
-
-        {showReAssignBedForm &&
-          <CustomerReAssign
-            show={showReAssignBedForm}
-
-            reAssignBedDetail={{ ...OccupiedCustomerDetails, id: customerId }}
-            setCustomerReAssign={handleCloseReassignForm}
-          />
-
-        }
-
-        {
-          Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails} />
-        }
-
-        {
-          Noticeperiod_checkout && <CheckoutTenant show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
-            customerID={customerID}
-
-            data={OccupiedCustomerDetails}
-          />
-        }
-
-
-
-
-        {moveToNoticePeriodForm && (() => {
-          return (
-            <CustomerCheckout
-              bedData={OccupiedCustomerDetails}
-              data={customerDetails}
-              customerCheckoutpage={moveToNoticePeriodForm}
-              setCustomerCheckoutpage={handleCloseNoticePeriod}
-            />
-          );
-        })()}
+        
 
 
       </div>
@@ -1128,9 +898,9 @@ function ParticularHostelDetails(props) {
 ParticularHostelDetails.propTypes = {
   floorID: PropTypes.func.isRequired,
   hostel_Id: PropTypes.func.isRequired,
-  deletePermissionError: PropTypes.func.isRequired,
-  addPermissionError: PropTypes.func.isRequired,
-  editPermissionError: PropTypes.func.isRequired,
+  // deletePermissionError: PropTypes.func.isRequired,
+  // addPermissionError: PropTypes.func.isRequired,
+  // editPermissionError: PropTypes.func.isRequired,
 };
 export default ParticularHostelDetails
 

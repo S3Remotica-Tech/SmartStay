@@ -479,8 +479,8 @@ console.log("currentItem",currentItem )
           type: "UPDATEVENDOR",
           payload: {
             profilePic: file,
-            payLoads: {
-              hostelId: state.login.selectedHostel_Id,
+            updateVendor: {
+              // hostelId: state.login.selectedHostel_Id,
               firstName: first_Name,
               lastName: last_Name,
               mobile: MobileNumber,
@@ -493,6 +493,7 @@ console.log("currentItem",currentItem )
               landmark: landmark,
               city: city,
               state: state_name,
+              vendorId: currentItem.id
             },
           },
         });
@@ -567,12 +568,9 @@ console.log("currentItem",currentItem )
 
   useEffect(() => {
     if (currentItem) {
-      const nameParts = currentItem.vendorName.split(" ");
-      const firstName = nameParts[0];
-      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
-
-      const phoneNumber = String(currentItem.mobileNumber || "");
+           const phoneNumber = String(currentItem.mobile || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+
       const mobileNumber = phoneNumber.slice(-10);
 
       const emailValue = currentItem.emailId      ;
@@ -591,44 +589,44 @@ console.log("currentItem",currentItem )
 
 
       setCheck("EDIT");
-      setFirst_Name(firstName);
-      setLast_Name(lastName);
+      setFirst_Name(currentItem.firstName);
+      setLast_Name(currentItem.lastName);
       setVendor_Mobile(mobileNumber);
       setCountryCode(countryCode);
-      setAddress(currentItem.Vendor_Address);
+      setAddress(currentItem?.houseNo);
 
       setEmail_Id(normalizedEmail);
 
-      setBusiness_Name(currentItem.Business_Name);
+      setBusiness_Name(currentItem.businessName);
       setId(currentItem.id);
 
       setFile(currentItem.profilePic ? currentItem.profilePic : null);
-      setCountry(currentItem.Country);
-      setPinCode(currentItem.Pincode);
+      setCountry(currentItem.country);
+      setPinCode(currentItem.pinCode);
 
-      setHouseNo(sanitize(currentItem.Vendor_Address))
+      setHouseNo(sanitize(currentItem.houseNo))
       setStreet(sanitize(currentItem.area))
       setLandmark(sanitize(currentItem.landmark))
       setCity(currentItem.city)
       setStateName(currentItem.state)
 
       setInitialState({
-        first_Name: firstName,
-        last_Name: lastName,
+        first_Name: currentItem.firstName,
+        last_Name: currentItem.lastName,
         vendor_Mobile: mobileNumber,
         countryCode: countryCode,
 
-        house_no: sanitize(currentItem.Vendor_Address) || '',
+        house_no: sanitize(currentItem.houseNo) || '',
         street: sanitize(currentItem.area) || '',
         city: sanitize(currentItem.city) || '',
 
         landmark: sanitize(currentItem.landmark) || '',
         state: currentItem.state || '',
         email_Id: normalizedEmail,
-        business_Name: currentItem.Business_Name,
-        file: currentItem.Vendor_profile ? currentItem.Vendor_profile : null,
-        country: currentItem.Country,
-        pinCode: currentItem.Pincode,
+        business_Name: currentItem.businessName,
+        file: currentItem.profilePic ? currentItem.Vendor_profile : null,
+        country: currentItem.country,
+        pinCode: currentItem.pincode,
       });
     }
   }, [currentItem]);
@@ -1261,7 +1259,7 @@ console.log("currentItem",currentItem )
                       fontSize: 16,
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
-                      fontWeight: 500,
+                      fontWeight: city ? 600 : 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
                       height: 50,
