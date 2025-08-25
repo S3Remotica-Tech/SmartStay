@@ -34,7 +34,7 @@ export async function VendorList(vendor) {
 // v1
 
 // export async function addVendor(params) {
- 
+
 //   const formData = new FormData();
 
 //   if (params.profile) formData.append("profile", params.profile);
@@ -55,7 +55,7 @@ export async function VendorList(vendor) {
 //           if(params.Country) formData.append("Country", params.Country)
 //             if(params.Pincode) formData.append("Pincode", params.Pincode)
 
-              
+
 //   try {
 //     const response = await AxiosConfigV2.post('/v2/vendors', formData, {
 //       headers: {
@@ -77,7 +77,7 @@ export async function VendorList(vendor) {
 export async function addVendor(params) {
   const formData = new FormData();
 
-  
+
   if (params.profilePic) {
     formData.append("profilePic", params.profilePic);
   }
@@ -106,43 +106,88 @@ export async function addVendor(params) {
 }
 
 
+//  v2
 
-  export async function DeleteVendorList(vendor) {
-    return await AxiosConfig.post('/delete-vendor-list', vendor, {
-      data: vendor
-    })
-  }
-  
-  export async function ComplianceChange(compliance) {
-    return await AxiosConfig.post('/compliance/change_details', compliance, {
-      data: compliance
-    })
-  }
+export async function updateVendor(params) {
+  const formData = new FormData();
 
-  export async function ComplianceChangeStatus(compliance) {
-    return await AxiosConfig.post('/compliance/change_details', compliance, {
-      data: compliance
-    })
+   if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
   }
 
 
-
-
-  export async function complianceDelete(datum) {
-    return await AxiosConfig.post('/complaint/delete_compliant', datum, {
-      data: datum
-    })
+  if (params.updateVendor) {
+    const payloadBlob = new Blob(
+      [JSON.stringify(params.updateVendor)],
+      { type: "application/json" }
+    );
+    formData.append("updateVendor", payloadBlob);
   }
 
+  try {
+    const response = await AxiosConfigV2.put(
+      `/v2/vendors/${params?.updateVendor?.vendorId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
 
-  // 
-  export async function getComplianceComment(datum) {
-    return await AxiosConfig.post('/complaints/all_complaint_comments', datum, {
-      data: datum
-    })
-  }
-  export async function addComplianceComment(datum) {
-    return await AxiosConfig.post('/complaints/add_complaint_comment', datum, {
-      data: datum
-    })
-  }
+
+
+
+// v1
+
+// export async function DeleteVendorList(vendor) {
+//   return await AxiosConfig.post('/delete-vendor-list', vendor, {
+//     data: vendor
+//   })
+// }
+
+// v2
+export async function DeleteVendorList(vendor) {
+  return await AxiosConfigV2.delete(`/v2/vendors/${vendor.vendorId}`)
+}
+
+export async function ComplianceChange(compliance) {
+  return await AxiosConfig.post('/compliance/change_details', compliance, {
+    data: compliance
+  })
+}
+
+export async function ComplianceChangeStatus(compliance) {
+  return await AxiosConfig.post('/compliance/change_details', compliance, {
+    data: compliance
+  })
+}
+
+
+
+
+export async function complianceDelete(datum) {
+  return await AxiosConfig.post('/complaint/delete_compliant', datum, {
+    data: datum
+  })
+}
+
+
+// 
+export async function getComplianceComment(datum) {
+  return await AxiosConfig.post('/complaints/all_complaint_comments', datum, {
+    data: datum
+  })
+}
+export async function addComplianceComment(datum) {
+  return await AxiosConfig.post('/complaints/add_complaint_comment', datum, {
+    data: datum
+  })
+}

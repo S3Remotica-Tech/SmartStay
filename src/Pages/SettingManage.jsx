@@ -5,7 +5,6 @@ import Button from "react-bootstrap/Button";
 import "../Pages/Dashboard.css";
 import "sweetalert2/dist/sweetalert2.min.css";
 import PayingGuest from "../Pages/PayingGuestFile/PayingGuestMap";
-import SettingParticular from "./PayingGuestFile/SettingPg";
 import AddPg from "../Pages/PayingGuestFile/AddPg";
 import AddFloor from "../Pages/PayingGuestFile/AddFloor";
 import "../Pages/PayingGuestFile/PgList.css";
@@ -77,7 +76,7 @@ function SettingManage() {
   }, [showHostelDetails])
 
 
-  console.log("floorList?.[0]?.id", floorList?.[0]?.id)
+ 
 
 
 
@@ -217,8 +216,6 @@ function SettingManage() {
 
 
 
-  console.log("floorClisk", floorClick)
-
 
 
   useEffect(() => {
@@ -321,15 +318,11 @@ function SettingManage() {
 
 
 
-  console.log("state", state)
-
-  console.log("show", showHostelDetails)
-
+  
 
   const handleSelectedHostel = (selectedHostelId) => {
 
-    console.log("selected hostel id", selectedHostelId)
-
+   
     const selected = state.UsersList.hostelList?.find((item) => {
 
       return item.hostelId === selectedHostelId;

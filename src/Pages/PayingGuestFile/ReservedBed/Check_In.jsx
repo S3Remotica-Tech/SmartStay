@@ -1,15 +1,15 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect  , useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MdError } from "react-icons/md";
 import {
     Modal,
     Form,
     Button,
-   } from "react-bootstrap";
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/AssetFile/addAsset.css";
-import { CloseCircle ,Trash } from "iconsax-react";
+import { CloseCircle, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
@@ -30,46 +30,43 @@ function CheckIn({
     const [joiningDate, setJoiningDate] = useState(null);
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
-
-     const [customer_name,setCustomerName] = useState("")
-     const [bookingDate,setBookingDate] = useState("")
-     const [bookingAmount,setBookingAmount] = useState("")
-    //  const [bookingFlooorId,setBookingFloorId] = useState("")
-    //  const [bookingRoomId,setBookingRoomId] = useState("")
-    //  const [bookingBedId,setBookingBedId] = useState("")
-     const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
+    const [customer_name, setCustomerName] = useState("")
+    const [bookingDate, setBookingDate] = useState("")
+    const [bookingAmount, setBookingAmount] = useState("")
+    const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
     const [RoomRent, setRoomRent] = useState("");
     const [AdvanceAmount, setAdvanceAmount] = useState("");
     const [advanceAmountError, setAdvanceAmountError] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
+    const [formLoading, setFormLoading] = useState(false);
 
     useEffect(() => {
-    const matchedBed = state.PgList.roomCount[0].bed_details.find(
-      (item) => item.id === currentItem?.bed?.id
-    );
-    
-    if (matchedBed) {
-      setRoomRent(matchedBed.bed_amount);
-    }
+        const matchedBed = state.PgList.roomCount[0].bed_details.find(
+            (item) => item.id === currentItem?.bed?.id
+        );
+
+        if (matchedBed) {
+            setRoomRent(matchedBed.bed_amount);
+        }
     }, [state.PgList, currentItem]);
 
-      const handleRoomRent = (e) => {
-    const newAmount = e.target.value;
-    if (!/^\d*$/.test(newAmount)) {
-      return;
-    }
-    setRoomRent(newAmount);
-    setRoomRentError("");
-  };
+    const handleRoomRent = (e) => {
+        const newAmount = e.target.value;
+        if (!/^\d*$/.test(newAmount)) {
+            return;
+        }
+        setRoomRent(newAmount);
+        setRoomRentError("");
+    };
 
-  const handleAdvanceAmount = (e) => {
-    const advanceAmount = e.target.value;
-    if (!/^\d*$/.test(advanceAmount)) {
-      return;
-    }
-    setAdvanceAmount(advanceAmount);
-    setAdvanceAmountError("");
-  };
+    const handleAdvanceAmount = (e) => {
+        const advanceAmount = e.target.value;
+        if (!/^\d*$/.test(advanceAmount)) {
+            return;
+        }
+        setAdvanceAmount(advanceAmount);
+        setAdvanceAmountError("");
+    };
 
 
     const customStyles = {
@@ -83,8 +80,8 @@ function CheckIn({
             fontFamily: "Gilroy",
             fontWeight: 500,
             boxShadow: "none",
-             backgroundColor:"#EFF2FF"
-            
+            backgroundColor: "#EFF2FF"
+
         }),
         menu: (base) => ({
             ...base,
@@ -126,88 +123,81 @@ function CheckIn({
         }),
     };
 
-     const [customer, setCustomer] = useState([])
-
-     
-                 useEffect(() => {
-             
-                     const Hostel_Id = currentItem?.room.Hostel_Id;
-                     const Floor_Id = currentItem?.room.Floor_Id;
-                     const Bed_Id = currentItem?.bed.id;
-                     const Room_Id = currentItem?.room.Room_Id;
-             
-             
-                     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-                         dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: Hostel_Id } });
-                         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-             
-                     }
-                 }, [currentItem])
-             
-             
-                 useEffect(() => {
-                     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-                         setCustomer(state.PgList.OccupiedCustomer)
-                         setTimeout(() => {
-                             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-                         }, 2000)
-                     }
-             
-             
-                 }, [state.PgList.OccupiedCustomerGetStatusCode])
+    const [customer, setCustomer] = useState([])
 
 
-  const [customer_details , setCustomerDetails] = useState({})
-    const [stay_typename , setStayTypeName] = useState("")
-    const [stay_typenameErrmsg , setStayTypeNameErrMsg] = useState("")
+    useEffect(() => {
 
-      const stayTypes = [
-  { value: "short_stay", label: "Short Stay" },
-  { value: "long_stay", label: "Long Stay" },
-  { value: "day_stay", label: "Day Stay" },
-];
+        const Hostel_Id = currentItem?.room.Hostel_Id;
+        const Floor_Id = currentItem?.room.Floor_Id;
+        const Bed_Id = currentItem?.bed.id;
+        const Room_Id = currentItem?.room.Room_Id;
 
-  const longStayOnly = stayTypes.filter((s) => s.value === "long_stay");
+
+        if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+            dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: Hostel_Id } });
+            dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+
+        }
+    }, [currentItem])
+
+
+    useEffect(() => {
+        if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+            setFormLoading(false)
+            setCustomer(state.PgList.OccupiedCustomer)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+            }, 2000)
+        }
+
+
+    }, [state.PgList.OccupiedCustomerGetStatusCode])
+
+
+    const [customer_details, setCustomerDetails] = useState({})
+    const [stay_typename, setStayTypeName] = useState("")
+    const [stay_typenameErrmsg, setStayTypeNameErrMsg] = useState("")
+
+    const stayTypes = [
+        { value: "short_stay", label: "Short Stay" },
+        { value: "long_stay", label: "Long Stay" },
+        { value: "day_stay", label: "Day Stay" },
+    ];
+
+    const longStayOnly = stayTypes.filter((s) => s.value === "long_stay");
 
 
     const handleStayTypeChange = (selectedOption) => {
-    setStayTypeName(selectedOption?.value || '');
-    if (!selectedOption) {
-      setStayTypeNameErrMsg("Please Select Staytype");
-    } else {
-      setStayTypeNameErrMsg("");
-    }
-};
-
-    useEffect(()=> {
-        if(customer.length > 0){
-        const selectedUser = state?.UsersList?.Users.find( item => item.User_Id === customer[0]?.User_Id)
-         console.log("selecteduser", selectedUser);
-         setCustomerDetails(selectedUser)
-         setBookingAmount(Number(selectedUser.booking_amount))
-
-          if (selectedUser?.booking_booking_date) {
-      const dateObj = new Date(selectedUser?.booking_booking_date);
-      const day = String(dateObj.getDate()).padStart(2, '0');
-      const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-      const year = dateObj.getFullYear();
-      const formattedBookingDate = `${day}/${month}/${year}`;
-
-      bookingDateRef.current = formattedBookingDate; 
-      setBookingDate(formattedBookingDate); 
-    }
-         setCustomerName(selectedUser.ID)  
+        setStayTypeName(selectedOption?.value || '');
+        if (!selectedOption) {
+            setStayTypeNameErrMsg("Please Select Staytype");
+        } else {
+            setStayTypeNameErrMsg("");
         }
-    },[customer , state.PgList.OccupiedCustomerGetStatusCode])
+    };
 
+    useEffect(() => {
+        if (customer.length > 0) {
+            const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
+            console.log("selecteduser", selectedUser);
+            setCustomerDetails(selectedUser)
+            setBookingAmount(Number(selectedUser?.booking_amount))
 
-   
+            if (selectedUser?.booking_booking_date) {
+                const dateObj = new Date(selectedUser?.booking_booking_date);
+                const day = String(dateObj.getDate()).padStart(2, '0');
+                const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                const year = dateObj.getFullYear();
+                const formattedBookingDate = `${day}/${month}/${year}`;
 
+                bookingDateRef.current = formattedBookingDate;
+                setBookingDate(formattedBookingDate);
+            }
+            setCustomerName(selectedUser?.ID)
+        }
+    }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
 
-    console.log("customer", bookingDate);
-    console.log("customer", state?.UsersList?.Users);
-    
-   
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
@@ -216,6 +206,7 @@ function CheckIn({
                 payload: { hostel_id: state.login.selectedHostel_Id },
             });
         }
+        setFormLoading(false)
     }, [state.login.selectedHostel_Id]);
 
 
@@ -270,20 +261,20 @@ function CheckIn({
         } else if (field === "customReason") {
             updatedFields[index].customReason = value;
             if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } 
+        }
         // else if (field === "amount") {
         //     updatedFields[index].amount = value;
 
 
         //     if (updatedErrors[index]) updatedErrors[index].amount = "";
         // }
-         else if (field === "amount") {
-    // allow only digits
-    if (/^\d*$/.test(value)) {
-      updatedFields[index].amount = value;
-      if (updatedErrors[index]) updatedErrors[index].amount = "";
-    }
-  }
+        else if (field === "amount") {
+            // allow only digits
+            if (/^\d*$/.test(value)) {
+                updatedFields[index].amount = value;
+                if (updatedErrors[index]) updatedErrors[index].amount = "";
+            }
+        }
 
         setFields(updatedFields);
         setErrors(updatedErrors);
@@ -301,198 +292,206 @@ function CheckIn({
 
 
 
-     const handleCheckin = async () => {
+    const handleCheckin = async () => {
 
-    let hasReasonAmountError = false;
-    let newErrors = [];
+        let hasReasonAmountError = false;
+        let newErrors = [];
+        let hasError = false;
 
-      if(!stay_typename){
-    setStayTypeNameErrMsg("Please Select Staytype")
-   }
+        if (!stay_typename) {
+            setStayTypeNameErrMsg("Please Select Staytype")
+            hasError = true;
+        }
 
-   if(!joiningDate){
-    setJoingDateErrmsg("Please Select Joining Date")
-   }
+        if (!joiningDate) {
+            setJoingDateErrmsg("Please Select Joining Date")
+             hasError = true;
+        }
 
-   if(!AdvanceAmount){
-setAdvanceAmountError("Please Enter Advance Amount")
-   }
-
-   
-    if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
-      setRoomRentError("Please Enter Rental Amount");
-      return;
-    }
-    if (Number(RoomRent) <= 0) {
-      setRoomRentError("Please Enter Valid Rental Amount");
-      return;
-    }
-
-    if (
-      AdvanceAmount === "" ||
-      AdvanceAmount === null ||
-      AdvanceAmount === undefined
-    ) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      return;
-    }
-    if (Number(AdvanceAmount) <= 0) {
-      setAdvanceAmountError("Please Enter Valid Advance Amount");
-      return;
-    }
-  
-    setErrors(newErrors)
-
-     if (!RoomRent && RoomRent !== 0) {
-      setRoomRentError("Please Enter Rental Amount");
-      return;
-    }
-    if (RoomRent <= 0) {
-      setRoomRentError("Please Enter Valid Rental Amount");
-      return;
-    }
-    if (!AdvanceAmount && AdvanceAmount !== 0) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      return;
-    }
-
-    if (AdvanceAmount <= 0) {
-      setAdvanceAmountError("Please Enter Valid Advance Amount");
-      return;
-    }
-
-  
+        if (!AdvanceAmount) {
+            setAdvanceAmountError("Please Enter Advance Amount")
+            hasError = true;
+        }
 
 
-       const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate.toISOString().split("T")[0];
+        if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+            setRoomRentError("Please Enter Rental Amount");
+            hasError = true;
+        }
+        if (Number(RoomRent) <= 0) {
+            setRoomRentError("Please Enter Valid Rental Amount");
+            hasError = true;
+        }
+
+        if (
+            AdvanceAmount === "" ||
+            AdvanceAmount === null ||
+            AdvanceAmount === undefined
+        ) {
+            setAdvanceAmountError("Please Enter Advance Amount");
+             hasError = true;
+        }
+        if (Number(AdvanceAmount) <= 0) {
+            setAdvanceAmountError("Please Enter Valid Advance Amount");
+           hasError = true;
+        }
+
+        setErrors(newErrors)
+
+        if (!RoomRent && RoomRent !== 0) {
+            setRoomRentError("Please Enter Rental Amount");
+           hasError = true;
+        }
+        if (RoomRent <= 0) {
+            setRoomRentError("Please Enter Valid Rental Amount");
+           hasError = true;
+        }
+        if (!AdvanceAmount && AdvanceAmount !== 0) {
+            setAdvanceAmountError("Please Enter Advance Amount");
+            hasError = true;
+        }
+
+        if (AdvanceAmount <= 0) {
+            setAdvanceAmountError("Please Enter Valid Advance Amount");
+            hasError = true;
+        }
+
+ if (hasError) {
+    return;
+  }
+
+
+        const incrementDateAndFormat = (date) => {
+            const newDate = new Date(date);
+            newDate.setDate(newDate.getDate() + 1);
+            return newDate.toISOString().split("T")[0];
+        };
+
+
+        const formattedDate = joiningDate
+            ? incrementDateAndFormat(joiningDate)
+            : "";
+
+
+        const invoiceDateObj = new Date(formattedDate);
+        const dueDays = Number(state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth) || 0;
+
+        const dueDateObj = new Date(invoiceDateObj);
+        dueDateObj.setDate(dueDateObj.getDate() + dueDays);
+
+        const formattedAdvanceDueDate = dueDateObj.toLocaleDateString("en-CA");
+
+
+
+
+
+        const fullName = customer_details?.Name?.trim() || "";
+
+        const [FirstName, ...lastNameParts] = fullName.split(" ");
+
+        const LastName = lastNameParts.join(" ") || "";
+
+
+        setErrors(newErrors)
+
+        const formattedReasons = fields.map((item) => {
+            let reason_name = "";
+
+            if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+                reason_name = item.customReason || item["custom Reason"] || "";
+            } else {
+                reason_name = item.reason || item.reason_name || "";
+            }
+
+            const error = { reason: "", amount: "" };
+            if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+                error.amount = "Please enter amount";
+                hasReasonAmountError = true;
+            }
+
+
+            if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+                error.reason = "Please enter reason";
+                hasReasonAmountError = true;
+            }
+
+            newErrors.push(error);
+            return {
+                reason_name,
+                amount: item.amount || "",
+                showInput: !!item.showInput
+            };
+        });
+
+
+        if (hasReasonAmountError) return;
+
+
+        console.log("apitriggerd", hasReasonAmountError, AdvanceAmount, RoomRent);
+
+        if (
+            customer_name && formattedDate && stay_typename &&
+            Number(AdvanceAmount) > 0 &&
+            Number(RoomRent) > 0
+        ) {
+
+            dispatch({
+                type: "ADDUSER",
+                payload: {
+                    profile: customer_details.profile,
+                    firstname: FirstName || "",
+                    LastName: LastName || "",
+                    Phone: customer_details.Phone,
+                    Email: customer_details.Email,
+                    Address: customer_details.Address,
+                    area: customer_details.area,
+                    landmark: customer_details.landmark,
+                    city: customer_details.city,
+                    pincode: customer_details.pincode,
+                    state: customer_details.state,
+                    AadharNo: customer_details.AadharNo,
+                    PancardNo: customer_details.PancardNo,
+                    licence: customer_details.licence,
+                    HostelName: customer_details.HostelName,
+
+                    hostel_Id: state.login.selectedHostel_Id,
+                    Floor: currentItem?.room?.Floor_Id,
+                    Rooms: currentItem?.room?.Room_Id,
+                    Bed: currentItem?.bed?.id,
+
+                    joining_date: formattedDate,
+                    AdvanceAmount: AdvanceAmount,
+                    RoomRent: RoomRent,
+                    isadvance: 1,
+                    invoice_date: formattedDate,
+                    due_date: formattedAdvanceDueDate,
+                    reasons: formattedReasons,
+                    stay_type: stay_typename,
+                    booking_id: customer_details.booking_id,
+                    booking_date: bookingDate,
+                    booking_amount: bookingAmount,
+                    ID: customer_name
+
+                },
+            });
+        }
+         setFormLoading(true)
+        dispatch({ type: "INVOICELIST" });
+       
     };
 
 
-    const formattedDate = joiningDate
-      ? incrementDateAndFormat(joiningDate)
-      : "";
-
-
-const invoiceDateObj = new Date(formattedDate);
-const dueDays = Number(state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth) || 0;
-
-const dueDateObj = new Date(invoiceDateObj);
-dueDateObj.setDate(dueDateObj.getDate() + dueDays);
-
-const formattedAdvanceDueDate = dueDateObj.toLocaleDateString("en-CA"); 
-
-
-
-
-
-      const fullName = customer_details?.Name?.trim() || "";
-
-const [FirstName, ...lastNameParts] = fullName.split(" ");
-
-const LastName = lastNameParts.join(" ") || "";
-   
-
-    setErrors(newErrors)
-
-     const formattedReasons = fields.map((item) => {
-      let reason_name = "";
-
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
-
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
-
-
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
-
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
-
-
-     if (hasReasonAmountError) return;
-
-
-     console.log("apitriggerd" ,hasReasonAmountError , AdvanceAmount , RoomRent);
-
-    if (
-      customer_name && formattedDate && stay_typename &&
-      Number(AdvanceAmount) > 0 &&
-      Number(RoomRent) > 0
-    ) {
-     
-   dispatch({
-  type: "ADDUSER",
-  payload: {
-    profile: customer_details.profile,
-    firstname: FirstName || "",  
-    LastName: LastName || "",
-    Phone: customer_details.Phone,
-    Email: customer_details.Email,
-    Address: customer_details.Address,
-    area: customer_details.area,
-    landmark: customer_details.landmark,
-    city: customer_details.city,
-    pincode: customer_details.pincode,
-    state: customer_details.state,
-    AadharNo: customer_details.AadharNo,
-    PancardNo: customer_details.PancardNo,
-    licence: customer_details.licence,
-    HostelName: customer_details.HostelName,
-
-   hostel_Id: state.login.selectedHostel_Id,
-    Floor:  currentItem?.room?.Floor_Id,
-    Rooms: currentItem?.room?.Room_Id,
-    Bed: currentItem?.bed?.id,
-
-    joining_date: formattedDate,
-    AdvanceAmount: AdvanceAmount,
-    RoomRent: RoomRent,
-    isadvance: 1,
-    invoice_date: formattedDate,
-    due_date: formattedAdvanceDueDate,
-    reasons: formattedReasons,
-    stay_type: stay_typename,
-    booking_id:customer_details.booking_id,
-    booking_date: bookingDate,
-    booking_amount:bookingAmount,
-    ID:customer_name
-    
-  },
-});
-    }
-    dispatch({ type: "INVOICELIST" });
-  };
-
-
     useEffect(() => {
-      if (state.UsersList?.statusCodeForAddUser === 200) {
-          dispatch({
-            type: "USERLIST",
-            payload: { hostel_id: state.login.selectedHostel_Id},
-          });
-           handleClose();
-      }
+        if (state.UsersList?.statusCodeForAddUser === 201) {
+            setFormLoading(false)
+            dispatch({
+                type: "USERLIST",
+                payload: { hostel_id: state.login.selectedHostel_Id },
+            });
+            handleClose();
+        }
     }, [state.UsersList?.statusCodeForAddUser]);
 
-    console.log("date",state?.Settings?.SettingsBillsGetRecurring );
 
 
     return (
@@ -533,7 +532,7 @@ const LastName = lastNameParts.join(" ") || "";
                                             Check-In Tenant
                                         </Modal.Title>
                                     </div>
-                                       <div className="d-flex align-items-center gap-3 mt-1">
+                                    <div className="d-flex align-items-center gap-3 mt-1">
                                         <label style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
@@ -579,21 +578,21 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Select Tenant {" "}
-                           <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Select
                                             styles={customStyles}
-                                              value={formatOptions().find(
+                                            value={formatOptions().find(
                                                 (opt) => opt.value === customer_name
-                                              )}
-                                              isDisabled
+                                            )}
+                                            isDisabled
                                             //   onChange={handleCustomerChange}
                                             options={formatOptions()}
                                             placeholder="Select a Tenant"
                                             classNamePrefix="custom"
                                             menuPlacement="auto"
 
-                                         
+
                                         />
                                     </Form.Group>
 
@@ -611,10 +610,10 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Booking Date {" "}
-                                 <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
 
-                                          <Form.Control
+                                        <Form.Control
                                             value={bookingDate}
                                             type="text"
                                             placeholder="Booking Date"
@@ -627,11 +626,11 @@ const LastName = lastNameParts.join(" ") || "";
                                                 border: "1px solid #D9D9D9",
                                                 height: 50,
                                                 borderRadius: 8,
-                                                backgroundColor:"#EFF2FF"
+                                                backgroundColor: "#EFF2FF"
                                             }}
                                         />
 
-                                       
+
                                     </Form.Group>
                                 </div>
 
@@ -649,7 +648,7 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         >
                                             Booking Amount
-                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Form.Control
                                             value={bookingAmount}
@@ -664,7 +663,7 @@ const LastName = lastNameParts.join(" ") || "";
                                                 border: "1px solid #D9D9D9",
                                                 height: 50,
                                                 borderRadius: 8,
-                                                backgroundColor:"#EFF2FF"
+                                                backgroundColor: "#EFF2FF"
                                             }}
                                         />
                                     </Form.Group>
@@ -688,8 +687,8 @@ const LastName = lastNameParts.join(" ") || "";
                                         </Form.Label>
                                         <Select
                                             styles={customStyles}
-                                           options={longStayOnly}
-                                    onChange={handleStayTypeChange}
+                                            options={longStayOnly}
+                                            onChange={handleStayTypeChange}
                                             placeholder="Select a Type"
                                             classNamePrefix="custom"
                                             menuPlacement="auto"
@@ -697,14 +696,14 @@ const LastName = lastNameParts.join(" ") || "";
 
                                     </Form.Group>
 
-  {stay_typenameErrmsg.trim() !== "" && (
-                            <div>
-                              <p style={{ fontSize: '15px', color: 'red' }}>
-                                {stay_typenameErrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{stay_typenameErrmsg}</span>
-                              </p>
-                            </div>
-                          )}
-                             
+                                    {stay_typenameErrmsg.trim() !== "" && (
+                                        <div>
+                                            <p style={{ fontSize: '15px', color: 'red' }}>
+                                                {stay_typenameErrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{stay_typenameErrmsg}</span>
+                                            </p>
+                                        </div>
+                                    )}
+
                                 </div>
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -724,8 +723,8 @@ const LastName = lastNameParts.join(" ") || "";
                                             <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Form.Control
-                                           value={RoomRent}
-                                         onChange={handleRoomRent}
+                                            value={RoomRent}
+                                            onChange={handleRoomRent}
                                             type="text"
                                             placeholder="Enter Rental Amount"
                                             style={{
@@ -740,22 +739,22 @@ const LastName = lastNameParts.join(" ") || "";
                                             }}
                                         />
                                     </Form.Group>
-                                     {roomrentError && (
-                                                                  <div style={{ color: "red" }}>
-                                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                                    <label
-                                                                      className="mb-0"
-                                                                      style={{
-                                                                        color: "red",
-                                                                        fontSize: "12px",
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 500,
-                                                                      }}
-                                                                    >
-                                                                      {roomrentError}
-                                                                    </label>
-                                                                  </div>
-                                                                )}
+                                    {roomrentError && (
+                                        <div style={{ color: "red" }}>
+                                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                            <label
+                                                className="mb-0"
+                                                style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                }}
+                                            >
+                                                {roomrentError}
+                                            </label>
+                                        </div>
+                                    )}
                                 </div>
 
 
@@ -777,8 +776,8 @@ const LastName = lastNameParts.join(" ") || "";
                                             <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Form.Control
-                                         value={AdvanceAmount}
-                                        onChange={handleAdvanceAmount}
+                                            value={AdvanceAmount}
+                                            onChange={handleAdvanceAmount}
                                             type="text"
                                             placeholder="Enter   Advance Amount"
                                             style={{
@@ -794,22 +793,22 @@ const LastName = lastNameParts.join(" ") || "";
                                         />
                                     </Form.Group>
 
-                                      {advanceAmountError && (
-                                                                  <div style={{ color: "red" }}>
-                                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                                    <label
-                                                                      className="mb-0"
-                                                                      style={{
-                                                                        color: "red",
-                                                                        fontSize: "12px",
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 500,
-                                                                      }}
-                                                                    >
-                                                                      {advanceAmountError}
-                                                                    </label>
-                                                                  </div>
-                                                                )}
+                                    {advanceAmountError && (
+                                        <div style={{ color: "red" }}>
+                                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                            <label
+                                                className="mb-0"
+                                                style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                }}
+                                            >
+                                                {advanceAmountError}
+                                            </label>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -846,14 +845,14 @@ const LastName = lastNameParts.join(" ") || "";
                                             />
                                         </div>
                                     </Form.Group>
-                                       {joiningDateErrmsg.trim() !== "" && (
-                                                                <div className="d-flex align-items-center">
-                                                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                                    {joiningDateErrmsg}
-                                                                  </label>
-                                                                </div>
-                                                              )}
+                                    {joiningDateErrmsg.trim() !== "" && (
+                                        <div className="d-flex align-items-center">
+                                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                {joiningDateErrmsg}
+                                            </label>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="col-lg-12 col-md-12 col-sm-12">
@@ -1062,15 +1061,15 @@ const LastName = lastNameParts.join(" ") || "";
 
 
                                                     <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-   
-                                                            <Trash
-                                                                size="20"
-                                                                color="red"
-                                                                variant="Bold"
-                                                                style={{ cursor: "pointer" }}
-                                                                onClick={() => handleRemoveField(index)}
-                                                            />
-                                                  
+
+                                                        <Trash
+                                                            size="20"
+                                                            color="red"
+                                                            variant="Bold"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() => handleRemoveField(index)}
+                                                        />
+
                                                     </div>
                                                 </div>
                                             );
@@ -1085,7 +1084,33 @@ const LastName = lastNameParts.join(" ") || "";
                             </div>
                         </Modal.Body>
 
-
+ {formLoading &&
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>
+                  }
 
 
 

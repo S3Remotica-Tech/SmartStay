@@ -370,7 +370,7 @@ function PayingGuestMap(props) {
                       textAlign: "center",
                     }}
                   >
-                    {props.hostel && props.hostel.noOfAvailableBeds || "0"}
+                    { props.hostel?.noOfAvailableBeds || "0"}
                   </label>
                 </div>
               </Card>
@@ -403,7 +403,7 @@ function PayingGuestMap(props) {
                       textAlign: "center",
                     }}
                   >
-                    {props.hostel && props.hostel.noOfRooms || "0"}
+                    {props.hostel?.noOfRooms || "0"}
                   </label>
                 </div>
               </Card>
@@ -437,7 +437,7 @@ function PayingGuestMap(props) {
                     }}
                   >
                     {" "}
-                    {props.hostel && props.hostel.noOfOccupiedBeds || "0"}
+                    {props.hostel?.noOfOccupiedBeds || "0"}
                   </label>
                 </div>
               </Card>
@@ -498,7 +498,7 @@ function PayingGuestMap(props) {
                   }}
                 >
                   {" "}
-                  {props.hostel && props.hostel.noOfFloors || "0"}
+                  {props.hostel?.noOfFloors || "0"}
                 </label>
               </div>
             </div>

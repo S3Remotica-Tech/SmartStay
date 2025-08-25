@@ -1,8 +1,68 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { ComplianceChangeStatus, compliance, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceChange, complianceDelete, getComplianceComment, addComplianceComment } from "../Action/ComplianceAction"
+import { updateVendor, ComplianceChangeStatus, compliance, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceChange, complianceDelete, getComplianceComment, addComplianceComment } from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
+function* handleUpdateVendor(action) {
+   try {
+      const response = yield call(updateVendor, action.payload);
+
+console.log("response UPDATE",response)
+
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      if (response.status === 201) {
+         yield put({ type: 'UPDATE_VENDOR', payload: { response: response.data, statusCode: response.status } })
+         toast.success(`${response.data}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+  catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+        if (error.status === 400) {
+          yield put({ type: 'ALREADY_VENDOR_ERROR', payload: error.response.data });
+        }
+      } else if (error.code === 'ERR_NETWORK') {
+        yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+    }
+}
+
+
+
+
+
 
 
 function* handlecompliancelist(action) {
@@ -75,8 +135,11 @@ function* handleComplianceadd(params) {
 
 function* handleVendorGet(action) {
    const response = yield call(VendorList, action.payload);
+
+   console.log("response",response)
+
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'VENDOR_LIST', payload: { response: response.data.VendorList, statusCode: response.status || response.statusCode } })
+      yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'ERROR_VENDOR_LIST', payload: { statusCode: response.status || response.statusCode } })
@@ -436,6 +499,7 @@ function* ComplianceSaga() {
    yield takeEvery('COMPLIANCE-ADD', handleComplianceadd)
    yield takeEvery('VENDORLIST', handleVendorGet)
    yield takeEvery('ADDVENDOR', handleAddVendor)
+   yield takeEvery('UPDATEVENDOR',   handleUpdateVendor)
    yield takeEvery('DELETEVENDOR', handleDeleteVendor)
    yield takeEvery('COMPLIANCECHANGESTATUS', handleComplianceChange)
    yield takeEvery('DELETECOMPLIANCE', handleDeleteCompliance)

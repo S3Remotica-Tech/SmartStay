@@ -47,6 +47,8 @@ function AddCustomer({  show, handleClose   }) {
     const [state_nameError, setStateNameError] = useState("");
     const [emailErrorMessage, setEmailErrorMessage] = useState("");
     const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+    const [formLoading, setFormLoading] = useState(false);
+
     const countryCode = "91";
     const firstnameRef = useRef(null);
     const phoneRef = useRef(null);
@@ -148,12 +150,14 @@ function AddCustomer({  show, handleClose   }) {
       if (state.UsersList.phoneError) {
         setphonenumError(state.UsersList.phoneError);
       }
+      setFormLoading(false)
     }, [state.UsersList.phoneError]);
   
     useEffect(() => {
       if (state.UsersList.emailError) {
         setemailIdError(state.UsersList.emailError);
       }
+       setFormLoading(false)
     }, [state.UsersList.emailError]);
   
   
@@ -377,7 +381,7 @@ function AddCustomer({  show, handleClose   }) {
         type: "ADDUSER",
         payload: payload,
       });
-    
+    setFormLoading(true)
     };
   
 
@@ -386,10 +390,11 @@ function AddCustomer({  show, handleClose   }) {
   
   
     useEffect(() => {
-      if (state.UsersList?.statusCodeForAddUser === 200) {
+      if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.phoneError === 202) {
+        setFormLoading(false)
         handleClose(); 
       }
-    }, [state.UsersList?.statusCodeForAddUser]);
+    }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.phoneError]);
   
 
   
@@ -506,7 +511,7 @@ function AddCustomer({  show, handleClose   }) {
         payload: payload,
       });
       
-    
+     setFormLoading(true)
     };
 
 
@@ -1448,6 +1453,32 @@ function AddCustomer({  show, handleClose   }) {
             </div>
              </div>
         </Modal.Body>
+         {formLoading && <div
+              style={{
+                position: 'absolute',
+                top: 100,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
       </Modal.Dialog>
     </Modal>
 

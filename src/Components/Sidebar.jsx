@@ -141,6 +141,7 @@ function Sidebar() {
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
+  
   useEffect(() => {
     dispatch({ type: "HOSTELLIST" })
   }, []);
@@ -198,9 +199,7 @@ function Sidebar() {
         const emilidd = loginInfo.mailId;
         const Is_Enable = loginInfo?.two_step_verification_status;
 
-        console.log("iiiiiiiiiiiii",Is_Enable)
-
-
+  
         const encryptedLoginId = CryptoJS.AES.encrypt(
           LoginId.toString(),
           "abcd"
@@ -313,6 +312,9 @@ function Sidebar() {
     localStorage.setItem("emilidd", "");
     localStorage.setItem("selectedHostelId", "");
     localStorage.setItem("selectedHostelName", "");
+      const cookies = new Cookies();
+     cookies.remove('v2-token', { path: '/' });
+      cookies.remove('token', { path: '/' });
   };
 
   const handledisplaycompliace = () => {
@@ -360,7 +362,21 @@ function Sidebar() {
   }, [allPageHostel_Id]);
 
 
-
+useEffect(() => {
+    if (hostelListDetail && hostelListDetail?.length > 0) {
+     const firstHostel = hostelListDetail[0]
+ 
+      setAllPageHostel_Id(firstHostel.hostelId);
+      setPayingGuestName(firstHostel.name);
+      setSelectedProfileImage(
+        firstHostel.mainImage &&
+          firstHostel.mainImage !== "0" &&
+          firstHostel.mainImage !== ""
+          ? firstHostel.mainImage
+          : Profile
+      );
+    }
+  }, [hostelListDetail]);
 
   useEffect(() => {
     const savedHostelId = localStorage.getItem("selectedHostelId");
@@ -419,10 +435,6 @@ function Sidebar() {
   useEffect(() => {
     if (state.login?.isLoggedIn && hostelListDetail?.length > 0) {
      const firstHostel = hostelListDetail[0];
-
-
-
-
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
       setSelectedProfileImage(

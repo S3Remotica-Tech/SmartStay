@@ -21,7 +21,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [first_Name, setFirst_Name] = useState("");
   const [last_Name, setLast_Name] = useState("");
   const [vendor_Mobile, setVendor_Mobile] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -29,7 +29,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
   const [business_Name, setBusiness_Name] = useState("");
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
   const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
 
@@ -62,7 +62,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const countryRef = useRef(null);
 
 
-
+  console.log("currentItem", currentItem)
 
 
   const indianStates = [
@@ -104,17 +104,21 @@ function AddVendor({ show, setShow, currentItem }) {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
-  const handleCountryChange = (e) => {
-    const value = e.target.value
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setCountry(value);
-    setGeneralError("");
-    setIsChangedError("");
-    setCountryError("");
-  };
+
+
+  const countryList = [
+    { value: "1", label: "India" },
+  ];
+
+  // const handleCountryChange = (e) => {
+  //   const value = e.target.value
+  //   const pattern = /^[a-zA-Z\s]*$/;
+  //   if (!pattern.test(value)) {
+  //     return;
+  //   }
+  //   setCountry(value);
+
+  // };
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -476,48 +480,50 @@ function AddVendor({ show, setShow, currentItem }) {
     if (isValid) {
       if (check === "EDIT") {
         dispatch({
-          type: "ADDVENDOR",
+          type: "UPDATEVENDOR",
           payload: {
-            hostel_id: state.login.selectedHostel_Id,
-            profile: file,
-            first_Name: first_Name,
-            Last_Name: last_Name,
-            Vendor_Mobile: MobileNumber,
-            Vendor_Email: email_Id,
-            Business_Name: business_Name,
-            id: id,
-            Country: country,
-            Vendor_Address: house_no,
-            Pincode: pinCode,
-            area: street,
-            landmark: landmark,
-            city: city,
-            state: state_name,
+            profilePic: file,
+            updateVendor: {
+              // hostelId: state.login.selectedHostel_Id,
+              firstName: first_Name,
+              lastName: last_Name,
+              mobile: MobileNumber,
+              mailId: email_Id,
+              businessName: business_Name,
+              country: country,
+              houseNo: house_no,
+              pinCode: pinCode,
+              area: street,
+              landmark: landmark,
+              city: city,
+              state: state_name,
+              vendorId: Number(currentItem.id)
+            },
           },
         });
         setFormLoading(true)
       } else {
-       dispatch({
-  type: "ADDVENDOR",
-  payload: {
-    profilePic: file,
-    payLoads: {
-      hostelId: state.login.selectedHostel_Id,
-      firstName: first_Name,
-      lastName: last_Name,
-      mobile: MobileNumber,
-      mailId: email_Id,
-      businessName: business_Name,
-      country: country,
-      houseNo: house_no,
-      pinCode: pinCode,
-      area: street,
-      landmark: landmark,
-      city: city,
-      state: state_name,
-    },
-  },
-});
+        dispatch({
+          type: "ADDVENDOR",
+          payload: {
+            profilePic: file,
+            payLoads: {
+              hostelId: state.login.selectedHostel_Id,
+              firstName: first_Name,
+              lastName: last_Name,
+              mobile: MobileNumber,
+              mailId: email_Id,
+              businessName: business_Name,
+              country: country,
+              houseNo: house_no,
+              pinCode: pinCode,
+              area: street,
+              landmark: landmark,
+              city: city,
+              state: state_name,
+            },
+          },
+        });
 
         setFormLoading(true)
       }
@@ -529,13 +535,13 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
   useEffect(() => {
-    if (state.ComplianceList.addVendorSuccessStatusCode === 201) {
+    if (state.ComplianceList.addVendorSuccessStatusCode === 201 || state.ComplianceList.updateVendorSuccessStatusCode === 201) {
       setFormLoading(false)
       setFile("");
       setFirst_Name("");
       setLast_Name("");
       setVendor_Mobile("");
-      setAddress("");
+      // setAddress("");
       setEmail_Id("");
       setBusiness_Name("");
       setHouseNo("")
@@ -545,7 +551,7 @@ function AddVendor({ show, setShow, currentItem }) {
       setPinCode("")
       setStateName("")
     }
-  }, [state.ComplianceList.addVendorSuccessStatusCode]);
+  }, [state.ComplianceList.addVendorSuccessStatusCode, state.ComplianceList.updateVendorSuccessStatusCode]);
 
 
   useEffect(() => {
@@ -566,15 +572,12 @@ function AddVendor({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (currentItem) {
-      const nameParts = currentItem.Vendor_Name.split(" ");
-      const firstName = nameParts[0];
-      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
-
-      const phoneNumber = String(currentItem.Vendor_Mobile || "");
+      const phoneNumber = String(currentItem.mobile || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+
       const mobileNumber = phoneNumber.slice(-10);
 
-      const emailValue = currentItem.Vendor_Email;
+      const emailValue = currentItem.emailId;
       const normalizedEmail =
         emailValue === "undefined" ||
           emailValue === null ||
@@ -590,44 +593,44 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
       setCheck("EDIT");
-      setFirst_Name(firstName);
-      setLast_Name(lastName);
+      setFirst_Name(currentItem.firstName);
+      setLast_Name(currentItem.lastName);
       setVendor_Mobile(mobileNumber);
       setCountryCode(countryCode);
-      setAddress(currentItem.Vendor_Address);
+      // setAddress(currentItem?.houseNo);
 
       setEmail_Id(normalizedEmail);
 
-      setBusiness_Name(currentItem.Business_Name);
-      setId(currentItem.id);
+      setBusiness_Name(currentItem.businessName);
+      // setId(currentItem.id);
 
-      setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
-      setCountry(currentItem.Country);
-      setPinCode(currentItem.Pincode);
+      setFile(currentItem.profilePic ? currentItem.profilePic : null);
+      setCountry(currentItem.country);
+      setPinCode(currentItem.pinCode);
 
-      setHouseNo(sanitize(currentItem.Vendor_Address))
+      setHouseNo(sanitize(currentItem.houseNo))
       setStreet(sanitize(currentItem.area))
-      setLandmark(sanitize(currentItem.landmark))
+      setLandmark(sanitize(currentItem.landMark))
       setCity(currentItem.city)
       setStateName(currentItem.state)
 
       setInitialState({
-        first_Name: firstName,
-        last_Name: lastName,
+        first_Name: currentItem.firstName,
+        last_Name: currentItem.lastName,
         vendor_Mobile: mobileNumber,
         countryCode: countryCode,
 
-        house_no: sanitize(currentItem.Vendor_Address) || '',
+        house_no: sanitize(currentItem.houseNo) || '',
         street: sanitize(currentItem.area) || '',
         city: sanitize(currentItem.city) || '',
 
-        landmark: sanitize(currentItem.landmark) || '',
+        landmark: sanitize(currentItem.landMark) || '',
         state: currentItem.state || '',
         email_Id: normalizedEmail,
-        business_Name: currentItem.Business_Name,
-        file: currentItem.Vendor_profile ? currentItem.Vendor_profile : null,
-        country: currentItem.Country,
-        pinCode: currentItem.Pincode,
+        business_Name: currentItem.businessName,
+        file: currentItem.profilePic ? currentItem.profilePic : null,
+        country: currentItem.country,
+        pinCode: currentItem.pincode,
       });
     }
   }, [currentItem]);
@@ -792,7 +795,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
             <div className="row mt-4">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group  
+                <Form.Group
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -826,7 +829,7 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {firstNameError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                 <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -843,8 +846,8 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                 
-                 
+
+
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -880,8 +883,8 @@ function AddVendor({ show, setShow, currentItem }) {
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
                 <Form.Group
-                
-                
+
+
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -957,7 +960,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                   {countryCodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -977,7 +980,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                 {vendorPhoneError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -994,8 +997,8 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                 
-                 
+
+
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1028,7 +1031,7 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                   {emailError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1046,7 +1049,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                 {vendorEmailError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -1063,8 +1066,8 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
-                 
-                 
+
+
 
                   controlId="exampleForm.ControlInput1"
                 >
@@ -1098,7 +1101,7 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                   {businessNameError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1119,7 +1122,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                <Form.Group 
+                <Form.Group
                 >
                   <Form.Label
                     style={{
@@ -1158,8 +1161,8 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                <Form.Group 
-              >
+                <Form.Group
+                >
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1190,7 +1193,7 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {streetError && (
                   <div style={{ color: "red" }}>
-                  <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
                   </div>
                 )}
@@ -1228,7 +1231,7 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {landmarkError && (
                   <div style={{ color: "red" }}>
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
                   </div>
                 )}
@@ -1260,7 +1263,7 @@ function AddVendor({ show, setShow, currentItem }) {
                       fontSize: 16,
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
-                      fontWeight: 500,
+                      fontWeight: city ? 600 : 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
                       height: 50,
@@ -1270,7 +1273,7 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {cityError && (
                   <div style={{ color: "red" }}>
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                   </div>
                 )}
@@ -1278,7 +1281,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                 
+
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1314,7 +1317,7 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                   {pinCodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1334,7 +1337,7 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group  controlId="exampleForm.ControlInput5">
+                <Form.Group controlId="exampleForm.ControlInput5">
                   <Form.Label
                     style={{
                       fontFamily: "Gilroy",
@@ -1449,7 +1452,7 @@ function AddVendor({ show, setShow, currentItem }) {
                     Country {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <Form.Control
+                  {/* <Form.Control
                     value={country}
                     ref={countryRef}
                     onChange={(e) => handleCountryChange(e)}
@@ -1465,10 +1468,80 @@ function AddVendor({ show, setShow, currentItem }) {
                       height: 50,
                       borderRadius: 8,
                     }}
+                  /> */}
+
+                  <Select
+                    options={countryList}
+                    ref={countryRef}
+                    onChange={(selectedOption) => {
+                      setCountry(selectedOption?.label);
+                      setGeneralError("");
+                      setIsChangedError("");
+                      setCountryError("");
+                    }}
+                    onInputChange={(inputValue, { action }) => {
+                      if (action === "input-change") {
+                        const lettersOnly = inputValue.replace(/[^a-zA-Z\s]/g, "");
+                        return lettersOnly;
+                      }
+                      return inputValue;
+                    }}
+                    value={countryList.find((c) => c.value === country) || null}
+                    placeholder="Select Country"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No country available"}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        height: "50px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        fontSize: "16px",
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: country ? 600 : 500,
+                        boxShadow: "none",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                      }),
+                    }}
                   />
+
                   {countryError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1534,14 +1607,14 @@ function AddVendor({ show, setShow, currentItem }) {
 
           {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-             <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
               <label className="mb-0" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}
           {isChangedError && (
             <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
-             <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <span style={{ fontSize: "13px", fontFamily: "Gilroy"}}>
+              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+              <span style={{ fontSize: "13px", fontFamily: "Gilroy" }}>
                 {isChangedError}
               </span>
             </div>

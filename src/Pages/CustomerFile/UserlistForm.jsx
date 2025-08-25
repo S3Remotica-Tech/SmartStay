@@ -77,6 +77,7 @@ function UserlistForm(props) {
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
+ 
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
   const [errors, setErrors] = useState([]);
@@ -259,6 +260,7 @@ function UserlistForm(props) {
     }
 
     setPhoneErrorMessage("");
+    setphonenumError("")
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
 
@@ -279,6 +281,7 @@ function UserlistForm(props) {
       setEmailErrorMessage("");
     }
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setemailIdError("")
   };
 
   useEffect(() => {
@@ -671,33 +674,40 @@ const handleCloseAssign =()=>{
     const capitalizedLastname = capitalizeFirstLetter(lastname);
   
     const payload = {
-      profile: file,
-      firstname: capitalizedFirstname,
-      lastname: capitalizedLastname,
-      Phone: MobileNumber,
-      Email: Email,
-      AadharNo: AadharNo,
-      PancardNo: PancardNo,
-      licence: licence,
-      HostelName: HostelName,
-      hostel_Id: hostel_Id,
-      Floor: Floor,
-      Rooms: Rooms,
-      Bed: Bed,
-      joining_date: selectedDate,
-      AdvanceAmount: AdvanceAmount,
-      RoomRent: RoomRent,
-      BalanceDue: BalanceDue,
-      PaymentType: PaymentType,
-      paid_advance: paid_advance,
-      paid_rent: paid_rent,
-      payable_rent: payableamount,
-      Address: house_no,
-      area: street,
+      profilePic: file,
+      hostelId:state.login.selectedHostel_Id,
+      customerInfo: {
+      firstName: capitalizedFirstname,
+      lastName: capitalizedLastname,
+      mobileNumber: MobileNumber,
+      emailId: Email,
+      type: 1,
+      address: {  
+      houseNo: house_no,
+      street: street,
       landmark: landmark,
       city: city,
       pincode: pincode,
       state: state_name,
+      },
+      // AadharNo: AadharNo,
+      // PancardNo: PancardNo,
+      // licence: licence,
+      // HostelName: HostelName,
+      // hostel_Id: hostel_Id,
+      // Floor: Floor,
+      // Rooms: Rooms,
+      // Bed: Bed,
+      // joining_date: selectedDate,
+      // AdvanceAmount: AdvanceAmount,
+      // RoomRent: RoomRent,
+      // BalanceDue: BalanceDue,
+      // PaymentType: PaymentType,
+      // paid_advance: paid_advance,
+      // paid_rent: paid_rent,
+      // payable_rent: payableamount,
+      
+      }
     };
 
     if (props?.edit === "Edit") {
@@ -708,6 +718,7 @@ const handleCloseAssign =()=>{
       type: "ADDUSER",
       payload: payload,
     });
+    setFormLoading(true)
   
   };
 
@@ -877,6 +888,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 });
 
     }
+    setFormLoading(true)
     dispatch({ type: "INVOICELIST" });
   };
 
@@ -926,7 +938,7 @@ useEffect(() => {
 
        const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
+      newDate.setDate(newDate.getDate());
       return newDate.toISOString().split("T")[0];
     };
 
@@ -1037,6 +1049,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
   },
 });
     }
+    setFormLoading(true)
     dispatch({ type: "INVOICELIST" });
   };
 
@@ -1572,7 +1585,7 @@ const bookingDateRef = useRef("");
  
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 200) {
+    if (state.UsersList?.statusCodeForAddUser === 201) {
       setFormLoading(false)
       setLoading(false)
          handleClose();
@@ -1747,35 +1760,75 @@ const bookingDateRef = useRef("");
 
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
     const capitalizedLastname = capitalizeFirstLetter(lastname);
+    // const payload = {
+    //   profile: file,
+    //   firstname: capitalizedFirstname,
+    //   lastname: capitalizedLastname,
+    //   Phone: MobileNumber,
+    //   Email: Email,
+    //   AadharNo: AadharNo,
+    //   PancardNo: PancardNo,
+    //   licence: licence,
+    //   HostelName: HostelName,
+    //   hostel_Id: hostel_Id,
+    //   Floor: Floor,
+    //   Rooms: Rooms,
+    //   Bed: Bed,
+    //   joining_date: selectedDate,
+    //   AdvanceAmount: AdvanceAmount,
+    //   RoomRent: RoomRent,
+    //   BalanceDue: BalanceDue,
+    //   PaymentType: PaymentType,
+    //   paid_advance: paid_advance,
+    //   paid_rent: paid_rent,
+    //   payable_rent: payableamount,
+    //   Address: house_no,
+    //   area: street,
+    //   landmark: landmark,
+    //   city: city,
+    //   pincode: pincode,
+    //   state: state_name,
+    // };
+
+
     const payload = {
-      profile: file,
-      firstname: capitalizedFirstname,
-      lastname: capitalizedLastname,
-      Phone: MobileNumber,
-      Email: Email,
-      AadharNo: AadharNo,
-      PancardNo: PancardNo,
-      licence: licence,
-      HostelName: HostelName,
-      hostel_Id: hostel_Id,
-      Floor: Floor,
-      Rooms: Rooms,
-      Bed: Bed,
-      joining_date: selectedDate,
-      AdvanceAmount: AdvanceAmount,
-      RoomRent: RoomRent,
-      BalanceDue: BalanceDue,
-      PaymentType: PaymentType,
-      paid_advance: paid_advance,
-      paid_rent: paid_rent,
-      payable_rent: payableamount,
-      Address: house_no,
-      area: street,
+      profilePic: file,
+      hostelId:state.login.selectedHostel_Id,
+      customerInfo: {
+      firstName: capitalizedFirstname,
+      lastName: capitalizedLastname,
+      mobileNumber: MobileNumber,
+      emailId: Email,
+      type: 1,
+      address: {  
+      houseNo: house_no,
+      street: street,
       landmark: landmark,
       city: city,
       pincode: pincode,
       state: state_name,
+      },
+      // AadharNo: AadharNo,
+      // PancardNo: PancardNo,
+      // licence: licence,
+      // HostelName: HostelName,
+      // hostel_Id: hostel_Id,
+      // Floor: Floor,
+      // Rooms: Rooms,
+      // Bed: Bed,
+      // joining_date: selectedDate,
+      // AdvanceAmount: AdvanceAmount,
+      // RoomRent: RoomRent,
+      // BalanceDue: BalanceDue,
+      // PaymentType: PaymentType,
+      // paid_advance: paid_advance,
+      // paid_rent: paid_rent,
+      // payable_rent: payableamount,
+      
+      }
     };
+
+
 
     if (props.edit === "Edit") {
       payload.ID = id;
@@ -1786,7 +1839,7 @@ const bookingDateRef = useRef("");
       payload: payload,
     });
     
-  
+  setFormLoading(true)
 
   };
  
@@ -1814,6 +1867,7 @@ const handleCloseBacktoCheckin =()=>{
  console.log("bactocheckinForm",props.customer_details , props?.EditObj)
 
  const [recheckinbedname , setRecheckinbedName] = useState("")
+ const [RequestDate , setRequestDate] = useState(null)
 
 useEffect(()=>{
    if (props?.bactocheckinForm) {
@@ -1862,8 +1916,11 @@ useEffect(()=>{
        setBookingBedId(props.EditObj?.Bed || props?.customer_details?.Bed)
        setBookingAmount(props.EditObj?.pending_advance || props?.customer_details?.pending_advance)
        setAdvanceAmount(props.EditObj?.AdvanceAmount || props?.customer_details?.AdvanceAmount)
-        setRoomRent(props.EditObj?.RoomRent || props?.customer_details?.RoomRent)
+      setRoomRent(props.EditObj?.RoomRent || props?.customer_details?.RoomRent)
       setBookingDate(props.EditObj?.booking_booking_date || props?.customer_details?.booking_booking_date)
+     if (props.EditObj?.req_date || props.customer_details?.req_date) {
+     setRequestDate(dayjs(props.EditObj?.req_date || props.customer_details?.req_date));
+      }
     } 
 //   if ( (props?.EditObj && Array.isArray(props.EditObj?.reasonData)) ||
 //   (props?.customer_details && Array.isArray(props?.customer_details?.reasonData))) {
@@ -2068,10 +2125,12 @@ const handleSaveBacktoCheckin =()=>{
   }
    
   dispatch({ type: "BACKTOCHECKIN", payload: { userId:id, RecheckIn_Reason:reason,RecheckIn_Date:recheckInDate } });
+  setFormLoading(true)
 }
 
  useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
+      setFormLoading(false)
       handleCloseBacktoCheckin()
     dispatch({
           type: "USERLIST",
@@ -3947,12 +4006,12 @@ const handleSaveBacktoCheckin =()=>{
             borderBottomLeftRadius: '20px',
           }}
         >
-          <h5 className="mb-4">Add New Customer</h5>
-          <div className="d-flex align-items-center">
+          <h5 className="mb-4" style={{fontFamily:"Gilroy"}}>Add New Customer</h5>
+          <div className="d-flex align-items-center ">
             <div className=" text-white rounded-circle d-flex justify-content-center align-items-center" style={{ width: '30px', height: '30px' , backgroundColor:'rgba(30, 69, 225, 1)' }}><img src={Store_Icon} alt="storeicon" height={15} width={15}/> </div>
             <span className="ms-2" style={{fontFamily: "Gilroy",fontSize: "14px"}}>Step 1<br /><small>Basic Details</small></span>
           </div>
-<div className="d-flex align-items-center">
+<div className="d-flex align-items-center mb-2">
   <div
     className="rounded-circle d-flex justify-content-center align-items-center"
     style={{
@@ -3993,7 +4052,7 @@ const handleSaveBacktoCheckin =()=>{
           </div> */}
 
            <div
-        className="d-flex justify-content-between align-items-start px-4 py-3"
+        className="d-flex justify-content-between align-items-start px-2 py-1"
         style={{
           position: 'sticky',
           top: 0,
@@ -4007,7 +4066,7 @@ const handleSaveBacktoCheckin =()=>{
         </h5>
         <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: 'pointer' }} />
       </div>
-              <div className="" style={{overflowY:'auto' , maxHeight: "440px",overflowX:'hidden'}}>
+              <div className="show-scroll ms-2 mt-1" style={{overflowY:'auto' , maxHeight: "440px",overflowX:'hidden'}}>
               {step === 1 && (
                 <>
                   <div className="row">
@@ -4820,6 +4879,40 @@ const handleSaveBacktoCheckin =()=>{
                     : null}
 
                   </div>
+                  {phonenumError && (
+                          <div style={{ color: "red" }}>
+                            <MdError
+                              style={{ fontSize: "13px", marginBottom: "2px" }}
+                            />
+                            <span
+                              style={{
+                                fontSize: "12px",
+                                color: "red",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                marginRight: "3px"
+                              }}
+                            >
+                              {" "}
+                              {phonenumError}
+                            </span>
+                          </div>
+                        )}
+                         {emailIdError && (
+                            <div style={{ color: "red" }}>
+                              <MdError />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {emailIdError}
+                              </span>
+                            </div>
+                          )}
                   <div className="d-flex justify-content-end mt-3">
                     <Button style={{  fontFamily: "Gilroy",
     fontSize: "14px",
@@ -4855,6 +4948,33 @@ const handleSaveBacktoCheckin =()=>{
         </div>
          </div>
     </Modal.Body>
+      {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+
   </Modal.Dialog>
 </Modal>
 
@@ -6118,7 +6238,7 @@ value={bookingAmount}
                         </span>
                       </Form.Label>
 
-                      <DatePicker
+                      {/* <DatePicker
                        ref={dateRef}
                         style={{
                           width: "100%",
@@ -6139,7 +6259,35 @@ value={bookingAmount}
                         }
                         dropdownClassName="custom-datepicker-popup"
                         disabledDate={(current) => current && current > dayjs().endOf("day")}
-                      />
+                      /> */}
+
+                      <DatePicker
+  ref={dateRef}
+  style={{
+    width: "100%",
+    height: 48,
+    cursor: "pointer",
+    fontFamily: "Gilroy"
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={recheckInDate ? dayjs(recheckInDate) : null}
+  onChange={(date) => {
+    setRecheckInDate(date ? date.toDate() : null);
+    setRecheckinDateError("");
+  }}
+  getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".datepicker-wrapper") || document.body
+  }
+  dropdownClassName="custom-datepicker-popup"
+  disabledDate={(current) => {
+    if (!RequestDate) {
+      return current && current > dayjs().endOf("day");
+    }
+    return current && current < dayjs(RequestDate).startOf("day");
+  }}
+/>
+
 
                        {recheckinDateError && (
                             <div style={{ color: "red" }} >
@@ -6173,7 +6321,32 @@ value={bookingAmount}
                     : null}
 
 
-
+  {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
 
                   <div style={{ display: "flex", gap: "16px", alignItems: "center", marginTop: 10, justifyContent: "flex-end" }}>

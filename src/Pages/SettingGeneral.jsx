@@ -61,9 +61,7 @@ function SettingGeneral() {
   const [editId, setEditId] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
-  const [emailAlready, setEmailAlready] = useState("");
-  const [phoneAlready, setPhoneAlready] = useState("");
-  const [firstNameError, setFirstNameError] = useState("");
+    const [firstNameError, setFirstNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
 
@@ -288,7 +286,7 @@ function SettingGeneral() {
     setFormError("");
     setEmailError("")
     setEmailErrorMessage("")
-    setEmailAlready('');
+
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
   };
 
@@ -736,15 +734,13 @@ function SettingGeneral() {
   useEffect(() => {
     if (state.Settings?.generalEmailError) {
       setFormLoading(false)
-      setEmailAlready(state.Settings?.generalEmailError);
-    }
+          }
   }, [state.Settings?.generalEmailError]);
 
   useEffect(() => {
     if (state.Settings?.generalMobileError) {
       setFormLoading(false)
-      setPhoneAlready(state.Settings?.generalMobileError);
-    }
+         }
   }, [state.Settings?.generalMobileError]);
 
 

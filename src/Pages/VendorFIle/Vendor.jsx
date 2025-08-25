@@ -148,7 +148,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
   useEffect(() => {
-    if (state.ComplianceList.addVendorSuccessStatusCode === 201 || state.ComplianceList.deleteVendorStatusCode === 200) {
+    if (state.ComplianceList.addVendorSuccessStatusCode === 201 || state.ComplianceList.deleteVendorStatusCode === 200 || state.ComplianceList.updateVendorSuccessStatusCode === 201) {
       setShow(false);
       setShowDeleteVendor(false)
       setTimeout(() => {
@@ -167,7 +167,7 @@ const isAdmin = userType === "admin" || userType === "agent";
     }
 
 
-  }, [state.ComplianceList.addVendorSuccessStatusCode, state.ComplianceList.deleteVendorStatusCode])
+  }, [state.ComplianceList.addVendorSuccessStatusCode, state.ComplianceList.deleteVendorStatusCode, state.ComplianceList.updateVendorSuccessStatusCode ])
 
 
 
@@ -287,8 +287,8 @@ const isAdmin = userType === "admin" || userType === "agent";
       dispatch({
         type: 'DELETEVENDOR',
         payload: {
-          id: showDeleteVendorDetails.id,
-          Status: 0,
+          vendorId: showDeleteVendorDetails.id,
+          // Status: 0,
         },
       });
       setCurrentPage(1);
@@ -611,7 +611,7 @@ const isAdmin = userType === "admin" || userType === "agent";
             </div>
 
             {
-              filteredData.length > 4 &&
+              filteredData?.length > 4 &&
               <nav style={{
                 display: "flex",
                 alignItems: "center",
