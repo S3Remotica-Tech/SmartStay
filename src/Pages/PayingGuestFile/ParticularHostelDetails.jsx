@@ -31,6 +31,7 @@ import BookingBed from './NoticePeriod/BookingBed';
 import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
 import CheckoutTenant from './NoticePeriod/Check-out Tenant';
+import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 
 
 
@@ -1055,7 +1056,7 @@ function ParticularHostelDetails(props) {
         }
 
         {
-          Noticeperiod_checkout && <CheckoutTenant show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
+          Noticeperiod_checkout && <DueCustomerConfirmCheckout show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
             customerID={customerID}
 
             data={OccupiedCustomerDetails}
