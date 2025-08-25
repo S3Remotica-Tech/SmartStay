@@ -123,10 +123,11 @@ export const initialState = {
     StatusCodeBacktoCheckin: 0,
     floorListStatusCode: 0,
     floorList: [],
+    statusCodeForCheckInCustomer: 0
 }
 
 const UserListReducer = (state = initialState, action) => {
-    console.log("action" , action.type);
+  
     
 
     switch (action.type) {
@@ -211,6 +212,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, addUser: action.payload.message, statusCodeForAddUser: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES':
             return { ...state, statusCodeForAddUser: 0 }
+
+  case 'CHECK_IN':
+            return { ...state, statusCodeForCheckInCustomer: action.payload.statusCode }
+        case 'CLEAR_STATUS_CODES_CHECK_IN':
+            return { ...state, statusCodeForCheckInCustomer: 0 }
+
         case 'PHONE_ERROR' :
              return { ...state, phoneError: action.payload }
         case 'CLEAR_PHONE_ERROR':

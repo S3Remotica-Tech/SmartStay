@@ -153,10 +153,13 @@ function Sidebar() {
   }, [state.login.selectedHostel_Id]);
 
 
+
+
+  console.log("hostelListDetail",hostelListDetail)
+
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
-      // dispatch({ type: "HOSTELIDDETAILS" });
-        dispatch({ type: "HOSTELLIST" })
+             dispatch({ type: "HOSTELLIST" })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
@@ -166,6 +169,8 @@ function Sidebar() {
     state.PgList.deletePgSuccessStatusCode,
   ]);
 
+
+console.log("state",state)
 
   useEffect(() => {
     if (state.UsersList.hosteListStatusCode === 200) {

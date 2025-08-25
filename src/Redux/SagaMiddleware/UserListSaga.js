@@ -1,10 +1,75 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc , CustomerUnAssign,backtoCheckin} from "../Action/UserListAction"
+import {CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc , CustomerUnAssign,backtoCheckin} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
+function* handleCheckIn(datum) {
+   try {
+      const response = yield call(CheckIn, datum.payload);
+    
+
+      if (response.status === 201) {
+         yield put({
+            type: 'CHECK_IN',
+            payload: { response: response.message, statusCode:response.status },
+         });
+
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+     
+
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+      const error = err || {};
+
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+}
+
+
 
 function* handleuserlist(user) {
    try {
@@ -313,31 +378,31 @@ function* handleAddUser(datum) {
             style: toastStyle,
          });
       }
-      else if (response.statusCode === 202) {
+      // else if (response.statusCode === 202) {
 
-         yield put({ type: 'PHONE_ERROR', payload: response.message });
-      }
-      else if (response.statusCode === 203) {
+      //    yield put({ type: 'PHONE_ERROR', payload: response.message });
+      // }
+      // else if (response.statusCode === 203) {
 
-         yield put({ type: 'EMAIL_ERROR', payload: response.message });
-      }
+      //    yield put({ type: 'EMAIL_ERROR', payload: response.message });
+      // }
 
 
       if (response) {
          refreshToken(response)
       }
    }
-   catch (err) {
-      const error = err || {};
-
-      yield put({
-         type: 'NETWORK_ERROR',
-         payload:
-            error?.code === 'ERR_NETWORK'
-               ? 'Network error occurred'
-               : error?.message || 'Something went wrong',
-      });
-   }
+   catch (error) {
+        if (error.code === 'ERR_BAD_REQUEST') {
+        if (error.response.data.emailStatus !== "") {
+          yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus });
+        } else if (error.response.data.mobileStatus !== "") {
+          yield put({ type: 'PHONE_ERROR', payload: error.response.data.mobileStatus });
+        }
+      } else if (error.code === 'ERR_NETWORK')  {
+        yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+    }
 }
 
 
@@ -2014,6 +2079,7 @@ function* handleGetAllFloor(floor) {
 
 
 function* UserListSaga() {
+    yield takeEvery('CHECKIN',handleCheckIn)
     yield takeEvery('ALLFLOORLIST',handleGetAllFloor)
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)

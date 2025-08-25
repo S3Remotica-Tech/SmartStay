@@ -87,6 +87,8 @@ export const initialState = {
   settingGlobalAddStatusCode:0,
     FetchGlobal: [],
   statusCodeForSettingFetch: 0,
+  getModules: [],
+  getModulesSuccessStatusCode: 0,
  
 };
 
@@ -319,6 +321,11 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_USER_STAFF_LIST":
       return { ...state, StatusForaddSettingStaffList: 0 };
 
+case 'GET_MODULES':
+   return {...state, getModules: action.payload.response,getModulesSuccessStatusCode: action.payload.statusCode };
+case 'REMOVE_GET_MODULES_STATUS_CODE':
+   return { ...state, getModulesSuccessStatusCode: 0  };
+       
     case "EB_UNIT_ERROR":
       return { ...state, ebUnitError: action.payload };
 

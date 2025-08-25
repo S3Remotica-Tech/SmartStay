@@ -32,62 +32,85 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     const [formLoading, setFormLoading] = useState(false)
 
-    const [checkboxValues, setCheckboxValues] = useState({
-        Dashboard: [false, false, false, false],
-        Announcement: [false, false, false, false],
-        Updates: [false, false, false, false],
-        PayingGuest: [false, false, false, false],
-        Customers: [false, false, false, false],
-        Bookings: [false, false, false, false],
-        Checkout: [false, false, false, false],
-        WalkIn: [false, false, false, false],
-        Assets: [false, false, false, false],
-        Vendor: [false, false, false, false],
-        Bills: [false, false, false, false],
-        RecuringBills: [false, false, false, false],
-        Electricity: [false, false, false, false],
-        Complaints: [false, false, false, false],
-        Expenses: [false, false, false, false],
-        Reports: [false, false, false, false],
-        Bankings: [false, false, false, false],
-        Profile: [false, false, false, false],
-        Amenities: [false, false, false, false]
 
-    });
+
+    useEffect(() => {
+        dispatch({ type: 'GETMODULES' })
+    }, [])
 
 
 
 
 
-    const handleCheckboxChange = (row, index) => {
-        setErrorPermission('')
-        setErrorIsChanged("")
-        setCheckboxValues((prevValues) => ({
-            ...prevValues,
-            [row]: prevValues[row].map((value, i) => (i === index ? !value : value))
+    const handleCheckboxChange = (rowName, index) => {
+        setCheckboxValues(prev => ({
+            ...prev,
+            [rowName]: prev[rowName].map((val, i) =>
+                i === index ? !val : val
+            )
         }));
     };
-    const permissionMapping = {
-        Dashboard: 1,
-        Announcement: 2,
-        Updates: 3,
-        PayingGuest: 4,
-        Customers: 5,
-        Bookings: 6,
-        Checkout: 7,
-        WalkIn: 8,
-        Assets: 9,
-        Vendor: 10,
-        Bills: 11,
-        RecuringBills: 12,
-        Electricity: 13,
-        Complaints: 14,
-        Expenses: 15,
-        Reports: 16,
-        Bankings: 17,
-        Profile: 18,
-        Amenities: 19
-    };
+
+
+
+    // const permissionMapping = {
+    //     Dashboard: 1,
+    //     Announcement: 2,
+    //     Updates: 3,
+    //     PayingGuest: 4,
+    //     Customers: 5,
+    //     Bookings: 6,
+    //     Checkout: 7,
+    //     WalkIn: 8,
+    //     Assets: 9,
+    //     Vendor: 10,
+    //     Bills: 11,
+    //     RecuringBills: 12,
+    //     Electricity: 13,
+    //     Complaints: 14,
+    //     Expenses: 15,
+    //     Reports: 16,
+    //     Bankings: 17,
+    //     Profile: 18,
+    //     Amenities: 19
+    // };
+
+
+    // const modules = state.Settings?.getModules || [];
+
+    // const permissionMapping = modules.reduce((acc, module) => {
+    //   // format moduleName if you want to remove spaces or customize keys
+    //   const formattedName = module.moduleName.replace(/\s+/g, '');
+
+    //   acc[formattedName] = module.id;
+    //   return acc;
+    // }, {});
+
+    // console.log("permissionMapping", permissionMapping);
+
+
+    const modules = state.Settings?.getModules || [];
+
+
+    const permissionMapping = modules.reduce((acc, module) => {
+        const formattedName = module.moduleName.replace(/\s+/g, '');
+        acc[formattedName] = module.id;
+        return acc;
+    }, {});
+
+
+    const initialCheckboxValues = modules.reduce((acc, module) => {
+        const formattedName = module.moduleName.replace(/\s+/g, '');
+        acc[formattedName] = [false, false, false, false];
+        return acc;
+    }, {});
+
+    const [checkboxValues, setCheckboxValues] = useState(initialCheckboxValues);
+
+
+
+
+
 
     useEffect(() => {
         if (!checkboxValues || typeof checkboxValues !== 'object') {
@@ -247,41 +270,42 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
             isValid = false;
         }
         const hasPermissionSelected = permissionRole.some(permission =>
-            permission.canWrite !== 0 || permission.canDelete !== 0 || permission.canUpdate !== 0 || permission.canRead !== 0
-        )
+            Boolean(permission.canRead || permission.canWrite || permission.canUpdate || permission.canDelete)
+        );
+
 
         if (!hasPermissionSelected) {
             setErrorPermission("At Least One Permission Must Be Selected");
             isValid = false;
         }
-
-        const currentState = {
-            roleName,
-            permissionRole,
-        };
-
-        let hasRoleNameChanged = true;
-        let hasPermissionRoleChanged = true;
-
         if (editRoleDetails) {
-            const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole || []);
-            const normalizedCurrent = normalizePermissions(currentState.permissionRole);
+            const currentState = {
+                roleName,
+                permissionRole,
+            };
 
-            hasRoleNameChanged =
-                initialFormState.current.roleName?.trim() !== currentState.roleName?.trim();
-            hasPermissionRoleChanged =
-                JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent);
+            let hasRoleNameChanged = true;
+            let hasPermissionRoleChanged = true;
+
+            if (editRoleDetails) {
+                const normalizedInitial = normalizePermissions(initialFormState.current.permissionRole || []);
+                const normalizedCurrent = normalizePermissions(currentState.permissionRole);
+
+                hasRoleNameChanged =
+                    initialFormState.current.roleName?.trim() !== currentState.roleName?.trim();
+                hasPermissionRoleChanged =
+                    JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent);
+            }
+
+
+
+
+            if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
+                setErrorIsChanged("No Changes Detected");
+                isValid = false;
+            }
+
         }
-
-
-
-
-        if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
-            setErrorIsChanged("No Changes Detected");
-            isValid = false;
-        }
-
-
 
         if (!isValid) return;
 
@@ -289,10 +313,10 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
         const formattedPermissionList = permissionRole
             .map(permission => ({
                 moduleId: permission.moduleId,
-                canRead: permission.canRead === 1,
-                canWrite: permission.canWrite === 1,
-                canUpdate: permission.canUpdate === 1,
-                canDelete: permission.canDelete === 1,
+                canRead: Boolean(permission.canRead),
+                canWrite: Boolean(permission.canWrite),
+                canUpdate: Boolean(permission.canUpdate),
+                canDelete: Boolean(permission.canDelete),
             }))
             .filter(permission =>
                 permission.canRead ||
@@ -494,7 +518,12 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
                                 <tbody style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600, color: "#4B4B4B" }}>
 
-                                    {renderRow('Dashboard', 'Dashboard')}
+                                    {modules.map(module => {
+                                        const formattedName = module.moduleName.replace(/\s+/g, '');
+                                        return renderRow(formattedName, module.moduleName);
+                                    })}
+
+                                    {/* {renderRow('Dashboard', 'Dashboard')}
                                     {renderRow('Announcement', 'Announcement')}
                                     {renderRow('Updates', 'Updates')}
                                     {renderRow('PayingGuest', 'PayingGuest')}
@@ -512,7 +541,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                                     {renderRow('Reports', 'Reports')}
                                     {renderRow('Bankings', 'Bankings')}
                                     {renderRow('Profile', 'Profile')}
-                                    {renderRow('Amenities', 'Amenities')}
+                                    {renderRow('Amenities', 'Amenities')} */}
 
 
                                 </tbody>

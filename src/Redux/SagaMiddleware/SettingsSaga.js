@@ -1,11 +1,38 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList , SubscriptionPdfDownload , SettingsAddRecurring , GetBillsFrequncyTypes , GetBillsNotificationTypes , SettingsGetRecurring , AddInvoiceSettings , SettingsGetInvoice , AddBillTemplate ,getTemplateList , AddGlobalSettingTemplate,SettingsGetGlobal} from "../Action/SettingsAction"
+import { getModules, RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList , SubscriptionPdfDownload , SettingsAddRecurring , GetBillsFrequncyTypes , GetBillsNotificationTypes , SettingsGetRecurring , AddInvoiceSettings , SettingsGetInvoice , AddBillTemplate ,getTemplateList , AddGlobalSettingTemplate,SettingsGetGlobal} from "../Action/SettingsAction"
 
 
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+function* handleGetModules() {
+
+   try{
+     const response = yield call(getModules)
+      console.log("filter" , response);
+   
+   if (response.status === 200 ) {
+      yield put({ type: 'GET_MODULES', payload:{response: response.data, statusCode:response.status}})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+   }
+      catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
 
 
 
@@ -627,21 +654,21 @@ function* handleAddSettingRole(action) {
      });
    }
 
-   else if (response.data.status === 201 || response.data.statusCode === 201) {
-     
-      yield put({ type: 'ROLE_ERROR', payload: response.data.message });
-   }
+  
    if(response){
       refreshToken(response)
    }
    }
  catch (error) {
-       if (error.code === 'ERR_NETWORK') {
-          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-       } else {
-          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-       }
+   console.log("error",error)
+        if (error.status === 'ERR_BAD_REQUEST') {
+      if (error.response.status === 400) {
+        yield put({ type: 'ROLE_ERROR', payload: error.response.data });
+      } 
+    } else  if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
     }
+  }
 }
 
 
@@ -1472,7 +1499,7 @@ function refreshToken(response) {
 
 
 function* SettingsSaga() {
-
+   yield takeEvery('GETMODULES', handleGetModules)
    yield takeEvery('EXPENCES-CATEGORY-LIST', handleCategorylist)
    yield takeEvery('EXPENCES-CATEGORY-ADD', handleCategoryAdd)
    yield takeEvery('EDIT_EXPENCES_CATEGORY', handleEditCategory)

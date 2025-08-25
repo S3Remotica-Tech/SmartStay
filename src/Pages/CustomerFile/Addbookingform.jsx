@@ -40,7 +40,9 @@ function BookingModal(props) {
 
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+    }
   }, []);
 
   useEffect(() => {
@@ -287,7 +289,6 @@ function BookingModal(props) {
     dispatch({
       type: "ADD_BOOKING",
       payload: {
-
         joining_date: formattedDate,
         booking_date: bookingFormattedDate,
         amount: bookingAmount,
