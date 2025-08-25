@@ -168,6 +168,7 @@ function BookingModal(props) {
   const handleBookingDateChange = (date) => {
     setDateError("");
     setBookingDate(date ? date.toDate() : null);
+    setJoiningDate("")
   };
 
   // const handleBookingAmountChange = (e) => {
