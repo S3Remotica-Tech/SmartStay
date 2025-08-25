@@ -317,6 +317,27 @@ function Sidebar() {
       cookies.remove('token', { path: '/' });
   };
 
+ 
+
+// const handleLogout = () => {
+//   dispatch({ type: "LOG_OUT" });
+//   dispatch({ type: "RESET_ALL" });
+
+//   localStorage.clear();
+
+
+//   const cookies = new Cookies();
+//   cookies.remove("v2-token", { path: "/" });
+//   cookies.remove("token", { path: "/" });
+//   cookies.set("access-denied", null, { path: "/", expires: new Date(0) });
+
+//   window.location.href = "/hostel-management-login";
+// };
+
+
+
+
+
   const handledisplaycompliace = () => {
     setCurrentPage("compliance");
     localStorage.setItem("currentPage", "compliance");
@@ -455,6 +476,23 @@ useEffect(() => {
   ]);
 
 
+   useEffect(() => {
+    if (hostelListDetail && hostelListDetail?.length > 0) {
+     const firstHostel = hostelListDetail[0]
+
+      setAllPageHostel_Id(firstHostel.hostelId);
+      setPayingGuestName(firstHostel.name);
+      setSelectedProfileImage(
+        firstHostel.mainImage &&
+          firstHostel.mainImage !== "0" &&
+          firstHostel.mainImage !== ""
+          ? firstHostel.mainImage
+          : Profile
+      );
+    }
+  }, [hostelListDetail]);
+
+
 
   const handleShowsettingsPG = (settingNewDesign) => {
     // handlePageClick("settingNewDesign");
@@ -499,6 +537,8 @@ useEffect(() => {
       }
     }
   }, [state.login?.selectedHostel_Id]);
+
+  
 
 
 

@@ -358,7 +358,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "GET_ALL_GENERAL":
       return {
         ...state,
-        settingGetGeneralData: action.payload.response,
+        settingGetGeneralData: action.payload.response || [],
         StatusCodeforGetGeneral: action.payload.statusCode,
       };
     case "CLEAR_GET_ALL_GENERAL":

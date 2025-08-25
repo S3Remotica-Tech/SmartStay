@@ -924,16 +924,27 @@ console.log("General response",response)
 
 
 function* handleGetAllGeneral() {
-   const response = yield call(GetAllGeneral)
+
+   try{
+     const response = yield call(GetAllGeneral)
+      console.log("filter" , response);
    
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'GET_ALL_GENERAL', payload:{response: response.data.general_users, statusCode:response.status || response.statusCode}})
+      yield put({ type: 'GET_ALL_GENERAL', payload:{response: response.data || [], statusCode:response.status || response.statusCode}})
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
    if(response){
       refreshToken(response)
+   }
+   }
+      catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
@@ -998,6 +1009,8 @@ function* handleChangePasswordinStaff(action) {
 function* handleCheckPassword(action) {
    try{
    const response = yield call (passwordCheck, action.payload);
+   console.log("response" , response);
+   
 
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -1015,9 +1028,9 @@ function* handleCheckPassword(action) {
     
    };
 
-   if (response.data.status === 200 || response.data.statusCode === 200){
-      yield put ({type : 'GENERAL_PASSWORD_CHECK' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
-      toast.success(`${response.data.message}`, {
+   if ( response.status === 200 ||response.data.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'GENERAL_PASSWORD_CHECK' , payload:{response:response.data, statusCode: response.status || response.data.status || response.data.statusCode}})
+      toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -1029,9 +1042,9 @@ function* handleCheckPassword(action) {
         style: toastStyle,
      });
    }
-   else if(response.data.statusCode === 201) {
+   else if(response.status === 200 || response.data.statusCode === 400 || response.data.status === 400) {
          
-      yield put({ type: 'PASSWORD_ERROR', payload: response.data.message });
+      yield put({ type: 'PASSWORD_ERROR', payload: response.data || response.data.message });
    }
 
    else {

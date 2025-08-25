@@ -1,12 +1,19 @@
 
 import AxiosConfig from "../../WebService/AxiosConfig"
+import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
+// V1
+// export async function GetAsset(asset) {
+//   return await AxiosConfig.post('/all_assets',asset,{
+//     data:asset
+//       })
+// }
 
+// V2
 
-export async function GetAsset(asset) {
-  return await AxiosConfig.post('/all_assets',asset,{
-    data:asset
-      })
+export async function GetAsset(hostelId) {
+  return await AxiosConfigV2.get(`/v2/assets/all-assets/${hostelId}`);
 }
+
 
 
 export async function AddAsset(asset) {

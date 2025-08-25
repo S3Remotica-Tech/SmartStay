@@ -189,7 +189,7 @@ function SettingGeneral() {
 
   const handleChangePassword = (pass) => {
     setChangePassword(true);
-    setPassId(pass.id);
+    setPassId(pass.userId);
   };
   const handleCloseChangepassword = () => {
     setChangePassword(false);
@@ -200,9 +200,18 @@ function SettingGeneral() {
   };
 
   const handleCheckPassword = (e) => {
+    const CheckPassword = e.target.value
     setCheckPassword(e.target.value);
     setPassError("");
 
+    const hasUppercase = /[A-Z]/.test(CheckPassword);
+    const hasNumber = /[0-9]/.test(CheckPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(CheckPassword)
+      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setPassError("Password must include a capital letter, a number, and a special character.");
+    } else {
+      setPassError("");
+    }
     dispatch({ type: "CLEAR_PASSWORD_ERROR" });
   };
 
@@ -210,7 +219,7 @@ function SettingGeneral() {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "checkPassword":
-          setPassError("Please Enter Current Password");
+          setPassError("Please Enter Password");
           break;
 
 
@@ -220,24 +229,36 @@ function SettingGeneral() {
       return false;
     }
     return true;
-  };
+  }
+
   const handleCheckPasswordChange = () => {
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     if (!CheckvalidateField(checkPassword, "checkPassword"));
-    if (checkPassword) {
-      dispatch({
 
-        type: "CHECKPASSWORD",
-        payload: { id: passId, password: checkPassword },
-      });
-      setVerfifyLoading(true)
+    const hasUppercase = /[A-Z]/.test(checkPassword);
+    const hasNumber = /[0-9]/.test(checkPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(checkPassword)
+      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setPassError("Password must include a capital letter, a number, and a special character.");
+      return
+    } else {
+      setPassError("");
     }
 
-  };
+    if (checkPassword) {
+      dispatch({ type: "CHECKPASSWORD", payload: { adminId: passId, password: checkPassword }});
+      setVerfifyLoading(true)
+    }
+  }
 
-  const handlegeneralform = (id) => {
-    setGeneralEdit((prevId) => (prevId === id ? null : id));
-  };
+  // const handlegeneralform = (id) => {
+  //   setGeneralEdit((prevId) => (prevId === id ? null : id));
+  // };
+
+  const handlegeneralform = (userId) => {
+  setGeneralEdit((prevId) => (prevId === userId ? null : userId));
+};
+
 
   const handleDelete = (user) => {
     setDeleteId(user.id);
@@ -465,41 +486,43 @@ function SettingGeneral() {
 
   const handleEditGeneralUser = (user) => {
 
-    const phoneNumber = String(user.mobileNo || "");
-    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-    const mobileNumber = phoneNumber.slice(-10);
+    // const phoneNumber = String(user.mobileNo || "");
+    // const countryCode = mobileNo.slice(0, mobileNo.length - 10);
+    // const mobileNumber = mobileNo.slice(-10);
     setEdit(true);
     setShowFormGeneral(true);
 
-    setFirstName(user.first_name);
-    setLastName(user.last_name);
-    setPhone(mobileNumber);
-    setCountryCode(countryCode);
+    setFile(user.profilePic === "0" ? null : user.profilePic);
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setPhone(user.mobileNo);
+    setCountryCode(user.countryCode);
+    setEmailId(user.mailId);
 
-    setHouseNo(user.Address);
-    setStreet(user.area);
+    setHouseNo(user.houseNo);
+    setStreet(user.street);
     setLandmark(user.landmark)
-    setPincode(user.pin_code);
+    setPincode(user.pincode);
     setCity(user.city);
     setStateName(user.state);
-    setEmailId(user.email_Id);
-    setFile(user.profile === "0" ? null : user.profile);
-    setEditId(user.id);
-    setPassword(user.password);
+   
+
+    // setEditId(user.id);
+    // setPassword(user.password);
 
     setInitialStateAssign({
-      firstName: user.first_name || "",
-      lastName: user.last_name || "",
+      file: user.profilePic === "0" ? null : user.profilePic || null,
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
       Phone: user.mobileNo || "",
-      emilId: user.email_Id || "",
-
-      house_no: user.Address || '',
-      street: user.area || '',
+      emilId: user.mailId || "",
+      house_no: user.houseNo || '',
+      street: user.street || '',
+      pincode: user.pincode || '',
       city: user.city || '',
-      pincode: user.pin_code || '',
       landmark: user.landmark || '',
       state: user.state || '',
-      file: user.profile === "0" ? null : user.profile || null,
+
     });
   };
 
@@ -621,6 +644,8 @@ function SettingGeneral() {
     }
 
 
+    console.log("haserror" , hasError , edit);
+    
 
 
     if (hasError || validations.includes(false) || !isValidEmail(emilId)) {
@@ -709,7 +734,7 @@ function SettingGeneral() {
     if (state.Settings.statusCodeForCheckPassword === 200) {
       setVerfifyLoading(false)
       handleCloseChangepassword();
-      handleConfirmPass();
+      // handleConfirmPass();
       setTimeout(() => {
         dispatch({ type: "CLEAR_GENERAL_PASSWORD_CHECK" });
       }, 200);
@@ -771,10 +796,11 @@ function SettingGeneral() {
   const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
   const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
 
-
+  console.log("generalfilter" , generalFilterddata);
+  
   const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
   const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
-  const currentRowGeneral = generalFilterddata?.slice(
+  const currentRowGeneral = generalFilterddata && generalFilterddata?.slice(
     indexOfFirstRowGeneral,
     indexOfLastRowGeneral
   );
@@ -798,7 +824,9 @@ function SettingGeneral() {
 
   useEffect(() => {
     if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
-      setGeneralFilterddata(state.Settings?.settingGetGeneralData);
+      setGeneralFilterddata(state.Settings?.settingGetGeneralData || []);
+      console.log("filter" ,state.Settings?.settingGetGeneralData);
+      
       setLoading(false)
 
       setTimeout(() => {
@@ -1012,7 +1040,7 @@ function SettingGeneral() {
 
         {currentRowGeneral && currentRowGeneral.length > 0 ? (
           currentRowGeneral.map((item) => {
-            const imageUrl = item.profile || Profile;
+            const imageUrl = item.profilePic || Profile;
             return (
 
 
@@ -1023,7 +1051,7 @@ function SettingGeneral() {
                   height: 230,
                   overflow: 'hidden'
                 }}
-                key={item.id}
+                key={item.userId}
               >
                 <div
 
@@ -1032,7 +1060,7 @@ function SettingGeneral() {
                   <div className="d-flex align-items-center flex-wrap">
                     <Image
                       src={imageUrl}
-                      alt={item.first_name || "Default Profile"}
+                      alt={item.firstName || "Default Profile"}
                       roundedCircle
                       style={{
                         height: "50px",
@@ -1053,7 +1081,7 @@ function SettingGeneral() {
 
                         }}
                       >
-                        {item.first_name} {item.last_name}
+                        {item.firstName} {item.lastName}
                       </p>
                     </div>
                   </div>
@@ -1077,13 +1105,13 @@ function SettingGeneral() {
                       cursor: "pointer", height: 40, width: 40, borderRadius: 100,
                       border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
                       position: "relative", zIndex: generalEdit ? 1000 : 'auto'
-                      , backgroundColor: generalEdit === item.id ? "#E7F1FF" : "transparent",
+                      , backgroundColor: generalEdit === item.userId ? "#E7F1FF" : "transparent",
 
 
-                    }} onClick={() => handlegeneralform(item.id)}>
+                    }}   onClick={() => handlegeneralform(item.userId)} >
                       <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                      {generalEdit === item.id && (
+                      {generalEdit === item.userId  && (
                         <div
                           ref={popupRef}
                           style={{
@@ -1202,7 +1230,7 @@ function SettingGeneral() {
                         fontWeight: 600,
                       }}
                     >
-                      {item.email_Id}
+                      {item.mailId}
                     </p>
                   </div>
                   <div className="col-md-6">
@@ -1224,7 +1252,7 @@ function SettingGeneral() {
                         fontWeight: 600,
                       }}
                     >
-                      +
+                      + {item?.countryCode}
                       {item &&
                         String(item.mobileNo).slice(
                           0,
@@ -1253,13 +1281,13 @@ function SettingGeneral() {
                         fontWeight: 600,
                       }}
                     >
-                      {(item.Address ? item.Address : '') +
-                        (item.area ? ' ' + item.area : '') +
+                      {(item?.houseNo ? item?.houseNo : '') +
+                        (item.street ? ' ' + item.street : '') +
                         (item.landmark ? ', ' + item.landmark : '')}
                       <br />
                       {(item.city ? item.city + ', ' : '') +
-                        (item.state ? item.state + ' ' : '') +
-                        (item.pin_code ? item.pin_code : '')}
+                        (item.state ? item.state + ' ' : '-') +
+                        (item.pincode ? item.pincode : '')}
                     </p>
 
                   </div>
@@ -2343,7 +2371,7 @@ function SettingGeneral() {
               fontFamily: "Gilroy",
             }}
           >
-            Current Password
+            Change Password
           </div>
 
           <CloseCircle size="24" color="#000" onClick={handleCloseChangepassword}
@@ -2363,7 +2391,7 @@ function SettingGeneral() {
                 paddingTop: 0,
               }}
             >
-              Current Password {" "}
+              New Password {" "}
               <span style={{ color: "red", fontSize: "20px" }}> * </span>
             </Form.Label>
             <InputGroup>
@@ -2461,7 +2489,7 @@ function SettingGeneral() {
             }}
             onClick={() => handleCheckPasswordChange()}
           >
-            Verify
+            Update
           </Button>
         </Modal.Footer>
       </Modal>
