@@ -234,22 +234,37 @@ export async function AddGeneral(params) {
 
 
 
+// v1
+// export async function GetAllGeneral() {
+//   return await AxiosConfig.get("/settings/all_general_users", {});
+// }
 
 export async function GetAllGeneral() {
-  return await AxiosConfig.get("/settings/all_general_users", {});
+  return await AxiosConfigV2.get("/v2/profile/admin-list", {});
 }
+
 export async function passwordChangesinstaff(datum) {
   return await AxiosConfig.post("/settings/change_staff_password", datum, {
     data: datum,
   });
 }
 
+// v1
+
+// export async function passwordCheck(datum) {
+//   return await AxiosConfig.post("/settings/check_password", datum, {
+//     data: datum,
+//   });
+// }
+
+// V2
 
 export async function passwordCheck(datum) {
-  return await AxiosConfig.post("/settings/check_password", datum, {
+  return await AxiosConfigV2.post("/v2/profile/change-password", datum, {
     data: datum,
   });
 }
+
 
 export async function generalDelete(datum) {
   return await AxiosConfig.post("/settings/delete_general_user", datum, {

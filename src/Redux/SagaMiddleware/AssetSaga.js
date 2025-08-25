@@ -5,17 +5,29 @@ import { toast } from 'react-toastify';
 
 
 
-function* handleGetAsset(action) {
-   const response = yield call(GetAsset, action.payload);
 
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.data.statusCode } })
+function* handleGetAsset(action) {
+    try {
+   const hostelId = action.payload;   
+    const response = yield call(GetAsset, hostelId);
+
+   if (response?.status === 200 || response?.data?.statusCode === 200) {
+      yield put({ type: 'ASSET_LIST', payload: { response: response?.data?.assets || [], statusCode: response?.status || response?.data?.statusCode } })
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'NO_ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
+   else if (response?.status === 201 || response?.statusCode === 201) {
+      yield put({ type: 'NO_ASSET_LIST', payload: { response: response?.data?.assets || [], statusCode: response.status || response.statusCode } })
    }
    if (response) {
       refreshToken(response)
+   }
+}
+
+     catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 

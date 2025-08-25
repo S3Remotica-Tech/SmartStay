@@ -231,17 +231,30 @@ function Asset() {
   }
 
 
+  console.log("state" , state);
 
+   const [hostel_Id, setHostel_Id] = useState("")
+  
+  
+    useEffect(() => {
+      if (state.login.selectedHostel_Id) {
+        setHostel_Id(state.login.selectedHostel_Id);
+      }
+    }, [state?.login?.selectedHostel_Id]);
+  
+   console.log("hostelid" , hostel_Id);
+   
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+    if (hostel_Id) {
       setLoading(true)
+      dispatch({type: 'ASSETLIST',  payload:hostel_Id})
+   
     } else {
       setGetData([])
       setLoading(false)
     }
-  }, [state.login.selectedHostel_Id])
+  }, [hostel_Id])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -257,8 +270,10 @@ function Asset() {
 
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
+
       setTimeout(() => {
-        dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+        dispatch({type: 'ASSETLIST',  payload: hostel_Id})
       }, 100)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
@@ -348,11 +363,10 @@ function Asset() {
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([]);
       setSelectedPriceRange("All");
+     if(hostel_Id){
+    dispatch({type: 'ASSETLIST',  payload: hostel_Id})
+     }
 
-      dispatch({
-        type: 'ASSETLIST',
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
       return;
     }
 
@@ -373,24 +387,18 @@ function Asset() {
     setSelectedPriceRange(value);
     setFilterExcelPrice(value)
 
-    if (value === "All") {
-      dispatch({
-        type: 'ASSETLIST',
-        payload: { hostel_id: state.login.selectedHostel_Id }
-      });
-    } else if (value === "date") {
-      dispatch({
-        type: 'ASSETLIST',
-        payload: { hostel_id: state.login.selectedHostel_Id }
-      });
+    if (value === "All" && hostel_Id) {
+    dispatch({type: 'ASSETLIST',  payload: hostel_Id})
+    } else if (value === "date" && hostel_Id) {
+    dispatch({type: 'ASSETLIST',  payload: hostel_Id})
       setExcelFilterDates([]);
       setSelectedDateRange([]);
       setExcelDownloadDates([]);
-    } else if (value) {
+    } else if (value && hostel_Id) {
       dispatch({
         type: 'ASSETLIST',
         payload: {
-          hostel_id: state.login.selectedHostel_Id,
+          hostel_id: hostel_Id,
           price_range: value
         }
       });
@@ -402,11 +410,11 @@ function Asset() {
 
 
   useEffect(() => {
-    if (selectedPriceRange === "date" && ExcelFilterDates.length === 2) {
+    if (selectedPriceRange === "date" && ExcelFilterDates.length === 2 && hostel_Id) {
       dispatch({
         type: 'ASSETLIST',
         payload: {
-          hostel_id: state.login.selectedHostel_Id,
+          hostel_id: hostel_Id,
           start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
           end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
         }
@@ -417,7 +425,10 @@ function Asset() {
 
   useEffect(() => {
     if (!showFilter) {
-      dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+       if(hostel_Id){
+      dispatch({ type: 'ASSETLIST', payload: { hostel_id: hostel_Id } })
+       }
+
       setSelectedPriceRange('All');
       setSelectedDateRange([]);
       setExcelFilterDates([])

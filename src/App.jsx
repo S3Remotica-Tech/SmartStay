@@ -33,9 +33,10 @@ function App() {
   const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('access-denied')));
 
 
-console.log("app",state)
-const login = localStorage.getItem("login");
+  console.log("app",state)
+  const login = localStorage.getItem("login");
   const TwoStepEnable = localStorage.getItem("IsEnable");
+
 
 useEffect(() => {
   
@@ -58,12 +59,12 @@ try {
   parseDataTwoStepEnable = decryptedStringTwoStepEnable === "true"; 
 }
 
-console.log("is_Enable", parseDataTwoStepEnable); // boolean
+console.log("is_Enable", parseDataTwoStepEnable ); // boolean
+console.log("is_Enable", parseData ); 
 
-
-      if (is_Enable === true || !parseData) {
+      if (parseDataTwoStepEnable === true || !parseData) {
         setData(false);
-      } else if (is_Enable === false && parseData) {
+      } else if (parseDataTwoStepEnable === false && parseData) {
         setData(true);
       }
     }
@@ -74,6 +75,15 @@ console.log("is_Enable", parseDataTwoStepEnable); // boolean
   }
 }, [state.createAccount?.accountList,state.login?.isLoggedIn ,login,TwoStepEnable]);
 
+
+
+// useEffect(() => {
+//   const token = cookies.get('v2-token');
+//   if (token) {
+//     dispatch({ type: "LOGIN_SUCCESS", payload: { token } });
+//     setData(true); 
+//   }
+// }, []);
 
 
   
@@ -87,6 +97,8 @@ console.log("is_Enable", parseDataTwoStepEnable); // boolean
     }
   }, [tokenAccessDenied]);
 
+  
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -97,17 +109,31 @@ console.log("is_Enable", parseDataTwoStepEnable); // boolean
   }, []);
 
 
-  useEffect(() => {
-    if (!state.login?.isLoggedIn && !data) {
-cookies.remove('v2-token', { path: '/' });
-  cookies.remove('token', { path: '/' });
-      dispatch({ type: 'CLEAR_DASHBOARD' })
-      dispatch(StoreSelectedHostelAction(""))
-      cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
-    }
-  }, [state.login?.isLoggedIn]);
+//   useEffect(() => {
+//     if (!state.login?.isLoggedIn && !data) {
+// cookies.remove('v2-token', { path: '/' });
+//   cookies.remove('token', { path: '/' });
+//       dispatch({ type: 'CLEAR_DASHBOARD' })
+//       dispatch(StoreSelectedHostelAction(""))
+//       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+//     }
+//   }, [state.login?.isLoggedIn]);
 
-console.log("state.login?.isLoggedIn",state.login?.isLoggedIn, "data",data)
+
+
+//   useEffect(() => {
+//   const token = cookies.get('v2-token');
+//   if (!state.login?.isLoggedIn && !token) {
+//     cookies.remove('v2-token', { path: '/' });
+//     cookies.remove('token', { path: '/' });
+//     dispatch({ type: 'CLEAR_DASHBOARD' });
+//     dispatch(StoreSelectedHostelAction(""));
+//     cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+//     setData(false);
+//   }
+// }, [state.login?.isLoggedIn, loading]);
+
+
 
   if (loading) {
     return <LoaderComponent />;
