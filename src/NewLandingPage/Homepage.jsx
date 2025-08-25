@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import dashboardImg from "../Assets/Images/landingpageimages/sm_homepage.png";
 import TopLeftCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 import HomebgImage from "../Assets/Images/landingpageimages/home_bg_image.png";
-
+import { Helmet } from "react-helmet-async";
 import "./Homepage.css"
 
 const HomePage = () => {
@@ -27,10 +27,43 @@ const HomePage = () => {
   };
 
   return (
-    <>
+    
       
       <>
-       
+       <Helmet prioritizeSeoTags>
+        <html lang="en-IN" />
+
+       {/* Core SEO */}
+  <title>SmartStay â€“ PG & Hostel Management Software</title>
+  <meta
+    name="description"
+    content="Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool."  />
+<link rel="canonical" href="https://smartstay.qbatz.com/" />
+  <meta name="robots" content="index, follow" />
+
+{/* Open Graph */}
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SmartStay" />
+  <meta property="og:title" content="SmartStay â€“ PG & Hostel Management Software" />
+  <meta property="og:description" content="Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool." />
+  <meta property="og:url" content="https://smartstay.qbatz.com/" />
+  <meta property="og:image" content="https://smartstay.qbatz.com/assets/sm_homepage-CODs4gRc.png" />
+  <meta property="og:image:alt" content="SmartStay dashboard showing hostel room availability and bed occupancy" />
+   
+  
+        {/* Schema.org WebPage */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "SmartStay â€“ PG & Hostel Management Software",
+      url: "https://smartstay.qbatz.com/",
+      description:
+        "Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool.",
+          })}
+        </script>
+      </Helmet>
+
         <div
           className="position-relative w-100 "
           style={{
@@ -61,7 +94,7 @@ const HomePage = () => {
                         fontSize: "clamp(24px, 5vw, 40px)",
                       }}
                     >
-                      Simplify your Paying Guest management with Hostel{" "}
+                      Simplify the managing of your Paying Guest accommodation and Homestay services with{" "}
                       <span
                         style={{
                           color: "#2D5EFF",
@@ -175,7 +208,7 @@ const HomePage = () => {
         </div>
       </>
 
-    </>
+    
   );
 };
 
