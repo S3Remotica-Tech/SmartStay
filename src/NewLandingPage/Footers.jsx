@@ -73,8 +73,9 @@ const Footers = (props) => {
           <div className="d-flex row pt-3 pb-2">
             <div className="col-lg-6 col-md-6 col-sm-10 col-xs-10 fade-in">
               <img className="m-1 mb-3" src={SmartstayLogo} alt="SmartStay hostel management software logo for PG and hostel booking platform" />
-              <p style={{ color: '#FFF', fontFamily: 'Montserrat', fontSize: 14, fontWeight: 200, fontStyle: 'normal', lineHeight: '25px' }}>Revolutionized way of <br></br>
-                managing your Paying Guest</p>
+              <p style={{ color: '#FFF', fontFamily: 'Montserrat', fontSize: 14, fontWeight: 200, fontStyle: 'normal', lineHeight: '25px' }}> 
+                Revolutionizing the way of <br/> managing your Paying Guest and Hostel services
+                </p>
             </div>
             <div className="col-lg-6 col-md-6 col-sm-10 col-xs-10">
               <div className="row d-flex justify-content-between">
