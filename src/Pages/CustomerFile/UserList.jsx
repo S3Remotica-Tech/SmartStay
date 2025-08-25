@@ -140,6 +140,7 @@ function UserList(props) {
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
   const [add_bookingshow, setAddBookingsShow] = useState(false) 
+  const [formLoading, setFormLoading] = useState(false)
 
 
 
@@ -1165,7 +1166,7 @@ useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
         ? userListDetail.filter((item) =>
-          item.Name.toLowerCase().includes(filterInput.toLowerCase())
+          item.firstName.toLowerCase().includes(filterInput.toLowerCase())
         )
         : [];
 
@@ -1244,10 +1245,10 @@ useEffect(() => {
 
   const handleUserSelect = (user) => {
     if (value === "1") {
-      setFilterInput(user?.Name || "");
+      setFilterInput(user?.firstName || "");
     } else if (value === "2") {
       setFilterInput(
-        [user?.first_name, user?.last_name].filter(Boolean).join(" ")
+        [user?.firstName, user?.last_name].filter(Boolean).join(" ")
       );
     } else if (value === "3") {
       setFilterInput(user?.Name || "");
@@ -1511,7 +1512,7 @@ setBookingDet(userData)
   }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 200) {
+    if (state.UsersList?.statusCodeForAddUser === 201) {
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: uniqueostel_Id },
@@ -1706,6 +1707,7 @@ setBookingDet(userData)
 
   useEffect(() => {
     if (state.UsersList?.deleteCustomerSuccessStatusCode === 200) {
+      setFormLoading(false)
       setDeleteShow(false);
       dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
 
@@ -1724,6 +1726,7 @@ setBookingDet(userData)
         payload: { id: deleteDetails?.user.ID },
       });
     }
+    setFormLoading(true)
   };
 
   const handleDeleteBill = () => {
@@ -2118,7 +2121,7 @@ setBookingDet(userData)
   
     }, [state.createAccount?.networkError])
 
-    console.log("props", props.customer_details);
+    console.log("props", props);
 
 
      const [bookingDate, setBookingDate] = useState(null);
@@ -2172,6 +2175,8 @@ const handleInActiveReason = (e)=>{
 }
 const [isActiveDateError,setIsACtiveDateError] = useState("")
 
+
+
 const SubmitInActiveForm = () =>{
     if (!inActiveDate) {
     setIsACtiveDateError(" Please Select Inactive Date");
@@ -2194,11 +2199,13 @@ const SubmitInActiveForm = () =>{
           payload: { booking_id: bookingId,Inactive_date:formattedDate,Inactive_Reason: inActiveComments},
         });
   }
+  setFormLoading(true)
 }
 
 
 useEffect(()=>{
   if(state.Booking.StatusCodeInactiveCode === 200){
+     setFormLoading(false)
     handleCloseInActive()
      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
      setTimeout(() => {
@@ -3251,7 +3258,7 @@ useEffect(() => {
                                             handleRoomDetailsPage(user)
                                           }
                                         >
-                                          {user.Name}
+                                          {user.firstName}
                                         </span>
                                       </td>
  <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
@@ -3266,7 +3273,7 @@ useEffect(() => {
                                           borderBottom: "1px solid #E8E8E8",
                                         }}
                                       >
-                                        <span style={{backgroundColor:"#EDD3D8",padding:6,borderRadius:10}}>{user.bed_status}</span> </td>
+                                        <span style={{backgroundColor:"#EDD3D8",padding:6,borderRadius:10}}>{user.currentStatus}</span> </td>
                                       <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         style={{
                                           paddingTop: 15,
@@ -3320,12 +3327,12 @@ useEffect(() => {
                                       >
                                         +
                                         {user &&
-                                          String(user.Phone)?.slice(
+                                          String(user.mobile)?.slice(
                                             0,
-                                            String(user.Phone).length - 10
+                                            String(user.mobile).length - 10
                                           )}{" "}
                                         {user &&
-                                          String(user.Phone)?.slice(-10)}
+                                          String(user.mobile)?.slice(-10)}
                                       </td>
 
 
@@ -3417,18 +3424,18 @@ useEffect(() => {
                                             alignItems: "center",
                                             position: "relative",
                                             backgroundColor:
-                                              activeRow === user.ID
+                                              activeRow === user.customerId
                                                 ? "#E7F1FF"
                                                 : "white",
                                           }}
                                           onClick={(e) =>
-                                            handleShowDots(user.ID, e)
+                                            handleShowDots(user.customerId, e)
                                           }
                                         >
                                           <PiDotsThreeOutlineVerticalFill
                                             style={{ height: 20, width: 20 }}
                                           />
-                                          {activeRow === user.ID && (
+                                          {activeRow === user.customerId && (
                                             <div
                                               ref={popupRef}
                                               style={{
@@ -3444,7 +3451,7 @@ useEffect(() => {
                                               }}
                                             >
                                               <div>
-                                                {!user.Bed && user.bed_status === "Un-Assigned" &&(
+                                                {!user.Bed && user.currentStatus === "INACTIVE" &&(
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
@@ -3495,7 +3502,7 @@ useEffect(() => {
 
                                                 )}
 
-                                                {user.Bed &&  user.bed_status === "Check In" &&(
+                                                {user.Bed &&  user.currentStatus === "Check In" &&(
                                                 
                                                     <div
                                                     className="d-flex align-items-center gap-2"
@@ -3548,7 +3555,7 @@ useEffect(() => {
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                {user.Bed && user.bed_status === "Check In"  && (
+                                                {user.Bed && user.currentStatus === "Check In"  && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                    
@@ -3603,7 +3610,7 @@ useEffect(() => {
 
 
 
-                                                 {user.Bed &&  user.bed_status === "Notice period" &&(
+                                                 {user.Bed &&  user.currentStatus === "Notice period" &&(
                                                 <>
                                                     <div
                                                     className="d-flex align-items-center gap-2"
@@ -4262,6 +4269,32 @@ useEffect(() => {
         >
           Are you sure you want to delete this Customer?
         </Modal.Body>
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 70,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
         <Modal.Footer
           className="d-flex justify-content-center"
@@ -4374,7 +4407,7 @@ useEffect(() => {
                         </Form.Label>
 
                         <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                          <DatePicker
+                          {/* <DatePicker
     style={{
         width: "100%",
         height: 48,
@@ -4393,7 +4426,33 @@ useEffect(() => {
         if (!bookingDate) return true; 
         return current.isBefore(bookingDate, "day"); 
     }}
+/> */}
+
+<DatePicker
+  style={{
+    width: "100%",
+    height: 48,
+    cursor: "pointer",
+    fontFamily: "Gilroy",
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={inActiveDate ? dayjs(inActiveDate) : null}
+  onChange={(date) => {
+    setInActiveDate(date ? date.toDate() : null);
+    setIsACtiveDateError("");
+  }}
+  getPopupContainer={() => document.body}
+  disabledDate={(current) => {
+    if (!bookingDate) return true; 
+    // Disable before bookingDate OR after today
+    return (
+      current.isBefore(dayjs(bookingDate), "day") ||
+      current.isAfter(dayjs(), "day")
+    );
+  }}
 />
+
                         </div>
                     </Form.Group>
                      {isActiveDateError && (
@@ -4482,6 +4541,32 @@ useEffect(() => {
 
                 </Modal.Footer>
             </Modal.Body>
+            {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
         </Modal>
 

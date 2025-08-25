@@ -1760,7 +1760,7 @@ const formattedReasons = fields.map((item) => {
   }, [state.UsersList.statusCodeForCustomerCoatact]);
 
   useEffect(() => {
-    if (state.UsersList.statusCodeForAddUser === 200) {
+    if (state.UsersList.statusCodeForAddUser === 201) {
       dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
       setFormLoading(false)

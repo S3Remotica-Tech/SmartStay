@@ -104,7 +104,7 @@ useEffect(() => {
 
 
    
-console.log("state",state)
+
 
   useEffect(() => {
     if (state.Settings.statusCodeForRoleList === 200) {

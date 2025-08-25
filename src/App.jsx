@@ -29,11 +29,10 @@ function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  
+
   const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('access-denied')));
 
 
-  console.log("app",state)
   const login = localStorage.getItem("login");
   const TwoStepEnable = localStorage.getItem("IsEnable");
 
@@ -86,7 +85,7 @@ console.log("is_Enable", parseData );
 // }, []);
 
 
-  
+
   useEffect(() => {
     if (tokenAccessDenied === 206) {
       dispatch({ type: 'LOG_OUT' });
@@ -109,30 +108,14 @@ console.log("is_Enable", parseData );
   }, []);
 
 
-//   useEffect(() => {
-//     if (!state.login?.isLoggedIn && !data) {
-// cookies.remove('v2-token', { path: '/' });
-//   cookies.remove('token', { path: '/' });
-//       dispatch({ type: 'CLEAR_DASHBOARD' })
-//       dispatch(StoreSelectedHostelAction(""))
-//       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
-//     }
-//   }, [state.login?.isLoggedIn]);
-
-
-
-//   useEffect(() => {
-//   const token = cookies.get('v2-token');
-//   if (!state.login?.isLoggedIn && !token) {
-//     cookies.remove('v2-token', { path: '/' });
-//     cookies.remove('token', { path: '/' });
-//     dispatch({ type: 'CLEAR_DASHBOARD' });
-//     dispatch(StoreSelectedHostelAction(""));
-//     cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
-//     setData(false);
-//   }
-// }, [state.login?.isLoggedIn, loading]);
-
+  useEffect(() => {
+    if (!state.login?.isLoggedIn && !data) {
+     
+      dispatch({ type: 'CLEAR_DASHBOARD' })
+      dispatch(StoreSelectedHostelAction(""))
+      cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+    }
+  }, [state.login?.isLoggedIn]);
 
 
   if (loading) {

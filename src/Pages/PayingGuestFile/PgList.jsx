@@ -56,7 +56,7 @@ function PgList() {
   const [floorName, setFloorName] = useState("");
   const [selectedHostel, setSelectedHostel] = useState(true);
 
-  const [filteredData, setFilteredData] = useState([]);
+  // const [filteredData, setFilteredData] = useState([]);
 
 
 
@@ -134,21 +134,21 @@ function PgList() {
   useEffect(() => {
 
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-      setFilteredData(state.UsersList.hotelDetailsinPg);
+      // setFilteredData(state.UsersList.hotelDetailsinPg);
       setTimeout(() => {
         dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
       }, 100);
     }
   }, [state.UsersList?.statuscodeForhotelDetailsinPg]);
 
-  useEffect(() => {
-    if (state.UsersList?.noAllHosteListStatusCode === 201) {
-      setFilteredData([]);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
-      }, 1000);
-    }
-  }, [state.UsersList?.noAllHosteListStatusCode]);
+  // useEffect(() => {
+  //   if (state.UsersList?.noAllHosteListStatusCode === 201) {
+  //     setFilteredData([]);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
+  //     }, 1000);
+  //   }
+  // }, [state.UsersList?.noAllHosteListStatusCode]);
 
   useEffect(() => {
     if (floorList?.length === 1) {

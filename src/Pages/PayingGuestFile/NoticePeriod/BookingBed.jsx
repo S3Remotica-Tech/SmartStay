@@ -30,10 +30,11 @@ function BookingBed({
      const [amountError, setamountError] = useState("");
      const [joiningDate, setJoiningDate] = useState(null);
      const [bookingDate, setBookingDate] = useState(null);
+     const [checkoutDate , setCheckoutDate] = useState(null);
      const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
      const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
      const [dateError, setDateError] = useState("");
-
+    const [formLoading, setFormLoading] = useState(false);
     const [booking_customername, setBookingCustomerName] = useState("");
     const [booking_customererrmsg, setBookingCustomerErrmsg] = useState("");
     const [customer_details , setCustomerDetails] = useState({})
@@ -65,13 +66,13 @@ function BookingBed({
       useEffect(() => {
               if(customer_details){
                 setBookingCustomerName(customer_details.ID)
+                const checkoutDate = customer_details?.CheckoutDate ? dayjs(customer_details?.CheckoutDate) : null;
+                setCheckoutDate(checkoutDate)
               }
+              setFormLoading(false)
       },[customer_details])
 
-      console.log("customer", customer_details);
-      
-
-     
+ 
          const handleBookingCustomerName = (selectedOption) => {
      
          setBookingCustomerName(selectedOption?.value || '');
@@ -205,11 +206,13 @@ function BookingBed({
             profile: userDetails.profile
           },
         });
+        setFormLoading(true)
       };
     
     
         useEffect(() => {
           if (state?.Booking?.statusCodeForAddBooking === 200) {
+            setFormLoading(false)
             
             setJoingDateErrmsg('');
               dispatch({
@@ -229,18 +232,6 @@ function BookingBed({
       useEffect(() => {
         dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id} })
       },[])
-
-
-  // const handleCloseAssign = () => {
-  //   props.setShowAssignMenu(false);
-  //   props.setShowForm(false);
-  //   props.OnShowTable(true);
-  //   if (props.edit === "Edit") {
-  //     props.OnShowTable(true);
-  //   } else {
-  //     props.setRoomDetail(false);
-  //   }
-  // };
 
   return (
     <div>
@@ -564,7 +555,7 @@ function BookingBed({
                                                                        className="datepicker-wrapper"
                                                                        style={{ position: "relative", width: "100%", marginTop: 6 }}
                                                                      >
-                                                                       <DatePicker
+                                                                       {/* <DatePicker
                                                                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                                                          format="DD/MM/YYYY"
                                                                          placeholder="DD/MM/YYYY"
@@ -577,11 +568,33 @@ function BookingBed({
                                                                          }}
                                                                           disabledDate={(current) => current && current < dayjs().startOf("day")}
 
-                                                                        //  getPopupContainer={(triggerNode) =>
-                                                                        //    triggerNode.closest(".datepicker-wrapper")
-                                                                        //  }
+                                                                      
                                                                         getPopupContainer={() => document.body}
-                                                                       />
+                                                                       /> */}
+
+                                                                       <DatePicker
+                                                                  style={{
+                                                              width: "100%",
+                                                              height: 48,
+                                                              cursor: "pointer",
+                                                              fontFamily: "Gilroy",
+                                                                 }}
+                                                        format="DD/MM/YYYY"
+                                                        placeholder="DD/MM/YYYY"
+                                                        value={joiningDate ? dayjs(joiningDate) : null}
+                                                        onChange={(date) => {
+                                                                           setDateError("");
+                                                                           setJoiningDate(date ? date.toDate() : null);
+                                                                           dispatch({ type: 'REMOVE_ERROR_BOOKING_DATE' })
+                                                                           setJoingDateErrmsg("")
+                                                                         }}
+                                                        getPopupContainer={() => document.body}
+                                                        disabledDate={(current) => {
+                                                      if (!checkoutDate) return true; 
+                                                      return current.isBefore(dayjs(checkoutDate), "day"); 
+                                                            }}
+                                                             />
+
                                                                      </div>
                 </Form.Group>
                      {dateError && (
@@ -663,6 +676,32 @@ function BookingBed({
               </button>
             </div>
           </Modal.Body>
+            {formLoading && <div
+              style={{
+                position: 'absolute',
+                top: 100,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
         </Modal.Dialog>
       </Modal>
     </div>

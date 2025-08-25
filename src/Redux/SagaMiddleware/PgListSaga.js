@@ -153,29 +153,30 @@ function* handlePgList(datum) {
         progress: undefined,
         style: toastStyle,
       });
-    } else if (response.statusCode === 201 || response.status === 201) {
-      yield put({
-        type: "UPGRADE_PLAN",
-        payload: {
-          response: response.data,
-          statusCode: response.statusCode || response.status,
-        },
-      });
-      toast.error(`${response.data}`, {
-        style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-
-      });
-
-
     }
+    //  else if (response.statusCode === 201 || response.status === 201) {
+    //   yield put({
+    //     type: "UPGRADE_PLAN",
+    //     payload: {
+    //       response: response.data,
+    //       statusCode: response.statusCode || response.status,
+    //     },
+    //   });
+    //   toast.error(`${response.data}`, {
+    //     style: { fontFamily: "Gilroy", font: "#000", borderBottom: "5px solid red" },
+    //     position: "bottom-center",
+    //     autoClose: 2000,
+    //     hideProgressBar: true,
+    //     closeButton: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+
+    //   });
+
+
+    // }
 
     if (response) {
       refreshToken(response);

@@ -95,15 +95,13 @@ export const initialState = {
     statusCodeUpdateRoom: 0,
     bedList: [],
     getAllBedSuccessStatus: 0,
-    updateBedStatusCode:0,
+    updateBedStatusCode: 0,
 
 
 
 }
 
 const PgListReducer = (state = initialState, action) => {
-
-
 
     switch (action.type) {
         case 'RESET_ALL':
@@ -124,9 +122,19 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, roomsList: action.payload.response, getAllRoomSuccessStatus: action.payload.statusCode }
         case 'REMOVE_GET_ALL_ROOMS_STATUS_CODE':
             return { ...state, getAllRoomSuccessStatus: 0 }
+       
+        case "GET_ALL_BEDS":
+            return {
+                ...state,
+                bedList: {
+                    ...state.bedList,
+                    [action.payload.response[0]?.roomId]: action.payload.response,
+                },
+                getAllBedSuccessStatus: action.payload.statusCode,
+            };
 
-        case 'GET_ALL_BEDS':
-            return { ...state, bedList: action.payload.response, getAllBedSuccessStatus: action.payload.statusCode }
+
+
         case 'REMOVE_GET_ALL_BEDS_STATUS_CODE':
             return { ...state, getAllBedSuccessStatus: 0 }
 

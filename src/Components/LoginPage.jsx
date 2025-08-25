@@ -153,7 +153,6 @@ const MyComponent = () => {
   }, [state.login.statusCode]);
 
 
-  console.log("state.login", state)
 
   useEffect(() => {
     if (state.login.statusCodeForV2Login) {
@@ -167,7 +166,7 @@ const MyComponent = () => {
         dispatch({ type: 'LOGIN-SUCCESS' });
         const token = state.login?.JWTtokenV2
 
-        console.log("version2 token", token)
+        
 
         const cookies = new Cookies()
         cookies.set('v2-token', token, { path: '/' });

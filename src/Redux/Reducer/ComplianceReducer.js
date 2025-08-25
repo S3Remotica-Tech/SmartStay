@@ -26,7 +26,8 @@ export const initialState = {
     getComplianceComments: [],
     statusCodeForGetComplianceComment: 0,
     AddComplianceComment: [],
-    statusCodeForAddComplianceComment: 0
+    statusCodeForAddComplianceComment: 0,
+    updateVendorSuccessStatusCode: 0
 
 
 }
@@ -61,6 +62,12 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, addVendorSuccessStatusCode: action.payload.statusCode }
         case 'CLEAR_ADD_VENDOR_STATUS_CODE':
             return { ...state, addVendorSuccessStatusCode: 0 }
+case 'UPDATE_VENDOR':
+            return { ...state, updateVendorSuccessStatusCode: action.payload.statusCode }
+        case 'CLEAR_UPDATE_VENDOR_STATUS_CODE':
+            return { ...state, updateVendorSuccessStatusCode: 0 }
+
+
         case 'DELETE_VENDOR':
             return { ...state, deleteVendorStatusCode: action.payload.statusCode }
         case 'CLEAR_DELETE_VENDOR_STATUS_CODE':

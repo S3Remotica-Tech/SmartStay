@@ -72,6 +72,7 @@ function CustomerReAssign(props) {
     setNewFloor(selectedOption?.value || "");
 
     setfloorError("");
+    setNewRoom("")
   };
   // const handleBed = (selectedOption) => {
   //   setNewBed(selectedOption?.value || "");
@@ -115,6 +116,7 @@ function CustomerReAssign(props) {
     });
 
     setRoomError("");
+    setNewBed("")
   };
 
   const handleNewRoomRent = (e) => {
@@ -238,96 +240,28 @@ useEffect(() => {
 
 
  
-  //   const userJoinDate =
-  // props.reAssignDetail?.user_join_date ||
-  // props.reAssignBedDetail?.user_join_date ||
-  // props.reAssignBedDetail?.bed?.user_join_date;
-
-// if (selectedDate && userJoinDate) {
-//   const joiningDate = new Date(userJoinDate);
-//   const selected = new Date(selectedDate);
-//   const today = new Date();
-
-//   const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
-//   const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
-//   const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
- 
-//   if (selectedDateOnly < joinDateOnly) {
-//     setDateError("Before Join Date Not Allowed");
-//     hasError = true;
-//     return;
-//   }
-
-
-//   if (selectedDateOnly > todayOnly) {
-//     setDateError("Future Date Not Allowed");
-//     hasError = true;
-//     return;
-//   }
-
-//   setDateError("");
-// }
-
-
-// if (selectedDate && props.reAssignDetail?.user_join_date) {
-//   const joiningDate = new Date(props.reAssignDetail?.user_join_date);
-//   const selected = new Date(selectedDate);
-//   const today = new Date();
-
-//   const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
-//   const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
-//   const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-//   let lastDateOnly = null;
-//   const hasLastDate = lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate);
-
- 
-//   if (selectedDateOnly < joinDateOnly) {
-//     setDateError("Before Join Date Not Allowed");
-//     hasError = true;
-//     return;
-//   }
-
-  
-//   if (hasLastDate) {
-//     const [dd, mm, yyyy] = lastDate.split("-");
-//     const last = new Date(`${yyyy}-${mm}-${dd}`);
-//     lastDateOnly = new Date(last.getFullYear(), last.getMonth(), last.getDate());
-
-//     if (selectedDateOnly <= lastDateOnly) {
-//       setDateError("Billed up to this Date");
-//       hasError = true;
-//       return;
-//     }
-//   }
-
-  
-//   if (selectedDateOnly > todayOnly) {
-//     setDateError("Future Date Not Allowed");
-//     hasError = true;
-//     return;
-//   }
-
- 
-//   setDateError("");
-// }
 
 
 
 
 
-    if (hasError) return;
     if (newRoom === "Selected Room") {
-      setRoomError("Please Select a Valid Room");
-      hasError = true;
-      return;
-    } else {
-      setRoomError("");
-    }
+    setRoomError("Please Select a Valid Room");
+    hasError = true;
+  }
+
+  // if (newBed === "Selected Bed") {
+  //   setBedError("Please Select a Valid Bed");
+  //   hasError = true;
+  // }
+   if (!newBed || newBed === "") {
+    setBedError("Please select a bed");
+    return;
+  }
 
 
 
+if (hasError) return;
 
 
 
