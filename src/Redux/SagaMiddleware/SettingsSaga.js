@@ -821,8 +821,9 @@ function* handleDeleteRolePermission(detail) {
 
 //settingUser
 function* handleAddStaffUserPage(detail) {
-   try {
-      const response = yield call(addStaffUser, detail.payload);
+   try{
+      const { hostelId, data } = detail.payload; 
+    const response = yield call(addStaffUser, hostelId, data);
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -872,10 +873,10 @@ function* handleAddStaffUserPage(detail) {
    }
 }
 
-function* handleGetAllStaffs(action) {
-   const response = yield call(GetAllStaff, action.payload)
+function* handleGetAllStaffs() {
+   const response = yield call(GetAllStaff)
    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'USER_STAFF_LIST', payload: { response: response.data.user_details, statusCode: response.status || response.data.statusCode } })
+      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data || [], statusCode:response.status || response.data.statusCode}})
    }
    else {
       yield put({ type: 'ERROR_USER', payload: { statusCode: response.status || response.data.statusCode } })
@@ -952,6 +953,59 @@ function* handleAddGeneralPage(action) {
    }
 }
 
+function* handleEditGeneralPage(action) {
+   try{
+   const response = yield call (EditGeneral, action.payload);
+
+console.log("General response",response)
+
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "auto",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+
+   if (response?.status === 200){
+      yield put ({type : 'SETTING_EDIT_GENERAL' , payload:{response:response, statusCode: response.status}})
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+   }
+  
+   if(response){
+      refreshToken(response)
+   }
+   }
+ catch (error) {
+        if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.response.data.emailStatus !== "") {
+        yield put({ type: 'GENERAL_EMAIL_ERROR', payload: error.response.data.emailStatus });
+      } else if (error.response.data.mobileStatus !== "") {
+        yield put({ type: 'MOBILE_ERROR', payload: error.response.data.mobileStatus });
+      }
+    } else  if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+    }
+  }
+}
 
 function* handleGetAllGeneral() {
 
@@ -1523,27 +1577,28 @@ function* SettingsSaga() {
    yield takeEvery('EDITSETTINGROLEPERMISSION', handleEditRolePermission)
    yield takeEvery('DELETESETTINGROLEPERMISSION', handleDeleteRolePermission)
    yield takeEvery('ADDSTAFFUSER', handleAddStaffUserPage)
-   yield takeEvery('GETUSERSTAFF', handleGetAllStaffs)
-   yield takeEvery('GETUSERREPORT', handleGetAllReports)
-   yield takeEvery('ADDGENERALSETTING', handleAddGeneralPage)
-   yield takeEvery('GETALLGENERAL', handleGetAllGeneral)
-   yield takeEvery('GENERALPASSWORDCHANGES', handleChangePasswordinStaff)
-   yield takeEvery('GENERALDELETEGENERAL', handleDeleteGenerlPage)
-   yield takeEvery('RECURRINGROLE', handleRecurringRole)
-   yield takeEvery('CHECKPASSWORD', handleCheckPassword)
-   yield takeEvery('NEWSUBSCRIPTION', handleNewSubscriptionpage)
-   yield takeEvery('NEWSUBSCRIPTIONDETAILS', handleNewSubscriptionList)
-   yield takeEvery('SUBSCRIPTIONPDF', handleSubscriptionPdf)
-   yield takeEvery('SETTINGSADD_RECURRING', handleSettingsRecurring)
-   yield takeEvery('FREQUENCY_TYPES_LIST', handleGetBillsFrequencyTypes)
-   yield takeEvery('NOTIFICATION_TYPES_LIST', handleGetBillsNotificationTypes)
-   yield takeEvery('SETTINGS_GET_RECURRING', handleGetSettingsRecurrringBill)
-   yield takeEvery('ADD_INVOICE_SETTINGS', handleAddInvoiceSettings)
-   yield takeEvery('SETTINGS_GET_INVOICE', handleGetSettingsInvoice)
-   yield takeEvery('ADD_BILLS_TEMPLATE', handleAddBillTemplateSettings)
-   yield takeEvery('GET_TEMPLATE_LIST', handleGetTemplatelist)
-   yield takeEvery('ADDGLOBALSETTING', handleAddIGlobalSettings)
-   yield takeEvery('FETCHSETTINGTEMP', handleGetGlobalSetting)
+   yield takeEvery('GETUSERSTAFF',handleGetAllStaffs)
+   yield takeEvery('GETUSERREPORT',handleGetAllReports)
+   yield takeEvery('ADDGENERALSETTING',handleAddGeneralPage)
+   yield takeEvery('EDITGENERALSETTING',handleEditGeneralPage)
+   yield takeEvery('GETALLGENERAL',handleGetAllGeneral)
+   yield takeEvery('GENERALPASSWORDCHANGES',handleChangePasswordinStaff)
+   yield takeEvery('GENERALDELETEGENERAL',handleDeleteGenerlPage)  
+   yield takeEvery('RECURRINGROLE',handleRecurringRole)
+   yield takeEvery('CHECKPASSWORD',handleCheckPassword)
+   yield takeEvery('NEWSUBSCRIPTION',handleNewSubscriptionpage)
+   yield takeEvery('NEWSUBSCRIPTIONDETAILS',handleNewSubscriptionList)
+   yield takeEvery('SUBSCRIPTIONPDF',handleSubscriptionPdf)
+   yield takeEvery('SETTINGSADD_RECURRING',handleSettingsRecurring)
+   yield takeEvery('FREQUENCY_TYPES_LIST',handleGetBillsFrequencyTypes)
+   yield takeEvery('NOTIFICATION_TYPES_LIST',handleGetBillsNotificationTypes)
+   yield takeEvery('SETTINGS_GET_RECURRING',handleGetSettingsRecurrringBill)
+   yield takeEvery('ADD_INVOICE_SETTINGS',handleAddInvoiceSettings)
+   yield takeEvery('SETTINGS_GET_INVOICE',handleGetSettingsInvoice)
+   yield takeEvery('ADD_BILLS_TEMPLATE',handleAddBillTemplateSettings)
+   yield takeEvery('GET_TEMPLATE_LIST',handleGetTemplatelist)
+    yield takeEvery('ADDGLOBALSETTING',handleAddIGlobalSettings)
+    yield takeEvery('FETCHSETTINGTEMP',handleGetGlobalSetting)
 
 }
 export default SettingsSaga;

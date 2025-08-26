@@ -61,7 +61,7 @@ function SettingGeneral() {
   const [editId, setEditId] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
-    const [firstNameError, setFirstNameError] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
 
@@ -251,9 +251,7 @@ function SettingGeneral() {
     }
   }
 
-  // const handlegeneralform = (id) => {
-  //   setGeneralEdit((prevId) => (prevId === id ? null : id));
-  // };
+
 
   const handlegeneralform = (userId) => {
   setGeneralEdit((prevId) => (prevId === userId ? null : userId));
@@ -286,6 +284,7 @@ function SettingGeneral() {
     setLastName("");
     setEmailId("");
     setFile("");
+    setProfileImage("")
     setPassword("");
     setPhone("");
     setFirstNameError("");
@@ -307,12 +306,15 @@ function SettingGeneral() {
     setFormError("");
     setEmailError("")
     setEmailErrorMessage("")
-
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
   };
 
+  const [profileimage , setProfileImage] = useState(null)
+
   const handleImageChange = async (event) => {
+   
     const fileImage = event.target.files[0];
+     setProfileImage(fileImage)
     if (fileImage) {
       const options = {
         maxSizeMB: 1,
@@ -388,6 +390,7 @@ function SettingGeneral() {
      dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
     const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
+      setFormError("");
    
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     const isValidEmail = emailRegex.test(emailValue);
@@ -493,6 +496,7 @@ function SettingGeneral() {
     setShowFormGeneral(true);
 
     setFile(user.profilePic === "0" ? null : user.profilePic);
+    setProfileImage(user.profilePic === "0" ? null : user.profilePic)
     setFirstName(user.firstName);
     setLastName(user.lastName);
     setPhone(user.mobileNo);
@@ -507,23 +511,39 @@ function SettingGeneral() {
     setStateName(user.state);
    
 
-    // setEditId(user.id);
+    setEditId(user.userId);
     // setPassword(user.password);
 
-    setInitialStateAssign({
-      file: user.profilePic === "0" ? null : user.profilePic || null,
-      firstName: user.firstName || "",
-      lastName: user.lastName || "",
-      Phone: user.mobileNo || "",
-      emilId: user.mailId || "",
-      house_no: user.houseNo || '',
-      street: user.street || '',
-      pincode: user.pincode || '',
-      city: user.city || '',
-      landmark: user.landmark || '',
-      state: user.state || '',
+    // setInitialStateAssign({
+    //   file: user.profilePic === "0" ? null : user.profilePic || null,
+    //   firstName: user.firstName || "",
+    //   lastName: user.lastName || "",
+    //   Phone: user.mobileNo || "",
+    //   emilId: user.mailId || "",
+    //   house_no: user.houseNo || '',
+    //   street: user.street || '',
+    //   pincode: user.pincode || '',
+    //   city: user.city || '',
+    //   landmark: user.landmark || '',
+    //   state: user.state || '',
 
-    });
+    // });
+
+    setInitialStateAssign({
+  file: user.profilePic === "0" ? null : user.profilePic || null,
+  firstName: user.firstName || "",
+  lastName: user.lastName || "",
+  Phone: user.mobileNo || "",
+  emilId: user.mailId || "",
+  house_no: user.houseNo || "",
+  street: user.street || "",
+  pincode: user.pincode || "",
+  city: user.city || "",
+  landmark: user.landmark || "",
+  state: user.state || "",
+  countryCode: user.countryCode || ""
+});
+
   };
 
   const validateField = (value, fieldName) => {
@@ -583,6 +603,10 @@ function SettingGeneral() {
   }
 
 
+  console.log("editId" , editId);
+  
+
+
   const handleSave = () => {
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
     dispatch({ type: 'CLEAR_MOBILE_ERROR' })
@@ -596,7 +620,7 @@ function SettingGeneral() {
       validateField(firstName, "firstName"),
       validateField(emilId, "emilId"),
       validateField(Phone, "Phone"),
-      !edit ? validateField(password, "password") : true,
+      // !edit ? validateField(password, "password") : true,
       validateField(city, "City"),
       validateField(pincode, "Pincode"),
       validateField(state_name, "state_name"),
@@ -611,18 +635,7 @@ function SettingGeneral() {
 
 
 
-    if (!edit) {
-      const hasUppercase = /[A-Z]/.test(password);
-      const hasNumber = /[0-9]/.test(password);
-      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-        setPasswordError("Password must include a capital letter, a number, and a special character.");
-        hasError = true;
-      } else {
-        setPasswordError("");
-      }
-    }
 
     if (!pincode) {
       setPincodeError("Please Enter Pincode");
@@ -642,10 +655,7 @@ function SettingGeneral() {
         setEmailError("Please Enter Valid Email Id"); hasError = true;
       } else setEmailError("");
     }
-
-
-    console.log("haserror" , hasError , edit);
-    
+ 
 
 
     if (hasError || validations.includes(false) || !isValidEmail(emilId)) {
@@ -655,7 +665,7 @@ function SettingGeneral() {
 
 
 
-    const payload = {
+    const AddPayload = {
       accountInfo: {
         firstName: firstName,
         lastName: lastName,
@@ -666,40 +676,67 @@ function SettingGeneral() {
         landmark: landmark,
         city: city,
         pincode: pincode,
-        state: state_name
+        state: state_name, 
+        password: password
       },
-      profilePic: file,
+      profilePic: profileimage,
     };
-    if (!edit) payload.accountInfo.password = password;
-    if (edit && editId) payload.accountInfo.id = editId;
+
+   const EditPayload = {
+  firstName: firstName,
+  lastName: lastName,
+  mobile: normalizedPhoneNumber,
+  mailId: emilId,
+  houseNo: house_no,
+  street: street,
+  landmark: landmark,
+  city: city,
+  pincode: pincode,
+  state: state_name
+};
+
+    // if (!edit) payload.accountInfo.password = password;
+    // if (edit && editId) payload.accountInfo.id = editId;
 
 
 
     if (edit && editId) {
 
-      const isChanged =
-        firstName !== initialStateAssign.firstName ||
-        Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-        normalize(lastName) !== normalize(initialStateAssign.lastName) ||
-        emilId !== initialStateAssign.emilId ||
-        normalize(house_no) !== normalize(initialStateAssign.house_no) ||
-        normalize(street) !== normalize(initialStateAssign.street) ||
-        normalize(landmark) !== normalize(initialStateAssign.landmark) ||
-        city !== initialStateAssign.city ||
-        String(pincode).trim() !== String(initialStateAssign.pincode ?? "").trim() ||
-        state_name !== initialStateAssign.state ||
-        file !== initialStateAssign.file ||
-        (!file && initialStateAssign.file);
-
-
-
+  const isChanged =
+    normalize(firstName) !== normalize(initialStateAssign.firstName) ||
+    normalize(lastName) !== normalize(initialStateAssign.lastName) ||
+    normalize(emilId) !== normalize(initialStateAssign.emilId) ||
+    normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+    normalize(street) !== normalize(initialStateAssign.street) ||
+    normalize(landmark) !== normalize(initialStateAssign.landmark) ||
+    normalize(city) !== normalize(initialStateAssign.city) ||
+    String(pincode).trim() !== String(initialStateAssign.pincode ?? "").trim() ||
+    normalize(state_name) !== normalize(initialStateAssign.state) ||
+    String(normalizedPhoneNumber) !== String(initialStateAssign.Phone) ||
+    // file check → only if new file is uploaded
+    (profileimage && profileimage !== initialStateAssign.file);
 
       if (!isChanged) { 
-                 setFormError("No Changes Detected"); 
-        return; }
+        setFormError("No Changes Detected"); 
+        return
+      }
+
+dispatch({
+  type: "EDITGENERALSETTING",
+  payload: {
+    adminId: editId, 
+    payload: EditPayload,
+    profilePic: profileimage
+  }
+})
+
       setFormError("");
+
     } 
-       dispatch({ type: "ADDGENERALSETTING", payload: payload });
+
+    if(!edit){
+       dispatch({ type: "ADDGENERALSETTING", payload: AddPayload });
+    }
     setFormLoading(true)
   };
 
@@ -759,13 +796,13 @@ function SettingGeneral() {
   useEffect(() => {
     if (state.Settings?.generalEmailError) {
       setFormLoading(false)
-          }
+    }
   }, [state.Settings?.generalEmailError]);
 
   useEffect(() => {
     if (state.Settings?.generalMobileError) {
       setFormLoading(false)
-         }
+    }
   }, [state.Settings?.generalMobileError]);
 
 
@@ -780,6 +817,21 @@ function SettingGeneral() {
       }, 200);
     }
   }, [state.Settings?.StatusCodeForSettingGeneral]);
+
+    useEffect(() => {
+    if (state.Settings?.EditStatusCodeForSettingGeneral === 200) {
+      setFormLoading(false)
+      handleClose();
+      dispatch({ type: "GETALLGENERAL" });
+      dispatch({ type: "ACCOUNTDETAILS" });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_SETTING_EDIT_GENERAL" });
+      }, 200);
+    }
+  }, [state.Settings?.EditStatusCodeForSettingGeneral]);
+
+
+
 
   useEffect(() => {
     if (state.Settings?.statusCodeForGeneralDelete === 200) {
@@ -796,7 +848,6 @@ function SettingGeneral() {
   const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
   const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
 
-  console.log("generalfilter" , generalFilterddata);
   
   const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
   const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
@@ -824,9 +875,7 @@ function SettingGeneral() {
 
   useEffect(() => {
     if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
-      setGeneralFilterddata(state.Settings?.settingGetGeneralData || []);
-      console.log("filter" ,state.Settings?.settingGetGeneralData);
-      
+      setGeneralFilterddata(state.Settings?.settingGetGeneralData || []);      
       setLoading(false)
 
       setTimeout(() => {
@@ -1003,6 +1052,7 @@ function SettingGeneral() {
         position: "relative",
         overflowY: "auto",
         maxHeight: 500,
+        minHeight:500
       }}>
 
         {loading &&
@@ -1302,10 +1352,10 @@ function SettingGeneral() {
             style={{
               textAlign: "center",
               marginTop: 90,
-              height: '35vh',
+              height: '40vh',
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
+              alignItems: "center"
             }}
           >
             <img src={EmptyState} alt="emptystate" />
@@ -1336,6 +1386,8 @@ function SettingGeneral() {
 
         )}
       </div>
+
+ 
 
       {generalFilterddata?.length > 2 && (
         <nav
@@ -2104,6 +2156,7 @@ function SettingGeneral() {
                   options={indianStates}
                   onChange={(selectedOption) => {
                     setStateName(selectedOption?.value);
+                     setFormError("");
                   }}
                   value={
                     state_name ? { value: state_name, label: state_name } : null
