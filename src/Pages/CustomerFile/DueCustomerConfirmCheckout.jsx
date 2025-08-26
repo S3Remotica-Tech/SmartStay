@@ -6,10 +6,10 @@ import "flatpickr/dist/flatpickr.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import Image from "react-bootstrap/Image";
+// import Image from "react-bootstrap/Image";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import { FormControl } from "react-bootstrap";
+// import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -18,7 +18,7 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import { FaCheck } from "react-icons/fa";
+// import { FaCheck } from "react-icons/fa";
 import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
 import writeOff from "../../Assets/Images/New_images/writeoff.png";
 import writeOffWhite from "../../Assets/Images/New_images/writeoffWhite.png";
@@ -30,7 +30,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
     const state = useSelector((state) => state);
     console.log("data",data)
     const dispatch = useDispatch();
-    const [checked, setChecked] = useState(false);
+    // const [checked, setChecked] = useState(false);
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
@@ -225,10 +225,10 @@ const handleInputChange = (index, field, value) => {
     };
 
 
-    const handleToggle = () => {
-        setChecked((prev) => !prev);
+    // const handleToggle = () => {
+    //     setChecked((prev) => !prev);
 
-    };
+    // };
 
 
 
@@ -368,7 +368,7 @@ useEffect(() => {
       type: "CONFIRMCHECKOUTDUECUSTOMER",
       payload: {
         ...basePayload,
-        formal_checkout: checked,
+        formal_checkout: activeTab === "writeoff",
         reason_note: rightOffNote,
         profile: uploadFile,
       },
@@ -1914,7 +1914,7 @@ useEffect(() => {
       id="writeoff-tab"
       data-bs-toggle="tooltip"
       data-bs-placement="top"
-      overlayClassName="custom-tooltip"
+    //   overlayClassName="custom-tooltip"
       title="Use this when tenant has absconded and all pending dues must be written off."
       data-bs-target="#writeoff"
       type="button"
@@ -2241,6 +2241,8 @@ useEffect(() => {
             <Form.Control
               as="textarea"
               rows={2}
+              value={comments}
+              onChange={handleCommentsChange}
               placeholder="Enter comments"
               style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}
             />
@@ -2259,6 +2261,34 @@ useEffect(() => {
           </div>
         </div>
       </Modal.Body>
+         {formLoading &&
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
+                        }}
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>}
+
+      
     </Modal>
         </div>
     )

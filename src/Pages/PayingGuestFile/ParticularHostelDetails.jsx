@@ -30,7 +30,7 @@ import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
 import BookingBed from './NoticePeriod/BookingBed';
 import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
-import CheckoutTenant from './NoticePeriod/Check-out Tenant';
+// import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 
 
