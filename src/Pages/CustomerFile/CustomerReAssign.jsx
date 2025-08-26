@@ -73,6 +73,8 @@ function CustomerReAssign(props) {
 
     setfloorError("");
     setNewRoom("")
+    setNewBed("")
+    setNewRoomRent("")
   };
   // const handleBed = (selectedOption) => {
   //   setNewBed(selectedOption?.value || "");
@@ -102,6 +104,7 @@ function CustomerReAssign(props) {
 
     setBedError("");
     setRentError("");
+    
   };
   const handleRooms = (selectedOption) => {
     const value = selectedOption?.value || "";
@@ -117,6 +120,7 @@ function CustomerReAssign(props) {
 
     setRoomError("");
     setNewBed("")
+    setNewRoomRent("")
   };
 
   const handleNewRoomRent = (e) => {
@@ -280,7 +284,7 @@ if (hasError) return;
       type: "CUSTOMERREASSINBED",
       payload: {
         hostel_id: currentHostel_id,
-        c_floor: currentFloor,
+        c_floor: currentFloorId,
         c_room: currentRoomId,
         c_bed: currentBedId,
         re_floor: newFloor,
@@ -370,10 +374,11 @@ if (hasError) return;
   // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
 
-
+const [currentFloorId,setCurrentFloorId] = useState("")
   useEffect(() => {
     if (props.reAssignDetail) {
-      setCurrentFloor(props.reAssignDetail.Floor);
+      console.log("props.reAssignDetail",props.reAssignDetail)
+      setCurrentFloor(props.reAssignDetail.floor_name);
       setCurrentRoom(props.reAssignDetail.Rooms);
       setCurrentBed(props.reAssignDetail.Bed);
       setCurrentRoomRent(props.reAssignDetail.RoomRent);
@@ -381,9 +386,10 @@ if (hasError) return;
       setUserId(props.reAssignDetail.ID);
       setCurrentBedId(props.reAssignDetail.hstl_Bed);
       setCurrentRoomId(props.reAssignDetail.room_id);
+      setCurrentFloorId(props.reAssignDetail.Floor)
     }
     else if (props.reAssignBedDetail) {
-
+console.log("props.reAssignBedDetail",props.reAssignBedDetail)
       setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
       setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
       setUserId(props.reAssignBedDetail.id);
@@ -392,6 +398,7 @@ if (hasError) return;
       setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
       setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
       setCurrentBedId(props.reAssignBedDetail.bed?.id);
+      
     }
   }, [props.reAssignDetail, props.reAssignBedDetail]);
 
