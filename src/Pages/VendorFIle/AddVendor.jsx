@@ -212,19 +212,11 @@ function AddVendor({ show, setShow, currentItem }) {
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
+    console.log("fileImage",fileImage)
+
     if (fileImage) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-      };
-      try {
-        const compressedFile = await imageCompression(fileImage, options);
-        setFile(compressedFile);
-      } catch (error) {
-        console.error("Image compression error:", error);
-      }
-    }
+       setFile(fileImage);
+         }
   };
 
   const handleFirstNameChange = (e) => {
@@ -534,6 +526,9 @@ function AddVendor({ show, setShow, currentItem }) {
     }
 
   };
+
+
+  console.log("file",file)
 
 
   useEffect(() => {

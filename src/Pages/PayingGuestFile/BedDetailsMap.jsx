@@ -426,7 +426,7 @@ function BedDetailsMap({ room, propsValue }) {
                                 </div>
 
                                 <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
-                                    {bed.name}
+                                    {bed.bedName}
                                 </div>
                             </div>
                         </div>

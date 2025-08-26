@@ -21,7 +21,6 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     const [roleName, setRoleName] = useState('')
     const [errorForm, setErrorForm] = useState("")
     const [errorPermission, setErrorPermission] = useState("")
-    // const [editPermissionDetails, setEditPermissionDetails] = useState([])
     const [errorIsChanged, setErrorIsChanged] = useState("");
     const [roleError, setRoleError] = useState("")
     const [editRoleError, setEditRoleError] = useState("")
@@ -34,15 +33,14 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
 
-    useEffect(() => {
-        dispatch({ type: 'GETMODULES' })
-    }, [])
+
 
 
 
 
 
     const handleCheckboxChange = (rowName, index) => {
+        setErrorIsChanged("")
         setCheckboxValues(prev => ({
             ...prev,
             [rowName]: prev[rowName].map((val, i) =>
@@ -53,41 +51,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
 
-    // const permissionMapping = {
-    //     Dashboard: 1,
-    //     Announcement: 2,
-    //     Updates: 3,
-    //     PayingGuest: 4,
-    //     Customers: 5,
-    //     Bookings: 6,
-    //     Checkout: 7,
-    //     WalkIn: 8,
-    //     Assets: 9,
-    //     Vendor: 10,
-    //     Bills: 11,
-    //     RecuringBills: 12,
-    //     Electricity: 13,
-    //     Complaints: 14,
-    //     Expenses: 15,
-    //     Reports: 16,
-    //     Bankings: 17,
-    //     Profile: 18,
-    //     Amenities: 19
-    // };
-
-
-    // const modules = state.Settings?.getModules || [];
-
-    // const permissionMapping = modules.reduce((acc, module) => {
-    //   // format moduleName if you want to remove spaces or customize keys
-    //   const formattedName = module.moduleName.replace(/\s+/g, '');
-
-    //   acc[formattedName] = module.id;
-    //   return acc;
-    // }, {});
-
-    // console.log("permissionMapping", permissionMapping);
-
+   
 
     const modules = state.Settings?.getModules || [];
 
@@ -203,13 +167,9 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     const handleRoleName = (e) => {
         const value = e.target.value
-        // const pattern = /^[a-zA-Z\s]*$/;
-        // if (!pattern.test(value)) {
-        //     return;
-        // }
-        setErrorForm('')
+               setErrorForm('')
         setRoleName(value);
-
+        setErrorIsChanged("")
         setErrorIsChanged("")
         setRoleError("")
         setEditRoleError("")
@@ -221,10 +181,18 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     useEffect(() => {
         if (state.Settings.roleError) {
             setFormLoading(false)
-            setRoleError(state.Settings.roleError)
+            setRoleError(state.Settings?.roleError)
         }
 
     }, [state.Settings.roleError])
+
+
+
+
+
+
+console.log("state",state)
+
 
     useEffect(() => {
         if (state.Settings.roleEditError) {
@@ -359,8 +327,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     useEffect(() => {
         if (addRole) {
-            // setEditPermissionDetails([])
-            setRoleName("")
+                      setRoleName("")
             setPermissionRole([])
             setCheckboxValues((prevValues) => {
                 const resetValues = {};

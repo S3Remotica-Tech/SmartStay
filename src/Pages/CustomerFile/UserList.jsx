@@ -1534,7 +1534,7 @@ function UserList(props) {
   }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201) {
+    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: uniqueostel_Id },
@@ -1542,9 +1542,10 @@ function UserList(props) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
+        dispatch({ type:'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO'})
       }, 2000);
     }
-  }, [state.UsersList?.statusCodeForAddUser]);
+  }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
 
 

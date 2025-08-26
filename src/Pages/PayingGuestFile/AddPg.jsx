@@ -54,6 +54,9 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
+
+  console.log("images",images)
+
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
@@ -105,19 +108,9 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
-    if (fileImage) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-      };
-      try {
-        const compressedFile = await imageCompression(fileImage, options);
-        setFile(compressedFile);
-      } catch (error) {
-        console.error("Image compression error:", error);
-      }
-    }
+      if (fileImage) {
+       setFile(fileImage);
+         }
   };
 
   const handleMobileChange = (e) => {
@@ -463,7 +456,7 @@ function AddPg({ show, handleClose, currentItem }) {
     // setStateName("");
   };
 
-
+console.log("file",file)
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
@@ -515,7 +508,7 @@ function AddPg({ show, handleClose, currentItem }) {
       setMobile(initialData.mobile);
       setEmail(initialData.email);
       setFile(initialData.file);
-      setCountryCode(initialData.countryCode);
+      setCountryCode(initialData.country);
       setHouseNo(initialData.house_no);
       setStreet(initialData.street);
       setLandmark(initialData.landmark);
@@ -523,18 +516,21 @@ function AddPg({ show, handleClose, currentItem }) {
       setCity(initialData.city);
       setStateName(initialData.state);
 
-      const formattedImages = currentItem?.image_list?.map((img) => ({
+      const formattedImages = currentItem?.images?.map((img) => ({
         name:
           img.image !== "0" && typeof img.image === "string" ? img.name : "",
         image:
           img.image !== "0" && typeof img.image === "string" ? img.image : null,
       }));
-
-      setImages(formattedImages);
+console.log("formattedImages",formattedImages)
+      setImages(formattedImages.length > 0 ? formattedImages : Array(4).fill({ image: null }));
       setInitialState({ ...initialData, imageUrls: formattedImages });
     }
   }, [currentItem]);
 
+
+
+  console.log("currentItem",currentItem)
  
 const handleFileChange = (index) => async (e) => {
   const selectedFiles = Array.from(e.target.files);
@@ -1367,7 +1363,7 @@ useEffect(() => {
             </Form.Label>
 
             {images.map((img, index) => {
-              const imageSrc = img.image;
+              const imageSrc = img?.image;
 
               return (
                 <div
