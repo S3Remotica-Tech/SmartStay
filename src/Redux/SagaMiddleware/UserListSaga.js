@@ -1,10 +1,75 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc , CustomerUnAssign,backtoCheckin} from "../Action/UserListAction"
+import { customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
+function* handleCheckIn(datum) {
+   try {
+      const response = yield call(CheckIn, datum.payload);
+
+
+      if (response.status === 201) {
+         yield put({
+            type: 'CHECK_IN',
+            payload: { response: response.message, statusCode: response.status },
+         });
+
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+
+
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+      const error = err || {};
+
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+}
+
+
 
 function* handleuserlist(user) {
    try {
@@ -103,7 +168,7 @@ function* handleDeleteCustomer(customer) {
 function* handleHostelList(hostel) {
    const response = yield call(hostelList, hostel.payload)
 
-   console.log("get all hostel",response)
+   console.log("get all hostel", response)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -202,7 +267,7 @@ function* handleCreateFloor(data) {
    try {
       const response = yield call(createFloor, data.payload);
 
-console.log("response for add floor",response)
+      console.log("response for add floor", response)
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -247,13 +312,13 @@ console.log("response for add floor",response)
    }
    catch (error) {
       if (error.code === 'ERR_BAD_REQUEST') {
-      if (error.status === 409) {
-        yield put({ type: 'ALREADY_FLOOR_ERROR', payload: error.response.data });
-      } 
-    } else if (error.code === 'ERR_NETWORK')  {
-      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-    }
-  }
+         if (error.status === 409) {
+            yield put({ type: 'ALREADY_FLOOR_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 function* handleRoomsDetails(ID) {
@@ -276,12 +341,12 @@ function* handleRoomsDetails(ID) {
 function* handleAddUser(datum) {
    try {
       const response = yield call(addUser, datum.payload);
-    
+
 
       if (response.status === 201) {
          yield put({
             type: 'ADD_USER',
-            payload: { response: response.message, statusCode:response.status },
+            payload: { response: response.message, statusCode: response.status },
          });
 
 
@@ -313,32 +378,84 @@ function* handleAddUser(datum) {
             style: toastStyle,
          });
       }
-      else if (response.statusCode === 202) {
-
-         yield put({ type: 'PHONE_ERROR', payload: response.message });
-      }
-      else if (response.statusCode === 203) {
-
-         yield put({ type: 'EMAIL_ERROR', payload: response.message });
-      }
-
 
       if (response) {
          refreshToken(response)
       }
    }
-   catch (err) {
-      const error = err || {};
-
-      yield put({
-         type: 'NETWORK_ERROR',
-         payload:
-            error?.code === 'ERR_NETWORK'
-               ? 'Network error occurred'
-               : error?.message || 'Something went wrong',
-      });
+   catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.response.data.emailStatus !== "") {
+            yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus });
+         } else if (error.response.data.mobileStatus !== "") {
+            yield put({ type: 'PHONE_ERROR', payload: error.response.data.mobileStatus });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
+
+
+
+function* handleCustomerSaveInfo(datum) {
+   try {
+      const response = yield call(customerSaveInfo, datum.payload);
+
+
+      if (response.status === 201) {
+         yield put({
+            type: 'CREATE_CUSTOMER_SAVE_INFO',
+            payload: { response: response.message, statusCode: response.status },
+         });
+
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.response.data.emailStatus !== "") {
+            yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus });
+         } else if (error.response.data.mobileStatus !== "") {
+            yield put({ type: 'PHONE_ERROR', payload: error.response.data.mobileStatus });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
+
 
 
 function* handleRoomCheck(action) {
@@ -1311,7 +1428,7 @@ function* handleCheckoutExportDetails(action) {
 //       else {
 //          yield put({ type: 'ERROR', payload: response.message })
 //       }
-     
+
 //       if (response) {
 //          refreshToken(response)
 //       }
@@ -1910,22 +2027,22 @@ function* handleConfirmCheckoutDueCustomer(data) {
 function* handlecustomerUnAssign(action) {
 
    try {
-  const response = yield call(CustomerUnAssign, action.payload)
-  console.log("response", response);
-  
- 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'UNASSIGN_CUSTOMER', payload:{response : response.data.data, statusCode: response.status || response.statusCode  } })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
+      const response = yield call(CustomerUnAssign, action.payload)
+      console.log("response", response);
+
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
 
-      catch (err) {
+   catch (err) {
       const error = err || {};
 
       yield put({
@@ -1936,7 +2053,7 @@ function* handlecustomerUnAssign(action) {
                : error?.message || 'Something went wrong',
       });
    }
- 
+
 }
 
 
@@ -1944,9 +2061,9 @@ function* handlecustomerUnAssign(action) {
 
 function* handleBackToCheckin(action) {
    const response = yield call(backtoCheckin, action.payload)
-   console.log("handleBackToCheckin",response)
-  
-    var toastStyle = {
+   console.log("handleBackToCheckin", response)
+
+   var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
       width: "auto",
@@ -1957,30 +2074,30 @@ function* handleBackToCheckin(action) {
       fontSize: 14,
       textAlign: "start",
       display: "flex",
-      alignItems: "center", 
+      alignItems: "center",
       padding: "10px",
-     
-    };
-   
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'BACK_TO_CHECKIN_USER', payload:{response: response.data, statusCode:response.status || response.data.statusCode}})
 
-        toast.success(`${response.data.message}`, {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-     });
+   };
+
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'BACK_TO_CHECKIN_USER', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+
+      toast.success(`${response.data.message}`, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+      });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response){
+   if (response) {
       refreshToken(response)
    }
 }
@@ -1989,11 +2106,11 @@ function* handleBackToCheckin(action) {
 function* handleGetAllFloor(floor) {
    try {
       const response = yield call(GetAllFloor, floor.payload);
-      console.log("get floor response",response)
+      console.log("get floor response", response)
       if (response.status === 200) {
          yield put({ type: 'ALL_FLOOR_LIST', payload: { response: response.data, statusCode: response.status } })
       }
-       
+
       if (response) {
          refreshToken(response)
       }
@@ -2014,7 +2131,9 @@ function* handleGetAllFloor(floor) {
 
 
 function* UserListSaga() {
-    yield takeEvery('ALLFLOORLIST',handleGetAllFloor)
+   yield takeEvery('CREATECUSTOMERSAVEINFO', handleCustomerSaveInfo)
+   yield takeEvery('CHECKIN', handleCheckIn)
+   yield takeEvery('ALLFLOORLIST', handleGetAllFloor)
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
    yield takeEvery('HOSTELLIST', handleHostelList)
@@ -2067,7 +2186,7 @@ function* UserListSaga() {
    yield takeEvery('EDITCONFIRMCHECKOUTCUSTOMER', handleEditConfirmCheckout)
    yield takeEvery('CONFIRMCHECKOUTDUECUSTOMER', handleConfirmCheckoutDueCustomer)
    yield takeEvery('UNASSIGNCUSTOMER', handlecustomerUnAssign)
-    yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
+   yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
 
 
 }

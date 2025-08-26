@@ -220,7 +220,7 @@ function ParticularHostelDetails(props) {
   // }, [state.PgList?.noRoomsInFloorStatusCode])
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201) {
+    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       dispatch({ type: 'HOSTELLIST' })
@@ -231,7 +231,7 @@ function ParticularHostelDetails(props) {
       dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
     }
-  }, [state.UsersList?.statusCodeForAddUser]);
+  }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
 
   useEffect(() => {
@@ -349,7 +349,7 @@ function ParticularHostelDetails(props) {
   }, [state.UsersList.statusCodeForReassinBed]);
 
   useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 201) {
+    if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       // setEmptyBed(false);
@@ -362,7 +362,7 @@ function ParticularHostelDetails(props) {
         dispatch({ type: "CLEAR_STATUS_CODES" });
       }, 500);
     }
-  }, [state?.Booking?.statusCodeForAddBookin, state.UsersList?.statusCodeForAddUser])
+  }, [state?.Booking?.statusCodeForAddBookin, state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo])
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {

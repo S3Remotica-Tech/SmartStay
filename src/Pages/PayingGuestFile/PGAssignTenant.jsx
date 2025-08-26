@@ -341,7 +341,7 @@ if (matchedBed) {
 
 
       useEffect(() => {
-        if (state.UsersList?.statusCodeForAddUser === 201) {
+        if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
           setFormLoading(false)
           dispatch({
             type: "USERLIST",
@@ -353,7 +353,7 @@ if (matchedBed) {
             dispatch({ type: "CLEAR_STATUS_CODES" });
           }, 2000);
         }
-      }, [state.UsersList?.statusCodeForAddUser]);
+      }, [state.UsersList?.statusCodeForAddUser , state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
 
 
@@ -802,6 +802,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                   setDateError("");
                                                   setBookingDate(date ? date.toDate() : null);
                                                   setBookingDateErrmsg('');
+                                                  setJoiningDate("")
                                                 }}
                                                 disabledDate={(current) => {
                                                   return current && current > dayjs().endOf('day');

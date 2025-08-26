@@ -29,7 +29,7 @@ console.log("response UPDATE",response)
 
       };
 
-      if (response.status === 201) {
+      if (response.status === 200) {
          yield put({ type: 'UPDATE_VENDOR', payload: { response: response.data, statusCode: response.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",

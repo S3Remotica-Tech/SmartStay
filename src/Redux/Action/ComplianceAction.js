@@ -82,6 +82,7 @@ export async function addVendor(params) {
     formData.append("profilePic", params.profilePic);
   }
 
+  console.log(" params.profilePic", params.profilePic)
 
   if (params.payLoads) {
     const payloadBlob = new Blob(

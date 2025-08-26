@@ -22,6 +22,7 @@ import PGAssignTenant from './PGAssignTenant';
 import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
+import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -343,16 +344,24 @@ function BedDetailsMap({ room, propsValue }) {
                 Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails} />
             }
 
-            {
+
+            {/* this needed  */}
+            {/* {
                 Noticeperiod_checkout && <CheckoutTenant show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
                     customerID={customerID}
 
                     data={OccupiedCustomerDetails}
                 />
+            } */}
+
+
+            {
+                Noticeperiod_checkout && <DueCustomerConfirmCheckout show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
+                    customerID={customerID}
+
+                    data={OccupiedCustomerDetails}
+                />
             }
-
-
-
 
             {moveToNoticePeriodForm && (() => {
                 return (
@@ -426,7 +435,7 @@ function BedDetailsMap({ room, propsValue }) {
                                 </div>
 
                                 <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
-                                    {bed.name}
+                                    {bed.bedName}
                                 </div>
                             </div>
                         </div>
