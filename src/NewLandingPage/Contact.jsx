@@ -10,8 +10,12 @@ import Email from "../Assets/Images/landingpageimages/message.png";
 import Location from "../Assets/Images/landingpageimages/Location.png";
 import Call from "../Assets/Images/landingpageimages/call.png";
 import { useNavigate } from 'react-router-dom';
-
+import { Helmet } from "react-helmet-async";
 function Contact() {
+
+   const ogImage = "https://smartstay.qbatz.com/assets/Smartstay_LOGO-CEWVemGR.svg";
+  const ogAlt = "SmartStay logo";
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -103,6 +107,112 @@ function Contact() {
 
   return (
     <>
+<Helmet prioritizeSeoTags>
+  {/* Language */}
+  <html lang="en-IN" />
+
+  {/* ===== Core SEO ===== */}
+  <title>Hostel Management Software – Rent & Booking</title>
+  <meta
+    name="description"
+    content="SmartStay is India’s trusted hostel management software for PGs. Manage bookings, rent collection, expenses & tenant complaints in one platform."
+  />
+  <link rel="canonical" href="https://smartstay.qbatz.com/pg-software-contact/" />
+  <meta name="robots" content="index, follow" />
+
+  {/* ===== Open Graph ===== */}
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SmartStay" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:url" content="https://smartstay.qbatz.com/pg-software-contact/" />
+  <meta property="og:title" content="Hostel Management Software – Rent & Booking" />
+  <meta
+    property="og:description"
+    content="SmartStay is India’s trusted hostel management software for PGs. Manage bookings, rent collection, expenses & tenant complaints in one platform."
+  />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:alt" content={ogAlt} />
+
+  {/* ===== Schema.org: WebPage ===== */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      name: "SmartStay",
+      url: "https://smartstay.qbatz.com/",
+      email: "dm@s3remotica.com",
+      telephone: ["+918344715078", "+919688207649", "+919688229461"],
+      sameAs: [
+        "https://www.instagram.com/smartstay.qbatz/",
+        "https://www.facebook.com/profile.php?id=61574999712221",
+      ],
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+918344715078",
+          contactType: "customer support",
+          areaServed: "IN",
+          availableLanguage: ["en", "ta"],
+        },
+      ],
+      address: [
+        {
+          "@type": "PostalAddress",
+          streetAddress: "7/96, North Street, Athisayapuram, VK Pudur (PO)",
+          addressLocality: "Tenkasi",
+          postalCode: "627861",
+          addressRegion: "TN",
+          addressCountry: "IN",
+        },
+        {
+          "@type": "PostalAddress",
+          streetAddress: "1B, Block 1, Neelkamal Apartment, Kazhipattur",
+          addressLocality: "Chennai",
+          postalCode: "603103",
+          addressRegion: "TN",
+          addressCountry: "IN",
+        },
+      ],
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ],
+          opens: "09:30",
+          closes: "19:00",
+        },
+      ],
+    })}
+  </script>
+
+  {/* ===== Breadcrumbs: Home ===== */}
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://smartstay.qbatz.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Contact Us",
+          item: "https://smartstay.qbatz.com/pg-software-contact/",
+        },
+      ],
+    })}
+  </script>
+</Helmet>
 
       <div style={{ display: 'flex', flexDirection: 'column', textAlign: "center", alignItems: 'center', position: 'relative', background: "linear-gradient(135deg, #E2E6FF, #EFFCFF)", height: '400px', zIndex: 1, marginBottom: '500px', paddingTop: '50px' }}>
         <img
@@ -114,9 +224,7 @@ function Contact() {
         <h1 style={{ fontSize: 40, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>
           Get in touch with us
         </h1>
-        <p style={{ display: 'flex', alignItems: 'center', width: '70%', fontSize: '17px', fontWeight: 400, color: 'rgba(71, 85, 105, 1)', fontFamily: 'Montserrat' }}>
-          Get more done with targeted and personalized rewarding experiences at a global scale. Plum offers AI-enabled rewards automation that runs on the largest global rewards marketplace. It delivers rewards experiences people love, available in over 100 countries.
-        </p>
+       
 
 
 

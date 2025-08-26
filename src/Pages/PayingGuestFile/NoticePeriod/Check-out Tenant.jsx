@@ -20,7 +20,7 @@ import { FaCheck } from "react-icons/fa";
 
 function CheckoutTenant({ show, handleClose, data, customerID }) {
 
-
+console.log("datadata",customerID)
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -135,6 +135,19 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
     setChecked((prev) => !prev);
 
   };
+
+  // useEffect(()=>{
+  //   const userId = state.UsersList.Users.map((item)=>{
+  //     return item.ID === customerID
+   
+  //   })
+  //    console.log("userId",userId)
+
+  // },[])
+ useEffect(() => {
+  const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
+  console.log("userData", userData); 
+}, [state.UsersList, customerID]);
   const handleConfirmCheckout = () => {
 
     console.log("handleConfirmCheckout called");
@@ -281,6 +294,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
 
   }, [state.login.selectedHostel_Id]);
+  
 
   useEffect(() => {
     const Hostel_Id = data?.room.Hostel_Id;

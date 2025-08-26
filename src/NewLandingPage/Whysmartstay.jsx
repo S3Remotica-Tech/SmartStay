@@ -3,8 +3,12 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Plus from "../Assets/Images/landingpageimages/Plus.png";
 import emailjs from '@emailjs/browser';
 import { useNavigate } from 'react-router-dom';
-
+import { Helmet } from "react-helmet-async";
 const SmartStaySection = () => {
+
+  const ogImage = "https://smartstay.qbatz.com/assets/Smartstay_LOGO-CEWVemGR.svg";
+  const ogAlt = "SmartStay logo";
+
   const [formData, setFormData] = useState({
     pg_name: '',
     user_name: '',
@@ -131,146 +135,261 @@ const SmartStaySection = () => {
     }
   };
   return (
-    <Container fluid className="text-white py-5" style={{ backgroundColor: "#090F29", marginBottom: 40, position: "relative", overflow: "visible" }}>
+    <>
+      <Helmet prioritizeSeoTags>
+        <html lang="en-IN" />
+
+        {/* Core SEO */}
+        <title>SmartStay Hostel Software Pricing – Affordable Plans</title>
+        <meta
+          name="description"
+          content="SmartStay offers affordable hostel software pricing in India with PG plans – Suite Team, Professional & Growth, including rent collection & billing."
+        />
+        <link
+          rel="canonical"
+          href="https://smartstay.qbatz.com/hostel-software-pricing"
+        />
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="SmartStay" />
+        <meta property="og:locale" content="en_IN" />
+        <meta
+          property="og:url"
+          content="https://smartstay.qbatz.com/hostel-software-pricing"
+        />
+        <meta
+          property="og:title"
+          content="SmartStay Hostel Software Pricing – Affordable Plans"
+        />
+        <meta
+          property="og:description"
+          content="SmartStay offers affordable hostel software pricing in India with PG plans – Suite Team, Professional & Growth, including rent collection & billing."
+        />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:alt" content={ogAlt} />
+
+        {/* WebPage schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "Hostel Pricing",
+            url: "https://smartstay.qbatz.com/hostel-software-pricing",
+            description:
+              "SmartStay offers affordable hostel software pricing in India with PG plans – Suite Team, Professional & Growth, including rent collection & billing.",
+          })}
+        </script>
+
+        {/* Breadcrumbs: Home › Pricing */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://smartstay.qbatz.com/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Pricing",
+                item: "https://smartstay.qbatz.com/hostel-software-pricing",
+              },
+            ],
+          })}
+        </script>
+
+        {/* SoftwareApplication + Offers */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "SmartStay Hostel Management Software",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            url: "https://smartstay.qbatz.com/hostel-software-pricing",
+            description:
+              "SaaS for hostel & PG management: rent collection, billing, bookings, agreements, KYC and notifications.",
+            offers: [
+              {
+                "@type": "Offer",
+                name: "Suite Team (1 Month)",
+                priceCurrency: "INR",
+                price: "299",
+                url: "https://smartstay.qbatz.com/hostel-software-pricing",
+              },
+              {
+                "@type": "Offer",
+                name: "Suite Professional (1 Month)",
+                priceCurrency: "INR",
+                price: "599",
+                url: "https://smartstay.qbatz.com/hostel-software-pricing",
+              },
+              {
+                "@type": "Offer",
+                name: "Suite Growth (1 Year)",
+                priceCurrency: "INR",
+                price: "999",
+                url: "https://smartstay.qbatz.com/hostel-software-pricing",
+              },
+              {
+                "@type": "Offer",
+                name: "SmartStay Service (1 Year)",
+                priceCurrency: "INR",
+                price: "9999",
+                url: "https://smartstay.qbatz.com/hostel-software-pricing",
+              },
+            ],
+          })}
+        </script>
+      </Helmet>
+
+      <Container fluid className="text-white py-5" style={{ backgroundColor: "#090F29", marginBottom: 40, position: "relative", overflow: "visible" }}>
 
 
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -300, transform: "rotate(320deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -285, transform: "rotate(320deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -270, transform: "rotate(320deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -255, transform: "rotate(320deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -240, transform: "rotate(320deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -225, transform: "rotate(320deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -210, transform: "rotate(320deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -270, transform: "rotate(130deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -255, transform: "rotate(130deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -240, transform: "rotate(130deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -225, transform: "rotate(130deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -210, transform: "rotate(130deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -195, transform: "rotate(130deg)", borderRadius: 8 }}></div>
-      <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -180, transform: "rotate(130deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -300, transform: "rotate(320deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -285, transform: "rotate(320deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -270, transform: "rotate(320deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -255, transform: "rotate(320deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -240, transform: "rotate(320deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -225, transform: "rotate(320deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", left: -70, top: -210, transform: "rotate(320deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -270, transform: "rotate(130deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -255, transform: "rotate(130deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -240, transform: "rotate(130deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -225, transform: "rotate(130deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -210, transform: "rotate(130deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -195, transform: "rotate(130deg)", borderRadius: 8 }}></div>
+        <div style={{ backgroundColor: "#ffffff", zIndex: 0, opacity: 0.1, height: 550, width: 4, position: "absolute", right: 0, bottom: -180, transform: "rotate(130deg)", borderRadius: 8 }}></div>
 
 
-      <Container>
-        <Row className="align-items-center">
+        <Container>
+          <Row className="align-items-center">
 
-          <Col lg={6} className="mb-4 mb-lg-0 p-0" style={{ zIndex: 4, backgroundColor: "#090F29", overflow: "visible", }}>
-
-
+            <Col lg={6} className="mb-4 mb-lg-0 p-0" style={{ zIndex: 4, backgroundColor: "#090F29", overflow: "visible", }}>
 
 
 
-            <h2 className="fw-bold mb-3" style={{ backgroundColor: "#090F29", fontSize: "34px", fontFamily: "Montserrat, sans-serif", fontWeight: 700, zIndex: 4 }}>
-              Why SmartStay?
-            </h2>
 
-            <p className="text-light" style={{ backgroundColor: "#090F29", zIndex: 4, fontSize: "16px", fontFamily: "Montserrat, sans-serif", fontWeight: 400 }}>
-              Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.<br></br>
-              Get Started
-            </p>
-            <ul className="list-unstyled" style={{ zIndex: 4, backgroundColor: "#090F29" }}>
-              {[
-                { title: "Efficiency", description: "Automate routine tasks and save time." },
-                { title: "Visibility", description: "Gain insights with real-time data and analytics." },
-                { title: "Scalability", description: "Scale effortlessly as your business grows." },
-                { title: "User-Friendly", description: "Intuitive interface designed for ease of use." },
-                { title: "Customer Support 24/7", description: "24/7 customer support to assist you at every step." },
-              ].map((feature, index) => (
-                <li key={index} className="mb-3">
-                  <div className="d-flex align-items-center">
-                    <span className="text-primary fw-bold me-2"
-                    ><img src={Plus} alt="plusimage" /></span>
-                    <strong
-                      style={{ fontFamily: "Montserrat", fontWeight: 600, fontSize: "18px" }}>{feature.title}</strong>
-                  </div>
-                  <span className=""
-                    style={{ fontFamily: "Montserrat", fontWeight: 400, fontSize: "14px", paddingLeft: "22px" }}>{feature.description}</span>
-                </li>
-              ))}
-            </ul>
 
-          </Col>
-          <Col lg={6} className="p-0" style={{ zIndex: 4 }}>
-            <div className="bg-white p-4 shadow-lg rounded" style={{ borderRadius: "20px" }}>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    name="pg_name"
-                    type="text"
-                    placeholder="PG Name"
-                    value={formData.pg_name}
-                    onChange={handleChange}
-                    isInvalid={!!errors.pg_name}
-                    style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
-                  />
-                  <Form.Control.Feedback type="invalid">{errors.pg_name}</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    name="user_name"
-                    type="text"
-                    placeholder="Full Name"
-                    value={formData.user_name}
-                    onChange={handleChange}
-                    isInvalid={!!errors.user_name}
-                    style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
-                  />
-                  <Form.Control.Feedback type="invalid">{errors.user_name}</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    isInvalid={!!errors.email}
-                    style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
-                  />
-                  <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    name="user_phone"
-                    type="tel"
-                    placeholder="+91"
-                    value={formData.user_phone}
-                    onChange={handleChange}
-                    isInvalid={!!errors.user_phone}
-                    style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
-                    maxLength={10}
-                  />
-                  <Form.Control.Feedback type="invalid">{errors.user_phone}</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    as="textarea"
-                    name="message"
-                    rows={3}
-                    placeholder="Tell us more about your requirements"
-                    value={formData.message}
-                    onChange={handleChange}
-                    style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
-                  />
-                </Form.Group>
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-100 fw-bold"
-                  style={{ background: '#1E45E1', fontFamily: 'Montserrat', padding: '10px' }}
-                >
-                  {isSubmitting ? "Sending..." : "BOOK A DEMO"}
-                </Button>
-              </Form>
-              <p className="text-start mt-3" style={{ fontSize: "12px", color: 'rgba(104, 108, 157, 1)', fontFamily: 'Montserrat' }}>
-                Ready to simplify your PG Management? Join now and be part of a new era of PG management.
+              <h2 className="fw-bold mb-3" style={{ backgroundColor: "#090F29", fontSize: "34px", fontFamily: "Montserrat, sans-serif", fontWeight: 700, zIndex: 4 }}>
+                Why SmartStay?
+              </h2>
+
+              <p className="text-light" style={{ backgroundColor: "#090F29", zIndex: 4, fontSize: "16px", fontFamily: "Montserrat, sans-serif", fontWeight: 400 }}>
+
+                Get Started
               </p>
-            </div>
-          </Col>
+              <ul className="list-unstyled" style={{ zIndex: 4, backgroundColor: "#090F29" }}>
+                {[
+                  { title: "Efficiency", description: "Automate routine tasks and save time." },
+                  { title: "Visibility", description: "Gain insights with real-time data and analytics." },
+                  { title: "Scalability", description: "Scale effortlessly as your business grows." },
+                  { title: "User-Friendly", description: "Intuitive interface designed for ease of use." },
+                  { title: "Customer Support 24/7", description: "24/7 customer support to assist you at every step." },
+                ].map((feature, index) => (
+                  <li key={index} className="mb-3">
+                    <div className="d-flex align-items-center">
+                      <span className="text-primary fw-bold me-2"
+                      ><img src={Plus} alt="plusimage" /></span>
+                      <strong
+                        style={{ fontFamily: "Montserrat", fontWeight: 600, fontSize: "18px" }}>{feature.title}</strong>
+                    </div>
+                    <span className=""
+                      style={{ fontFamily: "Montserrat", fontWeight: 400, fontSize: "14px", paddingLeft: "22px" }}>{feature.description}</span>
+                  </li>
+                ))}
+              </ul>
+
+            </Col>
+            <Col lg={6} className="p-0" style={{ zIndex: 4 }}>
+              <div className="bg-white p-4 shadow-lg rounded" style={{ borderRadius: "20px" }}>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                      name="pg_name"
+                      type="text"
+                      placeholder="PG Name"
+                      value={formData.pg_name}
+                      onChange={handleChange}
+                      isInvalid={!!errors.pg_name}
+                      style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.pg_name}</Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                      name="user_name"
+                      type="text"
+                      placeholder="Full Name"
+                      value={formData.user_name}
+                      onChange={handleChange}
+                      isInvalid={!!errors.user_name}
+                      style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.user_name}</Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      isInvalid={!!errors.email}
+                      style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                      name="user_phone"
+                      type="tel"
+                      placeholder="+91"
+                      value={formData.user_phone}
+                      onChange={handleChange}
+                      isInvalid={!!errors.user_phone}
+                      style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
+                      maxLength={10}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.user_phone}</Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                      as="textarea"
+                      name="message"
+                      rows={3}
+                      placeholder="Tell us more about your requirements"
+                      value={formData.message}
+                      onChange={handleChange}
+                      style={{ background: "#f6f7f9", fontFamily: 'Montserrat' }}
+                    />
+                  </Form.Group>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-100 fw-bold"
+                    style={{ background: '#1E45E1', fontFamily: 'Montserrat', padding: '10px' }}
+                  >
+                    {isSubmitting ? "Sending..." : "BOOK A DEMO"}
+                  </Button>
+                </Form>
+                <p className="text-start mt-3" style={{ fontSize: "12px", color: 'rgba(104, 108, 157, 1)', fontFamily: 'Montserrat' }}>
+                  Ready to simplify your PG Management? Join now and be part of a new era of PG management.
+                </p>
+              </div>
+            </Col>
 
 
-        </Row>
+          </Row>
+        </Container>
       </Container>
-    </Container>
+    </>
   );
 };
 

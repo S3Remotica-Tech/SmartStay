@@ -802,6 +802,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                   setDateError("");
                                                   setBookingDate(date ? date.toDate() : null);
                                                   setBookingDateErrmsg('');
+                                                  setJoiningDate("")
                                                 }}
                                                 disabledDate={(current) => {
                                                   return current && current > dayjs().endOf('day');

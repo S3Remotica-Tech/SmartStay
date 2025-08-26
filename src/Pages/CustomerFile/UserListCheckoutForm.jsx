@@ -32,6 +32,8 @@ const CheckOutForm = ({
   // conformEdit,
   // handleCloseConformForm
 }) => {
+
+  
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -187,7 +189,7 @@ const CheckOutForm = ({
 
 
 
-  
+
 
 
   // useEffect(() => {
@@ -202,7 +204,7 @@ const CheckOutForm = ({
   // }, [dueamount]);
 
 
-  
+
 
   // useEffect(() => {
   //   if (data?.amenities?.length > 0) {
@@ -537,119 +539,119 @@ const CheckOutForm = ({
 
   // const [modeOfPaymentError, setModeOfPaymentError] = useState("")
 
-//   const handleConfirmCheckout = () => {
-   
-//     let hasReasonAmountError = false;
-//     let newErrors = [];
+  //   const handleConfirmCheckout = () => {
+
+  //     let hasReasonAmountError = false;
+  //     let newErrors = [];
 
 
-//     dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-//     dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-//     let hasError = false;
+  //     dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+  //     dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+  //     let hasError = false;
 
-//     if (!selectedCustomer) {
-//       setCustomerError("Please Select a Customer");
-//       hasError = true;
-//     }
+  //     if (!selectedCustomer) {
+  //       setCustomerError("Please Select a Customer");
+  //       hasError = true;
+  //     }
 
-//     if (!checkOutDate) {
-//       setCheckOutDateError("Please select a checkout Date");
-//       hasError = true;
-//     }
+  //     if (!checkOutDate) {
+  //       setCheckOutDateError("Please select a checkout Date");
+  //       hasError = true;
+  //     }
 
-//     if (!modeOfPayment) {
-//       setModeOfPaymentError("Please Select Mode Of Payment");
-//       hasError = true;
-//     }
+  //     if (!modeOfPayment) {
+  //       setModeOfPaymentError("Please Select Mode Of Payment");
+  //       hasError = true;
+  //     }
 
-//     if (!data.Hostel_Id) {
-//       hasError = true;
-//     }
+  //     if (!data.Hostel_Id) {
+  //       hasError = true;
+  //     }
 
-//     if (hasError) {
-//       return;
-//     }
+  //     if (hasError) {
+  //       return;
+  //     }
 
-//     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
-//     const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
-//     const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
+  //     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+  //     const formattedCheckOutDate = moment(checkOutDate, "DD-MM-YYYY");
+  //     const formattedRequestDate = moment(data.req_date, "YYYY-MM-DD");
 
-//     if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
-//       setCheckOutDateError("Before Request Date not allowed");
-//       return;
-//     }
-
-
-
-//     if (advanceamount) {
-//       // const nonEmptyFields = fields.filter(
-//       //   (field) =>
-//       //     field.reason !== "DueAmount" &&
-//       //     (field.reason?.trim() !== "" || field?.amount.trim() !== "")
-//       // );
+  //     if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
+  //       setCheckOutDateError("Before Request Date not allowed");
+  //       return;
+  //     }
 
 
 
-//  const formattedReasons = fields.map((item) => {
-//       let reason_name = "";
-
-//       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-//         reason_name = item.customReason || item["custom Reason"] || "";
-//       } else {
-//         reason_name = item.reason || item.reason_name || "";
-//       }
-
-//       const error = { reason: "", amount: "" };
-//       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-//         error.amount = "Please enter amount";
-//         hasReasonAmountError = true;
-//       }
+  //     if (advanceamount) {
+  //       // const nonEmptyFields = fields.filter(
+  //       //   (field) =>
+  //       //     field.reason !== "DueAmount" &&
+  //       //     (field.reason?.trim() !== "" || field?.amount.trim() !== "")
+  //       // );
 
 
-//       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-//         error.reason = "Please enter reason";
-//         hasReasonAmountError = true;
-//       }
 
-//       newErrors.push(error);
-//       return {
-//         reason_name,
-//         amount: item.amount || "",
-//         showInput: !!item.showInput
-//       };
-//     });
+  //  const formattedReasons = fields.map((item) => {
+  //       let reason_name = "";
 
-//     setErrors(newErrors)
+  //       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+  //         reason_name = item.customReason || item["custom Reason"] || "";
+  //       } else {
+  //         reason_name = item.reason || item.reason_name || "";
+  //       }
 
-//     if (hasReasonAmountError) return;
+  //       const error = { reason: "", amount: "" };
+  //       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+  //         error.amount = "Please enter amount";
+  //         hasReasonAmountError = true;
+  //       }
 
 
-// console.log("Payload****************", {
-//   checkout_date: formattedDate,
-//   id: selectedCustomer,
-//   hostel_id: data.Hostel_Id,
-//   comments: comments,
-//   advance_return: returnAmount,
-//   reinburse: 1,
-//   reasons: formattedReasons,
-//   payment_id: modeOfPayment,
-// });
-//       dispatch({
-//         type: "ADDCONFIRMCHECKOUTCUSTOMER",
-//         payload: {
-//           checkout_date: formattedDate,
-//           id: selectedCustomer,
-//           hostel_id: data.Hostel_Id,
-//           comments: comments,
-//           advance_return: returnAmount,
-//           reinburse: 1,
-//           reasons: formattedReasons,
-//           payment_id: modeOfPayment,
-//         },
-//       });
-//       setFormCheckoutLoading(true)
-//     }
-//   };
+  //       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+  //         error.reason = "Please enter reason";
+  //         hasReasonAmountError = true;
+  //       }
+
+  //       newErrors.push(error);
+  //       return {
+  //         reason_name,
+  //         amount: item.amount || "",
+  //         showInput: !!item.showInput
+  //       };
+  //     });
+
+  //     setErrors(newErrors)
+
+  //     if (hasReasonAmountError) return;
+
+
+  // console.log("Payload****************", {
+  //   checkout_date: formattedDate,
+  //   id: selectedCustomer,
+  //   hostel_id: data.Hostel_Id,
+  //   comments: comments,
+  //   advance_return: returnAmount,
+  //   reinburse: 1,
+  //   reasons: formattedReasons,
+  //   payment_id: modeOfPayment,
+  // });
+  //       dispatch({
+  //         type: "ADDCONFIRMCHECKOUTCUSTOMER",
+  //         payload: {
+  //           checkout_date: formattedDate,
+  //           id: selectedCustomer,
+  //           hostel_id: data.Hostel_Id,
+  //           comments: comments,
+  //           advance_return: returnAmount,
+  //           reinburse: 1,
+  //           reasons: formattedReasons,
+  //           payment_id: modeOfPayment,
+  //         },
+  //       });
+  //       setFormCheckoutLoading(true)
+  //     }
+  //   };
 
 
 
@@ -859,20 +861,20 @@ const CheckOutForm = ({
   // }, [conformcheckErr]);
 
 
-//  useEffect(() => {
-//   const advance = parseFloat(advanceamount) || 0;
+  //  useEffect(() => {
+  //   const advance = parseFloat(advanceamount) || 0;
 
-//   const totalFieldAmount = fields.reduce((acc, curr) => {
-   
-//     const amt = parseFloat(curr.amount);
-//     return acc + (isNaN(amt) ? 0 : amt);
-//   }, 0);
+  //   const totalFieldAmount = fields.reduce((acc, curr) => {
 
-//   const due = advance - totalFieldAmount;
-//    setReturnAmount(due); 
-// }, [advanceamount, fields, conformEdit]);
+  //     const amt = parseFloat(curr.amount);
+  //     return acc + (isNaN(amt) ? 0 : amt);
+  //   }, 0);
 
-// console.log("fields",fields)
+  //   const due = advance - totalFieldAmount;
+  //    setReturnAmount(due); 
+  // }, [advanceamount, fields, conformEdit]);
+
+  // console.log("fields",fields)
 
 
   // const handleInputChange = (index, field, value) => {
@@ -896,7 +898,7 @@ const CheckOutForm = ({
 
 
 
-  
+
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
@@ -906,6 +908,16 @@ const CheckOutForm = ({
       }, 2000);
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
+
+
+  useEffect(() => {
+  if (state.UsersList.errorMessageAddCheckOut) {
+    setFormLoading(false);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
+    }, 2000);
+  }
+}, [state.UsersList.errorMessageAddCheckOut]);
 
 
   useEffect(() => {
@@ -985,7 +997,8 @@ const CheckOutForm = ({
 
 
 
-// console.log("checkouteditaction",checkouteditaction)
+  // console.log("checkouteditaction",checkouteditaction)
+
 
 
 
@@ -1015,7 +1028,7 @@ const CheckOutForm = ({
                 fontFamily: "Gilroy",
               }}
             >
-               Add Check-Out
+              Add Check-Out
             </Modal.Title>
             <CloseCircle size="24" color="#000" onClick={handlecloseform}
               style={{ cursor: 'pointer' }} />
@@ -1025,60 +1038,60 @@ const CheckOutForm = ({
             <div >
               <div className="d-flex align-items-center">
                 <div className="row row-gap-2">
-                
-                    <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
-                      <div className="form-group">
-                        <label
-                          className="mt-2"
-                          style={{
-                            fontSize: 14,
-                            color: "rgba(75, 75, 75, 1)",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Customer {" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                        </label>
-                        <Select
-                          styles={customStyles}
-                          value={formatOptions().find(
-                            (opt) => opt.value === selectedCustomer
-                          )}
-                          onChange={handleCustomerChange}
-                          options={formatOptions()}
-                          placeholder="Select a customer"
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
 
-
-                        />
-
-                        {customerWError && (
-                          <div className="d-flex align-items-center p-1 mb-2">
-                            <MdError
-                              style={{
-                                color: "red",
-                                marginRight: "5px",
-                                fontSize: "14px",
-                              }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {customerWError}
-                            </label>
-                          </div>
+                  <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
+                    <div className="form-group">
+                      <label
+                        className="mt-2"
+                        style={{
+                          fontSize: 14,
+                          color: "rgba(75, 75, 75, 1)",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Customer {" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      </label>
+                      <Select
+                        styles={customStyles}
+                        value={formatOptions().find(
+                          (opt) => opt.value === selectedCustomer
                         )}
-                      </div>
+                        onChange={handleCustomerChange}
+                        options={formatOptions()}
+                        placeholder="Select a customer"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+
+
+                      />
+
+                      {customerWError && (
+                        <div className="d-flex align-items-center p-1 mb-2">
+                          <MdError
+                            style={{
+                              color: "red",
+                              marginRight: "5px",
+                              fontSize: "14px",
+                            }}
+                          />
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {customerWError}
+                          </label>
+                        </div>
+                      )}
                     </div>
-                 
+                  </div>
+
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2">
@@ -1182,6 +1195,8 @@ const CheckOutForm = ({
                           }}
                           disabledDate={(current) => current && current > dayjs().endOf("day")}
 
+                         
+
                           getPopupContainer={() =>
                             document.body
                           }
@@ -1283,6 +1298,19 @@ const CheckOutForm = ({
                       </div>
                     )}
                   </div>
+                  {state.UsersList.errorMessageAddCheckOut && (
+                    <div className="d-flex align-items-center mb-2">
+                      <MdError style={{
+                        fontSize: "13px",
+                        color: "red",
+                        marginRight: "5px",
+                        marginBottom: "2px",
+                      }} />
+                      <span style={{color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500}}>
+                        {state.UsersList.errorMessageAddCheckOut}
+                      </span>
+                    </div>
+                  )}
 
 
 
@@ -1418,19 +1446,19 @@ const CheckOutForm = ({
                 // if (checkouteditaction) {
                 //   handleCheckOutCustomer();
                 // } else {
-                  handleCheckOutCustomer();
+                handleCheckOutCustomer();
                 // }
               }}
             >
 
-               Add Check-Out
+              Add Check-Out
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>
 
 
-{/* 
+      {/* 
       <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static" dialogClassName="custom-modals-style"
       >
         <Modal.Dialog
