@@ -2128,6 +2128,7 @@ useEffect(() => {
 
 
                                     </div>
+
                             </>
 
 
@@ -2252,7 +2253,7 @@ useEffect(() => {
               <Button variant="" className="me-2" onClick={handleClose}  style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}}>
                 Cancel
               </Button>
-              <Button variant="primary"  style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} onClick={handleConfirmCheckout}>Checkout</Button>
+              <Button variant="primary"   disabled={activeTab !== "writeoff" && ReturnAmount < 0} style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} onClick={handleConfirmCheckout}>Checkout</Button>
             </div>
             </div>
           </div>
