@@ -79,21 +79,15 @@ function SettingNewUser() {
       dispatch({ type: "DELETEUSER", payload: { id: deleteId } });
     }
   };
-
+  
   useEffect(() => {
-    dispatch({
-      type: "GETUSERSTAFF",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }, [state.login.selectedHostel_Id]);
+    dispatch({type: "GETUSERSTAFF"});
+  }, []);
 
   useEffect(() => {
     if (state.InvoiceList?.deleteUserSuccessStatusCode === 200) {
       setIsConfirmDelete(false);
-      dispatch({
-        type: "GETUSERSTAFF",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      dispatch({type: "GETUSERSTAFF"});
       setTimeout(() => {
         dispatch({ type: "REMOVE_DELETE_USER_STATUS_CODE" });
       }, 2000);
@@ -109,6 +103,7 @@ function SettingNewUser() {
 
   useEffect(() => {
     if (state.Settings?.StatusForaddSettingStaffList === 200) {
+      // dispatch({type: "GETUSERSTAFF"});
       setUsersFilterddata(state.Settings?.addSettingStaffList);
       setLoading(false);
       setTimeout(() => {
@@ -501,7 +496,7 @@ const options = [
                     return (
                       <tr key={index} style={{ overflowX: "auto" }}>
                         <td
-                          title={item.first_name}
+                          title={item.firstName}
                           style={{
                             border: "none",
                             padding: "10px",
@@ -525,11 +520,11 @@ const options = [
                               marginTop: 10,
                             }}
                           >
-                            {item.first_name}
+                            {item?.firstName} {""} {item?.lastName}
                           </span>
                         </td>
                         <td
-                          title={item.email_Id}
+                          title={item?.mailId}
                           style={{
                             fontWeight: 500,
                             fontSize: "13px",
@@ -544,13 +539,13 @@ const options = [
                           className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                         >
                           <div className="ps-2">
-                            {item.email_Id}
+                            {item?.mailId}
                           </div>
 
                         </td>
 
                         <td
-                          title={item.mobileNo}
+                          title={item?.mobileNo}
                           style={{
                             paddingTop: 17,
                             border: "none",
@@ -566,17 +561,17 @@ const options = [
                           }}
                           className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                         >
-                          +
+                          + {item?.countryCode}
                           {item &&
-                            String(item.mobileNo)?.slice(
+                            String(item?.mobileNo)?.slice(
                               0,
-                              String(item.mobileNo).length - 10
+                              String(item?.mobileNo).length - 10
                             )}{" "}
-                          {item && String(item.mobileNo)?.slice(-10)}
+                          {item && String(item?.mobileNo)?.slice(-10)}
                         </td>
 
                         <td
-                          title={item.role_name}
+                          title={item?.role_name}
                           style={{
                             fontWeight: 500,
                             fontSize: "13px",
@@ -590,7 +585,7 @@ const options = [
                           }}
                           className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                         >
-                          {item.role_name}
+                          {item?.roleName}
                         </td>
                         <td
                           style={{

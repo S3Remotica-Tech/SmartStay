@@ -35,6 +35,7 @@ export const initialState = {
   StatusForReport: 0,
   settingGeneralPage: [],
   StatusCodeForSettingGeneral: 0,
+  EditStatusCodeForSettingGeneral: 0,
   settingGetGeneralData: [],
   StatusCodeforGetGeneral: 0,
   settingGeneraLPasswordChanges: [],
@@ -354,6 +355,14 @@ const SettingsReducer = (state = initialState, action) => {
 
     case "CLEAR_MOBILE_ERROR":
       return { ...state, generalMobileError: "" };
+
+    case "SETTING_EDIT_GENERAL":
+      return {
+        ...state,
+        EditStatusCodeForSettingGeneral: action.payload.statusCode,
+      };
+    case "CLEAR_SETTING_EDIT_GENERAL":
+      return { ...state, EditStatusCodeForSettingGeneral: 0 };  
 
     case "GET_ALL_GENERAL":
       return {

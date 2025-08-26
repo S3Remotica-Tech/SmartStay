@@ -147,17 +147,40 @@ export async function deleteRolePermission(datum) {
 
 
 // v2
-export async function addStaffUser(datum) {
-  return await AxiosConfigV2.post("/v2/profile/add-user", datum, {
-    data: datum,
+// export async function addStaffUser(datum) {
+//   return await AxiosConfigV2.post("/v2/profile/add-user", datum, {
+//     data: datum,
+//   });
+// }
+
+export async function addStaffUser(hostelId, datum) {
+  console.log("action" , hostelId, datum);
+  
+  return await AxiosConfigV2.post(`/v2/profile/add-user/${hostelId}`, datum, {
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }
 
-export async function GetAllStaff(staff) {
-  return await AxiosConfig.post("/get_all_staffs", staff, {
-    data: staff,
+// v1
+// export async function GetAllStaff(staff) {
+//   return await AxiosConfig.post("/get_all_staffs", staff, {
+//     data: staff,
+//   });
+// }
+
+// v2
+export async function GetAllStaff() {
+ return await AxiosConfigV2.get("/v2/profile/users-list", {
+    headers: {
+      "Content-Type": "application/json",
+     },
   });
 }
+
+
+
 
 export async function GetAllReport() {
   return await AxiosConfig.get("/all_reports", {});
@@ -227,6 +250,100 @@ export async function AddGeneral(params) {
 
     return response;
   
+}
+
+// export async function AddGeneral(params) {
+//   const formData = new FormData();
+
+//   if (params.accountInfo) {
+//     const accountInfoBlob = new Blob(
+//       [JSON.stringify(params.accountInfo)],
+//       { type: "application/json" }
+//     );
+//     formData.append("payload", accountInfoBlob);
+//   }
+
+//   if (params.profilePic) {
+//     formData.append("profilePic", params.profilePic);
+//   }
+
+//   const response = await AxiosConfigV2.post(
+//     "/v2/profile/admin",  
+//     formData,
+//     { headers: { "Content-Type": "multipart/form-data" } }
+//   );
+
+//   return response;
+// }
+
+
+
+// export async function EditGeneral(params) {
+//      const formData = new FormData();
+
+//     const accountInfoBlob = new Blob(
+//   [JSON.stringify(params.payload)],
+//   { type: "application/json" }
+// );
+// formData.append("payload", accountInfoBlob);
+
+//     if (params.profilePic) {
+//       formData.append("profilePic", params.profilePic);
+//     } 
+// const response = await AxiosConfigV2.put(
+//   `/v2/profile/admin/${params.adminId}`,)
+
+//     return response;
+  
+// }
+
+// export async function EditGeneral(params) {
+//   const formData = new FormData();
+
+//    console.log("params" , params);
+   
+//   const accountInfoBlob = new Blob(
+//     [JSON.stringify(params.payload)],
+//     { type: "application/json" }
+//   );
+//   formData.append("payload", accountInfoBlob);
+
+ 
+//   if (params.profilePic) {
+//     formData.append("profilePic", params.profilePic);
+//   }
+
+//   const response = await AxiosConfigV2.put(
+//     `/v2/profile/admin/${params.adminId}`,  
+//     formData,                               
+//     { headers: { "Content-Type": "multipart/form-data" } } 
+//   );
+
+//   return response;
+// }
+
+// Editgeneral v2
+
+export async function EditGeneral(params) {
+  const formData = new FormData();
+
+  const accountInfoBlob = new Blob(
+    [JSON.stringify(params.payload)], 
+    { type: "application/json" }
+  );
+  formData.append("payload", accountInfoBlob);
+
+  if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
+  }
+
+  const response = await AxiosConfigV2.put(
+    `/v2/profile/admin/${params.adminId}`,
+    formData,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  );
+
+  return response;
 }
 
 

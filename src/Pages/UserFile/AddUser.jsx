@@ -35,6 +35,15 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [error, setError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
+    const [hostel_Id, setHostel_Id] = useState("")
+    
+    
+      useEffect(() => {
+        if (state.login.selectedHostel_Id) {
+          setHostel_Id(state.login.selectedHostel_Id);
+        }
+      }, [state?.login?.selectedHostel_Id]);
+
 
   useEffect(() => {
 
@@ -47,16 +56,16 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
   useEffect(() => {
     if (editDetails && edit) {
-      const mobileNo = String(editDetails.mobileNo || "");
-      const countryCode = mobileNo.slice(0, 2);
-      const mobileNumber = mobileNo.slice(2);
+      // const mobileNo = String(editDetails.mobileNo || "");
+      // const countryCode = mobileNo.slice(0, 2);
+      // const mobileNumber = mobileNo.slice(2);
 
       const initial = {
-        name: editDetails.first_name || "",
-        email: editDetails.email_Id || "",
-        mobile: mobileNumber,
-        countryCode: countryCode,
-        role: editDetails.role_id || "",
+        name: editDetails.firstName || "",
+        email: editDetails.mailId || "",
+        mobile: editDetails.mobileNo,
+        countryCode: editDetails.countryCode,
+        role: editDetails.roleName || "",
         description: editDetails.description || "",
       };
 
@@ -274,26 +283,44 @@ const handlePassword = (e) => {
       isValid = false;
     }
 
+    console.log("isvalid" , isValid);
+    
+
+ 
+
+  
+
     if (isValid) {
+       console.log("isvalid" , isValid);
       const MobileNumber = `${mobile}`;
-      const payload = {
-        name: name,
-        mobile: MobileNumber,
-        emailId: email,
-        roleId: role,
-        description: description,
-      };
+      // const payload = {
+      //   name: name,
+      //   mobile: MobileNumber,
+      //   emailId: email,
+      //   roleId: role,
+      //   description: description,
+      // };
 
-      if (editDetails && edit) {
-        payload.id = editDetails.id;
-      } else {
-        payload.password = password;
-      }
+       console.log("isvalid" , mobile , hostel_Id);
+ const data = {
+    name: name,
+    mobile: MobileNumber,
+    emailId: email,
+    roleId: role,
+    description: description,
+    password : password
+  };
 
-      dispatch({
-        type: "ADDSTAFFUSER",
-        payload,
-      });
+
+  //    if (editDetails && edit) {
+  //   data.id = editDetails.id;
+  // } else {
+  //   data.password = password;
+  // }
+
+  
+
+        dispatch({ type: "ADDSTAFFUSER", payload: { hostelId: hostel_Id, data: data}});
       setFormLoading(true)
     }
   };
@@ -306,7 +333,6 @@ const handlePassword = (e) => {
       handleCloseForm();
       dispatch({
         type: "GETUSERSTAFF",
-        payload: { hostel_id: state.login.selectedHostel_Id },
       });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_STAFF_USER" });
@@ -585,7 +611,7 @@ const handlePassword = (e) => {
                       display: "flex",
                       alignItems: "center",
                       margin: 0,
-                      marginTop: "-11px",
+                      marginTop: "11px",
                     }}
                   >
                     <span style={{ fontSize: "13px", marginRight: "5px",marginTop:"2px" }}>

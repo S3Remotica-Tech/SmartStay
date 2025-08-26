@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList , SubscriptionPdfDownload , SettingsAddRecurring , GetBillsFrequncyTypes , GetBillsNotificationTypes , SettingsGetRecurring , AddInvoiceSettings , SettingsGetInvoice , AddBillTemplate ,getTemplateList , AddGlobalSettingTemplate,SettingsGetGlobal} from "../Action/SettingsAction"
+import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral , EditGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList , SubscriptionPdfDownload , SettingsAddRecurring , GetBillsFrequncyTypes , GetBillsNotificationTypes , SettingsGetRecurring , AddInvoiceSettings , SettingsGetInvoice , AddBillTemplate ,getTemplateList , AddGlobalSettingTemplate,SettingsGetGlobal} from "../Action/SettingsAction"
 
 
 import Cookies from 'universal-cookie';
@@ -792,7 +792,8 @@ function* handleDeleteRolePermission(detail) {
 //settingUser
 function* handleAddStaffUserPage(detail) {
    try{
-   const response = yield call (addStaffUser, detail.payload);
+      const { hostelId, data } = detail.payload; 
+    const response = yield call(addStaffUser, hostelId, data);
 
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -842,10 +843,10 @@ function* handleAddStaffUserPage(detail) {
   }
 }
 
-function* handleGetAllStaffs(action) {
-   const response = yield call(GetAllStaff,action.payload)
+function* handleGetAllStaffs() {
+   const response = yield call(GetAllStaff)
    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.data.statusCode}})
+      yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data || [], statusCode:response.status || response.data.statusCode}})
    }
    else {
       yield put({ type: 'ERROR_USER', payload:{statusCode:response.status || response.data.statusCode}  })
@@ -922,6 +923,59 @@ console.log("General response",response)
   }
 }
 
+function* handleEditGeneralPage(action) {
+   try{
+   const response = yield call (EditGeneral, action.payload);
+
+console.log("General response",response)
+
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "auto",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+
+   if (response?.status === 200){
+      yield put ({type : 'SETTING_EDIT_GENERAL' , payload:{response:response, statusCode: response.status}})
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+   }
+  
+   if(response){
+      refreshToken(response)
+   }
+   }
+ catch (error) {
+        if (error.code === 'ERR_BAD_REQUEST') {
+      if (error.response.data.emailStatus !== "") {
+        yield put({ type: 'GENERAL_EMAIL_ERROR', payload: error.response.data.emailStatus });
+      } else if (error.response.data.mobileStatus !== "") {
+        yield put({ type: 'MOBILE_ERROR', payload: error.response.data.mobileStatus });
+      }
+    } else  if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+    }
+  }
+}
 
 function* handleGetAllGeneral() {
 
@@ -1493,6 +1547,7 @@ function* SettingsSaga() {
    yield takeEvery('GETUSERSTAFF',handleGetAllStaffs)
    yield takeEvery('GETUSERREPORT',handleGetAllReports)
    yield takeEvery('ADDGENERALSETTING',handleAddGeneralPage)
+   yield takeEvery('EDITGENERALSETTING',handleEditGeneralPage)
    yield takeEvery('GETALLGENERAL',handleGetAllGeneral)
    yield takeEvery('GENERALPASSWORDCHANGES',handleChangePasswordinStaff)
    yield takeEvery('GENERALDELETEGENERAL',handleDeleteGenerlPage)  
