@@ -41,6 +41,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     const handleCheckboxChange = (rowName, index) => {
         setErrorIsChanged("")
+        setErrorPermission("")
         setCheckboxValues(prev => ({
             ...prev,
             [rowName]: prev[rowName].map((val, i) =>
@@ -51,7 +52,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
 
-   
+
 
     const modules = state.Settings?.getModules || [];
 
@@ -167,7 +168,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
     const handleRoleName = (e) => {
         const value = e.target.value
-               setErrorForm('')
+        setErrorForm('')
         setRoleName(value);
         setErrorIsChanged("")
         setErrorIsChanged("")
@@ -191,7 +192,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
 
-console.log("state",state)
+    console.log("state", state)
 
 
     useEffect(() => {
@@ -229,6 +230,7 @@ console.log("state",state)
 
 
     const handleSubmit = () => {
+        setEditRoleError("")
         dispatch({ type: "CLEAR_ROLE_ERROR" })
         dispatch({ type: "CLEAR_ROLE_EDIT_ERROR" })
         let isValid = true;
@@ -299,12 +301,13 @@ console.log("state",state)
 
             payload = {
                 id: editRoleDetails.id || null,
+                HostelId: state.login.selectedHostel_Id,
                 roleName: roleName,
                 permissionList: formattedPermissionList,
             };
         } else {
             payload = {
-
+                HostelId: state.login.selectedHostel_Id,
                 roleName: roleName,
                 permissionList: formattedPermissionList,
             };
@@ -327,7 +330,7 @@ console.log("state",state)
 
     useEffect(() => {
         if (addRole) {
-                      setRoleName("")
+            setRoleName("")
             setPermissionRole([])
             setCheckboxValues((prevValues) => {
                 const resetValues = {};
@@ -434,7 +437,7 @@ console.log("state",state)
                             </Form.Group>
 
                             {roleError && (
-                                <div className="d-flex align-items-center" style={{ marginTop: "-10px" }}>
+                                <div className="d-flex align-items-center mb-2" style={{ marginTop: "-10px" }}>
                                     <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {roleError}

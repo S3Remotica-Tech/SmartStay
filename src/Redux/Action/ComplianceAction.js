@@ -75,6 +75,8 @@ export async function VendorList(vendor) {
 // v2
 
 export async function addVendor(params) {
+
+  console.log("params",params)
   const formData = new FormData();
 
 
