@@ -110,7 +110,7 @@ useEffect(() => {
       setDateDifference(null);
     }
   };
-console.log("datadata",props.data)
+console.log("props.data",props.data)
 
   const handleCheckOutCustomer = () => {
 
@@ -141,15 +141,15 @@ console.log("datadata",props.data)
       return;
     }
 
-    const userId = props.data?.ID || props.data[0]?.id || null;
+    const userId = props.data?.ID || props.data || null;
     const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
 
-    console.log("UserId:", userId, "HostelId:", props.bedData);
+    console.log("UserId:", props.data?.ID, "HostelId:", props.bedData);
 
 
 
     if (userId && hostelId && formattedDate && formattedrequestDate) {
-      console.log("Dispatching ADDCHECKOUTCUSTOMER now...");
+      console.log("Dispatching ADDCHECKOUTCUSTOMER now...",userId);
 
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER',

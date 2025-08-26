@@ -1445,6 +1445,34 @@ const bookingDateRef = useRef("");
   
   }, [props.BookingAssignForm]); 
 
+useEffect(() => {
+  if (props.BookingAssignForm) {
+    dispatch({
+      type: "BEDNUMBERDETAILS",
+      payload: {
+        hostel_id: props?.EditObj?.Hostel_Id,
+        floor_id: props?.EditObj?.booking_floor_id,
+        room_id: props?.EditObj?.booking_room_id,
+      },
+
+
+    });
+        const Bedfilter = state?.UsersList?.roomdetails?.filter(
+      (u) =>
+        String(u.Hostel_Id) === String(props?.EditObj?.Hostel_Id) &&
+        String(u.Floor_Id) === String(props?.EditObj?.booking_floor_id) &&
+        String(u.Room_Id) === String(props?.EditObj?.booking_room_id)
+    );
+      const Roomamountfilter =
+      Bedfilter?.[0]?.bed_details?.filter(
+        (amount) => String(amount.id) === String(props?.EditObj?.booking_bed_id)
+      ) ?? [];
+
+    if (Roomamountfilter.length > 0) {
+      setRoomRent(Roomamountfilter[0]?.bed_amount);
+    }
+  }
+}, [props.BookingAssignForm,state?.UsersList?.roomdetails]);
 
 
 //  const handleSaveBookingCancel = () => {
@@ -2095,6 +2123,9 @@ const handleSaveBacktoCheckin =()=>{
         
     }
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
+
+
+  
   return (
     <div>
       <Modal
