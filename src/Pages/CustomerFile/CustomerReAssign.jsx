@@ -378,7 +378,7 @@ const [currentFloorId,setCurrentFloorId] = useState("")
   useEffect(() => {
     if (props.reAssignDetail) {
       console.log("props.reAssignDetail",props.reAssignDetail)
-      setCurrentFloor(props.reAssignDetail.floor_name);
+      setCurrentFloor(props.reAssignDetail?.floor_name);
       setCurrentRoom(props.reAssignDetail.Rooms);
       setCurrentBed(props.reAssignDetail.Bed);
       setCurrentRoomRent(props.reAssignDetail.RoomRent);
@@ -1268,6 +1268,8 @@ CustomerReAssign.propTypes = {
     ID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     hstl_Bed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     room_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    floor_name: PropTypes.string,
+    
   }),
 
   reAssignBedDetail: PropTypes.shape({
