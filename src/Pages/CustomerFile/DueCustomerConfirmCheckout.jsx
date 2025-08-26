@@ -6,26 +6,31 @@ import "flatpickr/dist/flatpickr.css";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import Image from "react-bootstrap/Image";
+// import Image from "react-bootstrap/Image";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import { FormControl } from "react-bootstrap";
+// import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { CloseCircle, DocumentDownload } from "iconsax-react";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
+import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-import { FaCheck } from "react-icons/fa";
-
-function DueCustomerConfirmCheckout({ show, handleClose, data }) {
+// import { FaCheck } from "react-icons/fa";
+import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
+import writeOff from "../../Assets/Images/New_images/writeoff.png";
+import writeOffWhite from "../../Assets/Images/New_images/writeoffWhite.png";
+import addcircleblack from "../../Assets/Images/New_images/add-circle-black.png";
+import { Tooltip } from "bootstrap";
+function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
 
 
     const state = useSelector((state) => state);
     console.log("data",data)
     const dispatch = useDispatch();
-    const [checked, setChecked] = useState(false);
+    // const [checked, setChecked] = useState(false);
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
@@ -40,6 +45,11 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
     const [formLoading, setFormLoading] = useState(false)
     const checkOutDateRef = useRef(null);
     const modeOfPaymentRef = useRef(null);
+      const [showBreakdown, setShowBreakdown] = useState(false);
+       const [refundCompleted, setRefundCompleted] = useState(false);
+       const [dataBed,setDataBed] =useState([])
+       const [activeTab, setActiveTab] = useState("record");
+       
 
 
 
@@ -48,12 +58,19 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
             dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
         }
     }, []);
+     useEffect(() => {
+      const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
+      
+      setDataBed(userData)
+    }, [customerID]);
+    console.log("userData", dataBed); 
 
     const reasonOptions = [
         { value: "DueAmount", label: "Due Amount" },
         { value: "maintenance", label: "Maintenance" },
         { value: "others", label: "Others" },
     ];
+    const [invoiceTotal,setInvoieTotal] = useState('')
 
     useEffect(() => {
         if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -70,7 +87,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
                 : 0;
 
-
+console.log("invoiceTotal",invoiceTotal)
             if (Array.isArray(deduction_details) && deduction_details.length > 0) {
                 const formattedFields = deduction_details.map((item) => ({
                     reason_name: item.reason || "",
@@ -85,11 +102,14 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
                     showInput: false,
                 });
 
+
                 setFields(formattedFields);
+              setInvoieTotal(invoiceTotal);
             } else {
                 setFields([
                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
                 ]);
+                setInvoieTotal(invoiceTotal);
             }
 
 
@@ -99,7 +119,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data }) {
         setTimeout(() => {
             dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
         }, 500);
-    }, [state.UsersList.statusCodegetConfirmCheckout, data]);
+    }, [state.UsersList.statusCodegetConfirmCheckout, data,dataBed]);
 
 
     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
@@ -205,10 +225,10 @@ const handleInputChange = (index, field, value) => {
     };
 
 
-    const handleToggle = () => {
-        setChecked((prev) => !prev);
+    // const handleToggle = () => {
+    //     setChecked((prev) => !prev);
 
-    };
+    // };
 
 
 
@@ -225,150 +245,150 @@ const handleInputChange = (index, field, value) => {
 
         }
     }, [state.UsersList.conformChekoutError])
+    const quillRef = useRef(null);
 
-    const handleConfirmCheckout = () => {
-        dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
-        let hasReasonAmountError = false;
-        let newErrors = [];
-        let hasError = false;
-        if (!checkOutDate) {
-            setCheckOutDateError("Please select a checkout Date");
-            checkOutDateRef.current?.focus();
-            hasError = true;
-        }
+useEffect(() => {
+  return () => {
+    if (quillRef.current) {
+      const editor = quillRef.current.getEditor?.();
+      if (editor) {
+        editor.off("selection-change");
+        editor.off("text-change");
+      }
+    }
+  };
+}, []);
 
+   const handleConfirmCheckout = () => {
+  dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
 
+  let hasError = false;
 
-        if (ReturnAmount > 0 && !modeOfPayment) {
-            setModeOfPaymentError("Please Select Mode Of Payment");
-            if (!hasError) {
-                modeOfPaymentRef.current?.focus();
-                hasError = true;
-            }
-        }
+  // --- Date Validation ---
+  if (!checkOutDate) {
+    setCheckOutDateError("Please select a checkout Date");
+    checkOutDateRef.current?.focus();
+    return;
+  }
 
+  // --- Mode of Payment Validation ---
+  if (ReturnAmount > 0 && !modeOfPayment) {
+    setModeOfPaymentError("Please Select Mode Of Payment");
+    if (!hasError) {
+      modeOfPaymentRef.current?.focus();
+      hasError = true;
+    }
+  }
 
+  if (hasError) return;
 
+  const formatDate = (date) =>
+    typeof date === "string" ? date : moment(date).format("YYYY-MM-DD");
 
+  const formattedCheckOutDate = moment(formatDate(checkOutDate), "YYYY-MM-DD");
+  const formattedRequestDate = moment(
+    data.req_date || dataBed[0]?.req_date,
+    "YYYY-MM-DD"
+  );
 
-        if (hasError) {
-            return;
-        }
+  if (formattedCheckOutDate.isBefore(formattedRequestDate, "day")) {
+    setCheckOutDateError("Before Request Date not allowed");
+    return;
+  }
 
-        const formattedCheckOutDate = moment(
-            typeof checkOutDate === 'string'
-                ? checkOutDate
-                : moment(checkOutDate).format("YYYY-MM-DD"),
-            "YYYY-MM-DD"
-        );
+  // --- Validate ID ---
+  const userId = data?.ID || dataBed[0]?.ID;
+  if (!userId) return;
 
+  // --- Reasons Validation ---
+  const { formattedReasons, errors, hasError: reasonError } = fields.reduce(
+    (acc, item) => {
+      let reason_name = "";
 
-        const formattedRequestDate = moment(data.req_date, 'YYYY-MM-DD');
+      if (
+        item.reason?.toLowerCase() === "others" ||
+        item.reason_name?.toLowerCase() === "others"
+      ) {
+        reason_name = item.customReason || item["custom Reason"] || "";
+      } else {
+        reason_name = item.reason || item.reason_name || "";
+      }
 
-        if (formattedCheckOutDate.isBefore(formattedRequestDate, 'day')) {
-            setCheckOutDateError("Before Request Date not allowed");
-            return;
-        }
+      const error = { reason: "", amount: "" };
+      if (reason_name && !item.amount) {
+        error.amount = "Please enter amount";
+        acc.hasError = true;
+      }
+      if (!reason_name && item.amount) {
+        error.reason = "Please enter reason";
+        acc.hasError = true;
+      }
 
+      acc.errors.push(error);
+      acc.formattedReasons.push({
+        reason_name,
+        amount: item.amount?.toString() || "",
+        showInput: !!item.showInput,
+      });
 
+      return acc;
+    },
+    { formattedReasons: [], errors: [], hasError: false }
+  );
 
-        if (data?.ID) {
+  setErrors(errors);
+  if (reasonError) return;
 
+  setCheckOutDateError("");
 
+  const formattedDate = formatDate(checkOutDate);
 
+  // --- Common Payload ---
+  const basePayload = {
+    checkout_date: formattedDate,
+    id: userId,
+    hostel_id: data?.Hostel_Id || dataBed[0]?.Hostel_Id,
+    advance_return: ReturnAmount,
+    reinburse: 1,
+    reasons: formattedReasons,
+  };
 
-            const formattedReasons = fields.map((item) => {
-                let reason_name = "";
+  // --- Dispatch ---
+  if (ReturnAmount >= 0) {
+    dispatch({
+      type: "ADDCONFIRMCHECKOUTCUSTOMER",
+      payload: {
+        ...basePayload,
+        comments,
+        payment_id: modeOfPayment,
+      },
+    });
+  } else {
+    dispatch({
+      type: "CONFIRMCHECKOUTDUECUSTOMER",
+      payload: {
+        ...basePayload,
+        formal_checkout: activeTab === "writeoff",
+        reason_note: rightOffNote,
+        profile: uploadFile,
+      },
+    });
+  }
 
-                if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-                    reason_name = item.customReason || item["custom Reason"] || "";
-                } else {
-                    reason_name = item.reason || item.reason_name || "";
-                }
+  setFormLoading(true);
+};
 
-                const error = { reason: "", amount: "" };
-                if (
-                    reason_name &&
-                    (item.amount === null || item.amount === undefined || item.amount.toString().trim() === "" || isNaN(item.amount))
-                ) {
-                    error.amount = "Please enter amount";
-                    hasReasonAmountError = true;
-                }
-
-
-
-                if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-                    error.reason = "Please enter reason";
-                    hasReasonAmountError = true;
-                }
-
-                newErrors.push(error);
-                return {
-                    reason_name,
-                    amount: item.amount?.toString() || "",
-                    showInput: !!item.showInput
-                };
-            });
-
-            setErrors(newErrors)
-
-            if (hasReasonAmountError) return;
-            const formattedDate = typeof checkOutDate === 'string'
-                ? checkOutDate
-                : moment(checkOutDate).format("YYYY-MM-DD")
-
-            setCheckOutDateError("");
-
-
-
-            if (ReturnAmount >= 0) {
-                if (checkOutDate) {
-                    dispatch({
-                        type: "ADDCONFIRMCHECKOUTCUSTOMER",
-                        payload: {
-                            checkout_date: formattedDate,
-                            id: data?.ID,
-                            hostel_id: data?.Hostel_Id,
-                            comments: comments,
-                            advance_return: ReturnAmount,
-                            reinburse: 1,
-                            reasons: formattedReasons,
-                            payment_id: modeOfPayment,
-                        },
-                    });
-                }
-            } else {
-                dispatch({
-                    type: "CONFIRMCHECKOUTDUECUSTOMER",
-                    payload: {
-                        checkout_date: formattedDate,
-                        id: data?.ID,
-                        hostel_id: data?.Hostel_Id,
-                        advance_return: ReturnAmount,
-                        reinburse: 1,
-                        reasons: formattedReasons,
-                        formal_checkout: checked,
-                        reason_note: rightOffNote,
-                        profile: uploadFile,
-                    },
-                });
-            }
-
-            setFormLoading(true)
-
-        }
-    };
 
 
 
 
 
     useEffect(() => {
-        if (data) {
-            setCheckOutDate(data?.CheckoutDate)
+        if (data || dataBed) {
+            setCheckOutDate(data?.CheckoutDate || dataBed[0]?.CheckoutDate)
         }
 
-    }, [data])
+    }, [data ,dataBed])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -397,10 +417,37 @@ const handleInputChange = (index, field, value) => {
     }, [state.createAccount?.networkError])
 
 
+   useEffect(() => {
+    // Initialize tooltips with white background
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    [...tooltipTriggerList].forEach(
+      (tooltipTriggerEl) =>
+        new Tooltip(tooltipTriggerEl, {
+          customClass: "white-tooltip",
+        })
+    );
+  }, []);
+  useEffect(() => {
+  // Inject custom style once
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .white-tooltip .tooltip-inner {
+      background-color: white !important;
+      color: black !important;
+      border: 1px solid #ddd;
+      font-size: 0.8rem;
+    }
+    .white-tooltip .tooltip-arrow::before {
+      border-top-color: white !important;
+    }
+  `;
+  document.head.appendChild(style);
+}, []);
 
+  
     return (
-        <div>   <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modals-style"
-        >
+        <div>
+               {/* <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modals-style">
             <Modal.Dialog
                 style={{
                     paddingRight: "10px",
@@ -1275,13 +1322,982 @@ const handleInputChange = (index, field, value) => {
 
             </Modal.Dialog>
 
-        </Modal></div>
+        </Modal> */}
+          <Modal show={show} onHide={handleClose} dialogClassName="checkout-modal" size="lg" centered>
+      <Modal.Body className="p-0">
+        <div className="d-flex" style={{ height: "80vh" }}>
+          {/* Left Section */}
+          <div className="p-4 border-end rounded" style={{ flex: "0 0 35%", background: "#f9f9f9" }}>
+          <div className="d-flex align-items-center">
+  {/* Profile Image */}
+  <img
+   src={
+  data?.user_profile && data?.user_profile !== "0"
+    ? data?.user_profile
+    : dataBed[0]?.profile && dataBed[0]?.profile !== "0"
+    ? dataBed[0].profile
+    : Profile2
+}
+    style={{ height: 55, width: 55, cursor: "pointer" }}
+    alt="profile"
+    className="rounded-circle me-3"
+  />
+
+  {/* Name + Badges */}
+
+<div>
+      <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0">{data?.Name || dataBed[0]?.Name}</p>
+  <div className="d-flex mb-2">
+    <span className="badge rounded-pill bg-warning text-dark me-2" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
+      {data.floor_name || dataBed[0]?.floor_name}
+    </span>
+    <span className="badge rounded-pill bg-danger-subtle text-dark" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
+      {data.Rooms || dataBed[0]?.Rooms} - {data.Bed || dataBed[0]?.Bed}
+    </span>
+  </div>
+
+</div>
+
+
+</div>
+
+
+
+            <hr />
+
+            <div className="d-flex justify-content-between mb-3">
+              <span style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Joined Date</span>
+              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>  {new Date(data.joining_Date || dataBed[0]?.joining_Date).toLocaleDateString("en-GB")}
+</span>
+            </div>
+            <div className="d-flex justify-content-between mb-3">
+              <span style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Req Checkout Date</span>
+              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>{new Date(data.req_date || dataBed[0]?.req_date).toLocaleDateString("en-GB")}</span>
+            </div>
+            <div className="d-flex justify-content-between mb-3">
+              <span style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Total Advance Amount</span>
+              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>₹ {data.AdvanceAmount || dataBed[0]?.AdvanceAmount}</span>
+            </div>
+            <div className="d-flex justify-content-between mb-3">
+              <span style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Monthly Rent</span>
+              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>₹ {data.RoomRent || dataBed[0]?.RoomRent}</span>
+            </div>
+
+<div className="mt-2" style={{textAlign:"center"}}>
+     {ReturnAmount < 0 && <span style={{color:"red",fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400 ,textAlign:"center"}}>Pending</span>}
+</div>
+         
+          </div>
+
+          {/* Right Section (Scrollable) */}
+          <div className="container-fluid p-4 overflow-auto">
+            {/* <div className="d-flex justify-content-between align-items-center mb-3">
+  <h5 className="mb-0">Check-out</h5>
+  <CloseCircle
+    size="24"
+    color="#000"
+    onClick={handleClose}
+    style={{ cursor: "pointer" }}
+  />
+</div> */}
+<div 
+ className="d-flex justify-content-between align-items-center"
+ style={{
+    position: "sticky",
+    top: 0,
+    backgroundColor: "#fff",
+    zIndex: 1050,
+    padding: "10px 15px",
+   
+  }}
+>
+  <p className="mb-0" style={{fontSize:"1.5rem",fontFamily:"Gilroy",fontWeight:600}}>Checkout</p>
+  <CloseCircle
+    size="24"
+    color="#000"
+    onClick={handleClose}
+    style={{ cursor: "pointer" }}
+  />
+</div>
+<div style={{ maxHeight: "60vh", overflowY: "auto", padding: "15px" }}>
+
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <Form.Group className="mb-2" controlId="purchaseDate">
+                                    <Form.Label
+                                        style={{
+                                            fontSize: 14,
+                                            color: "#222222",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}
+                                    >
+                                        Check-Out Date{" "}
+                                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                                    </Form.Label>
+
+
+
+                                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
+                                        <DatePicker
+                                            ref={checkOutDateRef}
+                                            style={{
+                                                width: "100%", height: 48, cursor: "pointer",
+                                                backgroundColor: "#FFF",
+                                                color: "#000",
+                                                fontFamily: "Gilroy"
+                                            }}
+                                            format="DD/MM/YYYY"
+                                            placeholder="DD/MM/YYYY"
+                                            value={checkOutDate ? dayjs(checkOutDate) : null}
+                                            onChange={(date) => {
+                                                setCheckOutDate(date ? date.toDate() : null);
+                                                setCheckOutDateError("");
+                                            }}
+                                            getPopupContainer={() => document.body}
+
+                                        />
+                                    </div>
+                                </Form.Group>
+                                {checkoUtDateError && (
+                                    <div
+                                        className="d-flex align-items-center p-1"
+                                        style={{ marginTop: "-6px" }}>
+                                        <MdError
+                                            style={{
+                                                color: "red",
+                                                marginRight: "5px",
+                                                fontSize: "12px",
+                                            }}
+                                        />
+                                        <label
+                                            className="mb-0"
+                                            style={{
+                                                color: "red",
+                                                fontSize: "12px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            {checkoUtDateError}
+                                        </label>
+                                    </div>
+                                )}
+                            </div>
+
+           <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 ">
+                                <div style={{ display: "flex", flexDirection: "row" }}>
+                                    <label
+                                        htmlFor="Advance"
+                                        style={{
+                                            fontSize: 14,
+                                            color: "rgba(75, 75, 75, 1)",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}
+                                    >
+                                        Rental Balance
+                                    </label>
+
+
+                                </div>
+
+                                <input
+                                    type="text"
+                                    name="Advance"
+                                    id="Advance"
+
+                                    value={data.RoomRent || dataBed[0]?.RoomRent}
+                                    className="form-control mt-2"
+                                    placeholder="Add Advance Amount"
+                                    required
+                                    style={{
+                                        height: "50px",
+                                        borderRadius: "8px",
+                                        fontSize: 16,
+                                        color: "#4b4b4b",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 600,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                    }}
+                                />
+                            </div>
+
+            <div className="p-3  rounded mt-3" style={{backgroundColor:"#E7F1FF",borderRadius:10}}>
+           
+            
+                <div className="d-flex justify-content-between align-items-center p-2">
+                                        <div>
+                                              <p style={{fontFamily:"Gilroy",fontWeight:600,fontSize:"1rem"}}>Deductions</p>
+                                        </div>
+                                        <div>
+                                            <Button
+                                                onClick={handleAddField}
+                                                style={{
+                                                    fontFamily: "Gilroy",
+                                                    fontSize: "14px",
+                                                    backgroundColor: "#1E45E1",
+                                                    color: "white",
+                                                    fontWeight: 600,
+                                                    borderRadius: "10px",
+                                                    padding: "6px 15px",
+                                                    marginBottom: "10px",
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: "6px",
+                                                }}
+                                            >
+                                                <img
+                                                    src={addcircle}
+                                                    alt="Assign Bed"
+                                                    style={{
+                                                        height: 16,
+                                                        width: 16,
+                                                        filter: "brightness(0) invert(1)",
+                                                    }}
+                                                />
+                                                Add
+                                            </Button>
+
+                                        </div>
+                                    </div>
+
+
+                                    {fields.map((item, index) => {
+                                        const filteredOptions = (() => {
+                                            let options = [...reasonOptions];
+
+
+                                            if (item.reason_name && !options.some(opt => opt.value === item.reason_name)) {
+                                                options.push({
+                                                    value: item.reason_name,
+                                                    label: item.reason_name.charAt(0).toUpperCase() + item.reason_name.slice(1)
+                                                });
+                                            }
+
+
+                                            const isMaintenanceSelected = fields.some(field => field.reason === "maintenance");
+                                            return options.map(opt => ({
+                                                ...opt,
+                                                isDisabled: opt.value === "maintenance" && isMaintenanceSelected && item.reason !== "maintenance"
+                                            }));
+                                        })();
+
+
+                                        return (
+                                            <div className="row px-4 mb-3" key={index}>
+                                                <div className="col-md-6">
+
+
+                                                    {!item.showInput ? (
+                                                        <Select
+                                                            options={filteredOptions}
+                                                            value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                                                            onChange={(selectedOption) => {
+                                                                const selectedValue = selectedOption.value;
+
+                                                                if (selectedValue === "others") {
+                                                                    handleInputChange(index, "reason_name", "others");
+                                                                } else {
+                                                                    handleInputChange(index, "reason_name", selectedValue);
+                                                                }
+                                                            }}
+                                                            isDisabled={item.reason_name === "maintenance" || item?.reason_name === "DueAmount"}
+                                                            menuPlacement="auto"
+                                                            styles={{
+                                                                control: (base) => ({
+                                                                    ...base,
+                                                                    height: "50px",
+                                                                    border: "1px solid #D9D9D9",
+                                                                    borderRadius: "8px",
+                                                                    fontSize: "16px",
+                                                                    color: "#4B4B4B",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    boxShadow: "none",
+                                                                }),
+                                                                menu: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: "#f8f9fa",
+                                                                    border: "1px solid #ced4da",
+                                                                    fontFamily: "Gilroy",
+                                                                }),
+                                                                menuList: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: "#f8f9fa",
+                                                                    maxHeight: "120px",
+                                                                    padding: 0,
+                                                                    scrollbarWidth: "thin",
+                                                                    overflowY: "auto",
+                                                                    fontFamily: "Gilroy",
+                                                                }),
+                                                                placeholder: (base) => ({
+                                                                    ...base,
+                                                                    color: "#555",
+                                                                }),
+                                                                dropdownIndicator: (base) => ({
+                                                                    ...base,
+                                                                    color: "#555",
+                                                                    display: "inline-block",
+                                                                    fill: "currentColor",
+                                                                    lineHeight: 1,
+                                                                    stroke: "currentColor",
+                                                                    strokeWidth: 0,
+                                                                    cursor: "pointer",
+                                                                }),
+                                                                indicatorSeparator: () => ({
+                                                                    display: "none",
+                                                                }),
+                                                                option: (base, state) => ({
+                                                                    ...base,
+                                                                    cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                                                    backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                                                    color: state.isDisabled ? "#aaa" : "#000",
+                                                                }),
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+
+                                                                placeholder="Enter custom reason"
+                                                                value={item.customReason}
+                                                                onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                                                                style={{
+                                                                    fontSize: 16,
+                                                                    color: "#4B4B4B",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    boxShadow: "none",
+                                                                    border: "1px solid #D9D9D9",
+                                                                    height: 50,
+                                                                    borderRadius: 8,
+                                                                }}
+                                                            />
+                                                        </>
+                                                    )}
+                                                    {errors[index]?.reason && (
+                                                        <div className="d-flex align-items-center mt-1">
+                                                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                                            <label
+                                                                className="mb-0"
+                                                                style={{
+                                                                    color: "red",
+                                                                    fontSize: "12px",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                }}
+                                                            >
+                                                                {errors[index]?.reason}
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+
+                                                <div className="col-md-5">
+
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Enter amount"
+                                                        value={item.amount}
+                                                        onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                                                        className="form-control"
+                                                        style={{
+                                                            fontSize: 16,
+                                                            color: "#4B4B4B",
+                                                            fontFamily: "Gilroy",
+                                                            fontWeight: 500,
+                                                            boxShadow: "none",
+                                                            border: "1px solid #D9D9D9",
+                                                            height: 50,
+                                                            borderRadius: 8,
+                                                        }}
+
+                                                    />
+                                                    {errors[index]?.amount && (
+                                                        <div className="d-flex align-items-center mt-1">
+                                                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                                                            <label
+                                                                className="mb-0"
+                                                                style={{
+                                                                    color: "red",
+                                                                    fontSize: "12px",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                }}
+                                                            >
+                                                                {errors[index]?.amount}
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+
+                                                <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+
+                                                  
+                                                        <Trash
+                                                            size="20"
+                                                            color="red"
+                                                            variant="Bold"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() => handleRemoveField(index)}
+                                                        />
+                                                   
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+            </div>
+
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <p style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Total Refund</p>
+              <span
+          style={{ color: "blue", cursor: "pointer",fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400 }}
+          onClick={() => setShowBreakdown(!showBreakdown)}
+        >
+          {/* {showBreakdown ? "Hide Breakdown" : "View Breakdown"} */}
+          View Breakdown <img
+    src={arrowTot}
+    alt="arrow"
+    style={{
+      transition: "transform 0.3s ease",
+      transform: showBreakdown ? "rotate(180deg)" : "rotate(0deg)",
+    }}
+  />
+        </span>
+            </div>
+
+
+                   {showBreakdown && (
+        <div className="p-3  rounded mb-3">
+            <div className="d-flex justify-content-between">
+          <p style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:600}}>Total Paid by Tenant</p>
+            <p style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:600}}>₹ 18000</p>
+          </div>
+          <div className="d-flex justify-content-between">
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Security Deposit Amount</p>
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>₹ {data.AdvanceAmount || dataBed[0]?.AdvanceAmount}</p>
+          </div>
+          <div className="d-flex justify-content-between mb-3">
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Rental Amount</p>
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>₹ {data.RoomRent || dataBed[0]?.RoomRent}</p>
+          </div>
+
+          <p style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:600}}>Deductions</p>
+          <div className="d-flex justify-content-between">
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Stayed Days (14 days * ₹200)</p>
+            <p style={{ color: "red",fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400 }}>- ₹ 2,800</p>
+          </div>
+          <div className="d-flex justify-content-between mb-3">
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Due amount</p>
+            <p style={{ color: "red",fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400 }}>{invoiceTotal}</p>
+          </div>
+
+          <p style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:600}}>Refundable Amount</p>
+          <div className="d-flex justify-content-between">
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Remaining Rent Refund</p>
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>₹ 4,000</p>
+          </div>
+          <div className="d-flex justify-content-between">
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Security Deposit Refund</p>
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>₹ 8,000</p>
+          </div>
+        </div>
+      )}
+
+             <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 ">
+                              
+
+                                <input
+                                    type="text"
+                                    name="Advance"
+                                    id="Advance"
+
+                                  value={ReturnAmount}
+                                    className="form-control mt-2"
+                                    placeholder="Add Advance Amount"
+                                    required
+                                    style={{
+                                        height: "50px",
+                                        borderRadius: "8px",
+                                        fontSize: 16,
+                                        color: "#4b4b4b",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 600,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                    }}
+                                />
+                            </div>
+ {ReturnAmount < 0 && (
+    <>
+ <div className="d-flex justify-content-between align-items-center mb-3">
+
+  <label className="form-label mb-0"style={{fontSize:"0.875rem",fontWeight:400,fontFamily:"Gilroy"}} >Choose Method to checkout</label>
+
+ 
+  <ul className="nav nav-pills mb-0 mt-2" id="checkoutTab" role="tablist" >
+  <li className="nav-item" role="presentation">
+    <button
+      className={`nav-link ${activeTab === "record" ? "active" : ""}`}
+      id="record-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#record"
+      type="button"
+      role="tab"
+      onClick={() => setActiveTab("record")}
+       style={{ color: activeTab === "record" ? "white" : "black",fontSize:"0.875rem",fontWeight:400,fontFamily:"Gilroy",padding:5}}
+    >
+      <img
+        src={activeTab === "record" ? whiteaddcircle : addcircleblack}
+        alt="addcircle"
+        style={{ marginRight: "5px", }}
+      />
+      Record
+    </button>
+  </li>
+
+  <li className="nav-item" role="presentation">
+    {/* <button
+      className={`nav-link ${activeTab === "writeoff" ? "active" : ""}`}
+      id="writeoff-tab"
+      data-bs-toggle="pill"
+      data-bs-target="#writeoff"
+      type="button"
+      role="tab"
+      onClick={() => setActiveTab("writeoff")}
+      style={{ color: activeTab === "writeoff" ? "white" : "black",fontSize:"0.875rem",fontWeight:400,fontFamily:"Gilroy",padding:5}}
+
+        data-bs-toggle="tooltip"
+  data-bs-placement="top"
+  title="Use this when tenant has absconded and all pending dues must be written off."
+    >
+    <img
+        src={activeTab === "writeoff" ? writeOffWhite : writeOff}
+        alt="addcircle"
+        style={{ marginRight: "5px" }}
+      />   Write off
+    </button> */}
+    {/* <button
+  className={`nav-link ${activeTab === "writeoff" ? "active" : ""}`}
+  id="writeoff-tab"
+ data-bs-toggle="tooltip"
+  data-bs-placement="top"
+  data-bs-custom-class="custom-tooltip"
+  data-bs-target="#writeoff"
+  type="button"
+  title="Use this when tenant has absconded and all pending dues must be written off."
+  role="tab"
+  onClick={() => setActiveTab("writeoff")}
+  style={{
+    color: activeTab === "writeoff" ? "white" : "black",
+    fontSize: "0.875rem",
+    fontWeight: 400,
+    fontFamily: "Gilroy",
+    padding: 5,
+  }}
+
+>
+  <img
+    src={activeTab === "writeoff" ? writeOffWhite : writeOff}
+    alt="writeoff"
+    style={{ marginRight: "5px" }}
+  />{" "}
+  Write off
+</button> */}
+  <button
+      className={`nav-link ${activeTab === "writeoff" ? "active" : ""}`}
+      id="writeoff-tab"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+    //   overlayClassName="custom-tooltip"
+      title="Use this when tenant has absconded and all pending dues must be written off."
+      data-bs-target="#writeoff"
+      type="button"
+      role="tab"
+      onClick={() => setActiveTab("writeoff")}
+      style={{
+        color: activeTab === "writeoff" ? "white" : "black",
+        fontSize: "0.875rem",
+        fontWeight: 400,
+        fontFamily: "Gilroy",
+        padding: 5,
+      }}
+    >
+      <img
+        src={activeTab === "writeoff" ? writeOffWhite : writeOff}
+        alt="writeoff"
+        style={{ marginRight: "5px" }}
+      />
+      Write off
+    </button>
+
+  </li>
+</ul>
+
+</div>
+{activeTab === "record" && (
+ <div className="col-lg-12 col-md-12 col-sm-12 colxs-12 ">
+                                <div style={{ display: "flex", flexDirection: "row" }}>
+                                    <label
+                                        htmlFor="Advance"
+                                        style={{
+                                            fontSize: 14,
+                                            color: "rgba(75, 75, 75, 1)",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                        }}
+                                    >
+                                        Paid Amount
+                                    </label>
+
+
+                                </div>
+
+                                <input
+                                    type="text"
+                                    name="Advance"
+                                    id="Advance"
+
+                                    // value={data.RoomRent || dataBed[0]?.RoomRent}
+                                    className="form-control mt-2"
+                                    placeholder="Enter Paid Amount"
+                                    required
+                                    style={{
+                                        height: "50px",
+                                        borderRadius: "8px",
+                                        fontSize: "1rem",
+                                        
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 600,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                    }}
+                                />
+                            </div>
+)}
+
+
+
+
+  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        {activeTab === "writeoff" && (
+                                            <div className="">
+                                                <label
+                                                    style={{
+                                                        fontSize: 14,
+                                                        color: "#222222",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 500,
+                                                        marginBottom: 5,
+                                                    }}
+                                                >
+                                                    Reason/Right-off Note
+                                                </label>
+                                                <textarea
+                                                    rows={3}
+                                                    placeholder="Enter reason here..."
+                                                    className="form-control mb-3"
+                                                    style={{
+                                                        fontFamily: "Gilroy",
+                                                        fontSize: 14,
+                                                        borderRadius: 10,
+                                                        border: "1px solid #D9D9D9",
+                                                        resize: "none",
+                                                    }}
+                                                    value={rightOffNote}
+                                                    onChange={(e) => setRightOffNote(e.target.value)}
+                                                />
+
+
+
+                                                <label
+                                                    style={{
+                                                        fontSize: 14,
+                                                        color: "#222222",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 500,
+                                                        marginBottom: 5,
+                                                    }}
+                                                >
+                                                    Attachments/Proofs (If any)
+                                                </label>
+
+                                                <div className="row ms-1 me-1">
+
+                                                    <div className="col-md-12" style={{
+                                                        border: "1px dashed #D9D9D9",
+                                                        padding: 20,
+                                                        borderRadius: 10,
+                                                        textAlign: "center",
+                                                        backgroundColor: "#FAFAFA",
+                                                    }}>
+                                                        <div className="row">
+
+                                                            <div className="col-md-6 d-flex align-items-center justify-content-center">
+                                                                {uploadFile ? (
+                                                                    uploadFile.type.startsWith("image/") ? (
+                                                                        <img
+                                                                            src={URL.createObjectURL(uploadFile)}
+                                                                            alt="Preview"
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                maxWidth: "200px",
+                                                                                height: "auto",
+                                                                                borderRadius: 8,
+                                                                            }}
+                                                                        />
+                                                                    ) : (
+                                                                        <div
+                                                                            style={{
+                                                                                fontSize: 14,
+                                                                                fontFamily: "Gilroy",
+                                                                                color: "#333",
+                                                                                fontWeight: 500,
+                                                                                gap: 4,
+                                                                            }}
+                                                                        >
+                                                                            <DocumentDownload size="24" color="#1E45E1" /> {uploadFile.name}
+                                                                        </div>
+                                                                    )
+                                                                ) : (
+                                                                    <div
+                                                                        className="text-center"
+                                                                        style={{
+                                                                            backgroundColor: "#1E45E10D",
+                                                                            borderRadius: 6,
+                                                                            display: "flex",
+                                                                            alignItems: "center",
+                                                                            justifyContent: "center",
+                                                                        }}
+                                                                    >
+                                                                        <div>
+                                                                            <div
+                                                                                style={{
+                                                                                    backgroundColor: "#EAF0FF",
+                                                                                    borderRadius: "50%",
+                                                                                    padding: 10,
+                                                                                    display: "flex",
+                                                                                    alignItems: "center",
+                                                                                    justifyContent: "center",
+                                                                                    margin: "0 auto",
+                                                                                }}
+                                                                            >
+                                                                                <DocumentDownload size="24" color="#1E45E1" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
+
+                                                            <div className="col-md-6 d-flex align-items-center justify-content-center" >
+                                                                <div >
+                                                                    <label
+                                                                        htmlFor="upload"
+                                                                        style={{
+                                                                            cursor: "pointer",
+                                                                            fontFamily: "Gilroy",
+                                                                            color: "#1E45E1",
+                                                                            fontWeight: 600,
+                                                                        }}
+                                                                    >
+                                                                        Choose file
+                                                                    </label>{" "}  <span style={{ color: "#16151C", fontFamily: "Gilroy", }}>to Upload</span>
+
+                                                                    <div style={{ fontSize: 12, color: "#A0A0A0", fontFamily: "Gilroy" }}>
+                                                                        <span style={{ fontWeight: 500 }}>JPG PNG PDF Format</span> <span style={{ fontWeight: 300 }}>(600px*300px)</span>
+                                                                    </div>
+                                                                    <input type="file" id="upload" hidden onChange={handleFileChange} />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                        )}
+
+
+                                    </div>
+
+                            </>
+
+
+)}
+
+
+
+          <Form.Check
+        type="checkbox"
+        style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400,color:"#1E45E1"}}
+        label="Mark refund as Completed"
+        className="mb-3"
+        checked={refundCompleted}
+        onChange={(e) => setRefundCompleted(e.target.checked)}
+      />
+            {refundCompleted && (
+        <div className="  rounded">
+          {/* Refund Mode */}
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <Form.Group
+                                        className="mb-1"
+                                        controlId="exampleForm.ControlInput1"
+                                         value={modeOfPayment}
+                                           disabled={ReturnAmount === 0}
+                                            onChange={handleModeOfPaymentChange}
+                                    >
+                                        <Form.Label
+                                            style={{
+                                                fontSize: 14,
+                                                color: "#222222",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            Mode of Transaction{" "}
+                                            <span
+                                                style={{
+                                                    color: "#FF0000",
+                                                    display: modeOfPayment ? "none" : "inline-block",
+                                                }}
+                                            >
+                                                *
+                                            </span>
+                                        </Form.Label>
+                                        <Form.Select
+                                            ref={modeOfPaymentRef}
+                                            aria-label="Default select example"
+                                            value={modeOfPayment}
+                                            disabled={ReturnAmount === 0}
+                                            onChange={handleModeOfPaymentChange}
+                                            className=""
+                                            id="vendor-select"
+                                            style={{
+                                                fontSize: 16,
+                                                color: "rgba(75, 75, 75, 1)",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: modeOfPayment ? 600 : 500,
+                                                cursor: "pointer"
+                                            }}
+                                        >
+
+                                            <option value="">Select Mode Of Payment</option>
+                                            {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
+                                                state.bankingDetails?.bankingList?.banks.map((item) => {
+                                                    let label = "";
+                                                    if (item.type === "bank") label = 'Bank';
+                                                    else if (item.type === "upi") label = "UPI";
+                                                    else if (item.type === "card") label = "Card";
+                                                    else if (item.type === "cash") label = "Cash";
+
+                                                    return (
+                                                        <option key={item.id} value={item.id}>
+                                                            {`${item.benificiary_name} - ${label}`}
+                                                        </option>
+                                                    );
+                                                })}
+
+                                        </Form.Select>
+
+
+                                    </Form.Group>
+                                    {modeOfPaymentError && (
+                                        <div
+                                            className="d-flex justify-content-start align-items-start"
+                                            style={{ color: "red", marginTop: 5, }}
+                                        >
+                                            <MdError style={{ fontSize: "14px", marginRight: "6px", marginTop: "1px" }} />
+                                            <span
+                                                style={{
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                }}
+                                            >
+                                                {modeOfPaymentError}
+                                            </span>
+                                        </div>
+                                    )}
+                                    </div>
+
+          {/* Transaction ID */}
+          <Form.Group className="mb-3">
+            <Form.Label  style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Transaction ID</Form.Label>
+            <Form.Control style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}} type="text" placeholder="Enter Transaction ID" />
+          </Form.Group>
+
+          {/* Comments */}
+          <Form.Group className="mb-3">
+            <Form.Label  style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Comments</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={2}
+              value={comments}
+              onChange={handleCommentsChange}
+              placeholder="Enter comments"
+              style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}
+            />
+          </Form.Group>
+        </div>
+      )}
+
+
+            <div className="text-end">
+              <Button variant="" className="me-2" onClick={handleClose}  style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}}>
+                Cancel
+              </Button>
+              <Button variant="primary"   disabled={activeTab !== "writeoff" && ReturnAmount < 0} style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} onClick={handleConfirmCheckout}>Checkout</Button>
+            </div>
+            </div>
+          </div>
+        </div>
+      </Modal.Body>
+         {formLoading &&
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
+                        }}
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>}
+
+      
+    </Modal>
+        </div>
     )
 }
 DueCustomerConfirmCheckout.propTypes = {
     show: PropTypes.func.isRequired,
     handleClose: PropTypes.func.isRequired,
     data: PropTypes.func.isRequired,
+    customerID: PropTypes.func.isRequired,
 
 
 };

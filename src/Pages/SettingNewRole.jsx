@@ -30,7 +30,9 @@ function SettingNewRole({ hostelid }) {
 
   const [loading, setLoading] = useState(true)
 
-
+useEffect(() => {
+        dispatch({ type: 'GETMODULES' })
+    }, [])
 
 
   const [showPopup, setShowPopup] = useState(false);

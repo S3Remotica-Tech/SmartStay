@@ -118,8 +118,10 @@ const isAdmin = userType === "admin" || userType === "agent";
  
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     setLoading(true)
     dispatch({ type: 'VENDORLIST', payload: { hostelId  : state.login.selectedHostel_Id } })
+    }
 
   }, [state.login.selectedHostel_Id])
 
@@ -148,7 +150,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
   useEffect(() => {
-    if (state.ComplianceList.addVendorSuccessStatusCode === 201 || state.ComplianceList.deleteVendorStatusCode === 200 || state.ComplianceList.updateVendorSuccessStatusCode === 201) {
+    if (state.ComplianceList.addVendorSuccessStatusCode === 201 || state.ComplianceList.deleteVendorStatusCode === 200 || state.ComplianceList.updateVendorSuccessStatusCode === 200) {
       setShow(false);
       setShowDeleteVendor(false)
       setTimeout(() => {
@@ -157,14 +159,11 @@ const isAdmin = userType === "admin" || userType === "agent";
       }, 100)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_VENDOR_STATUS_CODE' })
-      }, 5000)
-
-      setTimeout(() => {
+        dispatch({ type: 'CLEAR_UPDATE_VENDOR_STATUS_CODE'})
         dispatch({ type: 'CLEAR_DELETE_VENDOR_STATUS_CODE' })
       }, 5000)
 
-
-    }
+        }
 
 
   }, [state.ComplianceList.addVendorSuccessStatusCode, state.ComplianceList.deleteVendorStatusCode, state.ComplianceList.updateVendorSuccessStatusCode ])

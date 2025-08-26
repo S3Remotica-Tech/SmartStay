@@ -144,6 +144,94 @@ data: hostel
   } )
 }
 
+
+// v2  check in api 
+
+
+export async function CheckIn(params) {
+  
+  const formData = new FormData();
+
+  if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
+  }
+
+
+  if (params.payLoads) {
+    const payLoadsBlob = new Blob(
+      [JSON.stringify(params.customerInfo)],
+      { type: "application/json" }
+    );
+    formData.append("payLoads", payLoadsBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.post(
+      `/v2/customers/check-in`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+        
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
+
+
+ 
+// v2  save-info
+
+
+
+export async function customerSaveInfo(params) {
+  
+ 
+  const formData = new FormData();
+
+  if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
+  }
+
+
+  if (params.payloads) {
+    const payloadBlob = new Blob(
+      [JSON.stringify(params.payloads)],
+      { type: "application/json" }
+    );
+    formData.append("payloads",payloadBlob);
+  }
+
+  try {
+    const response = await AxiosConfigV2.post(
+      `/v2/customers/save/${params.hostelId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 100000000,
+        
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}
+
+
+
+
+
+
 export async function roomsCount(floorAndHostelID) {
   return await AxiosConfig.post('/list/numberOf-Rooms', floorAndHostelID, {
     data: floorAndHostelID

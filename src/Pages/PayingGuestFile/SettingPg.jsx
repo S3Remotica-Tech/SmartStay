@@ -366,7 +366,7 @@ useEffect(() => {
   // }, [state.PgList?.noRoomsInFloorStatusCode])
 
   useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201) {
+    if (state.UsersList?.statusCodeForAddUser === 201 ) {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
        dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       dispatch({ type: 'HOSTELLIST' })

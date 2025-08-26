@@ -348,7 +348,11 @@ export async function EditGeneral(params) {
 
 
 
+// v2
 
+export async function getModules() {
+  return await AxiosConfigV2.get(`/v2/role/modules`);
+}
 
 
 // v1

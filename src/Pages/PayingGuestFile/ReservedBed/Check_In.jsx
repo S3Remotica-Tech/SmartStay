@@ -482,7 +482,7 @@ function CheckIn({
 
 
     useEffect(() => {
-        if (state.UsersList?.statusCodeForAddUser === 201) {
+        if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
             setFormLoading(false)
             dispatch({
                 type: "USERLIST",
@@ -490,7 +490,7 @@ function CheckIn({
             });
             handleClose();
         }
-    }, [state.UsersList?.statusCodeForAddUser]);
+    }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
 
 

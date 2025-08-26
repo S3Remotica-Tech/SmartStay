@@ -107,7 +107,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
   const countryList = [
-    { value: "1", label: "India" },
+    { value: 1, label: "India" },
   ];
 
   // const handleCountryChange = (e) => {
@@ -212,19 +212,11 @@ function AddVendor({ show, setShow, currentItem }) {
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
+    console.log("fileImage",fileImage)
+
     if (fileImage) {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-      };
-      try {
-        const compressedFile = await imageCompression(fileImage, options);
-        setFile(compressedFile);
-      } catch (error) {
-        console.error("Image compression error:", error);
-      }
-    }
+       setFile(fileImage);
+         }
   };
 
   const handleFirstNameChange = (e) => {
@@ -450,6 +442,8 @@ function AddVendor({ show, setShow, currentItem }) {
       return val === "null" || val === "undefined" ? "" : val;
     };
 
+
+    
     const isChanged =
       first_Name.trim() !== (initialState.first_Name || "").trim() ||
       last_Name.trim() !== (initialState.last_Name || "").trim() ||
@@ -458,7 +452,7 @@ function AddVendor({ show, setShow, currentItem }) {
       business_Name.trim() !== (initialState.business_Name || "").trim() ||
       file !== initialState.file ||
       countryCode !== (initialState.countryCode || "") ||
-      country.trim() !== (initialState.country || "").trim() ||
+      country !== (initialState.country || "") ||
       String(pinCode).trim() !== String(initialState.pinCode || "").trim() ||
       normalize(house_no) !== normalize(initialState.house_no) ||
       normalize(street) !== normalize(initialState.street) ||
@@ -534,6 +528,9 @@ function AddVendor({ show, setShow, currentItem }) {
   };
 
 
+  console.log("file",file)
+
+
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 201 || state.ComplianceList.updateVendorSuccessStatusCode === 201) {
       setFormLoading(false)
@@ -597,15 +594,13 @@ function AddVendor({ show, setShow, currentItem }) {
       setLast_Name(currentItem.lastName);
       setVendor_Mobile(mobileNumber);
       setCountryCode(countryCode);
-      // setAddress(currentItem?.houseNo);
-
+     
       setEmail_Id(normalizedEmail);
 
       setBusiness_Name(currentItem.businessName);
-      // setId(currentItem.id);
-
+ 
       setFile(currentItem.profilePic ? currentItem.profilePic : null);
-      setCountry(currentItem.country);
+      setCountry(currentItem.countryId);
       setPinCode(currentItem.pinCode);
 
       setHouseNo(sanitize(currentItem.houseNo))
@@ -614,24 +609,25 @@ function AddVendor({ show, setShow, currentItem }) {
       setCity(currentItem.city)
       setStateName(currentItem.state)
 
-      setInitialState({
-        first_Name: currentItem.firstName,
-        last_Name: currentItem.lastName,
-        vendor_Mobile: mobileNumber,
-        countryCode: countryCode,
+     setInitialState({
+  first_Name: currentItem.firstName || "",
+  last_Name: currentItem.lastName || "",
+  vendor_Mobile: mobileNumber || "",
+  countryCode: countryCode || "",
 
-        house_no: sanitize(currentItem.houseNo) || '',
-        street: sanitize(currentItem.area) || '',
-        city: sanitize(currentItem.city) || '',
+  house_no: sanitize(currentItem.houseNo),
+  street: sanitize(currentItem.area),
+  city: sanitize(currentItem.city),
+  landmark: sanitize(currentItem.landMark),
+  state: sanitize(currentItem.state),
 
-        landmark: sanitize(currentItem.landMark) || '',
-        state: currentItem.state || '',
-        email_Id: normalizedEmail,
-        business_Name: currentItem.businessName,
-        file: currentItem.profilePic ? currentItem.profilePic : null,
-        country: currentItem.country,
-        pinCode: currentItem.pincode,
-      });
+  email_Id: normalizedEmail,
+  business_Name: sanitize(currentItem.businessName),
+
+  file: currentItem.profilePic ? currentItem.profilePic : null,
+  country: currentItem.countryId || "",   
+  pinCode: currentItem.pinCode || "",     
+});
     }
   }, [currentItem]);
 
@@ -1452,29 +1448,12 @@ function AddVendor({ show, setShow, currentItem }) {
                     Country {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  {/* <Form.Control
-                    value={country}
-                    ref={countryRef}
-                    onChange={(e) => handleCountryChange(e)}
-                    type="text"
-                    placeholder="Enter Country"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: address ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                  /> */}
-
+                
                   <Select
                     options={countryList}
                     ref={countryRef}
                     onChange={(selectedOption) => {
-                      setCountry(selectedOption?.label);
+                      setCountry(selectedOption?.value);
                       setGeneralError("");
                       setIsChangedError("");
                       setCountryError("");

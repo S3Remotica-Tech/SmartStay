@@ -390,11 +390,11 @@ function AddCustomer({  show, handleClose   }) {
   
   
     useEffect(() => {
-      if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.phoneError === 202) {
+      if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.phoneError === 202 ||  state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
         setFormLoading(false)
         handleClose(); 
       }
-    }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.phoneError]);
+    }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.phoneError,  state.UsersList?.statusCodeForAddCustomerSaveInfo ]);
   
 
   
