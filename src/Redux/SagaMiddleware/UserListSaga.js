@@ -445,8 +445,8 @@ function* handleCustomerSaveInfo(datum) {
    }
    catch (error) {
       if (error.code === 'ERR_BAD_REQUEST') {
-         if (error.response.data.emailStatus !== "") {
-            yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus });
+         if (error.response.data.emailStatus !== "" || error.status === 400) {
+            yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus || error.response.data });
          } else if (error.response.data.mobileStatus !== "") {
             yield put({ type: 'PHONE_ERROR', payload: error.response.data.mobileStatus });
          }

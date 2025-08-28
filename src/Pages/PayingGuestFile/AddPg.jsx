@@ -463,12 +463,7 @@ console.log("file",file)
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 201) {
-      dispatch({
-        type: "PARTICULAR_HOSTEL_DETAILS",
-        payload: { hostel_id: hostel_Id },
-      });
-      // dispatch({ type: "HOSTELIDDETAILS" });
-       dispatch({ type: "HOSTELLIST" })
+            dispatch({ type: "HOSTELLIST" })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });

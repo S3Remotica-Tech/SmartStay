@@ -29,6 +29,8 @@ import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import { MdError } from "react-icons/md";
 import './PgList.css';
+import { toast } from "react-toastify";
+
 
 function PgList() {
   const dispatch = useDispatch();
@@ -615,6 +617,18 @@ useEffect(() => {
 
 
   const handleAddFloors = (hostel_Id) => {
+ if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding floor", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
     setShowFloor(true);
     setHostelFloor(hostel_Id);
     setUpdate(false);

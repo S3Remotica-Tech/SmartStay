@@ -138,8 +138,7 @@ export async function hostelList() {
 
 
 export async function getParticularHostelList(hostel) {
-  console.log("hostel",hostel)
-  return await AxiosConfigV2.get(`/v2/hostel/${hostel.hostel_id}`, hostel,{
+   return await AxiosConfigV2.get(`/v2/hostel/${hostel.hostel_id}`, hostel,{
 data: hostel
   } )
 }
