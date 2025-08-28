@@ -301,7 +301,7 @@ function BedDetailsMap({ room, propsValue }) {
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
 
-
+console.log(assign_tenantform,"assign_tenantform")
 
 
 
@@ -333,7 +333,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
             {
-                add_customerform && <UserlistForm showMenu={add_customerform} setShowMenu={handleCloseAddCustomer} />
+                add_customerform && <UserlistForm showMenu={add_customerform}  setShowMenu={handleCloseAddCustomer} />
             }
 
             {
