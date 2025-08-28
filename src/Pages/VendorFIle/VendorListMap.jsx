@@ -3,7 +3,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
 import Vendors from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
-import { Edit,Trash } from "iconsax-react";
+import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import "./VendorListMap.css";
 import "./vendor.css";
@@ -58,8 +58,8 @@ function VendorListMap(props) {
     });
   });
 
- 
- 
+
+
 
   const isValid = (value) => {
     return value !== null && value !== undefined && value !== "undefined" && value !== "";
@@ -196,9 +196,9 @@ function VendorListMap(props) {
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
-                            
-                             color: props.vendorEditPermission ? "#A9A9A9" : "#222222",
-                      cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+
+                            color: props.vendorEditPermission ? "#A9A9A9" : "#222222",
+                            cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
                           }}
                         >
                           Edit
@@ -236,19 +236,19 @@ function VendorListMap(props) {
                           borderBottomRightRadius: 10,
                         }}
                       >
-                       
-                         <Trash
-                                            size="16"
-                                            color={props.vendorDeletePermission ? "#A9A9A9" : "red"}
-                                          />
+
+                        <Trash
+                          size="16"
+                          color={props.vendorDeletePermission ? "#A9A9A9" : "red"}
+                        />
                         <label
                           style={{
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
-                           
+
                             color: props.vendorDeletePermission ? "#A9A9A9" : "#FF0000",
-                      cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+                            cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
                           }}
                         >
                           Delete
@@ -317,17 +317,21 @@ function VendorListMap(props) {
                   }}
                 >
 
-                  + {props.vendor && props.vendor.mobile}
+                  {props.vendor && props.vendor.mobile && (
+                    <>
+                      +{props.vendor.mobile.slice(0, 2)} {props.vendor.mobile.slice(2)}
+                    </>
+                  )}
                 </label>
               </div>
             </div>
           </div>
 
-         
+
 
           <div className="mb-2" style={{ lineHeight: 1 }}>
             <div className="d-flex justify-content-between flex-wrap">
-             
+
               <div style={{ maxWidth: "75%" }}>
                 <div className="pb-1">
                   <label
@@ -356,10 +360,10 @@ function VendorListMap(props) {
                     {isValid(props.vendor?.landMark) && <>{props.vendor.landMark}, </>}
                     {isValid(props.vendor?.city) && <>{props.vendor.city}, </>}
                     {isValid(props.vendor?.state) && <>{props.vendor.state}{props.vendor.country ? ' ' : ''},</>}
-                    
+
                     <br />
-                  
-                  {props.vendor.country} - {isValid(props.vendor?.pinCode) && <>{props.vendor.pinCode}</>}
+
+                    {props.vendor.country} - {isValid(props.vendor?.pinCode) && <>{props.vendor.pinCode}</>}
                   </>
                 </label>
               </div>

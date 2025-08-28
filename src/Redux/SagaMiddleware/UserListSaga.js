@@ -2032,7 +2032,7 @@ function* handlecustomerUnAssign(action) {
 
 
       if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+         yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data, statusCode: response.status || response.statusCode } })
       }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })

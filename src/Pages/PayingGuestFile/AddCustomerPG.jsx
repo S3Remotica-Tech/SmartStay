@@ -1481,9 +1481,6 @@ function AddCustomer({  show, handleClose   }) {
             </div>}
       </Modal.Dialog>
     </Modal>
-
-
-
     </>
   );
 }

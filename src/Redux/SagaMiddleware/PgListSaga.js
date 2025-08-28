@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import {UpdateBed,  getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement } from "../Action/PgListAction";
+import { UpdateBed, getAllBed, updateRoom, getAllRoom, add_sub_comments, get_comments, add_comments, delete_announcement, deleteHostelImages, UpdateFloor, DeletePG, DeleteBed, createBed, createPgList, createRoom, CheckRoomId, CheckBedDetails, Checkeblist, CreateEbbill, EB_Customerlist, EB_startmeterlist, createAllPGDetails, OccupiedCustomer, EB_CustomerListTable, editElectricity, deleteElectricity, dashboardFilter, ebAddHostelReading, ebHostelBasedRead, ebAddHostelEdit, ebAddHostelDelete, announcement_list, add_announcement } from "../Action/PgListAction";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -562,7 +562,7 @@ function* handleCreateBed(action) {
     }
   }
   catch (error) {
-console.log("error",error)
+    console.log("error", error)
 
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
@@ -723,18 +723,18 @@ function* handleUpdateFloor(action) {
 function* handleOccupiedCustomer(action) {
   const response = yield call(OccupiedCustomer, action.payload);
 
-  if (response.status === 200 || response.statusCode === 200) {
+  console.log("response", response)
+
+  if (response.status === 200) {
     yield put({
       type: "OCCUPIED_CUSTOMER",
       payload: {
-        response: response.data.user_details,
-        statusCode: response.status || response.statusCode,
+        response: response.data,
+        statusCode: response.status,
       },
     });
 
-  } else {
-    yield put({ type: "ERROR", payload: response.data.message });
-  }
+  } 
   if (response) {
     refreshToken(response);
   }
@@ -1360,7 +1360,7 @@ function refreshToken(response) {
 }
 
 function* PgListSaga() {
-  yield takeEvery("UPDATEBED", handleUpdateBed );
+  yield takeEvery("UPDATEBED", handleUpdateBed);
   yield takeEvery("GETALLROOMSLIST", handleGetAllRooms);
   yield takeEvery("GETALLBEDSLIST", handleGetAllBed)
   yield takeEvery("CREATEPG", handlePgList);

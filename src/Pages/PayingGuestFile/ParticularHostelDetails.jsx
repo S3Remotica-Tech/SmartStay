@@ -160,8 +160,7 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (props.floorID && props.hostel_Id) {
       setLoader(true)
-      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+           dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
     }
     else {
       setLoader(false)
@@ -222,7 +221,9 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      if(props.floorID){
+dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      }
       dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
@@ -237,7 +238,9 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {
 
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+    if(props.floorID){
+dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      }
 
 
       setTimeout(() => {
@@ -250,7 +253,9 @@ function ParticularHostelDetails(props) {
 
     if (state.PgList.statusCodeCreateRoom === 201 || state.PgList.statusCodeUpdateRoom === 200) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      if(props.floorID){
+dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      }
       setShowRoom(false)
       dispatch({ type: 'HOSTELLIST' })
 
@@ -263,9 +268,12 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
-      dispatch({ type: 'HOSTELLIST' })
+      // dispatch({ type: 'HOSTELLIST' })
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      if(props.floorID){
+dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      }
+      
       // setShowBed(false)
 
       if (roomList && roomList.length > 0) {
@@ -418,7 +426,7 @@ function ParticularHostelDetails(props) {
   }, []);
 
 
- 
+ console.log("currentItems",currentItems)
 
 
   return (
@@ -426,12 +434,9 @@ function ParticularHostelDetails(props) {
 
 
       <div >
-        {/* <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button> */}
-
-
-
+       
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
-          {loader && <div
+          {/* {loader && <div
             style={{
               position: 'absolute',
               top: 200,
@@ -456,7 +461,7 @@ function ParticularHostelDetails(props) {
                 animation: 'spin 1s linear infinite',
               }}
             ></div>
-          </div>}
+          </div>} */}
         </div>
 
         <div className='container-fluid show-scroll' style={{ maxHeight: "400px", overflowY: "auto", marginTop: "-25px" }}>
@@ -472,7 +477,7 @@ function ParticularHostelDetails(props) {
                         {room.name}
                       </div>
                       <div style={{ fontSize: 12, fontWeight: 400, color: "#7C7C7C", marginTop: "-2px" }}>
-                        {Array.isArray(room.bed_details) ? `${room.bed_details.length} sharing` : "0 sharing"}
+                        {/* {Array.isArray(state.PgList?.bedList) ? `${state.PgList?.bedList?.[room.id].length} sharing` : "0 sharing"} */}
                       </div>
                     </div>
 

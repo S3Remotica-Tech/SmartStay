@@ -301,13 +301,13 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
             payload = {
                 id: editRoleDetails.id || null,
-                HostelId: state.login.selectedHostel_Id,
+                hostelId: state.login.selectedHostel_Id,
                 roleName: roleName,
                 permissionList: formattedPermissionList,
             };
         } else {
             payload = {
-                HostelId: state.login.selectedHostel_Id,
+                hostelId: state.login.selectedHostel_Id,
                 roleName: roleName,
                 permissionList: formattedPermissionList,
             };

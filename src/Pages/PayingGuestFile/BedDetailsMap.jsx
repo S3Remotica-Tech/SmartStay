@@ -23,6 +23,7 @@ import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
+import UserlistForm from '../CustomerFile/UserlistForm';
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -44,7 +45,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [Occubied_bed, setOccubiedBed] = useState(false)
     const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
     const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
-
+    const [customer, setCustomer] = useState([])
     const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
     const [customerID, setCustomerID] = useState('')
     const [add_customerform, setAddCustomerForm] = useState(false)
@@ -144,6 +145,8 @@ function BedDetailsMap({ room, propsValue }) {
 
     const handleCloseAddCustomer = () => {
         setAddCustomerForm(false)
+        setEmptyBed(false)
+
     }
 
     const handleShowAssignTenant = () => {
@@ -181,29 +184,50 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
+        console.log("bed", bed)
+        console.log("room", room)
+
+        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+
+        // isOccupied
+        // isBooked
+        // onNotice
+
         // once changed the condition when api integration 
         if (bed.isBooked) {
             setShowReservedBed(true);
-            setOccupiedCustomerDetails({ bed, room });
+            // setOccupiedCustomerDetails({ bed, room });
 
         }
-        else if (bed.isOccupied) {
+        else if (!bed.isOccupied) {
             setEmptyBed(true);
             setDeleteBedDetails({ bed, room });
-            setOccupiedCustomerDetails({ bed, room });
+            // setOccupiedCustomerDetails({ bed, room });
 
         }
         else if (bed.onNotice) {
             setOccubiedBed(false);
             setNoticePeriodBed(true);
-            setOccupiedCustomerDetails({ bed, room });
+            // setOccupiedCustomerDetails({ bed, room });
 
         }
-        // else if (bed.isOccupied) {
-        //     setOccubiedBed(true);
-        //     setOccupiedCustomerDetails({ bed, room });
-        // }
+        else if (bed.isOccupied) {
+            setOccubiedBed(true);
+            // setOccupiedCustomerDetails({ bed, room });
+        }
     };
+
+    useEffect(() => {
+        if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+            setCustomer(state.PgList?.OccupiedCustomer)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+            }, 2000)
+        }
+
+
+    }, [state.PgList.OccupiedCustomerGetStatusCode])
+
 
 
     useEffect(() => {
@@ -219,12 +243,8 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-    // useEffect(() => {
-    //     if (state?.PgList.getAllBedSuccessStatus === 200) {
-    //         // setBedList(state.PgList?.bedList)
-    //     }
 
-    // }, [state?.PgList.getAllBedSuccessStatus])
+
 
 
     useEffect(() => {
@@ -255,7 +275,36 @@ function BedDetailsMap({ room, propsValue }) {
 
     }, [state.PgList.statusCodeDeleteBed])
 
+
+
+    useEffect(() => {
+        if (state.UsersList.statusCodeForCheckInCustomer === 201) {
+            dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: room.id }
+            });
+            setAssignTenantForm(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
+            }, 2000)
+        }
+
+    }, [state.UsersList.statusCodeForCheckInCustomer])
+
+
+
+
+
+
+
+
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
+
+
+
+
+
+
 
     return (
 
@@ -267,13 +316,13 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
             {
-                occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={OccupiedCustomerDetails} />
+                occupiedCustomer && <OccupiedCustomer show={occupiedCustomer} handleClose={handleCloseOccupiedCustomer} currentItem={customer} />
             }
 
             {
 
                 emptybed && <EmptyBed show={emptybed} handleClose={handlecloseBed}
-                    currentItem={OccupiedCustomerDetails} deleteBedDetails={deleteBedDetails}
+                    currentItem={customer} deleteBedDetails={deleteBedDetails}
                     showbed={handleShowBed}
                     showcustomer={handleShowAddCustomer}
                     showtenant={handleShowAssignTenant}
@@ -284,11 +333,11 @@ function BedDetailsMap({ room, propsValue }) {
 
 
             {
-                add_customerform && <AddCustomer show={add_customerform} handleClose={handleCloseAddCustomer} />
+                add_customerform && <UserlistForm showMenu={add_customerform} setShowMenu={handleCloseAddCustomer} />
             }
 
             {
-                assign_tenantform && <PGAssignTenant show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem={OccupiedCustomerDetails}
+                assign_tenantform && <PGAssignTenant show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem={customer}
 
                 />
             }
@@ -302,7 +351,7 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
             {
-                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={OccupiedCustomerDetails} />
+                showCheckIn && <Check_In show={showCheckIn} handleClose={handleCloseCheck_In} currentItem={customer} />
             }
 
             {
@@ -313,19 +362,19 @@ function BedDetailsMap({ room, propsValue }) {
 
             {
                 Occubied_bed && <OccupiedBedStatus show={Occubied_bed}
-                    handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
+                    handleCloseBed={handlecloseoccubiedbed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
             }
 
             {
                 Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
-                    handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails} />
+                    handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer} />
             }
 
 
             {/* Notice period  */}
             {
                 Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
-                    handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails}
+                    handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer}
                     showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout}
                 />}
 
@@ -341,7 +390,7 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
             {
-                Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails} />
+                Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={customer} />
             }
 
 
@@ -359,14 +408,14 @@ function BedDetailsMap({ room, propsValue }) {
                 Noticeperiod_checkout && <DueCustomerConfirmCheckout show={Noticeperiod_checkout} handleClose={handlecloseNoticeperiodCheckout}
                     customerID={customerID}
 
-                    data={OccupiedCustomerDetails}
+                    data={customer}
                 />
             }
 
             {moveToNoticePeriodForm && (() => {
                 return (
                     <CustomerCheckout
-                        bedData={OccupiedCustomerDetails}
+                        bedData={customer}
                         data={customerDetails}
                         customerCheckoutpage={moveToNoticePeriodForm}
                         setCustomerCheckoutpage={handleCloseNoticePeriod}
