@@ -1366,7 +1366,7 @@ const bookingDateRef = useRef("");
 
  useEffect(() => {
     if (props.BookingAssignForm) {
-      console.log("props", props.EditObj);
+      console.log("props.......", props.EditObj);
       
     
       setId(props.EditObj.ID);
@@ -1410,6 +1410,7 @@ const bookingDateRef = useRef("");
       setFloorName(props?.EditObj?.Booking_FloorName)
       setRoomName(props?.EditObj?.Booking_Rooms)
       setBedName(props?.EditObj?.Booking_Bed)
+      setBookingAmount(props.EditObj.booking_amount)
 
         const Bedfilter = state?.UsersList?.roomdetails?.filter(
       (u) =>
@@ -3379,6 +3380,7 @@ const handleSaveBacktoCheckin =()=>{
                                   border: "1px solid #D9D9D9",
                                   height: 50,
                                   borderRadius: 8,
+                                  backgroundColor:"#EFF2FF"
                                 }}
                               />
                             </Form.Group>
