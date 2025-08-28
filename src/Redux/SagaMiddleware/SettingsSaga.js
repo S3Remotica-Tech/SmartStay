@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal } from "../Action/SettingsAction"
+import { getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal ,EditGeneral } from "../Action/SettingsAction"
 
 
 import Cookies from 'universal-cookie';
@@ -874,14 +874,19 @@ function* handleAddStaffUserPage(detail) {
 }
 
 function* handleGetAllStaffs(action) {
+   // console.log("response" , action);
  try{
     const response = yield call(GetAllStaff, action.payload.hostelId);
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data || [], statusCode:response.status || response.data.statusCode}})
    }
-   else {
-      yield put({ type: 'ERROR_USER', payload: { statusCode: response.status || response.data.statusCode } })
-   }
+   else if (response.status === 204) {
+      yield put({ type: 'NO_USER_STAFF_LIST_ERROR', payload: { statusCode: response.status } });
+
+      }
+   // else {
+   //    yield put({ type: 'ERROR_USER', payload: { statusCode: response.status || response.data.statusCode } })
+   // }
    if (response) {
       refreshToken(response)
    }
@@ -1134,7 +1139,7 @@ function* handleCheckPassword(action) {
             style: toastStyle,
          });
       }
-      else if (response.status === 200 || response.data.statusCode === 400 || response.data.status === 400) {
+      else if (response.status === 400 || response.data.statusCode === 400 || response.data.status === 400) {
 
          yield put({ type: 'PASSWORD_ERROR', payload: response.data || response.data.message });
       }

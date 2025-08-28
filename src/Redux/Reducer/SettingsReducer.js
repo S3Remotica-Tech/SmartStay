@@ -28,6 +28,7 @@ export const initialState = {
   addSettingUser: [],
   addSettingStaffList: [],
   StatusForaddSettingStaffList: 0,
+  StatusForNoStaffList: 0,
   emailIdError: "",
   phoneNumError: "",
   ebUnitError: "",
@@ -94,6 +95,8 @@ export const initialState = {
 };
 
 const SettingsReducer = (state = initialState, action) => {
+
+  // console.log("response" , action);
   
 
   switch (action.type) {
@@ -322,6 +325,15 @@ const SettingsReducer = (state = initialState, action) => {
 
     case "CLEAR_USER_STAFF_LIST":
       return { ...state, StatusForaddSettingStaffList: 0 };
+
+    case "NO_USER_STAFF_LIST_ERROR":
+      return {
+        ...state,
+        StatusForNoStaffList: action.payload.statusCode,
+      };
+
+    case "CLEAR_NO_USER_STAFF_LIST_ERROR":
+      return { ...state, StatusForNoStaffList: 0 }; 
 
 case 'GET_MODULES':
    return {...state, getModules: action.payload.response,getModulesSuccessStatusCode: action.payload.statusCode };
