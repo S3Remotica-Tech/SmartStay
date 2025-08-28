@@ -375,6 +375,16 @@ if (hasError) return;
 
 
 const [currentFloorId,setCurrentFloorId] = useState("")
+useEffect(()=>{
+    if(state.login.selectedHostel_Id){
+ dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+    
+},[state.login.selectedHostel_Id])
+console.log("state.UsersList?.Users",state.UsersList?.Users)
   useEffect(() => {
     if (props.reAssignDetail) {
       console.log("props.reAssignDetail",props.reAssignDetail)
@@ -389,19 +399,29 @@ const [currentFloorId,setCurrentFloorId] = useState("")
       setCurrentFloorId(props.reAssignDetail.Floor)
     }
     else if (props.reAssignBedDetail) {
-console.log("props.reAssignBedDetail",props.reAssignBedDetail)
+
       setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
       setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
       setUserId(props.reAssignBedDetail.id);
       setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
-      setCurrentFloor(props.reAssignBedDetail.room?.Floor_Id);
+      // setCurrentFloor(props.reAssignBedDetail.room?.Floor_Id);
       setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
       setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
       setCurrentBedId(props.reAssignBedDetail.bed?.id);
-      
-    }
-  }, [props.reAssignDetail, props.reAssignBedDetail]);
+      setCurrentFloorId(props.reAssignBedDetail.room?.Floor_Id)
+const floorName =
+  state.UsersList?.Users?.find(
+    (item) => item.Floor === props.reAssignBedDetail?.room?.Floor_Id
+  )?.floor_name || "";
+  setCurrentFloor(floorName);
 
+console.log("floorName", floorName);
+
+    }
+    
+ 
+  }, [props.reAssignDetail, props.reAssignBedDetail]);
+console.log("props.reAssignBedDetail",props.reAssignBedDetail)
 
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
@@ -417,6 +437,7 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
       }, 200);
     }
   }, [state.UsersList.statusCodeForReassinBed]);
+  
 
 
 
@@ -1018,14 +1039,14 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
 
     const today = dayjs().endOf("day");
 
-    // 🔹 Parse joiningDate from state (DD-MM-YYYY)
+   
     let joining = null;
     if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
       const [dd, mm, yyyy] = joiningdate.split("-");
       joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
     }
 
-    // 🔹 Parse last bill date from state (DD-MM-YYYY)
+ 
     let lastBillDate = null;
     if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
       const [dd, mm, yyyy] = lastDate.split("-");
@@ -1040,20 +1061,20 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
         joining.year() === today.year();
 
       if (sameMonth) {
-        // ✅ Case 1: Joining date is in current month → allow from joining date onwards
+       
         minAllowedDate = joining;
       } else if (lastBillDate) {
-        // ✅ Case 2: Joining date not in current month → allow from last bill date onwards
+       
         minAllowedDate = lastBillDate;
       }
     }
 
-    // ❌ Block future dates
+    
     if (current.isAfter(today)) {
       return true;
     }
 
-    // ❌ Block all dates before minAllowedDate
+ 
     if (minAllowedDate && current.isBefore(minAllowedDate)) {
       return true;
     }
