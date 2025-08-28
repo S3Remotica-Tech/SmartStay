@@ -65,6 +65,14 @@ function CustomerReAssign(props) {
     // setLastDate("")
     setUserId("")
     dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
+    dispatch({
+    type: "BEDNUMBERDETAILS",
+    payload: {
+      hostel_id: "",
+      floor_id: "",
+      room_id: "",
+    },
+  });
   };
 
 
@@ -81,7 +89,42 @@ function CustomerReAssign(props) {
 
   //   setBedError("");
   // };
+//  const handleRooms = (selectedOption) => {
+//     const value = selectedOption?.value || "";
+//     setNewRoom(value);
+//     dispatch({
+//       type: "BEDNUMBERDETAILS",
+//       payload: {
+//         hostel_id: state.login.selectedHostel_Id,
+//         floor_id: newFloor,
+//         room_id: value,
+//       },
+//     });
 
+//     setRoomError("");
+//     setNewBed("")
+//     setNewRoomRent("")
+//   };
+const handleRooms = (selectedOption) => {
+  const value = selectedOption?.value || "";
+  setNewRoom(value);
+
+  // room_id இருக்கும் போது மட்டுமே dispatch
+  if (value) {
+    dispatch({
+      type: "BEDNUMBERDETAILS",
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        floor_id: newFloor,
+        room_id: value,
+      },
+    });
+  }
+
+  setRoomError("");
+  setNewBed("");
+  setNewRoomRent("");
+};
   const handleBed = (selectedOption) => {
     const selectedBedId = selectedOption?.value || "";
     setNewBed(selectedBedId);
@@ -106,22 +149,7 @@ function CustomerReAssign(props) {
     setRentError("");
     
   };
-  const handleRooms = (selectedOption) => {
-    const value = selectedOption?.value || "";
-    setNewRoom(value);
-    dispatch({
-      type: "BEDNUMBERDETAILS",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        floor_id: newFloor,
-        room_id: value,
-      },
-    });
-
-    setRoomError("");
-    setNewBed("")
-    setNewRoomRent("")
-  };
+ 
 
   const handleNewRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -411,7 +439,7 @@ console.log("state.UsersList?.Users",state.UsersList?.Users)
       setCurrentFloorId(props.reAssignBedDetail.room?.Floor_Id)
 const floorName =
   state.UsersList?.Users?.find(
-    (item) => item.Floor === props.reAssignBedDetail?.room?.Floor_Id
+    (item) => String(item.Floor) === String(props.reAssignBedDetail?.room?.Floor_Id)
   )?.floor_name || "";
   setCurrentFloor(floorName);
 
@@ -871,8 +899,88 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
                         </Form.Label>
 
 
+<Select
+  options={
+    state.UsersList?.bednumberdetails?.bed_details?.length > 0
+      ? state.UsersList.bednumberdetails.bed_details
+          .filter(
+            (item) =>
+              item.bed_no !== "0" &&
+              item.bed_no !== "undefined" &&
+              item.bed_no !== "" &&
+              item.bed_no !== "null"
+          )
+          .map((item) => ({
+            value: item.id,
+            label: item.bed_no,
+          }))
+      : []
+  }
+  onChange={handleBed}
+  ref={BedRef}
+  value={
+    newBed
+      ? {
+          value: newBed,
+          label:
+            state.UsersList?.bednumberdetails?.bed_details?.find(
+              (bed) => bed.id === newBed
+            )?.bed_no || "Selected Bed",
+        }
+      : null
+  }
+  placeholder="Select Bed"
+  isDisabled={!newRoom}   // Room select பண்ணினால்தான் enable
+   styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: newBed ? 600 : 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                              fontFamily: "Gilroy",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              cursor: "pointer"
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
+                          }}
+  
+/>
 
-                        <Select
+                        {/* <Select
                           options={
                             state.UsersList?.bednumberdetails?.bed_details
                               ?.length > 0
@@ -953,7 +1061,7 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
                               color: "#000",
                             }),
                           }}
-                        />
+                        /> */}
 
 
                         {bedError && (

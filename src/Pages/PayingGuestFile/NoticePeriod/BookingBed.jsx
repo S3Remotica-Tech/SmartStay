@@ -30,7 +30,7 @@ function BookingBed({
      const [amountError, setamountError] = useState("");
      const [joiningDate, setJoiningDate] = useState(null);
      const [bookingDate, setBookingDate] = useState(null);
-     const [checkoutDate , setCheckoutDate] = useState(null);
+    //  const [checkoutDate , setCheckoutDate] = useState(null);
      const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
      const [bookingDateErrmsg, setBookingDateErrmsg] = useState('')
      const [dateError, setDateError] = useState("");
@@ -66,8 +66,8 @@ function BookingBed({
       useEffect(() => {
               if(customer_details){
                 setBookingCustomerName(customer_details.ID)
-                const checkoutDate = customer_details?.CheckoutDate ? dayjs(customer_details?.CheckoutDate) : null;
-                setCheckoutDate(checkoutDate)
+                // const checkoutDate = customer_details?.CheckoutDate ? dayjs(customer_details?.CheckoutDate) : null;
+                // setCheckoutDate(checkoutDate)
               }
               setFormLoading(false)
       },[customer_details])
@@ -589,10 +589,19 @@ function BookingBed({
                                                                            setJoingDateErrmsg("")
                                                                          }}
                                                         getPopupContainer={() => document.body}
-                                                        disabledDate={(current) => {
-                                                      if (!checkoutDate) return true; 
-                                                      return current.isBefore(dayjs(checkoutDate), "day"); 
-                                                            }}
+                                                       disabledDate={(current) => {
+    // Disable all future dates
+    if (current && current > dayjs().endOf("day")) {
+      return true;
+    }
+
+    // Disable before bookingDate
+    if (bookingDate) {
+      return current && current.isBefore(dayjs(bookingDate), "day");
+    }
+
+    return false;
+  }}
                                                              />
 
                                                                      </div>
