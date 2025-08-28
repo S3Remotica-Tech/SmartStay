@@ -433,6 +433,7 @@ function BookingBed({
                                                                      setDateError("");
                                                                      setBookingDate(date ? date.toDate() : null);
                                                                      setBookingDateErrmsg('');
+                                                                     setJoiningDate("")
                                                                    }}
                                                                    disabledDate={(current) => {
                                                                      return current && current > dayjs().endOf('day');
