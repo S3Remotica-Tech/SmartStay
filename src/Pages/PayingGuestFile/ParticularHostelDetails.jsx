@@ -426,7 +426,7 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
   }, []);
 
 
- console.log("currentItems",currentItems)
+
 
 
   return (

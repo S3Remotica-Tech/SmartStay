@@ -515,7 +515,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
     if (
       checkin_customername && stay_typename &&
-      // currentItem?.floorId && 
+      currentItem?.floorId && 
       currentItem?.roomId && currentItem?.bedId && 
       checkin_joiningDate &&
       AdvanceAmount > 0 &&
@@ -527,7 +527,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
         payload: {
           customerId: checkin_customername,
           hostelId: currentItem?.hostelId,
-          floorId: 2,
+          floorId: currentItem?.floorId,
           bedId: currentItem?.bedId,
           roomId: currentItem?.roomId,
           joiningDate: checkin_joiningDate,
@@ -628,7 +628,7 @@ setFormLoading(true)
                                 fontWeight: 400,
                                 fontFamily: "Gilroy",
                                 color:'rgba(30, 69, 225, 1)'
-                              }}>Room No {currentItem?.roomId} | Bed {currentItem?.bedName}</span> 
+                              }}>Room No {currentItem?.roomName} | Bed {currentItem?.bedName}</span> 
                             </div>
                             </div>
                           
