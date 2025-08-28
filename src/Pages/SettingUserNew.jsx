@@ -88,10 +88,16 @@ function SettingNewUser() {
             setHostel_Id(state.login.selectedHostel_Id);
           }
         }, [state?.login?.selectedHostel_Id]);
+
+        console.log("hostelid" , hostel_Id);
+        
   
   useEffect(() => {
+    if(hostel_Id){
     dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
-  }, []);
+    }
+
+  }, [hostel_Id]);
 
   useEffect(() => {
     if (state.InvoiceList?.deleteUserSuccessStatusCode === 200) {
