@@ -603,7 +603,6 @@ function SettingGeneral() {
   }
 
 
-  console.log("editId" , editId);
   
 
 
@@ -662,6 +661,7 @@ function SettingGeneral() {
            return;
     }
 
+    
 
 
 
@@ -682,18 +682,27 @@ function SettingGeneral() {
       profilePic: profileimage,
     };
 
-   const EditPayload = {
-  firstName: firstName,
-  lastName: lastName,
-  mobile: normalizedPhoneNumber,
-  mailId: emilId,
-  houseNo: house_no,
-  street: street,
-  landmark: landmark,
-  city: city,
-  pincode: pincode,
-  state: state_name
-};
+    const isFile = v => v instanceof File || v instanceof Blob;
+
+   const payloadForApi = {
+    adminId: editId,
+    payload: {
+      firstName,
+      lastName,
+      mobile: normalizedPhoneNumber,   // use normalized
+      mailId: emilId,
+      houseNo: house_no,
+      street,
+      landmark,
+      city,
+      pincode: Number(pincode),
+      state: state_name
+    },
+    // only send file when a new file is chosen
+    profilePic: isFile(profileimage) ? profileimage : null
+  };
+
+
 
     // if (!edit) payload.accountInfo.password = password;
     // if (edit && editId) payload.accountInfo.id = editId;
@@ -702,33 +711,43 @@ function SettingGeneral() {
 
     if (edit && editId) {
 
-  const isChanged =
-    normalize(firstName) !== normalize(initialStateAssign.firstName) ||
-    normalize(lastName) !== normalize(initialStateAssign.lastName) ||
-    normalize(emilId) !== normalize(initialStateAssign.emilId) ||
-    normalize(house_no) !== normalize(initialStateAssign.house_no) ||
-    normalize(street) !== normalize(initialStateAssign.street) ||
-    normalize(landmark) !== normalize(initialStateAssign.landmark) ||
-    normalize(city) !== normalize(initialStateAssign.city) ||
-    String(pincode).trim() !== String(initialStateAssign.pincode ?? "").trim() ||
-    normalize(state_name) !== normalize(initialStateAssign.state) ||
-    String(normalizedPhoneNumber) !== String(initialStateAssign.Phone) ||
-    // file check → only if new file is uploaded
-    (profileimage && profileimage !== initialStateAssign.file);
+const isChanged =
+  normalize(firstName) !== normalize(initialStateAssign.firstName) ||
+  normalize(lastName) !== normalize(initialStateAssign.lastName) ||
+  normalize(emilId) !== normalize(initialStateAssign.emilId) ||
+  normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+  normalize(street) !== normalize(initialStateAssign.street) ||
+  normalize(landmark) !== normalize(initialStateAssign.landmark) ||
+  normalize(city) !== normalize(initialStateAssign.city) ||
+  Number(pincode) !== Number(initialStateAssign.pincode ?? "") ||
+  normalize(state_name) !== normalize(initialStateAssign.state) ||
+  String(Phone).replace(/\s+/g, "") !== String(initialStateAssign.Phone ?? "").replace(/\s+/g, "") || 
+  // check profile pic safely
+  (profileimage && profileimage !== initialStateAssign.file);
+
+
+
+
 
       if (!isChanged) { 
         setFormError("No Changes Detected"); 
         return
       }
 
-dispatch({
-  type: "EDITGENERALSETTING",
-  payload: {
-    adminId: editId, 
-    payload: EditPayload,
-    profilePic: profileimage
+// dispatch({
+//   type: "EDITGENERALSETTING",
+//     adminId: editId, 
+//     payload: {
+//      EditPayload,
+//     profilePic: profileimage
+//   }
+// })
+  if(isChanged){
+    
+  dispatch({ type: "EDITGENERALSETTING", payload: payloadForApi });
   }
-})
+
+
 
       setFormError("");
 

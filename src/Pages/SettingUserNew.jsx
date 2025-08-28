@@ -79,15 +79,24 @@ function SettingNewUser() {
       dispatch({ type: "DELETEUSER", payload: { id: deleteId } });
     }
   };
+
+      const [hostel_Id, setHostel_Id] = useState("")
+      
+      
+        useEffect(() => {
+          if (state.login.selectedHostel_Id) {
+            setHostel_Id(state.login.selectedHostel_Id);
+          }
+        }, [state?.login?.selectedHostel_Id]);
   
   useEffect(() => {
-    dispatch({type: "GETUSERSTAFF"});
+    dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
   }, []);
 
   useEffect(() => {
     if (state.InvoiceList?.deleteUserSuccessStatusCode === 200) {
       setIsConfirmDelete(false);
-      dispatch({type: "GETUSERSTAFF"});
+    dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
       setTimeout(() => {
         dispatch({ type: "REMOVE_DELETE_USER_STATUS_CODE" });
       }, 2000);
