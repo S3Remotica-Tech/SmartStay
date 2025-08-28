@@ -283,7 +283,6 @@ const handlePassword = (e) => {
       isValid = false;
     }
 
-    console.log("isvalid" , isValid);
     
 
  
@@ -291,7 +290,6 @@ const handlePassword = (e) => {
   
 
     if (isValid) {
-       console.log("isvalid" , isValid);
       const MobileNumber = `${mobile}`;
       // const payload = {
       //   name: name,
@@ -301,7 +299,6 @@ const handlePassword = (e) => {
       //   description: description,
       // };
 
-       console.log("isvalid" , mobile , hostel_Id);
  const data = {
     name: name,
     mobile: MobileNumber,
@@ -325,15 +322,12 @@ const handlePassword = (e) => {
     }
   };
 
-  console.log("state",state)
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 201) {
       setFormLoading(false)
       handleCloseForm();
-      dispatch({
-        type: "GETUSERSTAFF",
-      });
+      dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_STAFF_USER" });
       }, 200);

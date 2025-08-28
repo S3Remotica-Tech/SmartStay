@@ -873,8 +873,9 @@ function* handleAddStaffUserPage(detail) {
    }
 }
 
-function* handleGetAllStaffs() {
-   const response = yield call(GetAllStaff)
+function* handleGetAllStaffs(action) {
+ try{
+    const response = yield call(GetAllStaff, action.payload.hostelId);
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data || [], statusCode:response.status || response.data.statusCode}})
    }
@@ -884,7 +885,17 @@ function* handleGetAllStaffs() {
    if (response) {
       refreshToken(response)
    }
+ }
+
+     catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
+
 function* handleGetAllReports() {
    const response = yield call(GetAllReport)
 
@@ -903,7 +914,6 @@ function* handleAddGeneralPage(action) {
    try {
       const response = yield call(AddGeneral, action.payload);
 
-      console.log("General response", response)
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -957,7 +967,6 @@ function* handleEditGeneralPage(action) {
    try{
    const response = yield call (EditGeneral, action.payload);
 
-console.log("General response",response)
 
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -1011,7 +1020,6 @@ function* handleGetAllGeneral() {
 
    try {
       const response = yield call(GetAllGeneral)
-      console.log("filter", response);
 
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'GET_ALL_GENERAL', payload: { response: response.data || [], statusCode: response.status || response.statusCode } })

@@ -171,13 +171,27 @@ export async function addStaffUser(hostelId, datum) {
 // }
 
 // v2
-export async function GetAllStaff() {
- return await AxiosConfigV2.get("/v2/profile/users-list", {
+// export async function GetAllStaff() {
+//  return await AxiosConfigV2.get("/v2/profile/users-list", {
+//     headers: {
+
+//       "Content-Type": "application/json",
+//      },
+//   });
+// }
+
+
+
+// API call with hostelId in path
+export async function GetAllStaff(hostelId) {
+  return await AxiosConfigV2.get(`/v2/profile/users-list/${hostelId}`, {
     headers: {
       "Content-Type": "application/json",
-     },
+    },
   });
 }
+
+
 
 
 
@@ -325,16 +339,16 @@ export async function AddGeneral(params) {
 // Editgeneral v2
 
 export async function EditGeneral(params) {
-  const formData = new FormData();
+  console.log("response", params); // should log { adminId, payload: {...}, profilePic? }
 
-  const accountInfoBlob = new Blob(
-    [JSON.stringify(params.payload)], 
-    { type: "application/json" }
+  const formData = new FormData();
+  formData.append(
+    "payload",
+    new Blob([JSON.stringify(params.payload)], { type: "application/json" })
   );
-  formData.append("payload", accountInfoBlob);
 
   if (params.profilePic) {
-    formData.append("profilePic", params.profilePic);
+    formData.append("profilePic", params.profilePic); // only File/Blob
   }
 
   const response = await AxiosConfigV2.put(
@@ -342,9 +356,9 @@ export async function EditGeneral(params) {
     formData,
     { headers: { "Content-Type": "multipart/form-data" } }
   );
-
   return response;
 }
+
 
 
 
