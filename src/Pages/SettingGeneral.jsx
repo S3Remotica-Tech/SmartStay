@@ -2259,12 +2259,12 @@ const isChanged =
           </div>
         </Modal.Body>
 
-        {state.createAccount?.networkError ?
+        {/* {state.createAccount?.networkError ?
           <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
             <MdError style={{ color: "red", marginRight: '5px' }} />
             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
           </div>
-          : null}
+          : null} */}
 
 
         {formLoading && <div

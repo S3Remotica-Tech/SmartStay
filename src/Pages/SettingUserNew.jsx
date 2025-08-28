@@ -23,7 +23,7 @@ function SettingNewUser() {
   const [editDetails, setEditDetails] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [isConfirmDelete, setIsConfirmDelete] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const [edit, setEdit] = useState(false);
 
@@ -94,6 +94,7 @@ function SettingNewUser() {
   
   useEffect(() => {
     if(hostel_Id){
+      setLoading(true);
     dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
     }
 
@@ -108,6 +109,8 @@ function SettingNewUser() {
       }, 2000);
     }
   }, [state.InvoiceList?.deleteUserSuccessStatusCode]);
+
+
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -126,6 +129,16 @@ function SettingNewUser() {
       }, 200);
     }
   }, [state.Settings?.StatusForaddSettingStaffList]);
+
+    useEffect(() => {
+    if (state.Settings?.StatusForNoStaffList === 204) {
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NO_USER_STAFF_LIST_ERROR" });
+      }, 200);
+    }
+  }, [state.Settings?.StatusForNoStaffList]);
+
 
   useEffect(() => {
     if (state.Settings?.errorUser) {

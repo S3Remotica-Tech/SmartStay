@@ -301,13 +301,13 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
             payload = {
                 id: editRoleDetails.id || null,
-                HostelId: state.login.selectedHostel_Id,
+                hostelId: state.login.selectedHostel_Id,
                 roleName: roleName,
                 permissionList: formattedPermissionList,
             };
         } else {
             payload = {
-                HostelId: state.login.selectedHostel_Id,
+                hostelId: state.login.selectedHostel_Id,
                 roleName: roleName,
                 permissionList: formattedPermissionList,
             };
@@ -523,12 +523,12 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
                     </Modal.Body>
 
-                    {state.createAccount?.networkError ?
+                    {/* {state.createAccount?.networkError ?
                         <div className='d-flex  align-items-center justify-content-center mt-3 mb-1'>
                             <MdError style={{ color: "red", marginRight: '5px' }} />
                             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                         </div>
-                        : null}
+                        : null} */}
                     {formLoading &&
                         <div
                             style={{
