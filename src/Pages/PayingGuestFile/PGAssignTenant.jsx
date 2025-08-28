@@ -18,7 +18,7 @@ import dayjs from 'dayjs';
  const PGAssignTenant = ({ show, handleClose  , currentItem , }) => {
 
      const state = useSelector((state) => state);
-     console.log("PGAssignTenant",state)
+     
      const dispatch = useDispatch();
 
     const [activeTab, setActiveTab] = useState("long");
@@ -35,15 +35,15 @@ import dayjs from 'dayjs';
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
-useEffect(() => {
-const matchedBed = state.PgList.roomCount[0].bed_details.find(
-  (item) => item.id === currentItem?.bed?.id
-);
 
-if (matchedBed) {
-  setRoomRent(matchedBed.bed_amount);
-}
-}, [state.PgList, currentItem]);
+  
+
+useEffect(()=>{
+  if(currentItem){
+  setRoomRent(currentItem?.bed?.bed_amount)
+  }
+
+},[currentItem])
 
     const handleRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -114,13 +114,13 @@ if (matchedBed) {
     setFields(updatedFields);
   };
 
-  console.log("currentitem", currentItem);
+
 
   useEffect(() => {
     dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id} })
   },[])
 
-  console.log("state", state.UsersList?.UnAssignCustomerDetails);
+
 
     const bookingcustomerRef = useRef();
     const dateRef = useRef();
@@ -476,7 +476,7 @@ const handleStayTypeChange = (selectedOption) => {
         item => item.ID === checkin_customername
       );
 
-      console.log("selecteduser", hasError , hasReasonAmountError);
+    
 
       const fullName = selectedUser?.Name?.trim() || "";
 
@@ -495,9 +495,7 @@ const LastName = lastNameParts.join(" ") || "";
         ? incrementDateAndFormat(checkin_joiningDate)
         : "";
 
-        console.log("formattedDate", checkin_customername , stay_typename
-         , checkin_joiningDate , AdvanceAmount , RoomRent , currentItem?.room?.Floor_Id , currentItem?.room?.Room_Id , currentItem?.bed?.id 
-        )
+       
         
 
 

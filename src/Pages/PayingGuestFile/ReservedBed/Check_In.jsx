@@ -40,15 +40,20 @@ function CheckIn({
     const [roomrentError, setRoomRentError] = useState("");
     const [formLoading, setFormLoading] = useState(false);
 
-    useEffect(() => {
-        const matchedBed = state.PgList.roomCount[0].bed_details.find(
-            (item) => item.id === currentItem?.bed?.id
-        );
+    // useEffect(() => {
+    //     const matchedBed = state.PgList.roomCount[0].bed_details.find(
+    //         (item) => item.id === currentItem?.bed?.id
+    //     );
 
-        if (matchedBed) {
-            setRoomRent(matchedBed.bed_amount);
-        }
-    }, [state.PgList, currentItem]);
+    //     if (matchedBed) {
+    //         setRoomRent(matchedBed.bed_amount);
+    //     }
+    // }, [state.PgList, currentItem]);
+    useEffect(()=>{
+if(currentItem){
+    setRoomRent(currentItem?.bed?.bed_amount)
+}
+    },[currentItem])
 
     const handleRoomRent = (e) => {
         const newAmount = e.target.value;
@@ -180,24 +185,38 @@ function CheckIn({
     useEffect(() => {
         if (customer.length > 0) {
             const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
-            console.log("selecteduser", selectedUser);
             setCustomerDetails(selectedUser)
             setBookingAmount(Number(selectedUser?.booking_amount))
 
-            if (selectedUser?.booking_booking_date) {
-                const dateObj = new Date(selectedUser?.booking_booking_date);
-                const day = String(dateObj.getDate()).padStart(2, '0');
-                const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-                const year = dateObj.getFullYear();
-                const formattedBookingDate = `${day}/${month}/${year}`;
+            // if (selectedUser?.booking_booking_date) {
+            //     const dateObj = new Date(selectedUser?.booking_booking_date);
+            //     const day = String(dateObj.getDate()).padStart(2, '0');
+            //     const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            //     const year = dateObj.getFullYear();
+            //     const formattedBookingDate = `${day}/${month}/${year}`;
 
-                bookingDateRef.current = formattedBookingDate;
-                setBookingDate(formattedBookingDate);
-            }
+            //     bookingDateRef.current = formattedBookingDate;
+            //     setBookingDate(formattedBookingDate);
+            // }
+             if (selectedUser?.booking_booking_date) {
+      const bookingDayjs = dayjs(selectedUser?.booking_booking_date); // ✅ keep as dayjs
+
+      bookingDateRef.current = bookingDayjs;
+      setBookingDate(bookingDayjs);  // ✅ store as dayjs
+    }
             setCustomerName(selectedUser?.ID)
         }
     }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
+ const disabledJoiningDate = (current) => {
+  if (!bookingDate) return false;
 
+  // Disable if date < bookingDate OR date > today
+  return (
+    current.isBefore(bookingDate, "day") || 
+    current.isAfter(dayjs(), "day")
+  );
+};
+  
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
@@ -425,10 +444,6 @@ function CheckIn({
 
 
         if (hasReasonAmountError) return;
-
-
-        console.log("apitriggerd", hasReasonAmountError, AdvanceAmount, RoomRent);
-
         if (
             customer_name && formattedDate && stay_typename &&
             Number(AdvanceAmount) > 0 &&
@@ -614,7 +629,8 @@ function CheckIn({
                                         </Form.Label>
 
                                         <Form.Control
-                                            value={bookingDate}
+                                            // value={bookingDate}
+                                            value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
                                             type="text"
                                             placeholder="Booking Date"
                                             style={{
@@ -841,7 +857,8 @@ function CheckIn({
                                                     // dispatch(JoininDatecustomer(date ? date.toDate() : null));
                                                 }}
                                                 getPopupContainer={() => document.body}
-                                                disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                                // disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                                disabledDate={disabledJoiningDate}
                                             />
                                         </div>
                                     </Form.Group>

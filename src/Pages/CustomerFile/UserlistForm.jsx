@@ -1366,7 +1366,7 @@ const bookingDateRef = useRef("");
 
  useEffect(() => {
     if (props.BookingAssignForm) {
-      console.log("props", props.EditObj);
+      console.log("props.......", props.EditObj);
       
     
       setId(props.EditObj.ID);
@@ -1410,6 +1410,7 @@ const bookingDateRef = useRef("");
       setFloorName(props?.EditObj?.Booking_FloorName)
       setRoomName(props?.EditObj?.Booking_Rooms)
       setBedName(props?.EditObj?.Booking_Bed)
+      setBookingAmount(props.EditObj.booking_amount)
 
         const Bedfilter = state?.UsersList?.roomdetails?.filter(
       (u) =>
@@ -1428,22 +1429,39 @@ const bookingDateRef = useRef("");
     }
        
       // setBookingDate(props.EditObj.booking_booking_date)
- if (props.EditObj?.booking_booking_date) {
-      const dateObj = new Date(props.EditObj.booking_booking_date);
-      const day = String(dateObj.getDate()).padStart(2, '0');
-      const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-      const year = dateObj.getFullYear();
-      const formattedBookingDate = `${day}/${month}/${year}`;
+//  if (props.EditObj?.booking_booking_date) {
+//       const dateObj = new Date(props.EditObj.booking_booking_date);
+//       const day = String(dateObj.getDate()).padStart(2, '0');
+//       const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+//       const year = dateObj.getFullYear();
+//       const formattedBookingDate = `${day}/${month}/${year}`;
 
-      bookingDateRef.current = formattedBookingDate; 
-      setBookingDate(formattedBookingDate); 
-    }
+//       bookingDateRef.current = formattedBookingDate; 
+//       setBookingDate(formattedBookingDate); 
+//     }
+
+if (props.EditObj?.booking_booking_date) {
+  const dateObj = new Date(props.EditObj.booking_booking_date);
+
+  // Convert directly into dayjs object
+  const bookingDayjs = dayjs(dateObj);
+
+  bookingDateRef.current = bookingDayjs;
+  setBookingDate(bookingDayjs);  // store as dayjs, not string
+}
+
  
-      setBookingAmount(props.EditObj.booking_amount)
-    
     } 
   
   }, [props.BookingAssignForm]); 
+  const disabledJoiningDate = (current) => {
+  if (!bookingDate) return false; 
+
+    return (
+      current.isBefore(bookingDate, "day") || 
+      current.isAfter(dayjs(), "day")
+    );
+};
 
 useEffect(() => {
   if (props.BookingAssignForm) {
@@ -3362,6 +3380,7 @@ const handleSaveBacktoCheckin =()=>{
                                   border: "1px solid #D9D9D9",
                                   height: 50,
                                   borderRadius: 8,
+                                  backgroundColor:"#EFF2FF"
                                 }}
                               />
                             </Form.Group>
@@ -3395,7 +3414,8 @@ const handleSaveBacktoCheckin =()=>{
                               disabled
                                 type="text"
                                 placeholder="Enter Amount"
-                                value={bookingDate}
+                                // value={bookingDate}
+                                 value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
                                 style={{
                                   fontSize: 16,
                                   color: "#4B4B4B",
@@ -3431,13 +3451,13 @@ const handleSaveBacktoCheckin =()=>{
                               style={{ position: "relative", width: "100%" }}
                             >
                               <DatePicker
-                              disabled
+                              // disabled
                                 style={{
                                   width: "100%",
                                   height: 48,
                                   cursor: "pointer",
                                   fontFamily: "Gilroy",
-                                    backgroundColor:"#EFF2FF"
+                                   
                                 }}
                                 format="DD/MM/YYYY"
                                 placeholder="DD/MM/YYYY"
@@ -3452,7 +3472,8 @@ const handleSaveBacktoCheckin =()=>{
                                 getPopupContainer={(triggerNode) =>
                                   triggerNode.closest(".show-scroll") || document.body
                                 }
-                                disabledDate={(current) => current && current > dayjs().endOf("day")}
+                                disabledDate={disabledJoiningDate}
+                             
                               />
                             </div>
                           </Form.Group>
