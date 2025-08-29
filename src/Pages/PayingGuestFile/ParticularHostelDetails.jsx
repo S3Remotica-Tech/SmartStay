@@ -30,8 +30,9 @@ import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
 import BookingBed from './NoticePeriod/BookingBed';
 import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
-// import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
+import "./ParticularHostelDetails.css";
+ 
 
 
 
@@ -535,9 +536,6 @@ function ParticularHostelDetails(props) {
 
 
       <div >
-        {/* <button className='btn btn-primary' onClick={handleShowReservedBed}>Reserved bed</button> */}
-
-
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
           {loader && <div
@@ -584,21 +582,6 @@ function ParticularHostelDetails(props) {
                         {Array.isArray(room.bed_details) ? `${room.bed_details.length} sharing` : "0 sharing"}
                       </div>
                     </div>
-
-
-                    {/* <div className="d-flex flex-wrap  p-1 mt-1 bg-white rounded " style={{whiteSpace:"nowrap",paddingLeft:4,paddingRight:4}}>
-              <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={orangedot} alt="available" /> No Overdue
-              </p>
-                 <p className="mb-1 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={bluedot} alt="reserved" /> No Reserved
-              </p>
-              <p className="mb-1 me-2 d-flex align-items-center" style={{ fontSize: 10, fontWeight: 500 }}>
-                <img className="me-1 mb-1" src={reddot} alt="notice" /> No Notice Period
-              </p>
-           
-            </div> */}
-
 
                     <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                       <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
@@ -671,7 +654,7 @@ function ParticularHostelDetails(props) {
                     </div>
                   </Card.Header>
 
-                  <Card.Body>
+                  {/* <Card.Body>
                     <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
                       {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details.map((bed) => (
                         <div key={bed.id} className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center  ${props.addPermissionError ? 'disabled' : ''}`}
@@ -727,6 +710,9 @@ function ParticularHostelDetails(props) {
                               />
 
                             </div>
+
+                          
+
                             <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
                               {bed.bed_no}
                             </div>
@@ -734,7 +720,7 @@ function ParticularHostelDetails(props) {
                         </div>
                       ))}
 
-                      {/* Add Bed */}
+                  
                       <div
                         className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
                         onClick={() => {
@@ -754,7 +740,148 @@ function ParticularHostelDetails(props) {
                         </div>
                       </div>
                     </div>
+                  </Card.Body> */}
+
+                  <Card.Body>
+                    <div className="row g-2 overflow-auto" style={{ maxHeight: 240 }}>
+                      {Array.isArray(room.bed_details) &&
+                        room.bed_details.length > 0 &&
+                        room.bed_details.map((bed) => (
+                          <div
+                            key={bed.id}
+                            className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? "disabled" : ""
+                              }`}
+                          >
+                            <div
+                              className="d-flex flex-column align-items-center w-100"
+                              style={{ cursor: props.addPermissionError ? "not-allowed" : "pointer" }}
+                            >
+                              <div style={{ position: "relative", width: 34, height: 41 }}>
+                              
+                                {bed.isbooked === 1 && bed.isNoticePeriod === 1 && (
+                                  <div className="action-circle">
+                                    2
+                                    <div className="action-icons">
+                                      <img
+                                        src={recerverimg}
+                                        alt="booking"
+                                        height={20}
+                                        width={20}
+                                       
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <img
+                                        src={noticeimg}
+                                        alt="notice"
+                                        height={20}
+                                        width={20}
+                                        
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+
+                             
+                                {bed.isbooked === 1 && bed.isNoticePeriod !== 1 && (
+                                  <img
+                                    src={recerverimg}
+                                    alt="booking"
+                                    height={20}
+                                    width={20}
+                                    style={{
+                                      position: "absolute",
+                                      top: 1,
+                                      right: -10,
+                                      cursor: props.addPermissionError ? "not-allowed" : "pointer",
+                                    }}
+                                   
+                                  />
+                                )}
+
+                              
+                                {bed.isNoticePeriod === 1 && bed.isbooked !== 1 && (
+                                  <img
+                                    src={noticeimg}
+                                    alt="notice"
+                                    height={20}
+                                    width={20}
+                                    style={{
+                                      position: "absolute",
+                                      top: 1,
+                                      right: -10,
+                                      cursor: props.addPermissionError ? "not-allowed" : "pointer",
+                                    }}
+                                   
+                                  />
+                                )}
+
+                                {/* Normal Bed Image */}
+                                <img
+                                  className="mt-1"
+                                  src={bed.isfilled ? Green : White}
+                                  alt="bedd"
+                                  style={{
+                                    height: 41,
+                                    width: 34,
+                                    cursor: props.addPermissionError ? "not-allowed" : "pointer",
+                                  }}
+                                  onClick={() => {
+                                    if (!props.addPermissionError) {
+                                      handleclickBed(bed, room);
+                                    }
+                                  }}
+                                />
+                              </div>
+
+                              <div
+                                className="pt-2"
+                                style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}
+                              >
+                                {bed.bed_no}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+
+                      {/* Add Bed */}
+                      <div
+                        className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${props.addPermissionError ? "disabled" : ""
+                          }`}
+                        onClick={() => {
+                          if (!props.addPermissionError) {
+                            handleAddBed(props, room.Room_Id);
+                          }
+                        }}
+                        style={{ cursor: props.addPermissionError ? "not-allowed" : "pointer" }}
+                      >
+                        <div className="d-flex flex-column align-items-center w-100">
+                          <div>
+                            <FaSquarePlus
+                              style={{
+                                height: 41,
+                                width: 34,
+                                color: props.addPermissionError ? "#888888" : "#1E45E1",
+                              }}
+                            />
+                          </div>
+                          <div
+                            className="pt-2"
+                            style={{
+                              fontSize: 12,
+                              fontWeight: 600,
+                              fontFamily: "Montserrat",
+                              color: props.addPermissionError ? "#888888" : "#1E45E1",
+                            }}
+                          >
+                            Add bed
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </Card.Body>
+
+
                 </Card>
               </div>
             ))}
