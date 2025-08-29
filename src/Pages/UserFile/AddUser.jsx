@@ -49,7 +49,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
     dispatch({
       type: "SETTING_ROLE_LIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
+      // payload: { hostel_id: state.login.selectedHostel_Id },
     });
   }, []);
 
