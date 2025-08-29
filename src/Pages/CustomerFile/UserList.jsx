@@ -143,23 +143,23 @@ function UserList(props) {
   const [formLoading, setFormLoading] = useState(false)
 
 
-  useEffect(()=>{
-    if(state.login.selectedHostel_Id)
- dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-  },[state.login.selectedHostel_Id])
+  useEffect(() => {
+    if (state.login.selectedHostel_Id)
+      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+  }, [state.login.selectedHostel_Id])
 
 
 
 
-// useEffect(() => {
-//     if (state.UsersList.floorListStatusCode === 200) {
-//             setFloorList(state.UsersList.floorList)
-//       setTimeout(() => {
-//         dispatch({ type: 'REMOVE_ALL_FLOOR_LIST' })
-//       }, 500)
-//     }
+  // useEffect(() => {
+  //     if (state.UsersList.floorListStatusCode === 200) {
+  //             setFloorList(state.UsersList.floorList)
+  //       setTimeout(() => {
+  //         dispatch({ type: 'REMOVE_ALL_FLOOR_LIST' })
+  //       }, 500)
+  //     }
 
-//   }, [state.UsersList.floorListStatusCode])
+  //   }, [state.UsersList.floorListStatusCode])
 
 
 
@@ -1542,10 +1542,10 @@ function UserList(props) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
-        dispatch({ type:'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO'})
+        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO' })
       }, 2000);
     }
-  }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.statusCodeForAddCustomerSaveInfo]);
+  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
 
 
@@ -3350,12 +3350,9 @@ function UserList(props) {
                                       >
                                         +
                                         {user &&
-                                          String(user.mobile)?.slice(
-                                            0,
-                                            String(user.mobile).length - 10
-                                          )}{" "}
-                                        {user &&
-                                          String(user.mobile)?.slice(-10)}
+                                          user.countryCode}
+                                        {" "}
+                                        {user.mobile}
                                       </td>
 
 
@@ -3474,7 +3471,7 @@ function UserList(props) {
                                               }}
                                             >
                                               <div>
-                                                {!user.Bed && user.currentStatus === "INACTIVE" && (
+                                                {!user.Bed && user.currentStatus === "Inactive" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
@@ -3525,9 +3522,9 @@ function UserList(props) {
 
                                                 )}
 
-                                           
 
-                                                {user.currentStatus === "INACTIVE" && (
+
+                                                {user.currentStatus === "Inactive" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     style={{
@@ -3577,7 +3574,7 @@ function UserList(props) {
                                                   </div>
                                                 )}
 
-                                                {user.currentStatus === "INACTIVE" && (
+                                                {user.currentStatus === "Inactive" && (
                                                   <div
 
                                                     className="d-flex align-items-center gap-2"

@@ -35,33 +35,35 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
 
+console.log("deleteBedDetails",deleteBedDetails)
+
   useEffect(() => {
     setRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
 
-  useEffect(() => {
-    if (
-      rolePermission[0]?.is_owner === 1 ||
-      rolePermission[0]?.role_permissions[4]?.per_delete === 1
-    ) {
-      setCustomerDeletePermission("");
-    } else {
-      setCustomerDeletePermission("Permission Denied");
-    }
-  }, [rolePermission]);
+  // useEffect(() => {
+  //   if (
+  //     rolePermission[0]?.is_owner === 1 ||
+  //     rolePermission[0]?.role_permissions[4]?.per_delete === 1
+  //   ) {
+  //     setCustomerDeletePermission("");
+  //   } else {
+  //     setCustomerDeletePermission("Permission Denied");
+  //   }
+  // }, [rolePermission]);
 
 
   const handleDeleteBed = () => {
 
-    if ( deleteBedDetails.bed.bed_no) {
+    if ( deleteBedDetails?.bed.id) {
        setFormLoading(true);
       dispatch({ type: 'DELETEBED', 
         payload: { 
         // hostelId: room.Hostel_Id, 
         // floorId: room.Floor_Id, 
         // roomNo: room.Room_Id, 
-        bedId: bed.bed_no } })
+        bedId: bed.id} })
 
     }
 

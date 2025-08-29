@@ -146,42 +146,50 @@ data: hostel
 
 // v2  check in api 
 
-
-export async function CheckIn(params) {
-  
-  const formData = new FormData();
-
-  if (params.profilePic) {
-    formData.append("profilePic", params.profilePic);
-  }
-
-
-  if (params.payLoads) {
-    const payLoadsBlob = new Blob(
-      [JSON.stringify(params.customerInfo)],
-      { type: "application/json" }
-    );
-    formData.append("payLoads", payLoadsBlob);
-  }
-
-  try {
-    const response = await AxiosConfigV2.post(
-      `/v2/customers/check-in`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        timeout: 100000000,
-        
-      }
-    );
-    return response;
-  } catch (error) {
-    console.error("Axios Error", error);
-    throw error;
-  }
+export async function CheckIn(CheckIn) {
+  return await AxiosConfigV2.post(`/v2/customers/check-in/${CheckIn.customerId}`, CheckIn, {
+    data: CheckIn
+  })
 }
+
+
+
+
+// export async function CheckIn(params) {
+  
+//   const formData = new FormData();
+
+//   if (params.profilePic) {
+//     formData.append("profilePic", params.profilePic);
+//   }
+
+
+//   if (params.payLoads) {
+//     const payLoadsBlob = new Blob(
+//       [JSON.stringify(params.customerInfo)],
+//       { type: "application/json" }
+//     );
+//     formData.append("payLoads", payLoadsBlob);
+//   }
+
+//   try {
+//     const response = await AxiosConfigV2.post(
+//       `/v2/customers/check-in/${params.customerId}`,
+//       formData,
+//       {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//         },
+//         timeout: 100000000,
+        
+//       }
+//     );
+//     return response;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//     throw error;
+//   }
+// }
 
 
  
@@ -601,11 +609,14 @@ console.log("paramsssssss",params)
   }
 }
 
-export async function CustomerUnAssign(datum) {
-  return await AxiosConfig.post('/unassigned-user-list', datum, {
-    data: datum
-  })
+export async function CustomerUnAssign(customer) {
+  return await AxiosConfigV2.get(`/v2/customers/${customer.hostel_id}`, {
+    params: {
+           type: customer.type   
+              }
+  });
 }
+
 
 export async function backtoCheckin(datum) {
   console.log("backtoCheckin",datum)

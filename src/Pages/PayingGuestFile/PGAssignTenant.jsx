@@ -35,15 +35,16 @@ import dayjs from 'dayjs';
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
   ];
-useEffect(() => {
-const matchedBed = state.PgList.roomCount[0].bed_details.find(
-  (item) => item.id === currentItem?.bed?.id
-);
+  console.log("currentItem",currentItem)
+// useEffect(() => {
+// const matchedBed = state.PgList.roomCount[0].bed_details.find(
+//   (item) => item.id === currentItem?.bed?.id
+// );
 
-if (matchedBed) {
-  setRoomRent(matchedBed.bed_amount);
-}
-}, [state.PgList, currentItem]);
+// if (matchedBed) {
+//   setRoomRent(matchedBed.bed_amount);
+// }
+// }, [state.PgList, currentItem]);
 
     const handleRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -117,10 +118,14 @@ if (matchedBed) {
   console.log("currentitem", currentItem);
 
   useEffect(() => {
-    dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id} })
+    if(currentItem.hostelId){
+    dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: currentItem.hostelId, type: "inactive"} })
+    }
   },[])
 
-  console.log("state", state.UsersList?.UnAssignCustomerDetails);
+  console.log("UnAssignCustomerDetail", state.UsersList?.UnAssignCustomerDetails);
+
+  console.log("state",state)
 
     const bookingcustomerRef = useRef();
     const dateRef = useRef();
@@ -307,9 +312,9 @@ if (matchedBed) {
         booking_date:  bookingFormattedDate,
         amount: amount,
         hostel_id: state.login.selectedHostel_Id,
-        floor_id: currentItem?.room?.Floor_Id,
-        room_id: currentItem?.room?.Room_Id,
-        bed_id: currentItem?.bed?.id,
+        floor_id: currentItem?.floorId,
+        room_id: currentItem?.roomId,
+        bed_id: currentItem?.bedId,
         customer_Id: booking_customername,
         mob_no: userDetails.Phone,
         email: userDetails.Email,
@@ -330,7 +335,7 @@ if (matchedBed) {
             payload: { hostel_id: state.login.selectedHostel_Id},
           });
 
-         dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
+        //  dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
     
          handleClose()
         setTimeout(() => {
@@ -495,10 +500,7 @@ const LastName = lastNameParts.join(" ") || "";
         ? incrementDateAndFormat(checkin_joiningDate)
         : "";
 
-        console.log("formattedDate", checkin_customername , stay_typename
-         , checkin_joiningDate , AdvanceAmount , RoomRent , currentItem?.room?.Floor_Id , currentItem?.room?.Room_Id , currentItem?.bed?.id 
-        )
-        
+       
 
 
 const invoiceDateObj = new Date(formattedDate);
@@ -513,55 +515,80 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
     if (
       checkin_customername && stay_typename &&
-      currentItem?.room?.Floor_Id && currentItem?.room?.Room_Id && currentItem?.bed?.id && 
+      currentItem?.floorId && 
+      currentItem?.roomId && currentItem?.bedId && 
       checkin_joiningDate &&
       AdvanceAmount > 0 &&
       RoomRent > 0
     ) {
 
       dispatch({
-  type: "ADDUSER",
-  payload: {
-    profile: selectedUser.profile,
-    firstname: FirstName || "",  
-    LastName: LastName || "",
-    Phone: selectedUser.Phone,
-    Email: selectedUser.Email,
-    Address: selectedUser.Address,
-    area: selectedUser.area,
-    landmark: selectedUser.landmark,
-    city: selectedUser.city,
-    pincode: selectedUser.pincode,
-    state: selectedUser.state,
-    AadharNo: selectedUser.AadharNo,
-    PancardNo: selectedUser.PancardNo,
-    licence: selectedUser.licence,
-    HostelName: selectedUser.HostelName,
-    hostel_Id: state.login.selectedHostel_Id,
-    Floor:  currentItem?.room?.Floor_Id,
-    Rooms: currentItem?.room?.Room_Id,
-    Bed: currentItem?.bed?.id,
-    joining_date: formattedDate,
-    AdvanceAmount: AdvanceAmount,
-    RoomRent: RoomRent,
-    isadvance: 1,
-    invoice_date: formattedDate,
-    due_date: formattedAdvanceDueDate,
-    reasons: formattedReasons,
-    stay_type: stay_typename,
-    ID:checkin_customername
-  },
-});
+        type: 'CHECKIN',
+        payload: {
+          customerId: checkin_customername,
+          hostelId: currentItem?.hostelId,
+          floorId: currentItem?.floorId,
+          bedId: currentItem?.bedId,
+          roomId: currentItem?.roomId,
+          joiningDate: checkin_joiningDate,
+          advanceAmount: AdvanceAmount,
+          rentalAmount: RoomRent
+
+        }
+      })
+setFormLoading(true)
+
+      //       dispatch({
+      //   type: "ADDUSER",
+      //   payload: {
+      //     profile: selectedUser.profile,
+      //     firstname: FirstName || "",  
+      //     LastName: LastName || "",
+      //     Phone: selectedUser.Phone,
+      //     Email: selectedUser.Email,
+      //     Address: selectedUser.Address,
+      //     area: selectedUser.area,
+      //     landmark: selectedUser.landmark,
+      //     city: selectedUser.city,
+      //     pincode: selectedUser.pincode,
+      //     state: selectedUser.state,
+      //     AadharNo: selectedUser.AadharNo,
+      //     PancardNo: selectedUser.PancardNo,
+      //     licence: selectedUser.licence,
+      //     HostelName: selectedUser.HostelName,
+      //     hostel_Id: state.login.selectedHostel_Id,
+      //      Floor: currentItem?.floorId,
+      //        Rooms: currentItem?.roomId,
+      //         Bed: currentItem?.bedId,
+      //         joining_date: formattedDate,
+      //     AdvanceAmount: AdvanceAmount,
+      //     RoomRent: RoomRent,
+      //     isadvance: 1,
+      //     invoice_date: formattedDate,
+      //     due_date: formattedAdvanceDueDate,
+      //     reasons: formattedReasons,
+      //     stay_type: stay_typename,
+      //     ID:checkin_customername
+      //   },
+      // });
 
 
-    dispatch({ type: "INVOICELIST" });
+      dispatch({ type: "INVOICELIST" });
     }
-    setFormLoading(true)
+    
   };
 
 
  
-  
+   useEffect(() => {
+        if (state.UsersList.statusCodeForCheckInCustomer === 201) {
+          setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
+            }, 2000)
+        }
+
+    }, [state.UsersList.statusCodeForCheckInCustomer])
 
     return(
         <>
@@ -601,7 +628,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                 fontWeight: 400,
                                 fontFamily: "Gilroy",
                                 color:'rgba(30, 69, 225, 1)'
-                              }}>Room No {currentItem?.room?.Room_Name} | Bed {currentItem?.bed?.bed_no}</span> 
+                              }}>Room No {currentItem?.roomName} | Bed {currentItem?.bedName}</span> 
                             </div>
                             </div>
                           
@@ -675,8 +702,8 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                       options={
                                                         state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
                                                            state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                                                            value: u.id,
-                                                            label: u.Name,
+                                                            value: u.customerId,
+                                                            label: u.firstName,
                                                           }))
                                                         
                                                       }
@@ -686,7 +713,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                           ? {
                                                             value: booking_customername,
                                                             label:
-                                                              state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === booking_customername)?.Name ||
+                                                              state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === booking_customername)?.firstName ||
                                                               "Select Customer",
                                                           }
                                                           : null
@@ -1014,13 +1041,13 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                 ></div>
               </div>
             }
-        
+{/*         
                             {state.createAccount?.networkError ?
                               <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                               </div>
-                              : null}
+                              : null} */}
            <div className="d-flex justify-content-end">
                                                            <Button
                                                              style={{
@@ -1081,11 +1108,11 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                       Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
                                                     </Form.Label>
                                                     <Select
-                                                      options={
+                                                       options={
                                                         state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
                                                            state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                                                            value: u.id,
-                                                            label: u.Name,
+                                                            value: u.customerId,
+                                                            label: u.firstName,
                                                           }))
                                                         
                                                       }
@@ -1095,7 +1122,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                           ? {
                                                             value: checkin_customername,
                                                             label:
-                                                              state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === checkin_customername)?.Name ||
+                                                              state.UsersList?.UnAssignCustomerDetails?.find((u) => u.customerId === checkin_customername)?.firstName ||
                                                               "Select Customer",
                                                           }
                                                           : null

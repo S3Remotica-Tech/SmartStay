@@ -506,7 +506,7 @@ function UserlistForm(props) {
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
   const handleClose = () => {
-    setFirstname("");
+       setFirstname("");
     setLastname("");
     setAadharNo("");
     setPancardNo("");
@@ -537,13 +537,13 @@ function UserlistForm(props) {
     setPayableamount("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    props.setShowMenu(false);
-    props.setShowForm(false);
-    props.OnShowTable(true);
-    if (props.edit === "Edit") {
-      props.OnShowTable(true);
+  if (props?.setShowMenu) props.setShowMenu(false);
+  if (props?.setShowForm) props.setShowForm(false);
+  if (props?.OnShowTable) props.OnShowTable(true);
+    if (props?.edit === "Edit") {
+      if (props?.OnShowTable) props.OnShowTable(true);
     } else {
-      props.setRoomDetail(false);
+      if (props?.setRoomDetail) props.setRoomDetail(false);
     }
   };
 
@@ -552,13 +552,13 @@ function UserlistForm(props) {
 
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    props.setShowAssignMenu(false);
-    props.setShowForm(false);
-    props.OnShowTable(true);
+   if (props?.setShowAssignMenu) props.setShowAssignMenu(false);
+  if (props?.setShowForm) props.setShowForm(false);
+  if (props?.OnShowTable) props.OnShowTable(true);
     if (props.edit === "Edit") {
-      props.OnShowTable(true);
+    if (props?.OnShowTable) props.OnShowTable(true);
     } else {
-      props.setRoomDetail(false);
+       if (props?.setRoomDetail) props.setRoomDetail(false);
     }
   }
 
@@ -1538,17 +1538,17 @@ useEffect(() => {
       handleCloseAssign()
       handleCloseAssignBooking()
       if (props.edit === "Edit") {
-        props.setRoomDetail(true);
-        props.OnShowTable(true);
+        if (props?.setRoomDetail) props.setRoomDetail(true);
+      if (props?.OnShowTable) props.OnShowTable(true);
       } else {
-        props.setRoomDetail(false);
+        if (props?.setRoomDetail) props.setRoomDetail(false);
       }
 
     }
   }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
   const handleCloseAdvanceForm = () => {
-    props.setAdvanceForm(false);
+    if (props.setAdvanceForm) props.setAdvanceForm(false);
     setAdvanceDate("");
     setAdvanceDueDate("");
 
@@ -1836,19 +1836,18 @@ useEffect(() => {
 
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    props.setBookingAssignForm(false);
-    props.setShowForm(false);
-    props.OnShowTable(true);
+    if (props?.setBookingAssignForm) props.setBookingAssignForm(false);
+  if (props?.setShowForm) props.setShowForm(false);
+  if (props?.OnShowTable) props.OnShowTable(true);
     if (props.edit === "Edit") {
-      props.OnShowTable(true);
+     if (props?.OnShowTable) props.OnShowTable(true);
     } else {
-      props.setRoomDetail(false);
+     if (props?.setRoomDetail) props.setRoomDetail(false);
     }
   }
   const handleCloseBacktoCheckin = () => {
-    props.setBacktoCheckInForm(false)
-    // props.handleCloseBed()
-    props.handleCloseBed?.();
+   if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
+  if (props?.handleCloseBed) props.handleCloseBed();
   }
 
   console.log("props?.EditObj", props?.EditObj)
