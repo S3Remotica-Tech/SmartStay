@@ -10,6 +10,7 @@ import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from "../Pages/UserFile/AddUser";
+import { toast } from 'react-toastify';
 import "./SettingUsers.css";
 import Select from "react-select";
 
@@ -43,13 +44,14 @@ function SettingNewUser() {
     }
   };
 
-  const [showPopup, setShowPopup] = useState(false);
 
   const handleOpenAddUser = () => {
-    if (!state.login.selectedHostel_Id) {
-      setShowPopup(true);
-      return;
-    }
+       if (!state.login.selectedHostel_Id) {
+          toast.error('Please add a hostel before adding User information.', {
+            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+          });
+          return;
+        }
     setAddUserForm(true);
     setEdit(false);
   };
@@ -291,7 +293,6 @@ const options = [
               marginTop: 12,
               whiteSpace: "nowrap",
             }}
-            disabled={showPopup}
           >
             {" "}
             + User
@@ -299,16 +300,6 @@ const options = [
         </div>
       </div>
 
-      {showPopup && (
-        <div className="d-flex flex-wrap">
-          <p
-            style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }}
-            className="col-12 col-sm-6 col-md-6 col-lg-9"
-          >
-            Please add a hostel before adding User information.
-          </p>
-        </div>
-      )}
 
       <div className="mt-4">
         {sortedData?.length > 0 ? (

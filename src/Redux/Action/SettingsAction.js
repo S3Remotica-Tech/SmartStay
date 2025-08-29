@@ -74,11 +74,11 @@ export async function GetEBBillingUnit(hostel_Id) {
 
 // v2 
 
-export async function GetAllRoles(payload) {
-  return await AxiosConfigV2.get("/v2/role", payload, {
-    data: payload,
-  });
+export async function GetAllRoles() {
+  return await AxiosConfigV2.get(`/v2/role`);
 }
+
+
 
 // v1
 // export async function AddSettingRole(datum) {

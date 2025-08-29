@@ -603,11 +603,9 @@ function* handleDeleteElectricity(action) {
 
 }
 
-function* handleGetAllRoles(action) {
-   const response = yield call(GetAllRoles, action.payload)
-
-   console.log("response get", response)
-
+function* handleGetAllRoles() {
+   try{
+  const response = yield call(GetAllRoles)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ROLE_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -618,6 +616,18 @@ function* handleGetAllRoles(action) {
    if (response) {
       refreshToken(response)
    }
+   }
+      catch (error) {
+
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.response.status === 400) {
+            yield put({ type: 'ROLE_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+ 
 }
 
 function* handleAddSettingRole(action) {

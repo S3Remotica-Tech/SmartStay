@@ -12,6 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import PropTypes from "prop-types";
+import { toast } from 'react-toastify';
 import './SettingNewRole.css';
 import Select from "react-select";
 
@@ -35,12 +36,14 @@ useEffect(() => {
     }, [])
 
 
-  const [showPopup, setShowPopup] = useState(false);
   const handleAddRole = () => {
-    if (!hostelid) {
-      setShowPopup(true);
+  
+   if (!hostelid) {
+      toast.error('Please add a hostel before adding Role information.', {
+     hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
       return;
-    }
+     }
     setShowRole(true);
     setAddRole(true);
 
@@ -98,14 +101,12 @@ useEffect(() => {
 const calledRef = useRef(false);
 
 useEffect(() => {
-  if (hostelid && !calledRef.current) {
-    dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } });
+  if ( !calledRef.current) {
+    dispatch({ type: 'SETTING_ROLE_LIST' });
     calledRef.current = true;
   }
-}, [hostelid]);
+}, [calledRef]);
 
-
-   
 
 
   useEffect(() => {
@@ -115,10 +116,10 @@ useEffect(() => {
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ROLE_LIST' })
       }, 2000)
-
     }
-
   }, [state.Settings.statusCodeForRoleList])
+
+
 
   useEffect(() => {
     if (state.Settings.errorRole) {
@@ -126,9 +127,7 @@ useEffect(() => {
       setTimeout(() => {
         dispatch({ type: 'REMOVE_ERROR_ROLE' })
       }, 200)
-
     }
-
   }, [state.Settings.errorRole])
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -180,7 +179,7 @@ const options = [
     if (state.Settings.statusCodeForAddRole === 201)
 
       setShowRole(false)
-    dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    dispatch({ type: 'SETTING_ROLE_LIST' });
     setTimeout(() => {
       dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
     }, 1000);
@@ -191,7 +190,7 @@ const options = [
   useEffect(() => {
     if (state.Settings.StatusForDeletePermission === 204) {
       setDeleteRole(false)
-      dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: 'SETTING_ROLE_LIST' });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
       }, 1000);
@@ -202,7 +201,7 @@ const options = [
   useEffect(() => {
     if (state.Settings.StatusForEditPermission === 200) {
       setShowRole(false)
-      dispatch({ type: "SETTING_ROLE_LIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+       dispatch({ type: 'SETTING_ROLE_LIST' });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_SETTING_ROLE" });
         dispatch({ type: "CLEAR_EDIT_PERMISSION" });
@@ -251,7 +250,6 @@ const options = [
               fontWeight: 600, borderRadius: 8, padding: "11px 53px", paddingLeft: 52, marginTop: 12,
               whiteSpace: "nowrap",
             }}
-            disabled={showPopup}
           >
 
 
@@ -263,16 +261,7 @@ const options = [
       </div>
 
 
-      {showPopup && (
-        <div className="d-flex flex-wrap">
-          <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
-            Please add a hostel before adding Role information.
-          </p>
 
-        </div>
-
-
-      )}
 
 
       <div
@@ -410,16 +399,30 @@ style={{maxHeight:475, overflowY:"auto"}}
                 alt="emptystate"
                 style={{ maxWidth: "250px" }}
               />
-              <div
-                style={{
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 18,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                 No Role Available
-              </div>
+             <div
+                                        className="pb-1"
+                                        style={{
+                                          textAlign: "center",
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          fontSize: 18,
+                                          color: "rgba(75, 75, 75, 1)",
+                                        }}
+                                      >
+                                        No Roles{" "}
+                                      </div>
+                                      <div
+                                        className="pb-1"
+                                        style={{
+                                          textAlign: "center",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          fontSize: 14,
+                                          color: "rgba(75, 75, 75, 1)",
+                                        }}
+                                      >
+                                        There are no Roles available.{" "}
+                                      </div>
             </div>
           </div>
           )
