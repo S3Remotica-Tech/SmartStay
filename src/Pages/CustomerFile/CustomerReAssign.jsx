@@ -62,7 +62,7 @@ function CustomerReAssign(props) {
     setNewBed("");
     setNewRoomRent("");
     setSelectedDate("");
-    // setLastDate("")
+  
     setUserId("")
     dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
     dispatch({

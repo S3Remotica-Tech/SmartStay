@@ -32,7 +32,7 @@ import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 import "./ParticularHostelDetails.css";
-
+ 
 
 
 
@@ -757,7 +757,7 @@ function ParticularHostelDetails(props) {
                               style={{ cursor: props.addPermissionError ? "not-allowed" : "pointer" }}
                             >
                               <div style={{ position: "relative", width: 34, height: 41 }}>
-                                {/* Both Booking + Notice → hover with 2 icons */}
+                              
                                 {bed.isbooked === 1 && bed.isNoticePeriod === 1 && (
                                   <div className="action-circle">
                                     2
@@ -782,7 +782,7 @@ function ParticularHostelDetails(props) {
                                   </div>
                                 )}
 
-                                {/* Booking only → show icon normally */}
+                             
                                 {bed.isbooked === 1 && bed.isNoticePeriod !== 1 && (
                                   <img
                                     src={recerverimg}
@@ -799,7 +799,7 @@ function ParticularHostelDetails(props) {
                                   />
                                 )}
 
-                                {/* Notice only → show icon normally */}
+                              
                                 {bed.isNoticePeriod === 1 && bed.isbooked !== 1 && (
                                   <img
                                     src={noticeimg}
