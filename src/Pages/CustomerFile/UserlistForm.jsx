@@ -928,11 +928,9 @@ function UserlistForm(props) {
 
 
 
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate());
-      return newDate.toISOString().split("T")[0];
-    };
+   const incrementDateAndFormat = (date) => {
+  return dayjs(date).format("YYYY-MM-DD");
+};
 
 
     // const formattedDate = selectedDate
@@ -2125,8 +2123,12 @@ const invoiceDateObj = new Date(formattedDate);
       dateRef.current?.focus();
       return;
     }
- const incrementDateAndFormat = (date) => {
-  return dayjs(date).format("YYYY-MM-DD");
+     const incrementDateAndFormat = (date) => {
+  const newDate = new Date(date);
+  const year = newDate.getFullYear();
+  const month = String(newDate.getMonth() + 1).padStart(2, "0");
+  const day = String(newDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 };
 
    const formattedDate = recheckInDate

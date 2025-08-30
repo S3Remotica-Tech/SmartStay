@@ -819,6 +819,7 @@ function CustomerReAssign(props) {
                           }
                           onChange={handleRooms}
                           ref={roomRef}
+                          isDisabled={!newFloor} 
                           value={
                             newRoom
                               ? {
@@ -950,7 +951,7 @@ function CustomerReAssign(props) {
                               : null
                           }
                           placeholder="Select Bed"
-                          isDisabled={!newRoom}   // Room select பண்ணினால்தான் enable
+                          isDisabled={!newRoom}   
                           styles={{
                             control: (base) => ({
                               ...base,
