@@ -222,7 +222,7 @@ function SettingNewRole({ hostelid }) {
   }, [roleList])
 
 
-  console.log("currentItems", currentItems)
+  
 
   return (
     <div style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}>

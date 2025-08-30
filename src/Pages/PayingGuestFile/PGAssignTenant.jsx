@@ -516,7 +516,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
-    const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+    // const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
 
 
