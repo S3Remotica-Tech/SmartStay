@@ -153,7 +153,8 @@ function UserList(props) {
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-      } if (value === "2") {
+      } 
+      if (value === "2") {
         dispatch({
           type: "GET_BOOKING_LIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1837,21 +1838,21 @@ setBookingDet(userData)
     setShowbookingForm(false);
   };
   const [checkoutForm, setcheckoutForm] = useState(false);
-  const checkOutForm = () => {
-    if (!state.login.selectedHostel_Id) {
-      toast.error("Please add a hostel before adding checkout information.", {
-        hideProgressBar: true,
-        autoClose: 1500,
-        style: {
-          color: "#000",
-          borderBottom: "5px solid red",
-          fontFamily: "Gilroy",
-        },
-      });
-      return;
-    }
-    setcheckoutForm(!checkoutForm);
-  };
+  // const checkOutForm = () => {
+  //   if (!state.login.selectedHostel_Id) {
+  //     toast.error("Please add a hostel before adding checkout information.", {
+  //       hideProgressBar: true,
+  //       autoClose: 1500,
+  //       style: {
+  //         color: "#000",
+  //         borderBottom: "5px solid red",
+  //         fontFamily: "Gilroy",
+  //       },
+  //     });
+  //     return;
+  //   }
+  //   setcheckoutForm(!checkoutForm);
+  // };
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
@@ -2624,7 +2625,7 @@ useEffect(() => {
                       + Bookings
                     </Button>
                   )}
-                  {value === "3" && (
+                  {/* {value === "3" && (
                     <Button
                       disabled={customerCheckoutPermission}
                       onClick={checkOutForm}
@@ -2632,7 +2633,7 @@ useEffect(() => {
                     >
                       + Check-Out
                     </Button>
-                  )}
+                  )} */}
                   {value === "4" && (
                     <Button
                       disabled={customerWalkInAddPermission}

@@ -844,7 +844,7 @@ function UserlistForm(props) {
         payload: {
           profile: file,
           firstname: capitalizedFirstname,
-          LastName: capitalizedLastname,
+          lastname: capitalizedLastname,
           Phone: Phone,
           Email: Email,
           Address: house_no,
@@ -935,10 +935,14 @@ function UserlistForm(props) {
     };
 
 
+    // const formattedDate = selectedDate
+    //   ? incrementDateAndFormat(selectedDate)
+    //   : "";
+    // const invoiceDateObj = new Date(formattedDate);
     const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
-      : "";
-    const invoiceDateObj = new Date(formattedDate);
+  ? incrementDateAndFormat(selectedDate)
+  : "";
+const invoiceDateObj = new Date(formattedDate);
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
@@ -2121,8 +2125,16 @@ function UserlistForm(props) {
       dateRef.current?.focus();
       return;
     }
+ const incrementDateAndFormat = (date) => {
+  return dayjs(date).format("YYYY-MM-DD");
+};
 
-    dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: recheckInDate } });
+   const formattedDate = recheckInDate
+  ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
+  : "";
+
+
+    dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
     setFormLoading(true)
   }
 
