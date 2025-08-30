@@ -194,18 +194,18 @@ function BedDetailsMap({ room, propsValue }) {
             // setOccupiedCustomerDetails({ bed, room });
 
         }
-        // else if (!bed.isOccupied) {
-        //      setEmptyBed(true);
-        //     setDeleteBedDetails({ bed, room });
+        else if (!bed.isOccupied) {
+             setEmptyBed(true);
+            setDeleteBedDetails({ bed, room });
 
-        // }
+        }
         else if (bed.onNotice) {
             setOccubiedBed(false);
             setNoticePeriodBed(true);
             // setOccupiedCustomerDetails({ bed, room });
 
         }
-        else if (!bed.isOccupied) {
+        else if (bed.isOccupied) {
             setOccubiedBed(true);
             // setOccupiedCustomerDetails({ bed, room });
         }
