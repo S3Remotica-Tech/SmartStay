@@ -844,7 +844,7 @@ function UserlistForm(props) {
         payload: {
           profile: file,
           firstname: capitalizedFirstname,
-          LastName: capitalizedLastname,
+          lastname: capitalizedLastname,
           Phone: Phone,
           Email: Email,
           Address: house_no,
@@ -928,17 +928,19 @@ function UserlistForm(props) {
 
 
 
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate());
-      return newDate.toISOString().split("T")[0];
-    };
+   const incrementDateAndFormat = (date) => {
+  return dayjs(date).format("YYYY-MM-DD");
+};
 
 
+    // const formattedDate = selectedDate
+    //   ? incrementDateAndFormat(selectedDate)
+    //   : "";
+    // const invoiceDateObj = new Date(formattedDate);
     const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
-      : "";
-    const invoiceDateObj = new Date(formattedDate);
+  ? incrementDateAndFormat(selectedDate)
+  : "";
+const invoiceDateObj = new Date(formattedDate);
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
@@ -2121,8 +2123,20 @@ function UserlistForm(props) {
       dateRef.current?.focus();
       return;
     }
+     const incrementDateAndFormat = (date) => {
+  const newDate = new Date(date);
+  const year = newDate.getFullYear();
+  const month = String(newDate.getMonth() + 1).padStart(2, "0");
+  const day = String(newDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
-    dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: recheckInDate } });
+   const formattedDate = recheckInDate
+  ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
+  : "";
+
+
+    dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
     setFormLoading(true)
   }
 
