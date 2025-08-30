@@ -205,10 +205,10 @@ function BedDetailsMap({ room, propsValue }) {
             // setOccupiedCustomerDetails({ bed, room });
 
         }
-        // else if (!bed.isOccupied) {
-        //     setOccubiedBed(true);
-        //     // setOccupiedCustomerDetails({ bed, room });
-        // }
+        else if (bed.isOccupied) {
+            setOccubiedBed(true);
+            // setOccupiedCustomerDetails({ bed, room });
+        }
     };
 
 
