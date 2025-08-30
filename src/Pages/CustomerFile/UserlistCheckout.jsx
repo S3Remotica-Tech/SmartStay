@@ -172,7 +172,7 @@ function CheckOut(props) {
 
   useEffect(() => {
     if (
-      state.UsersList.addCheckoutCustomerStatusCode === 200 ||
+      state.UsersList.addCheckoutCustomerStatusCode === 201 ||
       state.UsersList.deleteCheckoutCustomerStatusCode === 200
     ) {
 

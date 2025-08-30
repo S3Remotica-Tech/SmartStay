@@ -445,10 +445,12 @@ function* handleCustomerSaveInfo(datum) {
    }
    catch (error) {
       if (error.code === 'ERR_BAD_REQUEST') {
-         if (error.response.data.emailStatus !== "" || error.status === 400) {
-            yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus || error.response.data });
+         const emailError = error.response?.data?.emailStatus;
+         const mobileError = error.response?.data?.mobileStatus;
+         if (emailError) {
+            yield put({ type: 'EMAIL_ERROR', payload: emailError });
          } else if (error.response.data.mobileStatus !== "") {
-            yield put({ type: 'PHONE_ERROR', payload: error.response.data.mobileStatus });
+            yield put({ type: 'PHONE_ERROR', payload: mobileError });
          }
       } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
@@ -1052,9 +1054,9 @@ function* handleAddCheckoutCustomer(action) {
 
       };
 
-      if (response.statusCode === 200 || response.status === 200) {
+      if (response.status === 201) {
          yield put({ type: 'ADD_CHECKOUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
-         toast.success(`${response.data.message}`, {
+         toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -1065,9 +1067,10 @@ function* handleAddCheckoutCustomer(action) {
             progress: undefined,
             style: toastStyle,
          });
-      } else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response.data.message })
       }
+      // } else if (response.status === 201 || response.statusCode === 201) {
+      //    yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response.data.message })
+      // }
 
 
 

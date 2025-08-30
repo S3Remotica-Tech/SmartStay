@@ -31,19 +31,19 @@ function SettingNewRole({ hostelid }) {
 
   const [loading, setLoading] = useState(true)
 
-useEffect(() => {
-        dispatch({ type: 'GETMODULES' })
-    }, [])
+  useEffect(() => {
+    dispatch({ type: 'GETMODULES' })
+  }, [])
 
 
   const handleAddRole = () => {
-  
-   if (!hostelid) {
+
+    if (!hostelid) {
       toast.error('Please add a hostel before adding Role information.', {
-     hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
       });
       return;
-     }
+    }
     setShowRole(true);
     setAddRole(true);
 
@@ -96,16 +96,16 @@ useEffect(() => {
 
   }
 
-  
 
-const calledRef = useRef(false);
 
-useEffect(() => {
-  if ( !calledRef.current) {
-    dispatch({ type: 'SETTING_ROLE_LIST' });
-    calledRef.current = true;
-  }
-}, [calledRef]);
+  const calledRef = useRef(false);
+
+  useEffect(() => {
+    if (!calledRef.current) {
+      dispatch({ type: 'SETTING_ROLE_LIST' });
+      calledRef.current = true;
+    }
+  }, [calledRef]);
 
 
 
@@ -144,15 +144,15 @@ useEffect(() => {
     setCurrentPage(pageNumber);
   };
   const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(selectedOption.value);
-  setCurrentPage(1);
-};
+    setItemsPerPage(selectedOption.value);
+    setCurrentPage(1);
+  };
 
-const options = [
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+  const options = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -201,7 +201,7 @@ const options = [
   useEffect(() => {
     if (state.Settings.StatusForEditPermission === 200) {
       setShowRole(false)
-       dispatch({ type: 'SETTING_ROLE_LIST' });
+      dispatch({ type: 'SETTING_ROLE_LIST' });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_SETTING_ROLE" });
         dispatch({ type: "CLEAR_EDIT_PERMISSION" });
@@ -220,6 +220,9 @@ const options = [
       setCurrentPage(currentPage - 1);
     }
   }, [roleList])
+
+
+  
 
   return (
     <div style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}>
@@ -266,7 +269,7 @@ const options = [
 
       <div
         className="row mt-3 mb-3 overflow-auto  show-scrolls"
-style={{maxHeight:475, overflowY:"auto"}}
+        style={{ maxHeight: 475, overflowY: "auto" }}
       >
         {currentItems.length > 0 ? (
           currentItems.map((view, index) => (
@@ -292,7 +295,7 @@ style={{maxHeight:475, overflowY:"auto"}}
                     height: "35px",
                     width: "35px",
                     cursor: "pointer",
-                    backgroundColor: showDots === index ? "#E7F1FF" : "white",
+                    // backgroundColor: showDots === index ? "#E7F1FF" : "white",
                     position: "relative",
                   }}
                   onClick={(e) => handleShowDots(e, index)}
@@ -300,7 +303,7 @@ style={{maxHeight:475, overflowY:"auto"}}
                   <PiDotsThreeOutlineVerticalFill
                     style={{ height: "20px", width: "20px" }}
                   />
-                  {showDots === index && (
+                  {showDots === index &&  view.editable && (
                     <div
                       ref={popupRef}
                       className="pg-card"
@@ -320,15 +323,21 @@ style={{maxHeight:475, overflowY:"auto"}}
 
                         <div
                           className="d-flex gap-2 align-items-center"
-                          onClick={() => handleEditForm(view)}
+                          onClick={() => view.editable && handleEditForm(view)}
                           style={{
                             padding: "8px 12px",
                             width: "100%",
-                            cursor: "pointer",
+                            cursor: view.editable ? "pointer" : "not-allowed",
                             transition: "background 0.2s ease-in-out",
                           }}
-                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
-                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                          onMouseEnter={(e) =>
+                            view.editable &&
+                            (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                          }
+                          onMouseLeave={(e) =>
+                            view.editable &&
+                            (e.currentTarget.style.backgroundColor = "transparent")
+                          }
                         >
                           <img src={Edit} width={16} height={16} alt="Edit" />
                           <span
@@ -336,7 +345,7 @@ style={{maxHeight:475, overflowY:"auto"}}
                               fontSize: 14,
                               fontWeight: 500,
                               fontFamily: "Gilroy",
-                              color: "#1E45E1",
+                              color: "#1E45E1" ,
                             }}
                           >
                             Edit
@@ -347,15 +356,21 @@ style={{maxHeight:475, overflowY:"auto"}}
 
                         <div
                           className="d-flex gap-2 align-items-center"
-                          onClick={() => handleDeleteForm(view)}
+                          onClick={() => view.editable && handleDeleteForm(view)}
                           style={{
                             padding: "8px 12px",
                             width: "100%",
-                            cursor: "pointer",
+                            cursor: view.editable ? "pointer" : "not-allowed",
                             transition: "background 0.2s ease-in-out",
                           }}
-                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
-                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                          onMouseEnter={(e) =>
+                            view.editable &&
+                            (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                          }
+                          onMouseLeave={(e) =>
+                            view.editable &&
+                            (e.currentTarget.style.backgroundColor = "transparent")
+                          }
                         >
                           <img src={Delete} width={16} height={16} alt="Delete" />
                           <span
@@ -369,6 +384,7 @@ style={{maxHeight:475, overflowY:"auto"}}
                             Delete
                           </span>
                         </div>
+
                       </div>
                     </div>
 
@@ -379,52 +395,52 @@ style={{maxHeight:475, overflowY:"auto"}}
           ))
         ) : (
           !loading && (
-           
 
 
-          
 
-           <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            marginTop:90,
-              paddingLeft: "0px", 
-            }}
-          >
-            <div style={{ textAlign: "center" }}>
-              <img
-                src={EmptyState}
-                alt="emptystate"
-                style={{ maxWidth: "250px" }}
-              />
-             <div
-                                        className="pb-1"
-                                        style={{
-                                          textAlign: "center",
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          fontSize: 18,
-                                          color: "rgba(75, 75, 75, 1)",
-                                        }}
-                                      >
-                                        No Roles{" "}
-                                      </div>
-                                      <div
-                                        className="pb-1"
-                                        style={{
-                                          textAlign: "center",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          fontSize: 14,
-                                          color: "rgba(75, 75, 75, 1)",
-                                        }}
-                                      >
-                                        There are no Roles available.{" "}
-                                      </div>
+
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 90,
+                paddingLeft: "0px",
+              }}
+            >
+              <div style={{ textAlign: "center" }}>
+                <img
+                  src={EmptyState}
+                  alt="emptystate"
+                  style={{ maxWidth: "250px" }}
+                />
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 18,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No Roles{" "}
+                </div>
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 14,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  There are no Roles available.{" "}
+                </div>
+              </div>
             </div>
-          </div>
           )
         )}
       </div>
@@ -435,68 +451,68 @@ style={{maxHeight:475, overflowY:"auto"}}
       {
         roleList.length > 10 &&
         <nav
-          className='position-fixed bottom-0 end-0  d-flex justify-content-end align-items-center' style={{  padding: "10px",backgroundColor: "white" , zIndex:1000}}
+          className='position-fixed bottom-0 end-0  d-flex justify-content-end align-items-center' style={{ padding: "10px", backgroundColor: "white", zIndex: 1000 }}
 
         >
-            <div>
-              <Select
-                value={options.find((opt) => opt.value === itemsPerPage)}
-                onChange={handleItemsPerPageChange}
-                options={options}
-                placeholder="Items per page"
-                classNamePrefix="custom"
-                menuPlacement="auto"
-                noOptionsMessage={() => "No options"}
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: "40px",
-                    borderRadius: "6px",
-                    fontSize: "14px",
-                    color: "#1E45E1",
-                    fontFamily: "Gilroy",
-                    fontWeight: 600,
-                    border: "1px solid #1E45E1",
-                    boxShadow: "0 0 0 1px #1E45E1",
-                    cursor: "pointer",
-                    width: 90,
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    border: "1px solid #ced4da",
-                    fontFamily: "Gilroy",
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    maxHeight: "200px",
-                    padding: 0,
-                    scrollbarWidth: "thin",
-                    overflowY: "auto",
-                    fontFamily: "Gilroy",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#555",
-                  }),
-                  dropdownIndicator: (base) => ({
-                    ...base,
-                    color: "#1E45E1",
-                    cursor: "pointer",
-                  }),
-                  indicatorSeparator: () => ({
-                    display: "none",
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    cursor: "pointer",
-                    backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                    color: state.isFocused ? "#fff" : "#000",
-                  }),
-                }}
-              />
-            </div>
+          <div>
+            <Select
+              value={options.find((opt) => opt.value === itemsPerPage)}
+              onChange={handleItemsPerPageChange}
+              options={options}
+              placeholder="Items per page"
+              classNamePrefix="custom"
+              menuPlacement="auto"
+              noOptionsMessage={() => "No options"}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  height: "40px",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  color: "#1E45E1",
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                  border: "1px solid #1E45E1",
+                  boxShadow: "0 0 0 1px #1E45E1",
+                  cursor: "pointer",
+                  width: 90,
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #ced4da",
+                  fontFamily: "Gilroy",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  maxHeight: "200px",
+                  padding: 0,
+                  scrollbarWidth: "thin",
+                  overflowY: "auto",
+                  fontFamily: "Gilroy",
+                }),
+                placeholder: (base) => ({
+                  ...base,
+                  color: "#555",
+                }),
+                dropdownIndicator: (base) => ({
+                  ...base,
+                  color: "#1E45E1",
+                  cursor: "pointer",
+                }),
+                indicatorSeparator: () => ({
+                  display: "none",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  cursor: "pointer",
+                  backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                  color: state.isFocused ? "#fff" : "#000",
+                }),
+              }}
+            />
+          </div>
 
 
           <ul

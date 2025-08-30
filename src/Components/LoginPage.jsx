@@ -103,12 +103,10 @@ const MyComponent = () => {
     }
     if (email_Id && password) {
       dispatch({ type: 'LOGINVERSION2', payload: { emailId: email_Id, password: password } });
-      setTimeout(() => {
 
-      })
       dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
-
       setLoading(true)
+
     }
   };
 
@@ -166,7 +164,7 @@ const MyComponent = () => {
         dispatch({ type: 'LOGIN-SUCCESS' });
         const token = state.login?.JWTtokenV2
 
-        
+
 
         const cookies = new Cookies()
         cookies.set('v2-token', token, { path: '/' });

@@ -325,22 +325,22 @@ useEffect(() => {
 
 
 
-    useEffect(() => {
-      if (roomList && roomList.length > 0) {
-        roomList.forEach((room) => {
-          dispatch({
-            type: "GETALLBEDSLIST",
-            payload: { roomId: room.id }
-          });
+    // useEffect(() => {
+    //   if (roomList && roomList.length > 0) {
+    //     roomList.forEach((room) => {
+    //       dispatch({
+    //         type: "GETALLBEDSLIST",
+    //         payload: { roomId: room.id }
+    //       });
   
-          setTimeout(() => {
-            dispatch({ type: 'REMOVE_GET_ALL_BEDS_STATUS_CODE' })
-          }, 100)
+    //       setTimeout(() => {
+    //         dispatch({ type: 'REMOVE_GET_ALL_BEDS_STATUS_CODE' })
+    //       }, 100)
   
   
-        });
-      }
-    }, [roomList, state?.PgList?.getAllRoomSuccessStatus]);
+    //     });
+    //   }
+    // }, [roomList, state?.PgList?.getAllRoomSuccessStatus]);
 
 // useEffect(() => {
 //     if (state?.PgList.getAllBedSuccessStatus === 200) {
@@ -400,14 +400,14 @@ useEffect(() => {
       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
        dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       setShowBed(false)
-if (roomList && roomList.length > 0) {
-        roomList.forEach((room) => {
-          dispatch({
-            type: "GETALLBEDSLIST",
-            payload: { roomId: room.id }
-          });
-        });
-      }
+// if (roomList && roomList.length > 0) {
+//         roomList.forEach((room) => {
+//           dispatch({
+//             type: "GETALLBEDSLIST",
+//             payload: { roomId: room.id }
+//           });
+//         });
+//       }
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })

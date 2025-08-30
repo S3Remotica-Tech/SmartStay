@@ -54,6 +54,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [showBed, setShowBed] = useState(false)
     const [details, setDetails] = useState('')
 
+
     const handleShowReservedBed = () => {
         setShowReservedBed(true)
     }
@@ -75,7 +76,8 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleShowNoticePeriod = (isVisible, customer) => {
-        setOccubiedBed(false)
+
+           setOccubiedBed(false)
         setMoveToNoticePeriodForm(isVisible)
         setCustomerDetails(customer)
 
@@ -149,8 +151,8 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
 
-    const handleShowAssignTenant = () => {
-        setAssignTenantForm(true)
+    const handleShowAssignTenant = (isVisible) => {
+        setAssignTenantForm(isVisible)
         setEmptyBed(false)
     }
 
@@ -184,9 +186,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
-        console.log("bed", bed)
-        console.log("room", room)
-
+        
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
         // isOccupied
@@ -200,22 +200,23 @@ function BedDetailsMap({ room, propsValue }) {
 
         }
         else if (!bed.isOccupied) {
-            setEmptyBed(true);
+             setEmptyBed(true);
             setDeleteBedDetails({ bed, room });
-            // setOccupiedCustomerDetails({ bed, room });
+           
+        }
+        // else if (bed.onNotice) {
+        //     setOccubiedBed(false);
+        //     setNoticePeriodBed(true);
+        //     // setOccupiedCustomerDetails({ bed, room });
 
-        }
-        else if (bed.onNotice) {
-            setOccubiedBed(false);
-            setNoticePeriodBed(true);
-            // setOccupiedCustomerDetails({ bed, room });
-
-        }
-        else if (bed.isOccupied) {
-            setOccubiedBed(true);
-            // setOccupiedCustomerDetails({ bed, room });
-        }
+        // }
+        // else if (!bed.isOccupied) {
+        //     setOccubiedBed(true);
+        //     // setOccupiedCustomerDetails({ bed, room });
+        // }
     };
+
+
 
     useEffect(() => {
         if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
@@ -251,7 +252,7 @@ function BedDetailsMap({ room, propsValue }) {
         if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
 
             setShowBed(false)
-            dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: propsValue.floorID } })
+            // dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: propsValue.floorID } })
             dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
@@ -266,8 +267,11 @@ function BedDetailsMap({ room, propsValue }) {
 
     useEffect(() => {
         if (state.PgList.statusCodeDeleteBed === 200) {
-            dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: propsValue.floorID } })
-
+            // dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: propsValue.floorID } })
+ dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: room.id }
+            });
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE' })
             }, 2000)
@@ -292,18 +296,7 @@ function BedDetailsMap({ room, propsValue }) {
     }, [state.UsersList.statusCodeForCheckInCustomer])
 
 
-
-
-
-
-
-
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
-
-
-console.log(assign_tenantform,"assign_tenantform")
-
-
 
 
     return (

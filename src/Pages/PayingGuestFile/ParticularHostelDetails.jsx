@@ -27,7 +27,7 @@ function ParticularHostelDetails(props) {
   // const [showBed, setShowBed] = useState(false)
   // const [details, setDetails] = useState('')
 
-  
+
   const [showDots, setShowDots] = useState('')
   // const [roomCountData, setRoomCountData] = useState([])
   const [roomList, setRoomList] = useState([])
@@ -44,7 +44,7 @@ function ParticularHostelDetails(props) {
 
   // const [showDeleteBed, setShowDeleteBed] = useState(false)
 
-  
+
 
 
   // const handleAddBed = (item, Room_Id) => {
@@ -84,7 +84,7 @@ function ParticularHostelDetails(props) {
 
 
 
-  
+
 
 
 
@@ -139,9 +139,9 @@ function ParticularHostelDetails(props) {
   }
 
 
- 
 
-  
+
+
 
 
   useEffect(() => {
@@ -160,7 +160,7 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (props.floorID && props.hostel_Id) {
       setLoader(true)
-           dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
     }
     else {
       setLoader(false)
@@ -221,8 +221,8 @@ function ParticularHostelDetails(props) {
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      if(props.floorID){
-dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      if (props.floorID) {
+        dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       }
       dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
@@ -232,14 +232,14 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
     }
-  }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.statusCodeForAddCustomerSaveInfo]);
+  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {
 
-    if(props.floorID){
-dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      if (props.floorID) {
+        dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       }
 
 
@@ -253,8 +253,8 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
 
     if (state.PgList.statusCodeCreateRoom === 201 || state.PgList.statusCodeUpdateRoom === 200) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      if(props.floorID){
-dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      if (props.floorID) {
+        dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       }
       setShowRoom(false)
       dispatch({ type: 'HOSTELLIST' })
@@ -270,24 +270,24 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
     if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
       // dispatch({ type: 'HOSTELLIST' })
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      if(props.floorID){
-dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+      if (props.floorID) {
+        dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       }
-      
+
       // setShowBed(false)
 
-      if (roomList && roomList.length > 0) {
-        roomList.forEach((room) => {
-          dispatch({
-            type: "GETALLBEDSLIST",
-            payload: { roomId: room.id }
-          });
-        });
-      }
+      // if (roomList && roomList.length > 0) {
+      //   roomList.forEach((room) => {
+      //     dispatch({
+      //       type: "GETALLBEDSLIST",
+      //       payload: { roomId: room.id }
+      //     });
+      //   });
+      // }
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
-      }, 4000)
+      }, 100)
     }
   }, [state.PgList.createBedStatusCode, state.PgList.updateBedStatusCode])
 
@@ -309,7 +309,7 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
   }, []);
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       // setMoveToNoticePeriodForm(false)
@@ -434,7 +434,7 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
 
 
       <div >
-       
+
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
           {/* {loader && <div
             style={{
@@ -477,9 +477,12 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
                         {room.name}
                       </div>
                       <div style={{ fontSize: 12, fontWeight: 400, color: "#7C7C7C", marginTop: "-2px" }}>
-                        {/* {Array.isArray(state.PgList?.bedList) ? `${state.PgList?.bedList?.[room.id].length} sharing` : "0 sharing"} */}
+                        {Array.isArray(state.PgList?.bedList?.[room.id])
+                          ? `${state.PgList.bedList[room.id].length} sharing`
+                          : "0 sharing"}
                       </div>
                     </div>
+
 
 
 
@@ -860,7 +863,7 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
         }
 
 
-        
+
 
 
       </div>
