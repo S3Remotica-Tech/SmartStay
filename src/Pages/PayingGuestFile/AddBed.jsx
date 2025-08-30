@@ -52,13 +52,16 @@ function AddBed({ show, setShowBed, currentItem }) {
 console.log("currentItem ",currentItem )
 
 
-  const handleBedNoChange = (e) => {
-    setBedNo(e.target.value);
-    setGeneralError("");
-    setBedError("");
-    setBedAlreadyBooked("")
-    dispatch({ type: "CLEAR_ALREADY_BED" });
-  };
+const handleBedNoChange = (e) => {
+  let value = e.target.value;
+  value = value.replace(/^\s+/, "");
+  setBedNo(value);
+  setGeneralError("");
+  setBedError("");
+  setBedAlreadyBooked("");
+  dispatch({ type: "CLEAR_ALREADY_BED" });
+};
+
 
   const handleAmountChange = (e) => {
     const newAmount = e.target.value
