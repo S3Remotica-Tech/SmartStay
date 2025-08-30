@@ -445,10 +445,12 @@ function* handleCustomerSaveInfo(datum) {
    }
    catch (error) {
       if (error.code === 'ERR_BAD_REQUEST') {
-         if (error.response.data.emailStatus !== "" || error.status === 400) {
-            yield put({ type: 'EMAIL_ERROR', payload: error.response.data.emailStatus || error.response.data });
+         const emailError = error.response?.data?.emailStatus;
+         const mobileError = error.response?.data?.mobileStatus;
+         if (emailError) {
+            yield put({ type: 'EMAIL_ERROR', payload: emailError });
          } else if (error.response.data.mobileStatus !== "") {
-            yield put({ type: 'PHONE_ERROR', payload: error.response.data.mobileStatus });
+            yield put({ type: 'PHONE_ERROR', payload: mobileError });
          }
       } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });

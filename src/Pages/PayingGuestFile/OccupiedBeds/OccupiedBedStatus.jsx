@@ -29,7 +29,7 @@ function OccupiedBedStatus({
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    const [customer, setCustomer] = useState([])
+    // const [customer, setCustomer] = useState([])
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
 
@@ -38,11 +38,11 @@ function OccupiedBedStatus({
 
 
     const handleReAssignBed = () => {
-        handleShowReassignBed(true, customer?.[0]?.id)
+        handleShowReassignBed(true, currentItem)
     };
 
     const handleMoveToNoticePeriod = () => {
-        handleShowNoticePeriod(true, customer?.[0]?.id)
+        handleShowNoticePeriod(true, currentItem)
     }
 
     const handleShowDots = (roomId) => {
@@ -64,32 +64,32 @@ function OccupiedBedStatus({
     }, []);
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const Hostel_Id = currentItem?.room.Hostel_Id;
-        const Floor_Id = currentItem?.room.Floor_Id;
-        const Bed_Id = currentItem?.bed.id;
-        const Room_Id = currentItem?.room.Room_Id;
-
-
-        if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-
-            dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-
-        }
-    }, [currentItem])
+    //     const Hostel_Id = currentItem?.room.Hostel_Id;
+    //     const Floor_Id = currentItem?.room.Floor_Id;
+    //     const Bed_Id = currentItem?.bed.id;
+    //     const Room_Id = currentItem?.room.Room_Id;
 
 
-    useEffect(() => {
-        if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-            setCustomer(state.PgList.OccupiedCustomer)
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-            }, 2000)
-        }
+    //     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+
+    //         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+
+    //     }
+    // }, [currentItem])
 
 
-    }, [state.PgList.OccupiedCustomerGetStatusCode])
+    // useEffect(() => {
+    //     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+    //         setCustomer(state.PgList.OccupiedCustomer)
+    //         setTimeout(() => {
+    //             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+    //         }, 2000)
+    //     }
+
+
+    // }, [state.PgList.OccupiedCustomerGetStatusCode])
 
     // useEffect(() => {
     //     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
@@ -98,6 +98,7 @@ function OccupiedBedStatus({
     //     }
     // }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
+    console.log("currentItem", currentItem)
 
 
     return (
@@ -144,7 +145,9 @@ function OccupiedBedStatus({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No : {currentItem?.room.Room_Name} </label> <span style={{
+                                        }}>Room No : {" "}
+                                            {currentItem?.roomName}
+                                        </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -154,7 +157,9 @@ function OccupiedBedStatus({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed {currentItem?.bed.bed_no}</span>
+                                        }}> Bed : {" "}
+                                            {currentItem?.bedName}
+                                        </span>
                                     </div>
                                 </div>
 
@@ -246,18 +251,19 @@ function OccupiedBedStatus({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
-                                            <Image src={customer[0]?.profile && customer[0]?.profile !== "0" ? customer[0]?.profile : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                                            <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                                         </div>
                                         <div className="mt-2">
                                             <div>
-                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} > {customer?.[0]?.Name || "N/A"}</label>
+                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} > {currentItem.fullName || "N/A"}</label>
                                             </div>
                                             <div>
-                                                <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500 }}>
-                                                    {customer?.[0]?.Phone
-                                                        ? ` +${String(customer[0].Phone).slice(0, -10)} ${String(customer[0].Phone).slice(-10)}`
+                                                <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy" }}>
+                                                    {currentItem.customerMobile
+                                                        ? `+${currentItem.countryCode} ${currentItem.customerMobile}`
                                                         : "No phone"}
                                                 </label>
+
                                             </div>
                                         </div>
                                     </div>
@@ -307,7 +313,7 @@ OccupiedBedStatus.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     currentItem: PropTypes.object.isRequired,
-     handleShowReassignBed: PropTypes.func.isRequired,
-  handleShowNoticePeriod: PropTypes.func.isRequired,
+    handleShowReassignBed: PropTypes.func.isRequired,
+    handleShowNoticePeriod: PropTypes.func.isRequired,
 };
 export default OccupiedBedStatus;

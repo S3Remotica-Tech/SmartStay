@@ -27,67 +27,67 @@ function CustomerCheckout(props) {
   const [joiningError, setJoiningError] = useState('')
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
   const [lastDate, setLastDate] = useState("");
-  const [joiningdate , setJoiningDate] = useState("")
+  const [joiningdate, setJoiningDate] = useState("")
 
-    // useEffect(() => {
-    //   if(props?.data?.ID || props?.data[0]?.id ){
-    //   dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props?.data?.ID || props?.data[0]?.id } });
-    //      }
-     
-    //   }, [props]);
+  // useEffect(() => {
+  //   if(props?.data?.ID || props?.data[0]?.id ){
+  //   dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props?.data?.ID || props?.data[0]?.id } });
+  //      }
 
-
-useEffect(() => {
-
-  if (props.data.ID ||  props.data) {
-    dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID ||  props.data } });
-  }
-}, [props.data]);  
-
- 
+  //   }, [props]);
 
 
-   
-      
+  useEffect(() => {
 
-    useEffect(() => {
-         if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-           const customerData = state.UsersList.customerdetails?.data?.[0]
-           const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
-       
-           // 🔹 1. Store Joining Date
-           if (customerData?.joining_Date) {
-             const joining = new Date(customerData.joining_Date);
-             const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
-               joining.getMonth() + 1
-             ).padStart(2, "0")}-${joining.getFullYear()}`;
-             setJoiningDate(formattedJoining);
-           } else {
-             setJoiningDate("");
-           }
-       
-           // 🔹 2. Store Last Bill Date
-           if (invoiceDetails && invoiceDetails.length > 0) {
-             const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
-             if (dates.length > 0) {
-               const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
-               const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
-                 maxDate.getMonth() + 1
-               ).padStart(2, "0")}-${maxDate.getFullYear()}`;
-               setLastDate(formatted);
-             } else {
-               setLastDate("");
-             }
-           } else {
-             setLastDate("");
-           }
-       
-           // clear details after some time
-           setTimeout(() => {
-             dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-           }, 1000);
-         }
-       }, [state.UsersList.CustomerdetailsgetStatuscode]);
+    if (props.data.ID || props.data) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID || props.data } });
+    }
+  }, [props.data]);
+
+
+
+
+
+
+
+  useEffect(() => {
+    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+      const customerData = state.UsersList.customerdetails?.data?.[0]
+      const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
+
+      // 🔹 1. Store Joining Date
+      if (customerData?.joining_Date) {
+        const joining = new Date(customerData.joining_Date);
+        const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
+          joining.getMonth() + 1
+        ).padStart(2, "0")}-${joining.getFullYear()}`;
+        setJoiningDate(formattedJoining);
+      } else {
+        setJoiningDate("");
+      }
+
+      // 🔹 2. Store Last Bill Date
+      if (invoiceDetails && invoiceDetails.length > 0) {
+        const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
+        if (dates.length > 0) {
+          const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
+          const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
+            maxDate.getMonth() + 1
+          ).padStart(2, "0")}-${maxDate.getFullYear()}`;
+          setLastDate(formatted);
+        } else {
+          setLastDate("");
+        }
+      } else {
+        setLastDate("");
+      }
+
+      // clear details after some time
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+      }, 1000);
+    }
+  }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
 
   const handleCloseCheckout = () => {
@@ -110,7 +110,7 @@ useEffect(() => {
       setDateDifference(null);
     }
   };
-console.log("props.data",props.data)
+  console.log("props", props)
 
   const handleCheckOutCustomer = () => {
 
@@ -141,27 +141,44 @@ console.log("props.data",props.data)
       return;
     }
 
-    const userId = props.data?.ID || props.data || null;
-    const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
+    // const userId = props.data?.ID || props.data || null;
+    // const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
 
-    console.log("UserId:", props.data?.ID, "HostelId:", props.bedData);
+    console.log("props.bedData:", props.bedData);
 
 
 
-    if (userId && hostelId && formattedDate && formattedrequestDate) {
-      console.log("Dispatching ADDCHECKOUTCUSTOMER now...",userId);
+    if (props.bedData?.customerId && hostelId && formattedDate && formattedrequestDate) {
+      
 
+      // dispatch({
+      //   type: 'ADDCHECKOUTCUSTOMER',
+      //   payload: {
+      //     checkout_date: formattedDate,
+      //     user_id: userId,
+      //     hostel_id: hostelId,
+      //     comments: comments,
+      //     action: 1,
+      //     req_date: formattedrequestDate
+      //   }
+      // });
+      
       dispatch({
-        type: 'ADDCHECKOUTCUSTOMER',
-        payload: {
-          checkout_date: formattedDate,
-          user_id: userId,
-          hostel_id: hostelId,
-          comments: comments,
-          action: 1,
-          req_date: formattedrequestDate
-        }
-      });
+  type: 'ADDCHECKOUTCUSTOMER',
+  payload: {
+    customerId: props.bedData?.customerId,   
+    hostelId: props.bedData?.hostelId,       
+    checkoutNotice: {
+      requestDate: formattedrequestDate,
+      checkoutDate: formattedDate,
+      reason: comments
+    }
+  }
+});
+
+      
+      
+      
       setFormLoading(true);
     }
   };
@@ -169,7 +186,7 @@ console.log("props.data",props.data)
 
   useEffect(() => {
     if (state.UsersList.errorMessageAddCheckOut) {
-      
+
       setFormLoading(false)
     }
   }, [state.UsersList.errorMessageAddCheckOut])
@@ -184,14 +201,14 @@ console.log("props.data",props.data)
 
   }, [state.createAccount?.networkError])
 
-  useEffect(()=>{
-if(state.UsersList.addCheckoutCustomerStatusCode === 200){
-handleCloseCheckout()
-  setTimeout(() => {
+  useEffect(() => {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+      handleCloseCheckout()
+      setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 1000);
-}
-  },[state.UsersList.addCheckoutCustomerStatusCode])
+    }
+  }, [state.UsersList.addCheckoutCustomerStatusCode])
 
   return (
     <>
@@ -266,10 +283,11 @@ handleCloseCheckout()
 
                           <Image
                             src={
-                              props.data && props.data.profile && props.data.profile !== ""
-                                ? typeof props.data.profile === "string"
-                                  ? props.data.profile
-                                  : URL.createObjectURL(props.data.profile)
+                              props.bedData
+                                && props.bedData.profilePic && props.bedData.profilePic !== ""
+                                ? typeof props.bedData.profilePic === "string"
+                                  ? props.bedData.profilePic
+                                  : URL.createObjectURL(props.bedData.profilePic)
                                 : Profiles
                             }
                             alt="Profile"
@@ -295,7 +313,7 @@ handleCloseCheckout()
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name}
+                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.fullName}
                               </label>
                             </div>
 
@@ -317,7 +335,7 @@ handleCloseCheckout()
                                 whiteSpace: "nowrap",
                               }}
                             >
-                             {state.UsersList.customerdetails?.data?.[0].floor_name || props.data.floor_name}
+                              {state.UsersList.customerdetails?.data?.[0].floor_name || props.data.floor_name || props.bedData?.floorName}
                             </div>
 
                             <div
@@ -334,7 +352,7 @@ handleCloseCheckout()
                                 whiteSpace: "nowrap",
                               }}
                             >
-                             {props.bedData?.room?.Room_Name || props.data.Rooms}  - {props.bedData?.bed?.bed_no || props.data.Bed}
+                              {props.bedData?.room?.Room_Name || props.data.Rooms || props.bedData?.roomName}  - {props.bedData?.bed?.bed_no || props.data.Bed || props.bedData?.bedName}
                             </div>
 
 
@@ -380,12 +398,12 @@ handleCloseCheckout()
                               }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
-                             value={requestDate ? dayjs(requestDate) : null}
+                              value={requestDate ? dayjs(requestDate) : null}
                               // ref={selectedDateRef}
                               onChange={(date) => {
                                 setCheckOutRequestDateError("");
-                                 dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
-                               
+                                dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+
                                 setRequestDate(date ? date.toDate() : null);
                                 calculateDateDifference(selectedDate, date);
                               }}
@@ -394,30 +412,30 @@ handleCloseCheckout()
                               }
                               disabledDate={(current) => {
                                 if (!current) return false;
-                            
+
                                 const today = dayjs().endOf("day");
-                            
+
                                 // 🔹 Parse joiningDate from state (DD-MM-YYYY)
                                 let joining = null;
                                 if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
                                   const [dd, mm, yyyy] = joiningdate.split("-");
                                   joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
                                 }
-                            
+
                                 // 🔹 Parse last bill date from state (DD-MM-YYYY)
                                 let lastBillDate = null;
                                 if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
                                   const [dd, mm, yyyy] = lastDate.split("-");
                                   lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
                                 }
-                            
+
                                 let minAllowedDate = null;
-                            
+
                                 if (joining) {
                                   const sameMonth =
                                     joining.month() === today.month() &&
                                     joining.year() === today.year();
-                            
+
                                   if (sameMonth) {
                                     // ✅ Case 1: Joining date is in current month → allow from joining date onwards
                                     minAllowedDate = joining;
@@ -426,17 +444,17 @@ handleCloseCheckout()
                                     minAllowedDate = lastBillDate;
                                   }
                                 }
-                            
+
                                 // ❌ Block future dates
                                 if (current.isAfter(today)) {
                                   return true;
                                 }
-                            
+
                                 // ❌ Block all dates before minAllowedDate
                                 if (minAllowedDate && current.isBefore(minAllowedDate)) {
                                   return true;
                                 }
-                            
+
                                 return false;
                               }}
                             />
@@ -484,35 +502,35 @@ handleCloseCheckout()
                             /> */}
 
                             <DatePicker
-  style={{
-    width: "100%",
-    height: 48,
-    cursor: "pointer",
-    fontFamily: "Gilroy",
-  }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY"
-  value={selectedDate ? dayjs(selectedDate) : null}
-  onChange={(date) => {
-    setSelectedDate(date);
-    calculateDateDifference(date, requestDate);
-    setCheckOutDateError('');
-    setJoiningError('');
-      dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
-    
-  }}
-  disabledDate={(current) => {
-    // if no requestDate → disable all dates
-    if (!requestDate) {
-      return true;
-    }
-    // disable dates before requestDate
-    return current && current.isBefore(dayjs(requestDate), "day");
-  }}
-  getPopupContainer={(triggerNode) =>
-    triggerNode.closest(".datepicker-wrapper")
-  }
-/>
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                cursor: "pointer",
+                                fontFamily: "Gilroy",
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                              value={selectedDate ? dayjs(selectedDate) : null}
+                              onChange={(date) => {
+                                setSelectedDate(date);
+                                calculateDateDifference(date, requestDate);
+                                setCheckOutDateError('');
+                                setJoiningError('');
+                                dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
+
+                              }}
+                              disabledDate={(current) => {
+                                // if no requestDate → disable all dates
+                                if (!requestDate) {
+                                  return true;
+                                }
+                                // disable dates before requestDate
+                                return current && current.isBefore(dayjs(requestDate), "day");
+                              }}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".datepicker-wrapper")
+                              }
+                            />
 
                           </div>
 
@@ -678,7 +696,7 @@ CustomerCheckout.propTypes = {
   Room_Name: PropTypes.string,
   bed_no: PropTypes.string,
   bed_amount: PropTypes.number,
-   bedData: PropTypes.shape({
+  bedData: PropTypes.shape({
     room: PropTypes.shape({
       Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

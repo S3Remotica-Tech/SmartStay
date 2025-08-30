@@ -448,11 +448,13 @@ export async function getCheckOutCustomer(datum) {
 
 
 
-export async function AddCheckOutCustomer(checkout) {
-  return await AxiosConfig.post('/user_check_out', checkout, {
-    data: checkout
-  })
+export async function AddCheckOutCustomer({ customerId, hostelId, checkoutNotice }) {
+  return await AxiosConfigV2.post(
+    `/user_check_out/${customerId}/${hostelId}`,
+    checkoutNotice
+  );
 }
+
 
 
 
