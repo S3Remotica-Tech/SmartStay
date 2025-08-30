@@ -77,7 +77,7 @@ function BedDetailsMap({ room, propsValue }) {
     }
     const handleShowNoticePeriod = (isVisible, customer) => {
 
-           setOccubiedBed(false)
+        setOccubiedBed(false)
         setMoveToNoticePeriodForm(isVisible)
         setCustomerDetails(customer)
 
@@ -186,34 +186,29 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
-        
+
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
-        // isOccupied
-        // isBooked
-        // onNotice
-
-        // once changed the condition when api integration 
         if (bed.isBooked) {
             setShowReservedBed(true);
             // setOccupiedCustomerDetails({ bed, room });
 
         }
-        else if (!bed.isOccupied) {
-             setEmptyBed(true);
-            setDeleteBedDetails({ bed, room });
-           
-        }
-        // else if (bed.onNotice) {
-        //     setOccubiedBed(false);
-        //     setNoticePeriodBed(true);
-        //     // setOccupiedCustomerDetails({ bed, room });
+        // else if (!bed.isOccupied) {
+        //      setEmptyBed(true);
+        //     setDeleteBedDetails({ bed, room });
 
         // }
-        // else if (!bed.isOccupied) {
-        //     setOccubiedBed(true);
-        //     // setOccupiedCustomerDetails({ bed, room });
-        // }
+        else if (bed.onNotice) {
+            setOccubiedBed(false);
+            setNoticePeriodBed(true);
+            // setOccupiedCustomerDetails({ bed, room });
+
+        }
+        else if (!bed.isOccupied) {
+            setOccubiedBed(true);
+            // setOccupiedCustomerDetails({ bed, room });
+        }
     };
 
 
@@ -268,7 +263,7 @@ function BedDetailsMap({ room, propsValue }) {
     useEffect(() => {
         if (state.PgList.statusCodeDeleteBed === 200) {
             // dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: propsValue.floorID } })
- dispatch({
+            dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
@@ -326,7 +321,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
             {
-                add_customerform && <UserlistForm showMenu={add_customerform}  setShowMenu={handleCloseAddCustomer} />
+                add_customerform && <UserlistForm showMenu={add_customerform} setShowMenu={handleCloseAddCustomer} />
             }
 
             {

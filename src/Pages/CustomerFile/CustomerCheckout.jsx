@@ -119,11 +119,11 @@ function CustomerCheckout(props) {
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' });
 
     const formattedDate = dayjs(selectedDate).isValid()
-      ? dayjs(selectedDate).format("YYYY-MM-DD")
+      ? dayjs(selectedDate).format("DD-MM-YYYY")
       : null;
 
     const formattedrequestDate = dayjs(requestDate).isValid()
-      ? dayjs(requestDate).format("YYYY-MM-DD")
+      ? dayjs(requestDate).format("DD-MM-YYYY")
       : null;
 
     if (!selectedDate || !requestDate) {
@@ -144,7 +144,6 @@ function CustomerCheckout(props) {
     // const userId = props.data?.ID || props.data || null;
     // const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
 
-    console.log("props.bedData:", props.bedData);
 
 
 
