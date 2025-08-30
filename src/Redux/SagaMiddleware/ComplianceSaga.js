@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updateVendor, ComplianceChangeStatus, compliance, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceChange, complianceDelete, getComplianceComment, addComplianceComment } from "../Action/ComplianceAction"
+import { updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceChange, complianceDelete, getComplianceComment, addComplianceComment } from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -66,18 +66,30 @@ console.log("response UPDATE",response)
 
 
 function* handlecompliancelist(action) {
-   const response = yield call(compliance, action.payload);
  
+   try{
+    const { hostel_id } = action.payload
+    const response = yield call(complianceList, hostel_id)
 
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'COMPLIANCE_LIST', payload: { response: response.data.hostelData, filterOptions: response.data.filterOptions, statusCode: response.status || response.data.statusCode } })
-   }
-   else {
+     if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'COMPLIANCE_LIST', payload: { response: response.data || [], filterOptions: response.data.filterOptions || [],
+          statusCode: response.status || response.data.statusCode } })
+          }
+     else {
       yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
+       }
+     if(response) {
       refreshToken(response)
+      }
    }
+   catch (error) {
+         if (error.code === 'ERR_NETWORK') {
+            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+         } else {
+            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+         }
+      }
+
 }
 
 function* handleComplianceadd(params) {
@@ -85,7 +97,7 @@ function* handleComplianceadd(params) {
 
       const response = yield call(Compliancedetails, params.payload);
 
-      if (response.status === 200 || response.data.statusCode === 200) {
+      if (response.status === 201 || response.data.statusCode === 201) {
          yield put({ type: 'COMPLIANCE_ADD', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
          var toastStyle = {
             backgroundColor: "#E6F6E6",

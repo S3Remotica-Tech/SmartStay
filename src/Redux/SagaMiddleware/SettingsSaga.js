@@ -267,31 +267,73 @@ function* handleDeleteExpencescategory(action) {
 
 
 
-function* handleComplainttypelist(action) {
-   const response = yield call(Complainttypelist, action.payload);
+// function* handleComplainttypelist(action) {
+//    const response = yield call(Complainttypelist, action.payload);
 
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data.complaint_types, statusCode: response.status || response.data.statusCode, message: response.data.message } })
-   } else if (response.status === 401 || response.statusCode === 401) {
-      Swal.fire({
-         icon: 'warning',
-         title: 'Error',
-         text: response.data.message,
+//    if (response.status === 200 || response.data.statusCode === 200) {
+//       yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data || [], statusCode: response.status || response.data.statusCode, message: response.data.message } })
+//    } else if (response.status === 401 || response.statusCode === 401) {
+//       Swal.fire({
+//          icon: 'warning',
+//          title: 'Error',
+//          text: response.data.message,
+//       });
+//    }
+//    else {
+//       yield put({ type: 'ERROR_COMPLIANTS', payload: { statusCode: response.status || response.data.statusCode } })
+//    }
+//    if (response) {
+//       refreshToken(response)
+//    }
+// }
+
+function* handleComplainttypelist(action) {
+  try {
+    const { hostel_id } = action.payload;  
+    const response = yield call(Complainttypelist, hostel_id);
+
+    if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({
+        type: "COMPLAINT_TYPE_LIST",
+        payload: {
+          response: response.data || [],
+          statusCode: response.status || response.data.statusCode,
+          message: response.data,
+        },
       });
-   }
-   else {
-      yield put({ type: 'ERROR_COMPLIANTS', payload: { statusCode: response.status || response.data.statusCode } })
-   }
-   if (response) {
-      refreshToken(response)
-   }
+    } else if (response.status === 401 || response.statusCode === 401) {
+      Swal.fire({
+        icon: "warning",
+        title: "Error",
+        text: response.data,
+      });
+    } else {
+      yield put({
+        type: "ERROR_COMPLIANTS",
+        payload: {
+          statusCode: response.status || response.data.statusCode,
+        },
+      });
+    }
+
+    if (response) {
+      refreshToken(response);
+    }
+  } catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+  }
 }
+
 
 function* handleComplaintTypeAdd(params) {
    try {
       const response = yield call(Addcomplainttype, params.payload);
 
-      if (response.status === 200 || response.statusCode === 200) {
+      if (response.status === 201 || response.statusCode === 201) {
          yield put({ type: 'COMPLAINT_TYPE_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
 
 
@@ -311,7 +353,7 @@ function* handleComplaintTypeAdd(params) {
 
          };
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -323,7 +365,7 @@ function* handleComplaintTypeAdd(params) {
             style: toastStyle
          })
       }
-      else if (response.status === 201 || response.statusCode === 201) {
+      else if (response.status === 400 || response.statusCode === 400) {
          yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: response.data.message })
 
          toast.error(response.data.message, {
@@ -380,7 +422,7 @@ function* handleComplaintTypeEdit(action) {
 
          };
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -423,59 +465,53 @@ function* handleComplaintTypeEdit(action) {
 }
 
 function* handleDeleteComplainttype(action) {
-   const response = yield call(DeletecomplaintType, action.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'DELETE_COMPLAINT_TYPE', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+  try {
+    const { id } = action.payload;
+    const response = yield call(DeletecomplaintType, id);
 
-
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px",
-
-      };
-
-      toast.success('ComplaintType has been successfully deleted!', {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle
+    if (response.status === 200 || response.statusCode === 200) {
+      yield put({
+        type: 'DELETE_COMPLAINT_TYPE',
+        payload: {
+          response: response.data,
+          statusCode: response.status || response.statusCode,
+        }
       });
-   }
-   else if (response.status === 201 || response.statusCode === 201) {
-      toast.error(response.data.message, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-      })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
 
+      toast.success(response.data, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: {
+          backgroundColor: "#E6F6E6",
+          color: "black",
+          borderRadius: "60px",
+          fontFamily: "Gilroy",
+          fontWeight: 600,
+          fontSize: 14,
+          padding: "10px",
+        }
+      });
+    } else {
+      toast.error(response.data.message || "Something went wrong", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+      });
+    }
+
+    if (response) refreshToken(response);
+  } catch (error) {
+    console.error("Delete complaint error:", error);
+    toast.error("Failed to delete complaint type", { position: "bottom-center" });
+  }
 }
+
 
 
 function* handleEBBillingUnitAdd(params) {

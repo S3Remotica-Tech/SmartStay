@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingCompliance.css";
 import Select from "react-select";
+import { toast } from 'react-toastify';
 
 function SettingCompliance({ hostelid }) {
   const dispatch = useDispatch();
@@ -41,19 +42,19 @@ function SettingCompliance({ hostelid }) {
 
 
   const handleDeleteClick = () => {
-    setShowPopup(true);
-  };
+    setShowPopup(true)
+    setShowDots(false)
+  }
 
   const handleConfirmDelete = () => {
-    if (rowDetails.id) {
+    if (rowDetails.complaintTypeId) {
+       setFormLoading(true);
       dispatch({
         type: "DELETE-COMPLAINT-TYPE",
-        payload: { id: rowDetails.id },
+        payload: { id: rowDetails.complaintTypeId },
       });
     }
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 200);
+ 
   };
 
   useEffect(() => {
@@ -66,15 +67,27 @@ function SettingCompliance({ hostelid }) {
     setShowPopup(false);
   };
 
-  useEffect(() => {
-    if (hostelid) {
-      setLoading(true);
-      dispatch({
-        type: "COMPLAINT-TYPE-LIST",
-        payload: { hostel_id: hostelid },
-      });
-    }
-  }, [hostelid]);
+  // useEffect(() => {
+  //   if (hostelid) {
+  //     setLoading(true);
+  //     dispatch({
+  //       type: "COMPLAINT-TYPE-LIST",
+  //       payload: { hostel_id: hostelid },
+  //     });
+  //   }
+  // }, [hostelid]);
+
+useEffect(() => {
+  if (hostelid) {
+    setLoading(true);
+    dispatch({
+      type: "COMPLAINT-TYPE-LIST",
+      payload: { hostel_id: hostelid },
+    });
+  }
+}, [hostelid]);
+
+
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -102,9 +115,10 @@ function SettingCompliance({ hostelid }) {
   };
   const handleEdit = () => {
     setShowEditForm(true);
-    setId(rowDetails.id);
-    setComplaintTypeName(rowDetails.complaint_name);
-    setOriginalComplaintTypeName(rowDetails.complaint_name);
+    setShowDots(false);
+    setId(rowDetails.complaintTypeId);
+    setComplaintTypeName(rowDetails.complaintTypeName);
+    setOriginalComplaintTypeName(rowDetails.complaintTypeName);
   };
 
   const handleClose = () => {
@@ -121,12 +135,13 @@ function SettingCompliance({ hostelid }) {
 
   };
 
-  const [showPopupvalidation, setShowPopupValidation] = useState(false);
   const handleShowForm = () => {
-    if (!hostelid) {
-      setShowPopupValidation(true);
-      return;
-    }
+     if (!hostelid) {
+          toast.error('Please add a hostel before adding Complaints information.', {
+         hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+          });
+          return;
+         }
     setShowForm(true);
   };
 
@@ -140,12 +155,14 @@ function SettingCompliance({ hostelid }) {
     } else {
       dispatch({
         type: "COMPLAINT-TYPE-ADD",
-        payload: { complaint_name: complaintTypeName, hostel_id: hostelid },
+        payload: { complaintTypeName: complaintTypeName, hostelId: hostelid },
       });
       setFormLoading(true)
       setComplaintError("");
     }
   };
+
+  
 
   const handleEditType = () => {
     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
@@ -154,14 +171,24 @@ function SettingCompliance({ hostelid }) {
     if (complaintTypeName === originalComplaintTypeName) {
       setIsChangedError("No Changes Detected");
     } else {
+      // dispatch({
+      //   type: "COMPLAINT-TYPE-EDIT",
+      //   payload: {
+      //     complaint_name: complaintTypeName,
+      //     hostel_id: hostelid,
+      //     id: id,
+      //   },
+      // });
+
       dispatch({
-        type: "COMPLAINT-TYPE-EDIT",
-        payload: {
-          complaint_name: complaintTypeName,
-          hostel_id: hostelid,
-          id: id,
-        },
-      });
+  type: "COMPLAINT-TYPE-EDIT",
+  payload: {
+    id,
+    complaintTypeName: complaintTypeName,
+    isActive: true  
+  },
+});
+
       setFormLoading(true)
       setIsChangedError("");
     }
@@ -219,7 +246,7 @@ function SettingCompliance({ hostelid }) {
 
 
   useEffect(() => {
-    if (state.Settings.addComplaintSuccessStatusCode === 200) {
+    if (state.Settings.addComplaintSuccessStatusCode === 201) {
       setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
@@ -234,11 +261,13 @@ function SettingCompliance({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.deletecomplaintStatuscode === 200) {
+        setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: hostelid },
       });
-      handleClose();
+      // handleClose();
+      setShowPopup(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_COMPLAINTTYPE_STATUS_CODE" });
       }, 500);
@@ -376,7 +405,6 @@ function SettingCompliance({ hostelid }) {
         <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0 mb-3 mb-md-0">
           <Button
             onClick={handleShowForm}
-            disabled={showPopupvalidation}
             style={{
               fontFamily: "Gilroy",
               fontSize: "14px",
@@ -395,19 +423,7 @@ function SettingCompliance({ hostelid }) {
           </Button>
         </div>
       </div>
-      {showPopupvalidation && (
-        <div
-          className="d-flex flex-wrap mt-3 align-items-center"
-          style={{ gap: "10px" }}
-        >
-          <p
-            style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }}
-            className="col-12 col-sm-6 col-md-6 col-lg-9"
-          >
-            Please add a hostel before adding Complaints information.
-          </p>
-        </div>
-      )}
+
 
       <div className="complainttype">
         {currentRowCompliance && currentRowCompliance.length > 0 && (
@@ -441,7 +457,7 @@ function SettingCompliance({ hostelid }) {
                               color: "#222222",
                             }}
                           >
-                            {u.complaint_name}
+                            {u.complaintTypeName}
                           </span>
                         </div>
 
@@ -559,7 +575,14 @@ function SettingCompliance({ hostelid }) {
       </div>
 
       {!loading && complianceFilterddata.length === 0 && (
-        <div style={{ marginTop: 110 }}>
+        <div  style={{
+              textAlign: "center",
+              marginTop: 90,
+              height: '40vh',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center"
+            }}>
           <div className="d-flex justify-content-center">
             <img
               src={EmptyState}
@@ -567,19 +590,30 @@ function SettingCompliance({ hostelid }) {
               alt="Empty state"
             />
           </div>
-          <div
-            className="pb-1"
-            style={{
-              textAlign: "center",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: 18,
-              color: "rgba(75, 75, 75, 1)",
-            }}
-          >
-            No Complaint Types available
+             <div
+              className="pb-1"
+              style={{
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: 18,
+                color: "rgba(75, 75, 75, 1)",
+              }}
+            >
+              No ComplaintTypes
+            </div>
+            <div
+              className="pb-1"
+              style={{
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                fontSize: 14,
+                color: "rgba(75, 75, 75, 1)",
+              }}
+            >
+              There are no ComplaintTypes available.
+            </div>
           </div>
-        </div>
+       
       )}
 
       {complianceFilterddata.length > 10 && (
@@ -812,12 +846,12 @@ function SettingCompliance({ hostelid }) {
 
 
 
-                {state.createAccount?.networkError ?
+                {/* {state.createAccount?.networkError ?
                   <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
                     <MdError style={{ color: "red", marginRight: '5px' }} />
                     <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                   </div>
-                  : null}
+                  : null} */}
               </div>
             </div>
           </div>
@@ -835,7 +869,7 @@ function SettingCompliance({ hostelid }) {
             }}
             onClick={handleEditType}
           >
-            Edit Complaint Type
+            Update Complaint Type
           </Button>
         </Modal.Body>
 
@@ -1078,6 +1112,34 @@ function SettingCompliance({ hostelid }) {
         >
           Are you sure you want to delete this Complaint-type?
         </Modal.Body>
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
+
 
         <Modal.Footer
           className="d-flex justify-content-center"

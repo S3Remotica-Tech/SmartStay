@@ -27,29 +27,70 @@ export async function DeleteExpencesCategoryList(expences) {
   });
 }
 
+// export async function Addcomplainttype(type) {
+//   return await AxiosConfig.post("/complaint_types", type, {
+//     data: type,
+//   });
+// }
+
+// v2
 export async function Addcomplainttype(type) {
-  return await AxiosConfig.post("/complaint_types", type, {
+  return await AxiosConfigV2.post("/v2/ComplaintType", type, {
     data: type,
   });
 }
-
-export async function Editcomplainttype(type) {
-  return await AxiosConfig.post("/edit_complaint_type", type, {
-    data: type,
+// v1
+// export async function Editcomplainttype(type) {
+//   return await AxiosConfig.post("/edit_complaint_type", type, {
+//     data: type,
+//   });
+// }
+// v2
+export async function Editcomplainttype({ id, complaintTypeName, isActive }) {
+  return await AxiosConfigV2.put(`/v2/ComplaintType/${id}`, {
+    complaintTypeName,
+    isActive
+  }, {
+    headers: {
+      "Content-Type": "application/json",
+    }
   });
 }
 
-export async function Complainttypelist(hostelID) {
-  return await AxiosConfig.post("/all_complaint_types", hostelID, {
-    data: hostelID,
+
+// v1
+// export async function Complainttypelist(hostelID) {
+//   return await AxiosConfig.post("/all_complaint_types", hostelID, {
+//     data: hostelID,
+//   });
+// }
+
+// v2
+export async function Complainttypelist(hostelId) {
+  return await AxiosConfigV2.get(`/v2/ComplaintType/all-complaintTypes/${hostelId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }
 
-export async function DeletecomplaintType(types) {
-  return await AxiosConfig.post("/remove_complaint_type", types, {
-    data: types,
+// v1
+// export async function DeletecomplaintType(types) {
+//   return await AxiosConfig.post("/remove_complaint_type", types, {
+//     data: types,
+//   });
+// }
+
+// v2
+export async function DeletecomplaintType(complaintId) {
+  return await AxiosConfigV2.delete(`/v2/ComplaintType/${complaintId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }
+
+
 
 export async function AddEBBillingUnit(type) {
   return await AxiosConfig.post("/add_ebbilling_settings", type, {

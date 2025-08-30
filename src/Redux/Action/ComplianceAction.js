@@ -2,14 +2,30 @@ import AxiosConfig from "../../WebService/AxiosConfig"
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 
-export async function compliance(compliance) {
-  return await AxiosConfig.post('/compliance/compliance-list', compliance, {
-    data: compliance
-  })
+// export async function compliance(compliance) {
+//   return await AxiosConfig.post('/compliance/compliance-list', compliance, {
+//     data: compliance
+//   })
+// }
+// v2
+export async function complianceList(hostelId) {
+  return await AxiosConfigV2.get(`/v2/complaint/all-complaints/${hostelId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
 
+
+// v1
+// export async function Compliancedetails(formDetails) {
+//   return await AxiosConfig.post('/compliance/add-details', formDetails, {
+//     data: formDetails
+//   })
+// }
+
 export async function Compliancedetails(formDetails) {
-  return await AxiosConfig.post('/compliance/add-details', formDetails, {
+  return await AxiosConfigV2.post('/v2/complaint', formDetails, {
     data: formDetails
   })
 }

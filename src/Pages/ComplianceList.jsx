@@ -490,11 +490,11 @@ const ComplianceList = (props) => {
                   <div>
                     <Image
                       src={
-                        props.complaints.profile === "0" ||
-                          props.complaints.profile === "null" ||
-                          props.complaints.profile === null
+                        props.complaints?.profile === "0" ||
+                          props.complaints?.profile === "null" ||
+                          props.complaints?.profile === null
                           ? User
-                          : props.complaints.profile
+                          : props?.complaints?.profile
                       }
                       roundedCircle
                       style={{ height: "60px", width: "60px", objectFit: "cover" }}
@@ -534,7 +534,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.room_name} - B{props.complaints?.bedName}
+                          {props.complaints?.roomId} - B{props.complaints?.bedName}
                         </div>
 
 
@@ -798,7 +798,7 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {props.complaints && props.complaints.Requestid}
+                      {props.complaints && props.complaints?.complaintId}
                     </label>
                   </div>
                 </div>
@@ -918,12 +918,12 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                         display: "block",
                       }}
-                      title={props.complaints.complaint_name}
+                      title={props.complaints?.complaintTypeName}
                     >
-                      {props.complaints && props.complaints.complaint_name}
-                      {props.complaints?.Description && (
+                      {props.complaints && props.complaints?.complaintTypeName}
+                      {props.complaints?.description && (
                         <span
-                          title={props.complaints.Description}
+                          title={props.complaints.description}
                           style={{
                             display: "inline-block",
                             maxWidth: "200px",
@@ -935,7 +935,7 @@ const ComplianceList = (props) => {
                             paddingLeft: 4
                           }}
                         >
-                          {" "}  {" - "}{props.complaints.Description}
+                          {" "}  {" - "}{props.complaints.description}
                         </span>
                       )}
 
@@ -965,12 +965,12 @@ const ComplianceList = (props) => {
                     <label
                       style={
                         props.complaints &&
-                          props.complaints.Status.toUpperCase() === "COMPLETED"
+                          props?.complaints?.status?.toUpperCase() === "1"
                           ? { color: "#00A32E" }
                           : { color: "#FF9E00" }
                       }
                     >
-                      {props.complaints && props.complaints.Status}
+                      {props.complaints && props.complaints?.status  === "0" ?  "pending" : "completed"}
                     </label>
                   </div>
                 </div>
@@ -1022,7 +1022,7 @@ const ComplianceList = (props) => {
                         }}
                       >
                         successfully attended on{" "}
-                        {moment(props.complaints.date).format("DD-MM-YYYY")}
+                        {moment(props.complaints.complaintDate).format("DD-MM-YYYY")}
                       </span>
                     </>
                   )}
