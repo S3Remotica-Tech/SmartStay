@@ -24,6 +24,7 @@ function EmptyBed ({ show, handleClose   , showbed  , showcustomer , showtenant}
      }
 
      const handleShowAssignTenant = () => {
+      console.log("calleddddddddddddddd")
        showtenant(true)
      }
 

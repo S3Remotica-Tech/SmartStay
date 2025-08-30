@@ -1906,7 +1906,7 @@ function UserList(props) {
   }, [state.UsersList.addWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
       dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
       setcheckoutForm(false);
     }

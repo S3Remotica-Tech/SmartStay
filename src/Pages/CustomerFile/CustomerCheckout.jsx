@@ -37,12 +37,12 @@ function CustomerCheckout(props) {
   //   }, [props]);
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (props.data.ID || props.data) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID || props.data } });
-    }
-  }, [props.data]);
+  //   if (props.data.ID || props.data) {
+  //     dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.data.ID || props.data } });
+  //   }
+  // }, [props.data]);
 
 
 
@@ -148,8 +148,8 @@ function CustomerCheckout(props) {
 
 
 
-    if (props.bedData?.customerId && hostelId && formattedDate && formattedrequestDate) {
-      
+    if (props.bedData?.customerId && props.bedData?.hostelId && formattedDate && formattedrequestDate) {
+
 
       // dispatch({
       //   type: 'ADDCHECKOUTCUSTOMER',
@@ -162,23 +162,22 @@ function CustomerCheckout(props) {
       //     req_date: formattedrequestDate
       //   }
       // });
-      
-      dispatch({
-  type: 'ADDCHECKOUTCUSTOMER',
-  payload: {
-    customerId: props.bedData?.customerId,   
-    hostelId: props.bedData?.hostelId,       
-    checkoutNotice: {
-      requestDate: formattedrequestDate,
-      checkoutDate: formattedDate,
-      reason: comments
-    }
-  }
-});
 
-      
-      
-      
+      dispatch({
+        type: 'ADDCHECKOUTCUSTOMER',
+        payload: {
+          customerId: props.bedData?.customerId,
+          hostelId: props.bedData?.hostelId,
+          requestDate: formattedrequestDate,
+          checkoutDate: formattedDate,
+          reason: comments
+        }
+      });
+
+
+
+
+
       setFormLoading(true);
     }
   };
@@ -202,7 +201,7 @@ function CustomerCheckout(props) {
   }, [state.createAccount?.networkError])
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
       handleCloseCheckout()
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });

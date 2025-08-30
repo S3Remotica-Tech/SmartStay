@@ -55,8 +55,6 @@ function BedDetailsMap({ room, propsValue }) {
     const [details, setDetails] = useState('')
 
 
-
-console.log("moveToNoticePeriodForm",moveToNoticePeriodForm)
     const handleShowReservedBed = () => {
         setShowReservedBed(true)
     }
@@ -79,9 +77,7 @@ console.log("moveToNoticePeriodForm",moveToNoticePeriodForm)
     }
     const handleShowNoticePeriod = (isVisible, customer) => {
 
-        console.log("isVisible",isVisible)
-
-        setOccubiedBed(false)
+           setOccubiedBed(false)
         setMoveToNoticePeriodForm(isVisible)
         setCustomerDetails(customer)
 
@@ -155,8 +151,8 @@ console.log("moveToNoticePeriodForm",moveToNoticePeriodForm)
 
     }
 
-    const handleShowAssignTenant = () => {
-        setAssignTenantForm(true)
+    const handleShowAssignTenant = (isVisible) => {
+        setAssignTenantForm(isVisible)
         setEmptyBed(false)
     }
 
@@ -190,9 +186,7 @@ console.log("moveToNoticePeriodForm",moveToNoticePeriodForm)
 
     }
     const handleclickBed = (bed, room) => {
-        console.log("bed", bed)
-        console.log("room", room)
-
+        
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
         // isOccupied
@@ -205,21 +199,21 @@ console.log("moveToNoticePeriodForm",moveToNoticePeriodForm)
             // setOccupiedCustomerDetails({ bed, room });
 
         }
-        // else if (!bed.isOccupied) {
-        //      setEmptyBed(true);
-        //     setDeleteBedDetails({ bed, room });
+        else if (!bed.isOccupied) {
+             setEmptyBed(true);
+            setDeleteBedDetails({ bed, room });
            
-        // }
+        }
         // else if (bed.onNotice) {
         //     setOccubiedBed(false);
         //     setNoticePeriodBed(true);
         //     // setOccupiedCustomerDetails({ bed, room });
 
         // }
-        else if (!bed.isOccupied) {
-            setOccubiedBed(true);
-            // setOccupiedCustomerDetails({ bed, room });
-        }
+        // else if (!bed.isOccupied) {
+        //     setOccubiedBed(true);
+        //     // setOccupiedCustomerDetails({ bed, room });
+        // }
     };
 
 

@@ -1054,9 +1054,9 @@ function* handleAddCheckoutCustomer(action) {
 
       };
 
-      if (response.statusCode === 200 || response.status === 200) {
+      if (response.status === 201) {
          yield put({ type: 'ADD_CHECKOUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
-         toast.success(`${response.data.message}`, {
+         toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -1067,9 +1067,10 @@ function* handleAddCheckoutCustomer(action) {
             progress: undefined,
             style: toastStyle,
          });
-      } else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response.data.message })
       }
+      // } else if (response.status === 201 || response.statusCode === 201) {
+      //    yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response.data.message })
+      // }
 
 
 

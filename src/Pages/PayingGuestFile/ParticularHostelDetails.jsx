@@ -309,7 +309,7 @@ function ParticularHostelDetails(props) {
   }, []);
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       // setMoveToNoticePeriodForm(false)

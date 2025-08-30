@@ -448,10 +448,28 @@ export async function getCheckOutCustomer(datum) {
 
 
 
-export async function AddCheckOutCustomer({ customerId, hostelId, checkoutNotice }) {
+// export async function AddCheckOutCustomer({ customerId, hostelId, data }) {
+//   return await AxiosConfigV2.post(
+//     `/v2/customers/notice/${hostelId}/${customerId}`,
+//     {
+//       requestDate: data.requestDate,
+//       checkoutDate: data.checkoutDate,
+//       reason: data.reason,
+//     }
+//   );
+// }
+
+export async function AddCheckOutCustomer(payload) {
   return await AxiosConfigV2.post(
-    `/user_check_out/${customerId}/${hostelId}`,
-    checkoutNotice
+    `/v2/customers/notice/${payload.hostelId}/${payload.customerId}`,
+    {}, 
+    {
+      params: {
+        requestDate: payload.requestDate,
+        checkoutDate: payload.checkoutDate,
+        reason: payload.reason
+      }
+    }
   );
 }
 

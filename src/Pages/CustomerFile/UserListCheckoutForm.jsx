@@ -901,7 +901,7 @@ const CheckOutForm = ({
 
 
   useEffect(() => {
-    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
       setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
