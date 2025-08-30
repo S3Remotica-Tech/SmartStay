@@ -170,7 +170,7 @@ const SettingsReducer = (state = initialState, action) => {
     case "COMPLAINT_TYPE_LIST":
       return {
         ...state,
-        Complainttypelist: action.payload.response,
+        Complainttypelist: action.payload.response || [],
         getcomplainttypeStatuscode: action.payload.statusCode,
       };
     case "CLEAR_GET_COMPLAINTTYPE_STATUS_CODE":
