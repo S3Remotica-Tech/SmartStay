@@ -36,6 +36,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     { value: "others", label: "Others" },
   ];
 
+
+  console.log("checkin_joiningDate",checkin_joiningDate)
+
   // useEffect(() => {
   // const matchedBed = state.PgList.roomCount[0].bed_details.find(
   //   (item) => item.id === currentItem?.bed?.id
@@ -393,6 +396,10 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
 
+  
+
+
+
 
   const handleSaveCheckin = () => {
 
@@ -488,11 +495,14 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     const LastName = lastNameParts.join(" ") || "";
 
     const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
+  const newDate = new Date(date);
 
-      return newDate.toISOString().split("T")[0];
-    };
+  const day = String(newDate.getDate()).padStart(2, "0");
+  const month = String(newDate.getMonth() + 1).padStart(2, "0"); 
+  const year = newDate.getFullYear();
+
+  return `${day}-${month}-${year}`;
+};
 
     const formattedDate = checkin_joiningDate
       ? incrementDateAndFormat(checkin_joiningDate)
@@ -528,7 +538,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
           floorId: currentItem?.floorId,
           bedId: currentItem?.bedId,
           roomId: currentItem?.roomId,
-          joiningDate: checkin_joiningDate,
+          joiningDate: formattedDate,
           advanceAmount: AdvanceAmount,
           rentalAmount: RoomRent
 
