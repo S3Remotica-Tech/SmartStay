@@ -1571,6 +1571,9 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       setFormLoading(false)
       setLoading(false)
+      if (props?.setShowMenu) props.setShowMenu(false);
+    if (props?.setShowForm) props.setShowForm(false);
+    if (props?.OnShowTable) props.OnShowTable(true);
       // handleClose();
       // handleCloseAdvanceForm();
       // handleCloseAssign()
