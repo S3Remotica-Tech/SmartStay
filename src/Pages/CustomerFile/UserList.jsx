@@ -3004,7 +3004,7 @@ function UserList(props) {
                                       variant="Bold"
                                       color="#1E45E1"
                                       onClick={() =>
-                                        handleSort("bed_status", "asc")
+                                        handleSort("currentStatus", "asc")
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
@@ -3013,7 +3013,7 @@ function UserList(props) {
                                       variant="Bold"
                                       color="#1E45E1"
                                       onClick={() =>
-                                        handleSort("bed_status", "desc")
+                                        handleSort("currentStatus", "desc")
                                       }
                                       style={{ cursor: "pointer" }}
                                     />
@@ -3317,8 +3317,8 @@ function UserList(props) {
     : "-"
 )} */}
                                         <span>
-                                          {user?.user_join_date && user.user_join_date !== "0000-00-00"
-                                            ? moment(user.user_join_date).format("D MMMM YYYY")
+                                          {user?.actualJoining && user.actualJoining !== "0000-00-00"
+                                            ? moment(user.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
                                             : user?.booking_joining_date && user.booking_joining_date !== "0000-00-00"
                                               ? moment(user.booking_joining_date).format("D MMMM YYYY")
                                               : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
@@ -3373,10 +3373,10 @@ function UserList(props) {
                                         <div className="ps-2">
 
 
-                                          {user.bed_status === "Booking"
-                                            ? (user.Booking_FloorName || "-")
-                                            : user.bed_status === "Check In" || user.bed_status === "Notice period"
-                                              ? (user.floor_name || "-")
+                                          {user.currentStatus === "booked"
+                                            ? (user.floorName || "-")
+                                            : user.currentStatus === "Checked In" || user.currentStatus === "Notice Period"
+                                              ? (user.floorName || "-")
                                               : "-"}
                                         </div>
 
@@ -3398,9 +3398,9 @@ function UserList(props) {
                                       >
                                         {" "}
 
-                                        {user.bed_status === "Booking"
-                                          ? user.Booking_Rooms || "-"
-                                          : user.Rooms || "-"}
+                                        {user.currentStatus === "booked"
+                                          ? user.roomName || "-"
+                                          : user.roomName || "-"}
                                       </td>
 
                                       <td
@@ -3420,9 +3420,9 @@ function UserList(props) {
                                       >
                                         {/* {!user.Bed ? "-" : user.Bed} */}
                                         {/* {user.Booking_Bed || user.floor_name || "-"} */}
-                                        {user.bed_status === "Booking"
-                                          ? user.Booking_Bed || "-"
-                                          : user.Bed || "-"}
+                                        {user.currentStatus === "booked"
+                                          ? user.bedName || "-"
+                                          : user.bedName || "-"}
                                       </td>
                                       <td
                                         style={{
@@ -3471,7 +3471,7 @@ function UserList(props) {
                                               }}
                                             >
                                               <div>
-                                                {!user.Bed && user.currentStatus === "un-assigned" && (
+                                                {(!user.bedId && (user.currentStatus === "Inactive" || user.currentStatus === "un-assigned")) && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
@@ -3524,7 +3524,7 @@ function UserList(props) {
 
 
 
-                                                {user.currentStatus === "un-assigned" && (
+                                                {(user.currentStatus === "un-assigned") || (user.currentStatus === "Inactive") && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     style={{
@@ -3574,7 +3574,7 @@ function UserList(props) {
                                                   </div>
                                                 )}
 
-                                                {user.currentStatus === "un-assigned" && (
+                                                {(user.currentStatus === "un-assigned") || (user.currentStatus === "Inactive") && (
                                                   <div
 
                                                     className="d-flex align-items-center gap-2"
@@ -3622,7 +3622,7 @@ function UserList(props) {
 
 
 
-                                                {user.Bed && user.currentStatus === "checked in" && (
+                                                {user.bedId && user.currentStatus === "Checked In" && (
 
                                                   <div
                                                     className="d-flex align-items-center gap-2"
@@ -3675,7 +3675,7 @@ function UserList(props) {
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                {user.Bed && user.currentStatus === "checked in" && (
+                                                {user.bedId && user.currentStatus === "Checked In" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
 
@@ -3730,7 +3730,7 @@ function UserList(props) {
 
 
 
-                                                {user.Bed && user.currentStatus === "Notice Period" && (
+                                                {user.bedId && user.currentStatus === "Notice Period" && (
                                                   <>
                                                     <div
                                                       className="d-flex align-items-center gap-2"
