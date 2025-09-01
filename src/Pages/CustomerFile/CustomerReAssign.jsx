@@ -62,9 +62,17 @@ function CustomerReAssign(props) {
     setNewBed("");
     setNewRoomRent("");
     setSelectedDate("");
-    // setLastDate("")
+  
     setUserId("")
     dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
+    dispatch({
+      type: "BEDNUMBERDETAILS",
+      payload: {
+        hostel_id: "",
+        floor_id: "",
+        room_id: "",
+      },
+    });
   };
 
 
@@ -81,7 +89,40 @@ function CustomerReAssign(props) {
 
   //   setBedError("");
   // };
+  //  const handleRooms = (selectedOption) => {
+  //     const value = selectedOption?.value || "";
+  //     setNewRoom(value);
+  //     dispatch({
+  //       type: "BEDNUMBERDETAILS",
+  //       payload: {
+  //         hostel_id: state.login.selectedHostel_Id,
+  //         floor_id: newFloor,
+  //         room_id: value,
+  //       },
+  //     });
 
+  //     setRoomError("");
+  //     setNewBed("")
+  //     setNewRoomRent("")
+  //   };
+  const handleRooms = (selectedOption) => {
+    const value = selectedOption?.value || "";
+    setNewRoom(value);
+    if (value) {
+      dispatch({
+        type: "BEDNUMBERDETAILS",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          floor_id: newFloor,
+          room_id: value,
+        },
+      });
+    }
+
+    setRoomError("");
+    setNewBed("");
+    setNewRoomRent("");
+  };
   const handleBed = (selectedOption) => {
     const selectedBedId = selectedOption?.value || "";
     setNewBed(selectedBedId);
@@ -104,24 +145,9 @@ function CustomerReAssign(props) {
 
     setBedError("");
     setRentError("");
-    
-  };
-  const handleRooms = (selectedOption) => {
-    const value = selectedOption?.value || "";
-    setNewRoom(value);
-    dispatch({
-      type: "BEDNUMBERDETAILS",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        floor_id: newFloor,
-        room_id: value,
-      },
-    });
 
-    setRoomError("");
-    setNewBed("")
-    setNewRoomRent("")
   };
+
 
   const handleNewRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -179,57 +205,57 @@ function CustomerReAssign(props) {
   };
 
   const [lastDate, setLastDate] = useState("");
-  const [joiningdate , setJoiningDate] = useState("")
+  const [joiningdate, setJoiningDate] = useState("")
 
 
-  console.log("props" , lastDate , joiningdate);
-  
-
-    useEffect(() => {
-      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props?.id } });
-    }, [props]);
+  console.log("props", lastDate, joiningdate);
 
 
-useEffect(() => {
-  if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-    const customerData = state.UsersList.customerdetails?.data?.[0]; // first object in "data"
-    const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
+  useEffect(() => {
+    dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props?.id } });
+  }, [props]);
 
-    // 🔹 1. Store Joining Date
-    if (customerData?.joining_Date) {
-      const joining = new Date(customerData.joining_Date);
-      const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
-        joining.getMonth() + 1
-      ).padStart(2, "0")}-${joining.getFullYear()}`;
-      setJoiningDate(formattedJoining);
-    } else {
-      setJoiningDate("");
-    }
 
-    // 🔹 2. Store Last Bill Date
-    if (invoiceDetails && invoiceDetails.length > 0) {
-      const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
-      if (dates.length > 0) {
-        const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
-        const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
-          maxDate.getMonth() + 1
-        ).padStart(2, "0")}-${maxDate.getFullYear()}`;
-        setLastDate(formatted);
+  useEffect(() => {
+    if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
+      const customerData = state.UsersList.customerdetails?.data?.[0]; // first object in "data"
+      const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
+
+      // 🔹 1. Store Joining Date
+      if (customerData?.joining_Date) {
+        const joining = new Date(customerData.joining_Date);
+        const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
+          joining.getMonth() + 1
+        ).padStart(2, "0")}-${joining.getFullYear()}`;
+        setJoiningDate(formattedJoining);
+      } else {
+        setJoiningDate("");
+      }
+
+      // 🔹 2. Store Last Bill Date
+      if (invoiceDetails && invoiceDetails.length > 0) {
+        const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
+        if (dates.length > 0) {
+          const maxDate = new Date(Math.max(...dates.map((d) => new Date(d))));
+          const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(
+            maxDate.getMonth() + 1
+          ).padStart(2, "0")}-${maxDate.getFullYear()}`;
+          setLastDate(formatted);
+        } else {
+          setLastDate("");
+        }
       } else {
         setLastDate("");
       }
-    } else {
-      setLastDate("");
+
+      // clear details after some time
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
+      }, 1000);
     }
+  }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
-    // clear details after some time
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
-    }, 1000);
-  }
-}, [state.UsersList.CustomerdetailsgetStatuscode]);
-
-  console.log("lastdate",lastDate)
+  console.log("lastdate", lastDate)
 
   const handleSaveReassignBed = () => {
     focusedRef.current = false;
@@ -243,29 +269,29 @@ useEffect(() => {
 
 
 
- 
+
 
 
 
 
 
     if (newRoom === "Selected Room") {
-    setRoomError("Please Select a Valid Room");
-    hasError = true;
-  }
+      setRoomError("Please Select a Valid Room");
+      hasError = true;
+    }
 
-  // if (newBed === "Selected Bed") {
-  //   setBedError("Please Select a Valid Bed");
-  //   hasError = true;
-  // }
-   if (!newBed || newBed === "") {
-    setBedError("Please select a bed");
-    return;
-  }
+    // if (newBed === "Selected Bed") {
+    //   setBedError("Please Select a Valid Bed");
+    //   hasError = true;
+    // }
+    if (!newBed || newBed === "") {
+      setBedError("Please select a bed");
+      return;
+    }
 
 
 
-if (hasError) return;
+    if (hasError) return;
 
 
 
@@ -374,10 +400,20 @@ if (hasError) return;
   // }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
 
-const [currentFloorId,setCurrentFloorId] = useState("")
+  const [currentFloorId, setCurrentFloorId] = useState("")
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+
+  }, [state.login.selectedHostel_Id])
+  console.log("state.UsersList?.Users", state.UsersList?.Users)
   useEffect(() => {
     if (props.reAssignDetail) {
-      console.log("props.reAssignDetail",props.reAssignDetail)
+      console.log("props.reAssignDetail", props.reAssignDetail)
       setCurrentFloor(props.reAssignDetail?.floor_name);
       setCurrentRoom(props.reAssignDetail.Rooms);
       setCurrentBed(props.reAssignDetail.Bed);
@@ -389,19 +425,29 @@ const [currentFloorId,setCurrentFloorId] = useState("")
       setCurrentFloorId(props.reAssignDetail.Floor)
     }
     else if (props.reAssignBedDetail) {
-console.log("props.reAssignBedDetail",props.reAssignBedDetail)
+
       setCurrentBed(props.reAssignBedDetail.bed?.bed_no);
       setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
       setUserId(props.reAssignBedDetail.id);
       setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
-      setCurrentFloor(props.reAssignBedDetail.room?.Floor_Id);
+      // setCurrentFloor(props.reAssignBedDetail.room?.Floor_Id);
       setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
       setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
       setCurrentBedId(props.reAssignBedDetail.bed?.id);
-      
-    }
-  }, [props.reAssignDetail, props.reAssignBedDetail]);
+      setCurrentFloorId(props.reAssignBedDetail.room?.Floor_Id)
+      const floorName =
+        state.UsersList?.Users?.find(
+          (item) => String(item.Floor) === String(props.reAssignBedDetail?.room?.Floor_Id)
+        )?.floor_name || "";
+      setCurrentFloor(floorName);
 
+      console.log("floorName", floorName);
+
+    }
+
+
+  }, [props.reAssignDetail, props.reAssignBedDetail]);
+  console.log("props.reAssignBedDetail", props.reAssignBedDetail)
 
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
@@ -417,6 +463,7 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
       }, 200);
     }
   }, [state.UsersList.statusCodeForReassinBed]);
+
 
 
 
@@ -740,6 +787,28 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
 
 
                         <Select
+                          // options={
+                          //   state.UsersList?.roomdetails?.length > 0
+                          //     ? state.UsersList.roomdetails.map((item) => ({
+                          //       value: item.Room_Id,
+                          //       label: item.Room_Name,
+                          //     }))
+                          //     : []
+                          // }
+                          // onChange={handleRooms}
+                          // ref={roomRef}
+                          // value={
+                          //   newRoom
+                          //     ? {
+                          //       value: newRoom,
+                          //       label:
+                          //         state.UsersList?.roomdetails?.find(
+                          //           (room) => room.Room_Id === newRoom
+                          //         )?.Room_Name || "Selected Room",
+                          //     }
+                          //     : null
+                          // }
+
                           options={
                             state.UsersList?.roomdetails?.length > 0
                               ? state.UsersList.roomdetails.map((item) => ({
@@ -750,6 +819,7 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
                           }
                           onChange={handleRooms}
                           ref={roomRef}
+                          isDisabled={!newFloor} 
                           value={
                             newRoom
                               ? {
@@ -850,8 +920,88 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
                         </Form.Label>
 
 
-
                         <Select
+                          options={
+                            state.UsersList?.bednumberdetails?.bed_details?.length > 0
+                              ? state.UsersList.bednumberdetails.bed_details
+                                .filter(
+                                  (item) =>
+                                    item.bed_no !== "0" &&
+                                    item.bed_no !== "undefined" &&
+                                    item.bed_no !== "" &&
+                                    item.bed_no !== "null"
+                                )
+                                .map((item) => ({
+                                  value: item.id,
+                                  label: item.bed_no,
+                                }))
+                              : []
+                          }
+                          onChange={handleBed}
+                          ref={BedRef}
+                          value={
+                            newBed
+                              ? {
+                                value: newBed,
+                                label:
+                                  state.UsersList?.bednumberdetails?.bed_details?.find(
+                                    (bed) => bed.id === newBed
+                                  )?.bed_no || "Selected Bed",
+                              }
+                              : null
+                          }
+                          placeholder="Select Bed"
+                          isDisabled={!newRoom}   
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: newBed ? 600 : 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                              fontFamily: "Gilroy",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              cursor: "pointer"
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
+                          }}
+
+                        />
+
+                        {/* <Select
                           options={
                             state.UsersList?.bednumberdetails?.bed_details
                               ?.length > 0
@@ -932,7 +1082,7 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
                               color: "#000",
                             }),
                           }}
-                        />
+                        /> */}
 
 
                         {bedError && (
@@ -994,73 +1144,73 @@ console.log("props.reAssignBedDetail",props.reAssignBedDetail)
                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                             /> */}
 
-<DatePicker
-  style={{
-    width: "100%",
-    height: 48,
-    border: "1px solid lightgrey",
-    cursor: "pointer",
-    fontFamily: "Gilroy",
-  }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY"
-  value={selectedDate ? dayjs(selectedDate) : null}
-  ref={selectedDateRef}
-  onChange={(date) => {
-    setDateError("");
-    setSelectedDate(date ? date.toDate() : null);
-  }}
-  getPopupContainer={(triggerNode) =>
-    triggerNode.closest(".datepicker-wrapper")
-  }
-  disabledDate={(current) => {
-    if (!current) return false;
+                            <DatePicker
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                border: "1px solid lightgrey",
+                                cursor: "pointer",
+                                fontFamily: "Gilroy",
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                              value={selectedDate ? dayjs(selectedDate) : null}
+                              ref={selectedDateRef}
+                              onChange={(date) => {
+                                setDateError("");
+                                setSelectedDate(date ? date.toDate() : null);
+                              }}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".datepicker-wrapper")
+                              }
+                              disabledDate={(current) => {
+                                if (!current) return false;
 
-    const today = dayjs().endOf("day");
+                                const today = dayjs().endOf("day");
 
-    // 🔹 Parse joiningDate from state (DD-MM-YYYY)
-    let joining = null;
-    if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
-      const [dd, mm, yyyy] = joiningdate.split("-");
-      joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-    }
 
-    // 🔹 Parse last bill date from state (DD-MM-YYYY)
-    let lastBillDate = null;
-    if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
-      const [dd, mm, yyyy] = lastDate.split("-");
-      lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-    }
+                                let joining = null;
+                                if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
+                                  const [dd, mm, yyyy] = joiningdate.split("-");
+                                  joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                                }
 
-    let minAllowedDate = null;
 
-    if (joining) {
-      const sameMonth =
-        joining.month() === today.month() &&
-        joining.year() === today.year();
+                                let lastBillDate = null;
+                                if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
+                                  const [dd, mm, yyyy] = lastDate.split("-");
+                                  lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                                }
 
-      if (sameMonth) {
-        // ✅ Case 1: Joining date is in current month → allow from joining date onwards
-        minAllowedDate = joining;
-      } else if (lastBillDate) {
-        // ✅ Case 2: Joining date not in current month → allow from last bill date onwards
-        minAllowedDate = lastBillDate;
-      }
-    }
+                                let minAllowedDate = null;
 
-    // ❌ Block future dates
-    if (current.isAfter(today)) {
-      return true;
-    }
+                                if (joining) {
+                                  const sameMonth =
+                                    joining.month() === today.month() &&
+                                    joining.year() === today.year();
 
-    // ❌ Block all dates before minAllowedDate
-    if (minAllowedDate && current.isBefore(minAllowedDate)) {
-      return true;
-    }
+                                  if (sameMonth) {
 
-    return false;
-  }}
-/>
+                                    minAllowedDate = joining;
+                                  } else if (lastBillDate) {
+
+                                    minAllowedDate = lastBillDate;
+                                  }
+                                }
+
+
+                                if (current.isAfter(today)) {
+                                  return true;
+                                }
+
+
+                                if (minAllowedDate && current.isBefore(minAllowedDate)) {
+                                  return true;
+                                }
+
+                                return false;
+                              }}
+                            />
 
 
 
@@ -1269,7 +1419,7 @@ CustomerReAssign.propTypes = {
     hstl_Bed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     room_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     floor_name: PropTypes.string,
-    
+
   }),
 
   reAssignBedDetail: PropTypes.shape({

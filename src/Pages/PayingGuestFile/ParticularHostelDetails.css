@@ -1,0 +1,67 @@
+.action-circle {
+  position: absolute;
+  top: -2px;
+  right: -10px;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border: 2px solid green;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.action-circle .action-icons {
+  position: absolute;
+  top: 52%;
+  left: -7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+}
+
+.action-circle:hover {
+  color: transparent;
+  border-color: transparent;
+}
+
+.action-circle:hover .action-icons img {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.action-circle .action-icons {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  background: white;      
+  border-radius: 50px;     
+  padding: 2px 4px;      
+  display: flex;
+  align-items: center;
+  gap: 3px;               
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.action-circle:hover .action-icons {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+.action-circle .action-icons img {
+  width: 17px;
+  height: 17px;
+}
+

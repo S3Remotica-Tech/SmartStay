@@ -195,7 +195,7 @@ function BedDetailsMap({ room, propsValue }) {
 
         }
         else if (!bed.isOccupied) {
-             setEmptyBed(true);
+            setEmptyBed(true);
             setDeleteBedDetails({ bed, room });
 
         }
@@ -425,24 +425,66 @@ function BedDetailsMap({ room, propsValue }) {
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
 
                                     {/* booked status */}
-                                    {bed.isBooked && (
+                                    {bed.isBooked && bed.onNotice && (
+                                        <div className="action-circle">
+                                            2
+                                            <div className="action-icons">
+                                                <img
+                                                    src={recerverimg}
+                                                    alt="booking"
+                                                    height={20}
+                                                    width={20}
+
+                                                    style={{ cursor: "pointer" }}
+                                                />
+                                                <img
+                                                    src={noticeimg}
+                                                    alt="notice"
+                                                    height={20}
+                                                    width={20}
+
+                                                    style={{ cursor: "pointer" }}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {bed.isBooked && !bed.onNotice && (
                                         <img
                                             src={recerverimg}
-                                            alt="bookingimg"
+                                            alt="booking"
                                             height={20}
                                             width={20}
                                             style={{
                                                 position: "absolute",
                                                 top: 1,
                                                 right: -10,
-                                                cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer'
+                                                cursor:  "pointer",
                                             }}
-                                            className="me-1 mb-1"
+
                                         />
                                     )}
 
+                                    {bed.onNotice && !bed.isBooked && (
+                                        <img
+                                            src={noticeimg}
+                                            alt="notice"
+                                            height={20}
+                                            width={20}
+                                            style={{
+                                                position: "absolute",
+                                                top: 1,
+                                                right: -10,
+                                                cursor:  "pointer",
+                                            }}
+
+                                        />
+                                    )}
+
+
+
                                     {/* occupied + notice */}
-                                    {bed.isOccupied && bed.onNotice && (
+                                    {/* {bed.isOccupied && bed.onNotice && (
                                         <img
                                             src={noticeimg}
                                             alt="notice"
@@ -456,7 +498,7 @@ function BedDetailsMap({ room, propsValue }) {
                                             }}
                                             className="me-1 mb-1"
                                         />
-                                    )}
+                                    )} */}
 
                                     {/* bed color */}
                                     <img className="mt-1"

@@ -11,6 +11,7 @@ import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 import Select from "react-select";
+import "./ParticularHostelDetails.css";
 import BedDetailsMap from './BedDetailsMap';
 
 
@@ -616,6 +617,9 @@ function ParticularHostelDetails(props) {
                               />
 
                             </div>
+
+                          
+
                             <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>
                               {bed.name}
                             </div>
@@ -644,6 +648,8 @@ function ParticularHostelDetails(props) {
                       </div>
                     </div> */}
                   </Card.Body>
+
+
                 </Card>
               </div>
             ))}

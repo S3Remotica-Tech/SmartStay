@@ -484,9 +484,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
 
-    const selectedUser = state?.UsersList?.Users.find(
-      item => item.ID === checkin_customername
-    );
+        const selectedUser = state?.UsersList?.Users.find(
+        item => item.ID === checkin_customername
+      );
+
+    
 
     const fullName = selectedUser?.Name?.trim() || "";
 

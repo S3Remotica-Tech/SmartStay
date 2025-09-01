@@ -83,7 +83,7 @@ function BookingModal(props) {
         type: "GET_BOOKING_LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-       dispatch({
+      dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
@@ -177,14 +177,14 @@ function BookingModal(props) {
   //   setBookingAmount(e.target.value);
   // };
   const handleBookingAmountChange = (e) => {
-  const value = e.target.value;
+    const value = e.target.value;
 
-  // only allow numbers
-  if (/^\d*$/.test(value)) {
-    setAmountError("");
-    setBookingAmount(value);
-  }
-};
+    // only allow numbers
+    if (/^\d*$/.test(value)) {
+      setAmountError("");
+      setBookingAmount(value);
+    }
+  };
 
 
   const handleJoiningDateChange = (date) => {
@@ -198,13 +198,13 @@ function BookingModal(props) {
   };
 
 
- const handleBedChange = (selectedOption) => {
-  setBedError("");
-  setBed(selectedOption?.value || "");
-};
+  const handleBedChange = (selectedOption) => {
+    setBedError("");
+    setBed(selectedOption?.value || "");
+  };
   const handleFileChange = (e) => {
-  setFile(e.target.files[0]);
-};
+    setFile(e.target.files[0]);
+  };
 
 
 
@@ -326,7 +326,7 @@ function BookingModal(props) {
     });
   };
 
-console.log("state.UsersList.bednumberdetails.bed_details",state.UsersList.bednumberdetails.bed_details)
+  console.log("state.UsersList.bednumberdetails.bed_details", state.UsersList.bednumberdetails.bed_details)
   return (
     <>
 
@@ -540,11 +540,11 @@ console.log("state.UsersList.bednumberdetails.bed_details",state.UsersList.bednu
                   placeholder="Enter Booking Amount"
                   value={bookingAmount}
                   onChange={(e) => handleBookingAmountChange(e)}
-                   onKeyPress={(e) => {
-    if (!/[0-9]/.test(e.key)) {
-      e.preventDefault();
-    }
-  }}
+                  onKeyPress={(e) => {
+                    if (!/[0-9]/.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -559,8 +559,8 @@ console.log("state.UsersList.bednumberdetails.bed_details",state.UsersList.bednu
               </Form.Group>
 
               {amountError && (
-                <div style={{ color: "red"}}>
-                 
+                <div style={{ color: "red" }}>
+
                   <MdError
                     style={{
                       marginRight: "5px",
@@ -619,12 +619,12 @@ console.log("state.UsersList.bednumberdetails.bed_details",state.UsersList.bednu
                       // disabledDate={(current) =>
                       //   bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
                       // }
-                        disabledDate={(current) => {
-    if (!bookingDate) {
-      return true; 
-    }
-    return current && current.isBefore(dayjs(bookingDate), "day");
-  }}
+                      disabledDate={(current) => {
+                        if (!bookingDate) {
+                          return true;
+                        }
+                        return current && current.isBefore(dayjs(bookingDate), "day");
+                      }}
                       getPopupContainer={() => document.body}
 
                     />
@@ -658,26 +658,26 @@ console.log("state.UsersList.bednumberdetails.bed_details",state.UsersList.bednu
               )}
 
               {state.Booking?.ErrorAssignBookingDate && (
-                    <div style={{ color: "red" }}>
-                      <MdError
-                        style={{
-                          marginRight: "5px",
-                          fontSize: 14,
-                          marginBottom: "1px",
-                        }}
-                      />
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: 12,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {state.Booking?.ErrorAssignBookingDate}
-                      </span>
-                    </div>
-                  )}
+                <div style={{ color: "red" }}>
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {state.Booking?.ErrorAssignBookingDate}
+                  </span>
+                </div>
+              )}
 
 
 
@@ -838,21 +838,45 @@ console.log("state.UsersList.bednumberdetails.bed_details",state.UsersList.bednu
                 </Form.Label>
 
                 <Select
+                  // options={
+                  //   state.UsersList?.roomdetails?.map((item) => ({
+                  //     value: item.Room_Id,
+                  //     label: item.Room_Name,
+                  //   })) || []
+                  // }
+                  // onChange={handleRoomChange}
+                  // value={
+                  //   state.UsersList?.roomdetails
+                  //     ?.map((item) => ({
+                  //       value: item.Room_Id,
+                  //       label: item.Room_Name,
+                  //     }))
+                  //     .find((option) => option.value === room) || null
+                  // }
+
                   options={
-                    state.UsersList?.roomdetails?.map((item) => ({
-                      value: item.Room_Id,
-                      label: item.Room_Name,
-                    })) || []
+                    floor
+                      ? state.UsersList?.roomdetails
+                        ?.filter((r) => String(r.Floor_Id) === String(floor))
+                        ?.map((item) => ({
+                          value: item.Room_Id,
+                          label: item.Room_Name,
+                        })) || []
+                      : [] // No floor → no rooms
                   }
                   onChange={handleRoomChange}
                   value={
-                    state.UsersList?.roomdetails
-                      ?.map((item) => ({
-                        value: item.Room_Id,
-                        label: item.Room_Name,
-                      }))
-                      .find((option) => option.value === room) || null
+                    floor && room
+                      ? state.UsersList?.roomdetails
+                        ?.map((item) => ({
+                          value: item.Room_Id,
+                          label: item.Room_Name,
+                        }))
+                        .find((option) => option.value === room) || null
+                      : null
                   }
+
+
                   placeholder="Select a Room"
                   styles={{
                     control: (base) => ({
@@ -946,65 +970,34 @@ console.log("state.UsersList.bednumberdetails.bed_details",state.UsersList.bednu
 
 
               <Select
-                // options={
-                //   (() => {
-                //     const bookedBeds = (state.Booking?.CustomerBookingList?.bookings || []).map(b => b.bed_id);
-                //     return state.UsersList?.bednumberdetails?.bed_details?.length > 0
-                //       ? state.UsersList.bednumberdetails.bed_details
-                //         .filter(
-                //           (item) =>
-                //             item.bed_no !== "0" &&
-                //             item.bed_no !== "undefined" &&
-                //             item.bed_no !== "" &&
-                //             item.bed_no !== "null" &&
-                //             !bookedBeds.includes(item.id)
-                //         )
-                //         .map((item) => ({
-                //           value: item.id,
-                //           label: item.bed_no,
-                //         }))
-                //       : [];
-                //   })()
-                // }
-                 options={
-                              state.UsersList?.bednumberdetails?.bed_details
-                                ?.filter(
-                                  (item) =>
-                                    item.bed_no !== "0" &&
-                                    item.bed_no !== "undefined" &&
-                                    item.bed_no !== "" &&
-                                    item.bed_no !== "null"
-                                )
-                                ?.map((item) => ({
-                                  value: item.id,
-                                  label: item.bed_no,
-                                })) || []
-                            }
+
+                options={
+                  room
+                    ? state.UsersList?.bednumberdetails?.bed_details
+                      ?.filter(
+                        (item) =>
+                          item.bed_no !== "0" &&
+                          item.bed_no !== "undefined" &&
+                          item.bed_no !== "" &&
+                          item.bed_no !== "null"
+                      )
+                      ?.map((item) => ({
+                        value: item.id,
+                        label: item.bed_no,
+                      })) || []
+                    : []
+                }
                 onChange={handleBedChange}
-//                value={
-//   bed
-//     ? {
-//         value: bed,
-//         label:
-//           state.UsersList?.bednumberdetails?.bed_details?.find(
-//             (bedItem) => bedItem.id === bed
-//           )?.bed_no || "Selected Bed",
-//       }
-//     : null
-// }
- value={
-                              state.UsersList?.bednumberdetails?.bed_details?.find(
-                                (option) => option.id === bed
-                              )
-                                ? {
-                                  value: bed,
-                                  label:
-                                    state.UsersList.bednumberdetails.bed_details.find(
-                                      (option) => option.id === bed
-                                    )?.bed_no,
-                                }
-                                : null
-                            }
+                value={
+                  room && bed
+                    ? {
+                      value: bed,
+                      label: state.UsersList?.bednumberdetails?.bed_details?.find(
+                        (option) => option.id === bed
+                      )?.bed_no,
+                    }
+                    : null
+                }
                 placeholder="Selected Bed"
                 classNamePrefix="custom"
                 menuPlacement="auto"
