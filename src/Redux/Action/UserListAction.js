@@ -354,6 +354,17 @@ export async function amenitieAddUser(datum) {
 }
 
 
+// v1
+
+// export async function beddetailsNumber(bednum) {
+//   return await AxiosConfig.post('/bed_details', bednum, {
+//     data: bednum
+//   })
+// }
+
+// v2
+
+
 export async function beddetailsNumber(bednum) {
   return await AxiosConfig.post('/bed_details', bednum, {
     data: bednum

@@ -3374,7 +3374,7 @@ function UserList(props) {
                                         <div className="ps-2">
 
 
-                                          {user.currentStatus === "booked"
+                                          {user.currentStatus === "Booked"
                                             ? (user.floorName || "-")
                                             : user.currentStatus === "Checked In" || user.currentStatus === "Notice Period"
                                               ? (user.floorName || "-")
@@ -3399,7 +3399,7 @@ function UserList(props) {
                                       >
                                         {" "}
 
-                                        {user.currentStatus === "booked"
+                                        {user.currentStatus === "Booked"
                                           ? user.roomName || "-"
                                           : user.roomName || "-"}
                                       </td>
@@ -3421,7 +3421,7 @@ function UserList(props) {
                                       >
                                         {/* {!user.Bed ? "-" : user.Bed} */}
                                         {/* {user.Booking_Bed || user.floor_name || "-"} */}
-                                        {user.currentStatus === "booked"
+                                        {user.currentStatus === "Booked"
                                           ? user.bedName || "-"
                                           : user.bedName || "-"}
                                       </td>
@@ -3729,8 +3729,6 @@ function UserList(props) {
                                                 )}
 
 
-
-
                                                 {user.bedId && user.currentStatus === "Notice Period" && (
                                                   <>
                                                     <div
@@ -3839,7 +3837,7 @@ function UserList(props) {
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
-                                                {user.currentStatus === "booked" && (
+                                                {user.currentStatus === "Booked" && (
 
                                                   <>
                                                     <div
@@ -4140,8 +4138,8 @@ function UserList(props) {
                   <CustomerCheckout
                     customerCheckoutpage={customerCheckoutpage}
                     setCustomerCheckoutpage={setCustomerCheckoutpage}
-                    uniqueostel_Id={uniqueostel_Id}
-                    data={customercheckoutdata}
+                    // uniqueostel_Id={uniqueostel_Id}
+                    bedData={customercheckoutdata}
                   />
                 ) : null}
               </TabPanel>
