@@ -326,7 +326,6 @@ function BookingModal(props) {
     });
   };
 
-  console.log("state.UsersList.bednumberdetails.bed_details", state.UsersList.bednumberdetails.bed_details)
   return (
     <>
 

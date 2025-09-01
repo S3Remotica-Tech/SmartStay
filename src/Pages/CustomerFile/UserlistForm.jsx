@@ -2187,6 +2187,8 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
   return (
     <div>
+
+      {/* Tenant Check-In  UNASSIGN -CHECKIN*/}
       <Modal
         show={props.showAssignMenu}
         onHide={handleCloseAssign}
@@ -3199,7 +3201,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
 
 
-
+{/* Tenant Check-In   BOOKED -CHEKK-IN*/}
 
       <Modal
         show={props.BookingAssignForm}
@@ -4033,6 +4035,9 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
         </Modal.Dialog>
       </Modal>
 
+
+
+{/* Add New Customer */}
 
       <Modal
         show={props.showMenu}
@@ -5105,7 +5110,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
         </Modal.Dialog>
       </Modal>
 
-
+{/* advanceForm */}
 
       <Modal
         show={props.advanceForm}
@@ -5357,6 +5362,8 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
         </Modal.Dialog>
       </Modal>
 
+
+{/* BACK TO CHECK IN */}
 
       <Modal
         show={props.bactocheckinForm}

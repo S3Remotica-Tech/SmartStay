@@ -189,6 +189,9 @@ console.log("assign_tenantform",assign_tenantform)
     }
     const handleclickBed = (bed, room) => {
 
+console.log("bed status", bed)
+
+
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
         if (bed.isBooked) {
@@ -196,12 +199,12 @@ console.log("assign_tenantform",assign_tenantform)
             // setOccupiedCustomerDetails({ bed, room });
 
         }
-        else if (!bed.isOccupied) {
-            setEmptyBed(true);
-            setDeleteBedDetails({ bed, room });
+        // else if (!bed.isOccupied) {
+        //     setEmptyBed(true);
+        //     setDeleteBedDetails({ bed, room });
 
-        }
-        else if (bed.onNotice) {
+        // }
+        else if (bed.onNotice && !bed.isOccupied) {
             setOccubiedBed(false);
             setNoticePeriodBed(true);
             // setOccupiedCustomerDetails({ bed, room });
@@ -362,7 +365,7 @@ console.log("state",state)
             {
                 showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed}
                     handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
-                    currentItem={OccupiedCustomerDetails}
+                    currentItem={customer}
                 />
             }
 
@@ -381,10 +384,10 @@ console.log("state",state)
                     handleCloseBed={handlecloseoccubiedbed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
             }
 
-            {
+            {/* {
                 Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer} />
-            }
+            } */}
 
 
             {/* Notice period  */}

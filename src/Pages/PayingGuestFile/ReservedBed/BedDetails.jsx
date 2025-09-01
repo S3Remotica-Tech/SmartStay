@@ -20,9 +20,7 @@ function BedDetails({
     handleShowCheck_In,
     currentItem
 }) {
-    // const state = useSelector((state) => state);
-    // const dispatch = useDispatch();
-
+    
            const state = useSelector(state => state)
             const dispatch = useDispatch();
 
@@ -31,20 +29,20 @@ function BedDetails({
             console.log("data", currentItem);
             
         
-            useEffect(() => {
+            // useEffect(() => {
         
-                const Hostel_Id = currentItem?.room.Hostel_Id;
-                const Floor_Id = currentItem?.room.Floor_Id;
-                const Bed_Id = currentItem?.bed.id;
-                const Room_Id = currentItem?.room.Room_Id;
+            //     const Hostel_Id = currentItem?.room.Hostel_Id;
+            //     const Floor_Id = currentItem?.room.Floor_Id;
+            //     const Bed_Id = currentItem?.bed.id;
+            //     const Room_Id = currentItem?.room.Room_Id;
         
         
-                if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+            //     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
                   
-                    dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+            //         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
         
-                }
-            }, [currentItem])
+            //     }
+            // }, [currentItem])
 
  
 
@@ -177,7 +175,9 @@ function BedDetails({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No  {currentItem?.room.Room_Name} </label> <span style={{
+                                        }}>Room No  
+                                        {currentItem?.roomName}
+                                         </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -187,7 +187,9 @@ function BedDetails({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed  {currentItem?.bed.bed_no}</span>
+                                        }}> Bed 
+                                         {currentItem?.bedName}
+                                         </span>
                                     </div>
                                 </div>
 

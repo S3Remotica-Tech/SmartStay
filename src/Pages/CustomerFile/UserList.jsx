@@ -4325,7 +4325,7 @@ function UserList(props) {
       </Modal>
 
 
-      {/*  */}
+      {/* Tenant Inactive - BOOKED -Tenant Inactive */}
 
       <Modal show={inactiveForm} onHide={handleCloseInActive} centered backdrop="static"   >
 
