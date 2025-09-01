@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 function* handleAddBooking(action) {
    try{
     const response = yield call (AddBooking, action.payload);
-   
+console.log("response booking",response)   
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -25,9 +25,9 @@ function* handleAddBooking(action) {
      
     };
 
-    if (response.status === 200 || response.statusCode === 200){
-      yield put ({type : 'ADD_USER_BOOKING' , payload:{response:response.data, statusCode:response.status ||  response.statusCode}})
-      toast.success(`${response.message}`, {
+    if (response.status === 200 ){
+      yield put ({type : 'ADD_USER_BOOKING' , payload:{response:response.data, statusCode:response.status}})
+      toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,

@@ -124,7 +124,8 @@ export const initialState = {
     floorListStatusCode: 0,
     floorList: [],
     statusCodeForCheckInCustomer: 0,
-    statusCodeForAddCustomerSaveInfo: 0
+    statusCodeForAddCustomerSaveInfo: 0,
+    bedAvailableError:''
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -222,6 +223,11 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, statusCodeForCheckInCustomer: action.payload.statusCode }
         case 'CLEAR_STATUS_CODES_CHECK_IN':
             return { ...state, statusCodeForCheckInCustomer: 0 }
+
+        case 'BED_AVAILABLE_ERROR':
+            return { ...state, bedAvailableError: action.payload }
+        case 'REMOVE_BED_AVAILABLE_ERROR':
+            return { ...state, bedAvailableError: "" }
 
         case 'PHONE_ERROR':
             return { ...state, phoneError: action.payload }

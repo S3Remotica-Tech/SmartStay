@@ -55,6 +55,8 @@ function BedDetailsMap({ room, propsValue }) {
     const [details, setDetails] = useState('')
 
 
+console.log("assign_tenantform",assign_tenantform)
+
     const handleShowReservedBed = () => {
         setShowReservedBed(true)
     }
@@ -285,7 +287,7 @@ function BedDetailsMap({ room, propsValue }) {
             setAssignTenantForm(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
-            }, 2000)
+            },500)
         }
 
     }, [state.UsersList.statusCodeForCheckInCustomer])
@@ -293,6 +295,32 @@ function BedDetailsMap({ room, propsValue }) {
 
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
+
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+         handleCloseAssignTenant()
+       
+           dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: room.id }
+            });
+          setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+
+         }
+  }, [state?.Booking?.statusCodeForAddBooking ])
+
+console.log("state",state)
+
+
+
+  useEffect(() => {
+    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
+     handleCloseAddCustomer()
+       
+    }
+  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
     return (
 

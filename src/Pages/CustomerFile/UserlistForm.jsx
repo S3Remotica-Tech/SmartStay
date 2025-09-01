@@ -398,6 +398,7 @@ function UserlistForm(props) {
   };
 
   const handleRooms = (selectedValue) => {
+    console.log("selectedValue", selectedValue)
     setRooms(selectedValue);
     if (selectedValue) {
       dispatch({
@@ -506,7 +507,7 @@ function UserlistForm(props) {
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
   const handleClose = () => {
-       setFirstname("");
+    setFirstname("");
     setLastname("");
     setAadharNo("");
     setPancardNo("");
@@ -537,9 +538,9 @@ function UserlistForm(props) {
     setPayableamount("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-  if (props?.setShowMenu) props.setShowMenu(false);
-  if (props?.setShowForm) props.setShowForm(false);
-  if (props?.OnShowTable) props.OnShowTable(true);
+    if (props?.setShowMenu) props.setShowMenu(false);
+    if (props?.setShowForm) props.setShowForm(false);
+    if (props?.OnShowTable) props.OnShowTable(true);
     if (props?.edit === "Edit") {
       if (props?.OnShowTable) props.OnShowTable(true);
     } else {
@@ -549,16 +550,16 @@ function UserlistForm(props) {
 
 
   const handleCloseAssign = () => {
-
+dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-   if (props?.setShowAssignMenu) props.setShowAssignMenu(false);
-  if (props?.setShowForm) props.setShowForm(false);
-  if (props?.OnShowTable) props.OnShowTable(true);
-    if (props.edit === "Edit") {
+    if (props?.setShowAssignMenu) props.setShowAssignMenu(false);
+    if (props?.setShowForm) props.setShowForm(false);
     if (props?.OnShowTable) props.OnShowTable(true);
+    if (props.edit === "Edit") {
+      if (props?.OnShowTable) props.OnShowTable(true);
     } else {
-       if (props?.setRoomDetail) props.setRoomDetail(false);
+      if (props?.setRoomDetail) props.setRoomDetail(false);
     }
   }
 
@@ -643,13 +644,6 @@ function UserlistForm(props) {
 
 
 
-  // const handleAdvaceShowForm = () => {
-  //   props.setShowMenu(false);
-  //   props.setAdvanceForm(true);
-  // };
-
-  useEffect(() => { }, [props.showMenu]);
-
 
   const handleSaveUserlistAddUser = async () => {
 
@@ -733,9 +727,14 @@ function UserlistForm(props) {
 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate.toISOString().split("T")[0];
+
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const year = newDate.getFullYear();
+
+      return `${day}-${month}-${year}`;
     };
+
     const formattedDate = selectedDate
       ? incrementDateAndFormat(selectedDate)
       : "";
@@ -756,7 +755,7 @@ function UserlistForm(props) {
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
-    const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+    // const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
     if (
       Floor !== "Selected Floor" &&
@@ -768,38 +767,55 @@ function UserlistForm(props) {
       Number(RoomRent) > 0
     ) {
       dispatch({
-        type: "CHECKIN",
+        type: 'CHECKIN',
         payload: {
-          profile: file,
-          firstName: capitalizedFirstname,
-          lastName: capitalizedLastname,
-          mobile: Phone,
-          mailId: Email,
-          houseNo: house_no,
-          street: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-          hostelId: hostel_Id,
+          customerId: id,
+          hostelId: state.login?.selectedHostel_Id,
           floorId: Floor,
-          roomId: Rooms,
           bedId: Bed,
+          roomId: Rooms,
           joiningDate: formattedDate,
+          advanceAmount: AdvanceAmount,
+          rentalAmount: RoomRent
 
-          AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
-          reasons: formattedReasons,
-          stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-          isadvance: 1,
-          invoice_date: formattedDate,
-          due_date: formattedAdvanceDueDate,
-        },
-      });
+        }
+      })
+      setFormLoading(true)
+
+
+      // dispatch({
+      //   type: "CHECKIN",
+      //   payload: {
+      //     profile: file,
+      //     firstName: capitalizedFirstname,
+      //     lastName: capitalizedLastname,
+      //     mobile: Phone,
+      //     mailId: Email,
+      //     houseNo: house_no,
+      //     street: street,
+      //     landmark: landmark,
+      //     city: city,
+      //     pincode: pincode,
+      //     state: state_name,
+      //     hostelId: hostel_Id,
+      //     floorId: Floor,
+      //     roomId: Rooms,
+      //     bedId: Bed,
+      //     joiningDate: formattedDate,
+
+      //     AdvanceAmount: AdvanceAmount,
+      //     RoomRent: RoomRent,
+      //     reasons: formattedReasons,
+      //     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+      //     isadvance: 1,
+      //     invoice_date: formattedDate,
+      //     due_date: formattedAdvanceDueDate,
+      //   },
+      // });
 
     }
-    setFormLoading(true)
-    dispatch({ type: "INVOICELIST" });
+
+    // dispatch({ type: "INVOICELIST" });
   };
 
 
@@ -1288,7 +1304,7 @@ function UserlistForm(props) {
   const [bookingBedId, setBookingBedId] = useState("")
 
 
-
+  console.log("state", state)
 
   const bookingDateRef = useRef("");
 
@@ -1555,13 +1571,13 @@ function UserlistForm(props) {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       setFormLoading(false)
       setLoading(false)
-      handleClose();
-      handleCloseAdvanceForm();
-      handleCloseAssign()
-      handleCloseAssignBooking()
+      // handleClose();
+      // handleCloseAdvanceForm();
+      // handleCloseAssign()
+      // handleCloseAssignBooking()
       if (props.edit === "Edit") {
         if (props?.setRoomDetail) props.setRoomDetail(true);
-      if (props?.OnShowTable) props.OnShowTable(true);
+        if (props?.OnShowTable) props.OnShowTable(true);
       } else {
         if (props?.setRoomDetail) props.setRoomDetail(false);
       }
@@ -1577,15 +1593,16 @@ function UserlistForm(props) {
   };
 
   useEffect(() => {
-    if (state.createAccount?.networkError) {
+    if (state.createAccount?.networkError || state.UsersList?.bedAvailableError) {
       setFormLoading(false)
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
       }, 3000)
     }
 
-  }, [state.createAccount?.networkError])
+  }, [state.createAccount?.networkError, state.UsersList?.bedAvailableError])
 
 
 
@@ -1859,17 +1876,17 @@ function UserlistForm(props) {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     if (props?.setBookingAssignForm) props.setBookingAssignForm(false);
-  if (props?.setShowForm) props.setShowForm(false);
-  if (props?.OnShowTable) props.OnShowTable(true);
+    if (props?.setShowForm) props.setShowForm(false);
+    if (props?.OnShowTable) props.OnShowTable(true);
     if (props.edit === "Edit") {
-     if (props?.OnShowTable) props.OnShowTable(true);
+      if (props?.OnShowTable) props.OnShowTable(true);
     } else {
-     if (props?.setRoomDetail) props.setRoomDetail(false);
+      if (props?.setRoomDetail) props.setRoomDetail(false);
     }
   }
   const handleCloseBacktoCheckin = () => {
-   if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
-  if (props?.handleCloseBed) props.handleCloseBed();
+    if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
+    if (props?.handleCloseBed) props.handleCloseBed();
   }
 
   console.log("props?.EditObj", props?.EditObj)
@@ -2131,17 +2148,17 @@ function UserlistForm(props) {
       dateRef.current?.focus();
       return;
     }
-     const incrementDateAndFormat = (date) => {
-  const newDate = new Date(date);
-  const year = newDate.getFullYear();
-  const month = String(newDate.getMonth() + 1).padStart(2, "0");
-  const day = String(newDate.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+    const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      const year = newDate.getFullYear();
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const day = String(newDate.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
 
-   const formattedDate = recheckInDate
-  ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
-  : "";
+    const formattedDate = recheckInDate
+      ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
+      : "";
 
 
     dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
@@ -2514,30 +2531,32 @@ function UserlistForm(props) {
 
                         <Select
                           options={
-                            Array.isArray(state.PgList?.bedList?.[Rooms])
+                            state.PgList?.bedList?.[Rooms] // only get the beds of selected Room
                               ? state.PgList.bedList[Rooms]
                                 .filter(
                                   (item) =>
-                                    item.name !== "0" &&
-                                    item.name !== "undefined" &&
-                                    item.name !== "" &&
-                                    item.name !== "null"
+                                    item.bedName !== "0" &&
+                                    item.bedName !== "undefined" &&
+                                    item.bedName !== "" &&
+                                    item.bedName !== "null"
                                 )
                                 .map((item) => ({
                                   value: item.id,
-                                  label: item.name,
+                                  label: item.bedName,
                                 }))
                               : []
                           }
                           onChange={handleBed}
                           value={
-                            state.PgList?.bedList?.[Rooms]?.find((option) => option.id === Bed)
-                              ? {
-                                value: Bed,
-                                label: state.PgList?.bedList?.[Rooms]?.find(
+                            state.PgList?.bedList?.[Rooms] // only search in the selected Room's bed list
+                              ? (() => {
+                                const selected = state.PgList.bedList[Rooms].find(
                                   (option) => option.id === Bed
-                                )?.name,
-                              }
+                                );
+                                return selected
+                                  ? { value: selected.id, label: selected.bedName }
+                                  : null;
+                              })()
                               : null
                           }
                           placeholder="Select a Bed"
@@ -2595,6 +2614,13 @@ function UserlistForm(props) {
                             }),
                           }}
                         />
+
+                        {state.UsersList.bedAvailableError ?
+                          <div className='d-flex  align-items-center  mt-1 mb-1'>
+                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>Bed unavailable for this date</label>
+                          </div>
+                          : null}
 
 
                         {bedError && (
@@ -3025,6 +3051,8 @@ function UserlistForm(props) {
                       <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                     </div>
                     : null}
+
+
 
                   <Button
                     className="w-100"
@@ -4044,16 +4072,16 @@ function UserlistForm(props) {
                       border: "1px solid #1E45E1",
                     }}
                   >
-                    {step === 1 ? 
-                    <img
-                      src={Store_Icon }
-                      alt="storeicon"
-                      height={15}
-                      width={15}
-                    /> 
-                    : 
-                    <RiShoppingBag3Line 
-                       style={{color:"#1E45E1"}}
+                    {step === 1 ?
+                      <img
+                        src={Store_Icon}
+                        alt="storeicon"
+                        height={15}
+                        width={15}
+                      />
+                      :
+                      <RiShoppingBag3Line
+                        style={{ color: "#1E45E1" }}
                       />}
                   </div>
                   <span className="ms-2" style={{ fontFamily: "Gilroy", fontSize: "14px" }}>
@@ -4091,7 +4119,7 @@ function UserlistForm(props) {
 
               </div>
 
-                            <div
+              <div
                 className="flex-grow-1 position-relative"
                 style={{
                   backgroundColor: '#fff',
@@ -4101,7 +4129,7 @@ function UserlistForm(props) {
                   padding: '15px',
                 }}
               >
-                                <div
+                <div
                   className="d-flex justify-content-between align-items-start px-2 py-1"
                   style={{
                     position: 'sticky',
@@ -4141,58 +4169,58 @@ function UserlistForm(props) {
                                   style={{ height: 100, width: 100, cursor: "pointer" }}
                                 />
 
-                                      <label htmlFor="imageInput" className="">
-                                        <Image
-                                          src={Plus}
-                                          roundedCircle
-                                          style={{
-                                            height: 20,
-                                            width: 20,
-                                            position: "absolute",
-                                            top: 90,
-                                            left: 80,
-                                            transform: "translate(-50%, -50%)",
-                                            cursor: "pointer"
-                                          }}
-                                        />
-                                        <input
-                                          type="file"
-                                          accept="image/*"
-                                          multiple
-                                          className="sr-only"
-                                          id="imageInput"
-                                          onChange={handleImageChange}
-                                          style={{ display: "none" }}
-                                        />
-                                      </label>
-                                    </div>
-                                    <div className="ps-3">
-                                      <div>
-                                        <label
-                                          style={{
-                                            fontSize: 16,
-                                            fontWeight: 500,
-                                            color: "#222222",
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Profile Photo
-                                        </label>
-                                      </div>
-                                      <div>
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Max size of image 10MB
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
+                                <label htmlFor="imageInput" className="">
+                                  <Image
+                                    src={Plus}
+                                    roundedCircle
+                                    style={{
+                                      height: 20,
+                                      width: 20,
+                                      position: "absolute",
+                                      top: 90,
+                                      left: 80,
+                                      transform: "translate(-50%, -50%)",
+                                      cursor: "pointer"
+                                    }}
+                                  />
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    className="sr-only"
+                                    id="imageInput"
+                                    onChange={handleImageChange}
+                                    style={{ display: "none" }}
+                                  />
+                                </label>
+                              </div>
+                              <div className="ps-3">
+                                <div>
+                                  <label
+                                    style={{
+                                      fontSize: 16,
+                                      fontWeight: 500,
+                                      color: "#222222",
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    Profile Photo
+                                  </label>
+                                </div>
+                                <div>
+                                  <label
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      color: "#4B4B4B",
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    Max size of image 10MB
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
 
                             <div className="row mt-4">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">

@@ -1538,7 +1538,7 @@ function UserList(props) {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: uniqueostel_Id },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
 
       setTimeout(() => {
@@ -1733,7 +1733,7 @@ function UserList(props) {
     if (state.UsersList?.deleteCustomerSuccessStatusCode === 200) {
       setFormLoading(false)
       setDeleteShow(false);
-      dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
 
       setDeleteDetails({ room: null, bed: null, user: null });
 
@@ -1908,7 +1908,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 201) {
-      dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id} });
       setcheckoutForm(false);
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
@@ -2075,7 +2075,16 @@ function UserList(props) {
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
 
+  useEffect(() => {
+    if (state.UsersList.statusCodeForCheckInCustomer === 201) {
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id} });
+     setShowAssignMenu(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
+      }, 2000)
+    }
 
+  }, [state.UsersList.statusCodeForCheckInCustomer])
 
   const customDateInput = (props) => {
     return (
@@ -3320,8 +3329,8 @@ function UserList(props) {
                                         <span>
                                           {user?.actualJoining && user.actualJoining !== "0000-00-00"
                                             ? moment(user.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
-                                            : user?.booking_joining_date && user.booking_joining_date !== "0000-00-00"
-                                              ? moment(user.booking_joining_date).format("D MMMM YYYY")
+                                            : user?.expectedJoiningDate && user.expectedJoiningDate !== "0000-00-00"
+                                              ?  moment(user.expectedJoiningDate, "DD/MM/YYYY").format("D MMMM YYYY")
                                               : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
                                                 ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
                                                 : "-"
