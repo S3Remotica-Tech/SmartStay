@@ -771,23 +771,17 @@ function* handleEditRolePermission(detail) {
             style: toastStyle,
          });
       }
-
-      else if (response.status === 201) {
-
-         yield put({ type: 'ROLE_EDIT_ERROR', payload: response.data });
-      }
-
-      else {
-         yield put({ type: 'ERROR', payload: response.data.message })
-      }
-      if (response) {
+     if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
+
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.response.status === 400) {
+            yield put({ type: 'ROLE_EDIT_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }

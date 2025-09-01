@@ -3471,7 +3471,7 @@ function UserList(props) {
                                               }}
                                             >
                                               <div>
-                                                {!user.Bed && user.currentStatus === "Inactive" && (
+                                                {!user.Bed && user.currentStatus === "un-assigned" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
@@ -3524,7 +3524,7 @@ function UserList(props) {
 
 
 
-                                                {user.currentStatus === "Inactive" && (
+                                                {user.currentStatus === "un-assigned" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     style={{
@@ -3574,7 +3574,7 @@ function UserList(props) {
                                                   </div>
                                                 )}
 
-                                                {user.currentStatus === "Inactive" && (
+                                                {user.currentStatus === "un-assigned" && (
                                                   <div
 
                                                     className="d-flex align-items-center gap-2"
@@ -3622,7 +3622,7 @@ function UserList(props) {
 
 
 
-                                                {user.Bed && user.currentStatus === "Check In" && (
+                                                {user.Bed && user.currentStatus === "checked in" && (
 
                                                   <div
                                                     className="d-flex align-items-center gap-2"
@@ -3675,7 +3675,7 @@ function UserList(props) {
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                {user.Bed && user.currentStatus === "Check In" && (
+                                                {user.Bed && user.currentStatus === "checked in" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
 
@@ -3730,7 +3730,7 @@ function UserList(props) {
 
 
 
-                                                {user.Bed && user.currentStatus === "Notice period" && (
+                                                {user.Bed && user.currentStatus === "Notice Period" && (
                                                   <>
                                                     <div
                                                       className="d-flex align-items-center gap-2"
@@ -3838,7 +3838,7 @@ function UserList(props) {
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
-                                                {user.currentStatus === "BOOKED" && (
+                                                {user.currentStatus === "booked" && (
 
                                                   <>
                                                     <div
