@@ -257,6 +257,32 @@ useEffect(()=>{
         dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_Id: currentItem.room.Hostel_Id} })
       },[])
 
+
+
+      const selectedOption =
+  booking_customername &&
+  state.UsersList?.Users?.find(
+    (u) => String(u.ID) === String(booking_customername)
+  );
+
+const customerOptions = [
+  { value: "", label: "Select Customer" }, // default
+  ...(state.UsersList?.UnAssignCustomerDetails?.length > 0
+    ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
+        value: String(u.id),
+        label: u.Name,
+      }))
+    : []),
+  ...(selectedOption
+    ? [
+        {
+          value: String(selectedOption.ID),
+          label: selectedOption.Name,
+        },
+      ]
+    : []),
+];
+
   return (
     <div>
       <Modal
