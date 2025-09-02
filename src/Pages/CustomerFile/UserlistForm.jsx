@@ -2536,7 +2536,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
                         <Select
                           options={
-                            state.PgList?.bedList?.[Rooms] // only get the beds of selected Room
+                            state.PgList?.bedList?.[Rooms] 
                               ? state.PgList.bedList[Rooms]
                                 .filter(
                                   (item) =>
@@ -2553,7 +2553,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
                           }
                           onChange={handleBed}
                           value={
-                            state.PgList?.bedList?.[Rooms] // only search in the selected Room's bed list
+                            state.PgList?.bedList?.[Rooms] 
                               ? (() => {
                                 const selected = state.PgList.bedList[Rooms].find(
                                   (option) => option.id === Bed
@@ -3201,7 +3201,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
 
 
-{/* Tenant Check-In   BOOKED -CHEKK-IN*/}
+{/* Tenant Check-In   BOOKED -CHECK-IN*/}
 
       <Modal
         show={props.BookingAssignForm}

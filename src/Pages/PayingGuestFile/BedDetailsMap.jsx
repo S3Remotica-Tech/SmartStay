@@ -199,12 +199,12 @@ console.log("bed status", bed)
             // setOccupiedCustomerDetails({ bed, room });
 
         }
-        // else if (!bed.isOccupied) {
-        //     setEmptyBed(true);
-        //     setDeleteBedDetails({ bed, room });
+        else if (!bed.isOccupied) {
+            setEmptyBed(true);
+            setDeleteBedDetails({ bed, room });
 
-        // }
-        else if (bed.onNotice && !bed.isOccupied) {
+        }
+        else if (bed.onNotice && bed.isOccupied) {
             setOccubiedBed(false);
             setNoticePeriodBed(true);
             // setOccupiedCustomerDetails({ bed, room });

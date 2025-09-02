@@ -22,7 +22,7 @@ import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 
 function BookingModal(props) {
 
-
+console.log("propssssss",props)
 
   const state = useSelector((state) => state);
 
@@ -32,7 +32,7 @@ function BookingModal(props) {
   const [joiningDate, setJoiningDate] = useState(null);
   const [bookingDate, setBookingDate] = useState(null);
   const [room, setRoom] = useState('');
-  const [floor, setFloor] = useState('');
+  const [Floor, setFloor] = useState('');
   const [bed, setBed] = useState('');
   const [formLoading, setFormLoading] = useState(false)
 
@@ -40,8 +40,8 @@ function BookingModal(props) {
 
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
-    dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
     }
   }, []);
 
@@ -64,16 +64,17 @@ function BookingModal(props) {
   }, [state.Booking.bookingPhoneError]);
 
   useEffect(() => {
-    if (state.Booking.bookingEmailError) {
+    if (state.Booking.bookingEmailError || state.Booking?.bookingBedError) {
       setFormLoading(false)
       if (EmailInputRef.current) {
         EmailInputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
       }
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
+        dispatch({ type: "ERROR_BOOKING_REMOVE" })
       }, 2000);
     }
-  }, [state.Booking.bookingEmailError]);
+  }, [state.Booking.bookingEmailError, state.Booking?.bookingBedError]);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -110,38 +111,55 @@ function BookingModal(props) {
 
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id && floor) {
-      dispatch({
-        type: "ROOMDETAILS",
-        payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: floor },
-      });
-    }
-  }, [floor]);
+    dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+  }, [])
+
 
   useEffect(() => {
-    dispatch({
-      type: "HOSTELDETAILLIST",
-      payload: { hostel_Id: state.login.selectedHostel_Id },
-    });
-  }, [state.login.selectedHostel_Id]);
+    if (Floor) {
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: Floor } })
+    }
+  }, [Floor]);
+  useEffect(() => {
+    if (state.UsersList.floorListStatusCode === 200) {
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_ALL_FLOOR_LIST' })
+      }, 500)
+    }
+
+  }, [state.UsersList.floorListStatusCode])
+
+
+  useEffect(() => {
+    if (state?.PgList?.getAllRoomSuccessStatus === 200) {
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_ALL_ROOMS_STATUS_CODE' })
+      }, 100)
+    }
+
+  }, [state?.PgList?.getAllRoomSuccessStatus])
+
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "HOSTELDETAILLIST",
+  //     payload: { hostel_Id: state.login.selectedHostel_Id },
+  //   });
+  // }, [state.login.selectedHostel_Id]);
 
 
 
-  const handleRoomChange = (selectedOption) => {
-    const selectedRoomId = selectedOption?.value;
+  const handleRooms = (selectedOption) => {
+    const selectedRoomId = selectedOption;
+
+    console.log("selectedRoomId",selectedRoomId)
+
     setRoom(selectedRoomId);
     setBed("");
 
     if (selectedRoomId) {
-      const payload = {
-        hostel_id: state.login.selectedHostel_Id,
-        floor_id: floor,
-        room_id: selectedRoomId,
-      };
-
       dispatch({
-        type: "BEDNUMBERDETAILS",
-        payload: payload,
+        type: "GETALLBEDSLIST",
+        payload: { roomId: selectedRoomId }
       });
 
       setRoomError("");
@@ -198,7 +216,8 @@ function BookingModal(props) {
   };
 
 
-  const handleBedChange = (selectedOption) => {
+  const handleBed = (selectedOption) => {
+     dispatch({ type: "ERROR_BOOKING_REMOVE" })
     setBedError("");
     setBed(selectedOption?.value || "");
   };
@@ -238,7 +257,7 @@ function BookingModal(props) {
       setJoiningDateError("");
     }
 
-    if (!floor) {
+    if (!Floor) {
       setFloorError("Please select Floor");
       isValid = false;
     } else {
@@ -262,47 +281,50 @@ function BookingModal(props) {
 
     if (!isValid) return;
 
-    let formattedDate = null;
-    let bookingFormattedDate = null;
-    try {
-      const date = new Date(joiningDate);
-      date.setDate(date.getDate() + 1);
-      formattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      setDateError("Please Select Date");
-      return;
-    }
 
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
 
-    try {
-      const date = new Date(bookingDate);
-      date.setDate(date.getDate() + 1);
-      bookingFormattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      setDateError("Please Select Date");
-      return;
-    }
-
-
+    const joiningDateForFormatted = formatDate(joiningDate);
+    const bookingDateForFormatted = formatDate(bookingDate);
 
     dispatch({
       type: "ADD_BOOKING",
       payload: {
-        joining_date: formattedDate,
-        booking_date: bookingFormattedDate,
-        amount: bookingAmount,
-        hostel_id: state.login.selectedHostel_Id,
-        floor_id: floor,
-        room_id: room,
-        bed_id: bed,
-        customer_Id: props.userDetail.ID,
-        mob_no: props.userDetail.Phone,
-        email: props.userDetail.Email,
-        profile: props.userDetail.profile
+        hostelId: state.login.selectedHostel_Id,
+        joiningDate: joiningDateForFormatted,
+        bookingDate: bookingDateForFormatted,
+        bookingAmount: bookingAmount,
+        floorId: Floor,
+        roomId: room,
+        bedId: bed,
+        customerId: props.userDetail?.customerId,
+
       },
     });
+
+    // dispatch({
+    //   type: "ADD_BOOKING",
+    //   payload: {
+    //     joining_date: formattedDate,
+    //     booking_date: bookingFormattedDate,
+    //     amount: bookingAmount,
+    //     hostel_id: state.login.selectedHostel_Id,
+    //     floor_id: Floor,
+    //     room_id: room,
+    //     bed_id: bed,
+    //     customer_Id: props.userDetail.ID,
+    //     mob_no: props.userDetail.Phone,
+    //     email: props.userDetail.Email,
+    //     profile: props.userDetail.profile
+    //   },
+    // });
     setFormLoading(true)
   };
 
@@ -317,14 +339,7 @@ function BookingModal(props) {
     setRoom("");
     setBed("");
     setFloorError("");
-    dispatch({
-      type: "ROOMDETAILS",
-      payload: {
-        floor_Id: selectedOption.value,
-        hostel_Id: state.login.selectedHostel_Id
-      },
-    });
-  };
+     };
 
   return (
     <>
@@ -372,6 +387,9 @@ function BookingModal(props) {
         )}
 
 
+
+
+
         {state.Booking?.ErrorAssignBookingMobile && (
           <div style={{ color: "red" }} className="ps-3 pt-3">
             <MdError style={{ fontSize: 14, color: "red" }} />
@@ -404,8 +422,8 @@ function BookingModal(props) {
                 src={
                   file
                     ? (typeof file === "string" ? file : URL.createObjectURL(file))
-                    : (props.userDetail?.profile && props.userDetail.profile.trim() !== ""
-                      ? props.userDetail.profile
+                    : (props.userDetail?.profilePic && props.userDetail.profilePic.trim() !== ""
+                      ? props.userDetail.profilePic
                       : Profiles)
                 }
                 onError={(e) => {
@@ -432,7 +450,7 @@ function BookingModal(props) {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  {props?.userDetail?.Name || "Name"}{" "}
+                  {props?.userDetail?.firstName || "Name"}{" "}
                 </label>
               </div>
 
@@ -710,65 +728,57 @@ function BookingModal(props) {
 
                 <Select
                   options={
-                    state?.UsersList?.hosteldetailslist?.map((item) => ({
-                      value: item.floor_id,
-                      label: item.floor_name,
+                    state.UsersList.floorList?.map((u) => ({
+                      value: u.id,
+                      label: u.name,
                     })) || []
                   }
                   onChange={handleFloor}
-
                   value={
-                    state?.UsersList?.hosteldetailslist
-                      ?.map((item) => ({
-                        value: item.floor_id,
-                        label: item.floor_name,
-                      }))
-                      .find((option) => option.value === floor) || null
+                    state.UsersList.floorList?.find(
+                      (option) => option.id === Floor
+                    )
+                      ? {
+                        value: Floor,
+                        label: state.UsersList.floorList.find(
+                          (option) => option.id === Floor
+                        )?.name,
+                      }
+                      : null
                   }
-
-                  placeholder="Select Floor"
-                  classNamePrefix="custom-select"
+                  placeholder="Select a Floor"
+                  classNamePrefix="custom"
                   menuPlacement="auto"
                   styles={{
                     control: (base) => ({
                       ...base,
+                      height: "50px",
+                      border: "1px solid #D9D9D9",
+                      borderRadius: "8px",
                       fontSize: "16px",
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                       boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: "50px",
-                      borderRadius: "8px",
                     }),
                     menu: (base) => ({
                       ...base,
-                      maxHeight: "150px",
-                      overflowY: "auto",
-                      border: "1px solid #D9D9D9",
-                      zIndex: 1000,
-                      scrollbarWidth: "thin",
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #ced4da",
                       fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
-                      maxHeight: "150px",
+                      backgroundColor: "#f8f9fa",
+                      maxHeight: "120px",
                       padding: 0,
+                      scrollbarWidth: "thin",
                       overflowY: "auto",
                       fontFamily: "Gilroy",
                     }),
-                    option: (base, { isFocused, isSelected }) => ({
+                    placeholder: (base) => ({
                       ...base,
-                      height: "auto",
-                      padding: "3px 10px",
-                      fontSize: "16px",
-                      backgroundColor: isSelected
-                        ? "#007bff"
-                        : isFocused
-                          ? "#e9ecef"
-                          : "white",
-                      color: isSelected ? "white" : "#000",
-                      cursor: "pointer",
+                      color: "#555",
                     }),
                     dropdownIndicator: (base) => ({
                       ...base,
@@ -782,6 +792,12 @@ function BookingModal(props) {
                     }),
                     indicatorSeparator: () => ({
                       display: "none",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
                     }),
                   }}
                 />
@@ -837,86 +853,60 @@ function BookingModal(props) {
                 </Form.Label>
 
                 <Select
-                  // options={
-                  //   state.UsersList?.roomdetails?.map((item) => ({
-                  //     value: item.Room_Id,
-                  //     label: item.Room_Name,
-                  //   })) || []
-                  // }
-                  // onChange={handleRoomChange}
-                  // value={
-                  //   state.UsersList?.roomdetails
-                  //     ?.map((item) => ({
-                  //       value: item.Room_Id,
-                  //       label: item.Room_Name,
-                  //     }))
-                  //     .find((option) => option.value === room) || null
-                  // }
-
                   options={
-                    floor
-                      ? state.UsersList?.roomdetails
-                        ?.filter((r) => String(r.Floor_Id) === String(floor))
-                        ?.map((item) => ({
-                          value: item.Room_Id,
-                          label: item.Room_Name,
-                        })) || []
-                      : [] // No floor → no rooms
+                    state.PgList?.roomsList?.map((item) => ({
+                      value: item.id,
+                      label: item.name,
+                    })) || []
                   }
-                  onChange={handleRoomChange}
+                  onChange={(selectedOption) =>
+                    handleRooms(selectedOption?.value)
+                  }
                   value={
-                    floor && room
-                      ? state.UsersList?.roomdetails
-                        ?.map((item) => ({
-                          value: item.Room_Id,
-                          label: item.Room_Name,
-                        }))
-                        .find((option) => option.value === room) || null
+                    state.PgList?.roomsList?.find(
+                      (option) => option.id === room
+                    )
+                      ? {
+                        value: room,
+                        label: state.PgList?.roomsList.find(
+                          (option) => option.id === room
+                        )?.name,
+                      }
                       : null
                   }
-
-
                   placeholder="Select a Room"
+                  classNamePrefix="custom"
+                  menuPlacement="auto"
                   styles={{
                     control: (base) => ({
                       ...base,
+                      height: "50px",
+                      border: "1px solid #D9D9D9",
+                      borderRadius: "8px",
                       fontSize: "16px",
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                       boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: "50px",
-                      borderRadius: "8px",
                     }),
                     menu: (base) => ({
                       ...base,
-                      maxHeight: "150px",
-                      overflowY: "auto",
-                      border: "1px solid #D9D9D9",
-                      zIndex: 1000,
-                      scrollbarWidth: "thin",
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #ced4da",
                       fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
-                      maxHeight: "150px",
+                      backgroundColor: "#f8f9fa",
+                      maxHeight: "120px",
                       padding: 0,
+                      scrollbarWidth: "thin",
                       overflowY: "auto",
                       fontFamily: "Gilroy",
                     }),
-                    option: (base, { isFocused, isSelected }) => ({
+                    placeholder: (base) => ({
                       ...base,
-                      height: "auto",
-                      padding: "3px 10px",
-                      fontSize: "16px",
-                      backgroundColor: isSelected
-                        ? "#007bff"
-                        : isFocused
-                          ? "#e9ecef"
-                          : "white",
-                      color: isSelected ? "white" : "#000",
-                      cursor: "pointer",
+                      color: "#555",
                     }),
                     dropdownIndicator: (base) => ({
                       ...base,
@@ -930,6 +920,12 @@ function BookingModal(props) {
                     }),
                     indicatorSeparator: () => ({
                       display: "none",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
                     }),
                   }}
                 />
@@ -969,38 +965,38 @@ function BookingModal(props) {
 
 
               <Select
-
                 options={
-                  room
-                    ? state.UsersList?.bednumberdetails?.bed_details
-                      ?.filter(
+                  state.PgList?.bedList?.[room] 
+                    ? state.PgList.bedList[room]
+                      .filter(
                         (item) =>
-                          item.bed_no !== "0" &&
-                          item.bed_no !== "undefined" &&
-                          item.bed_no !== "" &&
-                          item.bed_no !== "null"
+                          item.bedName !== "0" &&
+                          item.bedName !== "undefined" &&
+                          item.bedName !== "" &&
+                          item.bedName !== "null"
                       )
-                      ?.map((item) => ({
+                      .map((item) => ({
                         value: item.id,
-                        label: item.bed_no,
-                      })) || []
+                        label: item.bedName,
+                      }))
                     : []
                 }
-                onChange={handleBedChange}
+                onChange={handleBed}
                 value={
-                  room && bed
-                    ? {
-                      value: bed,
-                      label: state.UsersList?.bednumberdetails?.bed_details?.find(
+                  state.PgList?.bedList?.[room] 
+                    ? (() => {
+                      const selected = state.PgList.bedList[room].find(
                         (option) => option.id === bed
-                      )?.bed_no,
-                    }
+                      );
+                      return selected
+                        ? { value: selected.id, label: selected.bedName }
+                        : null;
+                    })()
                     : null
                 }
-                placeholder="Selected Bed"
+                placeholder="Select a Bed"
                 classNamePrefix="custom"
                 menuPlacement="auto"
-                noOptionsMessage={() => "No beds available"}
                 styles={{
                   control: (base) => ({
                     ...base,
@@ -1035,13 +1031,30 @@ function BookingModal(props) {
                   dropdownIndicator: (base) => ({
                     ...base,
                     color: "#555",
-                    cursor: "pointer"
+                    display: "inline-block",
+                    fill: "currentColor",
+                    lineHeight: 1,
+                    stroke: "currentColor",
+                    strokeWidth: 0,
+                    cursor: "pointer",
                   }),
                   indicatorSeparator: () => ({
                     display: "none",
                   }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                    color: "#000",
+                  }),
                 }}
               />
+              {state.Booking?.bookingBedError ?
+                <div className='d-flex  align-items-center  mt-1 mb-1'>
+                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.Booking?.bookingBedError}</label>
+                </div>
+                : null}
 
               {bedError && (
                 <div style={{ color: "red" }}>
