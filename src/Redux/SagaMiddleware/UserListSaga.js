@@ -56,16 +56,16 @@ function* handleCheckIn(datum) {
          refreshToken(response)
       }
    }
-   catch (err) {
-      const error = err || {};
+   catch (error) {
+      console.log("error*****", error)
 
-      yield put({
-         type: 'NETWORK_ERROR',
-         payload:
-            error?.code === 'ERR_NETWORK'
-               ? 'Network error occurred'
-               : error?.message || 'Something went wrong',
-      });
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'BED_AVAILABLE_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 

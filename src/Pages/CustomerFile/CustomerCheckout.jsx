@@ -147,7 +147,7 @@ function CustomerCheckout(props) {
 
 
 
-    if (props.bedData?.customerId && props.bedData?.hostelId && formattedDate && formattedrequestDate) {
+    if (props.bedData?.customerId  && formattedDate && formattedrequestDate) {
 
 
       // dispatch({
@@ -166,7 +166,7 @@ function CustomerCheckout(props) {
         type: 'ADDCHECKOUTCUSTOMER',
         payload: {
           customerId: props.bedData?.customerId,
-          hostelId: props.bedData?.hostelId,
+          hostelId: props.bedData?.hostelId || state.login.selectedHostel_Id,
           requestDate: formattedrequestDate,
           checkoutDate: formattedDate,
           reason: comments
@@ -333,7 +333,7 @@ function CustomerCheckout(props) {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {state.UsersList.customerdetails?.data?.[0].floor_name || props.data.floor_name || props.bedData?.floorName}
+                              {state.UsersList.customerdetails?.data?.[0].floor_name  || props.bedData?.floorName}
                             </div>
 
                             <div
@@ -350,7 +350,7 @@ function CustomerCheckout(props) {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {props.bedData?.room?.Room_Name || props.data.Rooms || props.bedData?.roomName}  - {props.bedData?.bed?.bed_no || props.data.Bed || props.bedData?.bedName}
+                              {props.bedData?.room?.Room_Name  || props.bedData?.roomName}  - {props.bedData?.bed?.bed_no ||  props.bedData?.bedName}
                             </div>
 
 
@@ -688,7 +688,7 @@ CustomerCheckout.propTypes = {
   setCustomerCheckoutpage: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   customerCheckoutpage: PropTypes.bool.isRequired,
-  uniqueostel_Id: PropTypes.number.isRequired,
+  uniqueostel_Id: PropTypes.string.isRequired,
   Hostel_Id: PropTypes.number,
   Floor_Id: PropTypes.number,
   Room_Name: PropTypes.string,

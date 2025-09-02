@@ -36,8 +36,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     { value: "others", label: "Others" },
   ];
 
-
-  console.log("checkin_joiningDate",checkin_joiningDate)
+console.log("currentItem",currentItem)
 
   // useEffect(() => {
   // const matchedBed = state.PgList.roomCount[0].bed_details.find(
@@ -279,28 +278,19 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
 
-    let formattedDate = null;
-    let bookingFormattedDate = null;
-    try {
-      const date = new Date(joiningDate);
-      date.setDate(date.getDate() + 1);
-      formattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      setDateError("Please Select Date");
-      return;
-    }
+  const formatDate = (date) => {
+  if (!date) return "";
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+};
 
+const joiningDateForFormatted = formatDate(joiningDate);
+const bookingDateForFormatted = formatDate(bookingDate);
 
-    try {
-      const date = new Date(bookingDate);
-      date.setDate(date.getDate() + 1);
-      bookingFormattedDate = date.toISOString().split("T")[0];
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      setDateError("Please Select Date");
-      return;
-    }
+console.log("joiningDateForFormatted",joiningDateForFormatted,"bookingDateForFormatted",bookingDateForFormatted )
 
     const userDetails = state.UsersList.Users.find(
       (u) => u.ID === booking_customername
@@ -311,17 +301,15 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     dispatch({
       type: "ADD_BOOKING",
       payload: {
-        joining_date: formattedDate,
-        booking_date: bookingFormattedDate,
-        amount: amount,
-        hostel_id: state.login.selectedHostel_Id,
-        floor_id: currentItem?.floorId,
-        room_id: currentItem?.roomId,
-        bed_id: currentItem?.bedId,
-        customer_Id: booking_customername,
-        mob_no: userDetails.Phone,
-        email: userDetails.Email,
-        profile: userDetails.profile
+         hostelId: currentItem.hostelId,
+        joiningDate: joiningDateForFormatted,
+        bookingDate: bookingDateForFormatted,
+        bookingAmount: amount,
+        floorId: currentItem?.floorId,
+        roomId: currentItem?.roomId,
+        bedId: currentItem?.bedId,
+        customerId: booking_customername,
+       
       },
     });
     setFormLoading(true)
@@ -330,7 +318,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-
       setFormLoading(false)
       setJoingDateErrmsg('');
       dispatch({
@@ -338,13 +325,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
 
-      //  dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room?.Floor_Id, hostel_Id: state.login.selectedHostel_Id } })
-
-      //  handleClose()
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
-      }, 500);
-    }
+        }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
 
@@ -356,7 +337,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
 
-      // handleClose()
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
       }, 2000);
@@ -484,9 +465,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
 
-    const selectedUser = state?.UsersList?.Users.find(
-      item => item.ID === checkin_customername
-    );
+        const selectedUser = state?.UsersList?.Users.find(
+        item => item.ID === checkin_customername
+      );
+
+    
 
     const fullName = selectedUser?.Name?.trim() || "";
 

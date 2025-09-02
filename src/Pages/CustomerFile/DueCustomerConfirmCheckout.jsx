@@ -398,6 +398,7 @@ useEffect(() => {
                       type: "USERLIST",
                       payload: { hostel_id: state.login.selectedHostel_Id },
                     })
+                     dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
             setTimeout(() => {
                 dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
             }, 500);

@@ -398,6 +398,7 @@ function UserlistForm(props) {
   };
 
   const handleRooms = (selectedValue) => {
+    console.log("selectedValue", selectedValue)
     setRooms(selectedValue);
     if (selectedValue) {
       dispatch({
@@ -506,7 +507,7 @@ function UserlistForm(props) {
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
   const handleClose = () => {
-       setFirstname("");
+    setFirstname("");
     setLastname("");
     setAadharNo("");
     setPancardNo("");
@@ -537,9 +538,9 @@ function UserlistForm(props) {
     setPayableamount("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-  if (props?.setShowMenu) props.setShowMenu(false);
-  if (props?.setShowForm) props.setShowForm(false);
-  if (props?.OnShowTable) props.OnShowTable(true);
+    if (props?.setShowMenu) props.setShowMenu(false);
+    if (props?.setShowForm) props.setShowForm(false);
+    if (props?.OnShowTable) props.OnShowTable(true);
     if (props?.edit === "Edit") {
       if (props?.OnShowTable) props.OnShowTable(true);
     } else {
@@ -549,16 +550,16 @@ function UserlistForm(props) {
 
 
   const handleCloseAssign = () => {
-
+dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-   if (props?.setShowAssignMenu) props.setShowAssignMenu(false);
-  if (props?.setShowForm) props.setShowForm(false);
-  if (props?.OnShowTable) props.OnShowTable(true);
-    if (props.edit === "Edit") {
+    if (props?.setShowAssignMenu) props.setShowAssignMenu(false);
+    if (props?.setShowForm) props.setShowForm(false);
     if (props?.OnShowTable) props.OnShowTable(true);
+    if (props.edit === "Edit") {
+      if (props?.OnShowTable) props.OnShowTable(true);
     } else {
-       if (props?.setRoomDetail) props.setRoomDetail(false);
+      if (props?.setRoomDetail) props.setRoomDetail(false);
     }
   }
 
@@ -643,13 +644,6 @@ function UserlistForm(props) {
 
 
 
-  // const handleAdvaceShowForm = () => {
-  //   props.setShowMenu(false);
-  //   props.setAdvanceForm(true);
-  // };
-
-  useEffect(() => { }, [props.showMenu]);
-
 
   const handleSaveUserlistAddUser = async () => {
 
@@ -733,9 +727,14 @@ function UserlistForm(props) {
 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate.toISOString().split("T")[0];
+
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const year = newDate.getFullYear();
+
+      return `${day}-${month}-${year}`;
     };
+
     const formattedDate = selectedDate
       ? incrementDateAndFormat(selectedDate)
       : "";
@@ -756,7 +755,7 @@ function UserlistForm(props) {
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
-    const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+    // const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
     if (
       Floor !== "Selected Floor" &&
@@ -768,38 +767,55 @@ function UserlistForm(props) {
       Number(RoomRent) > 0
     ) {
       dispatch({
-        type: "CHECKIN",
+        type: 'CHECKIN',
         payload: {
-          profile: file,
-          firstName: capitalizedFirstname,
-          lastName: capitalizedLastname,
-          mobile: Phone,
-          mailId: Email,
-          houseNo: house_no,
-          street: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-          hostelId: hostel_Id,
+          customerId: id,
+          hostelId: state.login?.selectedHostel_Id,
           floorId: Floor,
-          roomId: Rooms,
           bedId: Bed,
+          roomId: Rooms,
           joiningDate: formattedDate,
+          advanceAmount: AdvanceAmount,
+          rentalAmount: RoomRent
 
-          AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
-          reasons: formattedReasons,
-          stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-          isadvance: 1,
-          invoice_date: formattedDate,
-          due_date: formattedAdvanceDueDate,
-        },
-      });
+        }
+      })
+      setFormLoading(true)
+
+
+      // dispatch({
+      //   type: "CHECKIN",
+      //   payload: {
+      //     profile: file,
+      //     firstName: capitalizedFirstname,
+      //     lastName: capitalizedLastname,
+      //     mobile: Phone,
+      //     mailId: Email,
+      //     houseNo: house_no,
+      //     street: street,
+      //     landmark: landmark,
+      //     city: city,
+      //     pincode: pincode,
+      //     state: state_name,
+      //     hostelId: hostel_Id,
+      //     floorId: Floor,
+      //     roomId: Rooms,
+      //     bedId: Bed,
+      //     joiningDate: formattedDate,
+
+      //     AdvanceAmount: AdvanceAmount,
+      //     RoomRent: RoomRent,
+      //     reasons: formattedReasons,
+      //     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
+      //     isadvance: 1,
+      //     invoice_date: formattedDate,
+      //     due_date: formattedAdvanceDueDate,
+      //   },
+      // });
 
     }
-    setFormLoading(true)
-    dispatch({ type: "INVOICELIST" });
+
+    // dispatch({ type: "INVOICELIST" });
   };
 
 
@@ -853,6 +869,10 @@ function UserlistForm(props) {
     };
 
 
+    // const formattedDate = selectedDate
+    //   ? incrementDateAndFormat(selectedDate)
+    //   : "";
+    // const invoiceDateObj = new Date(formattedDate);
     const formattedDate = selectedDate
       ? incrementDateAndFormat(selectedDate)
       : "";
@@ -1284,7 +1304,7 @@ function UserlistForm(props) {
   const [bookingBedId, setBookingBedId] = useState("")
 
 
-
+  console.log("state", state)
 
   const bookingDateRef = useRef("");
 
@@ -1334,6 +1354,7 @@ function UserlistForm(props) {
       setFloorName(props?.EditObj?.Booking_FloorName)
       setRoomName(props?.EditObj?.Booking_Rooms)
       setBedName(props?.EditObj?.Booking_Bed)
+      setBookingAmount(props.EditObj.booking_amount)
 
       const Bedfilter = state?.UsersList?.roomdetails?.filter(
         (u) =>
@@ -1352,51 +1373,68 @@ function UserlistForm(props) {
       }
 
       // setBookingDate(props.EditObj.booking_booking_date)
+      //  if (props.EditObj?.booking_booking_date) {
+      //       const dateObj = new Date(props.EditObj.booking_booking_date);
+      //       const day = String(dateObj.getDate()).padStart(2, '0');
+      //       const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+      //       const year = dateObj.getFullYear();
+      //       const formattedBookingDate = `${day}/${month}/${year}`;
+
+      //       bookingDateRef.current = formattedBookingDate; 
+      //       setBookingDate(formattedBookingDate); 
+      //     }
+
       if (props.EditObj?.booking_booking_date) {
         const dateObj = new Date(props.EditObj.booking_booking_date);
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const year = dateObj.getFullYear();
-        const formattedBookingDate = `${day}/${month}/${year}`;
 
-        bookingDateRef.current = formattedBookingDate;
-        setBookingDate(formattedBookingDate);
+        // Convert directly into dayjs object
+        const bookingDayjs = dayjs(dateObj);
+
+        bookingDateRef.current = bookingDayjs;
+        setBookingDate(bookingDayjs);  // store as dayjs, not string
       }
 
-      setBookingAmount(props.EditObj.booking_amount)
 
     }
 
   }, [props.BookingAssignForm]);
+  const disabledJoiningDate = (current) => {
+    if (!bookingDate) return false;
 
-useEffect(() => {
-  if (props.BookingAssignForm) {
-    dispatch({
-      type: "BEDNUMBERDETAILS",
-      payload: {
-        hostel_id: props?.EditObj?.Hostel_Id,
-        floor_id: props?.EditObj?.booking_floor_id,
-        room_id: props?.EditObj?.booking_room_id,
-      },
-
-
-    });
-        const Bedfilter = state?.UsersList?.roomdetails?.filter(
-      (u) =>
-        String(u.Hostel_Id) === String(props?.EditObj?.Hostel_Id) &&
-        String(u.Floor_Id) === String(props?.EditObj?.booking_floor_id) &&
-        String(u.Room_Id) === String(props?.EditObj?.booking_room_id)
+    return (
+      current.isBefore(bookingDate, "day") ||
+      current.isAfter(dayjs(), "day")
     );
-      const Roomamountfilter =
-      Bedfilter?.[0]?.bed_details?.filter(
-        (amount) => String(amount.id) === String(props?.EditObj?.booking_bed_id)
-      ) ?? [];
+  };
 
-    if (Roomamountfilter.length > 0) {
-      setRoomRent(Roomamountfilter[0]?.bed_amount);
+  useEffect(() => {
+    if (props.BookingAssignForm) {
+      dispatch({
+        type: "BEDNUMBERDETAILS",
+        payload: {
+          hostel_id: props?.EditObj?.Hostel_Id,
+          floor_id: props?.EditObj?.booking_floor_id,
+          room_id: props?.EditObj?.booking_room_id,
+        },
+
+
+      });
+      const Bedfilter = state?.UsersList?.roomdetails?.filter(
+        (u) =>
+          String(u.Hostel_Id) === String(props?.EditObj?.Hostel_Id) &&
+          String(u.Floor_Id) === String(props?.EditObj?.booking_floor_id) &&
+          String(u.Room_Id) === String(props?.EditObj?.booking_room_id)
+      );
+      const Roomamountfilter =
+        Bedfilter?.[0]?.bed_details?.filter(
+          (amount) => String(amount.id) === String(props?.EditObj?.booking_bed_id)
+        ) ?? [];
+
+      if (Roomamountfilter.length > 0) {
+        setRoomRent(Roomamountfilter[0]?.bed_amount);
+      }
     }
-  }
-}, [props.BookingAssignForm,state?.UsersList?.roomdetails]);
+  }, [props.BookingAssignForm, state?.UsersList?.roomdetails]);
 
 
   //  const handleSaveBookingCancel = () => {
@@ -1533,13 +1571,16 @@ useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       setFormLoading(false)
       setLoading(false)
-      handleClose();
-      handleCloseAdvanceForm();
-      handleCloseAssign()
-      handleCloseAssignBooking()
+      if (props?.setShowMenu) props.setShowMenu(false);
+    if (props?.setShowForm) props.setShowForm(false);
+    if (props?.OnShowTable) props.OnShowTable(true);
+      // handleClose();
+      // handleCloseAdvanceForm();
+      // handleCloseAssign()
+      // handleCloseAssignBooking()
       if (props.edit === "Edit") {
         if (props?.setRoomDetail) props.setRoomDetail(true);
-      if (props?.OnShowTable) props.OnShowTable(true);
+        if (props?.OnShowTable) props.OnShowTable(true);
       } else {
         if (props?.setRoomDetail) props.setRoomDetail(false);
       }
@@ -1555,15 +1596,16 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    if (state.createAccount?.networkError) {
+    if (state.createAccount?.networkError || state.UsersList?.bedAvailableError) {
       setFormLoading(false)
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
       }, 3000)
     }
 
-  }, [state.createAccount?.networkError])
+  }, [state.createAccount?.networkError, state.UsersList?.bedAvailableError])
 
 
 
@@ -1837,17 +1879,17 @@ useEffect(() => {
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     if (props?.setBookingAssignForm) props.setBookingAssignForm(false);
-  if (props?.setShowForm) props.setShowForm(false);
-  if (props?.OnShowTable) props.OnShowTable(true);
+    if (props?.setShowForm) props.setShowForm(false);
+    if (props?.OnShowTable) props.OnShowTable(true);
     if (props.edit === "Edit") {
-     if (props?.OnShowTable) props.OnShowTable(true);
+      if (props?.OnShowTable) props.OnShowTable(true);
     } else {
-     if (props?.setRoomDetail) props.setRoomDetail(false);
+      if (props?.setRoomDetail) props.setRoomDetail(false);
     }
   }
   const handleCloseBacktoCheckin = () => {
-   if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
-  if (props?.handleCloseBed) props.handleCloseBed();
+    if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
+    if (props?.handleCloseBed) props.handleCloseBed();
   }
 
   console.log("props?.EditObj", props?.EditObj)
@@ -2109,8 +2151,20 @@ useEffect(() => {
       dateRef.current?.focus();
       return;
     }
+    const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      const year = newDate.getFullYear();
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const day = String(newDate.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
 
-    dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: recheckInDate } });
+    const formattedDate = recheckInDate
+      ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
+      : "";
+
+
+    dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
     setFormLoading(true)
   }
 
@@ -2130,9 +2184,11 @@ useEffect(() => {
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
 
-  
+
   return (
     <div>
+
+      {/* Tenant Check-In  UNASSIGN -CHECKIN*/}
       <Modal
         show={props.showAssignMenu}
         onHide={handleCloseAssign}
@@ -2480,30 +2536,32 @@ useEffect(() => {
 
                         <Select
                           options={
-                            Array.isArray(state.PgList?.bedList?.[Rooms])
+                            state.PgList?.bedList?.[Rooms] // only get the beds of selected Room
                               ? state.PgList.bedList[Rooms]
                                 .filter(
                                   (item) =>
-                                    item.name !== "0" &&
-                                    item.name !== "undefined" &&
-                                    item.name !== "" &&
-                                    item.name !== "null"
+                                    item.bedName !== "0" &&
+                                    item.bedName !== "undefined" &&
+                                    item.bedName !== "" &&
+                                    item.bedName !== "null"
                                 )
                                 .map((item) => ({
                                   value: item.id,
-                                  label: item.name,
+                                  label: item.bedName,
                                 }))
                               : []
                           }
                           onChange={handleBed}
                           value={
-                            state.PgList?.bedList?.[Rooms]?.find((option) => option.id === Bed)
-                              ? {
-                                value: Bed,
-                                label: state.PgList?.bedList?.[Rooms]?.find(
+                            state.PgList?.bedList?.[Rooms] // only search in the selected Room's bed list
+                              ? (() => {
+                                const selected = state.PgList.bedList[Rooms].find(
                                   (option) => option.id === Bed
-                                )?.name,
-                              }
+                                );
+                                return selected
+                                  ? { value: selected.id, label: selected.bedName }
+                                  : null;
+                              })()
                               : null
                           }
                           placeholder="Select a Bed"
@@ -2561,6 +2619,13 @@ useEffect(() => {
                             }),
                           }}
                         />
+
+                        {state.UsersList.bedAvailableError ?
+                          <div className='d-flex  align-items-center  mt-1 mb-1'>
+                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>Bed unavailable for this date</label>
+                          </div>
+                          : null}
 
 
                         {bedError && (
@@ -2992,6 +3057,8 @@ useEffect(() => {
                     </div>
                     : null}
 
+
+
                   <Button
                     className="w-100"
                     style={{
@@ -3134,7 +3201,7 @@ useEffect(() => {
 
 
 
-
+{/* Tenant Check-In   BOOKED -CHEKK-IN*/}
 
       <Modal
         show={props.BookingAssignForm}
@@ -3367,6 +3434,7 @@ useEffect(() => {
                               border: "1px solid #D9D9D9",
                               height: 50,
                               borderRadius: 8,
+                              backgroundColor: "#EFF2FF"
                             }}
                           />
                         </Form.Group>
@@ -3400,7 +3468,8 @@ useEffect(() => {
                             disabled
                             type="text"
                             placeholder="Enter Amount"
-                            value={bookingDate}
+                            // value={bookingDate}
+                            value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
                             style={{
                               fontSize: 16,
                               color: "#4B4B4B",
@@ -3436,13 +3505,13 @@ useEffect(() => {
                             style={{ position: "relative", width: "100%" }}
                           >
                             <DatePicker
-                              disabled
+                              // disabled
                               style={{
                                 width: "100%",
                                 height: 48,
                                 cursor: "pointer",
                                 fontFamily: "Gilroy",
-                                backgroundColor: "#EFF2FF"
+
                               }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
@@ -3457,7 +3526,8 @@ useEffect(() => {
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".show-scroll") || document.body
                               }
-                              disabledDate={(current) => current && current > dayjs().endOf("day")}
+                              disabledDate={disabledJoiningDate}
+
                             />
                           </div>
                         </Form.Group>
@@ -3966,6 +4036,9 @@ useEffect(() => {
       </Modal>
 
 
+
+{/* Add New Customer */}
+
       <Modal
         show={props.showMenu}
         onHide={handleClose}
@@ -4007,16 +4080,16 @@ useEffect(() => {
                       border: "1px solid #1E45E1",
                     }}
                   >
-                    {step === 1 ? 
-                    <img
-                      src={Store_Icon }
-                      alt="storeicon"
-                      height={15}
-                      width={15}
-                    /> 
-                    : 
-                    <RiShoppingBag3Line 
-                       style={{color:"#1E45E1"}}
+                    {step === 1 ?
+                      <img
+                        src={Store_Icon}
+                        alt="storeicon"
+                        height={15}
+                        width={15}
+                      />
+                      :
+                      <RiShoppingBag3Line
+                        style={{ color: "#1E45E1" }}
                       />}
                   </div>
                   <span className="ms-2" style={{ fontFamily: "Gilroy", fontSize: "14px" }}>
@@ -4054,7 +4127,7 @@ useEffect(() => {
 
               </div>
 
-                            <div
+              <div
                 className="flex-grow-1 position-relative"
                 style={{
                   backgroundColor: '#fff',
@@ -4064,7 +4137,7 @@ useEffect(() => {
                   padding: '15px',
                 }}
               >
-                                <div
+                <div
                   className="d-flex justify-content-between align-items-start px-2 py-1"
                   style={{
                     position: 'sticky',
@@ -5037,7 +5110,7 @@ useEffect(() => {
         </Modal.Dialog>
       </Modal>
 
-
+{/* advanceForm */}
 
       <Modal
         show={props.advanceForm}
@@ -5289,6 +5362,8 @@ useEffect(() => {
         </Modal.Dialog>
       </Modal>
 
+
+{/* BACK TO CHECK IN */}
 
       <Modal
         show={props.bactocheckinForm}
