@@ -53,6 +53,8 @@ import { CloseCircle } from "iconsax-react";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
+import AddCustomer from "../PayingGuestFile/AddCustomerPG";
+import BookedCheckIn from "./BookedCheckIn";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -1536,6 +1538,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
+      handleCloseAddCustomer()
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -2249,12 +2252,15 @@ function UserList(props) {
 
   }, [state.Booking.StatusCodeInactiveCode])
 
-  const [BookingAssignForm, setBookingAssignForm] = useState("")
+  const [BookingAssignForm, setBookingAssignForm] = useState(false)
 
+
+const handleCloseBooking =() =>{
+  setBookingAssignForm(false)
+}
 
   const handleBookingAssign = (book) => {
-    console.log("handleBookingAssign", book)
-    setEdit("Edit");
+       setEdit("Edit");
     handleMenuClick();
     setShowMenu(false);
     setBookingAssignForm(true)
@@ -2265,6 +2271,18 @@ function UserList(props) {
 
   }
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+
+  const handleCloseAddCustomer = () =>{
+    setShowMenu(false)
+  }
+
+
+
+  
+
+
+
+
   const handleBacktoCheckout = (item) => {
     console.log("handleBacktoCheckout", item)
     handleMenuClick();
@@ -5904,11 +5922,21 @@ function UserList(props) {
         </>
       )}
 
-      {(advanceForm || showMenu || showAssignMenu || BookingAssignForm || bactocheckinForm) && (
+
+{
+  showMenu && <AddCustomer showMenu={showMenu} handleClose={handleCloseAddCustomer} />
+}
+
+{
+  BookingAssignForm && <BookedCheckIn     BookingAssignForm={BookingAssignForm}
+        handleClose={handleCloseBooking}  bookingDetails={EditObj} />
+}
+
+      {(advanceForm ||  showAssignMenu  || bactocheckinForm) && (
         <UserlistForm
-          setShowMenu={setShowMenu}
+          // setShowMenu={setShowMenu}
           advanceForm={advanceForm}
-          showMenu={showMenu}
+          // showMenu={showMenu}
           showAssignMenu={showAssignMenu}
           setShowAssignMenu={setShowAssignMenu}
           displayDetail={addBasicDetail}
@@ -5929,8 +5957,7 @@ function UserList(props) {
           OnShowTable={OnShowTableForCustomer}
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
-          BookingAssignForm={BookingAssignForm}
-          setBookingAssignForm={setBookingAssignForm}
+        
           bactocheckinForm={bactocheckinForm}
           setBacktoCheckInForm={setBacktoCheckInForm}
         />

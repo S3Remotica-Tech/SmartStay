@@ -21,7 +21,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState("long");
+  const [activeTab, setActiveTab] = useState("LONG");
   const [errors, setErrors] = useState([]);
   const [fields, setFields] = useState([]);
   const [advanceAmountError, setAdvanceAmountError] = useState("");
@@ -350,12 +350,12 @@ const bookingDateForFormatted = formatDate(bookingDate);
   const [stay_typenameErrmsg, setStayTypeNameErrMsg] = useState("")
 
   const stayTypes = [
-    { value: "short_stay", label: "Short Stay" },
-    { value: "long_stay", label: "Long Stay" },
-    { value: "day_stay", label: "Day Stay" },
+    { value: "SHORT", label: "Short Stay" },
+    { value: "LONG", label: "Long Stay" },
+    { value: "DAY", label: "Day Stay" },
   ];
 
-  const longStayOnly = stayTypes.filter((s) => s.value === "long_stay");
+  const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
 
   // onChange handler
   const handleStayTypeChange = (selectedOption) => {
@@ -450,7 +450,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
       newErrors.push(error);
 
       return {
-        reason_name,
+       type: reason_name,
         amount: item.amount || "",
         showInput: !!item.showInput
       };
@@ -522,7 +522,9 @@ const bookingDateForFormatted = formatDate(bookingDate);
           roomId: currentItem?.roomId,
           joiningDate: formattedDate,
           advanceAmount: AdvanceAmount,
-          rentalAmount: RoomRent
+          rentalAmount: RoomRent,
+          stayType:activeTab,
+          deductions:formattedReasons
 
         }
       })
@@ -635,12 +637,12 @@ const bookingDateForFormatted = formatDate(bookingDate);
                 <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, width: "100%" }} className="mt-1 p-1">
                   <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", width: "100%" }}>
                     <button
-                      onClick={() => setActiveTab("long")}
+                      onClick={() => setActiveTab("LONG")}
                       style={{
                         flex: 1,
                         padding: "10px 0",
-                        backgroundColor: activeTab === "long" ? "#1E45E1" : "#F7F9FF",
-                        color: activeTab === "long" ? "white" : "black",
+                        backgroundColor: activeTab === "LONG" ? "#1E45E1" : "#F7F9FF",
+                        color: activeTab === "LONG" ? "white" : "black",
                         border: "none",
                         borderRadius: "5px",
                         fontWeight: "600",
@@ -650,12 +652,12 @@ const bookingDateForFormatted = formatDate(bookingDate);
                       Booking
                     </button>
                     <button
-                      onClick={() => setActiveTab("short")}
+                      onClick={() => setActiveTab("SHORT")}
                       style={{
                         flex: 1,
                         padding: "10px 0",
-                        backgroundColor: activeTab === "short" ? "#1E45E1" : "#F7F9FF",
-                        color: activeTab === "short" ? "white" : "black",
+                        backgroundColor: activeTab === "SHORT" ? "#1E45E1" : "#F7F9FF",
+                        color: activeTab === "SHORT" ? "white" : "black",
                         border: "none",
                         borderRadius: "5px",
                         fontWeight: "600",
@@ -668,7 +670,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
 
                 </div>
 
-                {activeTab === "long" ? <>
+                {activeTab === "LONG" ? <>
                   <div style={{ maxHeight: "350px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                     <div className="row d-flex align-items-center">
 
@@ -1076,7 +1078,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
 
 
 
-                  activeTab === "short" && (
+                  activeTab === "SHORT" && (
                     <>
                       <div style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                         <div className="row d-flex align-items-center">

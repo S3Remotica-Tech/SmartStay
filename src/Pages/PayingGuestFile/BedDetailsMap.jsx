@@ -23,7 +23,8 @@ import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
-import UserlistForm from '../CustomerFile/UserlistForm';
+// import UserlistForm from '../CustomerFile/UserlistForm';
+import AddCustomerPG from './AddCustomerPG'
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -148,6 +149,8 @@ console.log("assign_tenantform",assign_tenantform)
     }
 
     const handleCloseAddCustomer = () => {
+         dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
         setAddCustomerForm(false)
         setEmptyBed(false)
 
@@ -351,9 +354,13 @@ console.log("state",state)
 
 
 
-            {
+            {/* {
                 add_customerform && <UserlistForm showMenu={add_customerform} setShowMenu={handleCloseAddCustomer} />
+            } */}
+             {
+                add_customerform && <AddCustomerPG showMenu={add_customerform} handleClose={handleCloseAddCustomer} />
             }
+
 
             {
                 assign_tenantform && <PGAssignTenant show={assign_tenantform} handleClose={handleCloseAssignTenant} currentItem={customer}
