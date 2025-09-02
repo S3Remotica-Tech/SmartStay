@@ -240,13 +240,17 @@ function ParticularHostelDetails(props) {
     setNoticePeriodBed(false)
   }
 
-  const handleshowNoticePeriodBooking = () => {
+  const handleshowNoticePeriodBooking = (customerId) => {
+    console.log("customerId" , customerId);
+    
     setNoticePeriodBooking(true)
     setNoticePeriodBed(false)
+    setCustomerID(customerId)
   }
 
   const handlecloseNoticeperiodBooking = () => {
     setNoticePeriodBooking(false)
+    
   }
 
 
@@ -1179,7 +1183,7 @@ function ParticularHostelDetails(props) {
         }
 
         {
-          Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails} />
+          Noticeperiod_booking && <BookingBed show={Noticeperiod_booking} handleClose={handlecloseNoticeperiodBooking} currentItem={OccupiedCustomerDetails}  customerID={customerID}/>
         }
 
         {

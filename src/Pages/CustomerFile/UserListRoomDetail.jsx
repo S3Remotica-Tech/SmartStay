@@ -313,6 +313,7 @@ console.log('customerDetails',customerDetails)
 },[])
 
 const [ProfilePic,setProfilepic] = useState(false)
+// const [previewFile, setPreviewFile] = useState(""); 
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
@@ -329,6 +330,7 @@ const [ProfilePic,setProfilepic] = useState(false)
 const isFirstRun = useRef(true); 
   const MobileNumber = `${countryCode}${props.userData?.Phone}`;
   console.log("props.userData",props.userData)
+    const [advanceDetail, setAdvanceDetail] = useState("");
  
 useEffect(() => {
   if (isFirstRun.current) {
@@ -362,23 +364,23 @@ useEffect(() => {
       lastname: value[1] || "",
       Phone: MobileNumber,
       Email: Email,
-      Address: props.userData?.Address,
-      area: props.userData?.area,
-      landmark: props.userData?.landmark,
-      city: props.userData?.city,
-      pincode: props.userData?.pincode,
-      state: props.userData?.state,
+      Address: house_no,
+      area: street,
+      landmark:landmark,
+      city: city,
+      pincode: pincode,
+      state: state_name,
       AadharNo: AadharNo,
       PancardNo: PancardNo,
       licence: licence,
       HostelName: HostelName,
       hostel_Id: hostel_Id,
       Floor: props.userData?.Floor,
-      Rooms: props.userData?.Rooms,
-      Bed: props.userData?.Bed,
-      joining_date: selectedDate,
-      AdvanceAmount: AdvanceAmount,
-      RoomRent: RoomRent,
+      Rooms: props.userData?.room_id,
+      Bed: props.userData?.hstl_Bed,
+      joining_date: props.userData?.joining_Date,
+      AdvanceAmount: props.userData?.AdvanceAmount,
+      RoomRent:  props.userData?.RoomRent,
       BalanceDue: BalanceDue,
       PaymentType: PaymentType,
       paid_advance: paid_advance,
@@ -392,24 +394,57 @@ useEffect(() => {
     });
   }
 }, [ProfilePic, file, props.userData]);
+console.log("advanceDetail",advanceDetail)
 
-
-
-
-
-  useEffect(() => {
+useEffect(() => {
   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
-  if (
-    base64Pic &&
-    base64Pic !== "null" &&
-    base64Pic !== undefined &&
-    base64Pic !== null
-  ) {
-    setFile(`data:image/jpeg;base64,${base64Pic}`);
-   
+  if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
+    setFile(base64Pic); // only raw base64 for dispatch
+    // setPreviewFile(`data:image/jpeg;base64,${base64Pic}`); // preview src
   }
 }, [state.UsersList?.KycCustomerDetails?.pic]);
+  useEffect(() => {
+  const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+
+  if (rawAddress) {
+    const parts = rawAddress.split(",").map((part) => part.trim());
+
+    // remove the `S/O:` part
+    const addressParts = parts.slice(1);
+
+    // pincode, state and city from the END
+    const pincodePart = addressParts[addressParts.length - 1];
+    const statePart   = addressParts[addressParts.length - 2];
+    const cityPart    = addressParts[addressParts.length - 3];
+
+    // remaining items are house/street/area/landmark
+    const others = addressParts.slice(0, addressParts.length - 3);
+    const [streetNumber, streetName, areaPart, landmarkPart] = others;
+
+    setHouseNo(`${streetNumber} ${streetName}`);
+    setStreet(areaPart);
+    setLandmark(landmarkPart);
+    setCity(cityPart);
+    setStateName(statePart);
+    setPincode(pincodePart);
+  }
+}, [state.UsersList.KycCustomerDetails?.address]);
+
+
+//   useEffect(() => {
+//   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
+
+//   if (
+//     base64Pic &&
+//     base64Pic !== "null" &&
+//     base64Pic !== undefined &&
+//     base64Pic !== null
+//   ) {
+//     setFile(`data:image/jpeg;base64,${base64Pic}`);
+   
+//   }
+// }, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
       dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
@@ -1775,14 +1810,14 @@ const formattedReasons = fields.map((item) => {
       }, 100);
     }
   }, [state.UsersList.statusCodeForAddUser, state.UsersList.Users]);
-  const [advanceDetail, setAdvanceDetail] = useState("");
+
   useEffect(() => {
     if (state.UsersList.customerdetails.data) {
       setAdvanceDetail(state.UsersList.customerdetails.data);
     }
   }, [state.UsersList.customerdetails.data]);
 
-
+console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetails.data)
 
   const [uploadError, setUploadError] = useState("");
 
