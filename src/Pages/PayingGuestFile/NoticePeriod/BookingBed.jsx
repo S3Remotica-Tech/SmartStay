@@ -13,14 +13,16 @@ import { CloseCircle } from "iconsax-react";
 import { MdError } from "react-icons/md";
 
 function BookingBed({
-  show, handleClose , currentItem
+  show, handleClose,currentItem,customerID
 }) 
+
 {
  
      const state = useSelector(state => state)
      const dispatch = useDispatch();
 
-
+  console.log("currentitem" ,currentItem );
+  
     const bookingcustomerRef = useRef();
     const dateRef = useRef();
     const amountRef = useRef();
@@ -40,7 +42,26 @@ function BookingBed({
     const [customer_details , setCustomerDetails] = useState({})
 
   
+console.log("currentItem",currentItem)
+console.log("booking_customername",booking_customername)
 
+
+useEffect(()=>{
+    if (state.login.selectedHostel_Id && currentItem?.room?.Floor_Id && currentItem?.bed?.id && currentItem?.room?.Room_Id) {
+      dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id,floor_id:  currentItem?.room?.Floor_Id, room_id: currentItem?.room?.Room_Id, bed: currentItem?.bed?.id } })
+        dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id},
+      });
+    }
+},[currentItem])
+
+  
+
+ useEffect(() => {
+  const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
+  console.log("userData", customerID); 
+}, [state.UsersList, customerID]);
           useEffect(() => {
 
         const usersList = state?.UsersList?.Users;
@@ -61,6 +82,9 @@ function BookingBed({
             setCustomerDetails(foundCustomer || null);
         }
     }, [state?.UsersList?.Users , state?.PgList?.OccupiedCustomer]);
+
+    console.log("userdetails" ,customer_details.CheckoutDate);
+    
 
 
       useEffect(() => {
@@ -309,26 +333,47 @@ function BookingBed({
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                   <Select
-                                                      options={
-                                                        state.UsersList?.users?.length > 0 &&
+                                                      // options={
+                                                      //   state.UsersList?.users?.length > 0 &&
+                                                      //      state.UsersList?.UnAssignCustomerDetails.map((u) => ({
+                                                      //       value: u.id,
+                                                      //       label: u.Name,
+                                                      //     }))
+                                                        
+                                                      // }
+                                                      // onChange={handleBookingCustomerName}
+                                                      // value={
+                                                      //   booking_customername
+                                                      //     ? {
+                                                      //       value: booking_customername,
+                                                      //       label:
+                                                      //         state.UsersList?.Users?.find((u) => u.ID === booking_customername)?.Name ||
+                                                      //         "Select Customer",
+                                                      //     }
+                                                      //     : null
+                                                      // }
+         options={
+                                                        state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
                                                            state.UsersList?.UnAssignCustomerDetails.map((u) => ({
                                                             value: u.id,
                                                             label: u.Name,
-                                                          }))
-                                                        
-                                                      }
-                                                      onChange={handleBookingCustomerName}
-                                                      value={
-                                                        booking_customername
-                                                          ? {
-                                                            value: booking_customername,
-                                                            label:
-                                                              state.UsersList?.Users?.find((u) => u.ID === booking_customername)?.Name ||
-                                                              "Select Customer",
-                                                          }
-                                                          : null
-                                                      }
-                                                      isDisabled
+                                                          })) || []
+}
+onChange={handleBookingCustomerName}
+value={
+  booking_customername
+    ? {
+        value: String(booking_customername),
+        label:
+          state.UsersList?.Users?.find(
+            (u) => String(u.ID) === String(booking_customername)
+          )?.Name || "Select Customer",
+      }
+    : null
+}
+
+
+                                                      
                                                       placeholder="Select Customer"
                                                       classNamePrefix="custom"
                                                       menuPlacement="auto"
@@ -435,10 +480,12 @@ function BookingBed({
                                                                      setBookingDateErrmsg('');
                                                                      setJoiningDate("")
                                                                    }}
-                                                                   disabledDate={(current) => {
-                                                                     return current && current > dayjs().endOf('day');
-                                                                   }}
-                                                                   // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                                                  //  disabledDate={(current) => {
+                                                                  //    return current && current > dayjs().endOf('day');
+                                                                  //  }}
+ disabledDate={(current) => {
+  return current && current < dayjs(customer_details.CheckoutDate).startOf('day');
+}}                                                                // getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                                                                    getPopupContainer={() => document.body}
                                                                  />
                                                                </div>
@@ -681,6 +728,7 @@ function BookingBed({
                   cursor: "pointer",
                 }}
                 onClick={handleSubmitBooking}
+                
               >
                 Book
               </button>
