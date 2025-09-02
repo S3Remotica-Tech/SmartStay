@@ -46,10 +46,11 @@ export async function Addcomplainttype(type) {
 //   });
 // }
 // v2
-export async function Editcomplainttype({ id, complaintTypeName, isActive }) {
+export async function Editcomplainttype({ id, complaintTypeName, isActive , hostelId }) {
   return await AxiosConfigV2.put(`/v2/ComplaintType/${id}`, {
     complaintTypeName,
-    isActive
+    isActive , 
+    hostelId
   }, {
     headers: {
       "Content-Type": "application/json",

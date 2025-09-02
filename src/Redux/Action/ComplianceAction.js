@@ -23,12 +23,32 @@ export async function complianceList(hostelId) {
 //     data: formDetails
 //   })
 // }
-
+// v2
 export async function Compliancedetails(formDetails) {
   return await AxiosConfigV2.post('/v2/complaint', formDetails, {
     data: formDetails
   })
 }
+
+// v2
+export async function EditComplaint(complaint) {
+  return await AxiosConfigV2.put(
+    `/v2/complaint/${complaint.complaintId}`,
+    {
+      complaintDate: complaint.complaintDate,
+      description: complaint.description,
+    }
+  );
+}
+
+export async function ParticularcomplianceDetails(complaintId) {
+  return await AxiosConfigV2.get(`/v2/complaint/${complaintId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 
 // v1
 

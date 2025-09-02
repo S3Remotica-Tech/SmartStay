@@ -27,7 +27,10 @@ export const initialState = {
     statusCodeForGetComplianceComment: 0,
     AddComplianceComment: [],
     statusCodeForAddComplianceComment: 0,
-    updateVendorSuccessStatusCode: 0
+    updateVendorSuccessStatusCode: 0 , 
+    statusCodeForEditCompliant: 0,
+    ParticularComplaint : [] ,
+    statusCodeforgetparticularCompliant: 0 ,
 
 
 }
@@ -46,6 +49,11 @@ const ComplianceReducer = (state = initialState, action) => {
             return { ...state, messageShow: true, statusCodeForAddCompliance: action.payload.statusCode }
         case 'CLEAR_COMPLIANCE_STATUS_CODE':
             return { ...state, statusCodeForAddCompliance: 0 }
+        case 'EDIT_COMPLAINT_SUCCESS':
+            return { ...state, statusCodeForEditCompliant: action.payload.statusCode }
+        case 'CLEAR_EDIT_COMPLIANT_STATUS_CODE':
+            return { ...state, statusCodeForEditCompliant: 0 }
+
         case 'ERROR':
             return { ...state, errorMessage: action.payload }
         case 'CLEAR_ERROR':
@@ -123,6 +131,11 @@ case 'UPDATE_VENDOR':
             return { ...state, AddComplianceComment: action.payload.response, statusCodeForAddComplianceComment: action.payload.statusCode }
         case 'CLEAR_COMPLIANCE_ADD_COMMENT':
             return { ...state, statusCodeForAddComplianceComment: 0 }
+
+        case 'PARTICULAR-COMPLIANT':
+            return { ...state, ParticularComplaint: action.payload.response, statusCodeforgetparticularCompliant: action.payload.statusCode }
+        case 'CLEAR_PARTICULAR_COMPLIANT_STATUS':
+            return { ...state, statusCodeforgetparticularCompliant: 0 }    
 
             default:
                 return state;

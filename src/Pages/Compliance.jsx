@@ -36,7 +36,7 @@ const Compliance = () => {
   const initialValuesRef = useRef({});
   const [formLoading, setFormLoading] = useState(false)
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
-  const [id, setId] = useState('')
+  const [complaintId, setComplaintId] = useState('')
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
@@ -99,6 +99,8 @@ const Compliance = () => {
       dispatch({ type: "USERLIST",
         payload: { hostel_id: hosId},
       });
+      dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hosId } });
+        // dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
     }
 
   }, [hosId])
@@ -267,10 +269,10 @@ const Compliance = () => {
     if (state.login.selectedHostel_Id) {
       setLoading(true)
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "USERLIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
     } else {
       setFilteredUsers([]);
       setLoading(false)
@@ -316,6 +318,15 @@ const Compliance = () => {
   }, [state.ComplianceList.statusCodeForAddCompliance, filterInput]);
 
 
+   useEffect(() => {
+    if (state.ComplianceList.statusCodeForEditCompliant === 200) {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });
+      handleClose()
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_EDIT_COMPLIANT_STATUS_CODE' });
+      }, 500);
+    }
+ }, [state.ComplianceList.statusCodeForEditCompliant]);
 
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -583,7 +594,9 @@ const Compliance = () => {
     setJoingDateErrmsg('');
     setShow(false);
     setFormLoading(false)
+    setEdit(false)
     setSelectedUserName('');
+    setComplaintId('')
     setComplainttype('');
     setAssign('');
     setDescription('');
@@ -599,6 +612,7 @@ const Compliance = () => {
     setUserErrmsg('')
     setDateErrmsg('')
     setComplaintTypeErrmsg('')
+ 
   }
 
   const [Assignpopupshow, setAssignpopupshow] = useState(false);
@@ -649,21 +663,7 @@ const Compliance = () => {
       setDateErrmsg('Please Select date')
       isValid = false;
     }
-    // if (selectedDate && userid) {
-    //   const selectedUser = state.UsersList.Users.find(item => item.customerId === userid);
-    //   if (selectedUser) {
-    //     const joiningDate = new Date(selectedUser.bookedAt);
-    //     const complaintDate = new Date(selectedDate);
-    //     const joinDateOnly = new Date(joiningDate.toDateString());
-    //     const complaintDateOnly = new Date(complaintDate.toDateString());
-    //     if (complaintDateOnly < joinDateOnly) {
-    //       setJoingDateErrmsg('Before joining date not allowed');
-    //       isValid = false;
-    //     } else {
-    //       setJoingDateErrmsg('');
-    //     }
-    //   }
-    // }
+
 
     if (!isValid) return;
 
@@ -680,29 +680,22 @@ const Compliance = () => {
       customerId: userid,                       
       complaintTypeId: Complainttype,           
       floorId: Floor,                          
-      roomId: Rooms,                            
+      roomId: Rooms,   
+      bedId: beds,                         
       complaintDate: formattedDate,            
       description: description || "",         
       hostelId: state.login.selectedHostel_Id                       
-    };
-      if (id && hasChanges) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: Number(beds), Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
+    }
+      if (edit && complaintId && hasChanges && formattedDate) {
+         dispatch({
+    type: "EDIT_COMPLAINT",
+    payload: {
+      complaintId: complaintId,   
+      complaintDate: formattedDate,  
+      description: description,     
+    },
+  });
         setFormLoading(true)
-
-
-        setSelectedUserName('');
-        setComplainttype('');
-        setAssign('');
-        setDescription('');
-        setSelectedDate('')
-        setBeds('')
-        setBedName('')
-        setFloor('');
-        setRooms('');
-        setHostelName('');
-        setStatus('');
-        setId('');
-        setHostel_Id('')
       }
       else {
         dispatch({ type: 'COMPLIANCE-ADD', payload })
@@ -719,7 +712,7 @@ const Compliance = () => {
         setRooms('');
         setHostelName('');
         setStatus('');
-        setId('');
+        setComplaintId('');
         setHostel_Id('')
       }
 
@@ -741,33 +734,82 @@ const Compliance = () => {
   const handleEditcomplaint = (Complaintdata) => {
 
     setEdit(true)
+  
+
     if (Complaintdata) {
+      console.log("complaintdata" ,Complaintdata );
+        dispatch({type:"PARTICULAR_COMPLIANT" , payload:{ complaintId : Complaintdata.complaintId}})
 
       setShow(true);
-      setId(Complaintdata.ID)
-      setSelectedUserName(Complaintdata.Name);
-      setComplainttype(Complaintdata.Complainttype);
-      setEditcomplainttype(Complaintdata.complaint_name)
-      setAssign(Complaintdata.Assign);
-      setDescription(Complaintdata.Description);
-      setSelectedDate(new Date(Complaintdata.date));
-      setHostel_Id(Complaintdata.Hostel_id)
-      setBeds(Complaintdata.Bed)
-      setBedName(Complaintdata.bedName)
-      setFloor(Complaintdata.Floor_id);
-      setRooms(Complaintdata.Room);
-      setHostelName(Complaintdata.hostelname);
-      setStatus(Complaintdata.Status)
 
 
-      initialValuesRef.current = {
-        Assign: Complaintdata.Assign,
-        Description: Complaintdata.Description,
-        Status: Complaintdata.Status,
-        selectedDate: new Date(Complaintdata.date)
+      // setComplaintId(Complaintdata.complaintId)
+      // setSelectedUserName(Complaintdata.customerId);
+      // setComplainttype(Complaintdata.complaintTypeId);
+      // setEditcomplainttype(Complaintdata.complaintTypeId)
+      // setAssign(Complaintdata.Assign);
+      // setDescription(Complaintdata.Description);
+      // setSelectedDate(new Date(Complaintdata.complaintDate));
+      // setHostel_Id(Complaintdata?.Hostel_id)
+      // setBeds(Complaintdata.bedId)
+      // setBedName(Complaintdata.bedName)
+      // setFloor(Complaintdata.Floor_id);
+      // setRooms(Complaintdata.Room);
+      // setHostelName(Complaintdata.hostelname);
+      // setStatus(Complaintdata.Status)
+
+
+      // initialValuesRef.current = {
+      //   Assign: Complaintdata.Assign,
+      //   Description: Complaintdata.Description,
+      //   Status: Complaintdata.Status,
+      //   selectedDate: new Date(Complaintdata.date)
+      // };
+    }
+  }
+
+   const [EditComplaintDetails  , setEditComplaintDetails] = useState({})
+
+    useEffect(() => {
+    if (state.ComplianceList.statusCodeforgetparticularCompliant === 200) {
+     setEditComplaintDetails(state.ComplianceList.ParticularComplaint)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_PARTICULAR_COMPLIANT_STATUS' });
+      }, 500);
+    }
+  }, [state.ComplianceList.statusCodeforgetparticularCompliant])
+
+
+  useEffect(() => {
+    if(edit && EditComplaintDetails){
+            setComplaintId(EditComplaintDetails.complaintId)
+      setSelectedUserName(EditComplaintDetails.customerId);
+      setComplainttype(EditComplaintDetails.complaintTypeId);
+      setEditcomplainttype(EditComplaintDetails.complaintTypeId)
+      setAssign(EditComplaintDetails.Assign);
+      setDescription(EditComplaintDetails.Description);
+      setSelectedDate(new Date(EditComplaintDetails.complaintDate));
+      setHostel_Id(EditComplaintDetails?.Hostel_id)
+      setBeds(EditComplaintDetails.bedId)
+      setBedName(EditComplaintDetails.bedName)
+      setFloor(EditComplaintDetails.Floor_id);
+      setRooms(EditComplaintDetails.Room);
+      setHostelName(EditComplaintDetails.hostelname);
+      setStatus(EditComplaintDetails.Status)
+
+
+        initialValuesRef.current = {
+        Assign: EditComplaintDetails.Assign,
+        Description: EditComplaintDetails.Description,
+        Status: EditComplaintDetails.Status,
+        selectedDate: new Date(EditComplaintDetails.date)
       };
     }
-  };
+
+  } , [edit , EditComplaintDetails])
+
+  console.log("editdetails" ,state.ComplianceList.ParticularComplaint ,  EditComplaintDetails);
+  
 
 
 
@@ -794,11 +836,12 @@ const Compliance = () => {
   const [complainttypelist, setComplainttypelist] = useState([])
 
 
-  useEffect(() => {
-    if (hosId) {
-      dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
-    }
-  }, [hosId]);
+  // useEffect(() => {
+  //   if (hosId) {
+  //     dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
+  //   }
+  // }, [hosId]);
+
   useEffect(() => {
     if (state.Settings.StatusForaddSettingStaffList === 200) {
       setTimeout(() => {
@@ -1746,12 +1789,12 @@ console.log("users" , complainttypelist);
                         </div>
                       )}
 
-                      {state.createAccount?.networkError ?
+                      {/* {state.createAccount?.networkError ?
                         <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
                           <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
                           <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                         </div>
-                        : null}
+                        : null} */}
 
 
 

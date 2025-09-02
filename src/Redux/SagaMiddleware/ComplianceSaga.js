@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceChange, complianceDelete, getComplianceComment, addComplianceComment } from "../Action/ComplianceAction"
+import { updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceChange, complianceDelete, getComplianceComment, addComplianceComment , EditComplaint , ParticularcomplianceDetails } from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -61,7 +61,32 @@ console.log("response UPDATE",response)
 
 
 
+function* handleParticularcompliant(action) {
+ 
+   try{
+    const { complaintId } = action.payload
+    const response = yield call(ParticularcomplianceDetails, complaintId)
 
+     if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'PARTICULAR-COMPLIANT', payload: { response: response.data || [], 
+          statusCode: response.status || response.data.statusCode } })
+          }
+     else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+       }
+     if(response) {
+      refreshToken(response)
+      }
+   }
+   catch (error) {
+         if (error.code === 'ERR_BAD_REQUEST') {
+            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+         } else {
+            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+         }
+      }
+
+}
 
 
 
@@ -83,7 +108,7 @@ function* handlecompliancelist(action) {
       }
    }
    catch (error) {
-         if (error.code === 'ERR_NETWORK') {
+         if (error.code === 'ERR_BAD_REQUEST') {
             yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
          } else {
             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
@@ -96,6 +121,8 @@ function* handleComplianceadd(params) {
    try {
 
       const response = yield call(Compliancedetails, params.payload);
+      console.log("errorstatus" , response);
+      
 
       if (response.status === 201 || response.data.statusCode === 201) {
          yield put({ type: 'COMPLIANCE_ADD', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
@@ -116,7 +143,7 @@ function* handleComplianceadd(params) {
          };
 
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -136,7 +163,44 @@ function* handleComplianceadd(params) {
       }
    }
    catch (error) {
-         if (error.code === 'ERR_NETWORK') {
+        console.log("errorstatus" , error);
+         if (error.code === 'ERR_BAD_REQUEST') {
+            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+         } else {
+            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+         }
+      }
+}
+
+function* handleEditComplaint(action) {
+  try {
+    const response = yield call(EditComplaint, action.payload);
+
+    if (response.status === 200) {
+      yield put({ type: "EDIT_COMPLAINT_SUCCESS",  payload: { response: response.data, statusCode: response.status || response.data.statusCode }  });
+      
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
+    } else {
+      yield put({ type: "EDIT_COMPLAINT_FAILURE", payload: response.data });
+    }
+
+     if (response) {
+         refreshToken(response)
+      }
+  } 
+    catch (error) {
+        console.log("errorstatus" , error);
+         if (error.code === 'ERR_BAD_REQUEST') {
             yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
          } else {
             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
@@ -509,6 +573,7 @@ function refreshToken(response) {
 function* ComplianceSaga() {
    yield takeEvery('COMPLIANCE-LIST', handlecompliancelist)
    yield takeEvery('COMPLIANCE-ADD', handleComplianceadd)
+   yield takeEvery('EDIT_COMPLAINT', handleEditComplaint)
    yield takeEvery('VENDORLIST', handleVendorGet)
    yield takeEvery('ADDVENDOR', handleAddVendor)
    yield takeEvery('UPDATEVENDOR',   handleUpdateVendor)
@@ -518,6 +583,8 @@ function* ComplianceSaga() {
    yield takeEvery('COMPLIANCEASSIGN', handleComplianceChangeAssign)
    yield takeEvery('GET_COMPLIANCE_COMMENT', handleGetComplianceComment)
    yield takeEvery('Add_COMPLIANCE_COMMENT', handleAddComplianceComment)
+   yield takeEvery('PARTICULAR_COMPLIANT', handleParticularcompliant)
+   
 
 }
 export default ComplianceSaga;

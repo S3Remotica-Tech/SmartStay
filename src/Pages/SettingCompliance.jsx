@@ -185,7 +185,8 @@ useEffect(() => {
   payload: {
     id,
     complaintTypeName: complaintTypeName,
-    isActive: true  
+    isActive: true  , 
+    hostelId: hostelid 
   },
 });
 
@@ -195,6 +196,8 @@ useEffect(() => {
   };
 
   const handleComplaintType = (e) => {
+    dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    setIsChangedError("");
     const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
@@ -232,9 +235,15 @@ useEffect(() => {
   useEffect(() => {
     if (state.Settings.alreadytypeerror) {
       setFormLoading(false)
+      // setTimeout(() => {
+      //   dispatch({type:'CLEAR_ALREADY_COMPLAINTTYPE_ERROR'})
+      // }, 2000);
     }
 
   }, [state.Settings.alreadytypeerror])
+
+  console.log("errormessage" , state.Settings.alreadytypeerror);
+  
 
 
 
@@ -845,16 +854,18 @@ useEffect(() => {
                 )}
 
 
-
-                {/* {state.createAccount?.networkError ?
-                  <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                  </div>
-                  : null} */}
+ 
               </div>
             </div>
           </div>
+
+          
+              {state.Settings.alreadytypeerror !== "" && (
+  <div className='d-flex align-items-center justify-content-center mt-2 mb-2'>
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label style={{ color: "red" }}>{state.Settings.alreadytypeerror}</label>
+  </div>
+)}
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -996,12 +1007,12 @@ useEffect(() => {
           </div>
         </Modal.Body>
 
-        {state.createAccount?.networkError ?
+        {/* {state.createAccount?.networkError ?
           <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
             <MdError style={{ color: "red", marginRight: '5px' }} />
             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
           </div>
-          : null}
+          : null} */}
 
 
         {formLoading &&
@@ -1054,6 +1065,13 @@ useEffect(() => {
             </span>
           </div>
         )}
+
+                    {state.Settings.alreadytypeerror !== "" && (
+  <div className='d-flex align-items-center justify-content-center mt-2 mb-2'>
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label style={{ color: "red" }}>{state.Settings.alreadytypeerror}</label>
+  </div>
+)}
 
         <Modal.Footer
           className="d-flex justify-content-center"
