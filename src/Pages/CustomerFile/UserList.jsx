@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 ,Trash} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -57,7 +57,7 @@ import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 function UserList(props) {
   const state = useSelector((state) => state);
 
-  
+
   const { RangePicker } = DatePicker;
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ function UserList(props) {
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
   const [customererrmsg, setCustomerErrmsg] = useState("");
-  const [billLoading, setBillLoading] =  useState(false);
+  const [billLoading, setBillLoading] = useState(false);
 
   const [totalAmount, setTotalAmount] = useState("");
   const [newRows, setNewRows] = useState([]);
@@ -139,7 +139,7 @@ function UserList(props) {
   const [billsAddshow, setBillsAddShow] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
-  const [add_bookingshow, setAddBookingsShow] = useState(false) 
+  const [add_bookingshow, setAddBookingsShow] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
 
 
@@ -148,12 +148,14 @@ function UserList(props) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
+        console.log("hiii");
+
         setLoading(false)
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-      } 
+      }
       if (value === "2") {
         dispatch({
           type: "GET_BOOKING_LIST",
@@ -203,25 +205,25 @@ function UserList(props) {
 
     setDropdownValue("");
   };
-    useEffect(() => {
-      if (state?.Booking?.statusCodeForAddBooking === 200) {
-      
-  
-        dispatch({
-          type: "GET_BOOKING_LIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-         dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      
-  
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
-        }, 500);
-      }
-    }, [state?.Booking?.statusCodeForAddBooking]);
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
+
+
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForAddBooking]);
 
   useEffect(() => {
     if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
@@ -229,7 +231,8 @@ function UserList(props) {
       dispatch({
         type: "USERLIST",
         payload: {
-          hostel_id: state.login.selectedHostel_Id,},
+          hostel_id: state.login.selectedHostel_Id,
+        },
       });
       setTimeout(() => {
         dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
@@ -376,25 +379,25 @@ function UserList(props) {
     }
 
 
-      const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-   
+
 
     if (selectedUser) {
-  const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
-  const invoiceDate = dayjs(invoicedate).startOf("day");
-  const dueDate = dayjs(invoiceduedate).startOf("day");
+      const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
+      const invoiceDate = dayjs(invoicedate).startOf("day");
+      const dueDate = dayjs(invoiceduedate).startOf("day");
 
-  if (invoiceDate.isBefore(joiningDate)) {
-    setInvoiceDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
+      if (invoiceDate.isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
 
-  if (dueDate.isBefore(invoiceDate)) {
-    setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
-    hasError = true;
-  }
-}
+      if (dueDate.isBefore(invoiceDate)) {
+        setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
+        hasError = true;
+      }
+    }
 
     if (hasError || !isValid) return;
 
@@ -490,7 +493,7 @@ function UserList(props) {
         },
       });
 
-       setBillLoading(true)
+      setBillLoading(true)
       setCustomerName("");
       setInvoiceNumber("");
 
@@ -560,25 +563,25 @@ function UserList(props) {
 
     const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
-   
 
 
 
-if (selectedUser) {
-  const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
-  const invoiceDate = dayjs(invoicedate).startOf("day");
-  const dueDate = dayjs(invoiceduedate).startOf("day");
 
-  if (invoiceDate.isBefore(joiningDate)) {
-    setInvoiceDateErrmsg("Before join date not allowed");
-    hasError = true;
-  }
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).startOf("day");
+      const invoiceDate = dayjs(invoicedate).startOf("day");
+      const dueDate = dayjs(invoiceduedate).startOf("day");
 
-  if (dueDate.isBefore(invoiceDate)) {
-    setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
-    hasError = true;
-  }
-}
+      if (invoiceDate.isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+      if (dueDate.isBefore(invoiceDate)) {
+        setInvoiceDueDateErrmsg("Due Date should be after Invoice Date");
+        hasError = true;
+      }
+    }
 
 
 
@@ -598,7 +601,7 @@ if (selectedUser) {
         amenity: amenityArray.length > 0 ? amenityArray : [],
       },
     });
-     setBillLoading(true)
+    setBillLoading(true)
 
     setCustomerName("");
     setInvoiceNumber("");
@@ -822,7 +825,7 @@ if (selectedUser) {
 
 
 
-  
+
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
@@ -830,7 +833,7 @@ if (selectedUser) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
 
       setLoading(false);
-     setIsEditing(false);
+      setIsEditing(false);
       setRoomDetail(true);
 
       setTimeout(() => {
@@ -841,7 +844,7 @@ if (selectedUser) {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
-         setBillLoading(false)
+      setBillLoading(false)
       handleBackBill();
       dispatch({
         type: "CUSTOMERDETAILS",
@@ -957,138 +960,138 @@ if (selectedUser) {
   }, [state.createAccount.accountList]);
 
 
- useEffect(() => {
-  const userType = customerrolePermission[0]?.user_details?.user_type;
-const isAdmin = userType === "admin" || userType === "agent";
-     if (isAdmin) {
-    if (state?.login?.planStatus === 0) {
-      setCustomerPermissionError("");
-      setCustomerAddPermission("Permission Denied");
-      setCustomerEditPermission("Permission Denied");
-      setCustomerDeletePermission("Permission Denied");
-      setCustomerBookingAddPermission("Permission Denied")
-      setCustomerCheckoutAddPermission("Permission Denied")
-      setCustomerWalkInAddPermission("Permission Denied")
+  useEffect(() => {
+    const userType = customerrolePermission[0]?.user_details?.user_type;
+    const isAdmin = userType === "admin" || userType === "agent";
+    if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        setCustomerPermissionError("");
+        setCustomerAddPermission("Permission Denied");
+        setCustomerEditPermission("Permission Denied");
+        setCustomerDeletePermission("Permission Denied");
+        setCustomerBookingAddPermission("Permission Denied")
+        setCustomerCheckoutAddPermission("Permission Denied")
+        setCustomerWalkInAddPermission("Permission Denied")
 
-    } else if (state?.login?.planStatus === 1) {
-      setCustomerPermissionError("");
-      setCustomerAddPermission("");
-      setCustomerEditPermission("");
-      setCustomerDeletePermission("");
-      setCustomerBookingAddPermission("")
-       setCustomerCheckoutAddPermission("")
-       setCustomerWalkInAddPermission("")
+      } else if (state?.login?.planStatus === 1) {
+        setCustomerPermissionError("");
+        setCustomerAddPermission("");
+        setCustomerEditPermission("");
+        setCustomerDeletePermission("");
+        setCustomerBookingAddPermission("")
+        setCustomerCheckoutAddPermission("")
+        setCustomerWalkInAddPermission("")
+      }
     }
-  }
 
-  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,customerrolePermission,value])
-  
-
- 
- useEffect(() => {
-     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
-       (perm) => perm.permission_name === "Customers"
-     );
-   
-     const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
-     const planActive = state?.login?.planStatus === 1;
-    
-     if (!CustomerPermission || !isOwner) return;
-   
-     
-     if (CustomerPermission.per_view === 1 && planActive) {
-       setCustomerPermissionError("");
-     } else {
-       setCustomerPermissionError("Permission Denied");
-     }
-   
-     
-     if (CustomerPermission.per_create === 1 && planActive) {
-       setCustomerAddPermission("");
-     } else {
-       setCustomerAddPermission("Permission Denied");
-     }
-   
-    
-     if (CustomerPermission.per_edit === 1 && planActive) {
-       setCustomerEditPermission("");
-     } else {
-       setCustomerEditPermission("Permission Denied");
-     }
-   
-     if (CustomerPermission.per_delete === 1 && planActive) {
-       setCustomerDeletePermission("");
-     } else {
-       setCustomerDeletePermission("Permission Denied");
-     }
-   }, [customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
-
-
-useEffect(() => {
-     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
-       (perm) => perm.permission_name === "Bookings"
-     );
-   
-     const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
-     const planActive = state?.login?.planStatus === 1;
-    
-     if (!CustomerPermission || !isOwner) return;
-   
-     
-     if (CustomerPermission.per_create === 1 && planActive) {
-       setCustomerBookingAddPermission("");
-     } else {
-       setCustomerBookingAddPermission("Permission Denied");
-     }
-   
-    
-     
-   
-   
-   }, [customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id,value]);
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, customerrolePermission, value])
 
 
 
   useEffect(() => {
-     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
-       (perm) => perm.permission_name === "Walk In"
-     );
-   
-     const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
-     const planActive = state?.login?.planStatus === 1;
-    
-     if (!CustomerPermission || !isOwner) return;
-   
-     
-     if (CustomerPermission.per_create === 1 && planActive) {
-       setCustomerWalkInAddPermission("");
-     } else {
-       setCustomerWalkInAddPermission("Permission Denied");
-     }
-   
-    
-     
-   
-   
-   }, [customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id,value]);
-  
-   useEffect(() => {
-     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
-       (perm) => perm.permission_name === "Check out"
-     );
-   
-     const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
-     const planActive = state?.login?.planStatus === 1;
-    
-     if (!CustomerPermission || !isOwner) return;
-   
-     
-     if (CustomerPermission.per_create === 1 && planActive) {
-       setCustomerCheckoutAddPermission("");
-     } else {
-       setCustomerCheckoutAddPermission("Permission Denied");
-     }   
-   }, [customerrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id,value]);
+    const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Customers"
+    );
+
+    const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!CustomerPermission || !isOwner) return;
+
+
+    if (CustomerPermission.per_view === 1 && planActive) {
+      setCustomerPermissionError("");
+    } else {
+      setCustomerPermissionError("Permission Denied");
+    }
+
+
+    if (CustomerPermission.per_create === 1 && planActive) {
+      setCustomerAddPermission("");
+    } else {
+      setCustomerAddPermission("Permission Denied");
+    }
+
+
+    if (CustomerPermission.per_edit === 1 && planActive) {
+      setCustomerEditPermission("");
+    } else {
+      setCustomerEditPermission("Permission Denied");
+    }
+
+    if (CustomerPermission.per_delete === 1 && planActive) {
+      setCustomerDeletePermission("");
+    } else {
+      setCustomerDeletePermission("Permission Denied");
+    }
+  }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
+
+
+  useEffect(() => {
+    const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Bookings"
+    );
+
+    const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!CustomerPermission || !isOwner) return;
+
+
+    if (CustomerPermission.per_create === 1 && planActive) {
+      setCustomerBookingAddPermission("");
+    } else {
+      setCustomerBookingAddPermission("Permission Denied");
+    }
+
+
+
+
+
+  }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id, value]);
+
+
+
+  useEffect(() => {
+    const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Walk In"
+    );
+
+    const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!CustomerPermission || !isOwner) return;
+
+
+    if (CustomerPermission.per_create === 1 && planActive) {
+      setCustomerWalkInAddPermission("");
+    } else {
+      setCustomerWalkInAddPermission("Permission Denied");
+    }
+
+
+
+
+
+  }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id, value]);
+
+  useEffect(() => {
+    const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Check out"
+    );
+
+    const isOwner = customerrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!CustomerPermission || !isOwner) return;
+
+
+    if (CustomerPermission.per_create === 1 && planActive) {
+      setCustomerCheckoutAddPermission("");
+    } else {
+      setCustomerCheckoutAddPermission("Permission Denied");
+    }
+  }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id, value]);
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
 
@@ -1120,6 +1123,25 @@ useEffect(() => {
       }, 200);
     }
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
+
+
+  useEffect(() => {
+    if (state.UsersList?.NoUserListStatusCode === 201) {
+       setUserListDetail([]);
+       setTimeout(() => {
+             dispatch({ type: "CLEAR_NO_USER_LIST" });
+      }, 1000);
+ }
+  }, [state.UsersList?.NoUserListStatusCode]);
+
+  useEffect(() => {
+    if (state.UsersList?.UserListStatusCode === 200) {
+      setUserList(state.UsersList.Users);
+      dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+    }
+  }, [state.UsersList?.UserListStatusCode]);
+
+
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -1281,7 +1303,7 @@ useEffect(() => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   const [showMenu, setShowMenu] = useState(false);
-   const [showAssignMenu, setShowAssignMenu] = useState(false);
+  const [showAssignMenu, setShowAssignMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [edit, setEdit] = useState("");
   const [EditObj, setEditObj] = useState("");
@@ -1290,13 +1312,13 @@ useEffect(() => {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
-    console.log('handleShowDots',id)
+    console.log('handleShowDots', id)
     if (activeRow === id) {
       setActiveRow(null);
     } else {
       setActiveRow(id);
     }
-    console.log("handleShowDots",activeRow)
+    console.log("handleShowDots", activeRow)
     setSearch(false);
 
     const { top, left, height } = event.target.getBoundingClientRect();
@@ -1319,15 +1341,15 @@ useEffect(() => {
     };
   }, []);
 
-   useEffect(() => {
-      if (state?.Booking?.statusCodeForAddBooking === 200) {
+  useEffect(() => {
+    if (state?.Booking?.statusCodeForAddBooking === 200) {
       //  handleCloseBooking()
-     handleCloseAddBooking();
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
-        }, 500);
-      }
-    }, [state?.Booking?.statusCodeForAddBooking]);
+      handleCloseAddBooking();
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+      }, 500);
+    }
+  }, [state?.Booking?.statusCodeForAddBooking]);
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -1378,7 +1400,7 @@ useEffect(() => {
   };
 
 
- const pageOptions = [
+  const pageOptions = [
     { value: 10, label: "10" },
     { value: 50, label: "50" },
     { value: 100, label: "100" },
@@ -1443,11 +1465,11 @@ useEffect(() => {
   const [hostelName, sethosName] = useState("");
   const [customerUser_Id, setcustomerUser_Id] = useState("");
   const [advanceForm, setAdvanceForm] = useState(false);
-  const [userDatafull,setUserData] = useState("")
+  const [userDatafull, setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
     setHostelIds(userData.Hostel_Id);
-setUserData(userData)
+    setUserData(userData)
     setId(userData.ID);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
@@ -1457,11 +1479,11 @@ setUserData(userData)
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
 
-const [userDetail, setUserDetail] = useState({});
-const [bookingDet,setBookingDet] = useState("")
-   const handleAddBookings = (userData) => {
+  const [userDetail, setUserDetail] = useState({});
+  const [bookingDet, setBookingDet] = useState("")
+  const handleAddBookings = (userData) => {
     setHostelIds(userData.Hostel_Id);
-setBookingDet(userData)
+    setBookingDet(userData)
     setId(userData.ID);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
@@ -1486,7 +1508,7 @@ setBookingDet(userData)
     setAddBasicDetail(false);
     setEditObj(u);
   };
- const handleShowAssignBed = (u) => {
+  const handleShowAssignBed = (u) => {
     setEdit("Edit");
     handleMenuClick();
     setShowMenu(false);
@@ -1496,7 +1518,7 @@ setBookingDet(userData)
     setAddBasicDetail(false);
     setEditObj(u);
   };
- 
+
 
   const [hostelIds, setHostelIds] = useState("");
 
@@ -2053,7 +2075,7 @@ setBookingDet(userData)
 
 
 
- 
+
   const customDateInput = (props) => {
     return (
       <div
@@ -2112,116 +2134,116 @@ setBookingDet(userData)
   };
 
   useEffect(() => {
-      if (state.createAccount?.networkError) {
-        setBillLoading(false)
-        setLoading(false)
-        setTimeout(() => {
-          dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        }, 3000)
-      }
-  
-    }, [state.createAccount?.networkError])
+    if (state.createAccount?.networkError) {
+      setBillLoading(false)
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
-    console.log("props", props);
+  }, [state.createAccount?.networkError])
+
+  console.log("props", props);
 
 
-     const [bookingDate, setBookingDate] = useState(null);
+  const [bookingDate, setBookingDate] = useState(null);
 
-    useEffect(() => {
-      if(props?.makeasinactive){
-         setUserList(false);
-         setInActiveForm(true) 
-         setInactiveName(props?.customer_details)
-         setBookingId(props?.customer_details?.booking_id)
-         const bookingDateStr = props?.customer_details?.booking_booking_date; // from API
-         const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
-         setBookingDate(bookingDatevalue)
-      }
+  useEffect(() => {
+    if (props?.makeasinactive) {
+      setUserList(false);
+      setInActiveForm(true)
+      setInactiveName(props?.customer_details)
+      setBookingId(props?.customer_details?.booking_id)
+      const bookingDateStr = props?.customer_details?.booking_booking_date; // from API
+      const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
+      setBookingDate(bookingDatevalue)
+    }
 
-    },[props.makeasinactive])
+  }, [props.makeasinactive])
 
-    
-    
 
-    const [inactivename,setInactiveName] = useState("")
- 
-const[inactiveForm,setInActiveForm] = useState(false)
-const [inActiveDate,setInActiveDate] = useState(null)
-const [inActiveComments,setInActiveComments] = useState("")
-const [bookingId,setBookingId] = useState("")
 
-const handleInActive =(item)=>{
 
-setInActiveForm(true)
-setBookingId(item.booking_id)
-setInactiveName(item)
-const bookingDateStr = item?.booking_booking_date; // from API
-const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
- setBookingDate(bookingDatevalue)
-}
+  const [inactivename, setInactiveName] = useState("")
 
-const handleCloseInActive =()=>{
-   if (typeof props?.handleCloseBed === "function") {
-    props.handleCloseBed();
+  const [inactiveForm, setInActiveForm] = useState(false)
+  const [inActiveDate, setInActiveDate] = useState(null)
+  const [inActiveComments, setInActiveComments] = useState("")
+  const [bookingId, setBookingId] = useState("")
+
+  const handleInActive = (item) => {
+
+    setInActiveForm(true)
+    setBookingId(item.booking_id)
+    setInactiveName(item)
+    const bookingDateStr = item?.booking_booking_date; // from API
+    const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
+    setBookingDate(bookingDatevalue)
   }
-  setInActiveForm(false)
-  setIsACtiveDateError("")
-  setInActiveComments("")
-  setInActiveDate("")
 
-}
-const handleInActiveReason = (e)=>{
-  setInActiveComments(e.target.value)
+  const handleCloseInActive = () => {
+    if (typeof props?.handleCloseBed === "function") {
+      props.handleCloseBed();
+    }
+    setInActiveForm(false)
+    setIsACtiveDateError("")
+    setInActiveComments("")
+    setInActiveDate("")
 
-}
-const [isActiveDateError,setIsACtiveDateError] = useState("")
+  }
+  const handleInActiveReason = (e) => {
+    setInActiveComments(e.target.value)
+
+  }
+  const [isActiveDateError, setIsACtiveDateError] = useState("")
 
 
 
-const SubmitInActiveForm = () =>{
+  const SubmitInActiveForm = () => {
     if (!inActiveDate) {
-    setIsACtiveDateError(" Please Select Inactive Date");
-    return; 
-  }
+      setIsACtiveDateError(" Please Select Inactive Date");
+      return;
+    }
 
-        const incrementDateAndFormat = (date) => {
+    const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
       newDate.setDate(newDate.getDate() + 1);
       return newDate.toISOString().split("T")[0];
     };
-     const formattedDate = inActiveDate
+    const formattedDate = inActiveDate
       ? incrementDateAndFormat(inActiveDate)
       : "";
 
-  setIsACtiveDateError("");
-  if(formattedDate){
- dispatch({
-          type: "BOOKINGACTIVE",
-          payload: { booking_id: bookingId,Inactive_date:formattedDate,Inactive_Reason: inActiveComments},
-        });
-  }
-  setFormLoading(true)
-}
-
-
-useEffect(()=>{
-  if(state.Booking.StatusCodeInactiveCode === 200){
-     setFormLoading(false)
-    handleCloseInActive()
-     dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-     setTimeout(() => {
-          dispatch({ type: 'CLEAR_BOOKING_InActive' })
-        }, 1000)
-
+    setIsACtiveDateError("");
+    if (formattedDate) {
+      dispatch({
+        type: "BOOKINGACTIVE",
+        payload: { booking_id: bookingId, Inactive_date: formattedDate, Inactive_Reason: inActiveComments },
+      });
+    }
+    setFormLoading(true)
   }
 
-},[state.Booking.StatusCodeInactiveCode])
 
-const [BookingAssignForm,setBookingAssignForm] = useState("")
+  useEffect(() => {
+    if (state.Booking.StatusCodeInactiveCode === 200) {
+      setFormLoading(false)
+      handleCloseInActive()
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_BOOKING_InActive' })
+      }, 1000)
+
+    }
+
+  }, [state.Booking.StatusCodeInactiveCode])
+
+  const [BookingAssignForm, setBookingAssignForm] = useState("")
 
 
-const handleBookingAssign = (book)=>{
-  console.log("handleBookingAssign",book)
+  const handleBookingAssign = (book) => {
+    console.log("handleBookingAssign", book)
     setEdit("Edit");
     handleMenuClick();
     setShowMenu(false);
@@ -2231,10 +2253,10 @@ const handleBookingAssign = (book)=>{
     setAddBasicDetail(false);
     setEditObj(book);
 
-}
-const [bactocheckinForm,setBacktoCheckInForm] = useState(false)
-const handleBacktoCheckout = (item)=>{
-  console.log("handleBacktoCheckout",item)
+  }
+  const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
+  const handleBacktoCheckout = (item) => {
+    console.log("handleBacktoCheckout", item)
     handleMenuClick();
     setShowMenu(false);
     setBookingAssignForm(false)
@@ -2242,24 +2264,24 @@ const handleBacktoCheckout = (item)=>{
     setAddCheckoutForm(false);
     setAddBasicDetail(false);
     setEditObj(item);
-  setBacktoCheckInForm(true)
+    setBacktoCheckInForm(true)
 
-}
- const [DueCustomerShow, setDueCustomerShow] = useState(false)
-   const [CheckOutDetails, setCheckOutDetails] = useState("");
+  }
+  const [DueCustomerShow, setDueCustomerShow] = useState(false)
+  const [CheckOutDetails, setCheckOutDetails] = useState("");
 
-const handleConformCheckout =(item)=>{
-// setDueCustomerShow(true)
-setCheckOutDetails(item)
-  dispatch({
-        type: "GETCONFIRMCHECKOUTCUSTOMER",
-        payload: { id: item.ID, hostel_id: item.Hostel_Id },
-      });
-}
+  const handleConformCheckout = (item) => {
+    // setDueCustomerShow(true)
+    setCheckOutDetails(item)
+    dispatch({
+      type: "GETCONFIRMCHECKOUTCUSTOMER",
+      payload: { id: item.ID, hostel_id: item.Hostel_Id },
+    });
+  }
   const handleCloseDuePopup = () => {
     setDueCustomerShow(false)
   }
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
       setDueCustomerShow(false)
 
@@ -2271,16 +2293,16 @@ useEffect(() => {
 
   }, [state.UsersList.statusCodeAddConfirmCheckout])
 
-useEffect(() => {
-  if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
-            setDueCustomerShow(true);
+  useEffect(() => {
+    if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
+      setDueCustomerShow(true);
 
-  }
+    }
 
-  setTimeout(() => {
-    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-  }, 500);
-}, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+    }, 500);
+  }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
   return (
     <div>
@@ -2801,96 +2823,110 @@ useEffect(() => {
                     ></div>
                   </div>
                 )}
-{customerpermissionError ? (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      marginTop:90
-    }}
-  >
-    <img
-      src={Emptystate}
-      alt="Empty State"
-      
-    />
-    <div
-      style={{
-        color: "red",
-        display: "flex",
-        alignItems: "center",
-        gap: "0.5rem",
-        marginTop: "1rem",
-      }}
-    >
-      <MdError  />
-      <span  style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}>{customerpermissionError}</span>
-    </div>
-  </div>
-) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
-  <div style={{ marginTop: 30 }} className="animated-text">
-    <div style={{ textAlign: "center" }}>
-      <img src={Emptystate} alt="emptystate" />
-    </div>
-    <div
-      className="pb-1"
-      style={{
-        textAlign: "center",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: 18,
-        color: "rgba(75, 75, 75, 1)",
-      }}
-    >
-      No Customers available
-    </div>
-    <div
-      className="pb-1"
-      style={{
-        textAlign: "center",
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        fontSize: 14,
-        color: "rgba(75, 75, 75, 1)",
-      }}
-    >
-      There are no Customer added.
-    </div>
-  </div>
-) : null}
+                {customerpermissionError ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginTop: 90
+                    }}
+                  >
+                    <img
+                      src={Emptystate}
+                      alt="Empty State"
 
-                  <>
-                    {!customerpermissionError && sortedData && sortedData.length > 0 && 
+                    />
+                    <div
+                      style={{
+                        color: "red",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        marginTop: "1rem",
+                      }}
+                    >
+                      <MdError />
+                      <span style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}>{customerpermissionError}</span>
+                    </div>
+                  </div>
+                ) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
+                  <div style={{ marginTop: 30 }} className="animated-text">
+                    <div style={{ textAlign: "center" }}>
+                      <img src={Emptystate} alt="emptystate" />
+                    </div>
+                    <div
+                      className="pb-1"
+                      style={{
+                        textAlign: "center",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        fontSize: 18,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      No Customers available
+                    </div>
+                    <div
+                      className="pb-1"
+                      style={{
+                        textAlign: "center",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        fontSize: 14,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      There are no Customer added.
+                    </div>
+                  </div>
+                ) : null}
+
+                <>
+                  {!customerpermissionError && sortedData && sortedData.length > 0 &&
+                    <div
+                      className=" booking-table-userlist  booking-table  me-4"
+                      style={{ paddingBottom: "20px", marginLeft: "-14px" }}
+                    >
                       <div
-                        className=" booking-table-userlist  booking-table  me-4"
-                        style={{ paddingBottom: "20px", marginLeft: "-14px" }}
+                        className="show-scrolls"
+                        style={{
+                          height:
+                            sortedData?.length >= 5 || sortedData?.length >= 5
+                              ? "430px"
+                              : "auto",
+                          overflow: "auto",
+                          borderTop: "1px solid #E8E8E8",
+                          marginBottom: 20,
+                          marginTop: "20px",
+                          paddingRight: 0,
+                          paddingLeft: 0,
+                        }}
                       >
-                        <div
-                          className="show-scrolls"
+                        <Table
+                          responsive="md"
                           style={{
-                            height:
-                              sortedData?.length >= 5 || sortedData?.length >= 5
-                                ? "430px"
-                                : "auto",
-                            overflow: "auto",
-                            borderTop: "1px solid #E8E8E8",
-                            marginBottom: 20,
-                            marginTop: "20px",
-                            paddingRight: 0,
-                            paddingLeft: 0,
+                            fontFamily: "Gilroy",
+                            color: "rgba(34, 34, 34, 1)",
+                            fontSize: 14,
+                            fontStyle: "normal",
+                            fontWeight: 500,
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                            borderRadius: 0,
                           }}
                         >
-                          <Table
-                            responsive="md"
+                          <thead
                             style={{
                               fontFamily: "Gilroy",
+                              backgroundColor: "rgba(231, 241, 255, 1)",
                               color: "rgba(34, 34, 34, 1)",
                               fontSize: 14,
                               fontStyle: "normal",
@@ -2898,233 +2934,219 @@ useEffect(() => {
                               position: "sticky",
                               top: 0,
                               zIndex: 1,
-                              borderRadius: 0,
                             }}
                           >
-                            <thead
-                              style={{
-                                fontFamily: "Gilroy",
-                                backgroundColor: "rgba(231, 241, 255, 1)",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                position: "sticky",
-                                top: 0,
-                                zIndex: 1,
-                              }}
-                            >
-                              <tr>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    padding: "10px",
-                                    color: "#939393",
-                                    fontSize: "12px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    paddingLeft: "20px",
-                                  }}
-                                >
-                                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "2px",
-                                      }}
-                                    >
-                                      <ArrowUp2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Name", "asc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <ArrowDown2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Name", "desc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                    </div>
-                                    Name
+                            <tr>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "#939393",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  paddingLeft: "20px",
+                                }}
+                              >
+                                <div className="d-flex gap-1 align-items-center justify-content-start">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "2px",
+                                    }}
+                                  >
+                                    <ArrowUp2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("Name", "asc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
+                                    <ArrowDown2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("Name", "desc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
                                   </div>
-                                </th>
+                                  Name
+                                </div>
+                              </th>
 
 
-                                 <th
-                                  style={{
-                                    textAlign: "start",
-                                    padding: "10px",
-                                    color: "#939393",
-                                    fontSize: "12px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    paddingLeft: "20px",
-                                  }}
-                                >
-                                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "2px",
-                                      }}
-                                    >
-                                      <ArrowUp2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("bed_status", "asc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <ArrowDown2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("bed_status", "desc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                    </div>
-                                    Status
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "#939393",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  paddingLeft: "20px",
+                                }}
+                              >
+                                <div className="d-flex gap-1 align-items-center justify-content-start">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "2px",
+                                    }}
+                                  >
+                                    <ArrowUp2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("bed_status", "asc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
+                                    <ArrowDown2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("bed_status", "desc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
                                   </div>
-  
+                                  Status
+                                </div>
 
-                                </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    padding: "10px",
-                                    color: "#939393",
-                                    fontSize: "12px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
-                                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "2px",
-                                      }}
-                                    >
-                                      <ArrowUp2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("user_join_date", "asc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <ArrowDown2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("user_join_date", "desc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                    </div>
-                                    Joining Date
+
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "#939393",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                <div className="d-flex gap-1 align-items-center justify-content-start">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "2px",
+                                    }}
+                                  >
+                                    <ArrowUp2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("user_join_date", "asc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
+                                    <ArrowDown2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("user_join_date", "desc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
                                   </div>
-                                </th>
-                               
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    padding: "10px",
-                                    color: "#939393",
-                                    fontSize: "12px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
-                                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "2px",
-                                      }}
-                                    >
-                                      <ArrowUp2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Phone", "asc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <ArrowDown2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Phone", "desc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                    </div>
-                                    Mobile No
+                                  Joining Date
+                                </div>
+                              </th>
+
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "#939393",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                <div className="d-flex gap-1 align-items-center justify-content-start">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "2px",
+                                    }}
+                                  >
+                                    <ArrowUp2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("Phone", "asc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
+                                    <ArrowDown2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("Phone", "desc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
                                   </div>
-                                </th>
- <th
-                                  style={{
-                                    textAlign: "start",
-                                    padding: "10px",
-                                    color: "#939393",
-                                    fontSize: "12px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
-                                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "2px",
-                                      }}
-                                    >
-                                      <ArrowUp2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("floor_name", "asc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <ArrowDown2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("floor_name", "desc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                    </div>
-                                   Floor
+                                  Mobile No
+                                </div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "#939393",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                <div className="d-flex gap-1 align-items-center justify-content-start">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "2px",
+                                    }}
+                                  >
+                                    <ArrowUp2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("floor_name", "asc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
+                                    <ArrowDown2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("floor_name", "desc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
                                   </div>
-                                </th>
+                                  Floor
+                                </div>
+                              </th>
                               <th
                                 style={{
                                   textAlign: "start",
@@ -3262,19 +3284,6 @@ useEffect(() => {
                                           {user.Name}
                                         </span>
                                       </td>
- <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          verticalAlign: "middle",
-                                          borderBottom: "1px solid #E8E8E8",
-                                        }}
-                                      >
-                                        <span style={{backgroundColor:"#EDD3D8",padding:6,borderRadius:10}}>{user.bed_status}</span> </td>
                                       <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         style={{
                                           paddingTop: 15,
@@ -3285,31 +3294,44 @@ useEffect(() => {
                                           fontFamily: "Gilroy",
                                           verticalAlign: "middle",
                                           borderBottom: "1px solid #E8E8E8",
-                                          whiteSpace:"nowrap"
                                         }}
                                       >
-                                       {/* {user && (user.user_join_date && user.user_join_date !== "0000-00-00"
+                                        <span style={{ backgroundColor: "#EDD3D8", padding: 6, borderRadius: 10 }}>{user.bed_status}</span> </td>
+                                      <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                        style={{
+                                          paddingTop: 15,
+                                          border: "none",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
+                                          whiteSpace: "nowrap"
+                                        }}
+                                      >
+                                        {/* {user && (user.user_join_date && user.user_join_date !== "0000-00-00"
   ? <span>{moment(user.user_join_date).format("D MMMM YYYY")}</span>
   : user.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
     ? <span>{moment(user.RecheckIn_Date).format("D MMMM YYYY")}</span>
     : "-"
 )} */}
-<span>
-  {user?.user_join_date && user.user_join_date !== "0000-00-00"
-    ? moment(user.user_join_date).format("D MMMM YYYY")
-    : user?.booking_joining_date && user.booking_joining_date !== "0000-00-00"
-      ? moment(user.booking_joining_date).format("D MMMM YYYY")
-      : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
-        ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
-        : "-"
-  }
-</span>
+                                        <span>
+                                          {user?.user_join_date && user.user_join_date !== "0000-00-00"
+                                            ? moment(user.user_join_date).format("D MMMM YYYY")
+                                            : user?.booking_joining_date && user.booking_joining_date !== "0000-00-00"
+                                              ? moment(user.booking_joining_date).format("D MMMM YYYY")
+                                              : user?.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
+                                                ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
+                                                : "-"
+                                          }
+                                        </span>
 
 
 
                                       </td>
 
-                                     
+
                                       <td
                                         style={{
                                           paddingTop: 15,
@@ -3337,7 +3359,7 @@ useEffect(() => {
                                       </td>
 
 
-                                       <td
+                                      <td
                                         style={{
                                           border: "none",
                                           textAlign: "start",
@@ -3352,13 +3374,13 @@ useEffect(() => {
                                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                       >
                                         <div className="ps-2">
-                                         
-                                                                                                         
-    {user.bed_status === "Booking"
-  ? (user.Booking_FloorName || "-")
-  : user.bed_status === "Check In" || user.bed_status === "Notice period"
-  ? (user.floor_name || "-")
-  : "-"}
+
+
+                                          {user.bed_status === "Booking"
+                                            ? (user.Booking_FloorName || "-")
+                                            : user.bed_status === "Check In" || user.bed_status === "Notice period"
+                                              ? (user.floor_name || "-")
+                                              : "-"}
                                         </div>
 
                                       </td>
@@ -3378,10 +3400,10 @@ useEffect(() => {
                                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
                                       >
                                         {" "}
-                                      
-                                                                    {user.bed_status === "Booking"
-    ? user.Booking_Rooms || "-"
-    : user.Rooms || "-"}
+
+                                        {user.bed_status === "Booking"
+                                          ? user.Booking_Rooms || "-"
+                                          : user.Rooms || "-"}
                                       </td>
 
                                       <td
@@ -3400,10 +3422,10 @@ useEffect(() => {
                                         }}
                                       >
                                         {/* {!user.Bed ? "-" : user.Bed} */}
-                                         {/* {user.Booking_Bed || user.floor_name || "-"} */}
-                                          {user.bed_status === "Booking"
-    ? user.Booking_Bed || "-"
-    : user.Bed || "-"}
+                                        {/* {user.Booking_Bed || user.floor_name || "-"} */}
+                                        {user.bed_status === "Booking"
+                                          ? user.Booking_Bed || "-"
+                                          : user.Bed || "-"}
                                       </td>
                                       <td
                                         style={{
@@ -3452,7 +3474,7 @@ useEffect(() => {
                                               }}
                                             >
                                               <div>
-                                                {!user.Bed && user.bed_status === "Un-Assigned" &&(
+                                                {!user.Bed && user.bed_status === "Un-Assigned" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
                                                     onClick={() => {
@@ -3503,16 +3525,16 @@ useEffect(() => {
 
                                                 )}
 
-                                                {user.Bed &&  user.bed_status === "Check In" &&(
-                                                
-                                                    <div
+                                                {user.Bed && user.bed_status === "Check In" && (
+
+                                                  <div
                                                     className="d-flex align-items-center gap-2"
-                                                  
-                                                     onClick={() => {
-                                                    if (!customerAddPermission) {
-                                                      handleCustomerCheckout(user);
-                                                    }
-                                                  }}
+
+                                                    onClick={() => {
+                                                      if (!customerAddPermission) {
+                                                        handleCustomerCheckout(user);
+                                                      }
+                                                    }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
@@ -3550,21 +3572,21 @@ useEffect(() => {
                                                         margin: 0,
                                                       }}
                                                     >
-                                                   Move to Notice Period
+                                                      Move to Notice Period
                                                     </label>
                                                   </div>
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                {user.Bed && user.bed_status === "Check In"  && (
+                                                {user.Bed && user.bed_status === "Check In" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
-                                                   
-                                                     onClick={() => {
-                                                    if (!customerAddPermission) {
-                                                      handleCustomerReAssign(user);
-                                                    }
-                                                  }}
+
+                                                    onClick={() => {
+                                                      if (!customerAddPermission) {
+                                                        handleCustomerReAssign(user);
+                                                      }
+                                                    }}
 
                                                     style={{
                                                       backgroundColor: "#F9F9F9",
@@ -3611,115 +3633,115 @@ useEffect(() => {
 
 
 
-                                                 {user.Bed &&  user.bed_status === "Notice period" &&(
-                                                <>
+                                                {user.Bed && user.bed_status === "Notice period" && (
+                                                  <>
                                                     <div
-                                                    className="d-flex align-items-center gap-2"
-                                                  
-                                                     onClick={() => {
-                                                    if (!customerAddPermission) {
-                                                      handleBacktoCheckout(user);
-                                                    }
-                                                  }}
+                                                      className="d-flex align-items-center gap-2"
 
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                      opacity: customerAddPermission ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      if (!customerAddPermission) {
-                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                      }
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={Addbook}
-                                                      alt="checkout"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      onClick={() => {
+                                                        if (!customerAddPermission) {
+                                                          handleBacktoCheckout(user);
+                                                        }
                                                       }}
-                                                    />
-                                                    <label
+
                                                       style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        backgroundColor: "#F9F9F9",
                                                         cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                        margin: 0,
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                       }}
                                                     >
-                                                 Back to Check-In
-                                                    </label>
-                                                  </div>
+                                                      <img
+                                                        src={Addbook}
+                                                        alt="checkout"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Back to Check-In
+                                                      </label>
+                                                    </div>
 
 
-                                                     <div
-                                                    className="d-flex align-items-center gap-2"
-                                                  
-                                                     onClick={() => {
-                                                    if (!customerAddPermission) {
-                                                      handleConformCheckout(user);
-                                                    }
-                                                  }}
+                                                    <div
+                                                      className="d-flex align-items-center gap-2"
 
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                      opacity: customerAddPermission ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      if (!customerAddPermission) {
-                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                      }
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={logout}
-                                                      alt="checkout"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      onClick={() => {
+                                                        if (!customerAddPermission) {
+                                                          handleConformCheckout(user);
+                                                        }
                                                       }}
-                                                    />
-                                                    <label
+
                                                       style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        backgroundColor: "#F9F9F9",
                                                         cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                        margin: 0,
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                       }}
                                                     >
-                                                 Check-Out
-                                                    </label>
-                                                  </div>
+                                                      <img
+                                                        src={logout}
+                                                        alt="checkout"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Check-Out
+                                                      </label>
+                                                    </div>
 
 
-</>
+                                                  </>
 
                                                 )}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
-{/* <div
+                                                {/* <div
                                                   className="d-flex align-items-center gap-2"
                                                   style={{
                                                     backgroundColor: "#F9F9F9",
@@ -3766,211 +3788,211 @@ useEffect(() => {
                                                     Add Booking
                                                   </label>
                                                 </div> */}
-                                                {user.bed_status === "Un-Assigned"  && (
-  <div
-    className="d-flex align-items-center gap-2"
-    style={{
-      backgroundColor: "#F9F9F9",
-      cursor: customerEditPermission ? "not-allowed" : "pointer",
-      opacity: customerEditPermission ? 0.6 : 1,
-      padding: "8px 12px",
-      borderRadius: 6,
-      transition: "background 0.2s ease-in-out",
-    }}
-    onClick={() => {
-      if (!customerEditPermission) {
-        handleAddBookings(user);
-      }
-    }}
-    onMouseEnter={(e) => {
-      if (!customerEditPermission) {
-        e.currentTarget.style.backgroundColor = "#F0F4FF";
-      }
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.backgroundColor = "#F9F9F9";
-    }}
-  >
-    <img
-      src={Addbook}
-      alt="Addbook"
-      style={{
-        width: 16,
-        height: 16,
-        filter: customerEditPermission ? "grayscale(100%)" : "none",
-        cursor: customerEditPermission ? "not-allowed" : "pointer",
-      }}
-    />
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy, sans-serif",
-        // color: customerEditPermission ? "#888888" : "#1E45E1",
-        cursor: customerEditPermission ? "not-allowed" : "pointer",
-        margin: 0,
-      }}
-    >
-      Add Booking
-    </label>
-  </div>
-)}
+                                                {user.bed_status === "Un-Assigned" && (
+                                                  <div
+                                                    className="d-flex align-items-center gap-2"
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerEditPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onClick={() => {
+                                                      if (!customerEditPermission) {
+                                                        handleAddBookings(user);
+                                                      }
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerEditPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      alt="Addbook"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        // color: customerEditPermission ? "#888888" : "#1E45E1",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Add Booking
+                                                    </label>
+                                                  </div>
+                                                )}
 
 
 
-                                                {user.bed_status === "Booking"  && (
+                                                {user.bed_status === "Booking" && (
 
                                                   <>
-                                                   <div
-    className="d-flex align-items-center gap-2"
-    style={{
-      backgroundColor: "#F9F9F9",
-      cursor: customerEditPermission ? "not-allowed" : "pointer",
-      opacity: customerEditPermission ? 0.6 : 1,
-      padding: "8px 12px",
-      borderRadius: 6,
-      transition: "background 0.2s ease-in-out",
-    }}
-    onClick={() => {
-      if (!customerEditPermission) {
-        handleBookingAssign(user);
-      }
-    }}
-    onMouseEnter={(e) => {
-      if (!customerEditPermission) {
-        e.currentTarget.style.backgroundColor = "#F0F4FF";
-      }
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.backgroundColor = "#F9F9F9";
-    }}
-  >
-    <img
-      src={addcircle}
-      alt="Edit"
-      style={{
-        width: 16,
-        height: 16,
-        filter: customerEditPermission ? "grayscale(100%)" : "none",
-        cursor: customerEditPermission ? "not-allowed" : "pointer",
-      }}
-    />
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy, sans-serif",
-        cursor: customerEditPermission ? "not-allowed" : "pointer",
-        margin: 0,
-      }}
-    >
-    Check_In
-    </label>
-  </div>
-  <div
-    className="d-flex align-items-center gap-2"
-    style={{
-      backgroundColor: "#F9F9F9",
-      cursor: customerEditPermission ? "not-allowed" : "pointer",
-      opacity: customerEditPermission ? 0.6 : 1,
-      padding: "8px 12px",
-      borderRadius: 6,
-      transition: "background 0.2s ease-in-out",
-    }}
-    onClick={() => {
-      if (!customerEditPermission) {
-        handleInActive(user);
-      }
-    }}
-    onMouseEnter={(e) => {
-      if (!customerEditPermission) {
-        e.currentTarget.style.backgroundColor = "#F0F4FF";
-      }
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.backgroundColor = "#F9F9F9";
-    }}
-  >
-    <img
-      src={Addbook}
-      alt="Addbook"
-      style={{
-        width: 16,
-        height: 16,
-        filter: customerEditPermission ? "grayscale(100%)" : "none",
-        cursor: customerEditPermission ? "not-allowed" : "pointer",
-      }}
-    />
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 500,
-        fontFamily: "Gilroy, sans-serif",
-        // color: customerEditPermission ? "#888888" : "#1E45E1",
-        cursor: customerEditPermission ? "not-allowed" : "pointer",
-        margin: 0,
-      }}
-    >
-     Make as Inactive
-    </label>
-  </div>
+                                                    <div
+                                                      className="d-flex align-items-center gap-2"
+                                                      style={{
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerEditPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onClick={() => {
+                                                        if (!customerEditPermission) {
+                                                          handleBookingAssign(user);
+                                                        }
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerEditPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={addcircle}
+                                                        alt="Edit"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Check_In
+                                                      </label>
+                                                    </div>
+                                                    <div
+                                                      className="d-flex align-items-center gap-2"
+                                                      style={{
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerEditPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onClick={() => {
+                                                        if (!customerEditPermission) {
+                                                          handleInActive(user);
+                                                        }
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerEditPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={Addbook}
+                                                        alt="Addbook"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          // color: customerEditPermission ? "#888888" : "#1E45E1",
+                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Make as Inactive
+                                                      </label>
+                                                    </div>
 
-</>
+                                                  </>
 
 
-)}
- 
+                                                )}
+
 
 
 
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-{user.bed_status === "Un-Assigned"  && (
-                                                <div
+                                                {user.bed_status === "Un-Assigned" && (
+                                                  <div
 
-                                                  className="d-flex align-items-center gap-2"
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: customerDeletePermission ? "not-allowed" : "pointer",
-                                                    opacity: customerDeletePermission ? 0.6 : 1,
-                                                    padding: "8px 12px",
-                                                    borderRadius: 6,
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onClick={() => {
-                                                    if (!customerDeletePermission) {
-                                                      handleDeleteShow(user);
-                                                    }
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    if (!customerDeletePermission) {
-                                                      e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                                    }
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-                                                 
-                                                    <Trash
-                                                                                              size="16"
-                                                                                              color={customerDeletePermission ? "#A9A9A9" : "red"}
-                                                                                            />
-                                                  <label
+                                                    className="d-flex align-items-center gap-2"
                                                     style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: customerDeletePermission ? "#888888" : "#FF0000",
+                                                      backgroundColor: "#F9F9F9",
                                                       cursor: customerDeletePermission ? "not-allowed" : "pointer",
-                                                      margin: 0,
+                                                      opacity: customerDeletePermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onClick={() => {
+                                                      if (!customerDeletePermission) {
+                                                        handleDeleteShow(user);
+                                                      }
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerDeletePermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                     }}
                                                   >
-                                                    Delete
-                                                  </label>
-                                                </div>
-)}
+
+                                                    <Trash
+                                                      size="16"
+                                                      color={customerDeletePermission ? "#A9A9A9" : "red"}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerDeletePermission ? "#888888" : "#FF0000",
+                                                        cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Delete
+                                                    </label>
+                                                  </div>
+                                                )}
                                               </div>
-                                                
+
                                             </div>
                                           )}
                                         </div>
@@ -3990,11 +4012,11 @@ useEffect(() => {
 
 
 
-                 {
-  !customerpermissionError &&
-  (
-    (search || filterStatus ? filteredUsers?.length : userListDetail?.length) > 10
-  ) && (
+                {
+                  !customerpermissionError &&
+                  (
+                    (search || filterStatus ? filteredUsers?.length : userListDetail?.length) > 10
+                  ) && (
 
                     <nav
                       style={{
@@ -4005,7 +4027,7 @@ useEffect(() => {
                         position: "fixed",
                         bottom: "0",
                         right: "0",
-                        left:0,
+                        left: 0,
                         backgroundColor: "white",
                         zIndex: "1000",
                       }}
@@ -4270,32 +4292,32 @@ useEffect(() => {
         >
           Are you sure you want to delete this Customer?
         </Modal.Body>
-          {formLoading && <div
+        {formLoading && <div
+          style={{
+            position: 'absolute',
+            top: 70,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
             style={{
-              position: 'absolute',
-              top: 70,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
             }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
+          ></div>
+        </div>}
 
         <Modal.Footer
           className="d-flex justify-content-center"
@@ -4341,74 +4363,74 @@ useEffect(() => {
       </Modal>
 
 
-{/*  */}
+      {/*  */}
 
-<Modal show={inactiveForm} onHide={handleCloseInActive} centered backdrop="static"   >
+      <Modal show={inactiveForm} onHide={handleCloseInActive} centered backdrop="static"   >
 
-            <Modal.Header style={{ border: "none" }} className="ps-4 pe-4 pb-2 pt-4">
-                <div>
-                    <Modal.Title style={{
-                        fontSize: 20,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                    }}>Tenant Inactive ?</Modal.Title>
+        <Modal.Header style={{ border: "none" }} className="ps-4 pe-4 pb-2 pt-4">
+          <div>
+            <Modal.Title style={{
+              fontSize: 20,
+              color: "#222222",
+              fontFamily: "Gilroy",
+              fontWeight: 600,
+            }}>Tenant Inactive ?</Modal.Title>
 
-                    <label style={{
-                        fontSize: 14,
-                        color: "#646464",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                    }}>Are you sure you want to inactive this tenant?</label>
-                </div>
+            <label style={{
+              fontSize: 14,
+              color: "#646464",
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+            }}>Are you sure you want to inactive this tenant?</label>
+          </div>
 
-                <CloseCircle size="24" color="#000" onClick={handleCloseInActive} style={{ cursor: "pointer" }} />
-            </Modal.Header>
-    <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-          
- <img
-   src={
-     typeof inactivename.profile === "string" && inactivename.profile.trim()
-       ? inactivename.profile
-       : inactivename.profile instanceof File
-       ? URL.createObjectURL(inactivename.profile)
-       : Profile
-   }
-   alt="Profile"
-   className="rounded-circle"
-   width="35"
-   height="35"
-   onError={(e) => {
-     e.target.onerror = null;
-     e.target.src = Profile; 
-   }}
- />
-                   <div>
-                     <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
-                     {inactivename.Name}
-                     </p>
- 
-                   </div>
-                 </div>
+          <CloseCircle size="24" color="#000" onClick={handleCloseInActive} style={{ cursor: "pointer" }} />
+        </Modal.Header>
+        <div className="d-flex align-items-center gap-3 mb-3 ms-3">
 
-            <Modal.Body className="ps-4 pe-4 pb-4 pt-0">
+          <img
+            src={
+              typeof inactivename.profile === "string" && inactivename.profile.trim()
+                ? inactivename.profile
+                : inactivename.profile instanceof File
+                  ? URL.createObjectURL(inactivename.profile)
+                  : Profile
+            }
+            alt="Profile"
+            className="rounded-circle"
+            width="35"
+            height="35"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = Profile;
+            }}
+          />
+          <div>
+            <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
+              {inactivename.Name}
+            </p>
+
+          </div>
+        </div>
+
+        <Modal.Body className="ps-4 pe-4 pb-4 pt-0">
 
 
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-2" controlId="joiningDate">
-                        <Form.Label
-                            style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                            }}
-                        >
-                            Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                        </Form.Label>
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <Form.Group className="mb-2" controlId="joiningDate">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+              </Form.Label>
 
-                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                          {/* <DatePicker
+              <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                {/* <DatePicker
     style={{
         width: "100%",
         height: 48,
@@ -4429,151 +4451,151 @@ useEffect(() => {
     }}
 /> */}
 
-<DatePicker
-  style={{
-    width: "100%",
-    height: 48,
-    cursor: "pointer",
-    fontFamily: "Gilroy",
-  }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY"
-  value={inActiveDate ? dayjs(inActiveDate) : null}
-  onChange={(date) => {
-    setInActiveDate(date ? date.toDate() : null);
-    setIsACtiveDateError("");
-  }}
-  getPopupContainer={() => document.body}
-  disabledDate={(current) => {
-    if (!bookingDate) return true; 
-    // Disable before bookingDate OR after today
-    return (
-      current.isBefore(dayjs(bookingDate), "day") ||
-      current.isAfter(dayjs(), "day")
-    );
-  }}
-/>
+                <DatePicker
+                  style={{
+                    width: "100%",
+                    height: 48,
+                    cursor: "pointer",
+                    fontFamily: "Gilroy",
+                  }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={inActiveDate ? dayjs(inActiveDate) : null}
+                  onChange={(date) => {
+                    setInActiveDate(date ? date.toDate() : null);
+                    setIsACtiveDateError("");
+                  }}
+                  getPopupContainer={() => document.body}
+                  disabledDate={(current) => {
+                    if (!bookingDate) return true;
+                    // Disable before bookingDate OR after today
+                    return (
+                      current.isBefore(dayjs(bookingDate), "day") ||
+                      current.isAfter(dayjs(), "day")
+                    );
+                  }}
+                />
 
-                        </div>
-                    </Form.Group>
-                     {isActiveDateError && (
-                                                <div style={{ color: "red",marginTop:"-5px" }}>
-                                                  <MdError
-                                                    style={{ fontSize: "13px", marginRight: "5px" }}
-                                                  />
-                                                  <label
-                                                    className="mb-0"
-                                                    style={{
-                                                      color: "red",
-                                                      fontSize: "12px",
-                                                      fontFamily: "Gilroy",
-                                                      fontWeight: 500,
-                                                    }}
-                                                  >
-                                                    {isActiveDateError}
-                                                  </label>
-                                                </div>
-                                              )}
-                </div>
+              </div>
+            </Form.Group>
+            {isActiveDateError && (
+              <div style={{ color: "red", marginTop: "-5px" }}>
+                <MdError
+                  style={{ fontSize: "13px", marginRight: "5px" }}
+                />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {isActiveDateError}
+                </label>
+              </div>
+            )}
+          </div>
 
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
-                        <Form.Label style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                        }}>Reason (Comments)</Form.Label>
-                        <Form.Control
-                            style={{
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                                border: "1px solid #D9D9D9",
-                                height: 50,
-                                borderRadius: 8,
-                            }}
-                            as="textarea"
-                            rows={5}
-                            placeholder="Enter reason here"
-                            value={inActiveComments}
-                            onChange={(e)=>handleInActiveReason(e)}
-                        />
-                    </Form.Group>
-                </div>
-                <Modal.Footer style={{ border: "none", padding: 0 }}>
-                    <div className="d-flex  w-100 gap-3">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <Form.Group className="mb-3">
+              <Form.Label style={{
+                fontSize: 14,
+                color: "#222222",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+              }}>Reason (Comments)</Form.Label>
+              <Form.Control
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: 8,
+                }}
+                as="textarea"
+                rows={5}
+                placeholder="Enter reason here"
+                value={inActiveComments}
+                onChange={(e) => handleInActiveReason(e)}
+              />
+            </Form.Group>
+          </div>
+          <Modal.Footer style={{ border: "none", padding: 0 }}>
+            <div className="d-flex  w-100 gap-3">
 
 
-                        <Button
-                            onClick={handleCloseInActive}
-                            className="w-100"
-                            style={{
-                                backgroundColor: "#fff",
-                                border: "1px solid #D2D2D2",
-                                color: "#4B4B4B",
-                                fontWeight: 600,
-                                borderRadius: 10,
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                padding: "8px 40px"
-                            }}
-                        >
-                            Cancel
-                        </Button>
+              <Button
+                onClick={handleCloseInActive}
+                className="w-100"
+                style={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #D2D2D2",
+                  color: "#4B4B4B",
+                  fontWeight: 600,
+                  borderRadius: 10,
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  padding: "8px 40px"
+                }}
+              >
+                Cancel
+              </Button>
 
-                        <Button
-                            onClick={SubmitInActiveForm}
-                            className="w-100"
-                            style={{
-                                backgroundColor: "#1E45E1",
-                                fontWeight: 600,
-                                borderRadius: 10,
-                                fontSize: 16,
-                                fontFamily: "Gilroy",
-                                padding: "8px 40px"
-                            }}
-                        >
-                            Confirm
-                        </Button>
-                    </div>
+              <Button
+                onClick={SubmitInActiveForm}
+                className="w-100"
+                style={{
+                  backgroundColor: "#1E45E1",
+                  fontWeight: 600,
+                  borderRadius: 10,
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  padding: "8px 40px"
+                }}
+              >
+                Confirm
+              </Button>
+            </div>
 
-                </Modal.Footer>
-            </Modal.Body>
-            {formLoading && <div
+          </Modal.Footer>
+        </Modal.Body>
+        {formLoading && <div
+          style={{
+            position: 'absolute',
+            top: 100,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
             style={{
-              position: 'absolute',
-              top: 100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
             }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
+          ></div>
+        </div>}
 
-        </Modal>
+      </Modal>
 
       {roomDetail === true ? (
         <UserListRoomDetail
-        
+
           onEditItem={handleEditItem}
           userData={userDatafull}
           onAddItem={handleAddItems}
@@ -4611,8 +4633,8 @@ useEffect(() => {
           hostelIds={hostelIds}
           handleAdhaarChange={handleAdhaarChange}
           customerEditPermission={customerEditPermission}
-          customerAddPermission = {customerAddPermission}
-          customerDeletePermission ={customerDeletePermission}
+          customerAddPermission={customerAddPermission}
+          customerDeletePermission={customerDeletePermission}
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
         />
@@ -5302,7 +5324,7 @@ useEffect(() => {
       {isEditing && (
         <div
           className="mt-4 "
-          style={{ paddingLeft: 25, height: "90vh", overflowY: "auto" , position:"relative"}}
+          style={{ paddingLeft: 25, height: "90vh", overflowY: "auto", position: "relative" }}
         >
           <div
             className="d-flex align-items-center"
@@ -5476,35 +5498,35 @@ useEffect(() => {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  
 
 
-                                 <DatePicker
-                      style={{
-                        width: "100%",
-                        height: 48,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                      }}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                     value={invoicedate ? dayjs(invoicedate) : null}
+
+                  <DatePicker
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                    }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={invoicedate ? dayjs(invoicedate) : null}
                     onChange={(date) =>
                       handleInvoiceDate(date ? date.toDate() : null)
                     }
-                      getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-                      disabledDate={(current) =>
-                        current && current > dayjs().endOf("day")
-                      }
-                      dropdownAlign={{
-                        points: ["tl", "bl"],
-                        offset: [0, 4], 
-                      }}
-                      popupStyle={{
-                        marginRight: 0,
-                        minWidth: "auto",
-                      }}
-                    />
+                    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+                    disabledDate={(current) =>
+                      current && current > dayjs().endOf("day")
+                    }
+                    dropdownAlign={{
+                      points: ["tl", "bl"],
+                      offset: [0, 4],
+                    }}
+                    popupStyle={{
+                      marginRight: 0,
+                      minWidth: "auto",
+                    }}
+                  />
                 </div>
               </Form.Group>
 
@@ -5552,31 +5574,31 @@ useEffect(() => {
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-                 
-                                <DatePicker
-                      style={{
-                        width: "100%",
-                        height: 48,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                      }}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                      value={invoiceduedate ? dayjs(invoiceduedate) : null}
+
+                  <DatePicker
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                    }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={invoiceduedate ? dayjs(invoiceduedate) : null}
                     onChange={(date) =>
                       handleDueDate(date ? date.toDate() : null)
                     }
-                      getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
-                    
-                      dropdownAlign={{
-                        points: ["tl", "bl"],
-                        offset: [0, 4], 
-                      }}
-                      popupStyle={{
-                        marginRight: 0,
-                        minWidth: "auto",
-                      }}
-                    />
+                    getPopupContainer={(triggerNode) => triggerNode.closest(".datepicker-wrapper")}
+
+                    dropdownAlign={{
+                      points: ["tl", "bl"],
+                      offset: [0, 4],
+                    }}
+                    popupStyle={{
+                      marginRight: 0,
+                      minWidth: "auto",
+                    }}
+                  />
                 </div>
               </Form.Group>
 
@@ -5637,82 +5659,82 @@ useEffect(() => {
           )}
 
 
-        {Array.isArray(newRows) && newRows.length > 0 && (
-                   <div className="mt-1" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
-       
-                     <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
-                       <thead style={{ backgroundColor: "#E7F1FF" }}>
-                         <tr>
-                           <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopLeftRadius: 10 }}>
-                             S.No
-                           </th>
-                           <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
-                             Description
-                           </th>
-                           <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
-                             Total Amount
-                           </th>
-                           <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopRightRadius: 10 }}>
-                             Action
-                           </th>
-                         </tr>
-                       </thead>
-                     </Table>
-       
-       
-                     <div style={{ maxHeight: "150px", overflowY: "auto" }}>
-                       <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
-                         <tbody>
-                           {newRows.map((u, index) => (
-                             <tr key={index}>
-                               <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
-                               <td style={{ width: "40%" }}>
-                                 <Form.Control
-                                   type="text"
-                                   style={{ fontFamily: "Gilroy" }}
-                                   value={u.am_name}
-                                   onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
-                                   placeholder="Enter Description"
-                                 />
-                               </td>
-                               <td style={{ width: "30%" }}>
-                                 <Form.Control
-                                   type="text"
-                                   style={{ fontFamily: "Gilroy" }}
-                                   value={u.amount}
-                                   placeholder="Enter Amount"
-                                   onChange={(e) => {
-                                     const value = e.target.value;
-                                     if (/^\d*\.?\d*$/.test(value)) {
-                                       handleNewRowChange(index, "amount", value);
-                                     }
-                                   }}
-                                 />
-                               </td>
-                               <td style={{ width: "15%", paddingLeft: 20 }}>
-                                 <img
-                                   src={Closebtn}
-                                   onClick={() => handleDeleteNewRow(index)}
-                                   style={{ cursor: "pointer" }}
-                                   height={15}
-                                   width={15}
-                                   alt="delete"
-                                 />
-                               </td>
-                             </tr>
-                           ))}
-                         </tbody>
-                       </Table>
-                     </div>
-                   </div>
-       
-       
-       
-       
-       
-       
-                 )}
-       
+          {Array.isArray(newRows) && newRows.length > 0 && (
+            <div className="mt-1" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
+
+              <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                <thead style={{ backgroundColor: "#E7F1FF" }}>
+                  <tr>
+                    <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopLeftRadius: 10 }}>
+                      S.No
+                    </th>
+                    <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                      Description
+                    </th>
+                    <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                      Total Amount
+                    </th>
+                    <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopRightRadius: 10 }}>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+              </Table>
+
+
+              <div style={{ maxHeight: "150px", overflowY: "auto" }}>
+                <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                  <tbody>
+                    {newRows.map((u, index) => (
+                      <tr key={index}>
+                        <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
+                        <td style={{ width: "40%" }}>
+                          <Form.Control
+                            type="text"
+                            style={{ fontFamily: "Gilroy" }}
+                            value={u.am_name}
+                            onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
+                            placeholder="Enter Description"
+                          />
+                        </td>
+                        <td style={{ width: "30%" }}>
+                          <Form.Control
+                            type="text"
+                            style={{ fontFamily: "Gilroy" }}
+                            value={u.amount}
+                            placeholder="Enter Amount"
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (/^\d*\.?\d*$/.test(value)) {
+                                handleNewRowChange(index, "amount", value);
+                              }
+                            }}
+                          />
+                        </td>
+                        <td style={{ width: "15%", paddingLeft: 20 }}>
+                          <img
+                            src={Closebtn}
+                            onClick={() => handleDeleteNewRow(index)}
+                            style={{ cursor: "pointer" }}
+                            height={15}
+                            width={15}
+                            alt="delete"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+
+
+
+
+
+
+          )}
+
 
 
           <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-2">
@@ -5771,7 +5793,7 @@ useEffect(() => {
             )}
           </div>
 
-   {state.createAccount?.networkError ?
+          {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
               <MdError style={{ color: "red", marginRight: '5px' }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
@@ -5781,7 +5803,7 @@ useEffect(() => {
 
 
 
-  {billLoading && <div
+          {billLoading && <div
             style={{
               position: 'absolute',
               top: '50%',
@@ -5806,7 +5828,7 @@ useEffect(() => {
               }}
             ></div>
           </div>}
-          <div style={{ float: "right", marginRight: "130px", fontFamily:"Gilroy" }}>
+          <div style={{ float: "right", marginRight: "130px", fontFamily: "Gilroy" }}>
             {Array.isArray(newRows) && newRows.length > 0 && (
               <h5 >Total Amount ₹{totalAmount}</h5>
             )}
@@ -5947,18 +5969,18 @@ useEffect(() => {
           setUniqostel_Id={setUniqostel_Id}
           BookingAssignForm={BookingAssignForm}
           setBookingAssignForm={setBookingAssignForm}
-          bactocheckinForm = {bactocheckinForm}
-          setBacktoCheckInForm = {setBacktoCheckInForm}
+          bactocheckinForm={bactocheckinForm}
+          setBacktoCheckInForm={setBacktoCheckInForm}
         />
       )}
 
 
       {
-        add_bookingshow && <Addbooking  add_bookingshow ={add_bookingshow} userDetail={userDetail} setAddBookingsShow = {setAddBookingsShow} handleCloseAddBooking = {handleCloseAddBooking} bookingDet={bookingDet} />
+        add_bookingshow && <Addbooking add_bookingshow={add_bookingshow} userDetail={userDetail} setAddBookingsShow={setAddBookingsShow} handleCloseAddBooking={handleCloseAddBooking} bookingDet={bookingDet} />
       }
-        {
-                DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup}  />
-              }
+      {
+        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
+      }
     </div>
   );
 }

@@ -192,13 +192,12 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_FLOOR_STATUS_CODE':
             return { ...state, createFloorSuccessStatusCode: 0 }
 
-
         case 'UPDATE_MESSAGE_FLOOR':
             return { ...state, createFloorMessage: action.message }
         case 'BILL_PAYMENT_HISTORY':
             return { ...state, billPaymentHistory: action.payload }
         case 'USER_LIST':
-            return { ...state, Users: action.payload.response, UserListStatusCode: action.payload.statusCode }
+            return { ...state, Users: action.payload?.response || [], UserListStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_USER':
             return { ...state, UserListStatusCode: 0 }
         case 'NO_USER_LIST':
