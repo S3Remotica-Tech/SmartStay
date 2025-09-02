@@ -490,11 +490,11 @@ const ComplianceList = (props) => {
                   <div>
                     <Image
                       src={
-                        props.complaints?.profile === "0" ||
-                          props.complaints?.profile === "null" ||
-                          props.complaints?.profile === null
+                        props.complaints?.customerProfile === "0" ||
+                          props.complaints?.customerProfile === "null" ||
+                          props.complaints?.customerProfile === null
                           ? User
-                          : props?.complaints?.profile
+                          : props?.complaints?.customerProfile
                       }
                       roundedCircle
                       style={{ height: "60px", width: "60px", objectFit: "cover" }}
@@ -514,7 +514,7 @@ const ComplianceList = (props) => {
                           marginLeft: "10px",
                         }}
                       >
-                        {props.complaints && props.complaints.Name}
+                        {props.complaints && props?.complaints?.customerName}
                       </label>
 
 
@@ -534,7 +534,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.roomId} - B{props.complaints?.bedName}
+                          {props.complaints?.roomName} - B{props.complaints?.bedName}
                         </div>
 
 
@@ -552,7 +552,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.floor_name}
+                          {props.complaints?.floorName}
                         </div>
                       </div>
                     </div>
@@ -861,8 +861,8 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {props.complaints.assigner_name === "" ||
-                        props.complaints.assigner_name === null ? (
+                      {props.complaints?.assigneeName === "" ||
+                        props.complaints?.assigneeName === null ? (
                         <span
                           style={{
                             color: "#1E45E1",
@@ -970,7 +970,7 @@ const ComplianceList = (props) => {
                           : { color: "#FF9E00" }
                       }
                     >
-                      {props.complaints && props.complaints?.status  === "0" ?  "pending" : "completed"}
+                      {props.complaints && props.complaints?.status  === null ?  "Open" : "completed"}
                     </label>
                   </div>
                 </div>

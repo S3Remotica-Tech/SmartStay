@@ -332,6 +332,8 @@ function* handleComplainttypelist(action) {
 function* handleComplaintTypeAdd(params) {
    try {
       const response = yield call(Addcomplainttype, params.payload);
+      console.log("errorstatus" , response);
+      
 
       if (response.status === 201 || response.statusCode === 201) {
          yield put({ type: 'COMPLAINT_TYPE_ADD', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
@@ -365,20 +367,20 @@ function* handleComplaintTypeAdd(params) {
             style: toastStyle
          })
       }
-      else if (response.status === 400 || response.statusCode === 400) {
-         yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: response.data.message })
+      // else if (response.status === 400 || response.statusCode === 400) {
+      //    yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: response.data.message })
 
-         toast.error(response.data.message, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-         })
-      }
+      //    toast.error(response.data.message, {
+      //       position: "bottom-center",
+      //       autoClose: 2000,
+      //       hideProgressBar: true,
+      //       closeButton: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: true,
+      //       draggable: true,
+      //       progress: undefined,
+      //    })
+      // }
 
       else if (response.status === 403 || response.statusCode === 403) {
          yield put({ type: 'PLAN-EXPIRED', payload: response.data.message })
@@ -391,12 +393,20 @@ function* handleComplaintTypeAdd(params) {
       }
    }
    catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
-   }
+       if (error.code === 'ERR_BAD_REQUEST') {
+             const ComplaintError = error?.status;
+             const ComplaintErrormessage = error?.response?.data
+             console.log("response" ,ComplaintError , ComplaintErrormessage );
+             
+             if (ComplaintError) {
+                yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: ComplaintErrormessage });
+             } 
+            
+          } else if (error.code === 'ERR_NETWORK') {
+             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+          }
+       }
+   
 }
 
 function* handleComplaintTypeEdit(action) {
@@ -455,13 +465,20 @@ function* handleComplaintTypeEdit(action) {
          refreshToken(response)
       }
    }
-   catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
-      }
-   }
+    catch (error) {
+       if (error.code === 'ERR_BAD_REQUEST') {
+             const ComplaintError = error?.status;
+             const ComplaintErrormessage = error?.response?.data
+             console.log("response" ,ComplaintError , ComplaintErrormessage );
+             
+             if (ComplaintError) {
+                yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: ComplaintErrormessage });
+             } 
+            
+          } else if (error.code === 'ERR_NETWORK') {
+             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+          }
+       }
 }
 
 function* handleDeleteComplainttype(action) {
