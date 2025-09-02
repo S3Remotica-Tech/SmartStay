@@ -290,7 +290,6 @@ console.log("currentItem",currentItem)
 const joiningDateForFormatted = formatDate(joiningDate);
 const bookingDateForFormatted = formatDate(bookingDate);
 
-console.log("joiningDateForFormatted",joiningDateForFormatted,"bookingDateForFormatted",bookingDateForFormatted )
 
     const userDetails = state.UsersList.Users.find(
       (u) => u.ID === booking_customername
