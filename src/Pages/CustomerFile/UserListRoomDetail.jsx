@@ -313,7 +313,7 @@ console.log('customerDetails',customerDetails)
 },[])
 
 const [ProfilePic,setProfilepic] = useState(false)
-const [previewFile, setPreviewFile] = useState(""); 
+// const [previewFile, setPreviewFile] = useState(""); 
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
@@ -401,7 +401,7 @@ useEffect(() => {
 
   if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
     setFile(base64Pic); // only raw base64 for dispatch
-    setPreviewFile(`data:image/jpeg;base64,${base64Pic}`); // preview src
+    // setPreviewFile(`data:image/jpeg;base64,${base64Pic}`); // preview src
   }
 }, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {

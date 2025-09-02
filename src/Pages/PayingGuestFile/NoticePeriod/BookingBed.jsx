@@ -13,7 +13,7 @@ import { CloseCircle } from "iconsax-react";
 import { MdError } from "react-icons/md";
 
 function BookingBed({
-  show, handleClose,currentItem,customerID
+  show, handleClose,currentItem
 }) 
 
 {
@@ -58,10 +58,10 @@ useEffect(()=>{
 
   
 
- useEffect(() => {
-  const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
-  console.log("userData", customerID); 
-}, [state.UsersList, customerID]);
+//  useEffect(() => {
+//   const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
+//   console.log("userData", customerID); 
+// }, [state.UsersList, customerID]);
           useEffect(() => {
 
         const usersList = state?.UsersList?.Users;
@@ -352,13 +352,22 @@ useEffect(()=>{
                                                       //     }
                                                       //     : null
                                                       // }
-         options={
-                                                        state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
-                                                           state.UsersList?.UnAssignCustomerDetails.map((u) => ({
-                                                            value: u.id,
-                                                            label: u.Name,
-                                                          })) || []
+//          options={
+//                                                         state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
+//                                                            state.UsersList?.UnAssignCustomerDetails.map((u) => ({
+//                                                             value: u.id,
+//                                                             label: u.Name,
+//                                                           })) || []
+// }
+options={
+  (state.UsersList?.UnAssignCustomerDetails?.length > 0
+    ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
+        value: u.id,
+        label: u.Name,
+      }))
+    : [])
 }
+
 onChange={handleBookingCustomerName}
 value={
   booking_customername
@@ -770,6 +779,7 @@ BookingBed.propTypes = {
   show:PropTypes.func.isRequired,
   handleClose:PropTypes.func.isRequired,
   currentItem: PropTypes.func.isRequired,
+  customerID: PropTypes.func.isRequired,
 
  
 };
