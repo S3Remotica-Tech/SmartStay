@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc , CustomerUnAssign,backtoCheckin} from "../Action/UserListAction"
+import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,7 @@ function* handleuserlist(user) {
       }
 
       else if (response.status === 201 || response.data.statusCode === 201) {
-         yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData || []  , statusCode: response.status || response.data.statusCode } })
+         yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData || [], statusCode: response.status || response.data.statusCode } })
       }
       else {
          yield put({ type: 'ERROR', payload: response.data.message })
@@ -274,7 +274,7 @@ function* handleRoomsDetails(ID) {
 function* handleAddUser(datum) {
    try {
       const response = yield call(addUser, datum.payload);
-    
+
 
       if (response.statusCode === 200 || response.status === 200) {
          yield put({
@@ -1309,7 +1309,7 @@ function* handleCheckoutExportDetails(action) {
 //       else {
 //          yield put({ type: 'ERROR', payload: response.message })
 //       }
-     
+
 //       if (response) {
 //          refreshToken(response)
 //       }
@@ -1908,22 +1908,22 @@ function* handleConfirmCheckoutDueCustomer(data) {
 function* handlecustomerUnAssign(action) {
 
    try {
-  const response = yield call(CustomerUnAssign, action.payload)
-  console.log("response", response);
-  
- 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'UNASSIGN_CUSTOMER', payload:{response : response.data.data, statusCode: response.status || response.statusCode  } })
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-   if (response) {
-      refreshToken(response)
-   }
+      const response = yield call(CustomerUnAssign, action.payload)
+      console.log("response", response);
+
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'UNASSIGN_CUSTOMER', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
 
-      catch (err) {
+   catch (err) {
       const error = err || {};
 
       yield put({
@@ -1934,7 +1934,7 @@ function* handlecustomerUnAssign(action) {
                : error?.message || 'Something went wrong',
       });
    }
- 
+
 }
 
 
@@ -1942,9 +1942,9 @@ function* handlecustomerUnAssign(action) {
 
 function* handleBackToCheckin(action) {
    const response = yield call(backtoCheckin, action.payload)
-   console.log("handleBackToCheckin",response)
-  
-    var toastStyle = {
+   console.log("handleBackToCheckin", response)
+
+   var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
       width: "auto",
@@ -1955,30 +1955,30 @@ function* handleBackToCheckin(action) {
       fontSize: 14,
       textAlign: "start",
       display: "flex",
-      alignItems: "center", 
+      alignItems: "center",
       padding: "10px",
-     
-    };
-   
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'BACK_TO_CHECKIN_USER', payload:{response: response.data, statusCode:response.status || response.data.statusCode}})
 
-        toast.success(`${response.data.message}`, {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-     });
+   };
+
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'BACK_TO_CHECKIN_USER', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+
+      toast.success(`${response.data.message}`, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+      });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }
-   if(response){
+   if (response) {
       refreshToken(response)
    }
 }
@@ -2038,7 +2038,7 @@ function* UserListSaga() {
    yield takeEvery('EDITCONFIRMCHECKOUTCUSTOMER', handleEditConfirmCheckout)
    yield takeEvery('CONFIRMCHECKOUTDUECUSTOMER', handleConfirmCheckoutDueCustomer)
    yield takeEvery('UNASSIGNCUSTOMER', handlecustomerUnAssign)
-    yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
+   yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
 
 
 }

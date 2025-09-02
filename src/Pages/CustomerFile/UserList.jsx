@@ -1129,7 +1129,7 @@ function UserList(props) {
     if (state.UsersList?.NoUserListStatusCode === 201) {
        setUserListDetail([]);
        setTimeout(() => {
-               dispatch({ type: "CLEAR_NO_USER_LIST" });
+             dispatch({ type: "CLEAR_NO_USER_LIST" });
       }, 1000);
  }
   }, [state.UsersList?.NoUserListStatusCode]);
