@@ -2057,6 +2057,7 @@ const [stayDetais,setStayDetails] = useState("")
   const [isHovered, setIsHovered] = useState(false);
 
   const MobileNumberupload = `${props.userData?.Phone}`;
+  console.log("props.userData",props.userData)
 
 const handleImageUpload = async (event) => {
   const fileImage = event.target.files[0];
@@ -2097,11 +2098,11 @@ const handleImageUpload = async (event) => {
       PancardNo: PancardNo,
       licence: licence,
       HostelName: HostelName,
-      hostel_Id: hostel_Id,
+      hostel_Id:  props.userData?.Hostel_Id,
       Floor: props.userData?.Floor,
-      Rooms: props.userData?.Rooms,
-      Bed: props.userData?.Bed,
-      joining_date: selectedDate,
+      Rooms: props.userData?.hstl_Rooms,
+      Bed: props.userData?.hstl_Bed,
+      joining_date: props.userData?.joining_Date,
       AdvanceAmount: AdvanceAmount,
       RoomRent: RoomRent,
       BalanceDue: BalanceDue,

@@ -25,7 +25,7 @@ const StatsSection = () => {
             <html lang="en-IN" />
     
            {/* Core SEO */}
-      <title>SmartStay â€“ PG & Hostel Management Software</title>
+      <title>SmartStay PG & Hostel Management Software</title>
       <meta
         name="description"
         content="Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool."  />
@@ -35,7 +35,7 @@ const StatsSection = () => {
     {/* Open Graph */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="SmartStay" />
-      <meta property="og:title" content="SmartStay â€“ PG & Hostel Management Software" />
+      <meta property="og:title" content="SmartStay PG & Hostel Management Software" />
       <meta property="og:description" content="Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool." />
       <meta property="og:url" content="https://smartstay.qbatz.com/" />
       <meta property="og:image" content="https://smartstay.qbatz.com/assets/sm_homepage-CODs4gRc.png" />
@@ -47,7 +47,7 @@ const StatsSection = () => {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: "SmartStay â€“ PG & Hostel Management Software",
+          name: "SmartStay PG & Hostel Management Software",
           url: "https://smartstay.qbatz.com/",
           description:
             "Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool.",

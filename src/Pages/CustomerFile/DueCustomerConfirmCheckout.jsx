@@ -24,11 +24,12 @@ import writeOff from "../../Assets/Images/New_images/writeoff.png";
 import writeOffWhite from "../../Assets/Images/New_images/writeoffWhite.png";
 import addcircleblack from "../../Assets/Images/New_images/add-circle-black.png";
 import { Tooltip } from "bootstrap";
+// import { useFormState } from "react-dom";
 function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
 
 
     const state = useSelector((state) => state);
-    console.log("data",data)
+    console.log("useSelector",state)
     const dispatch = useDispatch();
     // const [checked, setChecked] = useState(false);
 
@@ -49,7 +50,9 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
        const [refundCompleted, setRefundCompleted] = useState(false);
        const [dataBed,setDataBed] =useState([])
        const [activeTab, setActiveTab] = useState("record");
-       
+       const [hostelData,setHostelData] = useState("")
+       const [refundableDetails,setReFundableDetails] = useState("")
+       const [detuction,setDetuction] = useState("")
 
 
 
@@ -70,13 +73,16 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
         { value: "maintenance", label: "Maintenance" },
         { value: "others", label: "Others" },
     ];
-    const [invoiceTotal,setInvoieTotal] = useState('')
+    // const [invoiceTotal,setInvoieTotal] = useState('')
+    const [rentalBalance,setRentalBalance] = useState('')
 
     useEffect(() => {
         if (state.UsersList.statusCodegetConfirmCheckout) {
             const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
                 (invoice) => invoice.balance > 0
             );
+
+
 
             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
                 (deduction) => deduction.amount > 0
@@ -104,15 +110,23 @@ console.log("invoiceTotal",invoiceTotal)
 
 
                 setFields(formattedFields);
-              setInvoieTotal(invoiceTotal);
+            //   setInvoieTotal(invoiceTotal);
             } else {
                 setFields([
                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
                 ]);
-                setInvoieTotal(invoiceTotal);
+                // setInvoieTotal(invoiceTotal);
             }
+const rentBalance =
+  state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
+    (item) => String(item.action).toLowerCase() === "rent"
+  )?.balance ?? 0;
+setRentalBalance(rentBalance)
+setDetuction(state?.UsersList?.Deduction)
+setReFundableDetails(state?.UsersList?.Refundable_details)
 
 
+setHostelData(state?.UsersList?.hostelData)
 
         }
 
@@ -133,7 +147,7 @@ console.log("invoiceTotal",invoiceTotal)
     }, [fields, advanceAmount])
 
 
-
+console.log("hostelData",hostelData)
 
 
 
@@ -258,7 +272,13 @@ useEffect(() => {
     }
   };
 }, []);
-
+const [transactionId,setTransactionId] = useState("")
+const handleTransactionId = (e) => {
+  const value = e.target.value;
+  setTransactionId(value);
+  console.log("setTransactionId", value);
+};
+  
    const handleConfirmCheckout = () => {
   dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
 
@@ -279,6 +299,7 @@ useEffect(() => {
       hasError = true;
     }
   }
+
 
   if (hasError) return;
 
@@ -361,6 +382,8 @@ useEffect(() => {
         ...basePayload,
         comments,
         payment_id: modeOfPayment,
+        transaction_id:transactionId
+        
       },
     });
   } else {
@@ -384,11 +407,11 @@ useEffect(() => {
 
 
     useEffect(() => {
-        if (data || dataBed) {
-            setCheckOutDate(data?.CheckoutDate || dataBed[0]?.CheckoutDate)
+        if (hostelData) {
+            setCheckOutDate(hostelData?.CheckoutDate)
         }
 
-    }, [data ,dataBed])
+    }, [hostelData])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -445,7 +468,6 @@ useEffect(() => {
   document.head.appendChild(style);
 }, []);
 
-  
     return (
         <div>
                {/* <Modal show={show} onHide={handleClose} centered backdrop="static" dialogClassName="custom-modals-style">
@@ -1350,10 +1372,10 @@ useEffect(() => {
       <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0">{data?.Name || dataBed[0]?.Name}</p>
   <div className="d-flex mb-2">
     <span className="badge rounded-pill bg-warning text-dark me-2" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-      {data.floor_name || dataBed[0]?.floor_name}
+      {hostelData.floor_name}
     </span>
     <span className="badge rounded-pill bg-danger-subtle text-dark" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-      {data.Rooms || dataBed[0]?.Rooms} - {data.Bed || dataBed[0]?.Bed}
+      {hostelData["Room Name"]} - {hostelData["Bed Name"]}
     </span>
   </div>
 
@@ -1368,20 +1390,20 @@ useEffect(() => {
 
             <div className="d-flex justify-content-between mb-3">
               <span style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Joined Date</span>
-              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>  {new Date(data.joining_Date || dataBed[0]?.joining_Date).toLocaleDateString("en-GB")}
+              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>  {new Date(hostelData.joining_Date).toLocaleDateString("en-GB")}
 </span>
             </div>
             <div className="d-flex justify-content-between mb-3">
               <span style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Req Checkout Date</span>
-              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>{new Date(data.req_date || dataBed[0]?.req_date).toLocaleDateString("en-GB")}</span>
+              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>{new Date(hostelData.request_checkout_date).toLocaleDateString("en-GB")}</span>
             </div>
             <div className="d-flex justify-content-between mb-3">
               <span style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Total Advance Amount</span>
-              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>₹ {data.AdvanceAmount || dataBed[0]?.AdvanceAmount}</span>
+              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>₹ {hostelData.AdvanceAmount}</span>
             </div>
             <div className="d-flex justify-content-between mb-3">
               <span style={{fontSize:"0.875rem",fontFamily:"Gilroy",fontWeight:400}}>Monthly Rent</span>
-              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>₹ {data.RoomRent || dataBed[0]?.RoomRent}</span>
+              <span style={{fontSize:"1rem",fontFamily:"Gilroy",fontWeight:600}}>₹ {hostelData.RoomRent}</span>
             </div>
 
 <div className="mt-2" style={{textAlign:"center"}}>
@@ -1507,7 +1529,7 @@ useEffect(() => {
                                     name="Advance"
                                     id="Advance"
 
-                                    value={data.RoomRent || dataBed[0]?.RoomRent}
+                                    value={rentalBalance}
                                     className="form-control mt-2"
                                     placeholder="Add Advance Amount"
                                     required
@@ -1790,22 +1812,22 @@ useEffect(() => {
 
           <p style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:600}}>Deductions</p>
           <div className="d-flex justify-content-between">
-            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Stayed Days (14 days * ₹200)</p>
-            <p style={{ color: "red",fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400 }}>- ₹ 2,800</p>
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Stayed Days ({detuction.stayedDays} days * ₹{detuction.ratePerDay})</p>
+            <p style={{ color: "red",fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400 }}>₹ {detuction.stayDeductionAmount}</p>
           </div>
           <div className="d-flex justify-content-between mb-3">
             <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Due amount</p>
-            <p style={{ color: "red",fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400 }}>{invoiceTotal}</p>
+            <p style={{ color: "red",fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400 }}>{detuction.DueAmount}</p>
           </div>
 
           <p style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:600}}>Refundable Amount</p>
           <div className="d-flex justify-content-between">
             <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Remaining Rent Refund</p>
-            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>₹ 4,000</p>
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>₹ {refundableDetails.remainingRentRefund}</p>
           </div>
           <div className="d-flex justify-content-between">
             <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Security Deposit Refund</p>
-            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>₹ 8,000</p>
+            <p style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>₹ {refundableDetails.securityDepositRefund}</p>
           </div>
         </div>
       )}
@@ -2233,7 +2255,7 @@ useEffect(() => {
           {/* Transaction ID */}
           <Form.Group className="mb-3">
             <Form.Label  style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Transaction ID</Form.Label>
-            <Form.Control style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}} type="text" placeholder="Enter Transaction ID" />
+            <Form.Control  value={transactionId} onChange={(e)=>handleTransactionId(e)} style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}} type="text" placeholder="Enter Transaction ID" />
           </Form.Group>
 
           {/* Comments */}

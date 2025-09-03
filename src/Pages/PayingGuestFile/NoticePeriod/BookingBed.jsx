@@ -83,7 +83,7 @@ useEffect(()=>{
         }
     }, [state?.UsersList?.Users , state?.PgList?.OccupiedCustomer]);
 
-    console.log("userdetails" ,customer_details.CheckoutDate);
+    // console.log("userdetails" ,customer_details.CheckoutDate);
     
 
 
