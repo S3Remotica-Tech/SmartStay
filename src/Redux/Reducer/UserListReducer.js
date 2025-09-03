@@ -119,8 +119,11 @@ export const initialState = {
     statusCodeForDueCustomer:0,
     nonRefundable_details: [],
     UnAssignCustomerDetails:[],
+    hostelData:[],
     statusCodeForUnAssignCustomer:0,
-    StatusCodeBacktoCheckin:0
+    StatusCodeBacktoCheckin:0,
+    Refundable_details:[],
+    Deduction:[]
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -434,6 +437,9 @@ const UserListReducer = (state = initialState, action) => {
                 ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
                 GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
              nonRefundable_details:action.payload.response.deduction_details,
+              hostelData:action.payload.response.hostelData,
+              Refundable_details:action.payload.response.Refundable_details,
+              Deduction:action.payload.response.Deduction,
                 statusCodegetConfirmCheckout: action.payload.statusCode,
             };
         case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":

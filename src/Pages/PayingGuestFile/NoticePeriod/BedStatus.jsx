@@ -78,8 +78,10 @@ function NoticeBedStatusDetails({
        showBooking(true)    
   }
  
+
+
   const handleCheckout = () => {
-  
+  console.log("customerId",customerId)
       showNoticeperiodCheckout(true, customerId )
       dispatch({
         type: "GETCONFIRMCHECKOUTCUSTOMER",
@@ -129,7 +131,7 @@ function NoticeBedStatusDetails({
                 if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
                    
                     setCustomer(state.PgList.OccupiedCustomer)
-                    setCustomerId(state.PgList.OccupiedCustomer[0]?.id)
+                    // setCustomerId(state.PgList.OccupiedCustomer[0]?.id)
                     setTimeout(() => {
                         dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
                     }, 2000)
@@ -158,15 +160,19 @@ function NoticeBedStatusDetails({
       useEffect(() => {
     const usersList = state?.UsersList?.Users;
     const userDetails = customer; 
-    
+    console.log("userdetails" , userDetails);
 
+     const ParticularcustomerDetails = userDetails.filter((user)=> user.RoomRent > 0)
+        console.log("userdetails" , ParticularcustomerDetails);
+        setCustomerId(ParticularcustomerDetails[0]?.id)
+    
     if (
         Array.isArray(usersList) &&
-        Array.isArray(userDetails) &&
+        Array.isArray(ParticularcustomerDetails) &&
         usersList.length > 0 &&
-        userDetails.length > 0
+        ParticularcustomerDetails.length > 0
     ) {
-        const targetUserId = userDetails[0]?.User_Id?.trim()?.toLowerCase();
+        const targetUserId = ParticularcustomerDetails[0]?.User_Id?.trim()?.toLowerCase();
 
         const foundCustomer = usersList.find(
             (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId

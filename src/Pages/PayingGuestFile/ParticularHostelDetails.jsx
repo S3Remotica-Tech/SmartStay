@@ -255,6 +255,7 @@ function ParticularHostelDetails(props) {
 
 
   const handleshowNoticePeriodCheckout = (isVisible, customerId) => {
+    console.log("customerId",customerId)
     setNoticePeriodCheckout(isVisible)
     setNoticePeriodBed(false)
     setCustomerID(customerId)

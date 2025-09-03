@@ -1412,6 +1412,8 @@ const invoiceDateObj = new Date(formattedDate);
       setRoomName(props?.EditObj?.Booking_Rooms)
       setBedName(props?.EditObj?.Booking_Bed)
       setBookingAmount(props.EditObj.booking_amount)
+      setFile(props.EditObj.profile)
+      
 
       const Bedfilter = state?.UsersList?.roomdetails?.filter(
         (u) =>
@@ -3268,7 +3270,7 @@ const invoiceDateObj = new Date(formattedDate);
                     height="35"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = Profileimage; // Fallback if loading fails
+                      e.target.src = Profileimage; 
                     }}
                   />
                   <div>
@@ -5351,7 +5353,16 @@ const invoiceDateObj = new Date(formattedDate);
 
                 <div className="d-flex align-items-center gap-3 mb-3 ms-3">
                   <img
-                    src={Profileimage}
+                    // src={Profileimage}
+                     src={
+                      props.EditObj && props.EditObj?.profile && props.EditObj?.profile !== ""
+                        ? typeof props.EditObj?.profile === "string"
+                          ? props.EditObj?.profile.startsWith("/9j/") 
+                            ? `data:image/jpeg;base64,${props.EditObj?.profile}`
+                            : props.EditObj?.profile 
+                          : URL.createObjectURL(props.EditObj?.profile) 
+                        : Profileimage
+                    }
                     alt="Profile"
                     className="rounded-circle"
                     width="35"
