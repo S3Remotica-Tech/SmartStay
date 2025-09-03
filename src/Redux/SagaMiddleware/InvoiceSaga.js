@@ -7,7 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function* handleDeleteUser(action) {
-   const response = yield call(DeleteUser, action.payload)
+
+   try{
+       const response = yield call(DeleteUser, action.payload)
 
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -29,7 +31,7 @@ function* handleDeleteUser(action) {
 
       };
 
-      toast.success('Deleted Successfully', {
+      toast.success(response.data, {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,
@@ -49,6 +51,15 @@ function* handleDeleteUser(action) {
    if (response) {
       refreshToken(response)
    }
+   }
+      catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+            yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+      }
+  
 }
 
 function* handleDeleteAmenities(action) {

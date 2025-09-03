@@ -300,12 +300,12 @@ function* handleComplianceChange(action) {
 
       };
 
-      if (response.statusCode === 200 || response.status === 200) {
-         yield put({ type: 'COMPLIANCE_CHANGE_STATUS', payload: { response: response.data, statusCode: response.statusCode || response.status } })
+      if ( response.status === 200 ||  response.statusCode === 200 ) {
+         yield put({ type: 'COMPLIANCE_CHANGE_STATUS', payload: { response: response.data, statusCode: response.status ||  response.statusCode   } })
 
 
 
-         toast.success(`${response.data.message}`, {
+         toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -325,7 +325,7 @@ function* handleComplianceChange(action) {
       }
    }
   catch (error) {
-        if (error.code === 'ERR_NETWORK') {
+        if (error.code === 'ERR_BAD_REQUEST') {
            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
         } else {
            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });

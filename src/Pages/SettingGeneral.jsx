@@ -259,7 +259,7 @@ function SettingGeneral() {
 
 
   const handleDelete = (user) => {
-    setDeleteId(user.id);
+    setDeleteId(user.userId);
     setDeleteForm(true);
   };
 
@@ -267,16 +267,19 @@ function SettingGeneral() {
     setDeleteForm(false);
     setGeneralDeleteError("")
     dispatch({ type: "CLEAR_DELETE_GENERAL_ERROR" })
-  };
+  }
 
   const handleConformDelete = () => {
-    dispatch({ type: "GENERALDELETEGENERAL", payload: { id: deleteId } });
-  };
+    if(deleteId){
+        dispatch({ type: "GENERALDELETEGENERAL", payload: deleteId});
+    }
+  }
+
 
   const handleShowFormGreneral = () => {
     setShowFormGeneral(true);
     setEdit(false);
-  };
+  }
 
   const handleClose = () => {
     setShowFormGeneral(false);
@@ -307,7 +310,7 @@ function SettingGeneral() {
     setEmailError("")
     setEmailErrorMessage("")
     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
-  };
+  }
 
   const [profileimage , setProfileImage] = useState(null)
 
@@ -329,7 +332,7 @@ function SettingGeneral() {
       }
       setFormError("");
     }
-  };
+  }
 
   const handleFirstName = (e) => {
     const value = e.target.value;
@@ -340,7 +343,7 @@ function SettingGeneral() {
     setFirstName(value);
     setFirstNameError("");
     setFormError("");
-  };
+  }
 
   const handlelastName = (e) => {
     const value = e.target.value;
@@ -351,7 +354,7 @@ function SettingGeneral() {
     setLastName(value);
 
     setFormError("");
-  };
+  }
 
 
   const handlePhone = (e) => {
@@ -382,7 +385,7 @@ function SettingGeneral() {
 
     setPhoneErrorMessage("");
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
-  };
+  }
 
 
   const handleEmailId = (e) => {
@@ -408,7 +411,7 @@ function SettingGeneral() {
     }
 
    
-  };
+  }
 
 
 

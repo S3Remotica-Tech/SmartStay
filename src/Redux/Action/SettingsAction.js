@@ -443,12 +443,24 @@ export async function passwordCheck(datum) {
   });
 }
 
+// v1
+// export async function generalDelete(datum) {
+//   return await AxiosConfig.post("/settings/delete_general_user", datum, {
+//     data: datum,
+//   });
+// }
 
-export async function generalDelete(datum) {
-  return await AxiosConfig.post("/settings/delete_general_user", datum, {
-    data: datum,
+// v2
+
+export async function generalDelete(userId) {
+  return await AxiosConfigV2.delete(`/v2/profile/delete-admin/${userId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }
+
+
 
 export async function RecurringRole(reccurring) {
   return await AxiosConfig.post("/settings/add_recuring", reccurring, {
