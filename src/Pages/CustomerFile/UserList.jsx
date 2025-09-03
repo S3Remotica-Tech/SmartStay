@@ -1134,12 +1134,12 @@ function UserList(props) {
  }
   }, [state.UsersList?.NoUserListStatusCode]);
 
-  useEffect(() => {
-    if (state.UsersList?.UserListStatusCode === 200) {
-      setUserList(state.UsersList.Users);
-      dispatch({ type: "REMOVE_STATUS_CODE_USER" });
-    }
-  }, [state.UsersList?.UserListStatusCode]);
+  // useEffect(() => {
+  //   if (state.UsersList?.UserListStatusCode === 200) {
+  //     setUserList(state.UsersList.Users);
+  //     dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+  //   }
+  // }, [state.UsersList?.UserListStatusCode]);
 
 
 

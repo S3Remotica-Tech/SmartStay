@@ -259,7 +259,11 @@ useEffect(()=>{
 
 
 
-    
+  //   const isAlreadyAssigned =
+  // booking_customername &&
+  // !state.UsersList?.UnAssignCustomerDetails?.some(
+  //   (u) => String(u.id) === String(booking_customername)
+  // );
 
 
 
@@ -365,30 +369,98 @@ useEffect(()=>{
 //                                                             label: u.Name,
 //                                                           })) || []
 // }
-options={
-  (state.UsersList?.UnAssignCustomerDetails?.length > 0
-    ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
-        value: u.id,
-        label: u.Name,
-      }))
-    : [])
-}
+// options={
+//   (state.UsersList?.UnAssignCustomerDetails?.length > 0
+//     ? state.UsersList.UnAssignCustomerDetails.map((u) => ({
+//         value: u.id,
+//         label: u.Name,
+//       }))
+//     : [])
+// }
 
-onChange={handleBookingCustomerName}
-value={
-  booking_customername
-    ? {
-        value: String(booking_customername),
-        label:
-          state.UsersList?.Users?.find(
-            (u) => String(u.ID) === String(booking_customername)
-          )?.Name || "Select Customer",
-      }
-    : null
-}
+// onChange={handleBookingCustomerName}
+// value={
+//   booking_customername
+//     ? {
+//         value: String(booking_customername),
+//         label:
+//           state.UsersList?.Users?.find(
+//             (u) => String(u.ID) === String(booking_customername)
+//           )?.Name || "Select Customer",
+//       }
+//     : null
+// }
 
 
                                                       
+//                                                       placeholder="Select Customer"
+//                                                       classNamePrefix="custom"
+//                                                       menuPlacement="auto"
+//                                                       noOptionsMessage={() => "No customers available"}
+//                                                       styles={{
+//                                                         control: (base) => ({
+//                                                           ...base,
+//                                                           padding: "3px 5px ",
+//                                                           border: "1px solid #D9D9D9",
+//                                                           borderRadius: "8px",
+//                                                           fontSize: "16px",
+//                                                           color: "#4B4B4B",
+//                                                           fontFamily: "Gilroy",
+//                                                           fontWeight: booking_customername ? 600 : 500,
+//                                                           boxShadow: "none",
+//                                                         }),
+//                                                         menu: (base) => ({
+//                                                           ...base,
+//                                                           backgroundColor: "#f8f9fa",
+//                                                           border: "1px solid #ced4da",
+//                                                         }),
+//                                                         menuList: (base) => ({
+//                                                           ...base,
+//                                                           backgroundColor: "#f8f9fa",
+//                                                           maxHeight: "120px",
+//                                                           padding: 0,
+//                                                           scrollbarWidth: "thin",
+//                                                           overflowY: "auto",
+//                                                           fontFamily: "Gilroy"
+//                                                         }),
+//                                                         placeholder: (base) => ({
+//                                                           ...base,
+//                                                           color: "#555",
+//                                                         }),
+//                                                         dropdownIndicator: (base) => ({
+//                                                           ...base,
+//                                                           color: "#555",
+//                                                           cursor: "pointer",
+//                                                         }),
+//                                                         indicatorSeparator: () => ({
+//                                                           display: "none",
+//                                                         }),
+//                                                         option: (base, state) => ({
+//                                                           ...base,
+//                                                           cursor: "pointer",
+//                                                           backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+//                                                           color: "#000",
+//                                                         }),
+//                                                       }}
+ options={
+                                                        state.UsersList?.UnAssignCustomerDetails?.length > 0 &&
+                                                           state.UsersList?.UnAssignCustomerDetails.map((u) => ({
+                                                            value: u.id,
+                                                            label: u.Name,
+                                                          }))
+                                                        
+                                                      }
+                                                      onChange={handleBookingCustomerName}
+                                                      value={
+                                                        booking_customername
+                                                          ? {
+                                                            value: booking_customername,
+                                                            label:
+                                                              state.UsersList?.UnAssignCustomerDetails?.find((u) => u.id === booking_customername)?.Name ||
+                                                              "Select Customer",
+                                                          }
+                                                          : null
+                                                      }
                                                       placeholder="Select Customer"
                                                       classNamePrefix="custom"
                                                       menuPlacement="auto"
@@ -741,8 +813,10 @@ value={
                   padding: "0 24px",
                   border: "none",
                   cursor: "pointer",
+                 
                 }}
                 onClick={handleSubmitBooking}
+                // disabled={isAlreadyAssigned}
                 
               >
                 Book
