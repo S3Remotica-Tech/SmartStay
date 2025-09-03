@@ -52,7 +52,7 @@ export async function userlist(users) {
 //   if (params.invoice_date) formData.append("invoice_date", params.invoice_date)
 //   if (params.ID) formData.append("ID", params.ID)
 //      if (params.stay_type) formData.append("stay_type", params.stay_type)
-    
+
 //  if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
 //  if (params.booking_id) formData.append("booking_id",params.booking_id)
 //    if (params.booking_date) formData.append("booking_date",params.booking_date)
@@ -82,7 +82,7 @@ export async function userlist(users) {
 
 
 export async function addUser(params) {
-  
+
   const formData = new FormData();
 
   if (params.profilePic) {
@@ -107,7 +107,7 @@ export async function addUser(params) {
           "Content-Type": "multipart/form-data",
         },
         timeout: 100000000,
-        
+
       }
     );
     return response;
@@ -138,9 +138,9 @@ export async function hostelList() {
 
 
 export async function getParticularHostelList(hostel) {
-   return await AxiosConfigV2.get(`/v2/hostel/${hostel.hostel_id}`, hostel,{
-data: hostel
-  } )
+  return await AxiosConfigV2.get(`/v2/hostel/${hostel.hostel_id}`, hostel, {
+    data: hostel
+  })
 }
 
 
@@ -156,7 +156,7 @@ export async function CheckIn(CheckIn) {
 
 
 // export async function CheckIn(params) {
-  
+
 //   const formData = new FormData();
 
 //   if (params.profilePic) {
@@ -181,7 +181,7 @@ export async function CheckIn(CheckIn) {
 //           "Content-Type": "multipart/form-data",
 //         },
 //         timeout: 100000000,
-        
+
 //       }
 //     );
 //     return response;
@@ -192,14 +192,14 @@ export async function CheckIn(CheckIn) {
 // }
 
 
- 
+
 // v2  save-info
 
 
 
 export async function customerSaveInfo(params) {
-  
- 
+
+
   const formData = new FormData();
 
   if (params.profilePic) {
@@ -212,7 +212,7 @@ export async function customerSaveInfo(params) {
       [JSON.stringify(params.payloads)],
       { type: "application/json" }
     );
-    formData.append("payloads",payloadBlob);
+    formData.append("payloads", payloadBlob);
   }
 
   try {
@@ -224,7 +224,7 @@ export async function customerSaveInfo(params) {
           "Content-Type": "multipart/form-data",
         },
         timeout: 100000000,
-        
+
       }
     );
     return response;
@@ -450,30 +450,25 @@ export async function getCheckOutCustomer(datum) {
 
 
 
-// export async function AddCheckOutCustomer({ customerId, hostelId, data }) {
+export async function AddCheckOutCustomer(checkout) {
+  return await AxiosConfigV2.post(`/v2/customers/notice/${checkout.hostelId}`, checkout,{
+      data: checkout
+    });
+}
+
+// export async function AddCheckOutCustomer(payload) {
 //   return await AxiosConfigV2.post(
-//     `/v2/customers/notice/${hostelId}/${customerId}`,
+//     `/v2/customers/notice/${payload.hostelId}/${payload.customerId}`,
+//     {}, 
 //     {
-//       requestDate: data.requestDate,
-//       checkoutDate: data.checkoutDate,
-//       reason: data.reason,
+//       params: {
+//         requestDate: payload.requestDate,
+//         checkoutDate: payload.checkoutDate,
+//         reason: payload.reason
+//       }
 //     }
 //   );
 // }
-
-export async function AddCheckOutCustomer(payload) {
-  return await AxiosConfigV2.post(
-    `/v2/customers/notice/${payload.hostelId}/${payload.customerId}`,
-    {}, 
-    {
-      params: {
-        requestDate: payload.requestDate,
-        checkoutDate: payload.checkoutDate,
-        reason: payload.reason
-      }
-    }
-  );
-}
 
 
 
@@ -532,8 +527,8 @@ export async function customerAddContact(datum) {
 }
 
 export async function customerAllContact(datum) {
-  console.log("datum" , datum);
-  
+  console.log("datum", datum);
+
   return await AxiosConfig.post('/users/all_contacts', datum, {
     data: datum
   })
@@ -603,7 +598,7 @@ export async function handlegetCustomerDetailsKyc(kyc) {
 
 
 export async function ConfirmCheckout_Due_Customer(params) {
-console.log("paramsssssss",params)
+  console.log("paramsssssss", params)
   const formData = new FormData();
   if (params.profile) formData.append("profile", params.profile);
   if (params.id) formData.append("id", params.id)
@@ -613,7 +608,7 @@ console.log("paramsssssss",params)
   if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
   if (params.formal_checkout) formData.append("formal_checkout", params.formal_checkout)
   if (params.reason_note) formData.append("reason_note", params.reason_note)
-  
+
 
   try {
     const response = await AxiosConfig.post('/update/confirm_checkout_due_customer', formData, {
@@ -634,14 +629,14 @@ console.log("paramsssssss",params)
 export async function CustomerUnAssign(customer) {
   return await AxiosConfigV2.get(`/v2/customers/${customer.hostel_id}`, {
     params: {
-           type: customer.type   
-              }
+      type: customer.type
+    }
   });
 }
 
 
 export async function backtoCheckin(datum) {
-  console.log("backtoCheckin",datum)
+  console.log("backtoCheckin", datum)
   return await AxiosConfig.post('reassign_checkIn', datum, {
     data: datum
   })

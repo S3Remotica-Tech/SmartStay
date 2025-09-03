@@ -42,7 +42,8 @@ function NoticeBedStatusDetails({
     const popupRef = useRef(null);
     
             
-     
+
+     console.log(currentItem,"currentItem")
 
 
 
@@ -125,17 +126,17 @@ function NoticeBedStatusDetails({
 
 
 
-            useEffect(() => {
-                if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+            // useEffect(() => {
+            //     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
                    
-                    setCustomer(state.PgList.OccupiedCustomer)
-                    setCustomerId(state.PgList.OccupiedCustomer[0]?.id)
-                    setTimeout(() => {
-                        dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-                    }, 2000)
-                }
+            //         setCustomer(state.PgList.OccupiedCustomer)
+            //         setCustomerId(state.PgList.OccupiedCustomer[0]?.id)
+            //         setTimeout(() => {
+            //             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+            //         }, 2000)
+            //     }
         
-            }, [state.PgList.OccupiedCustomerGetStatusCode])
+            // }, [state.PgList.OccupiedCustomerGetStatusCode])
 
   useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -148,7 +149,6 @@ function NoticeBedStatusDetails({
         if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
           handleCloseBed()
           dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-          dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room.Floor_Id, hostel_Id: currentItem?.room.Hostel_Id } })
              setTimeout(() => {
               dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
             }, 500); 
@@ -222,8 +222,8 @@ function NoticeBedStatusDetails({
                       color: "#1E45E1",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                    }}>Room No 
-                    {/* {currentItem?.room.Room_Name}  */}
+                    }}>Room No : {""}
+                    {currentItem?.roomName} 
                     </label>
                      <span style={{
                       fontSize: 14,
@@ -235,8 +235,8 @@ function NoticeBedStatusDetails({
                       color: "#1E45E1",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                    }}> Bed  
-                    {/* {currentItem?.bed.bed_no} */}
+                    }}> Bed : {""} 
+                    {currentItem?.bedName}
                     </span>
                   </div>
                 </div>
@@ -345,15 +345,15 @@ function NoticeBedStatusDetails({
 
                   <div className="d-flex gap-3 align-items-center">
                     <div>
-                      <Image src={customer[0]?.profile && customer[0]?.profile !== "0" ? customer[0]?.profile : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                      <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                     </div>
                     <div className="mt-2">
                       <div>
-                        <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{customer?.[0]?.Name || "N/A"}</label>
+                        <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
                       </div>
                       <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                       {customer?.[0]?.Phone
-                    ? `+${String(customer[0].Phone).slice(0, -10)} ${String(customer[0].Phone).slice(-10)}`
+                                                       {currentItem?.customerMobile
+                    ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
                     : "No phone"}
                         </label></div>
                     </div>

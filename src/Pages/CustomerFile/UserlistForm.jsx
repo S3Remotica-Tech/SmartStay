@@ -15,11 +15,8 @@ import { CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import Flipbackward from "../../Assets/Images/flip-backward.png";
-import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
-import Store_Icon from "../../Assets/Images/store_icon.png";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
-import { RiShoppingBag3Line } from "react-icons/ri";
+
 
 
 
@@ -179,14 +176,6 @@ function UserlistForm(props) {
   }, [selectedDate]);
 
 
-
-
-
-
-
-
-
-  console.log("state", state)
 
 
   // useEffect(() => {
@@ -394,7 +383,6 @@ function UserlistForm(props) {
   };
 
   const handleRooms = (selectedValue) => {
-    console.log("selectedValue", selectedValue)
     setRooms(selectedValue);
     if (selectedValue) {
       dispatch({
@@ -550,7 +538,6 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
   }
 
 
-  console.log("props tenant", props)
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {
@@ -884,9 +871,6 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
     if (hasReasonAmountError) return;
 
-
-    console.log("apitriggerd", hasReasonAmountError, AdvanceAmount, RoomRent);
-
     if (
 
       Number(AdvanceAmount) > 0 &&
@@ -943,7 +927,6 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
   };
 
 
-  console.log("Rooms", Rooms)
 
 
 
@@ -1269,10 +1252,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
   useEffect(() => {
     if (props.BookingAssignForm) {
-      console.log("props", props.EditObj);
-
-
-      setId(props.EditObj.ID);
+          setId(props.EditObj.ID);
       if (props.EditObj.profile === 0) setFile(null);
       else {
         setFile(props.EditObj.profile);
@@ -1631,171 +1611,171 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
 
 
-  const handleNext = () => {
-    let hasError = false;
-    const focusedRef = { current: false };
-    if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
-    if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
-    if (Phone && Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-      if (!focusedRef.current && phoneRef?.current) {
-        phoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else if (Phone) {
-      setPhoneError("");
-      setPhoneErrorMessage("");
-    }
+  // const handleNext = () => {
+  //   let hasError = false;
+  //   const focusedRef = { current: false };
+  //   if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
+  //   if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
+  //   if (Phone && Phone.length !== 10) {
+  //     setPhoneError("Please Enter Valid Mobile Number");
+  //     if (!focusedRef.current && phoneRef?.current) {
+  //       phoneRef.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     hasError = true;
+  //   } else if (Phone) {
+  //     setPhoneError("");
+  //     setPhoneErrorMessage("");
+  //   }
 
-    if (Email) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(Email.toLowerCase());
-      if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current) {
-          focusedRef.current = true;
-        }
-        hasError = true;
-      }
-      else {
-        setEmailError("");
-      }
-    } else {
-      setEmailError("");
-    }
-    if (hasError) {
-      return
-    }
-    setStep(2);
+  //   if (Email) {
+  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
+  //     if (!isValidEmail) {
+  //       setEmailError("Please Enter Valid Email ID");
+  //       if (!focusedRef.current) {
+  //         focusedRef.current = true;
+  //       }
+  //       hasError = true;
+  //     }
+  //     else {
+  //       setEmailError("");
+  //     }
+  //   } else {
+  //     setEmailError("");
+  //   }
+  //   if (hasError) {
+  //     return
+  //   }
+  //   setStep(2);
 
-  };
-
-
-
-  const handlePrevious = () => {
-    setStep(1);
-  };
+  // };
 
 
 
-  const handleSaveUserlist = () => {
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-
-    let hasError = false;
-    const focusedRef = { current: false };
-
-    if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
-    if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
+  // const handlePrevious = () => {
+  //   setStep(1);
+  // };
 
 
 
-    if (Phone && Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-      if (!focusedRef.current && phoneRef?.current) {
-        phoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else if (Phone) {
-      setPhoneError("");
-      setPhoneErrorMessage("");
-    }
+  // const handleSaveUserlist = () => {
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
 
-    if (pincode && pincode.length !== 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focusedRef.current && pincodeRef?.current) {
-        pincodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    }
+  //   let hasError = false;
+  //   const focusedRef = { current: false };
 
-    if (Email) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(Email.toLowerCase());
-      if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current) {
-          focusedRef.current = true;
-        }
-        hasError = true;
-      }
-      else {
-        setEmailError("");
-      }
-    } else {
-      setEmailError("");
-    }
-
-    if (hasError) return;
-
-    console.log("hasError", hasError)
-
-    const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-    const basicAndAddressPayload = {
-      profilePic: file,
-      hostelId: state.login.selectedHostel_Id,
-      customerInfo: {
-        firstName: capitalizedFirstname,
-        lastName: capitalizedLastname,
-        mobileNumber: MobileNumber,
-        emailId: Email,
-        type: 1,
-        address: {
-          houseNo: house_no,
-          street: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-        },
+  //   if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
+  //   if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
 
 
-      }
-    };
+
+  //   if (Phone && Phone.length !== 10) {
+  //     setPhoneError("Please Enter Valid Mobile Number");
+  //     if (!focusedRef.current && phoneRef?.current) {
+  //       phoneRef.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     hasError = true;
+  //   } else if (Phone) {
+  //     setPhoneError("");
+  //     setPhoneErrorMessage("");
+  //   }
+
+  //   if (pincode && pincode.length !== 6) {
+  //     setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  //     if (!focusedRef.current && pincodeRef?.current) {
+  //       pincodeRef.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     hasError = true;
+  //   }
+
+  //   if (Email) {
+  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
+  //     if (!isValidEmail) {
+  //       setEmailError("Please Enter Valid Email ID");
+  //       if (!focusedRef.current) {
+  //         focusedRef.current = true;
+  //       }
+  //       hasError = true;
+  //     }
+  //     else {
+  //       setEmailError("");
+  //     }
+  //   } else {
+  //     setEmailError("");
+  //   }
+
+  //   if (hasError) return;
+
+  //   console.log("hasError", hasError)
+
+  //   const capitalizeFirstLetter = (str) => {
+  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  //   };
+
+  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
+  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
+
+  //   const basicAndAddressPayload = {
+  //     profilePic: file,
+  //     hostelId: state.login.selectedHostel_Id,
+  //     customerInfo: {
+  //       firstName: capitalizedFirstname,
+  //       lastName: capitalizedLastname,
+  //       mobileNumber: MobileNumber,
+  //       emailId: Email,
+  //       type: 1,
+  //       address: {
+  //         houseNo: house_no,
+  //         street: street,
+  //         landmark: landmark,
+  //         city: city,
+  //         pincode: pincode,
+  //         state: state_name,
+  //       },
 
 
-    const basicPayload = {
-      profilePic: file,
-      hostelId: state.login.selectedHostel_Id,
-      payloads: {
-        firstName: capitalizedFirstname,
-        lastName: capitalizedLastname,
-        mobile: MobileNumber,
-        emailId: Email,
+  //     }
+  //   };
 
 
-      }
-    };
+  //   const basicPayload = {
+  //     profilePic: file,
+  //     hostelId: state.login.selectedHostel_Id,
+  //     payloads: {
+  //       firstName: capitalizedFirstname,
+  //       lastName: capitalizedLastname,
+  //       mobile: MobileNumber,
+  //       emailId: Email,
 
-    console.log("basicPayload", basicPayload)
+
+  //     }
+  //   };
+
+  //   console.log("basicPayload", basicPayload)
 
 
-    const hasAddress =
-      house_no?.trim() ||
-      street?.trim() ||
-      landmark?.trim() ||
-      city?.trim() ||
-      pincode?.trim() ||
-      state_name?.trim();
+  //   const hasAddress =
+  //     house_no?.trim() ||
+  //     street?.trim() ||
+  //     landmark?.trim() ||
+  //     city?.trim() ||
+  //     pincode?.trim() ||
+  //     state_name?.trim();
 
-    if (hasAddress) {
-      dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
-      setFormLoading(true)
-    } else {
-      dispatch({ type: 'CREATECUSTOMERSAVEINFO', payload: basicPayload })
-      setFormLoading(true)
-    }
+  //   if (hasAddress) {
+  //     dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
+  //     setFormLoading(true)
+  //   } else {
+  //     dispatch({ type: 'CREATECUSTOMERSAVEINFO', payload: basicPayload })
+  //     setFormLoading(true)
+  //   }
 
-  };
+  // };
 
 
   // const handleCreateCustomer = () => {
@@ -1850,7 +1830,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
     if (props?.handleCloseBed) props.handleCloseBed();
   }
 
-  console.log("props?.EditObj", props?.EditObj)
+
 
   const [recheckinbedname, setRecheckinbedName] = useState("")
   const [RequestDate, setRequestDate] = useState(null)
@@ -1951,7 +1931,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
   }, [props.bactocheckinForm, props?.customer_details, props.recheckin])
 
-  console.log("bed", Bed);
+
 
 
   const selectedFloor = React.useMemo(() => {

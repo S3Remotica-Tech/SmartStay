@@ -56,7 +56,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [details, setDetails] = useState('')
 
 
-console.log("assign_tenantform",assign_tenantform)
+
 
     const handleShowReservedBed = () => {
         setShowReservedBed(true)
@@ -199,8 +199,7 @@ console.log("bed status", bed)
 
         if (bed.isBooked) {
             setShowReservedBed(true);
-            // setOccupiedCustomerDetails({ bed, room });
-
+           
         }
         else if (!bed.isOccupied) {
             setEmptyBed(true);
@@ -210,13 +209,10 @@ console.log("bed status", bed)
         else if (bed.onNotice && bed.isOccupied) {
             setOccubiedBed(false);
             setNoticePeriodBed(true);
-            // setOccupiedCustomerDetails({ bed, room });
-
-        }
+                   }
         else if (bed.isOccupied) {
             setOccubiedBed(true);
-            // setOccupiedCustomerDetails({ bed, room });
-        }
+                   }
     };
 
 
