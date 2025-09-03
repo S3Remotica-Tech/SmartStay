@@ -356,10 +356,8 @@ export async function amenitieAddUser(datum) {
 
 // v1
 
-export async function beddetailsNumber(bednum) {
-  return await AxiosConfig.post('/bed_details', bednum, {
-    data: bednum
-  })
+export async function availableBedDetails(bednum) {
+  return await AxiosConfigV2.get(`/v2/hostel/free-beds/${bednum.hostelId}`)
 }
 
 export async function KYCValidate(adhar) {

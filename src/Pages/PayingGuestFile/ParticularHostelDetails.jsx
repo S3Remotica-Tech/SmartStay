@@ -168,6 +168,7 @@ function ParticularHostelDetails(props) {
     }
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
+  console.log("props.floorID&&&&&&&&&&&",props.floorID)
 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
@@ -225,7 +226,7 @@ function ParticularHostelDetails(props) {
       if (props.floorID) {
         dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       }
-      dispatch({ type: 'HOSTELLIST' })
+      // dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
       }, 2000)
@@ -258,7 +259,7 @@ function ParticularHostelDetails(props) {
         dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       }
       setShowRoom(false)
-      dispatch({ type: 'HOSTELLIST' })
+      // dispatch({ type: 'HOSTELLIST' })
 
 
       setTimeout(() => {
@@ -347,10 +348,8 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
-      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-      // setShowReAssignBedForm(false)
-      setTimeout(() => {
+     dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+           setTimeout(() => {
         dispatch({ type: "CLEAR_REASSIGN_BED" });
       }, 3000);
 
@@ -391,7 +390,7 @@ function ParticularHostelDetails(props) {
     if (state.PgList.statusCodeDeleteBed === 200) {
       // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
       dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-      dispatch({ type: 'HOSTELLIST' })
+      // dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_BED_STATUS_CODE' })
       }, 2000)

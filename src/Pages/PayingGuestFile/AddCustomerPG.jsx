@@ -118,12 +118,12 @@ function AddCustomer({  showMenu, handleClose   }) {
  
   
 
-    useEffect(() => {
-      dispatch({
-        type: "HOSTELDETAILLIST",
-        payload: { hostel_Id: state.login.selectedHostel_Id },
-      });
-    }, [hostel_Id]);
+    // useEffect(() => {
+    //   dispatch({
+    //     type: "HOSTELDETAILLIST",
+    //     payload: { hostel_Id: state.login.selectedHostel_Id },
+    //   });
+    // }, [hostel_Id]);
 
   
     const handleFirstName = (e) => {

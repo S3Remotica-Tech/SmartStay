@@ -251,8 +251,7 @@ console.log("bed status", bed)
         if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
 
             setShowBed(false)
-            // dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: propsValue.floorID } })
-            dispatch({
+                     dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
@@ -266,8 +265,7 @@ console.log("bed status", bed)
 
     useEffect(() => {
         if (state.PgList.statusCodeDeleteBed === 200) {
-            // dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: propsValue.floorID } })
-            dispatch({
+           dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });

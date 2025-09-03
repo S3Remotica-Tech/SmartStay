@@ -87,8 +87,8 @@ function UserlistForm(props) {
   const stateRef = useRef(null);
 
 
-
-
+const [availableBed, setAvailableBed] = useState('')
+const [bedWarning, setBedWarning] = useState('')
 
 
   const [fields, setFields] = useState([]);
@@ -383,41 +383,85 @@ function UserlistForm(props) {
   };
 
   const handleRooms = (selectedValue) => {
-    setRooms(selectedValue);
-    if (selectedValue) {
-      dispatch({
-        type: "GETALLBEDSLIST",
-        payload: { roomId: selectedValue }
-      });
+  setRooms(selectedValue);
+
+ const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
+       return view.floorId === Floor || view.roomId === selectedValue
+  
+  });
+  setAvailableBed(filteredBed)
+  setRoomRent("");
+  setRoomError("");
+};
+
+
+
+//   const handleBed = (selectedOption) => {
+// console.log("selectedOption",selectedOption)
+
+//     const selectedBedId = selectedOption?.value || "";
+//     setBed(selectedBedId);
+
+//     // const Bedfilter = state?.UsersList?.roomdetails?.filter(
+//     //   (u) =>
+//     //     String(u.Hostel_Id) === String(hostel_Id) &&
+//     //     String(u.Floor_Id) === String(Floor) &&
+//     //     String(u.Room_Id) === String(Rooms)
+//     // );
+
+//     // const Roomamountfilter =
+//     //   Bedfilter?.[0]?.bed_details?.filter(
+//     //     (amount) => String(amount.id) === String(selectedBedId)
+//     //   ) ?? [];
+
+//     // if (Roomamountfilter.length > 0) {
+//     //   setRoomRent(Roomamountfilter[0]?.bed_amount);
+//     // }
+
+//     setBedError("");
+//     setRoomRentError("");
+//   };
+
+
+const handleBed = (selectedOption) => {
+  dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+  setBedWarning("");
+  const selectedBedId = selectedOption?.value || "";
+  setBed(selectedBedId);
+
+  const selectedBed = state.UsersList?.bednumberdetails?.find(
+    (bed) => String(bed.bedId) === String(selectedBedId)
+  );
+
+  if (selectedBed) {
+        if (selectedBed.showWarning) {
+      console.log("Warning:", selectedBed.warningMessage);
+            setBedWarning(selectedBed.warningMessage);
+    } else {
+      setBedWarning("");
     }
 
-       setRoomRent("");
-    setRoomError("");
-  };
+    // If you want to get rent from roomdetails logic (your commented part)
+    // const Bedfilter = state?.UsersList?.roomdetails?.filter(
+    //   (u) =>
+    //     String(u.Hostel_Id) === String(hostel_Id) &&
+    //     String(u.Floor_Id) === String(Floor) &&
+    //     String(u.Room_Id) === String(Rooms)
+    // );
+    // const Roomamountfilter =
+    //   Bedfilter?.[0]?.bed_details?.filter(
+    //     (amount) => String(amount.id) === String(selectedBedId)
+    //   ) ?? [];
+    // if (Roomamountfilter.length > 0) {
+    //   setRoomRent(Roomamountfilter[0]?.bed_amount);
+    // }
+  }
 
-  const handleBed = (selectedOption) => {
-    const selectedBedId = selectedOption?.value || "";
-    setBed(selectedBedId);
+  setBedError("");
+  setRoomRentError("");
+};
 
-    const Bedfilter = state?.UsersList?.roomdetails?.filter(
-      (u) =>
-        String(u.Hostel_Id) === String(hostel_Id) &&
-        String(u.Floor_Id) === String(Floor) &&
-        String(u.Room_Id) === String(Rooms)
-    );
 
-    const Roomamountfilter =
-      Bedfilter?.[0]?.bed_details?.filter(
-        (amount) => String(amount.id) === String(selectedBedId)
-      ) ?? [];
-
-    if (Roomamountfilter.length > 0) {
-      setRoomRent(Roomamountfilter[0]?.bed_amount);
-    }
-
-    setBedError("");
-    setRoomRentError("");
-  };
 
   const handleRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -513,7 +557,8 @@ function UserlistForm(props) {
     setPayableamount("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-       if (props?.setShowForm) props.setShowForm(false);
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+    if (props?.setShowForm) props.setShowForm(false);
     if (props?.OnShowTable) props.OnShowTable(true);
     if (props?.edit === "Edit") {
       if (props?.OnShowTable) props.OnShowTable(true);
@@ -524,7 +569,7 @@ function UserlistForm(props) {
 
 
   const handleCloseAssign = () => {
-dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     if (props?.setShowAssignMenu) props.setShowAssignMenu(false);
@@ -688,7 +733,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
       newErrors.push(error);
       return {
-       type: reason_name,
+        type: reason_name,
         amount: item.amount || "",
         // showInput: !!item.showInput
       };
@@ -750,25 +795,30 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
           joiningDate: formattedDate,
           advanceAmount: AdvanceAmount,
           rentalAmount: RoomRent,
-          stayType:activeTab,
-          deductions:formattedReasons
+          stayType: activeTab,
+          deductions: formattedReasons
 
         }
       })
       setFormLoading(true)
 
 
-      
+
     }
 
-    
+
   };
 
+
+  console.log("state", state)
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
+      });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -932,313 +982,6 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
 
 
-  // const handleSaveUserlistAddUserButon = () => {
-
-  //   let hasReasonAmountError = false;
-  //   let newErrors = [];
-
-
-  //   if (!validateAssignField(Floor, "Floor"));
-  //   if (!validateAssignField(Rooms, "Rooms"));
-  //   if (!validateAssignField(Bed, "Bed"));
-  //   if (!validateAssignField(selectedDate, "selectedDate"));
-  //   if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
-  //   if (!validateAssignField(RoomRent, "RoomRent"));
-
-  //   if (Floor === "Selected Floor" || floorError) {
-  //     setfloorError("Please Select a Valid PG");
-  //     return;
-  //   }
-  //   if (Rooms === "Selected Room" || roomError) {
-  //     setRoomError("Please Select a Valid PG");
-  //     return;
-  //   }
-  //   if (Bed === "Selected Bed" || bedError) {
-  //     setBedError("Please Select a Valid PG");
-  //     return;
-  //   }
-  //   if (!RoomRent && RoomRent !== 0) {
-  //     setRoomRentError("Please Enter Rental Amount");
-  //     return;
-  //   }
-  //   if (RoomRent <= 0) {
-  //     setRoomRentError("Please Enter Valid Rental Amount");
-  //     return;
-  //   }
-  //   if (!AdvanceAmount && AdvanceAmount !== 0) {
-  //     setAdvanceAmountError("Please Enter Advance Amount");
-  //     return;
-  //   }
-
-  //   if (AdvanceAmount <= 0) {
-  //     setAdvanceAmountError("Please Enter Valid Advance Amount");
-  //     return;
-  //   }
-
-
-
-
-
-  //   if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
-  //     const incrementDateAndFormat = (date) => {
-  //       const newDate = new Date(date);
-  //       newDate.setDate(newDate.getDate() + 1);
-
-  //       return newDate.toISOString().split("T")[0];
-  //     };
-  //     const formattedDate = selectedDate
-  //       ? incrementDateAndFormat(selectedDate)
-  //       : "";
-
-
-  //     const formattedReasons = fields.map((item) => {
-  //       let reason_name = "";
-
-  //       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-  //         reason_name = item.customReason || item["custom Reason"] || "";
-  //       } else {
-  //         reason_name = item.reason || item.reason_name || "";
-  //       }
-
-  //       const error = { reason: "", amount: "" };
-  //       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-  //         error.amount = "Please enter amount";
-  //         hasReasonAmountError = true;
-  //       }
-
-
-  //       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-  //         error.reason = "Please enter reason";
-  //         hasReasonAmountError = true;
-  //       }
-
-  //       newErrors.push(error);
-  //       return {
-  //         reason_name,
-  //         amount: item.amount || "",
-  //         showInput: !!item.showInput
-  //       };
-  //     });
-
-  //     setErrors(newErrors)
-
-  //     if (hasReasonAmountError) return;
-
-
-
-
-  //     dispatch({
-  //       type: "ADDUSER",
-  //       payload: {
-  //         profile: file,
-  //         firstname: firstname,
-  //         lastname: lastname,
-  //         Phone: Phone,
-  //         Email: Email,
-  //         Address: house_no,
-  //         area: street,
-  //         landmark: landmark,
-  //         city: city,
-  //         pincode: pincode,
-  //         state: state_name,
-  //         AadharNo: AadharNo,
-  //         PancardNo: PancardNo,
-  //         licence: licence,
-  //         HostelName: HostelName,
-  //         hostel_Id: hostel_Id,
-  //         Floor: Floor,
-  //         Rooms: Rooms,
-  //         Bed: Bed,
-  //         joining_date: formattedDate,
-  //         AdvanceAmount: AdvanceAmount,
-  //         RoomRent: RoomRent,
-  //         BalanceDue: BalanceDue,
-  //         PaymentType: PaymentType,
-  //         paid_advance: paid_advance,
-  //         paid_rent: paid_rent,
-  //         payable_rent: payableamount,
-  //         isadvance: 0,
-  //         ID: props.edit === "Edit" ? id : "",
-  //         reasons: formattedReasons,
-  //         stay_type: activeTab === "long" ? "long_stay" : "short_stay"
-  //       },
-  //     });
-  //     setLoading(true)
-
-
-  //   }
-  //   dispatch({ type: "INVOICELIST" });
-  // };
-
-
-
-
-
-
-
-
-
-  //   const handleSaveAdvance = () => {
-  //     let hasError = false;
-  //     let hasReasonAmountError = false;
-  //     let newErrors = [];
-
-
-  //     if (!advanceDate) {
-  //       setAdvanceDateError("Please Select Invoice Date");
-  //       hasError = true;
-  //     } else {
-  //       setAdvanceDateError("");
-  //     }
-
-  //     if (!advanceDueDate) {
-  //       setAdvanceDueDateError("Please Select Due Date");
-  //       hasError = true;
-  //     } else {
-  //       setAdvanceDueDateError("");
-  //     }
-
-
-
-
-  //     if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
-  //       const selectedUser = state.UsersList.Users.find(
-  //         item => item.User_Id === props.EditObj.User_Id
-  //       );
-
-  //       if (selectedUser) {
-  //         const CreateDate = dayjs(state.login.joiningDate).startOf('day');
-
-
-  //         const InvoiceDate = dayjs(advanceDate).startOf('day');
-
-  //         const DueDate = dayjs(advanceDueDate).startOf('day');
-  //         const Today = dayjs().startOf('day');
-
-
-  //         if (InvoiceDate.isBefore(CreateDate)) {
-
-  //           setAdvanceDateError("Before joining date not allowed");
-  //           hasError = true;
-  //         } else if (InvoiceDate.isAfter(Today)) {
-  //           setAdvanceDateError("Invoice date cannot be a future date");
-  //           hasError = true;
-  //         }
-
-
-  //         if (DueDate.isBefore(InvoiceDate)) {
-  //           setAdvanceDueDateError("Due date cannot be before invoice date");
-  //           hasError = true;
-  //         }
-  //       }
-  //     }
-
-
-
-
-  //     if (hasError) {
-  //       return;
-  //     }
-
-  //     const incrementDateAndFormat = (date) => {
-  //       const newDate = new Date(date);
-  //       newDate.setDate(newDate.getDate() + 1);
-  //       return newDate.toISOString().split("T")[0];
-  //     };
-
-
-  //     const formattedDate = selectedDate
-  //       ? incrementDateAndFormat(selectedDate)
-  //       : "";
-  //     const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
-  //     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
-
-  //   const capitalizeFirstLetter = (str) => {
-  //       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //     };
-
-  //     const capitalizedFirstname = capitalizeFirstLetter(firstname);
-
-  //     const capitalizedLastname = capitalizeFirstLetter(lastname);
-  //     const formattedReasons = fields.map((item) => {
-  //       let reason_name = "";
-
-  //       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-  //         reason_name = item.customReason || item["custom Reason"] || "";
-  //       } else {
-  //         reason_name = item.reason || item.reason_name || "";
-  //       }
-
-  //       const error = { reason: "", amount: "" };
-  //       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-  //         error.amount = "Please enter amount";
-  //         hasReasonAmountError = true;
-  //       }
-
-
-  //       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-  //         error.reason = "Please enter reason";
-  //         hasReasonAmountError = true;
-  //       }
-
-  //       newErrors.push(error);
-  //       return {
-  //         reason_name,
-  //         amount: item.amount || "",
-  //         showInput: !!item.showInput
-  //       };
-  //     });
-
-  //     setErrors(newErrors)
-
-  //     if (hasReasonAmountError) return;
-
-
-  //    dispatch({
-  //   type: "ADDUSER",
-  //   payload: {
-  //     profile: file,
-  //     firstname: capitalizedFirstname,  
-  //     LastName: capitalizedLastname,
-  //     Phone: Phone,
-  //     Email: Email,
-  //     Address: house_no,
-  //     area: street,
-  //     landmark: landmark,
-  //     city: city,
-  //     pincode: pincode,
-  //     state: state_name,
-  //     AadharNo: AadharNo,
-  //     PancardNo: PancardNo,
-  //     licence: licence,
-  //     HostelName: HostelName,
-  //     hostel_Id: hostel_Id,
-  //     Floor: Floor,
-  //     Rooms: Rooms,
-  //     Bed: Bed,
-  //     joining_date: formattedDate,
-  //     AdvanceAmount: AdvanceAmount,
-  //     RoomRent: RoomRent,
-  //     BalanceDue: BalanceDue,
-  //     PaymentType: PaymentType,
-  //     paid_advance: paid_advance,
-  //     paid_rent: paid_rent,
-  //     payable_rent: payableamount,
-  //     isadvance: 1,
-  //     invoice_date: formattedAdvanceDate,
-  //     due_date: formattedAdvanceDateDue,
-  //     ID: props.edit === "Edit" ? id : "",
-  //     reasons: formattedReasons,
-  //     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-
-  //   },
-  // });
-
-  //     setLoading(true)
-
-  //     dispatch({ type: "INVOICELIST" });
-  //   };
-
   const [bookingDate, setBookingDate] = useState("")
   const [bookingAmount, setBookingAmount] = useState("")
   const [bookingFlooorId, setBookingFloorId] = useState("")
@@ -1252,7 +995,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
   useEffect(() => {
     if (props.BookingAssignForm) {
-          setId(props.EditObj.ID);
+      setId(props.EditObj.ID);
       if (props.EditObj.profile === 0) setFile(null);
       else {
         setFile(props.EditObj.profile);
@@ -1311,26 +1054,13 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
         setRoomRent(Roomamountfilter[0]?.bed_amount);
       }
 
-      // setBookingDate(props.EditObj.booking_booking_date)
-      //  if (props.EditObj?.booking_booking_date) {
-      //       const dateObj = new Date(props.EditObj.booking_booking_date);
-      //       const day = String(dateObj.getDate()).padStart(2, '0');
-      //       const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-      //       const year = dateObj.getFullYear();
-      //       const formattedBookingDate = `${day}/${month}/${year}`;
-
-      //       bookingDateRef.current = formattedBookingDate; 
-      //       setBookingDate(formattedBookingDate); 
-      //     }
-
       if (props.EditObj?.booking_booking_date) {
         const dateObj = new Date(props.EditObj.booking_booking_date);
 
-        // Convert directly into dayjs object
         const bookingDayjs = dayjs(dateObj);
 
         bookingDateRef.current = bookingDayjs;
-        setBookingDate(bookingDayjs);  // store as dayjs, not string
+        setBookingDate(bookingDayjs);
       }
 
 
@@ -1346,172 +1076,18 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
     );
   };
 
-  // useEffect(() => {
-  //   if (props.BookingAssignForm) {
-  //     dispatch({
-  //       type: "BEDNUMBERDETAILS",
-  //       payload: {
-  //         hostel_id: props?.EditObj?.Hostel_Id,
-  //         floor_id: props?.EditObj?.booking_floor_id,
-  //         room_id: props?.EditObj?.booking_room_id,
-  //       },
-
-
-  //     });
-  //     const Bedfilter = state?.UsersList?.roomdetails?.filter(
-  //       (u) =>
-  //         String(u.Hostel_Id) === String(props?.EditObj?.Hostel_Id) &&
-  //         String(u.Floor_Id) === String(props?.EditObj?.booking_floor_id) &&
-  //         String(u.Room_Id) === String(props?.EditObj?.booking_room_id)
-  //     );
-  //     const Roomamountfilter =
-  //       Bedfilter?.[0]?.bed_details?.filter(
-  //         (amount) => String(amount.id) === String(props?.EditObj?.booking_bed_id)
-  //       ) ?? [];
-
-  //     if (Roomamountfilter.length > 0) {
-  //       setRoomRent(Roomamountfilter[0]?.bed_amount);
-  //     }
-  //   }
-  // }, [props.BookingAssignForm, state?.UsersList?.roomdetails]);
-
-
-  //  const handleSaveBookingCancel = () => {
-
-  //     let hasReasonAmountError = false;
-  //     let newErrors = [];
-
-
-  //     if (!RoomRent && RoomRent !== 0) {
-  //       setRoomRentError("Please Enter Rental Amount");
-  //       return;
-  //     }
-  //     if (RoomRent <= 0) {
-  //       setRoomRentError("Please Enter Valid Rental Amount");
-  //       return;
-  //     }
-  //     if (!AdvanceAmount && AdvanceAmount !== 0) {
-  //       setAdvanceAmountError("Please Enter Advance Amount");
-  //       return;
-  //     }
-
-  //     if (AdvanceAmount <= 0) {
-  //       setAdvanceAmountError("Please Enter Valid Advance Amount");
-  //       return;
-  //     }
 
 
 
 
-
-  //     if (AdvanceAmount && RoomRent) {
-  //       const incrementDateAndFormat = (date) => {
-  //         const newDate = new Date(date);
-  //         newDate.setDate(newDate.getDate() + 1);
-
-  //         return newDate.toISOString().split("T")[0];
-  //       };
-  //       const formattedDate = selectedDate
-  //         ? incrementDateAndFormat(selectedDate)
-  //         : "";
-
-
-  //       const formattedReasons = fields.map((item) => {
-  //         let reason_name = "";
-
-  //         if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-  //           reason_name = item.customReason || item["custom Reason"] || "";
-  //         } else {
-  //           reason_name = item.reason || item.reason_name || "";
-  //         }
-
-  //         const error = { reason: "", amount: "" };
-  //         if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-  //           error.amount = "Please enter amount";
-  //           hasReasonAmountError = true;
-  //         }
-
-
-  //         if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-  //           error.reason = "Please enter reason";
-  //           hasReasonAmountError = true;
-  //         }
-
-  //         newErrors.push(error);
-  //         return {
-  //           reason_name,
-  //           amount: item.amount || "",
-  //           showInput: !!item.showInput
-  //         };
-  //       });
-
-  //       setErrors(newErrors)
-
-  //       if (hasReasonAmountError) return;
-  //       const formatDate = (dateString) => {
-  //   if (!dateString) return "";
-  //   const date = new Date(dateString);
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const year = date.getFullYear();
-  //   return `${day}/${month}/${year}`;
-  // };
-
-  // const formattedBookingDate = formatDate(bookingDate);
-
-
-  //       dispatch({
-  //         type: "ADDUSER",
-  //         payload: {
-  //           profile: file,
-  //           firstname: firstname,
-  //           lastname: lastname,
-  //           Phone: Phone,
-  //           Email: Email,
-  //           Address: house_no,
-  //           area: street,
-  //           landmark: landmark,
-  //           city: city,
-  //           pincode: pincode,
-  //           state: state_name,
-  //           AadharNo: AadharNo,
-  //           PancardNo: PancardNo,
-  //           licence: licence,
-  //           HostelName: HostelName,
-  //           hostel_Id: hostel_Id,
-  //           Floor: bookingFlooorId,
-  //           Rooms: bookingRoomId,
-  //           Bed: bookingBedId,
-  //           joining_date: formattedDate,
-  //           AdvanceAmount: AdvanceAmount,
-  //           RoomRent: RoomRent,
-  //           BalanceDue: BalanceDue,
-  //           PaymentType: PaymentType,
-  //           paid_advance: paid_advance,
-  //           paid_rent: paid_rent,
-  //           payable_rent: payableamount,
-  //           ID: props.EditObj.ID,
-  //           reasons: formattedReasons,
-  //           stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-  //            booking_Id:props.EditObj.booking_id,
-  //     booking_date:formattedBookingDate,
-  //     booking_amount:bookingAmount
-  //         },
-  //       });
-  //       setLoading(true)
-
-
-  //     }
-  //     dispatch({ type: "INVOICELIST" });
-  //   };
 
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       setFormLoading(false)
       setLoading(false)
-          if (props?.setShowForm) props.setShowForm(false);
-    if (props?.OnShowTable) props.OnShowTable(true);
+      if (props?.setShowForm) props.setShowForm(false);
+      if (props?.OnShowTable) props.OnShowTable(true);
       // handleClose();
       // handleCloseAdvanceForm();
       // handleCloseAssign()
@@ -1539,7 +1115,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+        
       }, 3000)
     }
 
@@ -2016,7 +1592,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
   ]);
 
 
-  
+
 
   const handleRecheckin = (e) => {
     setReason(e.target.value)
@@ -2425,30 +2001,30 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
                         <Select
                           options={
-                            state.PgList?.bedList?.[Rooms] 
-                              ? state.PgList.bedList[Rooms]
+                            availableBed
+                              ? availableBed
                                 .filter(
-                                  (item) =>
-                                    item.bedName !== "0" &&
-                                    item.bedName !== "undefined" &&
-                                    item.bedName !== "" &&
-                                    item.bedName !== "null"
+                                  (item) => item &&
+                                    item?.bedName !== "0" &&
+                                    item?.bedName !== "undefined" &&
+                                    item?.bedName !== "" &&
+                                    item?.bedName !== "null"
                                 )
                                 .map((item) => ({
-                                  value: item.id,
-                                  label: item.bedName,
+                                  value: item?.bedId,
+                                  label: item?.bedName,
                                 }))
                               : []
                           }
                           onChange={handleBed}
                           value={
-                            state.PgList?.bedList?.[Rooms] 
+                            availableBed
                               ? (() => {
-                                const selected = state.PgList.bedList[Rooms].find(
-                                  (option) => option.id === Bed
+                                const selected = availableBed?.find(
+                                  (option) => option?.bedId === Bed
                                 );
                                 return selected
-                                  ? { value: selected.id, label: selected.bedName }
+                                  ? { value: selected.bedId, label: selected.bedName }
                                   : null;
                               })()
                               : null
@@ -2515,7 +2091,12 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
                             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>Bed unavailable for this date</label>
                           </div>
                           : null}
-
+ {bedWarning ?
+                          <div className='d-flex  align-items-center  mt-1 mb-1'>
+                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bedWarning}</label>
+                          </div>
+                          : null}
 
                         {bedError && (
                           <div style={{ color: "red" }}>
@@ -3088,7 +2669,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
 
 
-{/* advanceForm */}
+      {/* advanceForm */}
 
       <Modal
         show={props.advanceForm}
@@ -3341,7 +2922,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
       </Modal>
 
 
-{/* BACK TO CHECK IN */}
+      {/* BACK TO CHECK IN */}
 
       <Modal
         show={props.bactocheckinForm}
@@ -3914,8 +3495,8 @@ value={bookingAmount}
                       backgroundColor: "#F7F9FF",
                       borderRadius: 10,
                       paddingBottom: 5,
-                      pointerEvents: "none", 
-                      opacity: 0.6, 
+                      pointerEvents: "none",
+                      opacity: 0.6,
                     }} className="mt-3 mb-3">
 
                       <div className="d-flex justify-content-between align-items-center p-4">

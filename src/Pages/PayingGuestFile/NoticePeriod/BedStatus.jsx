@@ -113,8 +113,8 @@ function NoticeBedStatusDetails({
 
               useEffect(()=>{
                 if(state.Booking.StatusCodeInactiveCode === 200){
-                  dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room.Floor_Id, hostel_Id: currentItem?.room.Hostel_Id } })
-                  dispatch({ type: 'HOSTELLIST' })
+                  // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room.Floor_Id, hostel_Id: currentItem?.room.Hostel_Id } })
+                  // dispatch({ type: 'HOSTELLIST' })
                
                    setTimeout(() => {
                         dispatch({ type: 'CLEAR_BOOKING_InActive' })
