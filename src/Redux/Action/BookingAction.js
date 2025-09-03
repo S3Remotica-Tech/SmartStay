@@ -98,7 +98,7 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 
 export async function AddBooking(booking) {
-    return await AxiosConfigV2.post(`/v2/customers/add-booking/${booking.hostelId}`,booking, {
+    return await AxiosConfigV2.post(`/v2/customers/booking/${booking.hostelId}`,booking, {
       data:booking
     })
   }

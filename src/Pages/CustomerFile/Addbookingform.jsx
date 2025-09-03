@@ -22,7 +22,6 @@ import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 
 function BookingModal(props) {
 
-console.log("propssssss",props)
 
   const state = useSelector((state) => state);
 
@@ -35,13 +34,17 @@ console.log("propssssss",props)
   const [Floor, setFloor] = useState('');
   const [bed, setBed] = useState('');
   const [formLoading, setFormLoading] = useState(false)
-
+  const [availableBed, setAvailableBed] = useState('')
+  const [bedWarning, setBedWarning] = useState('')
 
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+      dispatch({
+        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
+      });
     }
   }, []);
 
@@ -71,7 +74,7 @@ console.log("propssssss",props)
       }
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
-        dispatch({ type: "ERROR_BOOKING_REMOVE" })
+        // dispatch({ type: "ERROR_BOOKING_REMOVE" })
       }, 2000);
     }
   }, [state.Booking.bookingEmailError, state.Booking?.bookingBedError]);
@@ -151,16 +154,16 @@ console.log("propssssss",props)
   const handleRooms = (selectedOption) => {
     const selectedRoomId = selectedOption;
 
-    console.log("selectedRoomId",selectedRoomId)
-
     setRoom(selectedRoomId);
     setBed("");
 
     if (selectedRoomId) {
-      dispatch({
-        type: "GETALLBEDSLIST",
-        payload: { roomId: selectedRoomId }
+      const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
+        return view.floorId === Floor || view.roomId === selectedRoomId
       });
+
+
+      setAvailableBed(filteredBed)
 
       setRoomError("");
     } else {
@@ -170,6 +173,7 @@ console.log("propssssss",props)
 
 
   const handleCloseBooking = () => {
+    dispatch({ type: "ERROR_BOOKING_REMOVE" })
     props.handleCloseAddBooking();
   }
 
@@ -217,10 +221,28 @@ console.log("propssssss",props)
 
 
   const handleBed = (selectedOption) => {
-     dispatch({ type: "ERROR_BOOKING_REMOVE" })
+    dispatch({ type: "ERROR_BOOKING_REMOVE" });
+
     setBedError("");
-    setBed(selectedOption?.value || "");
+
+    const selectedBedId = selectedOption?.value || "";
+    setBed(selectedBedId);
+
+    const selectedBed = state.UsersList?.bednumberdetails?.find(
+      (bed) => String(bed.bedId) === String(selectedBedId)
+    );
+
+    if (selectedBed) {
+      if (selectedBed.showWarning) {
+        setBedWarning(selectedBed.warningMessage);
+      } else {
+        setBedWarning("");
+      }
+    }
   };
+
+
+
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -339,7 +361,7 @@ console.log("propssssss",props)
     setRoom("");
     setBed("");
     setFloorError("");
-     };
+  };
 
   return (
     <>
@@ -966,30 +988,30 @@ console.log("propssssss",props)
 
               <Select
                 options={
-                  state.PgList?.bedList?.[room] 
-                    ? state.PgList.bedList[room]
+                  availableBed
+                    ? availableBed
                       .filter(
-                        (item) =>
-                          item.bedName !== "0" &&
-                          item.bedName !== "undefined" &&
-                          item.bedName !== "" &&
-                          item.bedName !== "null"
+                        (item) => item &&
+                          item?.bedName !== "0" &&
+                          item?.bedName !== "undefined" &&
+                          item?.bedName !== "" &&
+                          item?.bedName !== "null"
                       )
                       .map((item) => ({
-                        value: item.id,
-                        label: item.bedName,
+                        value: item?.bedId,
+                        label: item?.bedName,
                       }))
                     : []
                 }
                 onChange={handleBed}
                 value={
-                  state.PgList?.bedList?.[room] 
+                  availableBed
                     ? (() => {
-                      const selected = state.PgList.bedList[room].find(
-                        (option) => option.id === bed
+                      const selected = availableBed?.find(
+                        (option) => option?.bedId === bed
                       );
                       return selected
-                        ? { value: selected.id, label: selected.bedName }
+                        ? { value: selected.bedId, label: selected.bedName }
                         : null;
                     })()
                     : null
@@ -1049,6 +1071,13 @@ console.log("propssssss",props)
                   }),
                 }}
               />
+
+              {bedWarning ?
+                <div className='d-flex  align-items-center  mt-1 mb-1'>
+                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bedWarning}</label>
+                </div>
+                : null}
               {state.Booking?.bookingBedError ?
                 <div className='d-flex  align-items-center  mt-1 mb-1'>
                   <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />

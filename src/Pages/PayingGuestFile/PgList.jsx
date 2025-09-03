@@ -65,7 +65,7 @@ function PgList() {
   const [showAddPg, setShowAddPg] = useState(false);
   const [floorList, setFloorList] = useState([])
 
-
+console.log("floorClick",floorClick)
 
 
   const [showFloor, setShowFloor] = useState(false);
@@ -276,7 +276,7 @@ function PgList() {
 useEffect(() => {
   if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
     dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
-    dispatch({ type: "HOSTELLIST" });
+    // dispatch({ type: "HOSTELLIST" });
     dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: hostel_Id } });
     setShowDelete(false);
 
@@ -329,7 +329,7 @@ useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       // dispatch({ type: "HOSTELIDDETAILS" });
-      dispatch({ type: "HOSTELLIST" });
+      // dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
@@ -347,7 +347,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.PgList.dleteHostelImagesStatusCode === 200) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      dispatch({ type: "HOSTELLIST" })
+      // dispatch({ type: "HOSTELLIST" })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
@@ -362,7 +362,7 @@ useEffect(() => {
   useEffect(() => {
     if (state.PgList?.createPgStatusCode === 201) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      dispatch({ type: "HOSTELLIST" });
+      // dispatch({ type: "HOSTELLIST" });
 
       setShowAddPg(false);
       setTimeout(() => {
@@ -449,13 +449,13 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteRoom === 200) {
-      dispatch({
-        type: "ROOMCOUNT",
-        payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
-      });
+      // dispatch({
+      //   type: "ROOMCOUNT",
+      //   payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
+      // });
 
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      dispatch({ type: "HOSTELLIST" });
+      // dispatch({ type: "HOSTELLIST" });
 
 
       setTimeout(() => {

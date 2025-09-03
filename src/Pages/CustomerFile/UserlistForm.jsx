@@ -3,11 +3,7 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
-import Image from "react-bootstrap/Image";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
@@ -19,11 +15,8 @@ import { CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import Flipbackward from "../../Assets/Images/flip-backward.png";
-import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
-import Store_Icon from "../../Assets/Images/store_icon.png";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
-import { RiShoppingBag3Line } from "react-icons/ri";
+
 
 
 
@@ -94,8 +87,8 @@ function UserlistForm(props) {
   const stateRef = useRef(null);
 
 
-
-
+const [availableBed, setAvailableBed] = useState('')
+const [bedWarning, setBedWarning] = useState('')
 
 
   const [fields, setFields] = useState([]);
@@ -183,14 +176,6 @@ function UserlistForm(props) {
   }, [selectedDate]);
 
 
-
-
-
-
-
-
-
-  console.log("state", state)
 
 
   // useEffect(() => {
@@ -398,42 +383,85 @@ function UserlistForm(props) {
   };
 
   const handleRooms = (selectedValue) => {
-    console.log("selectedValue", selectedValue)
-    setRooms(selectedValue);
-    if (selectedValue) {
-      dispatch({
-        type: "GETALLBEDSLIST",
-        payload: { roomId: selectedValue }
-      });
+  setRooms(selectedValue);
+
+ const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
+       return view.floorId === Floor || view.roomId === selectedValue
+  
+  });
+  setAvailableBed(filteredBed)
+  setRoomRent("");
+  setRoomError("");
+};
+
+
+
+//   const handleBed = (selectedOption) => {
+// console.log("selectedOption",selectedOption)
+
+//     const selectedBedId = selectedOption?.value || "";
+//     setBed(selectedBedId);
+
+//     // const Bedfilter = state?.UsersList?.roomdetails?.filter(
+//     //   (u) =>
+//     //     String(u.Hostel_Id) === String(hostel_Id) &&
+//     //     String(u.Floor_Id) === String(Floor) &&
+//     //     String(u.Room_Id) === String(Rooms)
+//     // );
+
+//     // const Roomamountfilter =
+//     //   Bedfilter?.[0]?.bed_details?.filter(
+//     //     (amount) => String(amount.id) === String(selectedBedId)
+//     //   ) ?? [];
+
+//     // if (Roomamountfilter.length > 0) {
+//     //   setRoomRent(Roomamountfilter[0]?.bed_amount);
+//     // }
+
+//     setBedError("");
+//     setRoomRentError("");
+//   };
+
+
+const handleBed = (selectedOption) => {
+  dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+  setBedWarning("");
+  const selectedBedId = selectedOption?.value || "";
+  setBed(selectedBedId);
+
+  const selectedBed = state.UsersList?.bednumberdetails?.find(
+    (bed) => String(bed.bedId) === String(selectedBedId)
+  );
+
+  if (selectedBed) {
+        if (selectedBed.showWarning) {
+      console.log("Warning:", selectedBed.warningMessage);
+            setBedWarning(selectedBed.warningMessage);
+    } else {
+      setBedWarning("");
     }
 
-       setRoomRent("");
-    setRoomError("");
-  };
+    // If you want to get rent from roomdetails logic (your commented part)
+    // const Bedfilter = state?.UsersList?.roomdetails?.filter(
+    //   (u) =>
+    //     String(u.Hostel_Id) === String(hostel_Id) &&
+    //     String(u.Floor_Id) === String(Floor) &&
+    //     String(u.Room_Id) === String(Rooms)
+    // );
+    // const Roomamountfilter =
+    //   Bedfilter?.[0]?.bed_details?.filter(
+    //     (amount) => String(amount.id) === String(selectedBedId)
+    //   ) ?? [];
+    // if (Roomamountfilter.length > 0) {
+    //   setRoomRent(Roomamountfilter[0]?.bed_amount);
+    // }
+  }
 
-  const handleBed = (selectedOption) => {
-    const selectedBedId = selectedOption?.value || "";
-    setBed(selectedBedId);
+  setBedError("");
+  setRoomRentError("");
+};
 
-    const Bedfilter = state?.UsersList?.roomdetails?.filter(
-      (u) =>
-        String(u.Hostel_Id) === String(hostel_Id) &&
-        String(u.Floor_Id) === String(Floor) &&
-        String(u.Room_Id) === String(Rooms)
-    );
 
-    const Roomamountfilter =
-      Bedfilter?.[0]?.bed_details?.filter(
-        (amount) => String(amount.id) === String(selectedBedId)
-      ) ?? [];
-
-    if (Roomamountfilter.length > 0) {
-      setRoomRent(Roomamountfilter[0]?.bed_amount);
-    }
-
-    setBedError("");
-    setRoomRentError("");
-  };
 
   const handleRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -529,7 +557,8 @@ function UserlistForm(props) {
     setPayableamount("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
-       if (props?.setShowForm) props.setShowForm(false);
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+    if (props?.setShowForm) props.setShowForm(false);
     if (props?.OnShowTable) props.OnShowTable(true);
     if (props?.edit === "Edit") {
       if (props?.OnShowTable) props.OnShowTable(true);
@@ -540,7 +569,7 @@ function UserlistForm(props) {
 
 
   const handleCloseAssign = () => {
-dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     if (props?.setShowAssignMenu) props.setShowAssignMenu(false);
@@ -554,7 +583,6 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
   }
 
 
-  console.log("props tenant", props)
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {
@@ -705,7 +733,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
       newErrors.push(error);
       return {
-       type: reason_name,
+        type: reason_name,
         amount: item.amount || "",
         // showInput: !!item.showInput
       };
@@ -767,25 +795,30 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
           joiningDate: formattedDate,
           advanceAmount: AdvanceAmount,
           rentalAmount: RoomRent,
-          stayType:activeTab,
-          deductions:formattedReasons
+          stayType: activeTab,
+          deductions: formattedReasons
 
         }
       })
       setFormLoading(true)
 
 
-      
+
     }
 
-    
+
   };
 
+
+  console.log("state", state)
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({
+        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
+      });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -888,9 +921,6 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
     if (hasReasonAmountError) return;
 
-
-    console.log("apitriggerd", hasReasonAmountError, AdvanceAmount, RoomRent);
-
     if (
 
       Number(AdvanceAmount) > 0 &&
@@ -947,318 +977,10 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
   };
 
 
-  console.log("Rooms", Rooms)
 
 
 
 
-
-  // const handleSaveUserlistAddUserButon = () => {
-
-  //   let hasReasonAmountError = false;
-  //   let newErrors = [];
-
-
-  //   if (!validateAssignField(Floor, "Floor"));
-  //   if (!validateAssignField(Rooms, "Rooms"));
-  //   if (!validateAssignField(Bed, "Bed"));
-  //   if (!validateAssignField(selectedDate, "selectedDate"));
-  //   if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
-  //   if (!validateAssignField(RoomRent, "RoomRent"));
-
-  //   if (Floor === "Selected Floor" || floorError) {
-  //     setfloorError("Please Select a Valid PG");
-  //     return;
-  //   }
-  //   if (Rooms === "Selected Room" || roomError) {
-  //     setRoomError("Please Select a Valid PG");
-  //     return;
-  //   }
-  //   if (Bed === "Selected Bed" || bedError) {
-  //     setBedError("Please Select a Valid PG");
-  //     return;
-  //   }
-  //   if (!RoomRent && RoomRent !== 0) {
-  //     setRoomRentError("Please Enter Rental Amount");
-  //     return;
-  //   }
-  //   if (RoomRent <= 0) {
-  //     setRoomRentError("Please Enter Valid Rental Amount");
-  //     return;
-  //   }
-  //   if (!AdvanceAmount && AdvanceAmount !== 0) {
-  //     setAdvanceAmountError("Please Enter Advance Amount");
-  //     return;
-  //   }
-
-  //   if (AdvanceAmount <= 0) {
-  //     setAdvanceAmountError("Please Enter Valid Advance Amount");
-  //     return;
-  //   }
-
-
-
-
-
-  //   if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
-  //     const incrementDateAndFormat = (date) => {
-  //       const newDate = new Date(date);
-  //       newDate.setDate(newDate.getDate() + 1);
-
-  //       return newDate.toISOString().split("T")[0];
-  //     };
-  //     const formattedDate = selectedDate
-  //       ? incrementDateAndFormat(selectedDate)
-  //       : "";
-
-
-  //     const formattedReasons = fields.map((item) => {
-  //       let reason_name = "";
-
-  //       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-  //         reason_name = item.customReason || item["custom Reason"] || "";
-  //       } else {
-  //         reason_name = item.reason || item.reason_name || "";
-  //       }
-
-  //       const error = { reason: "", amount: "" };
-  //       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-  //         error.amount = "Please enter amount";
-  //         hasReasonAmountError = true;
-  //       }
-
-
-  //       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-  //         error.reason = "Please enter reason";
-  //         hasReasonAmountError = true;
-  //       }
-
-  //       newErrors.push(error);
-  //       return {
-  //         reason_name,
-  //         amount: item.amount || "",
-  //         showInput: !!item.showInput
-  //       };
-  //     });
-
-  //     setErrors(newErrors)
-
-  //     if (hasReasonAmountError) return;
-
-
-
-
-  //     dispatch({
-  //       type: "ADDUSER",
-  //       payload: {
-  //         profile: file,
-  //         firstname: firstname,
-  //         lastname: lastname,
-  //         Phone: Phone,
-  //         Email: Email,
-  //         Address: house_no,
-  //         area: street,
-  //         landmark: landmark,
-  //         city: city,
-  //         pincode: pincode,
-  //         state: state_name,
-  //         AadharNo: AadharNo,
-  //         PancardNo: PancardNo,
-  //         licence: licence,
-  //         HostelName: HostelName,
-  //         hostel_Id: hostel_Id,
-  //         Floor: Floor,
-  //         Rooms: Rooms,
-  //         Bed: Bed,
-  //         joining_date: formattedDate,
-  //         AdvanceAmount: AdvanceAmount,
-  //         RoomRent: RoomRent,
-  //         BalanceDue: BalanceDue,
-  //         PaymentType: PaymentType,
-  //         paid_advance: paid_advance,
-  //         paid_rent: paid_rent,
-  //         payable_rent: payableamount,
-  //         isadvance: 0,
-  //         ID: props.edit === "Edit" ? id : "",
-  //         reasons: formattedReasons,
-  //         stay_type: activeTab === "long" ? "long_stay" : "short_stay"
-  //       },
-  //     });
-  //     setLoading(true)
-
-
-  //   }
-  //   dispatch({ type: "INVOICELIST" });
-  // };
-
-
-
-
-
-
-
-
-
-  //   const handleSaveAdvance = () => {
-  //     let hasError = false;
-  //     let hasReasonAmountError = false;
-  //     let newErrors = [];
-
-
-  //     if (!advanceDate) {
-  //       setAdvanceDateError("Please Select Invoice Date");
-  //       hasError = true;
-  //     } else {
-  //       setAdvanceDateError("");
-  //     }
-
-  //     if (!advanceDueDate) {
-  //       setAdvanceDueDateError("Please Select Due Date");
-  //       hasError = true;
-  //     } else {
-  //       setAdvanceDueDateError("");
-  //     }
-
-
-
-
-  //     if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
-  //       const selectedUser = state.UsersList.Users.find(
-  //         item => item.User_Id === props.EditObj.User_Id
-  //       );
-
-  //       if (selectedUser) {
-  //         const CreateDate = dayjs(state.login.joiningDate).startOf('day');
-
-
-  //         const InvoiceDate = dayjs(advanceDate).startOf('day');
-
-  //         const DueDate = dayjs(advanceDueDate).startOf('day');
-  //         const Today = dayjs().startOf('day');
-
-
-  //         if (InvoiceDate.isBefore(CreateDate)) {
-
-  //           setAdvanceDateError("Before joining date not allowed");
-  //           hasError = true;
-  //         } else if (InvoiceDate.isAfter(Today)) {
-  //           setAdvanceDateError("Invoice date cannot be a future date");
-  //           hasError = true;
-  //         }
-
-
-  //         if (DueDate.isBefore(InvoiceDate)) {
-  //           setAdvanceDueDateError("Due date cannot be before invoice date");
-  //           hasError = true;
-  //         }
-  //       }
-  //     }
-
-
-
-
-  //     if (hasError) {
-  //       return;
-  //     }
-
-  //     const incrementDateAndFormat = (date) => {
-  //       const newDate = new Date(date);
-  //       newDate.setDate(newDate.getDate() + 1);
-  //       return newDate.toISOString().split("T")[0];
-  //     };
-
-
-  //     const formattedDate = selectedDate
-  //       ? incrementDateAndFormat(selectedDate)
-  //       : "";
-  //     const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
-  //     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
-
-  //   const capitalizeFirstLetter = (str) => {
-  //       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //     };
-
-  //     const capitalizedFirstname = capitalizeFirstLetter(firstname);
-
-  //     const capitalizedLastname = capitalizeFirstLetter(lastname);
-  //     const formattedReasons = fields.map((item) => {
-  //       let reason_name = "";
-
-  //       if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-  //         reason_name = item.customReason || item["custom Reason"] || "";
-  //       } else {
-  //         reason_name = item.reason || item.reason_name || "";
-  //       }
-
-  //       const error = { reason: "", amount: "" };
-  //       if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-  //         error.amount = "Please enter amount";
-  //         hasReasonAmountError = true;
-  //       }
-
-
-  //       if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-  //         error.reason = "Please enter reason";
-  //         hasReasonAmountError = true;
-  //       }
-
-  //       newErrors.push(error);
-  //       return {
-  //         reason_name,
-  //         amount: item.amount || "",
-  //         showInput: !!item.showInput
-  //       };
-  //     });
-
-  //     setErrors(newErrors)
-
-  //     if (hasReasonAmountError) return;
-
-
-  //    dispatch({
-  //   type: "ADDUSER",
-  //   payload: {
-  //     profile: file,
-  //     firstname: capitalizedFirstname,  
-  //     LastName: capitalizedLastname,
-  //     Phone: Phone,
-  //     Email: Email,
-  //     Address: house_no,
-  //     area: street,
-  //     landmark: landmark,
-  //     city: city,
-  //     pincode: pincode,
-  //     state: state_name,
-  //     AadharNo: AadharNo,
-  //     PancardNo: PancardNo,
-  //     licence: licence,
-  //     HostelName: HostelName,
-  //     hostel_Id: hostel_Id,
-  //     Floor: Floor,
-  //     Rooms: Rooms,
-  //     Bed: Bed,
-  //     joining_date: formattedDate,
-  //     AdvanceAmount: AdvanceAmount,
-  //     RoomRent: RoomRent,
-  //     BalanceDue: BalanceDue,
-  //     PaymentType: PaymentType,
-  //     paid_advance: paid_advance,
-  //     paid_rent: paid_rent,
-  //     payable_rent: payableamount,
-  //     isadvance: 1,
-  //     invoice_date: formattedAdvanceDate,
-  //     due_date: formattedAdvanceDateDue,
-  //     ID: props.edit === "Edit" ? id : "",
-  //     reasons: formattedReasons,
-  //     stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-
-  //   },
-  // });
-
-  //     setLoading(true)
-
-  //     dispatch({ type: "INVOICELIST" });
-  //   };
 
   const [bookingDate, setBookingDate] = useState("")
   const [bookingAmount, setBookingAmount] = useState("")
@@ -1273,9 +995,6 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
   useEffect(() => {
     if (props.BookingAssignForm) {
-      console.log("props", props.EditObj);
-
-
       setId(props.EditObj.ID);
       if (props.EditObj.profile === 0) setFile(null);
       else {
@@ -1335,26 +1054,13 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
         setRoomRent(Roomamountfilter[0]?.bed_amount);
       }
 
-      // setBookingDate(props.EditObj.booking_booking_date)
-      //  if (props.EditObj?.booking_booking_date) {
-      //       const dateObj = new Date(props.EditObj.booking_booking_date);
-      //       const day = String(dateObj.getDate()).padStart(2, '0');
-      //       const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-      //       const year = dateObj.getFullYear();
-      //       const formattedBookingDate = `${day}/${month}/${year}`;
-
-      //       bookingDateRef.current = formattedBookingDate; 
-      //       setBookingDate(formattedBookingDate); 
-      //     }
-
       if (props.EditObj?.booking_booking_date) {
         const dateObj = new Date(props.EditObj.booking_booking_date);
 
-        // Convert directly into dayjs object
         const bookingDayjs = dayjs(dateObj);
 
         bookingDateRef.current = bookingDayjs;
-        setBookingDate(bookingDayjs);  // store as dayjs, not string
+        setBookingDate(bookingDayjs);
       }
 
 
@@ -1370,172 +1076,18 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
     );
   };
 
-  // useEffect(() => {
-  //   if (props.BookingAssignForm) {
-  //     dispatch({
-  //       type: "BEDNUMBERDETAILS",
-  //       payload: {
-  //         hostel_id: props?.EditObj?.Hostel_Id,
-  //         floor_id: props?.EditObj?.booking_floor_id,
-  //         room_id: props?.EditObj?.booking_room_id,
-  //       },
-
-
-  //     });
-  //     const Bedfilter = state?.UsersList?.roomdetails?.filter(
-  //       (u) =>
-  //         String(u.Hostel_Id) === String(props?.EditObj?.Hostel_Id) &&
-  //         String(u.Floor_Id) === String(props?.EditObj?.booking_floor_id) &&
-  //         String(u.Room_Id) === String(props?.EditObj?.booking_room_id)
-  //     );
-  //     const Roomamountfilter =
-  //       Bedfilter?.[0]?.bed_details?.filter(
-  //         (amount) => String(amount.id) === String(props?.EditObj?.booking_bed_id)
-  //       ) ?? [];
-
-  //     if (Roomamountfilter.length > 0) {
-  //       setRoomRent(Roomamountfilter[0]?.bed_amount);
-  //     }
-  //   }
-  // }, [props.BookingAssignForm, state?.UsersList?.roomdetails]);
-
-
-  //  const handleSaveBookingCancel = () => {
-
-  //     let hasReasonAmountError = false;
-  //     let newErrors = [];
-
-
-  //     if (!RoomRent && RoomRent !== 0) {
-  //       setRoomRentError("Please Enter Rental Amount");
-  //       return;
-  //     }
-  //     if (RoomRent <= 0) {
-  //       setRoomRentError("Please Enter Valid Rental Amount");
-  //       return;
-  //     }
-  //     if (!AdvanceAmount && AdvanceAmount !== 0) {
-  //       setAdvanceAmountError("Please Enter Advance Amount");
-  //       return;
-  //     }
-
-  //     if (AdvanceAmount <= 0) {
-  //       setAdvanceAmountError("Please Enter Valid Advance Amount");
-  //       return;
-  //     }
 
 
 
 
-
-  //     if (AdvanceAmount && RoomRent) {
-  //       const incrementDateAndFormat = (date) => {
-  //         const newDate = new Date(date);
-  //         newDate.setDate(newDate.getDate() + 1);
-
-  //         return newDate.toISOString().split("T")[0];
-  //       };
-  //       const formattedDate = selectedDate
-  //         ? incrementDateAndFormat(selectedDate)
-  //         : "";
-
-
-  //       const formattedReasons = fields.map((item) => {
-  //         let reason_name = "";
-
-  //         if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-  //           reason_name = item.customReason || item["custom Reason"] || "";
-  //         } else {
-  //           reason_name = item.reason || item.reason_name || "";
-  //         }
-
-  //         const error = { reason: "", amount: "" };
-  //         if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-  //           error.amount = "Please enter amount";
-  //           hasReasonAmountError = true;
-  //         }
-
-
-  //         if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-  //           error.reason = "Please enter reason";
-  //           hasReasonAmountError = true;
-  //         }
-
-  //         newErrors.push(error);
-  //         return {
-  //           reason_name,
-  //           amount: item.amount || "",
-  //           showInput: !!item.showInput
-  //         };
-  //       });
-
-  //       setErrors(newErrors)
-
-  //       if (hasReasonAmountError) return;
-  //       const formatDate = (dateString) => {
-  //   if (!dateString) return "";
-  //   const date = new Date(dateString);
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const year = date.getFullYear();
-  //   return `${day}/${month}/${year}`;
-  // };
-
-  // const formattedBookingDate = formatDate(bookingDate);
-
-
-  //       dispatch({
-  //         type: "ADDUSER",
-  //         payload: {
-  //           profile: file,
-  //           firstname: firstname,
-  //           lastname: lastname,
-  //           Phone: Phone,
-  //           Email: Email,
-  //           Address: house_no,
-  //           area: street,
-  //           landmark: landmark,
-  //           city: city,
-  //           pincode: pincode,
-  //           state: state_name,
-  //           AadharNo: AadharNo,
-  //           PancardNo: PancardNo,
-  //           licence: licence,
-  //           HostelName: HostelName,
-  //           hostel_Id: hostel_Id,
-  //           Floor: bookingFlooorId,
-  //           Rooms: bookingRoomId,
-  //           Bed: bookingBedId,
-  //           joining_date: formattedDate,
-  //           AdvanceAmount: AdvanceAmount,
-  //           RoomRent: RoomRent,
-  //           BalanceDue: BalanceDue,
-  //           PaymentType: PaymentType,
-  //           paid_advance: paid_advance,
-  //           paid_rent: paid_rent,
-  //           payable_rent: payableamount,
-  //           ID: props.EditObj.ID,
-  //           reasons: formattedReasons,
-  //           stay_type: activeTab === "long" ? "long_stay" : "short_stay",
-  //            booking_Id:props.EditObj.booking_id,
-  //     booking_date:formattedBookingDate,
-  //     booking_amount:bookingAmount
-  //         },
-  //       });
-  //       setLoading(true)
-
-
-  //     }
-  //     dispatch({ type: "INVOICELIST" });
-  //   };
 
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
       setFormLoading(false)
       setLoading(false)
-          if (props?.setShowForm) props.setShowForm(false);
-    if (props?.OnShowTable) props.OnShowTable(true);
+      if (props?.setShowForm) props.setShowForm(false);
+      if (props?.OnShowTable) props.OnShowTable(true);
       // handleClose();
       // handleCloseAdvanceForm();
       // handleCloseAssign()
@@ -1563,7 +1115,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+        
       }, 3000)
     }
 
@@ -1635,171 +1187,171 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
 
 
-  const handleNext = () => {
-    let hasError = false;
-    const focusedRef = { current: false };
-    if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
-    if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
-    if (Phone && Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-      if (!focusedRef.current && phoneRef?.current) {
-        phoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else if (Phone) {
-      setPhoneError("");
-      setPhoneErrorMessage("");
-    }
+  // const handleNext = () => {
+  //   let hasError = false;
+  //   const focusedRef = { current: false };
+  //   if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
+  //   if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
+  //   if (Phone && Phone.length !== 10) {
+  //     setPhoneError("Please Enter Valid Mobile Number");
+  //     if (!focusedRef.current && phoneRef?.current) {
+  //       phoneRef.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     hasError = true;
+  //   } else if (Phone) {
+  //     setPhoneError("");
+  //     setPhoneErrorMessage("");
+  //   }
 
-    if (Email) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(Email.toLowerCase());
-      if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current) {
-          focusedRef.current = true;
-        }
-        hasError = true;
-      }
-      else {
-        setEmailError("");
-      }
-    } else {
-      setEmailError("");
-    }
-    if (hasError) {
-      return
-    }
-    setStep(2);
+  //   if (Email) {
+  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
+  //     if (!isValidEmail) {
+  //       setEmailError("Please Enter Valid Email ID");
+  //       if (!focusedRef.current) {
+  //         focusedRef.current = true;
+  //       }
+  //       hasError = true;
+  //     }
+  //     else {
+  //       setEmailError("");
+  //     }
+  //   } else {
+  //     setEmailError("");
+  //   }
+  //   if (hasError) {
+  //     return
+  //   }
+  //   setStep(2);
 
-  };
-
-
-
-  const handlePrevious = () => {
-    setStep(1);
-  };
+  // };
 
 
 
-  const handleSaveUserlist = () => {
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-
-    let hasError = false;
-    const focusedRef = { current: false };
-
-    if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
-    if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
+  // const handlePrevious = () => {
+  //   setStep(1);
+  // };
 
 
 
-    if (Phone && Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-      if (!focusedRef.current && phoneRef?.current) {
-        phoneRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    } else if (Phone) {
-      setPhoneError("");
-      setPhoneErrorMessage("");
-    }
+  // const handleSaveUserlist = () => {
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
 
-    if (pincode && pincode.length !== 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focusedRef.current && pincodeRef?.current) {
-        pincodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
-    }
+  //   let hasError = false;
+  //   const focusedRef = { current: false };
 
-    if (Email) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(Email.toLowerCase());
-      if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current) {
-          focusedRef.current = true;
-        }
-        hasError = true;
-      }
-      else {
-        setEmailError("");
-      }
-    } else {
-      setEmailError("");
-    }
-
-    if (hasError) return;
-
-    console.log("hasError", hasError)
-
-    const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-    const basicAndAddressPayload = {
-      profilePic: file,
-      hostelId: state.login.selectedHostel_Id,
-      customerInfo: {
-        firstName: capitalizedFirstname,
-        lastName: capitalizedLastname,
-        mobileNumber: MobileNumber,
-        emailId: Email,
-        type: 1,
-        address: {
-          houseNo: house_no,
-          street: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-        },
+  //   if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
+  //   if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
 
 
-      }
-    };
+
+  //   if (Phone && Phone.length !== 10) {
+  //     setPhoneError("Please Enter Valid Mobile Number");
+  //     if (!focusedRef.current && phoneRef?.current) {
+  //       phoneRef.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     hasError = true;
+  //   } else if (Phone) {
+  //     setPhoneError("");
+  //     setPhoneErrorMessage("");
+  //   }
+
+  //   if (pincode && pincode.length !== 6) {
+  //     setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  //     if (!focusedRef.current && pincodeRef?.current) {
+  //       pincodeRef.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     hasError = true;
+  //   }
+
+  //   if (Email) {
+  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
+  //     if (!isValidEmail) {
+  //       setEmailError("Please Enter Valid Email ID");
+  //       if (!focusedRef.current) {
+  //         focusedRef.current = true;
+  //       }
+  //       hasError = true;
+  //     }
+  //     else {
+  //       setEmailError("");
+  //     }
+  //   } else {
+  //     setEmailError("");
+  //   }
+
+  //   if (hasError) return;
+
+  //   console.log("hasError", hasError)
+
+  //   const capitalizeFirstLetter = (str) => {
+  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  //   };
+
+  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
+  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
+
+  //   const basicAndAddressPayload = {
+  //     profilePic: file,
+  //     hostelId: state.login.selectedHostel_Id,
+  //     customerInfo: {
+  //       firstName: capitalizedFirstname,
+  //       lastName: capitalizedLastname,
+  //       mobileNumber: MobileNumber,
+  //       emailId: Email,
+  //       type: 1,
+  //       address: {
+  //         houseNo: house_no,
+  //         street: street,
+  //         landmark: landmark,
+  //         city: city,
+  //         pincode: pincode,
+  //         state: state_name,
+  //       },
 
 
-    const basicPayload = {
-      profilePic: file,
-      hostelId: state.login.selectedHostel_Id,
-      payloads: {
-        firstName: capitalizedFirstname,
-        lastName: capitalizedLastname,
-        mobile: MobileNumber,
-        emailId: Email,
+  //     }
+  //   };
 
 
-      }
-    };
+  //   const basicPayload = {
+  //     profilePic: file,
+  //     hostelId: state.login.selectedHostel_Id,
+  //     payloads: {
+  //       firstName: capitalizedFirstname,
+  //       lastName: capitalizedLastname,
+  //       mobile: MobileNumber,
+  //       emailId: Email,
 
-    console.log("basicPayload", basicPayload)
+
+  //     }
+  //   };
+
+  //   console.log("basicPayload", basicPayload)
 
 
-    const hasAddress =
-      house_no?.trim() ||
-      street?.trim() ||
-      landmark?.trim() ||
-      city?.trim() ||
-      pincode?.trim() ||
-      state_name?.trim();
+  //   const hasAddress =
+  //     house_no?.trim() ||
+  //     street?.trim() ||
+  //     landmark?.trim() ||
+  //     city?.trim() ||
+  //     pincode?.trim() ||
+  //     state_name?.trim();
 
-    if (hasAddress) {
-      dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
-      setFormLoading(true)
-    } else {
-      dispatch({ type: 'CREATECUSTOMERSAVEINFO', payload: basicPayload })
-      setFormLoading(true)
-    }
+  //   if (hasAddress) {
+  //     dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
+  //     setFormLoading(true)
+  //   } else {
+  //     dispatch({ type: 'CREATECUSTOMERSAVEINFO', payload: basicPayload })
+  //     setFormLoading(true)
+  //   }
 
-  };
+  // };
 
 
   // const handleCreateCustomer = () => {
@@ -1854,7 +1406,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
     if (props?.handleCloseBed) props.handleCloseBed();
   }
 
-  console.log("props?.EditObj", props?.EditObj)
+
 
   const [recheckinbedname, setRecheckinbedName] = useState("")
   const [RequestDate, setRequestDate] = useState(null)
@@ -1955,7 +1507,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
   }, [props.bactocheckinForm, props?.customer_details, props.recheckin])
 
-  console.log("bed", Bed);
+
 
 
   const selectedFloor = React.useMemo(() => {
@@ -2040,7 +1592,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
   ]);
 
 
-  
+
 
   const handleRecheckin = (e) => {
     setReason(e.target.value)
@@ -2449,30 +2001,30 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
                         <Select
                           options={
-                            state.PgList?.bedList?.[Rooms] 
-                              ? state.PgList.bedList[Rooms]
+                            availableBed
+                              ? availableBed
                                 .filter(
-                                  (item) =>
-                                    item.bedName !== "0" &&
-                                    item.bedName !== "undefined" &&
-                                    item.bedName !== "" &&
-                                    item.bedName !== "null"
+                                  (item) => item &&
+                                    item?.bedName !== "0" &&
+                                    item?.bedName !== "undefined" &&
+                                    item?.bedName !== "" &&
+                                    item?.bedName !== "null"
                                 )
                                 .map((item) => ({
-                                  value: item.id,
-                                  label: item.bedName,
+                                  value: item?.bedId,
+                                  label: item?.bedName,
                                 }))
                               : []
                           }
                           onChange={handleBed}
                           value={
-                            state.PgList?.bedList?.[Rooms] 
+                            availableBed
                               ? (() => {
-                                const selected = state.PgList.bedList[Rooms].find(
-                                  (option) => option.id === Bed
+                                const selected = availableBed?.find(
+                                  (option) => option?.bedId === Bed
                                 );
                                 return selected
-                                  ? { value: selected.id, label: selected.bedName }
+                                  ? { value: selected.bedId, label: selected.bedName }
                                   : null;
                               })()
                               : null
@@ -2539,7 +2091,12 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
                             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>Bed unavailable for this date</label>
                           </div>
                           : null}
-
+ {bedWarning ?
+                          <div className='d-flex  align-items-center  mt-1 mb-1'>
+                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bedWarning}</label>
+                          </div>
+                          : null}
 
                         {bedError && (
                           <div style={{ color: "red" }}>
@@ -3112,847 +2669,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
 
 
 
-
-
-{/* Tenant Check-In   BOOKED -CHECK-IN*/}
-
-      <Modal
-        show={props.BookingAssignForm}
-        onHide={handleCloseAssignBooking}
-        backdrop="static"
-        centered
-      >
-        <Modal.Dialog
-          style={{
-            maxWidth: 950,
-            paddingRight: "10px",
-            borderRadius: "30px",
-          }}
-          className="m-0 p-0"
-        >
-          <Modal.Body >
-            <div>
-
-              <div >
-                <Modal.Header className="pt-0"
-                  style={{ position: "relative", marginTop: "", border: "none" }}
-                >
-                  <div
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    Tenant Check-In
-                  </div>
-
-                  <CloseCircle
-                    size="24"
-                    color="#000"
-                    onClick={handleCloseAssignBooking}
-                    style={{ cursor: "pointer" }}
-                  />
-                </Modal.Header>
-                <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-
-                  <img
-                    src={
-                      typeof file === "string" && file.trim()
-                        ? file
-                        : file instanceof File
-                          ? URL.createObjectURL(file)
-                          : Profileimage
-                    }
-                    alt="Profile"
-                    className="rounded-circle"
-                    width="35"
-                    height="35"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = Profileimage;
-                    }}
-                  />
-                  <div>
-                    <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
-                      {firstname} {lastname}
-                    </p>
-
-                  </div>
-                </div>
-
-
-                <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, width: "100%" }} className="mt-1 p-1">
-                  <div style={{ display: "flex", gap: "10px", justifyContent: "space-between", width: "100%" }}>
-                    <button
-                      onClick={() => setActiveTab("LONG")}
-                      style={{
-                        flex: 1,
-                        padding: "10px 0",
-                        backgroundColor: activeTab === "LONG" ? "#1E45E1" : "#F7F9FF",
-                        color: activeTab === "LONG" ? "white" : "black",
-                        border: "none",
-                        borderRadius: "5px",
-                        fontWeight: "600",
-                        fontFamily: "Gilroy"
-                      }}
-                    >
-                      Long Stay
-                    </button>
-                    <button
-                      onClick={() => setActiveTab("SHORT")}
-                      style={{
-                        flex: 1,
-                        padding: "10px 0",
-                        backgroundColor: activeTab === "SHORT" ? "#1E45E1" : "#F7F9FF",
-                        color: activeTab === "SHORT" ? "white" : "black",
-                        border: "none",
-                        borderRadius: "5px",
-                        fontWeight: "600",
-                        fontFamily: "Gilroy"
-                      }}
-                    >
-                      Short Stay
-                    </button>
-                  </div>
-
-                </div>
-
-                {activeTab === "LONG" ? <>
-                  <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
-                    <div className="row d-flex align-items-center">
-                      <div className="col-12">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            paddingTop: "6px",
-                          }}
-                        >
-                          Floor  {" "}
-
-                        </Form.Label>
-
-                        <FormControl
-                          type="text"
-                          placeholder="Enter Amount"
-                          value={floor_name}
-                          disabled
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            height: 50,
-                            borderRadius: 8,
-                            backgroundColor: "#EFF2FF"
-                          }}
-                        />
-
-
-                      </div>
-
-                      <div className="col-12 mb-1">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Room {" "}
-
-                        </Form.Label>
-
-                        <FormControl
-                          type="text"
-                          disabled
-                          placeholder="Enter Amount"
-                          value={room_name}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                            backgroundColor: "#EFF2FF"
-                          }}
-                        />
-
-
-
-
-                      </div>
-
-
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Bed {" "}
-
-                        </Form.Label>
-
-
-                        <FormControl
-                          type="text"
-                          disabled
-                          placeholder="Enter Amount"
-                          value={bed_name}
-
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                            backgroundColor: "#EFF2FF"
-                          }}
-                        />
-
-
-                      </div>
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group>
-                          <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                            Booking Amount
-                            <span style={{ color: "red", fontSize: "20px" }}> *</span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            placeholder="Enter Amount"
-                            value={bookingAmount}
-                            // onChange={handleAdvanceAmount}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                              backgroundColor: "#EFF2FF"
-                            }}
-                          />
-                        </Form.Group>
-                        {advanceAmountError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {advanceAmountError}
-                            </label>
-                          </div>
-                        )}
-                      </div>
-
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group>
-                          <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                            Booking Date
-
-                          </Form.Label>
-                          <FormControl
-                            disabled
-                            type="text"
-                            placeholder="Enter Amount"
-                            // value={bookingDate}
-                            value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                              backgroundColor: "#EFF2FF"
-                            }}
-                          />
-                        </Form.Group>
-
-                      </div>
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                        <Form.Group controlId="purchaseDate">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Joining Date{" "}
-
-                          </Form.Label>
-
-                          <div
-                            className="datepicker-wrapper"
-                            style={{ position: "relative", width: "100%" }}
-                          >
-                            <DatePicker
-                              // disabled
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                                fontFamily: "Gilroy",
-
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              onChange={(date) => {
-                                setDateError("");
-                                setSelectedDate(date ? date.toDate() : null);
-                                setJoingDateErrmsg('')
-
-                                dispatch(JoininDatecustomer(date ? date.toDate() : null));
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".show-scroll") || document.body
-                              }
-                              disabledDate={disabledJoiningDate}
-
-                            />
-                          </div>
-                        </Form.Group>
-
-                        {dateError && (
-                          <div style={{ color: "red", marginTop: "-px" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {dateError}
-                            </label>
-                          </div>
-                        )}
-
-                        {joiningDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              {joiningDateErrmsg}
-                            </label>
-                          </div>
-                        )}
-                      </div>
-
-
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group>
-                          <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                            Advance Amount
-                            <span style={{ color: "red", fontSize: "20px" }}> *</span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            placeholder="Enter Amount"
-                            value={AdvanceAmount}
-                            onChange={handleAdvanceAmount}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                            }}
-                          />
-                        </Form.Group>
-                        {advanceAmountError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {advanceAmountError}
-                            </label>
-                          </div>
-                        )}
-                      </div>
-
-
-
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group>
-                          <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                            Rental Amount
-                            <span style={{ color: "red", fontSize: "20px" }}> *</span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            placeholder="Enter Amount"
-                            value={RoomRent}
-                            onChange={handleRoomRent}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                            }}
-                          />
-                        </Form.Group>
-                        {roomrentError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {roomrentError}
-                            </label>
-                          </div>
-                        )}
-                      </div>
-
-
-
-
-
-                    </div>
-
-                    <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5 }} className="mt-3 mb-3">
-
-                      <div className="d-flex justify-content-between align-items-center p-4">
-                        <div>
-                          <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Non Refundable Amount</label>
-                        </div>
-                        <div>
-                          <Button
-                            onClick={handleAddField}
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontSize: "14px",
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              fontWeight: 600,
-                              borderRadius: "10px",
-                              padding: "6px 15px",
-                              marginBottom: "10px",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "6px",
-                            }}
-                          >
-                            <img
-                              src={addcircle}
-                              alt="Assign Bed"
-                              style={{
-                                height: 16,
-                                width: 16,
-                                filter: "brightness(0) invert(1)",
-                              }}
-                            />
-                            Add
-                          </Button>
-
-                        </div>
-                      </div>
-
-
-                      {fields.map((item, index) => {
-                        const isMaintenanceSelected = fields.some((field) => field.reason === "maintenance");
-
-                        const filteredOptions = reasonOptions.map((opt) => {
-                          if (opt.value === "maintenance") {
-                            return {
-                              ...opt,
-                              isDisabled: isMaintenanceSelected && item.reason !== "maintenance",
-                            };
-                          }
-                          return opt;
-                        });
-
-                        return (
-                          <div className="row px-4 mb-3" key={index}>
-                            <div className="col-md-6">
-
-
-                              {!item.showInput ? (
-                                <Select
-                                  options={filteredOptions}
-                                  value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
-                                  onChange={(selectedOption) => {
-                                    const selectedValue = selectedOption.value;
-
-                                    if (selectedValue === "others") {
-                                      handleInputChange(index, "reason", "others");
-                                    } else {
-                                      handleInputChange(index, "reason", selectedValue);
-                                    }
-                                  }}
-                                  isDisabled={item.reason === "maintenance"}
-                                  menuPlacement="auto"
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      height: "50px",
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px",
-                                      fontSize: "16px",
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                    }),
-                                    menu: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      border: "1px solid #ced4da",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    menuList: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      maxHeight: "120px",
-                                      padding: 0,
-                                      scrollbarWidth: "thin",
-                                      overflowY: "auto",
-                                      fontFamily: "Gilroy",
-                                    }),
-                                    placeholder: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                      display: "inline-block",
-                                      fill: "currentColor",
-                                      lineHeight: 1,
-                                      stroke: "currentColor",
-                                      strokeWidth: 0,
-                                      cursor: "pointer",
-                                    }),
-                                    indicatorSeparator: () => ({
-                                      display: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                      ...base,
-                                      cursor: state.isDisabled ? "not-allowed" : "pointer",
-                                      backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
-                                      color: state.isDisabled ? "#aaa" : "#000",
-                                    }),
-                                  }}
-                                />
-                              ) : (
-                                <>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter custom reason"
-                                    value={item.customReason}
-                                    onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </>
-                              )}
-                              {errors[index]?.reason && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {errors[index]?.reason}
-                                  </label>
-                                </div>
-                              )}
-                            </div>
-
-
-                            <div className="col-md-5">
-
-                              <input
-                                type="text"
-                                placeholder="Enter amount"
-                                value={item.amount}
-                                onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                                className="form-control"
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                }}
-
-                              />
-                              {errors[index]?.amount && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {errors[index]?.amount}
-                                  </label>
-                                </div>
-                              )}
-                            </div>
-
-
-                            <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
-
-
-                              <Trash
-                                size="20"
-                                color="red"
-                                variant="Bold"
-                                style={{ cursor: "pointer" }}
-                                onClick={() => handleRemoveField(index)}
-                              />
-
-                            </div>
-                          </div>
-                        );
-                      })}
-
-
-
-
-                    </div>
-
-
-
-
-
-
-
-
-
-                  </div>
-
-                  {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                    </div>
-                    : null}
-
-                  <Button
-                    className="w-100"
-                    style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 600,
-                      height: 50,
-                      borderRadius: 12,
-                      fontSize: 16,
-                      fontFamily: "Montserrat",
-                      marginTop: 10,
-                    }}
-                    onClick={handleSaveBookingAdvance}
-                  >
-                    Assign Bed
-                  </Button>
-                </>
-
-                  :
-
-
-
-                  activeTab === "SHORT" && (
-                    <div
-                      style={{
-                        height: "400px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#f2f6fc",
-                        borderRadius: "10px",
-                        marginTop: "20px",
-                        marginRight: "0",
-                        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
-                        border: "1px dashed #b0c4de",
-                      }}
-                    >
-                      <div style={{ textAlign: "center" }}>
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                          alt="Coming Soon"
-                          width="80"
-                          height="80"
-                          style={{ marginBottom: "15px", opacity: 0.7 }}
-                        />
-
-                        <p style={{ color: "#7a7a7a", fontSize: "14px", fontFamily: "Gilroy" }}>Coming Soon. Stay tuned!</p>
-                      </div>
-                    </div>
-
-                  )
-
-
-
-                }
-
-
-
-
-
-
-              </div>
-              {/* )} */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </div>
-          </Modal.Body>
-
-
-          {formLoading && <div
-            style={{
-              position: 'absolute',
-              top: 100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
-
-
-          {loading && <div
-            style={{
-              position: 'absolute',
-              top: 100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
-
-
-        </Modal.Dialog>
-      </Modal>
-
-
-
-
-
-{/* advanceForm */}
+      {/* advanceForm */}
 
       <Modal
         show={props.advanceForm}
@@ -4205,7 +2922,7 @@ dispatch({ type:'REMOVE_BED_AVAILABLE_ERROR'})
       </Modal>
 
 
-{/* BACK TO CHECK IN */}
+      {/* BACK TO CHECK IN */}
 
       <Modal
         show={props.bactocheckinForm}
@@ -4778,8 +3495,8 @@ value={bookingAmount}
                       backgroundColor: "#F7F9FF",
                       borderRadius: 10,
                       paddingBottom: 5,
-                      pointerEvents: "none", 
-                      opacity: 0.6, 
+                      pointerEvents: "none",
+                      opacity: 0.6,
                     }} className="mt-3 mb-3">
 
                       <div className="d-flex justify-content-between align-items-center p-4">

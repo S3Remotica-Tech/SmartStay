@@ -12,6 +12,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import UserList from "../../CustomerFile/UserList";
+import { current } from "@reduxjs/toolkit";
 
 
 function BedDetails({
@@ -20,58 +21,58 @@ function BedDetails({
     handleShowCheck_In,
     currentItem
 }) {
-    
-           const state = useSelector(state => state)
-            const dispatch = useDispatch();
 
-          const [customer, setCustomer] = useState([])
-    
-            console.log("data", currentItem);
-            
-        
-            // useEffect(() => {
-        
-            //     const Hostel_Id = currentItem?.room.Hostel_Id;
-            //     const Floor_Id = currentItem?.room.Floor_Id;
-            //     const Bed_Id = currentItem?.bed.id;
-            //     const Room_Id = currentItem?.room.Room_Id;
-        
-        
-            //     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-                  
-            //         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-        
-            //     }
-            // }, [currentItem])
+    const state = useSelector(state => state)
+    const dispatch = useDispatch();
 
- 
+    const [customer, setCustomer] = useState([])
 
-              useEffect(()=>{
-                if(state.Booking.StatusCodeInactiveCode === 200){
-                  dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room.Floor_Id, hostel_Id: currentItem?.room.Hostel_Id } })
-                  dispatch({ type: 'HOSTELLIST' })
-               
-                   setTimeout(() => {
-                        dispatch({ type: 'CLEAR_BOOKING_InActive' })
-                      }, 1000)
-              
-                }
-              
-              },[state.Booking.StatusCodeInactiveCode])
+    console.log("data", currentItem);
 
 
-        
-        
-            useEffect(() => {
-                if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-                   
-                    setCustomer(state.PgList.OccupiedCustomer)
-                    setTimeout(() => {
-                        dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-                    }, 2000)
-                }
-        
-            }, [state.PgList.OccupiedCustomerGetStatusCode])
+    // useEffect(() => {
+
+    //     const Hostel_Id = currentItem?.room.Hostel_Id;
+    //     const Floor_Id = currentItem?.room.Floor_Id;
+    //     const Bed_Id = currentItem?.bed.id;
+    //     const Room_Id = currentItem?.room.Room_Id;
+
+
+    //     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+
+    //         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+
+    //     }
+    // }, [currentItem])
+
+
+
+    useEffect(() => {
+        if (state.Booking.StatusCodeInactiveCode === 200) {
+            // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room.Floor_Id, hostel_Id: currentItem?.room.Hostel_Id } })
+            // dispatch({ type: 'HOSTELLIST' })
+
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_BOOKING_InActive' })
+            }, 1000)
+
+        }
+
+    }, [state.Booking.StatusCodeInactiveCode])
+
+
+
+
+    useEffect(() => {
+        if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+
+            setCustomer(state.PgList.OccupiedCustomer)
+            setTimeout(() => {
+                dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+            }, 2000)
+        }
+
+    }, [state.PgList.OccupiedCustomerGetStatusCode])
 
 
     const [showDots, setShowDots] = useState('')
@@ -106,29 +107,29 @@ function BedDetails({
     }
 
 
-    const [makeasinactive , setMakeasInactive] = useState(false)
-    
-      const [customer_details , setCustomerDetails] = useState({})
+    const [makeasinactive, setMakeasInactive] = useState(false)
+
+    const [customer_details, setCustomerDetails] = useState({})
 
     const handleMakeInActive = () => {
-         setMakeasInactive(true)
+        setMakeasInactive(true)
     }
 
-        useEffect(()=> {
-            if(customer.length > 0){
-            const selectedUser = state?.UsersList?.Users.find( item => item.User_Id === customer[0]?.User_Id)
-             console.log("selecteduser", selectedUser);
-             setCustomerDetails(selectedUser)
+    useEffect(() => {
+        if (customer.length > 0) {
+            const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
+            console.log("selecteduser", selectedUser);
+            setCustomerDetails(selectedUser)
         }
-             
-        },[customer , state.PgList.OccupiedCustomerGetStatusCode])
+
+    }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
 
 
 
 
 
- 
-  
+
+
 
 
     return (
@@ -175,9 +176,9 @@ function BedDetails({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No  
-                                        {currentItem?.roomName}
-                                         </label> <span style={{
+                                        }}>Room No {""}
+                                            {currentItem?.roomName}
+                                        </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -187,9 +188,9 @@ function BedDetails({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed 
-                                         {currentItem?.bedName}
-                                         </span>
+                                        }}> Bed {""}
+                                            {currentItem?.bedName}
+                                        </span>
                                     </div>
                                 </div>
 
@@ -287,17 +288,17 @@ function BedDetails({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
-                                            <Image src={customer[0]?.profile && customer[0]?.profile !== "0" ? customer[0]?.profile : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                                            <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                                         </div>
                                         <div className="mt-2">
                                             <div>
-                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{customer?.[0]?.Name || "N/A"}</label>
+                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
                                             </div>
                                             <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                    {customer?.[0]?.Phone
-                    ? `+${String(customer[0].Phone).slice(0, -10)} ${String(customer[0].Phone).slice(-10)}`
-                    : "No phone"}
-                                                </label></div>
+                                                {currentItem?.customerMobile
+                                                    ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
+                                                    : "No phone"}
+                                            </label></div>
                                         </div>
                                     </div>
 
@@ -340,9 +341,9 @@ function BedDetails({
             </div>
 
             {
-                makeasinactive && <UserList  setMakeasInactive={setMakeasInactive} makeasinactive={makeasinactive}
-                 customer_details = {customer_details}
-                handleCloseBed = {handleCloseBed}
+                makeasinactive && <UserList setMakeasInactive={setMakeasInactive} makeasinactive={makeasinactive}
+                    customer_details={customer_details}
+                    handleCloseBed={handleCloseBed}
                 />
             }
 

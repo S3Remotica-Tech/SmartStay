@@ -24,7 +24,7 @@ function OccupiedBedStatus({
     handleShowNoticePeriod
 }) {
 
-
+console.log("currentItem",currentItem)
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
@@ -64,41 +64,6 @@ function OccupiedBedStatus({
     }, []);
 
 
-    // useEffect(() => {
-
-    //     const Hostel_Id = currentItem?.room.Hostel_Id;
-    //     const Floor_Id = currentItem?.room.Floor_Id;
-    //     const Bed_Id = currentItem?.bed.id;
-    //     const Room_Id = currentItem?.room.Room_Id;
-
-
-    //     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-
-    //         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-
-    //     }
-    // }, [currentItem])
-
-
-    // useEffect(() => {
-    //     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-    //         setCustomer(state.PgList.OccupiedCustomer)
-    //         setTimeout(() => {
-    //             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-    //         }, 2000)
-    //     }
-
-
-    // }, [state.PgList.OccupiedCustomerGetStatusCode])
-
-    // useEffect(() => {
-    //     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
-    //         //   dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
-    //         setcheckoutForm(false);
-    //     }
-    // }, [state.UsersList.addCheckoutCustomerStatusCode]);
-
-    console.log("currentItem", currentItem)
 
 
     return (
@@ -259,9 +224,9 @@ function OccupiedBedStatus({
                                             </div>
                                             <div>
                                                 <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                    {currentItem.customerMobile
-                                                        ? `+${currentItem.countryCode} ${currentItem.customerMobile}`
-                                                        : "No phone"}
+                                                    {currentItem?.customerMobile
+                    ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
+                    : "No phone"}
                                                 </label>
 
                                             </div>

@@ -3,11 +3,7 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import Plus from "../../Assets/Images/New_images/add-circle.png";
-import Image from "react-bootstrap/Image";
-import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
@@ -19,11 +15,8 @@ import { CloseCircle } from "iconsax-react";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import Flipbackward from "../../Assets/Images/flip-backward.png";
-import FlipbackwardBlue from "../../Assets/Images/flip-backwardblue.png";
-import Store_Icon from "../../Assets/Images/store_icon.png";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
-import { RiShoppingBag3Line } from "react-icons/ri";
+
 
 function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const state = useSelector((state) => state);
@@ -170,7 +163,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
             AdvanceAmount === "" ||
             AdvanceAmount === null ||
             AdvanceAmount === undefined
-            
+
         ) {
             setAdvanceAmountError("Please Enter Advance Amount");
             return;
@@ -1119,5 +1112,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
     )
 }
-
+BookedCheckIn.propTypes = {
+  BookingAssignForm: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  bookingDetails: PropTypes.func.isRequired,
+}
 export default BookedCheckIn
