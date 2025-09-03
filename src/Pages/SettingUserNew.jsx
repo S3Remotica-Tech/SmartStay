@@ -68,7 +68,7 @@ function SettingNewUser() {
   };
 
   const handleDeleteForm = (item) => {
-    setDeleteId(item.id);
+    setDeleteId(item.userId);
     setIsConfirmDelete(true);
   };
 
@@ -78,7 +78,7 @@ function SettingNewUser() {
 
   const handleDelete = () => {
     if (deleteId) {
-      dispatch({ type: "DELETEUSER", payload: { id: deleteId } });
+      dispatch({ type: "DELETEUSER", payload:  deleteId  });
     }
   };
 
@@ -134,6 +134,7 @@ function SettingNewUser() {
 
     useEffect(() => {
     if (state.Settings?.StatusForNoStaffList === 204) {
+        setUsersFilterddata([]);
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_USER_STAFF_LIST_ERROR" });

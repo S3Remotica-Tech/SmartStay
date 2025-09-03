@@ -1,5 +1,5 @@
 import AxiosConfig from "../../WebService/AxiosConfig"
-
+import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export async function invoicelist() {
   return await AxiosConfig.get('/invoice/invoice-list', {
@@ -183,11 +183,20 @@ export async function InvoiceRecurringsettings(datum) {
   })
 }
 
+// v1
+// export async function DeleteUser(datum) {
+//   return await AxiosConfig.post('/staffs/delete_staff', datum, {
+//     data: datum
+//   })
+// }
 
-export async function DeleteUser(datum) {
-  return await AxiosConfig.post('/staffs/delete_staff', datum, {
-    data: datum
-  })
+// v2
+export async function DeleteUser(userId) {
+  return await AxiosConfigV2.delete(`/v2/profile/delete-user/${userId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 export async function DeleteAmenities(datum) {

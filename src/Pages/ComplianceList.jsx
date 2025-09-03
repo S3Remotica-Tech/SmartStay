@@ -226,17 +226,20 @@ const ComplianceList = (props) => {
 
 
   const [selectedStatus, setSelectedStatus] = useState("");
-
+  const [complaintId , setComplaintId] = useState('')
 
 
 
   const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
+    console.log("item" , item);
+    
     setAssignId(item?.ID);
     setShowDots(false);
     setStatus(item?.Status);
     setSelectedStatus(item?.Status)
+    setComplaintId(item?.complaintId)
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
   };
@@ -271,16 +274,31 @@ const ComplianceList = (props) => {
     setStatusError("");
 
 
-    dispatch({
+    // dispatch({
+    //   type: "COMPLIANCECHANGESTATUS",
+    //   payload: {
+    //     type: "status_change",
+    //     assigner: compliant,
+    //     status: status,
+    //     id: assignId,
+    //     hostel_id: hostel_id,
+    //   },
+    // });
+
+    console.log("status" ,complaintId , status );
+    
+
+    if(complaintId && status){
+       dispatch({
       type: "COMPLIANCECHANGESTATUS",
       payload: {
-        type: "status_change",
-        assigner: compliant,
-        status: status,
-        id: assignId,
-        hostel_id: hostel_id,
-      },
+        complaintId,
+        status: status
+      }
     });
+    }
+
+
     setFormLoading(true)
   };
 
@@ -970,7 +988,7 @@ const ComplianceList = (props) => {
                           : { color: "#FF9E00" }
                       }
                     >
-                      {props.complaints && props.complaints?.status  === null ?  "Open" : "completed"}
+                      {props.complaints && props.complaints?.status  === null ?  "Open" : props?.complaints?.status}
                     </label>
                   </div>
                 </div>
@@ -986,7 +1004,7 @@ const ComplianceList = (props) => {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  {props.complaints.Assign === "" || props.complaints.Assign === null ? (
+                  {props.complaints.assigneeName === "" || props.complaints.assigneeName === null ? (
                     <>
                       <img
                         src={Profile_add}

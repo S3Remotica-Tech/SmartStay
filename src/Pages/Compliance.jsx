@@ -590,11 +590,11 @@ const Compliance = () => {
     setEdit(false)
     setShow(true);
   }
+
   const handleClose = () => {
     setJoingDateErrmsg('');
     setShow(false);
     setFormLoading(false)
-    setEdit(false)
     setSelectedUserName('');
     setComplaintId('')
     setComplainttype('');
@@ -612,7 +612,7 @@ const Compliance = () => {
     setUserErrmsg('')
     setDateErrmsg('')
     setComplaintTypeErrmsg('')
- 
+    setEdit(false)
   }
 
   const [Assignpopupshow, setAssignpopupshow] = useState(false);
@@ -637,6 +637,9 @@ const Compliance = () => {
   }
 
 
+
+  console.log("selectedUsername" ,selectedUsername);
+  
 
   const handleAddcomplaint = () => {
 
@@ -667,7 +670,7 @@ const Compliance = () => {
 
     if (!isValid) return;
 
-    setEdit(false)
+    // setEdit(false)
 
     console.log("validation" ,userid ,Complainttype ,state.login.selectedHostel_Id ,    );
     
@@ -743,28 +746,28 @@ const Compliance = () => {
       setShow(true);
 
 
-      // setComplaintId(Complaintdata.complaintId)
-      // setSelectedUserName(Complaintdata.customerId);
-      // setComplainttype(Complaintdata.complaintTypeId);
-      // setEditcomplainttype(Complaintdata.complaintTypeId)
-      // setAssign(Complaintdata.Assign);
-      // setDescription(Complaintdata.Description);
-      // setSelectedDate(new Date(Complaintdata.complaintDate));
-      // setHostel_Id(Complaintdata?.Hostel_id)
-      // setBeds(Complaintdata.bedId)
-      // setBedName(Complaintdata.bedName)
-      // setFloor(Complaintdata.Floor_id);
-      // setRooms(Complaintdata.Room);
-      // setHostelName(Complaintdata.hostelname);
-      // setStatus(Complaintdata.Status)
+      setComplaintId(Complaintdata.complaintId)
+      setSelectedUserName(Complaintdata.customerId);
+      setComplainttype(Complaintdata.complaintTypeId);
+      setEditcomplainttype(Complaintdata.complaintTypeId)
+      setAssign(Complaintdata.Assign);
+      setDescription(Complaintdata.description);
+      setSelectedDate(new Date(Complaintdata.complaintDate));
+      setHostel_Id(Complaintdata?.Hostel_id)
+      setBeds(Complaintdata.bedId)
+      setBedName(Complaintdata.bedName)
+      setFloor(Complaintdata.Floor_id);
+      setRooms(Complaintdata.Room);
+      setHostelName(Complaintdata.hostelname);
+      setStatus(Complaintdata.Status)
 
 
-      // initialValuesRef.current = {
-      //   Assign: Complaintdata.Assign,
-      //   Description: Complaintdata.Description,
-      //   Status: Complaintdata.Status,
-      //   selectedDate: new Date(Complaintdata.date)
-      // };
+      initialValuesRef.current = {
+        // Assign: Complaintdata.Assign,
+        Description: Complaintdata.description,
+        // Status: Complaintdata.Status,
+        selectedDate: new Date(Complaintdata.complaintDate)
+      };
     }
   }
 
@@ -780,33 +783,33 @@ const Compliance = () => {
   }, [state.ComplianceList.statusCodeforgetparticularCompliant])
 
 
-  useEffect(() => {
-    if(edit && EditComplaintDetails){
-            setComplaintId(EditComplaintDetails.complaintId)
-      setSelectedUserName(EditComplaintDetails.customerId);
-      setComplainttype(EditComplaintDetails.complaintTypeId);
-      setEditcomplainttype(EditComplaintDetails.complaintTypeId)
-      setAssign(EditComplaintDetails.Assign);
-      setDescription(EditComplaintDetails.Description);
-      setSelectedDate(new Date(EditComplaintDetails.complaintDate));
-      setHostel_Id(EditComplaintDetails?.Hostel_id)
-      setBeds(EditComplaintDetails.bedId)
-      setBedName(EditComplaintDetails.bedName)
-      setFloor(EditComplaintDetails.Floor_id);
-      setRooms(EditComplaintDetails.Room);
-      setHostelName(EditComplaintDetails.hostelname);
-      setStatus(EditComplaintDetails.Status)
+  // useEffect(() => {
+  //   if(edit && EditComplaintDetails){
+  //           setComplaintId(EditComplaintDetails.complaintId)
+  //     setSelectedUserName(EditComplaintDetails.customerId);
+  //     setComplainttype(EditComplaintDetails.complaintTypeId);
+  //     setEditcomplainttype(EditComplaintDetails.complaintTypeId)
+  //     setAssign(EditComplaintDetails.Assign);
+  //     setDescription(EditComplaintDetails.Description);
+  //     setSelectedDate(new Date(EditComplaintDetails.complaintDate));
+  //     setHostel_Id(EditComplaintDetails?.Hostel_id)
+  //     setBeds(EditComplaintDetails.bedId)
+  //     setBedName(EditComplaintDetails.bedName)
+  //     setFloor(EditComplaintDetails.Floor_id);
+  //     setRooms(EditComplaintDetails.Room);
+  //     setHostelName(EditComplaintDetails.hostelname);
+  //     setStatus(EditComplaintDetails.Status)
 
 
-        initialValuesRef.current = {
-        Assign: EditComplaintDetails.Assign,
-        Description: EditComplaintDetails.Description,
-        Status: EditComplaintDetails.Status,
-        selectedDate: new Date(EditComplaintDetails.date)
-      };
-    }
+  //       initialValuesRef.current = {
+  //       Assign: EditComplaintDetails.Assign,
+  //       Description: EditComplaintDetails.Description,
+  //       Status: EditComplaintDetails.Status,
+  //       selectedDate: new Date(EditComplaintDetails.date)
+  //     };
+  //   }
 
-  } , [edit , EditComplaintDetails])
+  // } , [edit , EditComplaintDetails])
 
   console.log("editdetails" ,state.ComplianceList.ParticularComplaint ,  EditComplaintDetails);
   
@@ -814,10 +817,13 @@ const Compliance = () => {
 
 
   let hasChanges =
-    Assign !== initialValuesRef.current.Assign ||
+    // Assign !== initialValuesRef.current.Assign ||
     description !== initialValuesRef.current.Description ||
-    Status !== initialValuesRef.current.Status ||
+    // Status !== initialValuesRef.current.Status ||
     new Date(selectedDate).getTime() !== new Date(initialValuesRef.current.selectedDate).getTime();
+
+    console.log("haschanges" , hasChanges);
+    
 
 
 
@@ -1689,6 +1695,11 @@ console.log("users" , complainttypelist);
     setSelectedDate(date ? date.toDate() : null);
   }}
   disabledDate={(current) => {
+   
+    if(!selectedUsername) {
+      return true
+    }
+
     const selectedUser = state?.UsersList?.Users?.find(
       (item) => item.customerId === userid
     );

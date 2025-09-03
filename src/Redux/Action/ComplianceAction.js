@@ -203,21 +203,28 @@ export async function ComplianceChange(compliance) {
   })
 }
 
-export async function ComplianceChangeStatus(compliance) {
-  return await AxiosConfig.post('/compliance/change_details', compliance, {
-    data: compliance
-  })
+
+// v1
+// export async function ComplianceChangeStatus(compliance) {
+//   return await AxiosConfig.post('/compliance/change_details', compliance, {
+//     data: compliance
+//   })
+// }
+
+// v2
+
+export async function ComplianceChangeStatus({ complaintId, status }) {
+  return await AxiosConfigV2.put(
+    `/v2/complaint/update-status/${complaintId}`,
+    { status }
+  );
 }
-
-
-
 
 export async function complianceDelete(datum) {
   return await AxiosConfig.post('/complaint/delete_compliant', datum, {
     data: datum
   })
 }
-
 
 // 
 export async function getComplianceComment(datum) {

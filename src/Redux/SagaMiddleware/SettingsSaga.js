@@ -788,17 +788,23 @@ function* handleEditRolePermission(detail) {
             style: toastStyle,
          });
       }
-     if (response) {
+
+      else if (response.status === 201) {
+
+         yield put({ type: 'ROLE_EDIT_ERROR', payload: response.data });
+      }
+
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
          refreshToken(response)
       }
    }
    catch (error) {
-
-      if (error.code === 'ERR_BAD_REQUEST') {
-         if (error.response.status === 400) {
-            yield put({ type: 'ROLE_EDIT_ERROR', payload: error.response.data });
-         }
-      } else if (error.code === 'ERR_NETWORK') {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }
@@ -1220,7 +1226,9 @@ function* handleCheckPassword(action) {
 
 
 function* handleDeleteGenerlPage(action) {
-   const response = yield call(generalDelete, action.payload);
+
+   try{
+ const response = yield call(generalDelete, action.payload);
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -1246,7 +1254,7 @@ function* handleDeleteGenerlPage(action) {
             statusCode: response.status || response.statusCode,
          },
       });
-      toast.success("Deleted successfully", {
+      toast.success(response.data, {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,
@@ -1264,6 +1272,16 @@ function* handleDeleteGenerlPage(action) {
    if (response) {
       refreshToken(response);
    }
+   }
+
+      catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+            yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+      }
+  
 }
 
 
