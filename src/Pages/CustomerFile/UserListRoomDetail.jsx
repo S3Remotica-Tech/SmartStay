@@ -2847,7 +2847,7 @@ function UserListRoomDetail(props) {
                                       marginTop: -3
                                     }}
                                   >
-                                    {CustomerOverView.emailId}
+                                    {CustomerOverView?.emailId || "N/A"}
                                   </span>
                                 </div>
                               </div>
@@ -4453,15 +4453,14 @@ function UserListRoomDetail(props) {
 
                                     ) : (
                                       <div
-                                        style={{
+                                       className="d-flex text-center justify-content-center"
+                                      >
+                                       <label  style={{
                                           fontSize: 16,
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 600,
+                                                                                   fontWeight: 600,
                                           textAlign: "center",
                                           fontFamily: "Gilroy"
-                                        }}
-                                      >
-                                        In this User Not Assigned
+                                        }}> In this User Not Assigned</label>
                                       </div>
                                     )}
                                   </div>
@@ -4489,14 +4488,15 @@ function UserListRoomDetail(props) {
                                       paddingTop: 7
                                     }}
                                   >
-                                    ₹
+                                    
                                     {
-                                      CustomerOverView.hostelInfo?.monthlyRent
+                                      CustomerOverView.hostelInfo?.monthlyRent !== null ?  `₹ ${ CustomerOverView.hostelInfo?.monthlyRent}` : '0'
                                     }
                                   </p>
                                 </div>
 
-
+{
+  CustomerOverView.hostelInfo?.maintenance !== null || CustomerOverView.hostelInfo?.maintenance !== 0 && 
                                  <div className="col-sm-4 d-flex flex-column align-items-start">
                                   <div
                                     style={{
@@ -4524,6 +4524,7 @@ function UserListRoomDetail(props) {
                                   </p>
                                 </div>
 
+                                  }
                                 {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
                                   <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
                                     <div
