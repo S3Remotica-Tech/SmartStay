@@ -11,7 +11,7 @@ import PropTypes from "prop-types"
 import EmptyBed from './EmptyBed';
 import BedDetails from './ReservedBed/BedDetails';
 import Check_In from "../PayingGuestFile/ReservedBed/Check_In"
-import MakeAsInactive from '../PayingGuestFile/ReservedBed/MakeAsInactive';
+import MakeAsInactive from '../CustomerFile/MakeAsInactive';
 import OccupiedBedStatus from './OccupiedBeds/OccupiedBedStatus';
 import CustomerReAssign from "../CustomerFile/CustomerReAssign";
 import CustomerCheckout from "../CustomerFile/CustomerCheckout";
@@ -54,7 +54,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [showDeleteBed, setShowDeleteBed] = useState(false)
     const [showBed, setShowBed] = useState(false)
     const [details, setDetails] = useState('')
-
+ const [makeasinactive, setMakeasInactive] = useState(false)  
 
 
 
@@ -192,10 +192,7 @@ function BedDetailsMap({ room, propsValue }) {
     }
     const handleclickBed = (bed, room) => {
 
-console.log("bed status", bed)
-
-
-        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+       dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
         if (bed.isBooked) {
             setShowReservedBed(true);
@@ -216,6 +213,16 @@ console.log("bed status", bed)
     };
 
 
+    const handleShowInActiveForm = () =>{
+        setMakeasInactive(true)
+        setShowReservedBed(false);
+    }
+
+
+
+    const handleCloseInActive = () =>{
+              setMakeasInactive(false)
+    }
 
     useEffect(() => {
         if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
@@ -366,7 +373,7 @@ console.log("state",state)
             {
                 showReservedBed && <BedDetails show={handleShowReservedBed} handleCloseBed={handleCloseReservedBed}
                     handleShowCheck_In={handleShowCheck_In} MakeAsInActive={handleShowMakeAsInActive}
-                    currentItem={customer}
+                    currentItem={customer} handleShowInActiveForm={handleShowInActiveForm}
                 />
             }
 
@@ -377,6 +384,15 @@ console.log("state",state)
             {
                 showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
             }
+
+  {
+                makeasinactive && <MakeAsInactive show={makeasinactive} handleCloseInActive={handleCloseInActive}
+                 inActiveDetails={customer}
+                />
+
+            }
+
+
 
             {/* Occubied bed Details */}
 

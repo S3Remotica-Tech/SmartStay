@@ -55,6 +55,7 @@ import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import AddCustomer from "../PayingGuestFile/AddCustomerPG";
 import BookedCheckIn from "./BookedCheckIn";
+import MakeAsInactive from "./MakeAsInactive";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -2164,34 +2165,33 @@ console.log("id",id)
 
   const [bookingDate, setBookingDate] = useState(null);
 
-  useEffect(() => {
-    if (props?.makeasinactive) {
-      setUserList(false);
-      setInActiveForm(true)
-      setInactiveName(props?.customer_details)
-      setBookingId(props?.customer_details?.booking_id)
-      const bookingDateStr = props?.customer_details?.booking_booking_date; // from API
-      const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
-      setBookingDate(bookingDatevalue)
-    }
+  // useEffect(() => {
+  //   if (props?.makeasinactive) {
+  //     setUserList(false);
+  //     setInActiveForm(true)
+  //     setInactiveDetails(props?.customer_details)
+  //     setBookingId(props?.customer_details?.booking_id)
+  //     const bookingDateStr = props?.customer_details?.booking_booking_date; // from API
+  //     const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
+  //     setBookingDate(bookingDatevalue)
+  //   }
 
-  }, [props.makeasinactive])
-
-
+  // }, [props.makeasinactive])
 
 
-  const [inactivename, setInactiveName] = useState("")
+
+
+  const [inActiveDetails, setInactiveDetails] = useState("")
 
   const [inactiveForm, setInActiveForm] = useState(false)
-  const [inActiveDate, setInActiveDate] = useState(null)
-  const [inActiveComments, setInActiveComments] = useState("")
+ 
   const [bookingId, setBookingId] = useState("")
 
   const handleInActive = (item) => {
 
     setInActiveForm(true)
     setBookingId(item.booking_id)
-    setInactiveName(item)
+    setInactiveDetails(item)
     const bookingDateStr = item?.booking_booking_date; // from API
     const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
     setBookingDate(bookingDatevalue)
@@ -2201,45 +2201,17 @@ console.log("id",id)
     if (typeof props?.handleCloseBed === "function") {
       props.handleCloseBed();
     }
+
+
     setInActiveForm(false)
-    setIsACtiveDateError("")
+    // setIsACtiveDateError("")
     setInActiveComments("")
     setInActiveDate("")
 
   }
-  const handleInActiveReason = (e) => {
-    setInActiveComments(e.target.value)
+  
 
-  }
-  const [isActiveDateError, setIsACtiveDateError] = useState("")
-
-
-
-  const SubmitInActiveForm = () => {
-    if (!inActiveDate) {
-      setIsACtiveDateError(" Please Select Inactive Date");
-      return;
-    }
-
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate.toISOString().split("T")[0];
-    };
-    const formattedDate = inActiveDate
-      ? incrementDateAndFormat(inActiveDate)
-      : "";
-
-    setIsACtiveDateError("");
-    if (formattedDate) {
-      dispatch({
-        type: "BOOKINGACTIVE",
-        payload: { booking_id: bookingId, Inactive_date: formattedDate, Inactive_Reason: inActiveComments },
-      });
-    }
-    setFormLoading(true)
-  }
-
+ 
 
   useEffect(() => {
     if (state.Booking.StatusCodeInactiveCode === 200) {
@@ -4347,233 +4319,11 @@ const handleCloseBooking =() =>{
 
       {/* Tenant Inactive - BOOKED -Tenant Inactive */}
 
-      <Modal show={inactiveForm} onHide={handleCloseInActive} centered backdrop="static"   >
-
-        <Modal.Header style={{ border: "none" }} className="ps-4 pe-4 pb-2 pt-4">
-          <div>
-            <Modal.Title style={{
-              fontSize: 20,
-              color: "#222222",
-              fontFamily: "Gilroy",
-              fontWeight: 600,
-            }}>Tenant Inactive ?</Modal.Title>
-
-            <label style={{
-              fontSize: 14,
-              color: "#646464",
-              fontFamily: "Gilroy",
-              fontWeight: 500,
-            }}>Are you sure you want to inactive this tenant?</label>
-          </div>
-
-          <CloseCircle size="24" color="#000" onClick={handleCloseInActive} style={{ cursor: "pointer" }} />
-        </Modal.Header>
-        <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-
-          <img
-            src={
-              typeof inactivename.profile === "string" && inactivename.profile.trim()
-                ? inactivename.profile
-                : inactivename.profile instanceof File
-                  ? URL.createObjectURL(inactivename.profile)
-                  : Profile
-            }
-            alt="Profile"
-            className="rounded-circle"
-            width="35"
-            height="35"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = Profile;
-            }}
-          />
-          <div>
-            <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
-              {inactivename.Name}
-            </p>
-
-          </div>
-        </div>
-
-        <Modal.Body className="ps-4 pe-4 pb-4 pt-0">
+{
+  inactiveForm && <MakeAsInactive show={inactiveForm} handleCloseInActive={handleCloseInActive} inActiveDetails={inActiveDetails}   />}
 
 
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <Form.Group className="mb-2" controlId="joiningDate">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-              </Form.Label>
-
-              <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                {/* <DatePicker
-    style={{
-        width: "100%",
-        height: 48,
-        cursor: "pointer",
-        fontFamily: "Gilroy",
-    }}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-    value={inActiveDate ? dayjs(inActiveDate) : null}
-    onChange={(date) => {
-        setInActiveDate(date ? date.toDate() : null);
-        setIsACtiveDateError("");
-    }}
-    getPopupContainer={() => document.body}
-    disabledDate={(current) => {
-        if (!bookingDate) return true; 
-        return current.isBefore(bookingDate, "day"); 
-    }}
-/> */}
-
-                <DatePicker
-                  style={{
-                    width: "100%",
-                    height: 48,
-                    cursor: "pointer",
-                    fontFamily: "Gilroy",
-                  }}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={inActiveDate ? dayjs(inActiveDate) : null}
-                  onChange={(date) => {
-                    setInActiveDate(date ? date.toDate() : null);
-                    setIsACtiveDateError("");
-                  }}
-                  getPopupContainer={() => document.body}
-                  disabledDate={(current) => {
-                    if (!bookingDate) return true;
-                    // Disable before bookingDate OR after today
-                    return (
-                      current.isBefore(dayjs(bookingDate), "day") ||
-                      current.isAfter(dayjs(), "day")
-                    );
-                  }}
-                />
-
-              </div>
-            </Form.Group>
-            {isActiveDateError && (
-              <div style={{ color: "red", marginTop: "-5px" }}>
-                <MdError
-                  style={{ fontSize: "13px", marginRight: "5px" }}
-                />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {isActiveDateError}
-                </label>
-              </div>
-            )}
-          </div>
-
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <Form.Group className="mb-3">
-              <Form.Label style={{
-                fontSize: 14,
-                color: "#222222",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}>Reason (Comments)</Form.Label>
-              <Form.Control
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-                as="textarea"
-                rows={5}
-                placeholder="Enter reason here"
-                value={inActiveComments}
-                onChange={(e) => handleInActiveReason(e)}
-              />
-            </Form.Group>
-          </div>
-          <Modal.Footer style={{ border: "none", padding: 0 }}>
-            <div className="d-flex  w-100 gap-3">
-
-
-              <Button
-                onClick={handleCloseInActive}
-                className="w-100"
-                style={{
-                  backgroundColor: "#fff",
-                  border: "1px solid #D2D2D2",
-                  color: "#4B4B4B",
-                  fontWeight: 600,
-                  borderRadius: 10,
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  padding: "8px 40px"
-                }}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                onClick={SubmitInActiveForm}
-                className="w-100"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  borderRadius: 10,
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  padding: "8px 40px"
-                }}
-              >
-                Confirm
-              </Button>
-            </div>
-
-          </Modal.Footer>
-        </Modal.Body>
-        {formLoading && <div
-          style={{
-            position: 'absolute',
-            top: 100,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
-
-      </Modal>
+      
 
       {roomDetail === true ? (
         <UserListRoomDetail
