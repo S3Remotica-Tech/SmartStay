@@ -1,4 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
+
+ /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { InputGroup, FormControl } from "react-bootstrap";
@@ -36,6 +38,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [formLoading, setFormLoading] = useState(false)
 
     const [hostel_Id, setHostel_Id] = useState("")
+    const [user_Id, setUser_Id] = useState("")
     
     
       useEffect(() => {
@@ -65,7 +68,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
         email: editDetails.mailId || "",
         mobile: editDetails.mobileNo,
         countryCode: editDetails.countryCode,
-        role: editDetails.roleName || "",
+        role: editDetails.roleId || "",
         description: editDetails.description || "",
       };
 
@@ -75,10 +78,14 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       setCountryCode(initial.countryCode);
       setRole(initial.role);
       setDescription(initial.description);
+      setUser_Id(editDetails?.userId)
 
       setInitialState(initial);
     }
   }, [editDetails]);
+
+  console.log("role" , editDetails);
+  
 
 
   const handleNameChange = (e) => {
@@ -308,12 +315,25 @@ const handlePassword = (e) => {
     password : password
   };
 
+   const Editdata = {
+    name: name,
+    mobile: MobileNumber,
+    emailId: email,
+    role: role,
+    description: description,
+  };
 
   //    if (editDetails && edit) {
   //   data.id = editDetails.id;
   // } else {
   //   data.password = password;
   // }
+
+
+
+   if (editDetails && edit && user_Id && hostel_Id ) {
+      dispatch({ type: "EDITSTAFFUSER", payload: { hostelId: hostel_Id, userId : user_Id, data: Editdata}});
+  }
 
   
 
@@ -322,6 +342,9 @@ const handlePassword = (e) => {
     }
   };
 
+  console.log("userid" , user_Id);
+  
+  
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 201) {
@@ -333,6 +356,17 @@ const handlePassword = (e) => {
       }, 200);
     }
   }, [state.Settings.StatusForaddSettingUser]);
+
+    useEffect(() => {
+    if (state.Settings.StatusForEditSettingUser === 201) {
+      setFormLoading(false)
+      handleCloseForm();
+      dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EDIT_STAFF_USER" });
+      }, 200);
+    }
+  }, [state.Settings.StatusForEditSettingUser]);
 
 
 

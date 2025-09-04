@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal ,EditGeneral } from "../Action/SettingsAction"
+import { getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal ,EditGeneral , EditStaffUser } from "../Action/SettingsAction"
 
 
 import Cookies from 'universal-cookie';
@@ -936,6 +936,58 @@ function* handleAddStaffUserPage(detail) {
    }
 }
 
+function* handleEditStaffUserPage(detail) {
+   try{
+      const { hostelId, userId , data } = detail.payload; 
+    const response = yield call(EditStaffUser, hostelId, userId , data);
+
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "auto",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      if (response.status === 201) {
+         yield put({ type: 'EDIT_STAFF_USER', payload: { response: response.data, statusCode: response.status } })
+         toast.success(`${response.data}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.response.data.emailStatus !== "") {
+            yield put({ type: 'EMAIL_ID_ERROR', payload: error.response.data.emailStatus });
+         } else if (error.response.data.mobileStatus !== "") {
+            yield put({ type: 'PHONE_NUM_ERROR', payload: error.response.data.mobileStatus });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
+
 function* handleGetAllStaffs(action) {
    // console.log("response" , action);
  try{
@@ -1665,6 +1717,7 @@ function* SettingsSaga() {
    yield takeEvery('EDITSETTINGROLEPERMISSION', handleEditRolePermission)
    yield takeEvery('DELETESETTINGROLEPERMISSION', handleDeleteRolePermission)
    yield takeEvery('ADDSTAFFUSER', handleAddStaffUserPage)
+   yield takeEvery('EDITSTAFFUSER', handleEditStaffUserPage)
    yield takeEvery('GETUSERSTAFF',handleGetAllStaffs)
    yield takeEvery('GETUSERREPORT',handleGetAllReports)
    yield takeEvery('ADDGENERALSETTING',handleAddGeneralPage)

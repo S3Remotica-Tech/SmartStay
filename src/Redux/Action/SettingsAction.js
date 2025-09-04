@@ -205,6 +205,16 @@ export async function addStaffUser(hostelId, datum) {
   });
 }
 
+export async function EditStaffUser(hostelId, userId , datum) {
+  
+  return await AxiosConfigV2.put(`/v2/profile/users/${hostelId}/${userId}`, datum, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}  
+
+
 // v1
 // export async function GetAllStaff(staff) {
 //   return await AxiosConfig.post("/get_all_staffs", staff, {

@@ -197,12 +197,20 @@ export async function DeleteVendorList(vendor) {
   return await AxiosConfigV2.delete(`/v2/vendors/${vendor.vendorId}`)
 }
 
-export async function ComplianceChange(compliance) {
-  return await AxiosConfig.post('/compliance/change_details', compliance, {
-    data: compliance
-  })
-}
+// v1
+// export async function ComplianceChange(compliance) {
+//   return await AxiosConfig.post('/compliance/change_details', compliance, {
+//     data: compliance
+//   })
+// }
 
+export async function ComplianceAssign({ complaintId, userId }) {
+  return await AxiosConfigV2.put(
+    `/v2/complaint/assign-user/${complaintId}`,
+    { userId }
+  );
+}
+ 
 
 // v1
 // export async function ComplianceChangeStatus(compliance) {
@@ -232,8 +240,10 @@ export async function getComplianceComment(datum) {
     data: datum
   })
 }
-export async function addComplianceComment(datum) {
-  return await AxiosConfig.post('/complaints/add_complaint_comment', datum, {
-    data: datum
-  })
+export async function addComplianceComment(complaintId , datum) {
+  return await AxiosConfigV2.post(`/v2/complaint/add-comment/${complaintId}`, datum, {
+     headers: {
+      "Content-Type": "application/json",
+    },
+  }) 
 }

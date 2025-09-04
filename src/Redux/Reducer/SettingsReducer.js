@@ -25,6 +25,7 @@ export const initialState = {
   deleteSettingRole: [],
   StatusForDeletePermission: 0,
   StatusForaddSettingUser: 0,
+  StatusForEditSettingUser: 0,
   addSettingUser: [],
   addSettingStaffList: [],
   StatusForaddSettingStaffList: 0,
@@ -303,6 +304,14 @@ const SettingsReducer = (state = initialState, action) => {
       };
     case "CLEAR_ADD_STAFF_USER":
       return { ...state, StatusForaddSettingUser: 0 };
+
+    case "EDIT_STAFF_USER":
+      return {
+        ...state,
+        StatusForEditSettingUser: action.payload.statusCode,
+      };
+    case "CLEAR_EDIT_STAFF_USER":
+      return { ...state, StatusForEditSettingUser: 0 };
 
     case "PHONE_NUM_ERROR":
       return { ...state, phoneNumError: action.payload };
