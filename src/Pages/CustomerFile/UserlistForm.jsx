@@ -385,16 +385,20 @@ const [bedWarning, setBedWarning] = useState('')
   const handleRooms = (selectedValue) => {
   setRooms(selectedValue);
 
- const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
-       return view.floorId === Floor || view.roomId === selectedValue
-  
-  });
-  setAvailableBed(filteredBed)
+
   setRoomRent("");
   setRoomError("");
 };
 
-
+useEffect(()=>{
+  if(Rooms){
+ const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
+       return view.floorId === Floor && view.roomId === Rooms
+    });
+  setAvailableBed(filteredBed)
+  }
+  
+},[Rooms])
 
 //   const handleBed = (selectedOption) => {
 // console.log("selectedOption",selectedOption)
@@ -1115,6 +1119,7 @@ const handleBed = (selectedOption) => {
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR'})
         
       }, 3000)
     }

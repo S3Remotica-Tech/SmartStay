@@ -144,6 +144,8 @@ function UserList(props) {
   const [add_bookingshow, setAddBookingsShow] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
 
+console.log("id",id)
+
 
   useEffect(() => {
     if (state.login.selectedHostel_Id)
@@ -851,7 +853,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
       setBillLoading(false)
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
 
       setLoading(false);
       setIsEditing(false);
@@ -867,10 +869,7 @@ function UserList(props) {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
       setBillLoading(false)
       handleBackBill();
-      dispatch({
-        type: "CUSTOMERDETAILS",
-        payload: { user_id: id },
-      });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
@@ -1470,9 +1469,10 @@ function UserList(props) {
   const [userDatafull, setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
+    console.log("customerData",userData)
     setHostelIds(userData.Hostel_Id);
     setUserData(userData)
-    setId(userData.ID);
+    setId(userData.customerId);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setRoomDetail(true);
@@ -1714,9 +1714,11 @@ function UserList(props) {
 
   useEffect(() => {
     if (id) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
+      dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
     }
   }, [id]);
+
+
   useEffect(() => {
     if (id) {
       dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
@@ -1790,7 +1792,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
       setTimeout(() => {
-        dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
+         dispatch({ type: "CUSTOMERDETAILS", payload: { customerId: id } });
         dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
       }, 1000);
 

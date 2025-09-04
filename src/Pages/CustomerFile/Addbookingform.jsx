@@ -158,19 +158,20 @@ function BookingModal(props) {
     setBed("");
 
     if (selectedRoomId) {
-      const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
-        return view.floorId === Floor || view.roomId === selectedRoomId
-      });
-
-
-      setAvailableBed(filteredBed)
-
-      setRoomError("");
+           setRoomError("");
     } else {
       setRoomError("Please select a valid room.");
     }
   };
-
+useEffect(()=>{
+  if(room){
+ const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
+       return view.floorId === Floor && view.roomId === room
+    });
+  setAvailableBed(filteredBed)
+  }
+  
+},[room])
 
   const handleCloseBooking = () => {
     dispatch({ type: "ERROR_BOOKING_REMOVE" })

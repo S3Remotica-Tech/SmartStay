@@ -339,6 +339,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
+        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO'})
       }, 2000);
     }
   }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
