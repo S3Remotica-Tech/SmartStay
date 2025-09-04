@@ -436,10 +436,10 @@ const handleBed = (selectedOption) => {
   const selectedBed = state.UsersList?.bednumberdetails?.find(
     (bed) => String(bed.bedId) === String(selectedBedId)
   );
-
+ console.log("Warning:", selectedBed);
   if (selectedBed) {
         if (selectedBed.showWarning) {
-      console.log("Warning:", selectedBed.warningMessage);
+      console.log("Warning:", selectedBed);
             setBedWarning(selectedBed.warningMessage);
     } else {
       setBedWarning("");
@@ -586,7 +586,7 @@ const handleBed = (selectedOption) => {
     }
   }
 
-
+console.log("props",props)
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {

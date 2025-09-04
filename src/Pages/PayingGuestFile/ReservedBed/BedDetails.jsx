@@ -13,13 +13,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import UserList from "../../CustomerFile/UserList";
 import { current } from "@reduxjs/toolkit";
+import MakeAsInactive from "../../CustomerFile/MakeAsInactive";
 
 
 function BedDetails({
     show,
     handleCloseBed,
     handleShowCheck_In,
-    currentItem
+    currentItem,
+    handleShowInActiveForm
 }) {
 
     const state = useSelector(state => state)
@@ -28,7 +30,11 @@ function BedDetails({
     const [customer, setCustomer] = useState([])
 
     console.log("data", currentItem);
-
+    
+   
+    const [showDots, setShowDots] = useState('')
+    const [activeRoomId, setActiveRoomId] = useState(null);
+    const popupRef = useRef(null);
 
     // useEffect(() => {
 
@@ -75,9 +81,6 @@ function BedDetails({
     }, [state.PgList.OccupiedCustomerGetStatusCode])
 
 
-    const [showDots, setShowDots] = useState('')
-    const [activeRoomId, setActiveRoomId] = useState(null);
-    const popupRef = useRef(null);
 
 
     const handleShowDots = (roomId) => {
@@ -101,19 +104,27 @@ function BedDetails({
         };
     }, []);
 
+
+
     const handleCheckin = () => {
         handleShowCheck_In(true)
-
+  
     }
 
 
-    const [makeasinactive, setMakeasInactive] = useState(false)
+   
+
+    
+
 
     const [customer_details, setCustomerDetails] = useState({})
 
     const handleMakeInActive = () => {
-        setMakeasInactive(true)
+        handleShowInActiveForm(true)
     }
+
+
+
 
     useEffect(() => {
         if (customer.length > 0) {
@@ -229,7 +240,7 @@ function BedDetails({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                onClick={() => handleCheckin()}
+                                                onClick={() => handleCheckin(currentItem)}
 
 
                                                 style={{
@@ -340,12 +351,9 @@ function BedDetails({
                 </Modal>
             </div>
 
-            {
-                makeasinactive && <UserList setMakeasInactive={setMakeasInactive} makeasinactive={makeasinactive}
-                    customer_details={customer_details}
-                    handleCloseBed={handleCloseBed}
-                />
-            }
+          
+
+           
 
         </>
     );
