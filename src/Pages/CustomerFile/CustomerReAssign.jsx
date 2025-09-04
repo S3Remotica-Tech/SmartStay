@@ -68,10 +68,8 @@ function CustomerReAssign(props) {
     dispatch({
       type: "BEDNUMBERDETAILS",
       payload: {
-        hostel_id: "",
-        floor_id: "",
-        room_id: "",
-      },
+        hostelId: "",
+              },
     });
   };
 
@@ -109,13 +107,8 @@ function CustomerReAssign(props) {
     const value = selectedOption?.value || "";
     setNewRoom(value);
     if (value) {
-      dispatch({
-        type: "BEDNUMBERDETAILS",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          floor_id: newFloor,
-          room_id: value,
-        },
+       dispatch({
+        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
       });
     }
 

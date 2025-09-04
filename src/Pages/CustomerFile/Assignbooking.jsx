@@ -259,15 +259,8 @@ function AssignBooking(props) {
     setRentAmount("");
 
     if (selectedRoomId) {
-      const payload = {
-        hostel_id: hostalId,
-        floor_id: floor,
-        room_id: selectedRoomId,
-      };
-
       dispatch({
-        type: "BEDNUMBERDETAILS",
-        payload: payload,
+        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
       });
 
       setRoomError("");

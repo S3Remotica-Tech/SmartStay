@@ -329,13 +329,22 @@ export async function deleteBed(bedDetails) {
 }
 
 
+// v1
 
+// export async function CustomerDetails(datum) {
+//   return await AxiosConfig.post('/customer_details', datum, {
+//     data: datum
+//   })
+// }
+
+
+// v2
 
 export async function CustomerDetails(datum) {
-  return await AxiosConfig.post('/customer_details', datum, {
-    data: datum
-  })
+   return await AxiosConfigV2.get(`/v2/customers/details/${datum.customerId}`)
 }
+
+
 
 export async function amenitieshistory(datum) {
   return await AxiosConfig.post('/user_amenities_history', datum, {

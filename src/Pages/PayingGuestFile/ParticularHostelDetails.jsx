@@ -168,8 +168,7 @@ function ParticularHostelDetails(props) {
     }
   }, [props.hostel_Id, props.floorID, state?.login?.selectedHostel_Id])
 
-  console.log("props.floorID&&&&&&&&&&&",props.floorID)
-
+ 
   useEffect(() => {
     if (state?.PgList?.getAllRoomSuccessStatus === 200) {
       setRoomList(state.PgList?.roomsList);
@@ -229,6 +228,7 @@ function ParticularHostelDetails(props) {
       // dispatch({ type: 'HOSTELLIST' })
       setTimeout(() => {
         dispatch({ type: 'CLEAR_STATUS_CODES' })
+        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO'})
       }, 2000)
       // setShowDeleteBed(false)
       dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
@@ -358,25 +358,18 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200 || state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-      // setEmptyBed(false);
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
-      }, 500);
-
-      setTimeout(() => {
+     dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+            setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
+        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO'})
+         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBookin, state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo])
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-      // setEmptyBed(false);
-      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
+           dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
