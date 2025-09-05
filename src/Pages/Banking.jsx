@@ -175,7 +175,7 @@ function Banking() {
   useEffect(() => {
     if (hostel_id) {
       setLoader(true);
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id  });
     }
   }, [hostel_id]);
 
@@ -184,12 +184,15 @@ function Banking() {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
       settransactionFilterddata(state.bankingDetails?.bankingList?.bank_trans);
       setOriginalBillsFilter(state.bankingDetails?.bankingList?.bank_trans)
-      setBanking(state.bankingDetails.bankingList.banks)
+      setBanking(state.bankingDetails?.bankingList)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
+
+  console.log("banklist" , state.bankingDetails?.bankingList);
+  
 
 
   useEffect(() => {
@@ -355,8 +358,8 @@ function Banking() {
 
   useEffect(() => {
     if (
-      transactionFilterddata.length > 0 &&
-      currentRowTransaction.length === 0 &&
+     transactionFilterddata && transactionFilterddata.length > 0 &&
+    currentRowTransaction &&  currentRowTransaction.length === 0 &&
       transactioncurrentPage > 1
     ) {
       settransactioncurrentPage(transactioncurrentPage - 1);
@@ -470,7 +473,7 @@ function Banking() {
 
 
   useEffect(() => {
-    if (transactionFilterddata.length > 0 && originalBills?.length === 0) {
+    if (transactionFilterddata?.length > 0 && originalBills?.length === 0) {
       setOriginalBills(transactionFilterddata);
     }
   }, [transactionFilterddata]);
@@ -579,7 +582,7 @@ function Banking() {
 
 
   useEffect(() => {
-    if (originalBillsFilter.length === 0 && transactionFilterddata.length > 0) {
+    if (originalBillsFilter?.length === 0 && transactionFilterddata?.length > 0) {
       setOriginalBillsFilter(transactionFilterddata);
     }
   }, [transactionFilterddata]);
@@ -915,7 +918,7 @@ function Banking() {
                               color: "#4B4B4B",
                             }}
                           >
-                            {item.acc_name || item.benificiary_name}
+                            {item.accountHolderName || item.benificiary_name}
                           </p>
 
                         </div>
@@ -1105,7 +1108,7 @@ function Banking() {
                           fontWeight: 500,
                         }}
                       >
-                        {item.acc_num || item.upi_id || item.card_no}
+                        {item?.accountNumber || item?.upiId || item.creditCardNumber}
                       </p>
 
                       <div className="d-flex justify-content-between align-items-center mb-2">
@@ -1587,7 +1590,7 @@ function Banking() {
             ) : (
 
               <div>
-                {!loader && currentRowTransaction.length === 0 &&
+                {!loader && currentRowTransaction && currentRowTransaction?.length === 0 &&
 
                   <div>
 

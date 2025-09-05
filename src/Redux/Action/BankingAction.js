@@ -1,15 +1,29 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
+import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 export async function AddBankingDetails(datum) {
   return await AxiosConfig.post("/add_bank", datum, {
     data: datum,
   });
 }
-export async function GetAddBanking(datum) {
-  return await AxiosConfig.post("/all_bankings",datum, {
-    data:datum,
+
+// v1
+// export async function GetAddBanking(datum) {
+//   return await AxiosConfig.post("/all_bankings",datum, {
+//     data:datum,
+//   });
+// }
+
+export async function GetAddBanking(hostelId) {
+  return await AxiosConfigV2.get(`/v2/bank/${hostelId}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
-}
+} 
+
+
+
 
 export async function AddDefaultAccount(datum) {
   return await AxiosConfig.post("/add_default_account", datum, {

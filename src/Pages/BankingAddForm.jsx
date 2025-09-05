@@ -37,7 +37,7 @@ function BankingAddForm(props) {
 
   const handleAccountName = (e) => {
     const value = e.target.value
-    const pattern = /^[a-zA-Z\s]*$/;
+    const pattern = /^[a-zA-Z\s]*$/; 
     if (!pattern.test(value)) {
       return;
     }
