@@ -54,6 +54,7 @@ import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Route, Routes, } from "react-router-dom";
+import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -267,6 +268,7 @@ function Sidebar() {
     setIsDropdownOpen(false);
     localStorage.setItem("currentPage", page);
     setIsSidebarOpen(false);
+     dispatch(checkoutCustomerProfile(true))
   };
 
   useEffect(() => {

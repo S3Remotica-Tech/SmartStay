@@ -78,7 +78,7 @@ function NoticeBedStatusDetails({
        showBooking(true)    
   }
  
-
+console.log("...customerId",customerId)
 
   const handleCheckout = () => {
   console.log("customerId",customerId)
@@ -165,6 +165,7 @@ function NoticeBedStatusDetails({
      const ParticularcustomerDetails = userDetails.filter((user)=> user.RoomRent > 0)
         console.log("userdetails" , ParticularcustomerDetails);
         setCustomerId(ParticularcustomerDetails[0]?.id)
+        console.log("ParticularcustomerDetails[0]?.id",ParticularcustomerDetails[0]?.id)
     
     if (
         Array.isArray(usersList) &&

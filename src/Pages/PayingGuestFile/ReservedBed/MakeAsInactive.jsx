@@ -32,7 +32,7 @@ export default function TenantInactiveModal({ show, handleClose }) {
                         color: "#222222",
                         fontFamily: "Gilroy",
                         fontWeight: 600,
-                    }}>Tenant Inactive ?</Modal.Title>
+                    }}>Tenant Inactive ???</Modal.Title>
 
                     <label style={{
                         fontSize: 14,

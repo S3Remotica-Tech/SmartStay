@@ -1050,7 +1050,15 @@ function UserList(props) {
 
   }, [customerrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id, value]);
 
+// useEffect(()=>{
+//   if(!state.login.checkoutProfileStatus){
+// setUserList(false)
+//   }
+//   else{
+//     setUserList(true)
+//   }
 
+// },[state.login.checkoutProfileStatus])
 
   useEffect(() => {
     const CustomerPermission = customerrolePermission[0]?.role_permissions?.find(
@@ -1446,6 +1454,9 @@ function UserList(props) {
     setIsDownloadTriggered(false);
     setFilterInput("");
     setFilterStatus("");
+    // if(newValue === "3"){
+    //   setUserList(false)
+    // }
   };
 
   useEffect(() => {
@@ -1549,7 +1560,17 @@ function UserList(props) {
 
 
 
+ const handleCheckoutOverview = (isvisible) => {
+         setUserList(false);
+         console.log("testchekout",isvisible)
+         setValue("3")
+        //  setAddCheckoutForm(true)
+      
+ }
 
+ const handleCloseCheckoutOverview = () => {
+     setUserList(true);
+ }
 
 
   const handleBack = () => {
@@ -2144,7 +2165,7 @@ function UserList(props) {
 
   }, [state.createAccount?.networkError])
 
-  console.log("props", props);
+  console.log("props.....???????", props);
 
 
   const [bookingDate, setBookingDate] = useState(null);
@@ -2171,15 +2192,18 @@ function UserList(props) {
   const [inActiveDate, setInActiveDate] = useState(null)
   const [inActiveComments, setInActiveComments] = useState("")
   const [bookingId, setBookingId] = useState("")
+  const [inActiveId,setInactiveId] = useState("")
+  console.log("inactivename",inactivename)
 
   const handleInActive = (item) => {
-
+console.log("item",item)
     setInActiveForm(true)
     setBookingId(item.booking_id)
     setInactiveName(item)
     const bookingDateStr = item?.booking_booking_date; // from API
     const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
     setBookingDate(bookingDatevalue)
+    setInactiveId(item.ID)
   }
 
   const handleCloseInActive = () => {
@@ -2219,7 +2243,7 @@ function UserList(props) {
     if (formattedDate) {
       dispatch({
         type: "BOOKINGACTIVE",
-        payload: { booking_id: bookingId, Inactive_date: formattedDate, Inactive_Reason: inActiveComments },
+        payload: { booking_id: bookingId, Inactive_date: formattedDate, Inactive_Reason: inActiveComments,ID:inActiveId || props.customer[0].id },
       });
     }
     setFormLoading(true)
@@ -2333,11 +2357,14 @@ function UserList(props) {
 
       {userList && (
         <div className="container p-0">
+           {
+                state.login.checkoutProfileStatus   &&
           <div className="header-container">
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"
               style={{ marginTop: 14 }}
             >
+             
               <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4">
                 <label
                   style={{
@@ -2669,7 +2696,7 @@ function UserList(props) {
               </div>
             </div>
           </div>
-
+}
           {filterInput && (
             <div
               className="container ms-4 mb-4"
@@ -2736,6 +2763,9 @@ function UserList(props) {
             }}
           >
             <TabContext value={value} style={{ marginLeft: "-10px" }}>
+              {
+                state.login.checkoutProfileStatus   &&
+              
               <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
                 <TabList
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
@@ -2793,6 +2823,7 @@ function UserList(props) {
                   />
                 </TabList>
               </Box>
+}
 
               <TabPanel value="1">
                 {loading && (
@@ -4226,7 +4257,12 @@ function UserList(props) {
                   filterStatus={filterStatus}
                   resetPage={resetPage}
                   setResetPage={setResetPage}
+                  userList={userList}
+                  setUserList={setUserList}
+                  handleCheckoutOverview={handleCheckoutOverview}
+                  handleCloseCheckoutOverview = {handleCloseCheckoutOverview}
                 />
+
               </TabPanel>
               <TabPanel value="4">
                 <UserlistWalkin
@@ -4390,10 +4426,10 @@ function UserList(props) {
 
           <img
             src={
-              typeof inactivename.profile === "string" && inactivename.profile.trim()
-                ? inactivename.profile
-                : inactivename.profile instanceof File
-                  ? URL.createObjectURL(inactivename.profile)
+              typeof inactivename?.profile === "string" && inactivename?.profile.trim()
+                ? inactivename?.profile
+                : inactivename?.profile instanceof File
+                  ? URL.createObjectURL(inactivename?.profile)
                   : Profile
             }
             alt="Profile"
@@ -4407,7 +4443,7 @@ function UserList(props) {
           />
           <div>
             <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
-              {inactivename.Name}
+              {inactivename?.Name}
             </p>
 
           </div>
@@ -5992,5 +6028,6 @@ UserList.propTypes = {
   makeasinactive: PropTypes.func.isRequired,
   handleCloseBed: PropTypes.func.isRequired,
   customer_details: PropTypes.func.isRequired,
+  customer: PropTypes.func.isRequired,
 };
 export default UserList;
