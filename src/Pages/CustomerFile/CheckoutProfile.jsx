@@ -35,7 +35,7 @@ import repeat from "../../Assets/Images/repeate-one.png";
 function CustomerProfile(props){
    const state = useSelector((state) => state);
 
-   console.log("CustomerProfile",state)
+ 
     const dispatch = useDispatch();
     const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -550,8 +550,18 @@ console.log("propssss",props.CheckoutProfile)
               </div>
               <div className="col-4">
                 <p style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,color:"grey"}} className="mb-1 ">Checkout Date</p>
-                <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />{details.joining_Date
+                <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />{details.CheckoutDate
   ? new Date(details.CheckoutDate).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    })
+  : "N/A"}</p>
+              </div>
+                <div className="col-4">
+                <p style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,color:"grey"}} className="mb-1 ">Booking Date</p>
+                <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}><img src={LinkImage} alt="Floorimage" size="16" color="#1E45E1" />{details.booking_date
+  ? new Date(details.booking_date).toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "long",
       year: "numeric",

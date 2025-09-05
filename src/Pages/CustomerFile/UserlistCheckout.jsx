@@ -836,7 +836,7 @@ const handleCloseCheckoutProfile=()=>{
                                     verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                                   }}
                                 >
-                                  {checkout.floor_name}
+                                  {checkout.floor_name || "_"}
                                 </span>
                               </td>
 
@@ -869,7 +869,7 @@ const handleCloseCheckoutProfile=()=>{
                                     verticalAlign: "middle"
                                   }}
                                 >
-                                  {checkout.room_name}
+                                  {checkout.room_name || "_"}
                                 </span>
                               </td>
                               <td
@@ -901,7 +901,7 @@ const handleCloseCheckoutProfile=()=>{
                                     verticalAlign: "middle"
                                   }}
                                 >
-                                  {checkout.bed_name}
+                                  {checkout.bed_name || "_"}
                                 </span>
                               </td>
                               <td
