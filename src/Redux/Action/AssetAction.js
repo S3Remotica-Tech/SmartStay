@@ -15,14 +15,36 @@ export async function GetAsset(hostelId) {
 }
 
 
+// v1
 
-export async function AddAsset(asset) {
+// export async function AddAsset(asset) {
  
-    return await AxiosConfig.post('/add_asset',asset,{
+//     return await AxiosConfig.post('/add_asset',asset,{
+//         data:asset
+//         })
+//   }
+
+
+  // v2
+
+  export async function AddAsset(asset) {
+     return await AxiosConfigV2.post('/v2/assets/add-assets',asset,{
         data:asset
         })
   }
   
+// v2
+
+export async function updateAsset(asset) {
+     return await AxiosConfigV2.put(`/v2/assets/${asset.assetId}`,asset,{
+        data:asset
+        })
+  }
+
+
+
+
+
   export async function DeleteAssetList(asset) {
     return await AxiosConfig.post('/remove_asset', asset, {
       data: asset

@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { GetAsset, AddAsset, DeleteAssetList, getHostelRooms, AssignAsset } from "../Action/AssetAction"
+import { updateAsset, GetAsset, AddAsset, DeleteAssetList, getHostelRooms, AssignAsset } from "../Action/AssetAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 
@@ -12,7 +12,7 @@ function* handleGetAsset(action) {
     const response = yield call(GetAsset, hostelId);
 
    if (response?.status === 200 || response?.data?.statusCode === 200) {
-      yield put({ type: 'ASSET_LIST', payload: { response: response?.data?.assets || [], statusCode: response?.status || response?.data?.statusCode } })
+      yield put({ type: 'ASSET_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
    }
    else if (response?.status === 201 || response?.statusCode === 201) {
       yield put({ type: 'NO_ASSET_LIST', payload: { response: response?.data?.assets || [], statusCode: response.status || response.statusCode } })
@@ -53,7 +53,7 @@ function* handleAddAsset(action) {
 
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'ADD_ASSET', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
-         toast.success(`${response.data.message}`, {
+         toast.success(`Created successfully`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -93,6 +93,66 @@ function* handleAddAsset(action) {
 
 }
 
+function* handleUpdateAsset(action) {
+   try {
+      const response = yield call(updateAsset, action.payload);
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'UPDATE_ASSET', payload: {statusCode: response.status || response.statusCode } })
+         toast.success(`Updated successfully`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+      }
+      // else if (response.status === 201 || response.statusCode === 201) {
+      //    yield put({ type: 'SERIAL_NUMBER_ERROR', payload: response.data.message })
+      // } else if (response.status === 202 || response.statusCode === 202) {
+      //    yield put({ type: 'ASSET_NAME_ERROR', payload: response.data.message })
+      // }
+      // else if (response.status === 203 || response.data.statusCode === 203) {
+      //    yield put({ type: 'BANK_AMOUNT_ERROR', payload: response.data.message })
+      // }
+      if (response) {
+         refreshToken(response)
+      }
+
+
+
+   }
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+
+
+}
 
 function* handleDeleteAsset(action) {
    const response = yield call(DeleteAssetList, action.payload);
@@ -244,6 +304,7 @@ function refreshToken(response) {
 function* AssetSaga() {
    yield takeEvery('ASSETLIST', handleGetAsset)
    yield takeEvery('ADDASSET', handleAddAsset)
+   yield takeEvery('UPDATEASSET',handleUpdateAsset)
    yield takeEvery('DELETEASSET', handleDeleteAsset)
    yield takeEvery('GETROOMS', handleGetHostelRooms)
    yield takeEvery('ASSIGNASSET', handleAssignAsset)
