@@ -69,12 +69,18 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
   useEffect(() => {
-    if( state.login.selectedHostel_Id){
-    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
-    dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+    if (state.login.selectedHostel_Id) {
+
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
     }
   }, [state.login.selectedHostel_Id]);
 
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+    }
+  }, [])
 
   useEffect(() => {
     if (state.AssetList?.bankAmountError) {
@@ -162,7 +168,7 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, [currentItem]);
 
-console.log("currentItem",currentItem)
+  console.log("currentItem", currentItem)
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -201,10 +207,10 @@ console.log("currentItem",currentItem)
   };
 
   const labelMap = {
-   CARD: "Card",
-  CASH: "Cash",
-  UPI: "UPI",
-  BANK: "Bank",
+    CARD: "Card",
+    CASH: "Cash",
+    UPI: "UPI",
+    BANK: "Bank",
   };
 
   const paymentOptions = Array.isArray(bankking)
@@ -343,7 +349,7 @@ console.log("currentItem",currentItem)
 
     }
 
-    if (!modeOfPayment) {
+    if (!currentItem && !modeOfPayment) {
       setPaymentError("Please Select Mode Of Payment");
       if (!focusedRef.current && paymentRef.current) {
         paymentRef.current.focus();
@@ -434,7 +440,7 @@ console.log("currentItem",currentItem)
 
           },
         });
-         setFormLoading(true)
+        setFormLoading(true)
       } else {
         dispatch({
           type: "ADDASSET",
