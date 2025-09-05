@@ -436,29 +436,15 @@ const handleBed = (selectedOption) => {
   const selectedBed = state.UsersList?.bednumberdetails?.find(
     (bed) => String(bed.bedId) === String(selectedBedId)
   );
- console.log("Warning:", selectedBed);
+
   if (selectedBed) {
+    setRoomRent(selectedBed.rentAmount)
         if (selectedBed.showWarning) {
-      console.log("Warning:", selectedBed);
-            setBedWarning(selectedBed.warningMessage);
+                  setBedWarning(selectedBed.warningMessage);
     } else {
       setBedWarning("");
     }
-
-    // If you want to get rent from roomdetails logic (your commented part)
-    // const Bedfilter = state?.UsersList?.roomdetails?.filter(
-    //   (u) =>
-    //     String(u.Hostel_Id) === String(hostel_Id) &&
-    //     String(u.Floor_Id) === String(Floor) &&
-    //     String(u.Room_Id) === String(Rooms)
-    // );
-    // const Roomamountfilter =
-    //   Bedfilter?.[0]?.bed_details?.filter(
-    //     (amount) => String(amount.id) === String(selectedBedId)
-    //   ) ?? [];
-    // if (Roomamountfilter.length > 0) {
-    //   setRoomRent(Roomamountfilter[0]?.bed_amount);
-    // }
+  
   }
 
   setBedError("");

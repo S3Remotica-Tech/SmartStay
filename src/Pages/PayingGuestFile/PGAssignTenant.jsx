@@ -38,15 +38,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 console.log("currentItem",currentItem)
 
-  // useEffect(() => {
-  // const matchedBed = state.PgList.roomCount[0].bed_details.find(
-  //   (item) => item.id === currentItem?.bed?.id
-  // );
-
-  // if (matchedBed) {
-  //   setRoomRent(matchedBed.bed_amount);
-  // }
-  // }, [state.PgList, currentItem]);
+  useEffect(() => {
+  if (currentItem) {
+    setRoomRent(currentItem?.rentAmount);
+  }
+  }, [currentItem]);
 
   const handleRoomRent = (e) => {
     const newAmount = e.target.value;
@@ -215,6 +211,8 @@ console.log("currentItem",currentItem)
     }
   };
 
+
+console.log("  currentItem",  currentItem)
 
   const validateField = (value, fieldName) => {
     const trimmedValue = String(value ?? "").trim();
