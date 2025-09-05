@@ -69,9 +69,10 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    if( state.login.selectedHostel_Id){
+    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
     dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
-
+    }
   }, [state.login.selectedHostel_Id]);
 
 
@@ -200,16 +201,16 @@ console.log("currentItem",currentItem)
   };
 
   const labelMap = {
-    bank: "Bank",
-    upi: "UPI",
-    card: "Card",
-    cash: "Cash",
+   CARD: "Card",
+  CASH: "Cash",
+  UPI: "UPI",
+  BANK: "Bank",
   };
 
   const paymentOptions = Array.isArray(bankking)
     ? bankking.map((item) => ({
-      value: String(item.id),
-      label: `${item.benificiary_name} - ${labelMap[item.type] || ""}`,
+      value: String(item.bankingId),
+      label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
     }))
     : [];
 
