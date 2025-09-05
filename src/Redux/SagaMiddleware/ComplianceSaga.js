@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceChange, complianceDelete, getComplianceComment, addComplianceComment , EditComplaint , ParticularcomplianceDetails } from "../Action/ComplianceAction"
+import { updateVendor, ComplianceChangeStatus, complianceList, Compliancedetails, VendorList, addVendor, DeleteVendorList, ComplianceAssign, complianceDelete, getComplianceComment, addComplianceComment , EditComplaint , ParticularcomplianceDetails } from "../Action/ComplianceAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -341,7 +341,7 @@ function* handleComplianceChange(action) {
 
 function* handleComplianceChangeAssign(action) {
    try {
-      const response = yield call(ComplianceChange, action.payload);
+      const response = yield call(ComplianceAssign, action.payload);
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -361,7 +361,7 @@ function* handleComplianceChangeAssign(action) {
 
       if (response.statusCode === 200 || response.status === 200) {
          yield put({ type: 'COMPLIANCE_CHANGE_ASSIGN', payload: { response: response.data, statusCode: response.statusCode || response.status } })
-         toast.success(`${response.data.message}`, {
+         toast.success(`${response.data}`, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -501,9 +501,11 @@ function* handleGetComplianceComment(action) {
 
 function* handleAddComplianceComment(action) {
    try {
-      const response = yield call(addComplianceComment, action.payload);
+      // const response = yield call(addComplianceComment, action.payload);
+            const {  complaintId , data } = action.payload; 
+          const response = yield call(addComplianceComment,  complaintId , data);
 
-      if (response.status === 200 || response.data.statusCode === 200) {
+      if (response.status === 201 || response.data.statusCode === 201) {
          yield put({ type: 'COMPLIANCE_ADD_COMMENT', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -522,7 +524,7 @@ function* handleAddComplianceComment(action) {
          };
 
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -542,7 +544,7 @@ function* handleAddComplianceComment(action) {
       }
    }
  catch (error) {
-       if (error.code === 'ERR_NETWORK') {
+       if (error.code === 'ERR_BAD_REQUEST') {
           yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
        } else {
           yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });

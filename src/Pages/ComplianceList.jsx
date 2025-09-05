@@ -98,10 +98,11 @@ const ComplianceList = (props) => {
   const [profile, setProfile] = useState("");
 
   const handleIconClick = (item) => {
-    setCustomer_Id(item.ID);
+    
+    setCustomer_Id(item.complaintId);
     setShowCard(true);
     setName(item.Name);
-    let Dated = new Date(item.createdat);
+    let Dated = new Date(item.complaintDate);
 
     let day = Dated.getDate();
     let month = Dated.getMonth();
@@ -147,7 +148,7 @@ const ComplianceList = (props) => {
   }, [state.ComplianceList.statusCodeForGetComplianceComment]);
 
   useEffect(() => {
-    if (state.ComplianceList.statusCodeForAddComplianceComment === 200) {
+    if (state.ComplianceList.statusCodeForAddComplianceComment === 201) {
       setComments("");
       setShowCard(false);
       setCommentsLoading(false)
@@ -209,10 +210,13 @@ const ComplianceList = (props) => {
 
     if (!isFloorValid) return;
 
-    if (comments) {
+    if (comments && customer_Id) {
       dispatch({
         type: "Add_COMPLIANCE_COMMENT",
-        payload: { complaint_id: customer_Id, message: comments },
+         payload: { 
+       complaintId: customer_Id, 
+        data: { message: comments } 
+      },
       });
       setCommentsLoading(true)
     }
@@ -314,16 +318,27 @@ const ComplianceList = (props) => {
     if (compliant === "") {
       setStatusErrorType("Please Select User");
     } else {
-      dispatch({
-        type: "COMPLIANCEASSIGN",
-        payload: {
-          type: "assign",
-          assigner: compliant,
-          status: status,
-          id: assignId,
-          hostel_id: hostel_id,
-        },
-      });
+
+      // dispatch({
+      //   type: "COMPLIANCEASSIGN",
+      //   payload: {
+      //     type: "assign",
+      //     assigner: compliant,
+      //     status: status,
+      //     id: assignId,
+      //     hostel_id: hostel_id,
+      //   },
+      // });
+
+      if(complaintId && compliant){
+       dispatch({
+      type: "COMPLIANCEASSIGN",
+      payload: {
+        complaintId,
+        userId: compliant
+      }
+    });
+    }
       setFormAssignCompliantLoading(true)
     }
   };
@@ -366,6 +381,7 @@ const ComplianceList = (props) => {
     setShowDots(false);
     setCompliant(item?.Assign ?? "");
     setAlreadyAssigned(item?.Assign ?? "");
+    setComplaintId(item?.complaintId)
     setShowAssignComplaint(true);
     setShowChangeStatus(false);
   };
@@ -508,11 +524,11 @@ const ComplianceList = (props) => {
                   <div>
                     <Image
                       src={
-                        props.complaints?.customerProfile === "0" ||
-                          props.complaints?.customerProfile === "null" ||
-                          props.complaints?.customerProfile === null
+                        props.complaints?.complaintResponseDto?.customerProfile === "0" ||
+                          props.complaints?.complaintResponseDto?.customerProfile === "null" ||
+                          props.complaints?.complaintResponseDto?.customerProfile === null
                           ? User
-                          : props?.complaints?.customerProfile
+                          : props?.complaints?.complaintResponseDto?.customerProfile
                       }
                       roundedCircle
                       style={{ height: "60px", width: "60px", objectFit: "cover" }}
@@ -532,7 +548,7 @@ const ComplianceList = (props) => {
                           marginLeft: "10px",
                         }}
                       >
-                        {props.complaints && props?.complaints?.customerName}
+                        {props.complaints && props?.complaints?.complaintResponseDto?.customerName}
                       </label>
 
 
@@ -552,7 +568,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.roomName} - B{props.complaints?.bedName}
+                          {props.complaints?.complaintResponseDto?.roomName} - B{props.complaints?.complaintResponseDto?.bedName}
                         </div>
 
 
@@ -570,7 +586,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.floorName}
+                          {props.complaints?.complaintResponseDto?.floorName}
                         </div>
                       </div>
                     </div>
@@ -590,10 +606,10 @@ const ComplianceList = (props) => {
                       alignItems: "center",
                       position: "relative",
                       cursor: "pointer",
-                      backgroundColor: showDots === props.complaints.ID ? "#E7F1FF" : "white",
+                      backgroundColor: showDots === props.complaints.complaintResponseDto?.ID ? "#E7F1FF" : "white",
 
                     }}
-                    onClick={() => handleShowDots(props.complaints.ID)}
+                    onClick={() => handleShowDots(props.complaints.complaintResponseDto?.ID)}
                   >
                     <PiDotsThreeOutlineVerticalFill
                       style={{ height: 20, width: 20, cursor: "pointer" }}
@@ -624,7 +640,7 @@ const ComplianceList = (props) => {
                               className="d-flex align-items-center"
                               onClick={() => {
                                 if (!props.disableActions) {
-                                  handleChangeStatusOpenClose(props.complaints)
+                                  handleChangeStatusOpenClose(props.complaints?.complaintResponseDto)
 
                                 }
                               }}
@@ -666,7 +682,7 @@ const ComplianceList = (props) => {
                               className="d-flex align-items-center"
                               onClick={() => {
                                 if (!props.disableActions) {
-                                  handleAssignOpenClose(props.complaints)
+                                  handleAssignOpenClose(props.complaints?.complaintResponseDto)
                                 }
                               }
                               }
@@ -704,7 +720,7 @@ const ComplianceList = (props) => {
                               className="d-flex align-items-center"
                               onClick={() => {
                                 if (!props.complianceEditPermission) {
-                                  handleEdit(props.complaints);
+                                  handleEdit(props.complaints?.complaintResponseDto);
                                 }
                               }}
                               style={{
@@ -742,7 +758,7 @@ const ComplianceList = (props) => {
                             <div
                               className="d-flex align-items-center"
                               onClick={() =>{ if(!props.complianceDeletePermission){
-                                handleDeleteFormShow(props.complaints)
+                                handleDeleteFormShow(props.complaints?.complaintResponseDto)
                               }
                             }
                               }
@@ -816,7 +832,7 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {props.complaints && props.complaints?.complaintId}
+                      {props.complaints && props.complaints?.complaintResponseDto?.complaintId}
                     </label>
                   </div>
                 </div>
@@ -848,7 +864,7 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {moment(props.complaints.date).format("DD-MM-YYYY")}{" "}
+                      {moment(props.complaints?.complaintResponseDto?.date).format("DD-MM-YYYY")}{" "}
                     </label>
                   </div>
                 </div>
@@ -879,8 +895,8 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {props.complaints?.assigneeName === "" ||
-                        props.complaints?.assigneeName === null ? (
+                      {props.complaints?.complaintResponseDto?.assigneeName === "" ||
+                        props.complaints?.complaintResponseDto?.assigneeName === null ? (
                         <span
                           style={{
                             color: "#1E45E1",
@@ -893,7 +909,7 @@ const ComplianceList = (props) => {
                           + Assign
                         </span>
                       ) : (
-                        props.complaints.assigner_name
+                        props.complaints?.complaintResponseDto?.assigneeName
                       )}
                     </label>
 
@@ -936,12 +952,12 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                         display: "block",
                       }}
-                      title={props.complaints?.complaintTypeName}
+                      title={props.complaints?.complaintResponseDto?.complaintTypeName}
                     >
-                      {props.complaints && props.complaints?.complaintTypeName}
-                      {props.complaints?.description && (
+                      {props.complaints && props.complaints?.complaintResponseDto?.complaintTypeName}
+                      {props.complaints?.complaintResponseDto?.description && (
                         <span
-                          title={props.complaints.description}
+                          title={props.complaints.complaintResponseDto?.description}
                           style={{
                             display: "inline-block",
                             maxWidth: "200px",
@@ -953,7 +969,7 @@ const ComplianceList = (props) => {
                             paddingLeft: 4
                           }}
                         >
-                          {" "}  {" - "}{props.complaints.description}
+                          {" "}  {" - "}{props.complaints?.complaintResponseDto?.description}
                         </span>
                       )}
 
@@ -988,7 +1004,7 @@ const ComplianceList = (props) => {
                           : { color: "#FF9E00" }
                       }
                     >
-                      {props.complaints && props.complaints?.status  === null ?  "Open" : props?.complaints?.status}
+                      {props.complaints && props.complaints?.complaintResponseDto?.status  === null ?  "Open" : props?.complaints?.complaintResponseDto?.status}
                     </label>
                   </div>
                 </div>
@@ -1004,7 +1020,7 @@ const ComplianceList = (props) => {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  {props.complaints.assigneeName === "" || props.complaints.assigneeName === null ? (
+                  {props.complaints.complaintResponseDto?.assigneeName === "" || props.complaints?.complaintResponseDto?.assigneeName === null ? (
                     <>
                       <img
                         src={Profile_add}
@@ -1040,14 +1056,14 @@ const ComplianceList = (props) => {
                         }}
                       >
                         successfully attended on{" "}
-                        {moment(props.complaints.complaintDate).format("DD-MM-YYYY")}
+                        {moment(props.complaints.complaintResponseDto?.complaintDate).format("DD-MM-YYYY")}
                       </span>
                     </>
                   )}
                 </div>
 
                 <div
-                  onClick={() => handleIconClick(props.complaints)}
+                  onClick={() => handleIconClick(props.complaints.complaintResponseDto)}
                   style={{
                     border: "1px solid #DCDCDC",
                     borderRadius: "50px",
@@ -1072,7 +1088,7 @@ const ComplianceList = (props) => {
                       fontWeight: 500,
                     }}
                   >
-                    {props.complaints.comment_count}
+                    {props.complaints.complaintCount}
                   </span>
                 </div>
 
@@ -1135,7 +1151,7 @@ const ComplianceList = (props) => {
                               fontFamily: "Gilroy",
                             }}
                           >
-                            {name}
+                            {props.complaints?.complaintResponseDto?.customerName}
                           </p>
                           <p
                             style={{
@@ -1177,9 +1193,9 @@ const ComplianceList = (props) => {
                       >
 
 
-                        {state.ComplianceList?.getComplianceComments?.comments?.length > 0 ? (
-                          state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
-                            let Dated = new Date(item.created_at);
+                        {props.complaints.complaintResponseDto?.comments?.length > 0 ? (
+                          props.complaints.complaintResponseDto?.comments.map((item, index) => {
+                            let Dated = new Date(item.commentedAt);
 
                             let day = Dated.getDate();
                             let month = Dated.getMonth();
@@ -1232,7 +1248,7 @@ const ComplianceList = (props) => {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      {item.name}
+                                      {item.commentText}
                                     </p>
                                     <p
                                       style={{
@@ -1656,11 +1672,11 @@ const ComplianceList = (props) => {
                             </Form.Label>
 
 
-                            <Select
+                            {/* <Select
                               options={
                                 state.Settings.addSettingStaffList
                                   ? state.Settings.addSettingStaffList.map((v) => ({
-                                    value: v.id,
+                                    value: v.userId,
                                     label: v.first_name,
                                   }))
                                   : []
@@ -1669,9 +1685,9 @@ const ComplianceList = (props) => {
                               value={
                                 compliant
                                   ? (() => {
-                                    const selected = state.Settings.addSettingStaffList.find((v) => String(v.id) === String(compliant));
+                                    const selected = state.Settings.addSettingStaffList.find((v) => String(v.userId) === String(compliant));
                                     return selected
-                                      ? { value: selected.id, label: selected.first_name }
+                                      ? { value: selected.userId, label: selected.first_name }
                                       : null;
                                   })()
                                   : null
@@ -1724,7 +1740,80 @@ const ComplianceList = (props) => {
                                   display: "none",
                                 }),
                               }}
-                            />
+                            /> */}
+
+                            <Select
+  options={
+    state.Settings.addSettingStaffList
+      ? state.Settings.addSettingStaffList.map((v) => ({
+          value: v.userId,        
+          label: v.firstName,    
+        }))
+      : []
+  }
+  onChange={handleCompliant}
+  value={
+    compliant
+      ? (() => {
+          const selected = state.Settings.addSettingStaffList.find(
+            (v) => String(v.userId) === String(compliant)
+          );
+          return selected
+            ? { value: selected.userId, label: selected.firstName }
+            : null;
+        })()
+      : null
+  }
+  placeholder="Select a User"
+  classNamePrefix="custom"
+ styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                  fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  cursor: "pointer"
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused ? "lightblue" : "white",
+                                  color: "#000",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                              }}
+/>
+
 
 
 
