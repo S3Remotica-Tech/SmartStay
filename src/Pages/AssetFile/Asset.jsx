@@ -242,7 +242,7 @@ function Asset() {
       }
     }, [state?.login?.selectedHostel_Id]);
   
-   console.log("hostelid" , hostel_Id);
+
    
 
   useEffect(() => {
@@ -251,7 +251,7 @@ function Asset() {
       dispatch({type: 'ASSETLIST',  payload:hostel_Id})
    
     } else {
-      setGetData([])
+      // setGetData([])
       setLoading(false)
     }
   }, [hostel_Id])
@@ -269,7 +269,7 @@ function Asset() {
 
 
   useEffect(() => {
-    if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
+    if (state.AssetList.updateAssetStatusCode === 200, state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
 
       setTimeout(() => {
 
@@ -277,6 +277,7 @@ function Asset() {
       }, 100)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
+        dispatch({ type: 'CLEAR_UPDATE_ASSET_STATUS_CODE'})
       }, 4000)
 
       setTimeout(() => {
@@ -290,7 +291,7 @@ function Asset() {
 
     }
 
-  }, [state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
+  }, [state.AssetList.updateAssetStatusCode, state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
 
 
 
@@ -506,7 +507,7 @@ function Asset() {
     setSortConfig({ key, direction });
   };
 
-
+console.log("sortedData",sortedData)
 
   const handleItemsPerPageChange = (selectedOption) => {
     setItemsPerPage(Number(selectedOption.value));

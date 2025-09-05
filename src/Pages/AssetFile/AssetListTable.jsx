@@ -106,19 +106,21 @@ function AssetListTable(props) {
     setShowDeleteAsset(false)
   }
 
+  console.log("props.item",props.item)
+
   return (
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
         <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" title={props.item.product_name}
           style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", }}>
-          <div className='ps-2'> {props.item.product_name}</div></td>
+          <div className='ps-2'> {props.item.productName}</div></td>
 
         <td title={props.item.serial_number} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div className='ps-1'>  {props.item.serial_number}</div>
+          <div className='ps-1'>  {props.item.serialNumber}</div>
         </td>
 
         <td
-          title={props.item.brand_name || "-"}
+          title={props.item.brandName || "-"}
           className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
           style={{
             paddingTop: 15,
@@ -147,7 +149,7 @@ function AssetListTable(props) {
               backgroundColor: "#EBEBEB",
             }}
           >
-            {props.item.brand_name ? props.item.brand_name : "-"}
+            {props.item.brandName ? props.item.brandName : "-"}
           </span>
         </td>
 
@@ -155,7 +157,7 @@ function AssetListTable(props) {
 
         <td title={props.item.asset_name} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div style={{ width: "100%" }} className='ps-2'>
-            <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
+            <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.assetName ? props.item.assetName : "-"}</div>
           </div>
         </td>
 
@@ -166,7 +168,7 @@ function AssetListTable(props) {
         </td>
 
         <td
-          title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
+          title={moment(props.item.purchaseDate).format('DD MMM YYYY').toUpperCase()}
           className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
           style={{
             paddingTop: 15,
@@ -195,15 +197,15 @@ function AssetListTable(props) {
               backgroundColor: "#EBEBEB",
             }}
           >
-            {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
+            {moment(props.item.purchaseDate).format('DD MMM YYYY').toUpperCase()}
           </span>
         </td>
 
 
 
-        <td title={props.item.hostel_Name || "-"} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", paddingLeft: 20 }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+        <td title={props.item.hostelName || "-"} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", paddingLeft: 20 }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
           <div className='ps-2'>
-            {props.item.hostel_Name || "-"}
+            {props.item.hostelName || "-"}
           </div>
         </td>
 
@@ -354,7 +356,7 @@ function AssetListTable(props) {
                               fontFamily: "Gilroy, sans-serif",
                               color: "#FF0000",
                               cursor:
-                                props.assetDeletePermission || props.item.hostel_id
+                                props.assetDeletePermission || props.item.hostelId
                                   ? "not-allowed"
                                   : "pointer",
                             }}

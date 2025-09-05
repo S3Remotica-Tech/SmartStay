@@ -100,7 +100,7 @@ function StaticExample({ show, setShow, currentItem }) {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
 
-      setBanking(state.bankingDetails.bankingList.banks)
+      setBanking(state.bankingDetails.bankingList)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
@@ -108,10 +108,7 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
   useEffect(() => {
-    dispatch({
-      type: "VENDORLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
+    dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
   }, []);
   const handleClose = () => {
     setShow(false)
@@ -138,9 +135,9 @@ function StaticExample({ show, setShow, currentItem }) {
   }, []);
   useEffect(() => {
     if (currentItem) {
-      setAssetName(currentItem.asset_name || "");
+      setAssetName(currentItem.assetName || "");
       setVendorName(currentItem.vendor_id || "");
-      setBrandName(currentItem.brand_name || "");
+      setBrandName(currentItem.brandName || "");
       setSerialNumber(currentItem.serial_number || "");
       setProductCount(currentItem.product_count || "");
       setSelectedDate(moment(currentItem.purchase_date).toDate());
@@ -150,9 +147,9 @@ function StaticExample({ show, setShow, currentItem }) {
       setModeOfPayment(currentItem.payment_mode || "");
 
       setInitialState({
-        assetName: currentItem.asset_name || "",
+        assetName: currentItem.assetName || "",
         vendorName: currentItem.vendor_id || "",
-        brandName: currentItem.brand_name || "",
+        brandName: currentItem.brandName || "",
         serialNumber: currentItem.serial_number || "",
         productCount: currentItem.product_count || "",
         selectedDate: currentItem.purchase_date
@@ -164,7 +161,7 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, [currentItem]);
 
-
+console.log("currentItem",currentItem)
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -173,7 +170,7 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [selectedDate]);
 
   useEffect(() => {
-    if (state.AssetList.addAssetStatusCode === 200) {
+    if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.updateAssetStatusCode === 200) {
       setFormLoading(false)
       setAssetName("");
       setVendorName("");
@@ -185,7 +182,7 @@ function StaticExample({ show, setShow, currentItem }) {
       setBankingError("")
       setJoingDateErrmsg('')
     }
-  }, [state.AssetList.addAssetStatusCode]);
+  }, [state.AssetList.addAssetStatusCode, state.AssetList.updateAssetStatusCode]);
 
 
 
@@ -218,10 +215,10 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
+    // const pattern = /^[a-zA-Z\s]*$/;
+    // if (!pattern.test(value)) {
+    //   return;
+    // }
     setAssetError("");
 
     setIsChangedError("");
@@ -297,10 +294,10 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleProductNameChange = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
+    // const pattern = /^[a-zA-Z\s]*$/;
+    // if (!pattern.test(value)) {
+    //   return;
+    // }
     setProductNameError("");
     setIsChangedError("");
 
@@ -342,7 +339,7 @@ function StaticExample({ show, setShow, currentItem }) {
         productNameRef.current.focus();
         focusedRef.current = true;
       }
-      
+
     }
 
     if (!modeOfPayment) {
@@ -351,7 +348,7 @@ function StaticExample({ show, setShow, currentItem }) {
         paymentRef.current.focus();
         focusedRef.current = true;
       }
-      
+
     }
 
     if (!cleanedSerialNumber) {
@@ -360,7 +357,7 @@ function StaticExample({ show, setShow, currentItem }) {
         serialNumberRef.current.focus();
         focusedRef.current = true;
       }
-      
+
     }
 
     if (!selectedDate) {
@@ -369,7 +366,7 @@ function StaticExample({ show, setShow, currentItem }) {
         dateRef.current.focus();
         focusedRef.current = true;
       }
-     
+
     }
 
     const numericRegex = /^[0-9]+$/;
@@ -382,7 +379,7 @@ function StaticExample({ show, setShow, currentItem }) {
       }
       return;
     }
-   
+
 
 
 
@@ -416,24 +413,46 @@ function StaticExample({ show, setShow, currentItem }) {
     }
 
     if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
-      const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+      const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
+      if (currentItem?.id) {
+        dispatch({
+          type: "UPDATEASSET",
+          payload: {
+            hostelId: state.login.selectedHostel_Id,
+            assetId: currentItem?.id,
+            assetName: assetName,
+            productName: productName,
+            brandName: brandName,
+            vendorId: vendorName,
+            serialNumber: serialNumber,
+            purchaseDate: formattedDate,
+            price: price,
+            modeOfPayment: "a6f30e6f-4535-49a0-ad75-54f3500f934e",
+            //  modeOfPayment
+            "isActive": true
 
-      dispatch({
-        type: "ADDASSET",
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          asset_name: assetName,
-          product_name: productName,
-          vendor_id: vendorName,
-          brand_name: brandName,
-          serial_number: serialNumber,
-          product_count: 1,
-          purchase_date: formattedDate,
-          price: price,
-          payment_type: modeOfPayment,
-          id: id,
-        },
-      });
+          },
+        });
+         setFormLoading(true)
+      } else {
+        dispatch({
+          type: "ADDASSET",
+          payload: {
+            hostelId: state.login.selectedHostel_Id,
+            assetName: assetName,
+            productName: productName,
+            vendorId: vendorName,
+            brandName: brandName,
+            serialNumber: serialNumber,
+            purchaseDate: formattedDate,
+            price: price,
+            modeOfPayment: "a6f30e6f-4535-49a0-ad75-54f3500f934e",
+            //  modeOfPayment
+
+          },
+        });
+      }
+
       setFormLoading(true)
     }
   };
@@ -514,7 +533,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
-           
+
 
             {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
               state.bankingDetails.bankingList.banks.length === 0 && (
@@ -591,22 +610,22 @@ function StaticExample({ show, setShow, currentItem }) {
                   )}
 
 
-                   {state.AssetList?.alreadyAssetNameHere && (
-              <div className="d-flex align-items-center p-1 ms-1">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {state.AssetList?.alreadyAssetNameHere}
-                </label>
-              </div>
-            )}
+                  {state.AssetList?.alreadyAssetNameHere && (
+                    <div className="d-flex align-items-center p-1 ms-1">
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                      <label
+                        className="mb-0"
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {state.AssetList?.alreadyAssetNameHere}
+                      </label>
+                    </div>
+                  )}
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
@@ -682,7 +701,7 @@ function StaticExample({ show, setShow, currentItem }) {
                         state.ComplianceList?.VendorList?.length > 0
                           ? state.ComplianceList.VendorList.map((view) => ({
                             value: view.id,
-                            label: view.Vendor_Name,
+                            label: view.fullName,
                           }))
                           : []
                       }
@@ -693,7 +712,7 @@ function StaticExample({ show, setShow, currentItem }) {
                             value: vendorName,
                             label: state.ComplianceList.VendorList.find(
                               (vendor) => vendor.id === vendorName
-                            )?.Vendor_Name,
+                            )?.fullName,
                           }
                           : null
                       }
