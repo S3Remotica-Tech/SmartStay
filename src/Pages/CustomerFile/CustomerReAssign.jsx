@@ -199,6 +199,7 @@ function CustomerReAssign(props) {
 
   const [lastDate, setLastDate] = useState("");
   const [joiningdate, setJoiningDate] = useState("")
+  const [reAssignDate,setReAssignDate] = useState("")
 
 
   console.log("props", lastDate, joiningdate);
@@ -223,6 +224,16 @@ function CustomerReAssign(props) {
         setJoiningDate(formattedJoining);
       } else {
         setJoiningDate("");
+      }
+
+       if (customerData?.reassign_date) {
+        const rejoining = new Date(customerData.reassign_date);
+        const formattedJoining = `${String(rejoining.getDate()).padStart(2, "0")}-${String(
+          rejoining.getMonth() + 1
+        ).padStart(2, "0")}-${rejoining.getFullYear()}`;
+        setReAssignDate(formattedJoining);
+      } else {
+        setReAssignDate("");
       }
 
       // 🔹 2. Store Last Bill Date
@@ -1137,73 +1148,82 @@ function CustomerReAssign(props) {
                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                             /> */}
 
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                border: "1px solid lightgrey",
-                                cursor: "pointer",
-                                fontFamily: "Gilroy",
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              ref={selectedDateRef}
-                              onChange={(date) => {
-                                setDateError("");
-                                setSelectedDate(date ? date.toDate() : null);
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".datepicker-wrapper")
-                              }
-                              disabledDate={(current) => {
-                                if (!current) return false;
+                       <DatePicker
+  style={{
+    width: "100%",
+    height: 48,
+    border: "1px solid lightgrey",
+    cursor: "pointer",
+    fontFamily: "Gilroy",
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={selectedDate ? dayjs(selectedDate) : null}
+  ref={selectedDateRef}
+  onChange={(date) => {
+    setDateError("");
+    setSelectedDate(date ? date.toDate() : null);
+  }}
+  getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".datepicker-wrapper")
+  }
+  disabledDate={(current) => {
+    if (!current) return false;
 
-                                const today = dayjs().endOf("day");
+    const today = dayjs().endOf("day");
 
+    // Joining Date parse
+    let joining = null;
+    if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
+      const [dd, mm, yyyy] = joiningdate.split("-");
+      joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+    }
 
-                                let joining = null;
-                                if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
-                                  const [dd, mm, yyyy] = joiningdate.split("-");
-                                  joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-                                }
+    // Last Bill Date parse
+    let lastBillDate = null;
+    if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
+      const [dd, mm, yyyy] = lastDate.split("-");
+      lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+    }
 
+    // ReAssign Date parse
+    let reAssign = null;
+    if (reAssignDate && /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)) {
+      const [dd, mm, yyyy] = reAssignDate.split("-");
+      reAssign = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+    }
 
-                                let lastBillDate = null;
-                                if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
-                                  const [dd, mm, yyyy] = lastDate.split("-");
-                                  lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-                                }
+    let minAllowedDate = null;
 
-                                let minAllowedDate = null;
+    if (reAssign) {
+      // ✅ If reAssignDate exists, always use that
+      minAllowedDate = reAssign;
+    } else if (joining) {
+      const sameMonth =
+        joining.month() === today.month() &&
+        joining.year() === today.year();
 
-                                if (joining) {
-                                  const sameMonth =
-                                    joining.month() === today.month() &&
-                                    joining.year() === today.year();
+      if (sameMonth) {
+        minAllowedDate = joining;
+      } else if (lastBillDate) {
+        minAllowedDate = lastBillDate;
+      }
+    }
 
-                                  if (sameMonth) {
+    // Future dates not allowed
+    if (current.isAfter(today)) {
+      return true;
+    }
 
-                                    minAllowedDate = joining;
-                                  } else if (lastBillDate) {
+    // Block dates before minAllowedDate
+    if (minAllowedDate && current.isBefore(minAllowedDate)) {
+      return true;
+    }
 
-                                    minAllowedDate = lastBillDate;
-                                  }
-                                }
+    return false;
+  }}
+/>
 
-
-                                if (current.isAfter(today)) {
-                                  return true;
-                                }
-
-
-                                if (minAllowedDate && current.isBefore(minAllowedDate)) {
-                                  return true;
-                                }
-
-                                return false;
-                              }}
-                            />
 
 
 

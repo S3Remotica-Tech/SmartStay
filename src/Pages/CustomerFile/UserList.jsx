@@ -174,12 +174,14 @@ console.log("id",id)
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
+        console.log("hiii");
+
         setLoading(false)
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-      } 
+      }
       if (value === "2") {
         dispatch({
           type: "GET_BOOKING_LIST",
@@ -1144,6 +1146,25 @@ console.log("id",id)
       }, 200);
     }
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
+
+
+  useEffect(() => {
+    if (state.UsersList?.NoUserListStatusCode === 201) {
+       setUserListDetail([]);
+       setTimeout(() => {
+             dispatch({ type: "CLEAR_NO_USER_LIST" });
+      }, 1000);
+ }
+  }, [state.UsersList?.NoUserListStatusCode]);
+
+  // useEffect(() => {
+  //   if (state.UsersList?.UserListStatusCode === 200) {
+  //     setUserList(state.UsersList.Users);
+  //     dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+  //   }
+  // }, [state.UsersList?.UserListStatusCode]);
+
+
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {

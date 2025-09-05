@@ -125,7 +125,11 @@ export const initialState = {
     floorList: [],
     statusCodeForCheckInCustomer: 0,
     statusCodeForAddCustomerSaveInfo: 0,
-    bedAvailableError:''
+    bedAvailableError:'',
+    Refundable_details:[],
+    Deduction:[],
+    hostelData:[],
+
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -197,13 +201,12 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_FLOOR_STATUS_CODE':
             return { ...state, createFloorSuccessStatusCode: 0 }
 
-
         case 'UPDATE_MESSAGE_FLOOR':
             return { ...state, createFloorMessage: action.message }
         case 'BILL_PAYMENT_HISTORY':
             return { ...state, billPaymentHistory: action.payload }
         case 'USER_LIST':
-            return { ...state, Users: action.payload.response, UserListStatusCode: action.payload.statusCode }
+            return { ...state, Users: action.payload?.response || [], UserListStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_USER':
             return { ...state, UserListStatusCode: 0 }
         case 'NO_USER_LIST':
@@ -460,7 +463,10 @@ const UserListReducer = (state = initialState, action) => {
             return {
                 ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
                 GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
-                nonRefundable_details: action.payload.response.deduction_details,
+             nonRefundable_details:action.payload.response.deduction_details,
+              hostelData:action.payload.response.hostelData,
+              Refundable_details:action.payload.response.Refundable_details,
+              Deduction:action.payload.response.Deduction,
                 statusCodegetConfirmCheckout: action.payload.statusCode,
             };
         case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":

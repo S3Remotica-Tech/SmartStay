@@ -329,13 +329,14 @@ function UserListRoomDetail(props) {
 
   const isFirstRun = useRef(true);
   const MobileNumber = `${countryCode}${props.userData?.Phone}`;
-  console.log("props.userData", props.userData)
-
-  useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
+  console.log("props.userData",props.userData)
+    const [advanceDetail, setAdvanceDetail] = useState("");
+ 
+useEffect(() => {
+  if (isFirstRun.current) {
+    isFirstRun.current = false;
+    return;
+  }
 
 
     if (props.userData?.profile && !file) {
@@ -357,60 +358,93 @@ function UserListRoomDetail(props) {
       // const phoneNumber = String(props.userData?.Phone || "");
       // const mobileNumber = phoneNumber.slice(-10);
 
-      const payload = {
-        profile: file,
-        firstname: value[0] || "",
-        lastname: value[1] || "",
-        Phone: MobileNumber,
-        Email: Email,
-        Address: props.userData?.Address,
-        area: props.userData?.area,
-        landmark: props.userData?.landmark,
-        city: props.userData?.city,
-        pincode: props.userData?.pincode,
-        state: props.userData?.state,
-        AadharNo: AadharNo,
-        PancardNo: PancardNo,
-        licence: licence,
-        HostelName: HostelName,
-        hostel_Id: hostel_Id,
-        Floor: props.userData?.Floor,
-        Rooms: props.userData?.Rooms,
-        Bed: props.userData?.Bed,
-        joining_date: selectedDate,
-        AdvanceAmount: AdvanceAmount,
-        RoomRent: RoomRent,
-        BalanceDue: BalanceDue,
-        PaymentType: PaymentType,
-        paid_advance: paid_advance,
-        paid_rent: paid_rent,
-        ID: props.userData?.ID,
-      };
+    const payload = {
+      profile: file,
+      firstname: value[0] || "",
+      lastname: value[1] || "",
+      Phone: MobileNumber,
+      Email: Email,
+      Address: house_no,
+      area: street,
+      landmark:landmark,
+      city: city,
+      pincode: pincode,
+      state: state_name,
+      AadharNo: AadharNo,
+      PancardNo: PancardNo,
+      licence: licence,
+      HostelName: HostelName,
+      hostel_Id: hostel_Id,
+      Floor: props.userData?.Floor,
+      Rooms: props.userData?.room_id,
+      Bed: props.userData?.hstl_Bed,
+      joining_date: props.userData?.joining_Date,
+      AdvanceAmount: props.userData?.AdvanceAmount,
+      RoomRent:  props.userData?.RoomRent,
+      BalanceDue: BalanceDue,
+      PaymentType: PaymentType,
+      paid_advance: paid_advance,
+      paid_rent: paid_rent,
+      ID: props.userData?.ID,
+    };
 
-      dispatch({
-        type: "ADDUSER",
-        payload: payload,
-      });
-    }
-  }, [ProfilePic, file, props.userData]);
+    dispatch({
+      type: "ADDUSER",
+      payload: payload,
+    });
+  }
+}, [ProfilePic, file, props.userData]);
+console.log("advanceDetail",advanceDetail)
 
+useEffect(() => {
+  const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
-
-
-
+  if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
+    setFile(base64Pic); // only raw base64 for dispatch
+    // setPreviewFile(`data:image/jpeg;base64,${base64Pic}`); // preview src
+  }
+}, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
-    const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
+  const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
 
-    if (
-      base64Pic &&
-      base64Pic !== "null" &&
-      base64Pic !== undefined &&
-      base64Pic !== null
-    ) {
-      setFile(`data:image/jpeg;base64,${base64Pic}`);
+  if (rawAddress) {
+    const parts = rawAddress.split(",").map((part) => part.trim());
 
-    }
-  }, [state.UsersList?.KycCustomerDetails?.pic]);
+    // remove the `S/O:` part
+    const addressParts = parts.slice(1);
+
+    // pincode, state and city from the END
+    const pincodePart = addressParts[addressParts.length - 1];
+    const statePart   = addressParts[addressParts.length - 2];
+    const cityPart    = addressParts[addressParts.length - 3];
+
+    // remaining items are house/street/area/landmark
+    const others = addressParts.slice(0, addressParts.length - 3);
+    const [streetNumber, streetName, areaPart, landmarkPart] = others;
+
+    setHouseNo(`${streetNumber} ${streetName}`);
+    setStreet(areaPart);
+    setLandmark(landmarkPart);
+    setCity(cityPart);
+    setStateName(statePart);
+    setPincode(pincodePart);
+  }
+}, [state.UsersList.KycCustomerDetails?.address]);
+
+
+//   useEffect(() => {
+//   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
+
+//   if (
+//     base64Pic &&
+//     base64Pic !== "null" &&
+//     base64Pic !== undefined &&
+//     base64Pic !== null
+//   ) {
+//     setFile(`data:image/jpeg;base64,${base64Pic}`);
+   
+//   }
+// }, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
       dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
@@ -1772,14 +1806,14 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.statusCodeForAddUser, state.UsersList.Users]);
-  const [advanceDetail, setAdvanceDetail] = useState("");
+
   useEffect(() => {
     if (state.UsersList.customerdetails) {
       setAdvanceDetail(state.UsersList.customerdetails);
     }
   }, [state.UsersList.customerdetails.data]);
 
-
+console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetails.data)
 
   const [uploadError, setUploadError] = useState("");
 
@@ -2019,6 +2053,7 @@ function UserListRoomDetail(props) {
   const [isHovered, setIsHovered] = useState(false);
 
   const MobileNumberupload = `${props.userData?.Phone}`;
+  console.log("props.userData",props.userData)
 
   const handleImageUpload = async (event) => {
     const fileImage = event.target.files[0];
@@ -2042,36 +2077,36 @@ function UserListRoomDetail(props) {
       setFirstname(value[0]?.trim());
       setLastname(value[1] ? value[1].trim() : "");
 
-
-      const payload = {
-        profile: compressedFile,
-        firstname: value[0]?.trim(),
-        lastname: value[1] ? value[1].trim() : "",
-        Phone: MobileNumberupload,
-        Email: Email,
-        Address: house_no,
-        area: street,
-        landmark: landmark,
-        city: city,
-        pincode: pincode,
-        state: state_name,
-        AadharNo: AadharNo,
-        PancardNo: PancardNo,
-        licence: licence,
-        HostelName: HostelName,
-        hostel_Id: hostel_Id,
-        Floor: props.userData?.Floor,
-        Rooms: props.userData?.Rooms,
-        Bed: props.userData?.Bed,
-        joining_date: selectedDate,
-        AdvanceAmount: AdvanceAmount,
-        RoomRent: RoomRent,
-        BalanceDue: BalanceDue,
-        PaymentType: PaymentType,
-        paid_advance: paid_advance,
-        paid_rent: paid_rent,
-        ID: props.userData?.ID,
-      };
+    
+    const payload = {
+      profile: compressedFile,
+      firstname: value[0]?.trim(),
+      lastname: value[1] ? value[1].trim() : "",
+      Phone: MobileNumberupload,
+      Email: Email,
+      Address: house_no,
+      area: street,
+      landmark: landmark,
+      city: city,
+      pincode: pincode,
+      state: state_name,
+      AadharNo: AadharNo,
+      PancardNo: PancardNo,
+      licence: licence,
+      HostelName: HostelName,
+      hostel_Id:  props.userData?.Hostel_Id,
+      Floor: props.userData?.Floor,
+      Rooms: props.userData?.hstl_Rooms,
+      Bed: props.userData?.hstl_Bed,
+      joining_date: props.userData?.joining_Date,
+      AdvanceAmount: AdvanceAmount,
+      RoomRent: RoomRent,
+      BalanceDue: BalanceDue,
+      PaymentType: PaymentType,
+      paid_advance: paid_advance,
+      paid_rent: paid_rent,
+      ID: props.userData?.ID,
+    };
 
       dispatch({
         type: "ADDUSER",
@@ -4496,7 +4531,7 @@ function UserListRoomDetail(props) {
                                 </div>
 
 {
-  CustomerOverView.hostelInfo?.maintenance !== null || CustomerOverView.hostelInfo?.maintenance !== 0 && 
+  CustomerOverView.hostelInfo?.maintenance !== null  && 
                                  <div className="col-sm-4 d-flex flex-column align-items-start">
                                   <div
                                     style={{
