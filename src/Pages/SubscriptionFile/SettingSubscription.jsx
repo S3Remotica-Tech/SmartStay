@@ -69,7 +69,7 @@ const pageSizeOptions = [
   }, []);
 
   const [customerDetails, setCustomerDetails] = useState("");
-  const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
+  // const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
   useEffect(() => {
     if (state?.createAccount?.accountList[0]?.user_details) {
       const customerDetailsPage =
@@ -78,7 +78,7 @@ const pageSizeOptions = [
       setUserId(customerDetails.id);
       setCustomerId(customerDetails.customer_id);
       setPlanType(customerDetails.plan_code);
-      setSubscription_HostelIds(customerDetails.hostel_ids);
+      // setSubscription_HostelIds(customerDetails.hostel_ids);
     }
   }, [state?.createAccount?.accountList[0]?.user_details]);
   useEffect(() => {
@@ -134,13 +134,13 @@ const pageSizeOptions = [
     })
   );
 
+console.log("hostelOptions",hostelOptions)
 
-
-  const filteredOptions = (hostelOptions || []).filter(
-    (option) =>
-      !selectedHostels.some((selected) => selected.value === option.value) &&
-      !(Subscription_hostelIds || []).includes(option.value)
-  );
+  // const filteredOptions = (hostelOptions || []).filter(
+  //   (option) =>
+  //     !selectedHostels.some((selected) => selected.value === option.value) &&
+  //     !(Subscription_hostelIds || []).includes(option.value)
+  // );
 
   useEffect(() => {
     if (selectedHostels) {
@@ -1368,7 +1368,7 @@ const pageSizeOptions = [
                       </Form.Label>
 
                       <Select
-                        options={filteredOptions}
+                        options={hostelOptions}
                         placeholder="Select Hostel"
                         value={null} 
                         onChange={handleHostelSelect}

@@ -93,7 +93,7 @@ function ParticularHostelDetails(props) {
 
 
 
-
+console.log("customerID",customerID)
   const handleclickBed = (bed, room) => {
 
 

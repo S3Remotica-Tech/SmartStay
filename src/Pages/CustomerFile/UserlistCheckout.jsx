@@ -12,6 +12,8 @@ import CheckOutForm from "./UserListCheckoutForm";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { MdError } from "react-icons/md";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import CustomerProfile from "./CheckoutProfile";
+import { checkoutCustomerProfile } from "../../Redux/Action/smartStayAction";
 import {
   Table,
   // Button,
@@ -42,7 +44,30 @@ function CheckOut(props) {
   // const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   // const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader, setCheckOutLoader] = useState(false)
-  // const [cofirmForm, setConfirmForm] = useState(false)
+  const [CheckoutProfile, setCheckoutProfile] = useState(false)
+  const [checkouttableshow, setcheckoutTableShow] = useState(true);
+
+  const handleCustomerProfilePage=(checkout)=>{
+    console.log("checkout",checkout)
+    // props?.handleCheckoutOverview(false)
+    setCheckoutProfile(true)
+    setcheckoutTableShow(false)
+    dispatch(checkoutCustomerProfile(false))
+      dispatch({
+          type: "CHECKOUTPROFILEDETAILS",
+          payload: { hostel_id: state.login.selectedHostel_Id,id:checkout.ID },
+        });
+         dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: checkout.ID } });
+    // props.setUserList(false)
+    // props?.show()
+    
+    // props?.handleCheckoutOverview(false)
+  }
+
+  console.log("all" , state);
+  console.log("CheckoutProfile",CheckoutProfile)
+
+  
 
 
   useEffect(() => {
@@ -454,18 +479,22 @@ useEffect(() => {
   const [checkoutForm, setcheckoutForm] = useState(false);
 
 
+
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
 
-
+const handleCloseCheckoutProfile=()=>{
+  setCheckoutProfile(false)
+}
 
 
   return (
 
     <>
-
-      <div>
+    { checkouttableshow && 
+    <>
+ <div>
         {checkoutLoader &&
           <div
             style={{
@@ -736,19 +765,21 @@ useEffect(() => {
                           return (
                             <tr key={checkout.ID} className="customer-row">
 
-                              <td style={{ verticalAlign: "middle", borderBottom: "1px solid #E8E8E8" }}>
+                              <td onClick={()=>handleCustomerProfilePage(checkout)}  style={{ verticalAlign: "middle", borderBottom: "1px solid #E8E8E8" }}>
                                 <div className="d-flex align-items-center">
                                   <span
                                     style={{
                                       fontSize: "13px",
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      color: "#222222",
+                                      color: "blue",
                                       paddingLeft: "4px",
                                       textAlign: "start",
-                                      verticalAlign: "middle"
+                                      verticalAlign: "middle",
+                                      cursor:"pointer"
+                                     
                                     }}
-                                    className=" customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                                    className=" customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                   >
                                     {checkout.Name}
                                   </span>
@@ -805,7 +836,7 @@ useEffect(() => {
                                     verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                                   }}
                                 >
-                                  {checkout.floor_name}
+                                  {checkout.floor_name || "_"}
                                 </span>
                               </td>
 
@@ -838,7 +869,7 @@ useEffect(() => {
                                     verticalAlign: "middle"
                                   }}
                                 >
-                                  {checkout.room_name}
+                                  {checkout.room_name || "_"}
                                 </span>
                               </td>
                               <td
@@ -870,7 +901,7 @@ useEffect(() => {
                                     verticalAlign: "middle"
                                   }}
                                 >
-                                  {checkout.bed_name}
+                                  {checkout.bed_name || "_"}
                                 </span>
                               </td>
                               <td
@@ -1396,10 +1427,6 @@ useEffect(() => {
 
 
 
-        {
-          DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup}  />
-        }
-
 
 
 
@@ -1412,6 +1439,18 @@ useEffect(() => {
 
 
       </div>
+    </>
+    }
+     
+             {
+          DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup}  />
+        }
+
+ {
+          CheckoutProfile && <CustomerProfile CheckoutProfile ={CheckoutProfile} setcheckoutTableShow= {setcheckoutTableShow} handleCloseCheckoutProfile={handleCloseCheckoutProfile} setCheckoutProfile={setCheckoutProfile}/>
+        }
+
+
     </>
   );
 }

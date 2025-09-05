@@ -120,7 +120,7 @@ function UserListRoomDetail(props) {
   const [landmarkError, setLandmarkError] = useState("");
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
-  // const [state_nameError, setStateNameError] = useState("");
+  
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   const [contactEdit, setContactEdit] = useState("");
@@ -331,6 +331,7 @@ const isFirstRun = useRef(true);
   const MobileNumber = `${countryCode}${props.userData?.Phone}`;
   console.log("props.userData",props.userData)
     const [advanceDetail, setAdvanceDetail] = useState("");
+    console.log("advanceDetail",advanceDetail)
  
 useEffect(() => {
   if (isFirstRun.current) {
@@ -394,6 +395,7 @@ useEffect(() => {
     });
   }
 }, [ProfilePic, file, props.userData]);
+
 console.log("advanceDetail",advanceDetail)
 
 useEffect(() => {
@@ -2103,8 +2105,8 @@ const handleImageUpload = async (event) => {
       Rooms: props.userData?.hstl_Rooms,
       Bed: props.userData?.hstl_Bed,
       joining_date: props.userData?.joining_Date,
-      AdvanceAmount: AdvanceAmount,
-      RoomRent: RoomRent,
+      AdvanceAmount: props.userData?.AdvanceAmount,
+      RoomRent: props.userData?.RoomRent,
       BalanceDue: BalanceDue,
       PaymentType: PaymentType,
       paid_advance: paid_advance,

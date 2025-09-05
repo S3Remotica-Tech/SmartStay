@@ -22,7 +22,8 @@
    errorStatusCode: 0,
    errorPasswordStatusCode:0,
     planStatus: null,
-    joiningDate:""
+    joiningDate:"",
+    checkoutProfileStatus:true
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -97,6 +98,10 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, twoStepOtpError: action.payload }
       case 'CLEAR_ERROR_OTP_CODE':
          return { ...state, twoStepOtpError: '' }
+ case 'SET_CHECKOUT_PROFILE':
+         return { ...state, checkoutProfileStatus:action.payload}
+
+
 case 'RESET_ALL':
       return initialState;
          default:

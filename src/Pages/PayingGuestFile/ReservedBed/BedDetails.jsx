@@ -28,7 +28,7 @@ function BedDetails({
 
           const [customer, setCustomer] = useState([])
     
-            console.log("data", currentItem);
+            console.log("customer", customer);
             
         
             useEffect(() => {
@@ -340,6 +340,7 @@ function BedDetails({
             {
                 makeasinactive && <UserList  setMakeasInactive={setMakeasInactive} makeasinactive={makeasinactive}
                  customer_details = {customer_details}
+                 customer={customer}
                 handleCloseBed = {handleCloseBed}
                 />
             }
