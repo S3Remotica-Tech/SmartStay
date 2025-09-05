@@ -280,6 +280,21 @@ function CustomerCheckout(props) {
                         >
 
                           <Image
+                            // src={
+                            //   props.data && props.data.profile && props.data.profile !== ""
+                            //     ? typeof props.data.profile === "string"
+                            //       ? props.data.profile
+                            //       : URL.createObjectURL(props.data.profile)
+                            //     : Profiles
+                            // }
+                            // alt="Profile"
+                            // roundedCircle
+                            // style={{ height: 60, width: 60 }}
+                            // onError={(e) => {
+
+                            //   e.target.onerror = null;
+                            //   e.target.src = Profiles;
+                            // }}
                             src={
                               props.bedData
                                 && props.bedData.profilePic && props.bedData.profilePic !== ""
