@@ -28,7 +28,7 @@ export async function GetAsset(hostelId) {
   // v2
 
   export async function AddAsset(asset) {
-     return await AxiosConfigV2.post('/v2/assets/add-assets',asset,{
+     return await AxiosConfigV2.post(`/v2/assets/${asset.hostelId}`,asset,{
         data:asset
         })
   }
@@ -36,7 +36,7 @@ export async function GetAsset(hostelId) {
 // v2
 
 export async function updateAsset(asset) {
-     return await AxiosConfigV2.put(`/v2/assets/${asset.assetId}`,asset,{
+     return await AxiosConfigV2.put(`/v2/assets/${asset.assetId}/ ${asset.hostelId}`,asset,{
         data:asset
         })
   }
@@ -61,7 +61,7 @@ export async function updateAsset(asset) {
   
 
   export async function AssignAsset(asset) {
-    return await AxiosConfig.post('/assign_asset',asset, {
+    return await AxiosConfigV2.put(`/v2/assets/assign-asset/${asset.assetId}`,asset, {
       data:asset
     })
   } 

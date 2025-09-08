@@ -76,11 +76,7 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [state.login.selectedHostel_Id]);
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-    }
-  }, [])
+
 
   useEffect(() => {
     if (state.AssetList?.bankAmountError) {
@@ -140,30 +136,33 @@ function StaticExample({ show, setShow, currentItem }) {
       closeButton.style.padding = "9px";
     }
   }, []);
+
+
+console.log("currentItem",currentItem)
+
   useEffect(() => {
     if (currentItem) {
       setAssetName(currentItem.assetName || "");
-      setVendorName(currentItem.vendor_id || "");
+      setVendorName(currentItem.vendorId || "");
       setBrandName(currentItem.brandName || "");
-      setSerialNumber(currentItem.serial_number || "");
-      setProductCount(currentItem.product_count || "");
-      setSelectedDate(moment(currentItem.purchase_date).toDate());
+      setSerialNumber(currentItem.serialNumber || "");
+      // setProductCount(currentItem.product_count || "");
+      setSelectedDate(moment(currentItem.purchaseDate).toDate());
       setPrice(currentItem.price || "");
       setId(currentItem.id || 0);
-      setProductName(currentItem.product_name || 0);
+      setProductName(currentItem.productName || 0);
       setModeOfPayment(currentItem.payment_mode || "");
 
       setInitialState({
         assetName: currentItem.assetName || "",
-        vendorName: currentItem.vendor_id || "",
+        vendorName: currentItem.vendorId || "",
         brandName: currentItem.brandName || "",
-        serialNumber: currentItem.serial_number || "",
-        productCount: currentItem.product_count || "",
-        selectedDate: currentItem.purchase_date
-          ? moment(currentItem.purchase_date).toDate()
+        serialNumber: currentItem.serialNumber || "",
+              selectedDate: currentItem.purchaseDate
+          ? moment(currentItem.purchaseDate).toDate()
           : null,
         price: currentItem.price || "",
-        productName: currentItem.product_name || "",
+        productName: currentItem.productName || "",
       });
     }
   }, [currentItem]);
@@ -434,9 +433,8 @@ function StaticExample({ show, setShow, currentItem }) {
             serialNumber: serialNumber,
             purchaseDate: formattedDate,
             price: price,
-            modeOfPayment: "a6f30e6f-4535-49a0-ad75-54f3500f934e",
-            //  modeOfPayment
-            "isActive": true
+            bankingId: modeOfPayment,           
+            isActive: true
 
           },
         });
@@ -453,8 +451,7 @@ function StaticExample({ show, setShow, currentItem }) {
             serialNumber: serialNumber,
             purchaseDate: formattedDate,
             price: price,
-            modeOfPayment: "a6f30e6f-4535-49a0-ad75-54f3500f934e",
-            //  modeOfPayment
+            bankingId: modeOfPayment,
 
           },
         });
@@ -542,23 +539,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
-            {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
-              state.bankingDetails.bankingList.banks.length === 0 && (
-                <div className="d-flex align-items-center pt-2 ps-2">
-                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Please Create Banking before adding an asset
-                  </label>
-                </div>
-              )}
+          
 
 
 

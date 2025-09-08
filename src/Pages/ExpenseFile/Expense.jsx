@@ -474,7 +474,7 @@ const isAdmin = userType === "admin" || userType === "agent";
       setLoading(true);
       dispatch({
         type: "ASSETLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
+        payload:  state.login.selectedHostel_Id ,
       });
       dispatch({
         type: "EXPENCES-CATEGORY-LIST",

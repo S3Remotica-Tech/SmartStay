@@ -106,7 +106,7 @@ function AssetListTable(props) {
     setShowDeleteAsset(false)
   }
 
-  console.log("props.item",props.item)
+
 
   return (
     <>
@@ -205,7 +205,7 @@ function AssetListTable(props) {
 
         <td title={props.item.hostelName || "-"} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", paddingLeft: 20 }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
           <div className='ps-2'>
-            {props.item.hostelName || "-"}
+            {props.item.assignmentStatus  === "Unassigned" ? "-" : props.item.hostelName}
           </div>
         </td>
 
@@ -274,7 +274,7 @@ function AssetListTable(props) {
                             color: "#222222",
                           }}
                         >
-                          {props.item.hostel_id ? "Reassign asset" : "Assign asset"}
+                          {props.item.assignmentStatus  === "Unassigned" ? "Assign asset" : "Reassign asset"}
                         </label>
                       </div>
 

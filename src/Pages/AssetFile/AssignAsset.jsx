@@ -40,6 +40,11 @@ function StaticExample({ show, handleClose, currentItem }) {
   });
 
   useEffect(() => {
+    dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+  }, [])
+
+
+  useEffect(() => {
     setPgList(state.login.selectedHostel_Id);
   }, [state.login.selectedHostel_Id]);
 
@@ -48,8 +53,8 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, []);
 
   useEffect(() => {
-    if (currentItem.hostel_id !== "null" && currentItem.hostel_id !== null) {
-      setPgList(currentItem.hostel_id);
+    if (currentItem) {
+      // setPgList(currentItem.hostelId);
       setRoom(currentItem.room_id);
       setSelectedDate(moment(currentItem.assigned_date).toDate());
       setFloor(currentItem.floor_id);
@@ -66,7 +71,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [currentItem]);
 
 
-
+  console.log("currentItem", currentItem)
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -81,7 +86,7 @@ function StaticExample({ show, handleClose, currentItem }) {
       closeButton.style.padding = "9px";
     }
   }, [])
-  
+
 
   const options = {
     dateFormat: "d/m/Y",
@@ -97,8 +102,8 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
 
-  const handleRoomChange = (selectedOption) => {
-    setRoom(selectedOption?.value || "");
+  const handleRooms = (selectedOption) => {
+    setRoom(selectedOption || "");
     setGeneralError("");
     setRoomError("");
     setNoChangeError("");
@@ -113,28 +118,28 @@ function StaticExample({ show, handleClose, currentItem }) {
     setNoChangeError("");
   };
 
+
+
   useEffect(() => {
     if (Floor) {
-      dispatch({
-        type: "GETROOMS",
-        payload: { hostel_Id: pglist, floor_Id: Floor },
-      });
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: Floor } })
+
     }
   }, [Floor]);
 
-  useEffect(() => {
-    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: pglist } });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: pglist } });
+  // }, []);
 
-  useEffect(() => {
-    if (state.AssetList.getRoomStatusCode === 200) {
-      setRoomList(state.AssetList?.GetRoomList);
+  // useEffect(() => {
+  //   if (state.AssetList.getRoomStatusCode === 200) {
+  //     setRoomList(state.AssetList?.GetRoomList);
 
-      setTimeout(() => {
-        dispatch({ type: "REMOVE_GET_ROOMS" });
-      }, 1000);
-    }
-  }, [state.AssetList.getRoomStatusCode]);
+  //     setTimeout(() => {
+  //       dispatch({ type: "REMOVE_GET_ROOMS" });
+  //     }, 1000);
+  //   }
+  // }, [state.AssetList.getRoomStatusCode]);
 
   const handleAddAssignAsset = () => {
 
@@ -173,26 +178,26 @@ function StaticExample({ show, handleClose, currentItem }) {
       const day = selectedDate.getDate().toString().padStart(2, "0");
       const month = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
       const year = selectedDate.getFullYear();
-      formattedSelectedDate = `${year}/${month}/${day}`;
+      formattedSelectedDate = `${day}/${month}/${year}`;
     } else {
       setDateError("Please select a Date");
       return;
     }
 
 
-if (currentItem?.purchase_date) {
-  const purchaseDate = new Date(currentItem.purchase_date);
-  const assignDate = new Date(selectedDate);
+    if (currentItem?.purchaseDate) {
+      const purchaseDate = new Date(currentItem.purchase_date);
+      const assignDate = new Date(selectedDate);
 
- 
-  purchaseDate.setHours(0, 0, 0, 0);
-  assignDate.setHours(0, 0, 0, 0);
 
-  if (assignDate < purchaseDate) {
-    setDateError("Before purchase date not allowed");
-    return;
-  }
-}
+      purchaseDate.setHours(0, 0, 0, 0);
+      assignDate.setHours(0, 0, 0, 0);
+
+      if (assignDate < purchaseDate) {
+        setDateError("Before purchase date not allowed");
+        return;
+      }
+    }
 
 
 
@@ -209,7 +214,7 @@ if (currentItem?.purchase_date) {
         .toString()
         .padStart(2, "0");
       const year = initialState.selectedDate.getFullYear();
-      formattedInitialDate = `${year}/${month}/${day}`;
+      formattedInitialDate = `${day}/${month}/${year}`;
     } else {
       formattedInitialDate = "";
     }
@@ -225,15 +230,15 @@ if (currentItem?.purchase_date) {
       return;
     }
 
-    if (pglist && room && selectedDate && currentItem.id && Floor) {
+    if (pglist && room && selectedDate && currentItem.assetId && Floor) {
       dispatch({
         type: "ASSIGNASSET",
         payload: {
-          asset_id: currentItem.id,
-          hostel_id: pglist,
-          room_id: room,
-          asseign_date: formattedSelectedDate,
-          floor_id: Floor,
+          assetId: currentItem.assetId,
+          hostelId: pglist,
+          roomId: room,
+          assignedAt: formattedSelectedDate,
+          floorId: Floor,
         },
       });
       setFormLoading(true)
@@ -295,7 +300,7 @@ if (currentItem?.purchase_date) {
                 fontWeight: 600,
               }}
             >
-              {currentItem.hostel_id ? "Reassign asset " : "Assign asset"}
+              {currentItem?.assignmentStatus  === "Assigned"  ? "Reassign asset " : "Assign asset"}
             </Modal.Title>
 
             <CloseCircle
@@ -324,12 +329,12 @@ if (currentItem?.purchase_date) {
               </div>
             )}
 
-          
+
 
 
             {state.AssetList.assetError ?
               <div className='d-flex align-items-center p-1 mb-1'>
-              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                 <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.AssetList.assetError}</label>
               </div>
 
@@ -352,30 +357,27 @@ if (currentItem?.purchase_date) {
 
                 <Select
                   options={
-                    state.UsersList?.hosteldetailslist?.length > 0
-                      ? state.UsersList.hosteldetailslist.map((u) => ({
-                        value: u.floor_id,
-                        label: u.floor_name,
-                      }))
-                      : []
+                    state.UsersList.floorList?.map((u) => ({
+                      value: u.id,
+                      label: u.name,
+                    })) || []
                   }
                   onChange={handleFloor}
                   value={
-                    state.UsersList?.hosteldetailslist?.find(
-                      (f) => f.floor_id === Floor
+                    state.UsersList.floorList?.find(
+                      (option) => option.id === Floor
                     )
                       ? {
                         value: Floor,
-                        label: state.UsersList.hosteldetailslist.find(
-                          (f) => f.floor_id === Floor
-                        )?.floor_name,
+                        label: state.UsersList.floorList.find(
+                          (option) => option.id === Floor
+                        )?.name,
                       }
                       : null
                   }
                   placeholder="Select a Floor"
                   classNamePrefix="custom"
                   menuPlacement="auto"
-                  noOptionsMessage={() => "No floors available"}
                   styles={{
                     control: (base) => ({
                       ...base,
@@ -385,7 +387,7 @@ if (currentItem?.purchase_date) {
                       fontSize: "16px",
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
-                      fontWeight: Floor ? 600 : 500,
+                      fontWeight: 500,
                       boxShadow: "none",
                     }),
                     menu: (base) => ({
@@ -398,10 +400,10 @@ if (currentItem?.purchase_date) {
                       ...base,
                       backgroundColor: "#f8f9fa",
                       maxHeight: "120px",
-                      fontFamily: "Gilroy",
                       padding: 0,
                       scrollbarWidth: "thin",
                       overflowY: "auto",
+                      fontFamily: "Gilroy",
                     }),
                     placeholder: (base) => ({
                       ...base,
@@ -410,16 +412,21 @@ if (currentItem?.purchase_date) {
                     dropdownIndicator: (base) => ({
                       ...base,
                       color: "#555",
+                      display: "inline-block",
+                      fill: "currentColor",
+                      lineHeight: 1,
+                      stroke: "currentColor",
+                      strokeWidth: 0,
                       cursor: "pointer",
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
                     }),
                     option: (base, state) => ({
                       ...base,
                       cursor: "pointer",
-                      backgroundColor: state.isFocused ? "lightblue" : "white",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
                       color: "#000",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
                     }),
                   }}
                 />
@@ -459,26 +466,29 @@ if (currentItem?.purchase_date) {
 
                   <Select
                     options={
-                      roomList?.length > 0
-                        ? roomList.map((item) => ({
-                          value: item.id,
-                          label: item.Room_Id,
-                        }))
-                        : []
+                      state.PgList?.roomsList?.map((item) => ({
+                        value: item.id,
+                        label: item.name,
+                      })) || []
                     }
-                    onChange={handleRoomChange}
+                    onChange={(selectedOption) =>
+                      handleRooms(selectedOption?.value)
+                    }
                     value={
-                      roomList?.find((r) => r.id === room)
+                      state.PgList?.roomsList?.find(
+                        (option) => option.id === room
+                      )
                         ? {
                           value: room,
-                          label: roomList.find((r) => r.id === room)?.Room_Id,
+                          label: state.PgList?.roomsList.find(
+                            (option) => option.id === room
+                          )?.name,
                         }
                         : null
                     }
                     placeholder="Select a Room"
                     classNamePrefix="custom"
                     menuPlacement="auto"
-                    noOptionsMessage={() => "No Rooms Available"}
                     styles={{
                       control: (base) => ({
                         ...base,
@@ -486,9 +496,9 @@ if (currentItem?.purchase_date) {
                         border: "1px solid #D9D9D9",
                         borderRadius: "8px",
                         fontSize: "16px",
-                        color: "#222222",
+                        color: "#4B4B4B",
                         fontFamily: "Gilroy",
-                        fontWeight: room ? 600 : 500,
+                        fontWeight: 500,
                         boxShadow: "none",
                       }),
                       menu: (base) => ({
@@ -513,23 +523,29 @@ if (currentItem?.purchase_date) {
                       dropdownIndicator: (base) => ({
                         ...base,
                         color: "#555",
+                        display: "inline-block",
+                        fill: "currentColor",
+                        lineHeight: 1,
+                        stroke: "currentColor",
+                        strokeWidth: 0,
                         cursor: "pointer",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "lightblue" : "white",
-                        color: "#000",
                       }),
                       indicatorSeparator: () => ({
                         display: "none",
                       }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                      }),
                     }}
                   />
+
                 </Form.Group>
                 {roomError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                  <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -584,7 +600,7 @@ if (currentItem?.purchase_date) {
                 </Form.Group>
                 {dateError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -627,12 +643,12 @@ if (currentItem?.purchase_date) {
                 }}
               ></div>
             </div>}
-            {state.createAccount?.networkError ? 
-                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                            <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                            </div>
-                                              : null}
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
           {noChangeError && (
             <div
               className="d-flex align-items-center p-1 mb-2 mt-2"

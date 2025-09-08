@@ -65,7 +65,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   useEffect(() => {
     dispatch({
       type: "ASSETLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
+      payload:  state.login.selectedHostel_Id ,
     });
   }, []);
   useEffect(() => {
