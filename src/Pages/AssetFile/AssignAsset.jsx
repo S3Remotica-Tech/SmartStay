@@ -186,7 +186,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
     if (currentItem?.purchaseDate) {
-      const purchaseDate = new Date(currentItem.purchase_date);
+      const purchaseDate = new Date(currentItem.purchaseDate);
       const assignDate = new Date(selectedDate);
 
 

@@ -421,7 +421,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
   useEffect(() => {
     if (!showFilter) {
        if(state.login.selectedHostel_Id){
-      dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+      dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id  })
        }
 
       setSelectedPriceRange('All');
