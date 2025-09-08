@@ -85,8 +85,10 @@ function BankingAddForm(props) {
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
   const [upiId, setUpiId] = useState("")
+  const [upiIdError, setUpiIdError] = useState("")
   const handleUpiId = (e) => {
     setUpiId(e.target.value)
+    setUpiIdError("")
   }
 
 
@@ -198,25 +200,66 @@ function BankingAddForm(props) {
     setError("");
     dispatch({
       type: "ADD_BANKING",
-      payload: {
-        type: "bank",
-        benificiary_name: accountName,
-        acc_no: accountNo,
-        bank_name: bankName,
-        ifsc_code: ifscCode,
-        desc: description,
-        id: props.edit ? bankId : "",
-        hostel_id: hostel_id
+
+        payload: { 
+       hostelId: hostel_id, 
+        data: { 
+        accountType: "BANK",
+        holderName: accountName,
+        accountNo: Number(accountNo),
+        bankName: bankName,
+        ifscCode: ifscCode,
+        description: description,
+        branchName: "" ,
+        branchCode : "" ,
+        isDefault : true ,
+        upiId : "" ,
+        cardType : "",
+        cardNumber : ""
+      } 
       },
+//       {
+//   "holderName": "Alll",
+//   "bankName": "Canara Bank",
+//   "branchName": null,
+//   "branchCode": null,
+//   "accountNo": "889489849849",
+//   "ifscCode": "TYSYTSC",
+//   "description": "testing..",
+//   "isDefault": true,
+//   "upiId": null,
+//   "cardType": null,
+//   "accountType": "BANK",
+//   "cardNumber": null
+// }
+
+      // payload: {
+      //   accountType: "bank",
+      //   holderName: accountName,
+      //   accountNo: accountNo,
+      //   bankName: bankName,
+      //   ifscCode: ifscCode,
+      //   description: description,
+      //   id: props.edit ? bankId : "",
+      //   hostel_id: hostel_id
+      // },
     });
+
+     
     setFormLoading(true)
   };
 
   const handleSubmitUpi = () => {
-    if (!accountName) {
-      setError("Please Enter Benificiary Name");
-      return;
+    if(!accountName || !upiId) {
+      if (!accountName) {
+      setError("Please Enter Benificiary Name");   
+       }
+      if(!upiId){
+      setUpiIdError("Please Enter Upi Id");
+       }
+    return;
     }
+
 
     if (props.edit) {
       const isChanged =
@@ -234,16 +277,39 @@ function BankingAddForm(props) {
 
     }
 
+    // dispatch({
+    //   type: "ADD_BANKING",
+    //   payload: {
+    //     type: "upi",
+    //     benificiary_name: accountName,
+    //     desc: description,
+    //     hostel_id: hostel_id,
+    //     upi_id: upiId,
+    //     id: props.edit ? bankId : "",
+    //   },
+    // });
     dispatch({
       type: "ADD_BANKING",
-      payload: {
-        type: "upi",
-        benificiary_name: accountName,
-        desc: description,
-        hostel_id: hostel_id,
-        upi_id: upiId,
-        id: props.edit ? bankId : "",
+
+        payload: { 
+       hostelId: hostel_id, 
+        data: { 
+        accountType: "UPI",
+        holderName: accountName,
+        accountNo: "",
+        bankName: bankName,
+        ifscCode: ifscCode,
+        description: description,
+        branchName: "" ,
+        branchCode : "" ,
+        isDefault : true ,
+        upiId : upiId ,
+        cardType : "",
+        cardNumber : ""
+      } 
       },
+
+
     });
     setFormLoading(true)
   }
@@ -256,6 +322,7 @@ function BankingAddForm(props) {
   }
 
   const [cardType, setCardType] = useState("")
+  const [cardTypeError, setCardTypeError] = useState("")
 
   // const handleCardType = (e) => {
   //   const selected = e.target.value;
@@ -264,10 +331,17 @@ function BankingAddForm(props) {
   // };
 
   const handleSubmitCard = () => {
-    if (!accountName) {
+    if(!accountName || !cardType){
+      if (!accountName) {
       setError("Please Enter Benificiary Name");
-      return;
     }
+     if (!cardType) {
+      setCardTypeError("Please Select Card Type");
+    }
+   return
+    }
+  
+
 
     if (props.edit) {
       const isChanged =
@@ -285,19 +359,44 @@ function BankingAddForm(props) {
       }
 
     }
-    dispatch({
-      type: "ADD_BANKING",
-      payload: {
-        type: "card",
-        benificiary_name: accountName,
-        desc: description,
-        hostel_id: hostel_id,
-        card_no: cardNo,
-        card_type: cardType,
+    // dispatch({
+    //   type: "ADD_BANKING",
+    //   payload: {
+    //     type: "card",
+    //     benificiary_name: accountName,
+    //     desc: description,
+    //     hostel_id: hostel_id,
+    //     card_no: cardNo,
+    //     card_type: cardType,
+    //     id: props.edit ? bankId : "",
+    //   },
+    // })
 
-        id: props.edit ? bankId : "",
+        dispatch({
+      type: "ADD_BANKING",
+
+        payload: { 
+       hostelId: hostel_id, 
+        data: { 
+        accountType: "CARD",
+        holderName: accountName,
+        accountNo: "",
+        bankName: "",
+        ifscCode: "",
+        description: description,
+        branchName: "" ,
+        branchCode : "" ,
+        isDefault : true ,
+        upiId : "" ,
+        cardType : cardType,
+        cardNumber : cardNo
+      } 
       },
-    });
+})
+
+    
+
+    
     setFormLoading(true)
   }
   const handleSubmitCash = () => {
@@ -319,28 +418,51 @@ function BankingAddForm(props) {
       }
 
     }
-    dispatch({
+    // dispatch({
+    //   type: "ADD_BANKING",
+    //   payload: {
+    //     type: "cash",
+    //     benificiary_name: accountName,
+    //     desc: description,
+    //     hostel_id: hostel_id,
+    //     id: props.edit ? bankId : "",
+    //   },
+    // });
+
+    
+        dispatch({
       type: "ADD_BANKING",
-      payload: {
-        type: "cash",
-        benificiary_name: accountName,
-        desc: description,
-        hostel_id: hostel_id,
-        id: props.edit ? bankId : "",
+
+        payload: { 
+       hostelId: hostel_id, 
+        data: { 
+        accountType: "CASH",
+        holderName: accountName,
+        accountNo: "",
+        bankName: "",
+        ifscCode: "",
+        description: description,
+        branchName: "" ,
+        branchCode : "" ,
+        isDefault : true ,
+        upiId : "" ,
+        cardType : "",
+        cardNumber : ""
+      } 
       },
-    });
+})
     setFormLoading(true)
   }
 
 
 
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForAddBanking === 200) {
+    if (state.bankingDetails.statusCodeForAddBanking === 201) {
       setAccountName("")
       setFormLoading(false)
       handleClose();
 
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
+      dispatch({ type: "BANKINGLIST", payload:  hostel_id  });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
       }, 1000);
@@ -755,16 +877,25 @@ function BankingAddForm(props) {
                       fontSize: 14,
                       color: "#222222",
                       fontFamily: "Gilroy",
-                      fontWeight: 500, marginTop: 5
+                      fontWeight: 500
                     }}
                   >
                     UPI ID{" "}
+                     <span
+                      style={{
+                        color: "red",
+                        fontSize: "20px",
+                      }}
+                    >
+                      {" "}
+                      *{" "}
+                    </span>
 
                   </Form.Label>
                   <FormControl
                     type="text"
                     id="form-controls"
-                    placeholder="Enter Bank Name"
+                    placeholder="Enter Upi Id"
                     value={upiId}
                     onChange={(e) => handleUpiId(e)}
                     style={{
@@ -779,7 +910,12 @@ function BankingAddForm(props) {
                     }}
                   />
                 </Form.Group>
-
+ {upiIdError && (
+                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{upiIdError}</span>
+                  </div>
+                )}
               </div>
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -915,10 +1051,19 @@ function BankingAddForm(props) {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      paddingTop: 7
+                      // paddingTop: 7
                     }}
                   >
                     Card Type
+                      <span
+                      style={{
+                        color: "red",
+                        fontSize: "20px",
+                      }}
+                    >
+                      {" "}
+                      *{" "}
+                    </span>
                   </Form.Label>
                   <Select
                     options={[
@@ -932,6 +1077,7 @@ function BankingAddForm(props) {
                     onChange={(selectedOption) => {
                       setCardType(selectedOption?.value || "");
                       setError("");
+                      setCardTypeError("")
                       setIsChangedError("")
                     }}
                     placeholder="Select a Card Type"
@@ -972,7 +1118,15 @@ function BankingAddForm(props) {
                     }}
 
                   />
+
+                    {cardTypeError && (
+                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{cardTypeError}</span>
+                  </div>
+                )}
                 </Form.Group>
+                
               </div>
 
 

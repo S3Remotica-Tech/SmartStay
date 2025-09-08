@@ -6,7 +6,8 @@ import Cookies from 'universal-cookie';
 
 function* handleAddBanking(action) {
   try {
-    const response = yield call(AddBankingDetails, action.payload);
+      const {hostelId , data} = action.payload
+    const response = yield call(AddBankingDetails, hostelId , data);
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -24,9 +25,9 @@ function* handleAddBanking(action) {
 
     };
 
-    if (response.data.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'ADD_USER_BANKING', payload: { response: response.data, statusCode: response.data.status || response.data.statusCode } })
-      toast.success(`${response.data.message}`, {
+    if (response.status === 201 || response.data.statusCode === 201) {
+      yield put({ type: 'ADD_USER_BANKING', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
