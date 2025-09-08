@@ -1,11 +1,21 @@
 import AxiosConfig from "../../WebService/AxiosConfig";
 import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
-export async function AddBankingDetails(datum) {
-  return await AxiosConfig.post("/add_bank", datum, {
-    data: datum,
+
+// v1
+// export async function AddBankingDetails(datum) {
+//   return await AxiosConfig.post("/add_bank", datum, {
+//     data: datum,
+//   });
+// }
+// v2
+export async function AddBankingDetails(hostelId ,  datum) {
+  return await AxiosConfigV2.post(`/v2/bank/${hostelId}`, datum, {
+      headers: {
+      "Content-Type": "application/json",
+    },
   });
-}
+} 
 
 // v1
 // export async function GetAddBanking(datum) {

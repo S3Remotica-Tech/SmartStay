@@ -907,7 +907,7 @@ function Banking() {
                               fontWeight: 600,
                             }}
                           >
-                            Type: {item.type}
+                            Type: {item?.accountType}
                           </p>
                           <p
                             className="text-muted mb-0"
