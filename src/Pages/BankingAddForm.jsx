@@ -334,7 +334,7 @@ function BankingAddForm(props) {
     if(!accountName || !cardType){
       if (!accountName) {
       setError("Please Enter Benificiary Name");
-    }
+      }
      if (!cardType) {
       setCardTypeError("Please Select Card Type");
     }
