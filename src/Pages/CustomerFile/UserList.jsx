@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
+import {  ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -48,11 +48,11 @@ import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
+import PaginationList from "../../Components/PaginationList";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -1266,7 +1266,7 @@ function UserList(props) {
 
       setFilteredUsers(filtered);
       setDropdownVisible(true);
-      setCurrentPage(1);
+      // setCurrentPage(1);
     } else {
       setFilteredUsers(filteredUsers);
       setDropdownVisible(false);
@@ -1360,35 +1360,66 @@ function UserList(props) {
   }, [state?.Booking?.statusCodeForAddBooking]);
 
 
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState(false);
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = React.useMemo(() => {
-    const source = (search || filterStatus) ? filteredUsers : userListDetail;
-    return source?.slice(indexOfFirstItem, indexOfLastItem);
-  }, [search, filterStatus, filteredUsers, userListDetail, indexOfFirstItem, indexOfLastItem]);
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
+  // const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const totalItems = (search || filterStatus) ? filteredUsers?.length : userListDetail?.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // const currentItems = React.useMemo(() => {
+  //   const source = (search || filterStatus) ? filteredUsers : userListDetail;
+  //   return source?.slice(indexOfFirstItem, indexOfLastItem);
+  // }, [search, filterStatus, filteredUsers, userListDetail, indexOfFirstItem, indexOfLastItem]);
+
+    const currentItems = React.useMemo(() => {
+    return (search || filterStatus) ? filteredUsers : userListDetail;
+  }, [search, filterStatus, filteredUsers, userListDetail]);
+  
+
+  // const totalItems = (search || filterStatus) ? filteredUsers?.length : userListDetail?.length;
+  // const totalPages = Math.ceil(totalItems / itemsPerPage);
+
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentItems;
+
+  //   const sorted = [...currentItems].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
+
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
+
+  //     if (typeof valueA === "string" && typeof valueB === "string") {
+  //       return sortConfig.direction === "asc"
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+
+  //   return sorted;
+  // }, [currentItems, sortConfig]);
 
   const sortedData = React.useMemo(() => {
     if (!sortConfig.key) return currentItems;
-
-    const sorted = [...currentItems].sort((a, b) => {
+  
+    return [...currentItems].sort((a, b) => {
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
-
+ 
       if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
+        return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
       }
 
       if (typeof valueA === "string" && typeof valueB === "string") {
@@ -1396,11 +1427,9 @@ function UserList(props) {
           ? valueA.localeCompare(valueB)
           : valueB.localeCompare(valueA);
       }
-
+  
       return 0;
     });
-
-    return sorted;
   }, [currentItems, sortConfig]);
 
   const handleSort = (key, direction) => {
@@ -1408,16 +1437,16 @@ function UserList(props) {
   };
 
 
-  const pageOptions = [
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const pageOptions = [
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
 
-  const handleItemsPerPageChange = (selectedOption) => {
-    setItemsPerPage(Number(selectedOption.value));
-    setCurrentPage(1);
-  };
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setItemsPerPage(Number(selectedOption.value));
+  //   setCurrentPage(1);
+  // };
 
 
   const handleMenuClick = () => {
@@ -1624,7 +1653,7 @@ function UserList(props) {
 
     if (!dates || dates.length !== 2) {
       setFilterStatus(false);
-      setCurrentPage(1);
+      // setCurrentPage(1);
       return;
     }
 
@@ -1643,7 +1672,7 @@ function UserList(props) {
 
     setFilteredUsers(filtered);
     setFilterStatus(true);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
 
@@ -3271,7 +3300,7 @@ console.log("item",item)
                               </th>
                             </tr>
                           </thead>
-                          <tbody style={{ textAlign: "center" }}>
+                          {/* <tbody style={{ textAlign: "center" }}>
                             {sortedData && sortedData.length > 0 && (
                               <>
                                 {sortedData.map((user) => {
@@ -3341,12 +3370,7 @@ console.log("item",item)
                                           whiteSpace: "nowrap"
                                         }}
                                       >
-                                        {/* {user && (user.user_join_date && user.user_join_date !== "0000-00-00"
-  ? <span>{moment(user.user_join_date).format("D MMMM YYYY")}</span>
-  : user.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
-    ? <span>{moment(user.RecheckIn_Date).format("D MMMM YYYY")}</span>
-    : "-"
-)} */}
+                                        
                                         <span>
                                           {user?.user_join_date && user.user_join_date !== "0000-00-00"
                                             ? moment(user.user_join_date).format("D MMMM YYYY")
@@ -3452,8 +3476,7 @@ console.log("item",item)
                                           borderBottom: "1px solid #E8E8E8",
                                         }}
                                       >
-                                        {/* {!user.Bed ? "-" : user.Bed} */}
-                                        {/* {user.Booking_Bed || user.floor_name || "-"} */}
+                                       
                                         {user.bed_status === "Booking"
                                           ? user.Booking_Bed || "-"
                                           : user.Bed || "-"}
@@ -3772,53 +3795,6 @@ console.log("item",item)
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
-                                                {/* <div
-                                                  className="d-flex align-items-center gap-2"
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                    opacity: customerEditPermission ? 0.6 : 1,
-                                                    padding: "8px 12px",
-                                                    borderRadius: 6,
-                                                    transition: "background 0.2s ease-in-out",
-                                                  }}
-                                                  onClick={() => {
-                                                    if (!customerEditPermission) {
-                                                      handleAddBookings(user);
-                                                    }
-                                                  }}
-                                                  onMouseEnter={(e) => {
-                                                    if (!customerEditPermission) {
-                                                      e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                                    }
-                                                  }}
-                                                  onMouseLeave={(e) => {
-                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={Edit}
-                                                    alt="Edit"
-                                                    style={{
-                                                      width: 16,
-                                                      height: 16,
-                                                      filter: customerEditPermission ? "grayscale(100%)" : "none",
-                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                    }}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily: "Gilroy, sans-serif",
-                                                      color: customerEditPermission ? "#888888" : "#1E45E1",
-                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                      margin: 0,
-                                                    }}
-                                                  >
-                                                    Add Booking
-                                                  </label>
-                                                </div> */}
                                                 {user.bed_status === "Un-Assigned" && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
@@ -3859,7 +3835,717 @@ console.log("item",item)
                                                         fontSize: 14,
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy, sans-serif",
-                                                        // color: customerEditPermission ? "#888888" : "#1E45E1",
+                                                         cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Add Booking
+                                                    </label>
+                                                  </div>
+                                                )}
+
+
+
+                                                {user.bed_status === "Booking" && (
+
+                                                  <>
+                                                    <div
+                                                      className="d-flex align-items-center gap-2"
+                                                      style={{
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerEditPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onClick={() => {
+                                                        if (!customerEditPermission) {
+                                                          handleBookingAssign(user);
+                                                        }
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerEditPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={addcircle}
+                                                        alt="Edit"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Check_In
+                                                      </label>
+                                                    </div>
+                                                    <div
+                                                      className="d-flex align-items-center gap-2"
+                                                      style={{
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerEditPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onClick={() => {
+                                                        if (!customerEditPermission) {
+                                                          handleInActive(user);
+                                                        }
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerEditPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={Addbook}
+                                                        alt="Addbook"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                          cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Make as Inactive
+                                                      </label>
+                                                    </div>
+
+                                                  </>
+
+
+                                                )}
+
+
+
+
+                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                                                {user.bed_status === "Un-Assigned" && (
+                                                  <div
+
+                                                    className="d-flex align-items-center gap-2"
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                      opacity: customerDeletePermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onClick={() => {
+                                                      if (!customerDeletePermission) {
+                                                        handleDeleteShow(user);
+                                                      }
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerDeletePermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+
+                                                    <Trash
+                                                      size="16"
+                                                      color={customerDeletePermission ? "#A9A9A9" : "red"}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerDeletePermission ? "#888888" : "#FF0000",
+                                                        cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Delete
+                                                    </label>
+                                                  </div>
+                                                )}
+                                              </div>
+
+                                            </div>
+                                          )}
+                                        </div>
+
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </>
+                            )}
+                          </tbody> */}
+
+                             <tbody style={{ textAlign: "center" }}>
+  <PaginationList>
+    {sortedData && sortedData.length > 0 ? (
+      sortedData.map((user) => (
+        <tr
+          key={user.ID}
+          style={{
+            fontSize: "16px",
+            fontWeight: 600,
+            textAlign: "center",
+          }}
+        >
+          <td
+            style={{
+              border: "none",
+              padding: "10px",
+              textAlign: "start",
+              paddingLeft: "20px",
+              verticalAlign: "middle",
+              borderBottom: "1px solid #E8E8E8",
+            }}
+            className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+          >
+            <span
+              className="Customer_Name_Hover  ps-lg-3"
+              style={{
+                fontSize: "13px",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                color: "#1E45E1",
+                cursor: "pointer",
+                marginTop: 10,
+                paddingLeft: 10,
+                whiteSpace: "nowrap",
+              }}
+              onClick={() => handleRoomDetailsPage(user)}
+            >
+              {user.Name}
+            </span>
+          </td>
+
+          {/* 🔹 bed_status */}
+          <td
+            className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+            style={{
+              paddingTop: 15,
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              verticalAlign: "middle",
+              borderBottom: "1px solid #E8E8E8",
+            }}
+          >
+            <span
+              style={{
+                backgroundColor: "#EDD3D8",
+                padding: 6,
+                borderRadius: 10,
+              }}
+            >
+              {user.bed_status}
+            </span>
+          </td>
+
+          {/* 🔹 join date */}
+          <td
+            className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+            style={{
+              paddingTop: 15,
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              verticalAlign: "middle",
+              borderBottom: "1px solid #E8E8E8",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span>
+              {user?.user_join_date && user.user_join_date !== "0000-00-00"
+                ? moment(user.user_join_date).format("D MMMM YYYY")
+                : user?.booking_joining_date &&
+                  user.booking_joining_date !== "0000-00-00"
+                ? moment(user.booking_joining_date).format("D MMMM YYYY")
+                : user?.RecheckIn_Date &&
+                  user.RecheckIn_Date !== "0000-00-00"
+                ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
+                : "-"}
+            </span>
+          </td>
+
+          {/* 🔹 phone */}
+          <td
+            style={{
+              paddingTop: 15,
+              paddingLeft: 15,
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              marginTop: 10,
+              whiteSpace: "nowrap",
+              verticalAlign: "middle",
+              borderBottom: "1px solid #E8E8E8",
+            }}
+            className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
+          >
+            +
+            {user &&
+              String(user.Phone)?.slice(0, String(user.Phone).length - 10)}{" "}
+            {user && String(user.Phone)?.slice(-10)}
+          </td>
+
+          {/* 🔹 floor */}
+          <td
+            style={{
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              paddingTop: 15,
+              paddingLeft: 20,
+              verticalAlign: "middle",
+              borderBottom: "1px solid #E8E8E8",
+            }}
+            className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+          >
+            <div className="ps-2">
+              {user.bed_status === "Booking"
+                ? user.Booking_FloorName || "-"
+                : user.bed_status === "Check In" ||
+                  user.bed_status === "Notice period"
+                ? user.floor_name || "-"
+                : "-"}
+            </div>
+          </td>
+
+          {/* 🔹 rooms */}
+          <td
+            style={{
+              paddingTop: 15,
+              paddingLeft: 20,
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              verticalAlign: "middle",
+              borderBottom: "1px solid #E8E8E8",
+            }}
+            className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
+          >
+            {user.bed_status === "Booking"
+              ? user.Booking_Rooms || "-"
+              : user.Rooms || "-"}
+          </td>
+
+          {/* 🔹 beds */}
+          <td
+            className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+            style={{
+              paddingTop: 15,
+              border: "none",
+              cursor: "pointer",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              marginTop: 10,
+              verticalAlign: "middle",
+              borderBottom: "1px solid #E8E8E8",
+            }}
+          >
+            {user.bed_status === "Booking"
+              ? user.Booking_Bed || "-"
+              : user.Bed || "-"}
+          </td>
+
+          {/* 🔹 dots menu */}
+          <td
+            style={{
+              paddingTop: 12,
+              border: "none",
+              borderBottom: "1px solid #E8E8E8",
+            }}
+          >
+            <div
+              style={{
+                cursor: "pointer",
+                height: 40,
+                width: 40,
+                borderRadius: 100,
+                border: "1px solid #EFEFEF",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
+                backgroundColor:
+                  activeRow === user.ID ? "#E7F1FF" : "white",
+              }}
+              onClick={(e) => handleShowDots(user.ID, e)}
+            >
+              <PiDotsThreeOutlineVerticalFill
+                style={{ height: 20, width: 20 }}
+              />
+              {/* popup menu here (your existing code) */}
+              {activeRow === user.ID && (
+                <div
+                  ref={popupRef}
+                  style={{
+                    position: "fixed",
+                    top: popupPosition.top - 25,
+                    left: popupPosition.left,
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                    width: "auto",
+                    backgroundColor: "#F9F9F9",
+                    border: "1px solid #EBEBEB",
+                    borderRadius: "10px",
+                    zIndex: 1000,
+                  }}
+                >
+                  <div>
+                                                {!user.Bed && user.bed_status === "Un-Assigned" && (
+                                                  <div
+                                                    className="d-flex align-items-center gap-2"
+                                                    onClick={() => {
+                                                      if (!customerAddPermission) {
+                                                        handleShowAssignBed(user);
+                                                      }
+                                                    }}
+                                                    style={{
+                                                      padding: "8px 12px",
+                                                      width: "100%",
+                                                      borderRadius: 6,
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      pointerEvents: customerAddPermission ? "none" : "auto",
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerAddPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      alt="Assign Bed"
+                                                      style={{
+                                                        height: 16,
+                                                        width: 16,
+                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      }}
+                                                    >
+                                                      Check_In
+                                                    </label>
+                                                  </div>
+
+                                                )}
+
+                                                {user.Bed && user.bed_status === "Check In" && (
+
+                                                  <div
+                                                    className="d-flex align-items-center gap-2"
+
+                                                    onClick={() => {
+                                                      if (!customerAddPermission) {
+                                                        handleCustomerCheckout(user);
+                                                      }
+                                                    }}
+
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerAddPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      alt="checkout"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Move to Notice Period
+                                                    </label>
+                                                  </div>
+
+                                                )}
+                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                                                {user.Bed && user.bed_status === "Check In" && (
+                                                  <div
+                                                    className="d-flex align-items-center gap-2"
+
+                                                    onClick={() => {
+                                                      if (!customerAddPermission) {
+                                                        handleCustomerReAssign(user);
+                                                      }
+                                                    }}
+
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerAddPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      alt="Re-Assign"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Re-Assign Bed
+                                                    </label>
+                                                  </div>
+
+                                                )}
+
+
+
+
+                                                {user.Bed && user.bed_status === "Notice period" && (
+                                                  <>
+                                                    <div
+                                                      className="d-flex align-items-center gap-2"
+
+                                                      onClick={() => {
+                                                        if (!customerAddPermission) {
+                                                          handleBacktoCheckout(user);
+                                                        }
+                                                      }}
+
+                                                      style={{
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={Addbook}
+                                                        alt="checkout"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Back to Check-In
+                                                      </label>
+                                                    </div>
+
+
+                                                    <div
+                                                      className="d-flex align-items-center gap-2"
+
+                                                      onClick={() => {
+                                                        if (!customerAddPermission) {
+                                                          handleConformCheckout(user);
+                                                        }
+                                                      }}
+
+                                                      style={{
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={logout}
+                                                        alt="checkout"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Check-Out
+                                                      </label>
+                                                    </div>
+
+
+                                                  </>
+
+                                                )}
+                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+
+                                          
+                                                {user.bed_status === "Un-Assigned" && (
+                                                  <div
+                                                    className="d-flex align-items-center gap-2"
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerEditPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onClick={() => {
+                                                      if (!customerEditPermission) {
+                                                        handleAddBookings(user);
+                                                      }
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerEditPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={Addbook}
+                                                      alt="Addbook"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                      
                                                         cursor: customerEditPermission ? "not-allowed" : "pointer",
                                                         margin: 0,
                                                       }}
@@ -3959,7 +4645,7 @@ console.log("item",item)
                                                           fontSize: 14,
                                                           fontWeight: 500,
                                                           fontFamily: "Gilroy, sans-serif",
-                                                          // color: customerEditPermission ? "#888888" : "#1E45E1",
+                                                      
                                                           cursor: customerEditPermission ? "not-allowed" : "pointer",
                                                           margin: 0,
                                                         }}
@@ -4023,18 +4709,19 @@ console.log("item",item)
                                                   </div>
                                                 )}
                                               </div>
-
-                                            </div>
-                                          )}
-                                        </div>
-
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                              </>
-                            )}
-                          </tbody>
+                </div>
+              )}
+            </div>
+          </td>
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="8">No data available</td>
+      </tr>
+    )}
+  </PaginationList>
+</tbody>
                         </Table>
                       </div>
                     </div>
@@ -4043,7 +4730,7 @@ console.log("item",item)
 
 
 
-                {
+                {/* {
                   !customerpermissionError &&
                   (
                     (search || filterStatus ? filteredUsers?.length : userListDetail?.length) > 10
@@ -4202,7 +4889,7 @@ console.log("item",item)
                   )
 
 
-                }
+                } */}
 
                 {customerReassign === true ? (
                   <CustomerReAssign

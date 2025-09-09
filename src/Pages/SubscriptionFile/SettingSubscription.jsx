@@ -15,7 +15,7 @@ import { CloseCircle } from "iconsax-react";
 import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
-import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import PaginationList from '../../Components/PaginationList';
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -35,34 +35,33 @@ function SettingSubscription() {
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
-const [currentPage, setCurrentPage] = useState(1);
-const [itemsPerPage, setItemsPerPage] = useState(5);
+
 
 const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
 
 
-const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
-const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
+// const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
+// const indexOfLastItem = currentPage * itemsPerPage;
+//   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+//   const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
 
- const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+//  const handlePageChange = (pageNumber) => {
+//     setCurrentPage(pageNumber);
+//   };
 
-const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(Number(selectedOption.value));
-  setCurrentPage(1);
-};
+// const handleItemsPerPageChange = (selectedOption) => {
+//   setItemsPerPage(Number(selectedOption.value));
+//   setCurrentPage(1);
+// };
 
 
 
-const pageSizeOptions = [
-  { value: 5, label: "5" },
-  { value: 10, label: "10" },
-  { value: 15, label: "15" }
-];
+// const pageSizeOptions = [
+//   { value: 5, label: "5" },
+//   { value: 10, label: "10" },
+//   { value: 15, label: "15" }
+// ];
 
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
@@ -599,13 +598,14 @@ const pageSizeOptions = [
 
                       </tr>
                     </thead>
-                    <tbody
+                    {/* <tbody
                       style={{
                         height: "50px",
                         fontSize: "11px",
                         verticalAlign: "middle",
                       }}
                     >
+                      
                       {paginatedData.length > 0 && paginatedData?.map((view, index) => {
                        let formattedDate = "-";
                     if (view.plan_start) {
@@ -737,7 +737,42 @@ const pageSizeOptions = [
                             </tr>
                           );
                         })}
-                    </tbody>
+                    </tbody> */}
+
+                     <tbody style={{ fontSize: "11px", verticalAlign: "middle", height: "50px" }}>
+          <PaginationList>
+            {hostelDetails.map((view, index) => {
+              let formattedDate = view.plan_start
+                ? `${new Date(view.plan_start).getDate()}/${new Date(view.plan_start).getMonth() + 1}/${new Date(view.plan_start).getFullYear()}`
+                : "-";
+              let DueformattedDate = view.plan_end
+                ? `${new Date(view.plan_end).getDate()}/${new Date(view.plan_end).getMonth() + 1}/${new Date(view.plan_end).getFullYear()}`
+                : "-";
+
+              return (
+                <tr key={index} style={{ marginTop: "20px" }}>
+                  <td>{index + 1}</td>
+                  <td>{view.name}</td>
+                  <td>{formattedDate}</td>
+                  <td>{DueformattedDate}</td>
+                  <td>
+                    <span style={{
+                      color: "black",
+                      backgroundColor: "#D9FFD9",
+                      padding: "3px 10px",
+                      fontSize: "11px",
+                      fontWeight: 500,
+                      borderRadius: "10px"
+                    }}>
+                      {view.plan_status === 1 ? "Active" : "Not Active"}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </PaginationList>
+        </tbody>
+
                   </Table>
                 </div>
               )}
@@ -746,9 +781,11 @@ const pageSizeOptions = [
             </div>
           </div>
         )}
-         {
+        
+         {/* {
               hostelDetails.length > 5 &&
-              <nav style={{
+              <nav 
+              style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "end",
@@ -882,7 +919,7 @@ const pageSizeOptions = [
                   </li>
                 </ul>
               </nav>
-            }
+            } */}
       </div>
 
      

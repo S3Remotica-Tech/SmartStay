@@ -10,11 +10,10 @@ import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import { Card } from 'react-bootstrap';
 import CreatableSelect from "react-select/creatable";
-import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import './Settingexpense.css';
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
-import Select from "react-select";
+
 
 function SettingExpenses({ hostelid }) {
 
@@ -35,7 +34,6 @@ function SettingExpenses({ hostelid }) {
   const [subcategory_Id, setSubCategory_ID] = useState(null)
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
   const [loading, setLoading] = useState(true)
-  const [expensesrowsPerPage, setExpensesrowsPerPage] = useState(10);
   const [expensesFilterddata, setExpensesFilterddata] = useState([]);
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
 
@@ -460,38 +458,38 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
-  const indexOfFirstRowExpense = indexOfLastRowExpense - expensesrowsPerPage;
-  const currentRowExpense = expensesFilterddata?.slice(
-    indexOfFirstRowExpense,
-    indexOfLastRowExpense
-  );
+//   const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
+//   const indexOfFirstRowExpense = indexOfLastRowExpense - expensesrowsPerPage;
+//   const expensesFilterddata = expensesFilterddata?.slice(
+//     indexOfFirstRowExpense,
+//     indexOfLastRowExpense
+//   );
 
-  const handlePageChange = (generalpageNumber) => {
-    setExpensescurrentPage(generalpageNumber);
-  };
+//   const handlePageChange = (generalpageNumber) => {
+//     setExpensescurrentPage(generalpageNumber);
+//   };
 
- const handleItemsPerPageChange = (selectedOption) => {
-  setExpensesrowsPerPage(selectedOption.value);
-  setExpensescurrentPage(1);
-};
+//  const handleItemsPerPageChange = (selectedOption) => {
+//   setExpensesrowsPerPage(selectedOption.value);
+//   setExpensescurrentPage(1);
+// };
 
-const expenseOptions = [
-    { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+// const expenseOptions = [
+//     { value: 10, label: "10" },
+//   { value: 50, label: "50" },
+//   { value: 100, label: "100" },
+// ];
 
 
 
-  const totalPagesGeneral = Math.ceil(
-    expensesFilterddata?.length / expensesrowsPerPage
-  );
+//   const totalPagesGeneral = Math.ceil(
+//     expensesFilterddata?.length / expensesrowsPerPage
+//   );
 
   useEffect(() => {
     if (
       expensesFilterddata.length > 0 &&
-      currentRowExpense.length === 0 &&
+      expensesFilterddata.length === 0 &&
       expensescurrentPage > 1
     ) {
       setExpensescurrentPage(expensescurrentPage - 1);
@@ -620,8 +618,8 @@ const expenseOptions = [
       <div className="mt-4 pe-4 d-flex flex-wrap justify-content-between show-scrolls" style={{ gap: "20px", alignItems: "flex-start",   maxHeight: "470px",
                 overflowY: "auto" }}>
 
-        {currentRowExpense && currentRowExpense.length > 0 ? (
-          currentRowExpense.map((category) => (
+        {expensesFilterddata && expensesFilterddata.length > 0 ? (
+          expensesFilterddata.map((category) => (
             <div key={category.category_Id}
 
               className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  "
@@ -737,8 +735,9 @@ const expenseOptions = [
         )}
 
 
-        {expensesFilterddata?.length > 10 && (
-          <nav  style={{
+        {/* {expensesFilterddata?.length > 10 && (
+          <nav  
+          style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
@@ -875,7 +874,7 @@ const expenseOptions = [
               </li>
             </ul>
           </nav>
-        )}
+        )} */}
 
 
 

@@ -10,10 +10,9 @@ import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
-import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import PropTypes from "prop-types";
 import './SettingNewRole.css';
-import Select from "react-select";
+
 
 function SettingNewRole({ hostelid }) {
 
@@ -129,29 +128,29 @@ useEffect(() => {
 
   }, [state.Settings.errorRole])
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10)
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = roleList?.slice(indexOfFirstItem, indexOfLastItem);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [itemsPerPage, setItemsPerPage] = useState(10)
+//   const indexOfLastItem = currentPage * itemsPerPage;
+//   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+//   const roleList = roleList?.slice(indexOfFirstItem, indexOfLastItem);
 
 
-  const totalPages = roleList?.length > 0 ? Math.ceil(roleList.length / itemsPerPage) : 1;
+//   const totalPages = roleList?.length > 0 ? Math.ceil(roleList.length / itemsPerPage) : 1;
 
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(selectedOption.value);
-  setCurrentPage(1);
-};
+//   const handlePageChange = (pageNumber) => {
+//     setCurrentPage(pageNumber);
+//   };
+//   const handleItemsPerPageChange = (selectedOption) => {
+//   setItemsPerPage(selectedOption.value);
+//   setCurrentPage(1);
+// };
 
-const options = [
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
+// const options = [
+//   { value: 10, label: "10" },
+//   { value: 50, label: "50" },
+//   { value: 100, label: "100" },
+// ];
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -210,15 +209,15 @@ const options = [
   }, [state.Settings.StatusForEditPermission])
 
 
-  useEffect(() => {
-    if (
-      roleList.length > 0 &&
-      currentItems.length === 0 &&
-      currentPage > 1
-    ) {
-      setCurrentPage(currentPage - 1);
-    }
-  }, [roleList])
+  // useEffect(() => {
+  //   if (
+  //     roleList.length > 0 &&
+  //     roleList.length === 0 &&
+  //     currentPage > 1
+  //   ) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // }, [roleList])
 
   return (
     <div style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}>
@@ -277,8 +276,8 @@ const options = [
         className="row mt-3 mb-3 overflow-auto  show-scrolls"
 style={{maxHeight:475, overflowY:"auto"}}
       >
-        {currentItems.length > 0 ? (
-          currentItems.map((view, index) => (
+        {roleList.length > 0 ? (
+          roleList.map((view, index) => (
             <div key={index} className="col-12  col-sm-12 col-md-12 col-lg-4 col-xs-12 mb-3">
               <div
                 className="d-flex align-items-center justify-content-between p-3 border rounded position-relative"
@@ -427,7 +426,7 @@ style={{maxHeight:475, overflowY:"auto"}}
 
 
 
-      {
+      {/* {
         roleList.length > 10 &&
         <nav
           className='position-fixed bottom-0 end-0  d-flex justify-content-end align-items-center' style={{  padding: "10px",backgroundColor: "white" , zIndex:1000}}
@@ -556,7 +555,7 @@ style={{maxHeight:475, overflowY:"auto"}}
             </li>
           </ul>
         </nav>
-      }
+      } */}
 
 
 
