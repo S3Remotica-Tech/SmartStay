@@ -206,56 +206,54 @@ const handlePassword = (e) => {
     type: "CLEAR_EMAIL_ID_ERROR",
   });
 
+const handleSubmit = () => {
+  dispatch(clearPhoneError());
+  dispatch(clearEmailError());
 
-  const handleSubmit = () => {
+  let isValid = true;
 
-    dispatch(clearPhoneError());
-    dispatch(clearEmailError());
+  setNameError("");
+  setEmailError("");
+  setMobileError("");
+  setCountryCodeError("");
+  setRoleError("");
+  setPasswordError("");
+  setError("");
 
-    let isValid = true;
+  const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
-    setNameError("");
-    setEmailError("");
-    setMobileError("");
-    setCountryCodeError("");
-    setRoleError("");
-    setPasswordError("");
-    setError("");
+  if (!name) {
+    setNameError("Please Enter Name");
+    isValid = false;
+  }
 
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  if (!email) {
+    setEmailError("Please Enter Email ID");
+    isValid = false;
+  } else if (!emailRegex.test(email)) {
+    setEmailError("Please Enter Valid Email ID");
+    isValid = false;
+  }
 
-    if (!name) {
-      setNameError("Please Enter Name");
-      isValid = false;
-    }
+  if (!countryCode) {
+    setCountryCodeError("Please Select Country Code");
+    isValid = false;
+  }
 
-    if (!email) {
-      setEmailError("Please Enter Email ID");
-      isValid = false;
-    } else if (!emailRegex.test(email)) {
-      setEmailError("Please Enter  Valid Email ID");
-      isValid = false;
-    }
+  if (!mobile) {
+    setMobileError("Please Enter Mobile Number");
+    isValid = false;
+  } else if (mobile.length !== 10) {
+    setMobileError("Please Enter Valid Mobile Number");
+    isValid = false;
+  }
 
-    if (!countryCode) {
-      setCountryCodeError("Please Select Country Code");
-      isValid = false;
-    }
+  if (!role) {
+    setRoleError("Please Select Role");
+    isValid = false;
+  }
 
-    if (!mobile) {
-      setMobileError("Please Enter Mobile Number");
-      isValid = false;
-    } else if (mobile.length !== 10) {
-      setMobileError("Please Enter Valid Mobile Number");
-      isValid = false;
-    }
-
-    if (!role) {
-      setRoleError("Please Select Role");
-      isValid = false;
-    }
-  
-      if (!editDetails) {
+  if (!editDetails) {
     if (!password) {
       setPasswordError("Please Enter Password");
       isValid = false;
@@ -265,82 +263,67 @@ const handlePassword = (e) => {
       const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
       if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-        setPasswordError(
-          "Please Enter correct Password"
-        );
+        setPasswordError("Please Enter correct Password");
         isValid = false;
       }
     }
   }
 
-    const hasChanges =
-      name !== initialState.name ||
-      email !== initialState.email ||
-      mobile !== initialState.mobile ||
-      countryCode !== initialState.countryCode ||
-      role !== initialState.role ||
-      description !== initialState.description;
+  const hasChanges =
+    name !== initialState.name ||
+    email !== initialState.email ||
+    mobile !== initialState.mobile ||
+    countryCode !== initialState.countryCode ||
+    role !== initialState.role ||
+    description !== initialState.description;
 
-    if (editDetails && !hasChanges) {
-      setError("No Changes Detected");
-      isValid = false;
-    }
-
-    if (mobileError) {
-      isValid = false;
-    }
-
-    
-
- 
-
-  
-
-    if (isValid) {
-      const MobileNumber = `${mobile}`;
-      // const payload = {
-      //   name: name,
-      //   mobile: MobileNumber,
-      //   emailId: email,
-      //   roleId: role,
-      //   description: description,
-      // };
-
- const data = {
-    name: name,
-    mobile: MobileNumber,
-    emailId: email,
-    roleId: role,
-    description: description,
-    password : password
-  };
-
-   const Editdata = {
-    name: name,
-    mobile: MobileNumber,
-    emailId: email,
-    role: role,
-    description: description,
-  };
-
-  //    if (editDetails && edit) {
-  //   data.id = editDetails.id;
-  // } else {
-  //   data.password = password;
-  // }
-
-
-
-   if (editDetails && edit && user_Id && hostel_Id ) {
-      dispatch({ type: "EDITSTAFFUSER", payload: { hostelId: hostel_Id, userId : user_Id, data: Editdata}});
+  if (editDetails && !hasChanges) {
+    setError("No Changes Detected");
+    isValid = false;
   }
 
-  
+  if (mobileError) {
+    isValid = false;
+  }
 
-        dispatch({ type: "ADDSTAFFUSER", payload: { hostelId: hostel_Id, data: data}});
-      setFormLoading(true)
+  if (isValid) {
+    const MobileNumber = `${mobile}`;
+
+    const data = {
+      name,
+      mobile: MobileNumber,
+      emailId: email,
+      roleId: role,
+      description,
+      password,
+    };
+
+    const Editdata = {
+      name,
+      mobile: MobileNumber,
+      emailId: email,
+      role,
+      description,
+    };
+
+    if (editDetails && edit && user_Id && hostel_Id) {
+      // EDIT API
+      dispatch({
+        type: "EDITSTAFFUSER",
+        payload: { hostelId: hostel_Id, userId: user_Id, data: Editdata },
+      });
+    } else {
+      // ADD API
+      dispatch({
+        type: "ADDSTAFFUSER",
+        payload: { hostelId: hostel_Id, data },
+      });
     }
-  };
+
+    setFormLoading(true);
+  }
+};
+
 
   console.log("userid" , user_Id);
   
@@ -358,7 +341,7 @@ const handlePassword = (e) => {
   }, [state.Settings.StatusForaddSettingUser]);
 
     useEffect(() => {
-    if (state.Settings.StatusForEditSettingUser === 201) {
+    if (state.Settings.StatusForEditSettingUser === 200) {
       setFormLoading(false)
       handleCloseForm();
       dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_Id } });
