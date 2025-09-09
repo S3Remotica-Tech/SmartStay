@@ -118,29 +118,34 @@ function CustomerCheckout(props) {
 
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' });
 
-    const formattedDate = dayjs(selectedDate).isValid()
-      ? dayjs(selectedDate).format("DD-MM-YYYY")
-      : null;
+  if (!selectedDate || !requestDate) {
+  if (!selectedDate) {
+    setCheckOutDateError('Please Select Check-Out Date');
+  }
+  if (!requestDate) {
+    setCheckOutRequestDateError('Please Select Request Date');
+  }
+  return;
+}
 
-    const formattedrequestDate = dayjs(requestDate).isValid()
-      ? dayjs(requestDate).format("DD-MM-YYYY")
-      : null;
 
-    if (!selectedDate || !requestDate) {
-      if (!selectedDate) {
-        setCheckOutDateError('Please Select Check-Out Date');
-      }
-      if (!requestDate) {
-        setCheckOutRequestDateError('Please Select Request Date');
-      }
-      return;
-    }
+if (dayjs(selectedDate).isBefore(dayjs(requestDate))) {
+  setCheckOutDateError('Before Request Date not allowed');
+  return;
+}
 
-    if (dayjs(formattedDate).isBefore(dayjs(formattedrequestDate))) {
-      setCheckOutDateError('Before Request Date not allowed');
-      return;
-    }
+const formattedDate = dayjs(selectedDate).isValid()
+  ? dayjs(selectedDate).format("DD-MM-YYYY")
+  : null;
 
+const formattedrequestDate = dayjs(requestDate).isValid()
+  ? dayjs(requestDate).format("DD-MM-YYYY")
+  : null;
+
+console.log("formattedDate", formattedDate, "formattedrequestDate", formattedrequestDate);
+
+
+   
     // const userId = props.data?.ID || props.data || null;
     // const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
 

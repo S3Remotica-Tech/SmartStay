@@ -977,6 +977,12 @@ useEffect(() => {
                   }}
                 />
               </Form.Group>
+               {state.Settings.alreadytypeerror !== "" && (
+  <div className='d-flex align-items-center mt-2 mb-2'>
+    <MdError style={{ color: "red", marginRight: '5px' }} />
+    <label style={{ color: "red" , fontFamily: "Gilroy",fontSize:14}}>{state.Settings.alreadytypeerror}</label>
+  </div>
+)}
               <div style={{ marginTop: "-10px" }}>
                 {complaintError && (
                   <p
@@ -1066,12 +1072,7 @@ useEffect(() => {
           </div>
         )}
 
-                    {state.Settings.alreadytypeerror !== "" && (
-  <div className='d-flex align-items-center justify-content-center mt-2 mb-2'>
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label style={{ color: "red" }}>{state.Settings.alreadytypeerror}</label>
-  </div>
-)}
+                   
 
         <Modal.Footer
           className="d-flex justify-content-center"

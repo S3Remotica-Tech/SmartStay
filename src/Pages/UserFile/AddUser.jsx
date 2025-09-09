@@ -108,7 +108,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     const isValidEmail = emailRegex.test(emailValue);
 
     if (emailValue && !isValidEmail) {
-      setEmailError("Invalid Email Id");
+      setEmailError("Please Enter Email Id");
     } else {
       setEmailError("");
     }
