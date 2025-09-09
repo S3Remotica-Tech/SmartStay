@@ -12,6 +12,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { CloseCircle } from "iconsax-react";
+import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 dayjs.extend(customParseFormat);
 
 function CustomerReAssign(props) {
@@ -39,7 +40,7 @@ function CustomerReAssign(props) {
   const [bedError, setBedError] = useState("");
   const [rentError, setRentError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
-  // const [lastDate, setLastDate] = useState("");
+
 
 
   const rentRef = useRef(null);
@@ -84,27 +85,7 @@ function CustomerReAssign(props) {
     setNewBed("")
     setNewRoomRent("")
   };
-  // const handleBed = (selectedOption) => {
-  //   setNewBed(selectedOption?.value || "");
 
-  //   setBedError("");
-  // };
-  //  const handleRooms = (selectedOption) => {
-  //     const value = selectedOption?.value || "";
-  //     setNewRoom(value);
-  //     dispatch({
-  //       type: "BEDNUMBERDETAILS",
-  //       payload: {
-  //         hostel_id: state.login.selectedHostel_Id,
-  //         floor_id: newFloor,
-  //         room_id: value,
-  //       },
-  //     });
-
-  //     setRoomError("");
-  //     setNewBed("")
-  //     setNewRoomRent("")
-  //   };
   const handleRooms = (selectedOption) => {
     const value = selectedOption?.value || "";
     setNewRoom(value);
@@ -209,7 +190,7 @@ function CustomerReAssign(props) {
   const [reAssignDate,setReAssignDate] = useState("")
 
 
-  console.log("props", lastDate, joiningdate);
+ 
 
 
   useEffect(() => {
@@ -219,10 +200,10 @@ function CustomerReAssign(props) {
 
   useEffect(() => {
     if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-      const customerData = state.UsersList.customerdetails?.data?.[0]; // first object in "data"
+      const customerData = state.UsersList.customerdetails?.data?.[0]; 
       const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
 
-      // 🔹 1. Store Joining Date
+    
       if (customerData?.joining_Date) {
         const joining = new Date(customerData.joining_Date);
         const formattedJoining = `${String(joining.getDate()).padStart(2, "0")}-${String(
@@ -243,7 +224,7 @@ function CustomerReAssign(props) {
         setReAssignDate("");
       }
 
-      // 🔹 2. Store Last Bill Date
+     
       if (invoiceDetails && invoiceDetails.length > 0) {
         const dates = invoiceDetails.map((item) => item.Date).filter(Boolean);
         if (dates.length > 0) {
@@ -259,14 +240,14 @@ function CustomerReAssign(props) {
         setLastDate("");
       }
 
-      // clear details after some time
+    
       setTimeout(() => {
         dispatch({ type: "CLEAR_CUSTOMER_DETAILS" });
       }, 1000);
     }
   }, [state.UsersList.CustomerdetailsgetStatuscode]);
 
-  console.log("lastdate", lastDate)
+ 
 
   const handleSaveReassignBed = () => {
     focusedRef.current = false;
@@ -291,10 +272,7 @@ function CustomerReAssign(props) {
       hasError = true;
     }
 
-    // if (newBed === "Selected Bed") {
-    //   setBedError("Please Select a Valid Bed");
-    //   hasError = true;
-    // }
+ 
     if (!newBed || newBed === "") {
       setBedError("Please select a bed");
       return;
@@ -383,33 +361,7 @@ function CustomerReAssign(props) {
   }, [state.UsersList.CustomerdetailsgetStatuscode])
 
 
-  // useEffect(() => {
-  //   if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
-  //     const invoiceDetails = state.UsersList.customerdetails.invoice_details;
-
-  //     if (invoiceDetails && invoiceDetails.length > 0) {
-  //       const dates = invoiceDetails
-  //         .map(item => item.Date)
-  //         .filter(date => !!date);
-
-  //       if (dates.length > 0) {
-  //         const maxDate = new Date(Math.max(...dates.map(d => new Date(d))));
-  //         const formatted = `${String(maxDate.getDate()).padStart(2, "0")}-${String(maxDate.getMonth() + 1).padStart(2, "0")}-${maxDate.getFullYear()}`;
-  //         // setLastDate(formatted);
-  //       } else {
-  //         // setLastDate("");
-  //       }
-  //     } else {
-  //       // setLastDate("");
-  //     }
-
-
-  //     setTimeout(() => {
-  //       dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' });
-  //     }, 1000);
-  //   }
-  // }, [state.UsersList.CustomerdetailsgetStatuscode]);
-
+ 
 
   const [currentFloorId, setCurrentFloorId] = useState("")
   useEffect(() => {
@@ -421,11 +373,25 @@ function CustomerReAssign(props) {
     }
 
   }, [state.login.selectedHostel_Id])
-  console.log("state.UsersList?.Users", state.UsersList?.Users)
+  const [customerName,setCustomerName] = useState("")
+  const [customerProfile,setCustomerProfile] = useState("")
+
+ const userDetails = state?.UsersList?.Users?.find(
+  (user) => String(user.ID) === String(props.customerId)
+);
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (props.reAssignDetail) {
-      console.log("props.reAssignDetail", props.reAssignDetail)
+
       setCurrentFloor(props.reAssignDetail?.floor_name);
+      setCustomerName(props.reAssignDetail?.Name)
       setCurrentRoom(props.reAssignDetail.Rooms);
       setCurrentBed(props.reAssignDetail.Bed);
       setCurrentRoomRent(props.reAssignDetail.RoomRent);
@@ -434,6 +400,8 @@ function CustomerReAssign(props) {
       setCurrentBedId(props.reAssignDetail.hstl_Bed);
       setCurrentRoomId(props.reAssignDetail.room_id);
       setCurrentFloorId(props.reAssignDetail.Floor)
+      setCustomerProfile(props.reAssignDetail.profile)
+    
     }
     else if (props.reAssignBedDetail) {
 
@@ -441,7 +409,6 @@ function CustomerReAssign(props) {
       setCurrentRoomRent(props.reAssignBedDetail.bed?.bed_amount);
       setUserId(props.reAssignBedDetail.id);
       setCurrentRoom(props.reAssignBedDetail.room?.Room_Name);
-      // setCurrentFloor(props.reAssignBedDetail.room?.Floor_Id);
       setCurrentRoomId(props.reAssignBedDetail.room?.Room_Id);
       setCurrentHostel_Id(props.reAssignBedDetail.room?.Hostel_Id);
       setCurrentBedId(props.reAssignBedDetail.bed?.id);
@@ -452,13 +419,13 @@ function CustomerReAssign(props) {
         )?.floor_name || "";
       setCurrentFloor(floorName);
 
-      console.log("floorName", floorName);
+     
 
     }
 
 
   }, [props.reAssignDetail, props.reAssignBedDetail]);
-  console.log("props.reAssignBedDetail", props.reAssignBedDetail)
+ 
 
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
@@ -476,7 +443,30 @@ function CustomerReAssign(props) {
   }, [state.UsersList.statusCodeForReassinBed]);
 
 
+const getImageSrc = () => {
+  if (customerProfile && typeof customerProfile === "string" && customerProfile.trim() !== "") {
+    return customerProfile.startsWith("/9j/")
+      ? `data:image/jpeg;base64,${customerProfile}`
+      : customerProfile;
+  }
 
+  if (customerProfile && typeof customerProfile !== "string") {
+    return URL.createObjectURL(customerProfile);
+  }
+
+  if (userDetails?.profile && typeof userDetails.profile === "string" && userDetails.profile.trim() !== "") {
+    return userDetails.profile.startsWith("/9j/")
+      ? `data:image/jpeg;base64,${userDetails.profile}`
+      : userDetails.profile;
+  }
+
+  if (userDetails?.profile && typeof userDetails.profile !== "string") {
+    return URL.createObjectURL(userDetails.profile);
+  }
+
+
+  return Profileimage;
+};
 
   return (
     <>
@@ -505,7 +495,7 @@ function CustomerReAssign(props) {
                   fontFamily: "Gilroy",
                 }}
               >
-                Reassign Bed
+                Change Bed
               </div>
 
               <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
@@ -515,12 +505,66 @@ function CustomerReAssign(props) {
               <div className="d-flex align-items-center">
                 <div >
 
+<div className="row">
+  <div className="d-flex justify-content-between align-items-center mb-3 ms-3">
+   
+    <div className="d-flex align-items-center gap-3">
+      <img 
+        src={getImageSrc()} 
+        alt="Profile" 
+        style={{ width: 40, height: 40, borderRadius: "50%" }}
+        onError={(e) => { e.target.src = Profileimage; }}
+      />
 
+      <div>
+        <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px" }}>
+          {customerName || userDetails?.Name}
+        </p>
+        <div className="d-flex gap-2">
+          <span
+            style={{
+              backgroundColor: "#FFF3CD",
+              color: "#856404",
+              fontSize: "12px",
+              padding: "2px 8px",
+              borderRadius: "12px",
+              fontWeight: 500,
+            }}
+          >
+            {currentFloor}
+          </span>
+          <span
+            style={{
+              backgroundColor: "#F8D7DA",
+              color: "#721C24",
+              fontSize: "12px",
+              padding: "2px 8px",
+              borderRadius: "12px",
+              fontWeight: 500,
+            }}
+          >
+            {currentRoom} - {currentBed}
+          </span>
+        </div>
+      </div>
+    </div>
 
-                  <div style={{ maxHeight: "390px", overflowY: "scroll" }} className="show-scroll p-2 mt-0 me-0">
+    {/* Right Side: Rental Amount */}
+    <div className="me-4" style={{ textAlign: "right" }}>
+      <p className="mb-1" style={{ fontSize: "14px", fontWeight: 400, color: "#4B4B4B",fontFamily:"Gilroy" }}>
+        Rental Amount
+      </p>
+      <p className="mb-0" style={{ fontWeight: 600, fontSize: "16px" }}>
+        ₹ {currentRoomRent}
+      </p>
+    </div>
+  </div>
+</div>
+
+                  <div  className="show-scroll p-2 mt-0 me-0">
 
                     <div className="row  d-flex align-items-center">
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-3">
                           <Form.Label
                             style={{
@@ -556,9 +600,9 @@ function CustomerReAssign(props) {
                           />
                         </Form.Group>
 
-                      </div>
+                      </div> */}
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-3">
                           <Form.Label
                             style={{
@@ -594,9 +638,9 @@ function CustomerReAssign(props) {
                           />
                         </Form.Group>
 
-                      </div>
+                      </div> */}
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-3">
                           <Form.Label
                             style={{
@@ -632,8 +676,8 @@ function CustomerReAssign(props) {
                           />
                         </Form.Group>
 
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      </div> */}
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="">
                           <Form.Label
                             style={{
@@ -667,7 +711,7 @@ function CustomerReAssign(props) {
                           />
                         </Form.Group>
 
-                      </div>
+                      </div> */}
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Label
                           style={{
@@ -798,28 +842,7 @@ function CustomerReAssign(props) {
 
 
                         <Select
-                          // options={
-                          //   state.UsersList?.roomdetails?.length > 0
-                          //     ? state.UsersList.roomdetails.map((item) => ({
-                          //       value: item.Room_Id,
-                          //       label: item.Room_Name,
-                          //     }))
-                          //     : []
-                          // }
-                          // onChange={handleRooms}
-                          // ref={roomRef}
-                          // value={
-                          //   newRoom
-                          //     ? {
-                          //       value: newRoom,
-                          //       label:
-                          //         state.UsersList?.roomdetails?.find(
-                          //           (room) => room.Room_Id === newRoom
-                          //         )?.Room_Name || "Selected Room",
-                          //     }
-                          //     : null
-                          // }
-
+                        
                           options={
                             state.UsersList?.roomdetails?.length > 0
                               ? state.UsersList.roomdetails.map((item) => ({
@@ -1171,29 +1194,29 @@ function CustomerReAssign(props) {
     setDateError("");
     setSelectedDate(date ? date.toDate() : null);
   }}
-  getPopupContainer={(triggerNode) =>
-    triggerNode.closest(".datepicker-wrapper")
-  }
+   getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".datepicker-wrapper")
+                              }
   disabledDate={(current) => {
     if (!current) return false;
 
     const today = dayjs().endOf("day");
 
-    // Joining Date parse
+
     let joining = null;
     if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
       const [dd, mm, yyyy] = joiningdate.split("-");
       joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
     }
 
-    // Last Bill Date parse
+    
     let lastBillDate = null;
     if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
       const [dd, mm, yyyy] = lastDate.split("-");
       lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
     }
 
-    // ReAssign Date parse
+    
     let reAssign = null;
     if (reAssignDate && /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)) {
       const [dd, mm, yyyy] = reAssignDate.split("-");
@@ -1203,7 +1226,7 @@ function CustomerReAssign(props) {
     let minAllowedDate = null;
 
     if (reAssign) {
-      // ✅ If reAssignDate exists, always use that
+   
       minAllowedDate = reAssign;
     } else if (joining) {
       const sameMonth =
@@ -1217,12 +1240,12 @@ function CustomerReAssign(props) {
       }
     }
 
-    // Future dates not allowed
+    
     if (current.isAfter(today)) {
       return true;
     }
 
-    // Block dates before minAllowedDate
+ 
     if (minAllowedDate && current.isBefore(minAllowedDate)) {
       return true;
     }
@@ -1411,23 +1434,13 @@ function CustomerReAssign(props) {
   );
 }
 
-// CustomerReAssign.propTypes = {
-//   reAssignDetail: PropTypes.object.isRequired,
-//   setCustomerReAssign: PropTypes.func.isRequired,
-//   id: PropTypes.number,
-//   bed_no: PropTypes.string,
-//   bed_amount: PropTypes.number,
-//   user_join_date: PropTypes.string,
-//   Hostel_Id: PropTypes.number,
-//   Floor_Id: PropTypes.number,
-//   Room_Id: PropTypes.number,
-//   Room_Name: PropTypes.string,
-// };
+
 
 
 
 CustomerReAssign.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    customerId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   setCustomerReAssign: PropTypes.func,
   reAssignDetail: PropTypes.shape({
     user_join_date: PropTypes.string,
@@ -1439,7 +1452,8 @@ CustomerReAssign.propTypes = {
     hstl_Bed: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     room_id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     floor_name: PropTypes.string,
-
+    Name: PropTypes.string,
+    profile:PropTypes.string,
   }),
 
   reAssignBedDetail: PropTypes.shape({

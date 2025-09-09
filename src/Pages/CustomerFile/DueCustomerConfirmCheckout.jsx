@@ -1761,7 +1761,7 @@ const handleTransactionId = (e) => {
 
                                                 <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                                  
+                                                   {item.reason_name !== "DueAmount" && (
                                                         <Trash
                                                             size="20"
                                                             color="red"
@@ -1769,6 +1769,7 @@ const handleTransactionId = (e) => {
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => handleRemoveField(index)}
                                                         />
+                                                   )}
                                                    
                                                 </div>
                                             </div>

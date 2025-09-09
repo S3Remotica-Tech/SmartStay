@@ -163,7 +163,7 @@ function UserListRoomDetail(props) {
     setAdvanceDueDate("")
   }
 
-console.log('customerDetails',customerDetails)
+
   const indianStates = [
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
@@ -242,11 +242,7 @@ console.log('customerDetails',customerDetails)
   }, []);
 
   
-  // useEffect(() => {
-  //     if (state.login.selectedHostel_Id) {
-  //       dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
-  //     }
-  //   }, [state.login.selectedHostel_Id]);
+
 
 
 
@@ -313,7 +309,7 @@ console.log('customerDetails',customerDetails)
 },[])
 
 const [ProfilePic,setProfilepic] = useState(false)
-// const [previewFile, setPreviewFile] = useState(""); 
+
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
@@ -329,9 +325,9 @@ const [ProfilePic,setProfilepic] = useState(false)
 
 const isFirstRun = useRef(true); 
   const MobileNumber = `${countryCode}${props.userData?.Phone}`;
-  console.log("props.userData",props.userData)
+ 
     const [advanceDetail, setAdvanceDetail] = useState("");
-    console.log("advanceDetail",advanceDetail)
+    
  
 useEffect(() => {
   if (isFirstRun.current) {
@@ -356,8 +352,7 @@ useEffect(() => {
     setFirstname(value[0] || "");
     setLastname(value[1] || "");
 
-    // const phoneNumber = String(props.userData?.Phone || "");
-    // const mobileNumber = phoneNumber.slice(-10);
+    
 
     const payload = {
       profile: file,
@@ -396,14 +391,14 @@ useEffect(() => {
   }
 }, [ProfilePic, file, props.userData]);
 
-console.log("advanceDetail",advanceDetail)
+
 
 useEffect(() => {
   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
   if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
-    setFile(base64Pic); // only raw base64 for dispatch
-    // setPreviewFile(`data:image/jpeg;base64,${base64Pic}`); // preview src
+    setFile(base64Pic); 
+  
   }
 }, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
@@ -412,15 +407,15 @@ useEffect(() => {
   if (rawAddress) {
     const parts = rawAddress.split(",").map((part) => part.trim());
 
-    // remove the `S/O:` part
+
     const addressParts = parts.slice(1);
 
-    // pincode, state and city from the END
+   
     const pincodePart = addressParts[addressParts.length - 1];
     const statePart   = addressParts[addressParts.length - 2];
     const cityPart    = addressParts[addressParts.length - 3];
 
-    // remaining items are house/street/area/landmark
+    
     const others = addressParts.slice(0, addressParts.length - 3);
     const [streetNumber, streetName, areaPart, landmarkPart] = others;
 
@@ -434,19 +429,7 @@ useEffect(() => {
 }, [state.UsersList.KycCustomerDetails?.address]);
 
 
-//   useEffect(() => {
-//   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
-//   if (
-//     base64Pic &&
-//     base64Pic !== "null" &&
-//     base64Pic !== undefined &&
-//     base64Pic !== null
-//   ) {
-//     setFile(`data:image/jpeg;base64,${base64Pic}`);
-   
-//   }
-// }, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
       dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
@@ -995,29 +978,7 @@ useEffect(() => {
 
   const handleCloseEditcustomer = () => {
     setFormShow(false);
-    // setFormError("");
-    // setfloorError("");
-    // setRoomError("");
-    // setBedError("");
-    // setAdvanceAmountError("");
-    // setRoomRentError("");
-    // setHostelIdError("");
-    // setFirstnameError("");
-    // setEmailError("");
-    // setPhoneError("");
-    // setHouseNo("");
-    // setStreet("");
-    // setCity("");
-    // setLandmark("");
-    // setPincode("");
-    // setStateName("");
-    // setStateNameError("");
-    // setPincodeError("");
-    // setCityError("");
-    // setLandmarkError("");
-    // setStreetError("");
-    // setHouse_NoError("");
-    // setDateError("");
+  
     setActiveRow(null);
     setEmailErrorMessage("");
     setJoingDateErrmsg("")
@@ -1502,7 +1463,7 @@ const normalizeFields = (current, initial) => {
         isDeleted: !!currentItem.isDeleted,
       };
     } else {
-      // It was removed => mark as deleted
+     
       return {
         reason_name: initialItem.reason_name,
         amount: String(initialItem.amount).trim(),
@@ -1513,7 +1474,7 @@ const normalizeFields = (current, initial) => {
       };
     }
   }).concat(
-    // Add new items that didn’t exist in initial list
+   
     current.filter(item => !initial.some(init => init.id === item.id)).map(item => ({
       reason_name: item.reason_name,
       amount: String(item.amount).trim(),
@@ -1590,40 +1551,12 @@ const formattedReasons = fields.map((item) => {
     amount: item.amount || "",
     showInput: !!item.showInput,
     id: item.id || "",
-    isDeleted: item.isDeleted ? true : undefined, // only include if true
+    isDeleted: item.isDeleted ? true : undefined, 
   };
 });
 
-    // const formattedReasons = fields.map((item) => {
-    //   let reason_name = "";
-
-    //   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-    //     reason_name = item.customReason || item["custom Reason"] || "";
-    //   } else {
-    //     reason_name = item.reason || item.reason_name || "";
-    //   }
-
-    //   const error = { reason: "", amount: "" };
-    //   if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-    //     error.amount = "Please enter amount";
-    //     hasReasonAmountError = true;
-    //   }
-
-
-    //   if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-    //     error.reason = "Please enter reason";
-    //     hasReasonAmountError = true;
-    //   }
-
-    //   newErrors.push(error);
-    //   return {
-    //     reason_name,
-    //     amount: item.amount || "",
-    //     showInput: !!item.showInput,
-    //     id:item.id || ""
-    //   };
-    // });
-    console.log("formattedReasons",formattedReasons)
+    
+   
 
     setErrors(newErrors)
 
@@ -1711,40 +1644,12 @@ const formattedReasons = fields.map((item) => {
     amount: item.amount || "",
     showInput: !!item.showInput,
     id: item.id || "",
-    isDeleted: item.isDeleted ? true : undefined, // only include if true
+    isDeleted: item.isDeleted ? true : undefined, 
   };
 });
 
 
-    // const formattedReasons = fields.map((item) => {
-    //   let reason_name = "";
-
-    //   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-    //     reason_name = item.customReason || item["custom Reason"] || "";
-    //   } else {
-    //     reason_name = item.reason || item.reason_name || "";
-    //   }
-
-    //   const error = { reason: "", amount: "" };
-    //   if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-    //     error.amount = "Please enter amount";
-    //     hasReasonAmountError = true;
-    //   }
-
-
-    //   if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-    //     error.reason = "Please enter reason";
-    //     hasReasonAmountError = true;
-    //   }
-
-    //   newErrors.push(error);
-    //   return {
-    //     reason_name,
-    //     amount: item.amount || "",
-    //     showInput: !!item.showInput,
-    //     id:item.id || ""
-    //   };
-    // });
+  
 
     setErrors(newErrors)
 
@@ -1819,7 +1724,7 @@ const formattedReasons = fields.map((item) => {
     }
   }, [state.UsersList.customerdetails.data]);
 
-console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetails.data)
+
 
   const [uploadError, setUploadError] = useState("");
 
@@ -1993,11 +1898,7 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
   };
 
 
-  // const handleRemoveField = (index) => {
-  //   const updatedFields = [...fields];
-  //   updatedFields.splice(index, 1);
-  //   setFields(updatedFields);
-  // };
+ 
 
 
 const handleRemoveField = (index) => {
@@ -2059,7 +1960,7 @@ const [stayDetais,setStayDetails] = useState("")
   const [isHovered, setIsHovered] = useState(false);
 
   const MobileNumberupload = `${props.userData?.Phone}`;
-  console.log("props.userData",props.userData)
+
 
 const handleImageUpload = async (event) => {
   const fileImage = event.target.files[0];
@@ -2200,75 +2101,7 @@ const imageUrl = imagePreview
 
 
 
-      {/* <div
-      style={{
-        position: "relative",
-        width: "80px",
-        height: "80px",
-        marginRight: "10px",
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img
-        src={imageUrl}
-        alt={item.Name || "Default Profile"}
-        style={{
-          height: "80px",
-          width: "80px",
-          borderRadius: "50%",
-          objectFit: "cover",
-        }}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = Profiles;
-        }}
-      />
-
-      {isNotBase64 && isHovered && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            height: "100%",
-            width: "100%",
-            borderRadius: "50%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "rgba(0,0,0,0.3)",
-            cursor: "pointer",
-          }}
-          onClick={() => document.getElementById("fileInput").click()}
-        >
-          <div
-            style={{
-              backgroundColor: "#fff",
-              borderRadius: "50%",
-              padding: "6px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={EditImage}
-              alt="Edit"
-              style={{ width: "20px", height: "20px" }}
-            />
-          </div>
-        </div>
-      )}
-
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-        style={{ display: "none" }}
-        onChange={handleImageUpload}
-      />
-    </div> */}
+     
 <div
   style={{
     position: "relative",
@@ -2385,37 +2218,7 @@ const imageUrl = imagePreview
                           }
 
 
-                          {/* {state.UsersList?.KycCustomerDetails?.message === "KYC Pending" &&
-                            <>
-                              <Button
-                                style={{
-                                  borderRadius: "20px",
-                                  backgroundColor: "#f59e0b",
-                                  border: "none",
-                                  padding: "0 16px",
-                                  height: "32px",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  fontSize: "14px",
-                                  color: "#fff",
-                                }}
-
-                              >
-                                <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
-                                Pending
-                              </Button>
-                              <p
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 400,
-                                  fontFamily: "Gilroy",
-                                  marginTop: 4,
-                                }}
-                              >
-                                Last Attempt: {state.UsersList?.KycCustomerDetails?.updated_at}
-                              </p>
-                            </>
-                          } */}
+                          
                             {state.UsersList?.KycCustomerDetails?.retry_completed === false &&
                             <>
                               <Button
@@ -2515,57 +2318,13 @@ const imageUrl = imagePreview
                             </>
                           }
 
-                   {/* chekout logic  */}
-                      {/* <Button
-                                disabled={props.customerAddPermission}
-                                type="primary"
-                                style={{
-                                  borderRadius: "20px",
-                                  backgroundColor: "rgba(255, 209, 209, 0.26)",
-                                  border: "none",
-                                  padding: "0 16px",
-                                  height: "32px",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                  color:'rgba(255, 0, 0, 1)'
-                                }}
-                              >
-                               <div style={{height:5 , width:5 , backgroundColor:'rgba(255, 0, 0, 1)', borderRadius:'50%', marginRight: 6}}></div> Checked out 
-                              </Button>
-                          
-                            <p   style={{
-                                  fontSize: 14,
-                                  fontWeight: 400,
-                                  fontFamily: "Gilroy",
-                                  marginTop: 4,
-                                }}>Very disciplined tenant, paid on time and maintained the room well.</p> */}
+                
                           
 
                         </div>
                       </div>
 
-                      {/* chekout logic  */}
-                      {/* <div>
-                           <Button
-                                disabled={props.customerAddPermission}
-                                type="primary"
-                                style={{
-                                  borderRadius: "20px",
-                                  backgroundColor: "#1848f1",
-                                  border: "none",
-                                  padding: "0 16px",
-                                  height: "32px",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                             <img  src={Reload} alt="recheckin" className="me-1"/>   Re Check-In
-                              </Button>
-                      </div> */}
+                  
 
                       <div
                      
@@ -2585,11 +2344,7 @@ const imageUrl = imagePreview
                           backgroundColor:
                             activeRow === item.ID ? "#E7F1FF" : "white",
                         }}
-                        // onClick={() => {
-                        //   if (!props.customerEditPermission && customerDetails[0]?.Bed) {
-                        //     handleShowEditBed(customerDetails);
-                        //   }
-                        // }}
+                       
                       >
                         <PiDotsThreeOutlineVerticalFill
                           style={{
@@ -2744,155 +2499,7 @@ const imageUrl = imagePreview
                                 </div>
 
                                 <div className="card-body">
-                                  {/* <div className="row">
-                                    <div className="col-sm-4 d-flex flex-column align-items-start">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Floor
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <Buildings size="16" color="#1E45E1" />
-                                        <span
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginLeft: 5,
-                                          }}
-                                        >
-                                          {" "}
-                                          {item.floor_name &&
-                                            item.floor_name !== "undefined" &&
-                                            item.floor_name !== 0 &&
-                                            item.floor_name !== "null"
-                                            ? item.floor_name
-                                            : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-center">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Room
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={Group}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginTop: "-10px",
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission || !item?.Bed
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                          {item.Rooms ? item.Rooms : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Bed
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission || !item?.Bed
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission || !item?.Bed
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={Group}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            cursor: props.customerEditPermission
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                          {item.Bed ? item.Bed : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </div> */}
+                                 
 
                                {(() => {
   const fullName = item?.Name || '';
@@ -3033,129 +2640,10 @@ const imageUrl = imagePreview
                                         </span>
                                       </p>
                                     </div>
-                                    {/* <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        RoomRent
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <img
-                                          src={Money}
-                                          alt="money"
-                                          width={16}
-                                          height={16}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          ₹ {customerDetails[0].RoomRent}
-                                        </span>
-                                      </p>
-                                    </div> */}
+                                    
                                   </div>
 
-                                  {/* <div className="row">
-                                    <div className="col-sm-12">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Address
-                                      </p>
-
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "flex-end",
-                                          gap: "10px",
-                                          marginTop: "-8px",
-                                        }}
-                                      >
-                                        <House
-                                          size="18"
-                                          color="#1E45E1"
-                                          style={{ marginBottom: "2px" }}
-                                        />
-
-
-
-                                        {(
-                                          customerDetails[0]?.Address ||
-                                          customerDetails[0]?.area ||
-                                          customerDetails[0]?.landmark ||
-                                          (customerDetails[0]?.city && customerDetails[0].city !== "undefined" && customerDetails[0].city !== "null" && customerDetails[0].city !== 0) ||
-                                          customerDetails[0]?.pincode ||
-                                          (customerDetails[0]?.state && customerDetails[0].state !== "undefined" && customerDetails[0].state !== "null" && customerDetails[0].state !== 0)
-                                        ) ? (
-                                          <div
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              lineHeight: "1.5em",
-                                            }}
-                                          >
-                                            {(customerDetails[0]?.Address || customerDetails[0]?.area) && (
-                                              <>
-                                                {customerDetails[0]?.Address ? `${customerDetails[0].Address}, ` : ""}
-                                                {customerDetails[0]?.area ?? ""}
-                                                <br />
-                                              </>
-                                            )}
-
-                                            {(customerDetails[0]?.landmark ||
-                                              customerDetails[0]?.city ||
-                                              customerDetails[0]?.pincode ||
-                                              customerDetails[0]?.state) && (
-                                                <>
-                                                  {customerDetails[0]?.landmark ? `${customerDetails[0].landmark}, ` : ""}
-
-                                                  {(customerDetails[0]?.city &&
-                                                    customerDetails[0].city !== "undefined" &&
-                                                    customerDetails[0].city !== "null" &&
-                                                    customerDetails[0].city !== 0) ? `${customerDetails[0].city}, ` : ""}
-
-                                                  {customerDetails[0]?.pincode ? `${customerDetails[0].pincode} - ` : ""}
-
-                                                  {(customerDetails[0]?.state &&
-                                                    customerDetails[0].state !== "undefined" &&
-                                                    customerDetails[0].state !== "null" &&
-                                                    customerDetails[0].state !== 0) ? customerDetails[0].state : ""}
-                                                </>
-                                              )}
-                                          </div>
-                                        ) : (
-                                          <div
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              lineHeight: "1.5em",
-                                            }}
-                                          >
-                                            No address found
-                                          </div>
-                                        )}
-
-
-
-
-                                      </div>
-                                    </div>
-                                  </div> */}
+                                
                                 </div>
                               </div>
                             </div>
@@ -3228,155 +2716,7 @@ const imageUrl = imagePreview
                                 </div>
 
                                 <div className="card-body">
-                                  {/* <div className="row">
-                                    <div className="col-sm-4 d-flex flex-column align-items-start">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Floor
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <Buildings size="16" color="#1E45E1" />
-                                        <span
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginLeft: 5,
-                                          }}
-                                        >
-                                          {" "}
-                                          {item.floor_name &&
-                                            item.floor_name !== "undefined" &&
-                                            item.floor_name !== 0 &&
-                                            item.floor_name !== "null"
-                                            ? item.floor_name
-                                            : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-center">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Room
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={Group}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginTop: "-10px",
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission || !item?.Bed
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                          {item.Rooms ? item.Rooms : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Bed
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission || !item?.Bed
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission || !item?.Bed
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={Group}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            cursor: props.customerEditPermission
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                          {item.Bed ? item.Bed : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </div> */}
+                                
 
                                   <div className="row">
  <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
@@ -3763,10 +3103,7 @@ const imageUrl = imagePreview
           }}
         >
           Address<br />
-          {/* <span>
-            {state.UsersList?.KycCustomerDetails?.address ||
-              "No address provided"}
-          </span> */}
+          
           <div style={{
   maxWidth: "400px",
   wordBreak: "break-word",
@@ -3873,36 +3210,7 @@ const imageUrl = imagePreview
 
 
 
-                                    {/* {advanceDetail[0]?.doc1 && (
-                                      <>
-                                      <a
-                                        href={advanceDetail[0]?.doc1}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <img
-                                          src={docDown}
-                                          alt="docdown"
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                       
-                                      </a>
-                                        <img
-                                          src={viewdoc}
-                                          alt="docdown"
-                                            onClick={() => setShowDocModal(true)}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                        </>
-                                    )} */}
+                                    
                                     {advanceDetail[0]?.doc1 && (
   <>
     
@@ -3957,54 +3265,7 @@ const imageUrl = imagePreview
                                     )}
                                   </div>
 
-{/* {showDocModal && (
-  <div
-    className="modal fade show"
-    style={{
-      display: "block",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      zIndex: 1050,
-    }}
-    onClick={() => setShowDocModal(false)}
-  >
-    <div
-      className="modal-dialog modal-lg"
-      style={{
-        margin: "100px auto",
-        background: "#fff",
-        padding: "20px",
-        borderRadius: "10px",
-        position: "relative",
-      }}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <button
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 10,
-          border: "none",
-          background: "transparent",
-          fontSize: "20px",
-        }}
-        onClick={() => setShowDocModal(false)}
-      >
-        &times;
-      </button>
 
-      <img
-        src={advanceDetail[0]?.doc1}
-        alt="Document Preview"
-        style={{ width: "100%", height: "auto", maxHeight: "60vh", objectFit: "contain" }}
-      />
-    </div>
-  </div>
-)} */}
 <Modal
   show={showDocModal}
   onHide={() => setShowDocModal(false)}
@@ -4019,7 +3280,7 @@ const imageUrl = imagePreview
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      minHeight: "300px", // optional fallback height
+      minHeight: "300px", 
     }}
   >
     <Button
@@ -4138,7 +3399,7 @@ const imageUrl = imagePreview
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      minHeight: "300px", // optional fallback height
+      minHeight: "300px", 
     }}
   >
     <Button
@@ -4496,73 +3757,7 @@ const imageUrl = imagePreview
                                       </p>
                                     </div>
 
-                            {/* checkout date  */}
-                                     {/* <div className="col-sm-4 col-lg-6  d-flex flex-column align-items-center">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          marginLeft:29
-                                        }}
-                                      >
-                                        Checkout Date
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission || !item?.Bed
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission || !item?.Bed
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                          marginLeft:50
-                                        }}
-                                      >
-                                        <img
-                                          src={LinkImage}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            cursor: props.customerEditPermission
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                        {item.user_join_date
-    ? new Date(item.user_join_date).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })
-    : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div> */}
+                          
 
 
                                     </div>
@@ -4640,7 +3835,7 @@ const imageUrl = imagePreview
                                                 borderRadius: "10px",
                                                 marginTop: "10px",
                                               }}
-                                              // onClick={handlegenerateForm}
+                                            
                                               onClick={() => {
     if (!advanceDetail[0]?.inv_id) {
       handlegenerateForm();
@@ -4876,16 +4071,7 @@ const imageUrl = imagePreview
                                                 <div>
                                                   <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
                                                     Contact Info{" "}
-                                                    {/* <img
-                                                      src={editliner}
-                                                      alt="Edit Icon"
-                                                      width={15}
-                                                      style={{ cursor: "pointer" }}
-                                                      height={15}
-                                                      onClick={() =>
-                                                        handleContactEdit(v)
-                                                      }
-                                                    /> */}
+                                                   
                                                     <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} onClick={() => {
                                                       if (!props.customerEditPermission) {
                                                         handleContactEdit(v);
@@ -5939,26 +5125,7 @@ const imageUrl = imagePreview
                                           }}
                                         />
                                       </Form.Group>
-                                      {/* {!state_name  && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError
-                                            style={{
-                                              fontSize: "13px",
-                                              marginRight: "5px",
-                                            }}
-                                          />
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {state_nameError}
-                                          </span>
-                                        </div>
-                                      )} */}
+                                      
                                     </div>
                                   </div>
                                   {formError && (
@@ -6648,7 +5815,7 @@ const imageUrl = imagePreview
                                       )}
                                     </div>
                                   </div>
-                                  {/* <fieldset disabled> */}
+                                 
 
                                     <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
@@ -6880,7 +6047,7 @@ const imageUrl = imagePreview
 
 
                                     </div>
-                                  {/* </fieldset> */}
+                                
 
 
                                 </div>
@@ -7511,20 +6678,7 @@ const imageUrl = imagePreview
                                 </div>
                               </div>
 
-                              {/* <Button
-                                className="w-100"
-                                style={{
-                                  backgroundColor: "#1E45E1",
-                                  fontWeight: 600,
-                                  height: 50,
-                                  borderRadius: 12,
-                                  fontSize: 16,
-                                  fontFamily: "Montserrat",
-                                }}
-                                onClick={handleSaveButton}
-                              >
-                                save
-                              </Button> */}
+                              
                               <div className="d-flex gap-2">
                                 <Button
 
@@ -7617,7 +6771,7 @@ const imageUrl = imagePreview
 
 
 
-                  {/* New conversion Ui  */}
+                
 
 
 

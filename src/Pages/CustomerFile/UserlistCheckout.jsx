@@ -46,10 +46,12 @@ function CheckOut(props) {
   const [checkoutLoader, setCheckOutLoader] = useState(false)
   const [CheckoutProfile, setCheckoutProfile] = useState(false)
   const [checkouttableshow, setcheckoutTableShow] = useState(true);
+  const [checkoutWithoutPay,setCheckoutWithoutPay] =useState("")
 
   const handleCustomerProfilePage=(checkout)=>{
     console.log("checkout",checkout)
     // props?.handleCheckoutOverview(false)
+    setCheckoutWithoutPay(checkout)
     setCheckoutProfile(true)
     setcheckoutTableShow(false)
     dispatch(checkoutCustomerProfile(false))
@@ -1447,7 +1449,7 @@ const handleCloseCheckoutProfile=()=>{
         }
 
  {
-          CheckoutProfile && <CustomerProfile CheckoutProfile ={CheckoutProfile} setcheckoutTableShow= {setcheckoutTableShow} handleCloseCheckoutProfile={handleCloseCheckoutProfile} setCheckoutProfile={setCheckoutProfile}/>
+          CheckoutProfile && <CustomerProfile CheckoutProfile ={CheckoutProfile} setcheckoutTableShow= {setcheckoutTableShow} handleCloseCheckoutProfile={handleCloseCheckoutProfile} setCheckoutProfile={setCheckoutProfile} checkoutWithoutPay={checkoutWithoutPay}/>
         }
 
 
