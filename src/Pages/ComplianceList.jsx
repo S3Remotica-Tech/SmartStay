@@ -966,8 +966,8 @@ const ComplianceList = (props) => {
                       style={
                         props.complaints &&
                           props.complaints.Status.toUpperCase() === "COMPLETED"
-                          ? { color: "#00A32E" }
-                          : { color: "#FF9E00" }
+                          ? { color: "#00A32E", fontSize: "15px", fontWeight: 500 }
+                          : { color: "#FF9E00", fontSize: "15px", fontWeight: 500 }
                       }
                     >
                       {props.complaints && props.complaints.Status}

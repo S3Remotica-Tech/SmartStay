@@ -10,24 +10,23 @@ import Image from 'react-bootstrap/Image';
 import AddVendor from './AddVendor';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowLeft2, ArrowRight2, CloseCircle, SearchNormal1 } from 'iconsax-react';
+import { CloseCircle, SearchNormal1 } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
 import "./vendor.css";
 import './VendorListMap.css';
 import { useMediaQuery, useTheme } from '@mui/material'
-import Select from "react-select";
+
 
 function Vendor() {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
   const [filteredData, setFilteredData] = useState([])
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4)
+
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
-
+const [currentItem, setCurrentItem] = useState('')
 
 
   const [vendorrolePermission, setVendorRolePermission] = useState("");
@@ -37,13 +36,6 @@ function Vendor() {
   const [vendorDeletePermission, setVendorDeletePermission] = useState("")
   const [vendorEditPermission, setVendorEditPermission] = useState("")
   const [hoveredIndex, setHoveredIndex] = useState(null);
-
-  const pageSizeOptions = [
-    { value: 4, label: "4" },
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
 
 
   useEffect(() => {
@@ -202,7 +194,7 @@ const isAdmin = userType === "admin" || userType === "agent";
     else {
       setFilteredData(state.ComplianceList.VendorList)
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
   const handleDropDown = (value) => {
@@ -219,7 +211,7 @@ const isAdmin = userType === "admin" || userType === "agent";
     else {
       setFilteredData(state.ComplianceList.VendorList)
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
     setShowDropDown(false)
   }
 
@@ -238,23 +230,23 @@ const isAdmin = userType === "admin" || userType === "agent";
   }
 
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  const [currentItem, setCurrentItem] = useState('')
+//   const indexOfLastItem = currentPage * itemsPerPage;
+//   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+//   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
- const handleItemsPerPageChange = (selectedOption) => {
-  if (selectedOption) {
-    setItemsPerPage(Number(selectedOption.value));
-    setCurrentPage(1);
-  }
-};
+//   const handlePageChange = (pageNumber) => {
+//     setCurrentPage(pageNumber);
+//   };
+//  const handleItemsPerPageChange = (selectedOption) => {
+//   if (selectedOption) {
+//     setItemsPerPage(Number(selectedOption.value));
+//     setCurrentPage(1);
+//   }
+// };
 
 
-  const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
+//   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
 
 
@@ -291,7 +283,7 @@ const isAdmin = userType === "admin" || userType === "agent";
           Status: 0,
         },
       });
-      setCurrentPage(1);
+      // setCurrentPage(1);
     }
   }
 
@@ -577,7 +569,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
               <div className='row row-gap-3 '>
-                {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
+                {filteredData && filteredData.length > 0 && filteredData.map((vendor) => (
                   <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
                     <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
                       onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
@@ -610,9 +602,10 @@ const isAdmin = userType === "admin" || userType === "agent";
 
             </div>
 
-            {
+            {/* {
               filteredData.length > 4 &&
-              <nav style={{
+              <nav
+               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "end",
@@ -748,7 +741,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                   </li>
                 </ul>
               </nav>
-            }
+            } */}
 
 
 

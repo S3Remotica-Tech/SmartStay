@@ -6,12 +6,12 @@ import { Button, Modal } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from "../Pages/UserFile/AddUser";
 import "./SettingUsers.css";
-import Select from "react-select";
+import PaginationList from "../Components/PaginationList";
 
 function SettingNewUser() {
   const state = useSelector((state) => state);
@@ -126,71 +126,101 @@ function SettingNewUser() {
     }
   }, [state.Settings?.errorUser]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = usersFilterddata?.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [itemsPerPage, setItemsPerPage] = useState(10);
+//   const indexOfLastItem = currentPage * itemsPerPage;
+//   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+//   const currentItems = usersFilterddata?.slice(
+//     indexOfFirstItem,
+//     indexOfLastItem
+//   );
 
-  const totalPages =
-    usersFilterddata?.length &&
-    Math.ceil(usersFilterddata.length / itemsPerPage);
+//   const totalPages =
+//     usersFilterddata?.length &&
+//     Math.ceil(usersFilterddata.length / itemsPerPage);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(selectedOption.value);
-  setCurrentPage(1);
+//   const handlePageChange = (pageNumber) => {
+//     setCurrentPage(pageNumber);
+//   };
+//   const handleItemsPerPageChange = (selectedOption) => {
+//   setItemsPerPage(selectedOption.value);
+//   setCurrentPage(1);
+// };
+
+// const options = [
+//   { value: 10, label: "10" },
+//   { value: 50, label: "50" },
+//   { value: 100, label: "100" },
+// ];
+//   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+//   const sortedData = React.useMemo(() => {
+//     if (!sortConfig.key) return currentItems;
+
+//     const sorted = [...currentItems].sort((a, b) => {
+//       const valueA = a[sortConfig.key];
+//       const valueB = b[sortConfig.key];
+
+//       if (!isNaN(valueA) && !isNaN(valueB)) {
+//         return sortConfig.direction === "asc"
+//           ? valueA - valueB
+//           : valueB - valueA;
+//       }
+
+//       if (typeof valueA === "string" && typeof valueB === "string") {
+//         return sortConfig.direction === "asc"
+//           ? valueA.localeCompare(valueB)
+//           : valueB.localeCompare(valueA);
+//       }
+
+//       return 0;
+//     });
+
+//     return sorted;
+//   }, [currentItems, sortConfig]);
+
+//   const handleSort = (key, direction) => {
+//     setSortConfig({ key, direction });
+//   };
+
+const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+const sortedData = React.useMemo(() => {
+  if (!sortConfig.key) return usersFilterddata; // Use full filtered data
+
+  const sorted = [...usersFilterddata].sort((a, b) => {
+    const valueA = a[sortConfig.key];
+    const valueB = b[sortConfig.key];
+
+    if (!isNaN(valueA) && !isNaN(valueB)) {
+      return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
+    }
+
+    if (typeof valueA === "string" && typeof valueB === "string") {
+      return sortConfig.direction === "asc"
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA);
+    }
+
+    return 0;
+  });
+
+  return sorted;
+}, [usersFilterddata, sortConfig]);
+
+const handleSort = (key, direction) => {
+  setSortConfig({ key, direction });
 };
 
-const options = [
-  { value: 10, label: "10" },
-  { value: 50, label: "50" },
-  { value: 100, label: "100" },
-];
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentItems;
-
-    const sorted = [...currentItems].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
-
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === "asc"
-          ? valueA - valueB
-          : valueB - valueA;
-      }
-
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortConfig.direction === "asc"
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
-
-      return 0;
-    });
-
-    return sorted;
-  }, [currentItems, sortConfig]);
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
-
-  useEffect(() => {
-    if (
-      usersFilterddata.length > 0 &&
-      currentItems.length === 0 &&
-      currentPage > 1
-    ) {
-      setCurrentPage(currentPage - 1);
-    }
-  }, [usersFilterddata]);
+  // useEffect(() => {
+  //   if (
+  //     usersFilterddata.length > 0 &&
+  //     currentItems.length === 0 &&
+  //     currentPage > 1
+  //   ) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // }, [usersFilterddata]);
 
   return (
     <div style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}>
@@ -479,7 +509,7 @@ const options = [
                             style={{ cursor: "pointer" }}
                           />
                         </div>
-                        Role
+                        Roless
                       </div>
                     </th>
                     <th
@@ -497,6 +527,7 @@ const options = [
                   </tr>
                 </thead>
                 <tbody>
+                  <PaginationList>
                   {sortedData?.map((item, index) => {
                     return (
                       <tr key={index} style={{ overflowX: "auto" }}>
@@ -705,6 +736,7 @@ const options = [
                       </tr>
                     );
                   })}
+                  </PaginationList>
                 </tbody>
               </Table>
             </div>
@@ -763,7 +795,7 @@ const options = [
         )}
       </div>
 
-      {usersFilterddata?.length > 10 && (
+      {/* {usersFilterddata?.length > 10 && (
         <nav 
         className="position-fixed bottom-0 end-0 d-flex justify-content-end align-items-center" style={{ padding: "10px", backgroundColor: "white" , zIndex:1000}}>
          <div>
@@ -891,7 +923,7 @@ const options = [
             </li>
           </ul>
         </nav>
-      )}
+      )} */}
 
       {isConfirmDelete && (
         <Modal

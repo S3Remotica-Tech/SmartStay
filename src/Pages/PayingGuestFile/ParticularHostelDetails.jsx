@@ -14,9 +14,8 @@ import DeleteBed from './DeleteBed';
 import OccupiedCustomer from './OccupiedCustomer'
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
+import { Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
-import Select from "react-select";
 import recerverimg from "../../Assets/Images/New_images/recervedimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import EmptyBed from './EmptyBed';
@@ -63,8 +62,6 @@ function ParticularHostelDetails(props) {
   const [activeRoomId, setActiveRoomId] = useState(null);
   const [loader, setLoader] = useState(false)
   const [loaderTrigger, setLoaderTrigger] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(4)
   const [showRoom, setShowRoom] = useState(false)
   const [hostelDetails, setHostelDetails] = useState({ room: null, selectedFloor: null });
   const [showDeleteRoom, setShowDeleteRoom] = useState(false)
@@ -409,11 +406,11 @@ console.log("customerID",customerID)
     dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
   }, [])
 
-  useEffect(() => {
-    if (props.floorID) {
-      setCurrentPage(1)
-    }
-  }, [props.floorID])
+  // useEffect(() => {
+  //   if (props.floorID) {
+  //     setCurrentPage(1)
+  //   }
+  // }, [props.floorID])
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -433,25 +430,25 @@ console.log("customerID",customerID)
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
-  const handleItemsPerPageChange = (selectedOption) => {
-    setItemsPerPage(Number(selectedOption.value));
-    setCurrentPage(1);
-  };
-  const pageSizeOptions = [
-    { value: 4, label: "4" },
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
+  // const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setItemsPerPage(Number(selectedOption.value));
+  //   setCurrentPage(1);
+  // };
+  // const pageSizeOptions = [
+  //   { value: 4, label: "4" },
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
 
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
 
 
 
@@ -573,7 +570,7 @@ console.log("customerID",customerID)
 
         <div className='container-fluid show-scroll' style={{ maxHeight: "400px", overflowY: "auto", marginTop: "-25px" }}>
           <div className='row mt-4 mb-2 row-gap-3' style={{ fontFamily: "Gilroy" }}>
-            {currentItems.length > 0 && currentItems.map((room) => (
+            {roomCountData.length > 0 && roomCountData.map((room) => (
               <div className='col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center' key={room.Room_Id}>
                 <Card className="w-100 h-100 fade-in" style={{ border: "1px solid #E6E6E6", borderRadius: 16, minHeight: 120 }}>
                   <Card.Header className="d-flex justify-content-between align-items-start" style={{ backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
@@ -892,7 +889,7 @@ console.log("customerID",customerID)
             ))}
 
             {/* Empty State */}
-            {!loader && !loaderTrigger && currentItems.length === 0 && (
+            {!loader && !loaderTrigger && roomCountData.length === 0 && (
               <div className='d-flex flex-column align-items-center justify-content-center text-center w-100 px-3 fade-in'>
                 <div><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
                 <div className="pb-1 mt-1" style={{ fontWeight: 600, fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
@@ -920,7 +917,7 @@ console.log("customerID",customerID)
         </div>
 
 
-        {currentItems.length > 0 && <>
+        {roomCountData.length > 0 && <>
           <div className='row mt-4 ms-2'>
             <div>
               <label
@@ -949,7 +946,7 @@ console.log("customerID",customerID)
         }
 
 
-        {
+        {/* {
           roomCountData.length > 4 &&
 
           <nav
@@ -1093,7 +1090,7 @@ console.log("customerID",customerID)
               </li>
             </ul>
           </nav>
-        }
+        } */}
 
 
         {showBed && <AddBedUI show={showBed} setShowBed={setShowBed} currentItem={details} />}

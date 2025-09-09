@@ -12,10 +12,9 @@ import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
-import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import PropTypes from "prop-types";
 import './SettingsAmentities.css';
-import Select from "react-select";
+
 
 function SettingAmenities({ hostelid }) {
 
@@ -36,7 +35,6 @@ function SettingAmenities({ hostelid }) {
     const [deleteID, setDeleteID] = useState('')
     const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
     const [loading, setLoading] = useState(true)
-    const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
     const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
@@ -295,34 +293,34 @@ function SettingAmenities({ hostelid }) {
 
 
 
-    const indexOfLastRowAmenities = amenitiescurrentPage * amenitiesrowsPerPage;
-    const indexOfFirstRowAmenities = indexOfLastRowAmenities - amenitiesrowsPerPage;
-    const currentRowAmenities = amenitiesFilterddata?.slice(indexOfFirstRowAmenities, indexOfLastRowAmenities);
+    // const indexOfLastRowAmenities = amenitiescurrentPage * amenitiesrowsPerPage;
+    // const indexOfFirstRowAmenities = indexOfLastRowAmenities - amenitiesrowsPerPage;
+    // const amenitiesFilterddata = amenitiesFilterddata?.slice(indexOfFirstRowAmenities, indexOfLastRowAmenities);
 
-    const handlePageChange = (generalpageNumber) => {
-        setAmenitiescurrentPage(generalpageNumber);
-    };
-    const amenitiesOptions = [
-        { value: 2, label: "2" },
-        { value: 5, label: "5" },
-        { value: 10, label: "10" },
-        { value: 50, label: "50" },
-        { value: 100, label: "100" },
-    ];
-    const handleItemsPerPageChange = (selectedOption) => {
-        setAmenitiesrowsPerPage(selectedOption.value);
-        setAmenitiescurrentPage(1);
-    };
+    // const handlePageChange = (generalpageNumber) => {
+    //     setAmenitiescurrentPage(generalpageNumber);
+    // };
+    // const amenitiesOptions = [
+    //     { value: 2, label: "2" },
+    //     { value: 5, label: "5" },
+    //     { value: 10, label: "10" },
+    //     { value: 50, label: "50" },
+    //     { value: 100, label: "100" },
+    // ];
+    // const handleItemsPerPageChange = (selectedOption) => {
+    //     setAmenitiesrowsPerPage(selectedOption.value);
+    //     setAmenitiescurrentPage(1);
+    // };
 
-    const totalPagesGeneral = Math.ceil(
-        amenitiesFilterddata?.length / amenitiesrowsPerPage
-    );
+    // const totalPagesGeneral = Math.ceil(
+    //     amenitiesFilterddata?.length / amenitiesrowsPerPage
+    // );
 
 
     useEffect(() => {
         if (
             amenitiesFilterddata.length > 0 &&
-            currentRowAmenities.length === 0 &&
+            amenitiesFilterddata.length === 0 &&
             amenitiescurrentPage > 1
         ) {
             setAmenitiescurrentPage(amenitiescurrentPage - 1);
@@ -403,8 +401,8 @@ function SettingAmenities({ hostelid }) {
 
 
 
-                    {currentRowAmenities && currentRowAmenities.length > 0 ? (
-                        currentRowAmenities.map((amenity, index) => (
+                    {amenitiesFilterddata && amenitiesFilterddata.length > 0 ? (
+                        amenitiesFilterddata.map((amenity, index) => (
 
                             <div key={index} className='col-lg-10 col-md-12 col-xs-12 col-sm-12 col-12 p-0' >
                                 <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
@@ -693,7 +691,7 @@ function SettingAmenities({ hostelid }) {
             </div>
 
 
-            {amenitiesFilterddata.length > 2 && (
+            {/* {amenitiesFilterddata.length > 2 && (
                 <nav
                     style={{
                         display: "flex",
@@ -847,7 +845,7 @@ function SettingAmenities({ hostelid }) {
                         </li>
                     </ul>
                 </nav>
-            )}
+            )} */}
 
 
 
