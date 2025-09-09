@@ -952,7 +952,7 @@ function* handleEditStaffUserPage(detail) {
 
       };
 
-      if (response.status === 201) {
+      if (response.status === 200) {
          yield put({ type: 'EDIT_STAFF_USER', payload: { response: response.data, statusCode: response.status } })
          toast.success(`${response.data}`, {
             position: "bottom-center",
