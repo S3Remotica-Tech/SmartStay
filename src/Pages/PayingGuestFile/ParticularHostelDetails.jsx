@@ -76,7 +76,7 @@ function ParticularHostelDetails(props) {
   const [add_customerform, setAddCustomerForm] = useState(false)
   const [assign_tenantform, setAssignTenantForm] = useState(false)
 
-
+console.log("customerId",customerId)
 
   const handleAddBed = (item, Room_Id) => {
     setShowBed(true)
@@ -1176,6 +1176,8 @@ console.log("customerID",customerID)
 
             reAssignBedDetail={{ ...OccupiedCustomerDetails, id: customerId }}
             setCustomerReAssign={handleCloseReassignForm}
+            customerId={customerId}
+          
           />
 
         }

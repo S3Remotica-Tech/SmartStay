@@ -27,7 +27,7 @@ function SettingSubscription() {
   const [planCode, setPlanCode] = useState("");
   const [amount, setAmount] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
-  const [hostelCount, setHostelCount] = useState(1);
+  const [hostelCount, setHostelCount] = useState("0");
   const [selectedPlanError, setSelectedPlanError] = useState("");
   const [hostelCountError, setHostelCountError] = useState("");
   const [hostelError, setHostelError] = useState("");
@@ -85,6 +85,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
       setGetPlanActive(state?.createAccount?.accountList[0]?.plan_data);
     }
   }, [state?.createAccount?.accountList[0]?.plan_data]);
+ 
 
   useEffect(() => {
     if (customerId) {
@@ -126,14 +127,48 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
     setSelectedHostels(updatedList);
   };
 
-  const hostelOptions = state.UsersList.hostelListNewDetails.data?.map(
-    (item) => ({
-      label: item.Name,
-      value: item.id,
-    })
+  // const hostelOptions = state.UsersList.hostelListNewDetails.data?.map(
+  //   (item) => ({
+  //     label: item.Name,
+  //     value: item.id,
+  //   })
+  //    (option) =>
+  //     !selectedHostels.some((selected) => selected.value === option.value) &&
+  //     !(Subscription_hostelIds || []).includes(option.value)
+  // );
+  // const hostelOptions = state.UsersList.hostelListNewDetails.data
+  // ?.map((item) => ({
+  //   label: item.Name,
+  //   value: item.id,
+  // }))
+  // .filter(
+  //   (option) =>
+     
+  //     !(hostelOptions || []).includes(option.value)
+  // );
+  
+
+  // const hostelOptions = state.UsersList.hostelListNewDetails.data
+  // ?.map((item) => ({
+  //   label: item.Name,
+  //   value: item.id,
+  // }))
+  // .filter(
+  //   (option) =>     
+  //     !(hostelDetails || []).includes(option.value)
+  // );
+  const hostelOptions = state.UsersList.hostelListNewDetails.data
+  ?.map((item) => ({
+    label: item.Name,
+    value: item.id,
+  }))
+ 
+  .filter(
+    (option) => !selectedHostels.some((sel) => sel.value === option.value)
   );
 
-console.log("hostelOptions",hostelOptions)
+
+
 
   // const filteredOptions = (hostelOptions || []).filter(
   //   (option) =>
@@ -155,7 +190,7 @@ console.log("hostelOptions",hostelOptions)
   }, [selectedHostels]);
 
   useEffect(() => {
-    setHostelCount("1");
+    setHostelCount("0");
     setAmount(Number(selectedPlan) || 0);
   }, [selectedPlan]);
 

@@ -10,7 +10,6 @@ import { Button} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-// import EditImage from "../../Assets/Images/New_images/edit.png"
 import { checkoutCustomerProfile } from "../../Redux/Action/smartStayAction";
 import { Call, Sms, House} from "iconsax-react";
 import Areaimage from "../../Assets/Images/area_icon.png";
@@ -23,8 +22,6 @@ import LinkImage from "../../Assets/Images/home-link.png";
 import Group from "../../Assets/Images/Group.png";
 import MoneyImage from "../../Assets/Images/Money.png";
 import Stayhistory from "../../Assets/Images/stay_history.png";
-// import checkooueye from "../../Assets/Images/New_images/checkouteye.png"
-// import docDown from "../../Assets/Images/New_images/downdoc.png";
 import viewdoc from "../../Assets/Images/New_images/viewdoc.png";
 import StayHistory from "./StayHistory";
 import PropTypes from "prop-types";
@@ -47,11 +44,7 @@ function CustomerProfile(props){
       const [stayDetailsShow, setStayDetailsShow] = useState(false)
       const [previewUrl, setPreviewUrl] = useState(null);
       const [previewUrl2, setPreviewUrl2]=useState(null)
-  // const [previewFile, setPreviewFile] = useState(null);
-  //  const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
-
-  // // Collect docs dynamically
-
+ 
 
     const handleShowStayHistory = () => {
     setStayDetailsShow(true)
@@ -65,7 +58,7 @@ function CustomerProfile(props){
 const getFileName = (url) => {
   if (!url) return "";
   try {
-    return decodeURIComponent(url.split("/").pop()); // full file name
+    return decodeURIComponent(url.split("/").pop()); 
   } catch (e) {
     console.error("Error decoding file name:", e);
     return url;
@@ -82,7 +75,7 @@ const handleFileOpen = (url) => {
     lowerUrl.endsWith(".jpeg") ||
     lowerUrl.endsWith(".png")
   ) {
-    // direct set without encoding
+   
     setPreviewUrl(url);
     setShow(true);
   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
@@ -104,7 +97,7 @@ const handleFileOpen2 = (url) => {
     lowerUrl.endsWith(".jpeg") ||
     lowerUrl.endsWith(".png")
   ) {
-    // direct set without encoding
+   
     setPreviewUrl2(url);
     setShowDoc2(true);
   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
@@ -115,49 +108,7 @@ const handleFileOpen2 = (url) => {
   }
 };
 
-// const handleFileOpen2 = (url) => {
-//   if (!url) return;
 
-//   const safeUrl = encodeURI(url);
-//   const lowerUrl = safeUrl.toLowerCase();
-
-//   if (
-//     lowerUrl.endsWith(".pdf") ||
-//     lowerUrl.endsWith(".jpg") ||
-//     lowerUrl.endsWith(".jpeg") ||
-//     lowerUrl.endsWith(".png")
-//   ) {
-//     // image & pdf modal preview
-//     setPreviewUrl2(safeUrl);
-//     setShowDoc2(true);
-//   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-//     // excel viewer (office online)
-//     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${safeUrl}`;
-//     window.open(viewerUrl, "_blank");
-//   } else {
-//     // fallback → download / open in browser
-//     window.open(safeUrl, "_blank");
-//   }
-// };
-// const handleFileOpen2 = (url) => {
-//   if (!url) return;
-
-//   const lowerUrl = url.toLowerCase();
-
-//   if (
-//     lowerUrl.endsWith(".pdf") ||
-//     lowerUrl.endsWith(".jpg") ||
-//     lowerUrl.endsWith(".jpeg") ||
-//     lowerUrl.endsWith(".png")
-//   ) {
-//     // PDF / Image → Modal-ல் preview
-//     setPreviewUrl2(url);
-//     setShowDoc2(true);
-//   } else {
-//     // Other docs (xlsx, docx, etc.) → Direct download / open
-//     window.open(url, "_blank");
-//   }
-// };
 
 const cleanFileName = (url) => {
   const fullName = getFileName(url);
@@ -165,30 +116,7 @@ const cleanFileName = (url) => {
   return parts.slice(2).join("_"); // remove prefix (RADH809_12345_)
 };
 
-  // const handlePreview = (doc) => {
-  //   setPreviewFile(doc);
-  //   setShow(true);
-  // };
-
-  // const handleDownload = (doc) => {
-  //   const link = document.createElement("a");
-  //   link.href = doc.url;
-  //   link.download = doc.name; // custom name
-  //   link.click();
-  // };
-  // const [selectedDoc, setSelectedDoc] = useState(null);
-
-// const handlePreview = (doc) => {
-//   setSelectedDoc(doc);
-//   setShow(true);
-// };
-
-// const handleDownload = (doc) => {
-//   const link = document.createElement("a");
-//   link.href = doc.url; // or doc.file if you store file path
-//   link.download = doc.name;
-//   link.click();
-// };
+  
 
      useEffect(()=>{
       if(state.UsersList.StatuscodeforCheckoutProfile){
@@ -216,7 +144,7 @@ useEffect(() => {
     setOtherDetails(others);
   }
 }, [details]);
-     console.log("otherDetails",otherDetails)
+   
 
     const handleBack =()=>{
           dispatch(checkoutCustomerProfile(true))
@@ -227,10 +155,9 @@ useEffect(() => {
     }
      const handleChanges = (event, newValue) => {
     setValue(newValue);
-    // setFormShow(false);
-    // setKycDetailForm(false);
+   
   };
-console.log("propssss",props.CheckoutProfile)
+
     return(
         <>
        
@@ -266,15 +193,85 @@ console.log("propssss",props.CheckoutProfile)
 <i className="bi bi-patch-check-fill text-primary" title="Verified"></i>
 </div>
 <div className="d-flex align-items-center gap-2 mt-1" >
-<span style={{backgroundColor:"#FFD1D1",padding:3,color:"red",borderRadius:15,fontFamily:"Gilroy",fontSize:12,fontWeight:400}}><span className="me-1 small" >•</span>Checked Out</span>
+<span style={{backgroundColor:"#FFD1D1",padding:3,color:"red",borderRadius:15,fontFamily:"Gilroy",fontSize:12,fontWeight:400}}><span className="me-1 small" >•</span>{props.checkoutWithoutPay?.status === "Write-Off" ? "Left Without Checkout":"Checked Out"}</span> 
+{props.checkoutWithoutPay?.status === "Write-Off" && (
+<div className="d-flex align-items-center gap-2">
+<button className="btn btn-primary " style={{borderRadius:30,fontSize:14,fontFamily:"Gilroy",fontWeight:400}}><img src={repeat} alt="repeat"/> Record Payment</button>
 </div>
-<div className="text-secondary small mt-2" style={{fontSize:14,fontFamily:"Gilroy",fontWeight:600}}>“Very disciplined tenant, paid on time and maintained the room well.”</div>
+)}
+</div>
+<div
+  className="text-secondary small mt-2"
+  style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 600 }}
+>
+  {props.checkoutWithoutPay?.status === "Write-Off" ? (
+    <>
+      Guest unreachable during final settlement.Attempted contact on <br />
+      3 occasions.
+    </>
+  ) : (
+    <>“Very disciplined tenant, paid on time and maintained the room well.”</>
+  )}
+</div>
+
 </div>
 </div>
 
+
 <div className="d-flex align-items-center gap-2">
-<button className="btn btn-primary"><img src={repeat} alt="repeat"/> Re Check-In</button>
+  {props.checkoutWithoutPay?.status !== "Write-Off" && (
+    <button className="btn btn-primary">
+      <img src={repeat} alt="repeat" /> Re Check-In
+    </button>
+  )}
 </div>
+
+
+{props.checkoutWithoutPay?.status === "Write-Off" && (
+ <div className="col-md-3 col-sm-6 mb-3">
+  <div
+    className="p-3 rounded d-flex justify-content-between align-items-center"
+    style={{
+      backgroundColor: "#fffaf5", 
+      border: "1px solid #f0e0d6",
+    }}
+  >
+    
+    <div className="d-flex align-items-center">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/337/337946.png"
+        alt="PDF"
+        style={{ width: "24px", height: "24px", marginRight: "10px" }}
+      />
+      <div>
+        <div style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+          {cleanFileName(details.doc1) || "Untitled Document"}
+        </div>
+        <small style={{ fontSize: "0.75rem", color: "#6c757d" }}>
+          160 KB • PDF
+        </small>
+      </div>
+    </div>
+
+    
+    <div className="d-flex align-items-center gap-3">
+      <img
+        src={viewdoc}
+        alt="View Document"
+        onClick={() => handleFileOpen(details?.doc1)}
+        style={{ width: 20, height: 20, cursor: "pointer" }}
+      />
+      <i
+        className="bi bi-download"
+        style={{ cursor: "pointer", fontSize: "1.2rem" }}
+        onClick={() => window.open(details?.doc1, "_blank")}
+      ></i>
+    </div>
+  </div>
+</div>
+
+)}
+
 </div>
 
 
@@ -368,23 +365,7 @@ console.log("propssss",props.CheckoutProfile)
   <p style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
     Basic Details
   </p>
-  {/* <div
-    style={{
-      backgroundColor: "#fff",
-      borderRadius: "50%",
-      padding: "6px",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      cursor: "pointer"
-    }}
-  >
-    <img
-      src={EditImage}
-      alt="Edit"
-      style={{ width: "20px", height: "20px" }}
-    />
-  </div> */}
+ 
 </div>
 <hr style={{marginTop:"-10px"}}/>
 
@@ -411,28 +392,12 @@ console.log("propssss",props.CheckoutProfile)
 
          
           <div className="card p-3" style={{borderRadius:10,border:"1px solid #DCDCDC"}}>
-           {/* <p style={{fontSize:18,fontFamily:"Gilroy",fontWeight:400}} className="mb-3">Address Details</p> */}
+          
                           <div className="d-flex justify-content-between align-items-center mb-3">
   <p style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 400 }} className="mb-0">
     Address Details
   </p>
-  {/* <div
-    style={{
-      backgroundColor: "#fff",
-      borderRadius: "50%",
-      padding: "6px",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      cursor: "pointer"
-    }}
-  >
-    <img
-      src={EditImage}
-      alt="Edit"
-      style={{ width: "20px", height: "20px" }}
-    />
-  </div> */}
+
 </div>
 <hr style={{marginTop:"-10px"}}/>
             <div className="row">
@@ -514,11 +479,7 @@ console.log("propssss",props.CheckoutProfile)
       style={{ width: "30px", height: "30px" }}
     />
     
-    {/* <img
-      src={EditImage}
-      alt="Edit"
-      style={{ width: "20px", height: "20px" }}
-    /> */}
+  
   </div>
  
 </div>
@@ -598,15 +559,7 @@ console.log("propssss",props.CheckoutProfile)
             <p style={{fontSize:18,fontFamily:"Gilroy",fontWeight:400}} className="">Deduction details </p>
               <div className="card p-2">
                   <div className="row">
-              {/* {otherDetails.length > 0 &&
-  otherDetails.map((item) => (
-   
-    <div key={item.id} className="col-4">
-      <p style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,color:"grey"}}  className="mb-1 ">{item.reason}</p>
-      <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600}}>₹{item.amount}</p>
-    </div>
     
-  ))} */}
   {otherDetails && otherDetails.length > 0 ? (
   otherDetails.map((item) => (
     <div key={item.id} className="col-4">
@@ -652,7 +605,7 @@ console.log("propssss",props.CheckoutProfile)
 
 
 
- <div style={{paddingLeft:15,paddingRight:18}}>
+ <div className="mt-2" style={{paddingLeft:15,paddingRight:18}}>
                        <div className="card p-3 mb-0">
   <div className="d-flex justify-content-between align-items-center mb-3">
     <h6 className="mb-0" style={{ fontFamily: "Gilroy", fontWeight: 600 }}>
@@ -689,7 +642,7 @@ console.log("propssss",props.CheckoutProfile)
             <img
                 src={viewdoc}
                 alt="View Document"
-                // onClick={() => setShow(true)}
+             
                 onClick={() => handleFileOpen(details?.doc1)}
                 style={{
                   width: 20,
@@ -732,7 +685,7 @@ console.log("propssss",props.CheckoutProfile)
             style={{ width: "20px", height: "20px", marginRight: "8px" }}
           />
           <span style={{ fontSize: "0.875rem", fontWeight: 500 }}>
-            {/* {doc.name} */}
+           
             {cleanFileName(details.doc2)}
           </span>
         </div>
@@ -744,7 +697,7 @@ console.log("propssss",props.CheckoutProfile)
               <img
                 src={viewdoc}
                 alt="View Document"
-                // onClick={() => setShowDoc2(true)}
+           
                 onClick={() => handleFileOpen2(details?.doc2)}
                 style={{
                   width: 20,
@@ -754,11 +707,11 @@ console.log("propssss",props.CheckoutProfile)
                 }}
               />
 
-            {/* Download Only */}
+           
             <i
               className="bi bi-download"
               style={{ cursor: "pointer", fontSize: "1rem" }}
-              // onClick={() => handleDownload(doc)}
+             
                 onClick={() =>
                                             window.open(
                                               details?.doc2,
@@ -771,55 +724,10 @@ console.log("propssss",props.CheckoutProfile)
       </div>
     </div>
 )}
-  {/* ))} */}
+ 
 
 
-{/* <Modal
-  show={show}
-  onHide={() => setShow(false)}
-  size="lg"
-  centered
-  backdrop="static"
->
-  <Modal.Body
-    style={{
-      padding: "20px",
-      position: "relative",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "300px",
-    }}
-  >
-    <Button
-      variant="light"
-      onClick={() => setShow(false)}
-      style={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        border: "none",
-        fontSize: "20px",
-        zIndex: 1,
-      }}
-    >
-      &times;
-    </Button>
 
-    <img
-      src={details?.doc1}
-      alt="Document Preview"
-      style={{
-        maxWidth: "100%",
-        maxHeight: "70vh",
-        height: "auto",
-        width: "auto",
-        borderRadius: "10px",
-        objectFit: "contain",
-      }}
-    />
-  </Modal.Body>
-</Modal> */}
 <Modal
   show={show}
   onHide={() => setShow(false)}
@@ -866,52 +774,6 @@ console.log("propssss",props.CheckoutProfile)
 
 
 
-{/* <Modal
-  show={showDoc2}
-  onHide={() => setShowDoc2(false)}
-  size="lg"
-  centered
-  backdrop="static"
->
-  <Modal.Body
-    style={{
-      padding: "20px",
-      position: "relative",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "300px", // optional fallback height
-    }}
-  >
-    <Button
-      variant="light"
-      onClick={() => setShowDoc2(false)}
-      style={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        border: "none",
-        fontSize: "20px",
-        zIndex: 1,
-      }}
-    >
-      &times;
-    </Button>
-
-    <img
-      src={details?.doc2}
-      alt="Document Preview"
-      style={{
-        maxWidth: "100%",
-        maxHeight: "70vh",
-        height: "auto",
-        width: "auto",
-        borderRadius: "10px",
-        objectFit: "contain",
-      }}
-    />
-  </Modal.Body>
-</Modal> */}
 <Modal show={showDoc2} onHide={() => setShowDoc2(false)} size="lg" centered backdrop="static">
   <Modal.Body
     style={{
@@ -938,32 +800,7 @@ console.log("propssss",props.CheckoutProfile)
       &times;
     </Button>
 
-    {/* Render preview only for PDF/Image */}
-    {/* {previewUrl2 && previewUrl2.toLowerCase().endsWith(".pdf") && (
-      <object
-        data={previewUrl2}
-        type="application/pdf"
-        width="100%"
-        height="500px"
-        style={{ border: "none", borderRadius: "10px" }}
-      />
-    )}
-
-    {previewUrl2 &&
-      (previewUrl2.toLowerCase().endsWith(".jpg") ||
-        previewUrl2.toLowerCase().endsWith(".jpeg") ||
-        previewUrl2.toLowerCase().endsWith(".png")) && (
-        <img
-          src={previewUrl2}
-          alt="Preview"
-          style={{
-            maxWidth: "100%",
-            maxHeight: "70vh",
-            borderRadius: "10px",
-            objectFit: "contain",
-          }}
-        />
-      )} */}
+    
       {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
   <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
 ) : (
@@ -984,6 +821,418 @@ console.log("propssss",props.CheckoutProfile)
       </div>
     </div>
                         </TabPanel>
+<TabPanel value="2" className="px-0 mt-2">
+   <div>
+                              <table className="table align-middle">
+  <thead
+    style={{
+      backgroundColor: "#f0f6ff", 
+      fontSize: "14px",
+      fontWeight: 400,
+      color: "#1e45e1",
+    }}
+  >
+    <tr>
+      <th style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Floor</th>
+      <th  style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Room</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>  Start Meter</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>End Meter</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Date</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Unit</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Amount</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr>
+      <td>INV-034</td>
+      <td>checkIn</td>
+      <td>
+        <span
+          style={{
+            backgroundColor: "#f2f2f2",
+            padding: "4px 12px",
+            borderRadius: "20px",
+            fontSize: "13px",
+          }}
+        >
+          3/9/2025
+        </span>
+      </td>
+      <td>
+        <span
+          style={{
+            backgroundColor: "#f2f2f2",
+            padding: "4px 12px",
+            borderRadius: "20px",
+            fontSize: "13px",
+          }}
+        >
+          3/9/2025
+        </span>
+      </td>
+      <td>₹747</td>
+      <td>₹747</td>
+      <td>
+        <span
+          style={{
+            backgroundColor: "#ffe6e6",
+            color: "red",
+            padding: "4px 12px",
+            borderRadius: "20px",
+            fontSize: "13px",
+            fontWeight: 600,
+          }}
+        >
+          Unpaid
+        </span>
+      </td>
+     
+    </tr>
+  </tbody>
+</table>
+
+                            </div>
+</TabPanel>
+                          <TabPanel value="3" className="px-0 mt-2">
+                            <div>
+                              <table className="table align-middle">
+  <thead
+    style={{
+      backgroundColor: "#f0f6ff", 
+      fontSize: "14px",
+      fontWeight: 400,
+      color: "#1e45e1",
+    }}
+  >
+    <tr>
+      <th style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Invoice Number</th>
+      <th  style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Invoice Type</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Invoice Date</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Due Date</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Amount</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Due</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Status</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+   
+    <tr>
+      <td>INV-034</td>
+      <td>checkIn</td>
+      <td>
+        <span
+          style={{
+            backgroundColor: "#f2f2f2",
+            padding: "4px 12px",
+            borderRadius: "20px",
+            fontSize: "13px",
+          }}
+        >
+          3/9/2025
+        </span>
+      </td>
+      <td>
+        <span
+          style={{
+            backgroundColor: "#f2f2f2",
+            padding: "4px 12px",
+            borderRadius: "20px",
+            fontSize: "13px",
+          }}
+        >
+          3/9/2025
+        </span>
+      </td>
+      <td>₹747</td>
+      <td>₹747</td>
+      <td>
+        <span
+          style={{
+            backgroundColor: "#ffe6e6",
+            color: "red",
+            padding: "4px 12px",
+            borderRadius: "20px",
+            fontSize: "13px",
+            fontWeight: 600,
+          }}
+        >
+          Unpaid
+        </span>
+      </td>
+      <td>
+        <button
+          style={{
+            border: "1px solid #ddd",
+            borderRadius: "50%",
+            width: "32px",
+            height: "32px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#fff",
+          }}
+        >
+          <i className="bi bi-three-dots-vertical"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+                            </div>
+                          </TabPanel>
+                          <TabPanel value="4" className="px-0 mt-2">
+                             <div>
+                              <table className="table align-middle">
+  <thead
+    style={{
+      backgroundColor: "#f0f6ff", 
+      fontSize: "14px",
+      fontWeight: 400,
+      color: "#1e45e1",
+    }}
+  >
+    <tr>
+      <th style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Amenities</th>
+      <th  style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Date</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Invoice Date</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Subscription</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Amount</th>
+      <th   style={{
+                      color: "#939393",
+                      fontWeight: 500,
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      textAlign: "start",
+                      whiteSpace: "nowrap"
+                    }}>Status</th>
+     
+     
+    </tr>
+  </thead>
+  <tbody>
+   
+    <tr>
+      <td>Gym</td>
+      <td>04-05-2025</td>
+      <td>
+        <span
+          style={{
+            backgroundColor: "#f2f2f2",
+            padding: "4px 12px",
+            borderRadius: "20px",
+            fontSize: "13px",
+          }}
+        >
+          3/9/2025
+        </span>
+      </td>
+      <td>
+        <span
+          style={{
+            backgroundColor: "#f2f2f2",
+            padding: "4px 12px",
+            borderRadius: "20px",
+            fontSize: "13px",
+          }}
+        >
+          3/9/2025
+        </span>
+      </td>
+      <td>₹747</td>
+      <td>Active</td>
+     
+    </tr>
+  </tbody>
+</table>
+
+                            </div>
+                          </TabPanel>
                     </TabContext>
 </div>
 
@@ -999,6 +1248,7 @@ CustomerProfile.propTypes = {
   setcheckoutTableShow: PropTypes.func.isRequired,
    handleCloseCheckoutProfile: PropTypes.func.isRequired,
     CheckoutProfile: PropTypes.func.isRequired,
+    checkoutWithoutPay:PropTypes.func.isRequired,
 
 };
 export default CustomerProfile
