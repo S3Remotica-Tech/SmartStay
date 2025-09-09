@@ -52,23 +52,27 @@ function StaticExample({ show, handleClose, currentItem }) {
     setPgList(state.login.selectedHostel_Id);
   }, []);
 
-  useEffect(() => {
-    if (currentItem) {
-      // setPgList(currentItem.hostelId);
-      setRoom(currentItem.room_id);
-      setSelectedDate(moment(currentItem.assigned_date).toDate());
-      setFloor(currentItem.floor_id);
-      setInitialState({
-        pglist: currentItem.hostel_id || "",
-        room: currentItem.room_id || "",
-        selectedDate: currentItem.assigned_date
-          ? moment(currentItem.assigned_date).toDate()
-          : null,
-        floor_id: currentItem.floor_id || "",
-      });
-    }
+  useEffect(() => {     
+  if (currentItem) {       
+    setPgList(currentItem.hostelId);       
+    setRoom(currentItem.roomId);       
+    setSelectedDate(
+      currentItem.assignedAt 
+        ? moment(currentItem.assignedAt, "DD-MM-YYYY HH:mm:ss").toDate() 
+        : null
+    );       
+    setFloor(currentItem.floorId);       
 
-  }, [currentItem]);
+    setInitialState({         
+      pglist: currentItem.hostelId || "",         
+      room: currentItem.roomId || "",         
+      selectedDate: currentItem.assignedAt
+        ? moment(currentItem.assignedAt, "DD-MM-YYYY HH:mm:ss").toDate()
+        : null,         
+      floor_id: currentItem.floorId || "",       
+    });     
+  }    
+}, [currentItem]);
 
 
   console.log("currentItem", currentItem)

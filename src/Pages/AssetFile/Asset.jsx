@@ -262,26 +262,14 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
   useEffect(() => {
     if (state.AssetList.updateAssetStatusCode === 200, state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
-
-      setTimeout(() => {
-
-        dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
-      }, 100)
-      setTimeout(() => {
+           setTimeout(() => {
+         dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
         dispatch({ type: 'CLEAR_UPDATE_ASSET_STATUS_CODE'})
-      }, 100)
-
-      setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ASSET_STATUS_CODE' })
-      }, 100)
-      setTimeout(() => {
         dispatch({ type: 'CLEAR_ASSIGN_STATUS_CODE' })
       }, 100)
-
-
-
-    }
+      }
 
   }, [state.AssetList.updateAssetStatusCode, state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
 

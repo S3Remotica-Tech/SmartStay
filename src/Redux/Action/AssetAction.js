@@ -44,11 +44,18 @@ export async function updateAsset(asset) {
 
 
 
+// v1
+
+  // export async function DeleteAssetList(asset) {
+  //   return await AxiosConfig.post('/remove_asset', asset, {
+  //     data: asset
+  //   })
+  // } 
+
+  // v2
 
   export async function DeleteAssetList(asset) {
-    return await AxiosConfig.post('/remove_asset', asset, {
-      data: asset
-    })
+    return await AxiosConfigV2.delete(`/v2/assets/${asset.assetId}`)
   } 
 
   

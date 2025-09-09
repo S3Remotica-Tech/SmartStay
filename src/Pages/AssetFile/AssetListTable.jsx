@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector} from 'react-redux';
 import AssignAsset from '../../Pages/AssetFile/AssignAsset'
 import 'react-toastify/dist/ReactToastify.css';
 import { Modal } from 'react-bootstrap';
@@ -12,7 +12,7 @@ import PropTypes from "prop-types"
 
 function AssetListTable(props) {
 
-
+const state = useSelector(state => state)
   const dispatch = useDispatch();
 
   const popupRef = useRef(null);
@@ -57,7 +57,7 @@ function AssetListTable(props) {
       dispatch({
         type: 'DELETEASSET',
         payload: {
-          asset_id: deleteAsset_Id.id,
+          assetId: deleteAsset_Id,
         },
       });
 
@@ -96,8 +96,9 @@ function AssetListTable(props) {
   const [deleteAsset_Id, setDeleteAsset_Id] = useState('')
 
   const handleShowDeleteAsset = (item) => {
+    console.log("del",item)
     setShowDeleteAsset(true)
-    setDeleteAsset_Id(item)
+    setDeleteAsset_Id(item.assetId)
   }
 
 
@@ -106,7 +107,16 @@ function AssetListTable(props) {
     setShowDeleteAsset(false)
   }
 
+ useEffect(() => {
+    if ( state.AssetList.deleteAssetStatusCode === 200) {
+       setShowDeleteAsset(false)
+           setTimeout(() => {
+                dispatch({ type: 'CLEAR_DELETE_ASSET_STATUS_CODE' })
+      
+      }, 100)
+      }
 
+  }, [state.AssetList.deleteAssetStatusCode])
 
   return (
     <>
@@ -319,12 +329,12 @@ function AssetListTable(props) {
                       <div
                         className="d-flex justify-content-start align-items-center gap-2"
                         onClick={() => {
-                          if (!props.assetDeletePermission && !props.item.hostel_id) {
+                          if (!props.assetDeletePermission && props.item.assignmentStatus  === "Unassigned") {
                             handleShowDeleteAsset(props.item);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.assetDeletePermission && !props.item.hostel_id)
+                          if (!props.assetDeletePermission )
                             e.currentTarget.style.backgroundColor = "#FFF0F0";
                         }}
                         onMouseLeave={(e) => {
@@ -333,12 +343,12 @@ function AssetListTable(props) {
                         style={{
                           backgroundColor: "#F9F9F9",
                           cursor:
-                            props.assetDeletePermission || props.item.hostel_id
+                            props.assetDeletePermission || props.item.assignmentStatus  === "Assigned"
                               ? "not-allowed"
                               : "pointer",
 
                           opacity:
-                            props.assetDeletePermission || props.item.hostel_id ? 0.5 : 1,
+                            props.assetDeletePermission ||  props.item.assignmentStatus  === "Assigned" ? 0.5 : 1,
                           padding: "8px 12px",
                           borderRadius: 6,
                           width: "100%",
@@ -356,7 +366,7 @@ function AssetListTable(props) {
                               fontFamily: "Gilroy, sans-serif",
                               color: "#FF0000",
                               cursor:
-                                props.assetDeletePermission || props.item.hostelId
+                                props.assetDeletePermission ||  props.item.assignmentStatus  === "Assigned"
                                   ? "not-allowed"
                                   : "pointer",
                             }}
