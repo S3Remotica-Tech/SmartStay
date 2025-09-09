@@ -246,7 +246,7 @@ function BedDetailsMap({ room, propsValue }) {
             });
 
         }
-    }, [state?.PgList?.getAllRoomSuccessStatus]);
+    }, [room]);
 
 
 

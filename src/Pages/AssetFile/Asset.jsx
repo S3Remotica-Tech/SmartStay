@@ -48,7 +48,7 @@ function Asset() {
   const [filterexcelprice, setFilterExcelPrice] = useState('')
 
 
-
+console.log(getData,"getData")
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -146,13 +146,7 @@ function Asset() {
 
 
 
-
-
-
-
-
-
-
+  
   useEffect(() => {
 
     const userType = assetrolePermission[0]?.user_details?.user_type;
@@ -215,16 +209,22 @@ function Asset() {
   }, [assetrolePermission, state?.login?.planStatus, state.login?.selectedHostel_Id]);
 
 
-
-
-
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
-      toast.error('Please add a hostel before adding asset information.', {
+      toast.error('Please add a hostel before adding asset information', {
         hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
       });
       return;
     }
+
+if( state.bankingDetails?.bankingList?.length === 0){
+   toast.error(' Please Create Banking before adding an asset', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
+      return;
+}
+
+
 
     setShow(true)
     setCurrentItem('')
@@ -233,63 +233,43 @@ function Asset() {
 
   console.log("state" , state);
 
-   const [hostel_Id, setHostel_Id] = useState("")
   
-  
-    useEffect(() => {
-      if (state.login.selectedHostel_Id) {
-        setHostel_Id(state.login.selectedHostel_Id);
-      }
-    }, [state?.login?.selectedHostel_Id]);
-  
-
    
 
   useEffect(() => {
-    if (hostel_Id) {
+    if (state.login?.selectedHostel_Id) {
       setLoading(true)
-      dispatch({type: 'ASSETLIST',  payload:hostel_Id})
+      dispatch({type: 'ASSETLIST',  payload:state.login.selectedHostel_Id})
+       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
    
     } else {
       // setGetData([])
       setLoading(false)
     }
-  }, [hostel_Id])
+  }, [state.login?.selectedHostel_Id])
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!state.login.selectedHostel_Id) {
-        setGetData([])
-        setLoading(false);
-      }
-    }, 100);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (!state.login.selectedHostel_Id) {
+  //       setGetData([])
+  //       setLoading(false);
+  //     }
+  //   }, 100);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
 
   useEffect(() => {
     if (state.AssetList.updateAssetStatusCode === 200, state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
-
-      setTimeout(() => {
-
-        dispatch({type: 'ASSETLIST',  payload: hostel_Id})
-      }, 100)
-      setTimeout(() => {
+           setTimeout(() => {
+         dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
         dispatch({ type: 'CLEAR_UPDATE_ASSET_STATUS_CODE'})
-      }, 4000)
-
-      setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_ASSET_STATUS_CODE' })
-      }, 4000)
-      setTimeout(() => {
         dispatch({ type: 'CLEAR_ASSIGN_STATUS_CODE' })
-      }, 4000)
-
-
-
-    }
+      }, 100)
+      }
 
   }, [state.AssetList.updateAssetStatusCode, state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
 
@@ -301,30 +281,32 @@ function Asset() {
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_ASSET_STATUS_CODE' })
-      }, 2000)
+      }, 200)
     }
 
   }, [state.AssetList.getAssetStatusCode])
 
 
-  useEffect(() => {
-    if (state.AssetList.assetList && state.AssetList.assetList.length > 0) {
-      setGetData(state.AssetList.assetList)
-    }
+  console.log("state.AssetList.getAssetStatusCode",state.AssetList.getAssetStatusCode)
 
-  }, [state.AssetList.assetList])
+  // useEffect(() => {
+  //   if (state.AssetList?.assetList && state.AssetList?.assetList?.length > 0) {
+  //     setGetData(state.AssetList?.assetList)
+  //   }
+
+  // }, [state.AssetList.assetList])
 
 
-  useEffect(() => {
-    if (state.AssetList.NoDataAssetStatusCode === 201) {
-      setGetData([])
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_NO_ASSET_LIST' })
-      }, 2000)
-    }
+  // useEffect(() => {
+  //   if (state.AssetList.NoDataAssetStatusCode === 201) {
+  //     setGetData([])
+  //     setLoading(false)
+  //     setTimeout(() => {
+  //       dispatch({ type: 'CLEAR_NO_ASSET_LIST' })
+  //     }, 2000)
+  //   }
 
-  }, [state.AssetList.NoDataAssetStatusCode])
+  // }, [state.AssetList.NoDataAssetStatusCode])
 
 
 
@@ -364,8 +346,8 @@ function Asset() {
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([]);
       setSelectedPriceRange("All");
-     if(hostel_Id){
-    dispatch({type: 'ASSETLIST',  payload: hostel_Id})
+     if(state.login.selectedHostel_Id){
+    dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
      }
 
       return;
@@ -388,18 +370,18 @@ function Asset() {
     setSelectedPriceRange(value);
     setFilterExcelPrice(value)
 
-    if (value === "All" && hostel_Id) {
-    dispatch({type: 'ASSETLIST',  payload: hostel_Id})
-    } else if (value === "date" && hostel_Id) {
-    dispatch({type: 'ASSETLIST',  payload: hostel_Id})
+    if (value === "All" && state.login.selectedHostel_Id) {
+    dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
+    } else if (value === "date" && state.login.selectedHostel_Id) {
+    dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
       setExcelFilterDates([]);
       setSelectedDateRange([]);
       setExcelDownloadDates([]);
-    } else if (value && hostel_Id) {
+    } else if (value && state.login.selectedHostel_Id) {
       dispatch({
         type: 'ASSETLIST',
         payload: {
-          hostel_id: hostel_Id,
+          hostel_id: state.login.selectedHostel_Id,
           price_range: value
         }
       });
@@ -411,11 +393,11 @@ function Asset() {
 
 
   useEffect(() => {
-    if (selectedPriceRange === "date" && ExcelFilterDates.length === 2 && hostel_Id) {
+    if (selectedPriceRange === "date" && ExcelFilterDates.length === 2 && state.login.selectedHostel_Id) {
       dispatch({
         type: 'ASSETLIST',
         payload: {
-          hostel_id: hostel_Id,
+          hostel_id: state.login.selectedHostel_Id,
           start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
           end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
         }
@@ -426,8 +408,8 @@ function Asset() {
 
   useEffect(() => {
     if (!showFilter) {
-       if(hostel_Id){
-      dispatch({ type: 'ASSETLIST', payload: { hostel_id: hostel_Id } })
+       if(state.login.selectedHostel_Id){
+      dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id  })
        }
 
       setSelectedPriceRange('All');

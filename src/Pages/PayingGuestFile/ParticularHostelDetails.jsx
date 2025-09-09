@@ -270,24 +270,11 @@ function ParticularHostelDetails(props) {
 
   useEffect(() => {
     if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
-      // dispatch({ type: 'HOSTELLIST' })
-      // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: props.floorID, hostel_Id: props.hostel_Id } })
-      if (props.floorID) {
-        dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
-      }
-
-      // setShowBed(false)
-
-      // if (roomList && roomList.length > 0) {
-      //   roomList.forEach((room) => {
-      //     dispatch({
-      //       type: "GETALLBEDSLIST",
-      //       payload: { roomId: room.id }
-      //     });
-      //   });
+           // if (props.floorID) {
+      //   dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: props.floorID } })
       // }
 
-      setTimeout(() => {
+         setTimeout(() => {
         dispatch({ type: 'CLEAR_CREATE_BED_STATUS_CODE' })
       }, 100)
     }
