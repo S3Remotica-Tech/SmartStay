@@ -47,18 +47,27 @@ function BankingAddForm(props) {
     setaccountnameError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
-  const handleAccountNo = (e) => {
+const handleAccountNo = (e) => {
+  const value = e.target.value;
 
-    const value = e.target.value;
-    if (!/^\d*$/.test(value)) {
-      return;
-    }
-    setAccountNo(value);
-    setError("")
-    setIsChangedError("")
-    setaccountNumberError("")
-    dispatch({ type: 'REMOVE_ERROR_BOOKING' })
-  };
+
+  if (!/^\d*$/.test(value)) {
+    return;
+  }
+
+  setAccountNo(value);
+  setError("");
+  setIsChangedError("");
+  dispatch({ type: "REMOVE_ERROR_BOOKING" });
+
+
+  if (value.length > 0 && (value.length < 9 || value.length > 18)) {
+    setaccountNumberError("Account Number Must Be 9–18 Digits");
+  } else {
+    setaccountNumberError("");
+  }
+};
+
   const handleBankName = (e) => {
     const value = e.target.value
     const pattern = /^[a-zA-Z\s]*$/;
@@ -93,48 +102,48 @@ function BankingAddForm(props) {
 
 
   useEffect(() => {
-    if (props.editAddBank && props.editAddBank.id) {
+    if (props.editAddBank && props.editAddBank.bankingId) {
       props.setEdit(true);
 
-      if (props.editAddBank.type) {
-        setActiveTab(props.editAddBank.type);
+      if (props.editAddBank.accountType) {
+        setActiveTab(props.editAddBank.accountType);
 
       }
 
 
-      if (props.editAddBank.type === "cash" || props.editAddBank.type === "upi" || props.editAddBank.type === "bank" || props.editAddBank.type === "card") {
-        setAccountName(props.editAddBank.benificiary_name);
+      if (props.editAddBank.accountType === "CASH" || props.editAddBank.accountType === "UPI" || props.editAddBank.accountType === "BANK" || props.editAddBank.accountType === "CARD") {
+        setAccountName(props.editAddBank?.accountHolderName || "");
       }
       else {
-        setAccountName(props.editAddBank.acc_name);
+        setAccountName(props.editAddBank?.accountHolderName || "");
       }
 
 
-      setAccountNo(props.editAddBank.acc_num);
-      setBankName(props.editAddBank.bank_name);
-      setIfscCode(props.editAddBank.ifsc_code);
-      setDescription(props.editAddBank.description);
-      setBankId(props.editAddBank.id);
-      setCardType(props.editAddBank.card_type)
-      setCardNo(props.editAddBank.card_no)
-      setUpiId(props.editAddBank.upi_id)
+      setAccountNo(props.editAddBank.accountNumber);
+      setBankName(props.editAddBank.bankName);
+      setIfscCode(props.editAddBank.ifscCode);
+      setDescription(props.editAddBank?.description);
+      setBankId(props.editAddBank.bankingId);
+      setCardType(props.editAddBank?.card_type)
+      setCardNo(props.editAddBank?.creditCardNumber || props.editAddBank?.debitCardNumber)
+      setUpiId(props.editAddBank.upiId)
 
 
       setInitialStateAssign({
 
         accountName:
-          props.editAddBank.type === "cash" || props.editAddBank.type === "upi"
-            ? props.editAddBank.benificiary_name || ""
-            : props.editAddBank.type === "card"
-              ? props.editAddBank.benificiary_name || ""
-              : props.editAddBank.benificiary_name || "",
-        accountNo: props.editAddBank.acc_num || "",
-        bankName: props.editAddBank.bank_name || "",
-        ifscCode: props.editAddBank.ifsc_code || "",
-        description: props.editAddBank.description || "",
-        upiId: props.editAddBank.upi_id || "",
-        cardNo: props.editAddBank.card_no || "",
-        cardType: props.editAddBank.card_type || ""
+          props.editAddBank.accountType === "CASH" || props.editAddBank.accountType === "UPI"
+            ? props.editAddBank.accountHolderName || ""
+            : props.editAddBank.accountType === "CARD"
+              ? props.editAddBank.accountHolderName || ""
+              : props.editAddBank.accountHolderName || "",
+        accountNo: props.editAddBank.accountNumber || "",
+        bankName: props.editAddBank.bankName || "",
+        ifscCode: props.editAddBank?.ifscCode || "",
+        description: props.editAddBank?.description || "",
+        upiId: props.editAddBank?.upiId || "",
+        cardNo: props.editAddBank?.creditCardNumber || props.editAddBank?.debitCardNumber,
+        cardType: props.editAddBank?.card_type || ""
       });
 
     } else {
@@ -158,8 +167,8 @@ function BankingAddForm(props) {
     setaccountnameError("")
     setIfcsCodeError("")
     setBankNameError("")
-
-
+    setUpiIdError("")
+    setCardTypeError("")
   };
   const [initialStateAssign, setInitialStateAssign] = useState({
     accountName: "",
@@ -172,82 +181,85 @@ function BankingAddForm(props) {
 
 
   const handleSubmitBank = () => {
+  if (props.edit) {
+    const isChanged =
+      accountName !== initialStateAssign.accountName ||
+      Number(accountNo) !== Number(initialStateAssign.accountNo) ||
+      bankName !== initialStateAssign.bankName ||
+      ifscCode !== initialStateAssign.ifscCode ||
+      description !== initialStateAssign.description;
 
-    if (props.edit) {
-      const isChanged =
-        accountName !== initialStateAssign.accountName ||
-
-        Number(accountNo) !== Number(initialStateAssign.accountNo) ||
-        bankName !== initialStateAssign.bankName ||
-        ifscCode !== initialStateAssign.ifscCode ||
-        description !== initialStateAssign.description;
-
-      if (!isChanged) {
-         setIsChangedError("No Changes Detected");
-        return;
-      }
-      else {
-         setIsChangedError("");
-      }
-
-    }
-
-    if (!accountName) {
-      setError("Please Enter Benificiary Name");
+    if (!isChanged) {
+      setIsChangedError("No Changes Detected");
       return;
+    } else {
+      setIsChangedError("");
     }
+  }
 
-    setError("");
+  if (!accountName) {
+    setError("Please Enter Beneficiary Name");
+    return;
+  }
+
+  if (accountNo && (accountNo.length < 9 || accountNo.length > 18)) {
+    setaccountNumberError("Account Number Must Be 9–18 Digits");
+    return;
+  }
+
+  setError("");
+
+  if (props.edit) {
+    // EDIT API
+    dispatch({
+      type: "EDIT_BANKING",
+      payload: {
+        hostelId: hostel_id,
+        bankId: bankId,
+        data: {
+          accountType: "BANK",
+          holderName: accountName,
+          accountNo: Number(accountNo),
+          bankName: bankName,
+          ifscCode: ifscCode,
+          description: description,
+          branchName: "",
+          branchCode: "",
+          isDefault: true,
+          upiId: "",
+          cardType: "",
+          cardNumber: "",
+          isActive: true,
+          // isDeleted: true,
+        },
+      },
+    });
+  } else {
+    // ADD API
     dispatch({
       type: "ADD_BANKING",
-
-        payload: { 
-       hostelId: hostel_id, 
-        data: { 
-        accountType: "BANK",
-        holderName: accountName,
-        accountNo: Number(accountNo),
-        bankName: bankName,
-        ifscCode: ifscCode,
-        description: description,
-        branchName: "" ,
-        branchCode : "" ,
-        isDefault : true ,
-        upiId : "" ,
-        cardType : "",
-        cardNumber : ""
-      } 
+      payload: {
+        hostelId: hostel_id,
+        data: {
+          accountType: "BANK",
+          holderName: accountName,
+          accountNo: Number(accountNo),
+          bankName: bankName,
+          ifscCode: ifscCode,
+          description: description,
+          branchName: "",
+          branchCode: "",
+          isDefault: true,
+          upiId: "",
+          cardType: "",
+          cardNumber: "",
+        },
       },
-//       {
-//   "holderName": "Alll",
-//   "bankName": "Canara Bank",
-//   "branchName": null,
-//   "branchCode": null,
-//   "accountNo": "889489849849",
-//   "ifscCode": "TYSYTSC",
-//   "description": "testing..",
-//   "isDefault": true,
-//   "upiId": null,
-//   "cardType": null,
-//   "accountType": "BANK",
-//   "cardNumber": null
-// }
-
-      // payload: {
-      //   accountType: "bank",
-      //   holderName: accountName,
-      //   accountNo: accountNo,
-      //   bankName: bankName,
-      //   ifscCode: ifscCode,
-      //   description: description,
-      //   id: props.edit ? bankId : "",
-      //   hostel_id: hostel_id
-      // },
     });
+  }
 
-     
-    setFormLoading(true)
-  };
+  setFormLoading(true);
+};
 
   const handleSubmitUpi = () => {
     if(!accountName || !upiId) {
@@ -265,7 +277,7 @@ function BankingAddForm(props) {
       const isChanged =
         accountName !== initialStateAssign.accountName ||
         upiId !== initialStateAssign.upiId ||
-        description !== initialStateAssign.description;
+        description !== initialStateAssign?.description;
 
       if (!isChanged) {
         setIsChangedError("No Changes Detected");
@@ -277,22 +289,37 @@ function BankingAddForm(props) {
 
     }
 
-    // dispatch({
-    //   type: "ADD_BANKING",
-    //   payload: {
-    //     type: "upi",
-    //     benificiary_name: accountName,
-    //     desc: description,
-    //     hostel_id: hostel_id,
-    //     upi_id: upiId,
-    //     id: props.edit ? bankId : "",
-    //   },
-    // });
+
+     if (props.edit) {
+    // EDIT API
+    dispatch({
+      type: "EDIT_BANKING",
+      payload: {
+        hostelId: hostel_id,
+        bankId: bankId,
+      data: { 
+        accountType: "UPI",
+        holderName: accountName,
+        accountNo: "",
+        bankName: bankName,
+        ifscCode: ifscCode,
+        description: description,
+        branchName: "" ,
+        branchCode : "" ,
+        isDefault : true ,
+        upiId : upiId ,
+        cardType : "",
+        cardNumber : ""
+      }
+      },
+    });
+  } else {
+
     dispatch({
       type: "ADD_BANKING",
 
         payload: { 
-       hostelId: hostel_id, 
+        hostelId: hostel_id, 
         data: { 
         accountType: "UPI",
         holderName: accountName,
@@ -307,16 +334,21 @@ function BankingAddForm(props) {
         cardType : "",
         cardNumber : ""
       } 
-      },
+      }
+    })
 
+  }
 
-    });
     setFormLoading(true)
   }
   const [cardNo, setCardNo] = useState("")
 
   const handleCardNo = (e) => {
-    setCardNo(e.target.value)
+     const value = e.target.value;
+    if (!/^\d*$/.test(value)) {
+      return;
+    }
+    setCardNo(value)
     setError("")
     setIsChangedError("")
   }
@@ -359,18 +391,31 @@ function BankingAddForm(props) {
       }
 
     }
-    // dispatch({
-    //   type: "ADD_BANKING",
-    //   payload: {
-    //     type: "card",
-    //     benificiary_name: accountName,
-    //     desc: description,
-    //     hostel_id: hostel_id,
-    //     card_no: cardNo,
-    //     card_type: cardType,
-    //     id: props.edit ? bankId : "",
-    //   },
-    // })
+ 
+      if (props.edit) {
+    // EDIT API
+    dispatch({
+      type: "EDIT_BANKING",
+      payload: {
+        hostelId: hostel_id,
+        bankId: bankId,
+        data: { 
+        accountType: "CARD",
+        holderName: accountName,
+        accountNo: "",
+        bankName: "",
+        ifscCode: "",
+        description: description,
+        branchName: "" ,
+        branchCode : "" ,
+        isDefault : true ,
+        upiId : "" ,
+        cardType : cardType,
+        cardNumber : cardNo
+      } 
+      },
+    });
+  } else {
 
         dispatch({
       type: "ADD_BANKING",
@@ -394,6 +439,7 @@ function BankingAddForm(props) {
       },
 })
 
+  }
     
 
     
@@ -418,18 +464,32 @@ function BankingAddForm(props) {
       }
 
     }
-    // dispatch({
-    //   type: "ADD_BANKING",
-    //   payload: {
-    //     type: "cash",
-    //     benificiary_name: accountName,
-    //     desc: description,
-    //     hostel_id: hostel_id,
-    //     id: props.edit ? bankId : "",
-    //   },
-    // });
 
-    
+    if (props.edit) {
+    // EDIT API
+    dispatch({
+      type: "EDIT_BANKING",
+      payload: {
+        hostelId: hostel_id,
+        bankId: bankId,
+        data: { 
+        accountType: "CASH",
+        holderName: accountName,
+        accountNo: "",
+        bankName: "",
+        ifscCode: "",
+        description: description,
+        branchName: "" ,
+        branchCode : "" ,
+        isDefault : true ,
+        upiId : "" ,
+        cardType : "",
+        cardNumber : ""
+      } 
+      },
+    });
+  } else {
+
         dispatch({
       type: "ADD_BANKING",
 
@@ -451,6 +511,8 @@ function BankingAddForm(props) {
       } 
       },
 })
+
+  }
     setFormLoading(true)
   }
 
@@ -469,7 +531,20 @@ function BankingAddForm(props) {
     }
   }, [state.bankingDetails.statusCodeForAddBanking]);
 
-  const [activeTab, setActiveTab] = useState("bank");
+    useEffect(() => {
+    if (state.bankingDetails.statusCodeForEditBanking === 200) {
+      setAccountName("")
+      setFormLoading(false)
+      handleClose();
+
+      dispatch({ type: "BANKINGLIST", payload:  hostel_id  });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EDITBANKING" });
+      }, 1000);
+    }
+  }, [state.bankingDetails.statusCodeForEditBanking]);
+
+  const [activeTab, setActiveTab] = useState("BANK");
   const tabStyle = {
     fontFamily: "Gilroy",
     fontWeight: 600,
@@ -531,17 +606,19 @@ function BankingAddForm(props) {
           onSelect={(selectedKey) => {
             setActiveTab(selectedKey);
             setError("");
+            setUpiIdError("")
+            setCardTypeError("")
             setIsChangedError("")
           }}
 
           className="justify-content-start ms-2 me-2"
         >
-          {["bank", "upi", "card", "cash"].map((tab) => (
+          {["BANK", "UPI", "CARD", "CASH"].map((tab) => (
             <Nav.Item key={tab}>
               <Nav.Link
                 eventKey={tab}
                 disabled={
-                  props.editAddBank?.id && props.editAddBank.type !== tab
+                  props.editAddBank?.bankingId && props.editAddBank.accountType !== tab
                 }
                 style={{
                   ...tabStyle,
@@ -552,9 +629,9 @@ function BankingAddForm(props) {
                   borderBottomLeftRadius: 0,
                   borderBottomRightRadius: 0,
                   opacity:
-                    props.editAddBank?.id && props.editAddBank.type !== tab ? 0.6 : 1,
+                    props.editAddBank?.bankingId && props.editAddBank?.accountType !== tab ? 0.6 : 1,
                   cursor:
-                    props.editAddBank?.id && props.editAddBank.type !== tab
+                    props.editAddBank?.bankingId && props.editAddBank?.accountType !== tab
                       ? "not-allowed"
                       : "pointer",
                   width: 120,
@@ -562,7 +639,7 @@ function BankingAddForm(props) {
                 }}
 
               >
-                {tab === "bank"
+                {tab === "BANK"
                   ? "Bank Name"
                   : tab.charAt(0).toUpperCase() + tab.slice(1)}
               </Nav.Link>
@@ -574,7 +651,7 @@ function BankingAddForm(props) {
 
 
         <Modal.Body className="pb-0">
-          {activeTab === "bank" && (
+          {activeTab === "BANK" && (
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group >
@@ -688,6 +765,7 @@ function BankingAddForm(props) {
                     placeholder="Enter Account No"
                     value={accountNo}
                     onChange={(e) => handleAccountNo(e)}
+                     maxLength={18}
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -787,13 +865,13 @@ function BankingAddForm(props) {
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
                   </div>
                 )}
-
+{/* 
               {state.createAccount?.networkError ?
                 <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
                   <MdError style={{ color: "red", marginRight: '5px' }} />
                   <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                 </div>
-                : null}
+                : null} */}
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
@@ -815,7 +893,7 @@ function BankingAddForm(props) {
             </div>
 
           )}
-          {activeTab === "upi" && (
+          {activeTab === "UPI" && (
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group >
@@ -958,12 +1036,12 @@ function BankingAddForm(props) {
                   </div>
                 )}
 
-              {state.createAccount?.networkError ?
+              {/* {state.createAccount?.networkError ?
                 <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
                   <MdError style={{ color: "red", marginRight: '5px' }} />
                   <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                 </div>
-                : null}
+                : null} */}
 
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
@@ -987,7 +1065,7 @@ function BankingAddForm(props) {
           )}
 
 
-          {activeTab === "card" && (
+          {activeTab === "CARD" && (
             <div className="row">
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1165,7 +1243,7 @@ function BankingAddForm(props) {
 
 
 
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group >
                   <Form.Label
                     style={{
@@ -1205,12 +1283,12 @@ function BankingAddForm(props) {
                   </div>
                 )}
 
-              {state.createAccount?.networkError ?
+              {/* {state.createAccount?.networkError ?
                 <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
                   <MdError style={{ color: "red", marginRight: '5px' }} />
                   <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                 </div>
-                : null}
+                : null} */}
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
@@ -1233,7 +1311,7 @@ function BankingAddForm(props) {
 
 
           )}
-          {activeTab === "cash" && (
+          {activeTab === "CASH" && (
             <div className="row">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group >
@@ -1328,12 +1406,12 @@ function BankingAddForm(props) {
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
                   </div>
                 )}
-              {state.createAccount?.networkError ?
+              {/* {state.createAccount?.networkError ?
                 <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
                   <MdError style={{ color: "red", marginRight: '5px' }} />
                   <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                 </div>
-                : null}
+                : null} */}
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button

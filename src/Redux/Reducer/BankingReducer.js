@@ -1,5 +1,6 @@
 export const initialState = {
   statusCodeForAddBanking: 0,
+  statusCodeForEditBanking: 0,
   bankingList: [],
   statusCodeForBankingNoData: 0,
   statusCodeForGetBanking: 0,
@@ -90,6 +91,14 @@ const BankingReducer = (state = initialState, action) => {
       };
     case "CLEAR_DELETE_BANKING_TRANSACTION":
       return { ...state, statusCodeForDeleteTrans: 0 };
+
+    case "EDITBANKING":
+      return {
+        ...state,
+        statusCodeForEditBanking: action.payload.statusCode,
+      };
+    case "CLEAR_EDITBANKING":
+      return { ...state, statusCodeForEditBanking: 0 };  
 
     default:
       return state;

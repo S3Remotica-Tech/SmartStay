@@ -17,6 +17,14 @@ export async function AddBankingDetails(hostelId ,  datum) {
   });
 } 
 
+export async function EditBankingDetails(hostelId , bankId ,  datum) {
+  return await AxiosConfigV2.put(`/v2/bank/${hostelId}/${bankId}`, datum, {
+      headers: {
+      "Content-Type": "application/json",
+    },
+  });
+} 
+
 // v1
 // export async function GetAddBanking(datum) {
 //   return await AxiosConfig.post("/all_bankings",datum, {

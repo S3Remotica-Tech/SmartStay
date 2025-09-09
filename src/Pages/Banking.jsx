@@ -182,7 +182,7 @@ function Banking() {
   useEffect(() => {
     setLoader(false);
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      settransactionFilterddata(state.bankingDetails?.bankingList?.bank_trans);
+      settransactionFilterddata(state.bankingDetails?.bankingList?.bank_trans || []);
       setOriginalBillsFilter(state.bankingDetails?.bankingList?.bank_trans)
       setBanking(state.bankingDetails?.bankingList)
       setTimeout(() => {
@@ -204,11 +204,11 @@ function Banking() {
     }
   }, [state.bankingDetails.statusCodeForBankingNoData]);
 
-  const handleShowDots = (id) => {
-    if (openMenuId === id) {
+  const handleShowDots = (bankingId) => {
+    if (openMenuId === bankingId) {
       setOpenMenuId(null);
     } else {
-      setOpenMenuId(id);
+      setOpenMenuId(bankingId);
     }
 
   };
@@ -933,16 +933,16 @@ function Banking() {
                           justifyContent: "center",
                           alignItems: "center",
                           position: "relative",
-                          backgroundColor: openMenuId === item.id ? "#E7F1FF" : "white"
+                          backgroundColor: openMenuId === item.bankingId ? "#E7F1FF" : "white"
 
-                        }} onClick={() => handleShowDots(item.id)}>
+                        }} onClick={() => handleShowDots(item.bankingId)}>
                           <PiDotsThreeOutlineVerticalFill
 
                             alt="More options"
                             style={{ height: 20, width: 20, cursor: "pointer" }}
                           />
                         </div>
-                        {openMenuId === item.id && (
+                        {openMenuId === item.bankingId && (
                           <div
                             ref={popupRef}
                             style={{

@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddBankingDetails, GetAddBanking, AddDefaultAccount, AddBankAmount, editBankTrans, DeleteBanking, DeleteTransactionId } from "../Action/BankingAction";
+import { AddBankingDetails, GetAddBanking, AddDefaultAccount, AddBankAmount, editBankTrans, DeleteBanking, DeleteTransactionId , EditBankingDetails } from "../Action/BankingAction";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -42,6 +42,58 @@ function* handleAddBanking(action) {
 
     else {
       yield put({ type: 'ERROR_BOOKING', payload: response.data.message })
+    }
+    if (response) {
+      refreshToken(response)
+    }
+  }
+  catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
+
+function* handleEditBanking(action) {
+  try {
+      const {hostelId , bankId , data} = action.payload
+    const response = yield call(EditBankingDetails, hostelId,bankId,data);
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+
+    };
+
+    if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'EDITBANKING', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+      toast.success(`${response.data}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    }
+
+    else {
+      yield put({ type: 'ERROR_ADDBANKING', payload: response.data.message })
     }
     if (response) {
       refreshToken(response)
@@ -346,6 +398,7 @@ function refreshToken(response) {
 
 function* CreateBankingSaga() {
   yield takeEvery('ADD_BANKING', handleAddBanking)
+  yield takeEvery('EDIT_BANKING', handleEditBanking)
   yield takeEvery('BANKINGLIST', handleGetBanking)
   yield takeEvery('DEFAULTACCOUNT', handleDefaultAccount)
   yield takeEvery('ADDBANKAMOUNT', handleAddBankAmount)
