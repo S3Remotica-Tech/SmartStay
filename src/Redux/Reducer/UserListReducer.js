@@ -129,7 +129,8 @@ export const initialState = {
     Refundable_details:[],
     Deduction:[],
     hostelData:[],
-
+    checkoutprofileDetails:[],
+    StatuscodeforCheckoutProfile:0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -634,6 +635,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, StatusCodeBacktoCheckin: action.payload.statusCode }
         case 'CLEAR_BACK_TO_CHECKIN_USER':
             return { ...state, StatusCodeBacktoCheckin: 0 }
+
+
+  case 'CHECKOUT_PROFILE_DETAILS':
+            return { ...state, checkoutprofileDetails: action.payload.response, StatuscodeforCheckoutProfile: action.payload.statusCode }
+        case 'REMOVE_CHECKOUT_PROFILE_DETAILS':
+            return { ...state, StatuscodeforCheckoutProfile: 0 }    
 
         default:
             return state;

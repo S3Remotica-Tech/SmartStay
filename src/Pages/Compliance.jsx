@@ -9,7 +9,6 @@ import searchteam from "../Assets/Images/New_images/Search Team.png";
 import Filters from "../Assets/Images/Filters.svg";
 import 'sweetalert2/dist/sweetalert2.min.css';
 import '../Pages/Compliance.css'
-import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
@@ -72,12 +71,13 @@ const Compliance = () => {
 
 
 
-  const pageSizeOptions = [
-    { value: 6, label: "6" },
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const pageSizeOptions = [
+  //   { value: 6, label: "6" },
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
+
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
 
 
@@ -192,22 +192,22 @@ const Compliance = () => {
 
 
   useEffect(() => {
-    const userType = compliancerolePermission[0]?.user_details?.user_type 
-     const isAdmin = userType  === "admin" || userType  === "agent"  ;
-     if (isAdmin) {
-    if (state?.login?.planStatus === 0) {
-      setCompliancePermissionError("");
-      setComplianceAddPermission("Permission Denied");
-      setComplianceEditPermission("Permission Denied");
-      setComplianceDeletePermission("Permission Denied");
+    const userType = compliancerolePermission[0]?.user_details?.user_type
+    const isAdmin = userType === "admin" || userType === "agent";
+    if (isAdmin) {
+      if (state?.login?.planStatus === 0) {
+        setCompliancePermissionError("");
+        setComplianceAddPermission("Permission Denied");
+        setComplianceEditPermission("Permission Denied");
+        setComplianceDeletePermission("Permission Denied");
 
-    } else if (state?.login?.planStatus === 1) {
-      setCompliancePermissionError("");
-      setComplianceAddPermission("");
-      setComplianceEditPermission("");
-      setComplianceDeletePermission("");
+      } else if (state?.login?.planStatus === 1) {
+        setCompliancePermissionError("");
+        setComplianceAddPermission("");
+        setComplianceEditPermission("");
+        setComplianceDeletePermission("");
+      }
     }
-  }
 
   }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, compliancerolePermission])
 
@@ -215,43 +215,43 @@ const Compliance = () => {
 
 
   useEffect(() => {
-  const compliancePermission = compliancerolePermission[0]?.role_permissions?.find(
-    (perm) => perm.permission_name === "Complaints"
-  );
+    const compliancePermission = compliancerolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Complaints"
+    );
 
-  const isOwner = compliancerolePermission[0]?.user_details?.user_type === "staff";
-  const planActive = state?.login?.planStatus === 1;
+    const isOwner = compliancerolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
 
-  if (!compliancePermission || !isOwner) return;
-
- 
-  if (compliancePermission.per_view === 1 && planActive) {
-    setCompliancePermissionError("");
-  } else {
-    setCompliancePermissionError("Permission Denied");
-  }
-
-  
-  if (compliancePermission.per_create === 1 && planActive) {
-    setComplianceAddPermission("");
-  } else {
-    setComplianceAddPermission("Permission Denied");
-  }
-
- 
-  if (compliancePermission.per_delete === 1 && planActive) {
-    setComplianceDeletePermission("");
-  } else {
-    setComplianceDeletePermission("Permission Denied");
-  }
+    if (!compliancePermission || !isOwner) return;
 
 
-  if (compliancePermission.per_edit === 1 && planActive) {
-    setComplianceEditPermission("");
-  } else {
-    setComplianceEditPermission("Permission Denied");
-  }
-}, [compliancerolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id ]);
+    if (compliancePermission.per_view === 1 && planActive) {
+      setCompliancePermissionError("");
+    } else {
+      setCompliancePermissionError("Permission Denied");
+    }
+
+
+    if (compliancePermission.per_create === 1 && planActive) {
+      setComplianceAddPermission("");
+    } else {
+      setComplianceAddPermission("Permission Denied");
+    }
+
+
+    if (compliancePermission.per_delete === 1 && planActive) {
+      setComplianceDeletePermission("");
+    } else {
+      setComplianceDeletePermission("Permission Denied");
+    }
+
+
+    if (compliancePermission.per_edit === 1 && planActive) {
+      setComplianceEditPermission("");
+    } else {
+      setComplianceEditPermission("Permission Denied");
+    }
+  }, [compliancerolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
 
   useEffect(() => {
@@ -352,32 +352,32 @@ const Compliance = () => {
 
 
 
-  const [itemsPerPage, setItemsPerPage] = useState(6);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const [itemsPerPage, setItemsPerPage] = useState(6);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const currentItems =
-    filterInput.length > 0
-      ? filteredUsers
-      : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
-
-
+  // const filteredUsers =
+  //   filterInput.length > 0
+  //     ? filteredUsers
+  //     : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
 
 
-  const handleItemsPerPageChange = (selectedOption) => {
-    if (selectedOption) {
-      setItemsPerPage(Number(selectedOption.value));
-      setCurrentPage(1);
-    }
-  };
 
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   if (selectedOption) {
+  //     setItemsPerPage(Number(selectedOption.value));
+  //     setCurrentPage(1);
+  //   }
+  // };
+
+
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
 
   const [hostelname, setHostelName] = useState('')
 
@@ -445,7 +445,7 @@ const Compliance = () => {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId, status: value, } })
     }
 
-    setCurrentPage(1)
+    // setCurrentPage(1)
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
@@ -476,7 +476,7 @@ const Compliance = () => {
 
 
     setFilteredUsers(filtered);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
 
@@ -885,15 +885,15 @@ const Compliance = () => {
 
 
 
-  useEffect(() => {
-    if (
-      filteredUsers.length > 0 &&
-      currentItems.length === 0 &&
-      currentPage > 1
-    ) {
-      setCurrentPage(currentPage - 1);
-    }
-  }, [filteredUsers])
+  // useEffect(() => {
+  //   if (
+  //     filteredUsers.length > 0 &&
+  //     filteredUsers.length === 0 &&
+  //     currentPage > 1
+  //   ) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // }, [filteredUsers])
 
 
 
@@ -1171,12 +1171,16 @@ console.log("users" , complainttypelist);
                 </div>
 
 
-                <div className='row row-gap-3 p-4'
+                <div className='row row-gap-3 container show-scrolls-sidebar'
                   style={{
-                    maxHeight: "500px",
+                    height: "500px",
                     overflowY: "auto",
-                  }}>
-                  {currentItems.length > 0 && currentItems.map((complaints) => (
+                    position: "relative",
+                    paddingRight: 20
+
+                  }}
+                >
+                  {filteredUsers.length > 0 && filteredUsers.map((complaints) => (
                     <div key={complaints.ID} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
                       <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission} disableActions={state?.login?.planStatus === 0} />
                     </div>
@@ -1184,7 +1188,7 @@ console.log("users" , complainttypelist);
                   }
 
 
-                  {!loading && currentItems.length === 0 &&
+                  {!loading && filteredUsers.length === 0 &&
 
                     <div className='d-flex align-items-center justify-content-center fade-in'
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
@@ -1204,7 +1208,8 @@ console.log("users" , complainttypelist);
                   }
 
                 </div>
-                {filteredUsers && filteredUsers?.length > 6 && (
+
+                {/* {filteredUsers && filteredUsers?.length > 6 && (
 
                   <nav className=" mb-0"
                     style={{
@@ -1344,7 +1349,7 @@ console.log("users" , complainttypelist);
                       </li>
                     </ul>
                   </nav>
-                )}
+                )} */}
               </div>
 
               {show &&

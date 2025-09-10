@@ -2137,7 +2137,23 @@ function* handleGetAllFloor(floor) {
    }
 }
 
+function* handleCheckoutProfile(action) {
+   const response = yield call(checkoutDetailView, action.payload)
+   console.log("handleCheckoutProfile", response)
 
+
+
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'CHECKOUT_PROFILE_DETAILS', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+}
 
 
 function* UserListSaga() {
@@ -2197,6 +2213,7 @@ function* UserListSaga() {
    yield takeEvery('CONFIRMCHECKOUTDUECUSTOMER', handleConfirmCheckoutDueCustomer)
    yield takeEvery('UNASSIGNCUSTOMER', handlecustomerUnAssign)
    yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
+   yield takeEvery('CHECKOUTPROFILEDETAILS', handleCheckoutProfile)
 
 
 }

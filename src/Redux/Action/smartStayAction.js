@@ -197,3 +197,8 @@ export const JoininDatecustomer = (joiningdate) => ({
   type: "SET_JOINING_DATE",
   payload: joiningdate,
 });
+
+export const checkoutCustomerProfile = (checoutprofile) => ({
+  type: "SET_CHECKOUT_PROFILE",
+  payload: checoutprofile,
+});

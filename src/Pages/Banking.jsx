@@ -10,12 +10,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingAddForm from "./BankingAddForm";
-
-
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, Edit, Trash  } from "iconsax-react";
+import {ArrowUp2, ArrowDown2, Edit, Trash  } from "iconsax-react";
 import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -26,7 +24,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import transArrow from "../Assets/Images/New_images/arrow-transfer.png";
 import banklogo from "../Assets/Images/New_images/bank_loga.png";
-import Select from "react-select";
+import PaginationList from "../Components/PaginationList";
 
 
 
@@ -71,12 +69,12 @@ function Banking() {
   const [formLoading, setFormLoading] = useState(false)
 
 
-  const transactionPageOptions = [
-    { value: 5, label: "5" },
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const transactionPageOptions = [
+  //   { value: 5, label: "5" },
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
 
 
   useEffect(() => {
@@ -356,15 +354,15 @@ function Banking() {
 
   };
 
-  useEffect(() => {
-    if (
-     transactionFilterddata && transactionFilterddata.length > 0 &&
-    currentRowTransaction &&  currentRowTransaction.length === 0 &&
-      transactioncurrentPage > 1
-    ) {
-      settransactioncurrentPage(transactioncurrentPage - 1);
-    }
-  }, [transactionFilterddata])
+  // useEffect(() => {
+  //   if (
+  //     transactionFilterddata.length > 0 &&
+  //     currentRowTransaction.length === 0 &&
+  //     transactioncurrentPage > 1
+  //   ) {
+  //     settransactioncurrentPage(transactioncurrentPage - 1);
+  //   }
+  // }, [transactionFilterddata])
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDeleteTrans === 200) {
       handleCloseTransactionDelete();
@@ -411,63 +409,94 @@ function Banking() {
     setFormLoading(true)
   };
 
-  const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(5);
-  const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
+  // const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(5);
+  // const [transactioncurrentPage, settransactioncurrentPage] = useState(1);
 
-  const indexOfLastRowTransaction =
-    transactioncurrentPage * transactionrowsPerPage;
-  const indexOfFirstRowTransaction =
-    indexOfLastRowTransaction - transactionrowsPerPage;
+  // const indexOfLastRowTransaction =
+  //   transactioncurrentPage * transactionrowsPerPage;
+  // const indexOfFirstRowTransaction =
+  //   indexOfLastRowTransaction - transactionrowsPerPage;
 
-  const currentRowTransaction =
-    filterInput.length > 0
-      ? transactionFilterddata
-      : transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
+  // const currentRowTransaction =
+  //   filterInput.length > 0
+  //     ? transactionFilterddata
+  //     : transactionFilterddata?.slice(indexOfFirstRowTransaction, indexOfLastRowTransaction);
 
-  const handlePageChange = (pageNumber) => {
-    settransactioncurrentPage(pageNumber);
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   settransactioncurrentPage(pageNumber);
+  // };
 
+
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentRowTransaction;
+
+  //   const sorted = [...currentRowTransaction].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
+
+
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
+
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+
+  //   return sorted;
+  // }, [currentRowTransaction, sortConfig]);
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentRowTransaction;
+const sortedData = React.useMemo(() => {
+  if (!sortConfig.key) return transactionFilterddata;
 
-    const sorted = [...currentRowTransaction].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+  const sorted = [...transactionFilterddata].sort((a, b) => {
+    const valueA = a[sortConfig.key];
+    const valueB = b[sortConfig.key];
 
+    if (!isNaN(valueA) && !isNaN(valueB)) {
+      return sortConfig.direction === 'asc' ? valueA - valueB : valueB - valueA;
+    }
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === 'asc'
-          ? valueA - valueB
-          : valueB - valueA;
-      }
+    if (typeof valueA === 'string' && typeof valueB === 'string') {
+      return sortConfig.direction === 'asc'
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA);
+    }
 
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return sortConfig.direction === 'asc'
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+    return 0;
+  });
 
-      return 0;
-    });
+  return sorted;
+}, [transactionFilterddata, sortConfig]);
 
-    return sorted;
-  }, [currentRowTransaction, sortConfig]);
-  const handleSort = (key, direction) => {
-    setSortConfig({ key, direction });
-  };
-  const handleItemsPerPageChange = (selectedOption) => {
-    setTransactionrowsPerPage(Number(selectedOption.value));
-    settransactioncurrentPage(1);
-  };
+const handleSort = (key, direction) => {
+  setSortConfig({ key, direction });
+};
 
 
-  const totalPagesTransaction = Math.ceil(
-    transactionFilterddata?.length / transactionrowsPerPage
-  );
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setTransactionrowsPerPage(Number(selectedOption.value));
+  //   settransactioncurrentPage(1);
+  // };
+
+
+  // const totalPagesTransaction = Math.ceil(
+  //   transactionFilterddata?.length / transactionrowsPerPage
+  // );
 
 
 
@@ -1433,7 +1462,7 @@ function Banking() {
 
                       </tr>
                     </thead>
-                    <tbody style={{ textAlign: "center" }}>
+                    {/* <tbody style={{ textAlign: "center" }}>
                       {sortedData?.map((user) => {
                         let Dated = new Date(user.date);
 
@@ -1582,7 +1611,135 @@ function Banking() {
                           </tr>
                         );
                       })}
-                    </tbody>
+                    </tbody> */}
+
+                    <tbody style={{ textAlign: "center" }}>
+  <PaginationList>
+    {sortedData?.map((user) => {
+      const Dated = new Date(user.date);
+      const day = Dated.getDate();
+      const month = Dated.getMonth();
+      const year = Dated.getFullYear();
+
+      const monthNames = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+      ];
+
+      const formattedDate = `${day} ${monthNames[month]} ${year}`;
+
+      return (
+        <tr
+          key={user.id}
+          style={{
+            fontSize: "13px",
+            fontWeight: 600,
+            textAlign: "center",
+            marginTop: 10,
+          }}
+        >
+          <td
+            style={{
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              paddingTop: 15,
+            }}
+            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+          >
+            <div className="ps-2 ps-lg-2">
+              {user.benificiary_name} - {user.type}
+            </div>
+          </td>
+          <td
+            style={{
+              paddingTop: 15,
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              whiteSpace: "nowrap",
+            }}
+            className="ps-2 ps-lg-2"
+          >
+            <span
+              style={{
+                padding: "3px 10px",
+                borderRadius: "60px",
+                textAlign: "center",
+                fontSize: "11px",
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                backgroundColor: "#EBEBEB",
+              }}
+            >
+              {formattedDate}
+            </span>
+          </td>
+          <td
+            style={{
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              paddingTop: 15,
+            }}
+            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+          >
+            {user.amount}
+          </td>
+          <td
+            style={{
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              paddingTop: 15,
+            }}
+            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+          >
+            {user.desc}
+          </td>
+          <td
+            style={{
+              paddingTop: 15,
+              border: "none",
+              textAlign: "start",
+              fontSize: "13px",
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              whiteSpace: "nowrap",
+            }}
+            className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+          >
+            <span
+              style={{
+                padding: "3px 10px",
+                borderRadius: "60px",
+                backgroundColor: "#EBEBEB",
+                textAlign: "start",
+                fontSize: "11px",
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+              }}
+            >
+              {user.desc === "Invoice" ? "Credit" : "Debit"}
+            </span>
+          </td>
+        </tr>
+      );
+    })}
+  </PaginationList>
+</tbody>
+
+
+                  
+
                   </Table>
                 </div>
               </div>
@@ -1590,7 +1747,7 @@ function Banking() {
             ) : (
 
               <div>
-                {!loader && currentRowTransaction && currentRowTransaction?.length === 0 &&
+                {!loader && sortedData.length === 0 &&
 
                   <div>
 
@@ -1659,7 +1816,7 @@ function Banking() {
               </div>
             )}
 
-            {transactionFilterddata?.length > 5 && (
+             {/* {transactionFilterddata?.length > 5 && (
               <nav
                 style={{
                   display: "flex",
@@ -1830,7 +1987,7 @@ function Banking() {
                   </li>
                 </ul>
               </nav>
-            )}
+            )}  */}
           </div>
           <Modal
             show={deleteShow}

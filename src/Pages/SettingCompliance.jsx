@@ -8,7 +8,6 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
@@ -34,7 +33,6 @@ function SettingCompliance({ hostelid }) {
   const [loading, setLoading] = useState(false);
   const [showDots, setShowDots] = useState(null);
   const [menuLoaded, setMenuLoaded] = useState(false);
-  const [compliancerowsPerPage, setCompliancerowsPerPage] = useState(10);
   const [complianceFilterddata, setComplianceFilterddata] = useState([]);
   const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
@@ -297,38 +295,38 @@ useEffect(() => {
     }
   }, [state.Settings.editComplaintSuccessStatusCode]);
 
-  const indexOfLastRowCompliance =
-    compliancecurrentPage * compliancerowsPerPage;
-  const indexOfFirstRowCompliance =
-    indexOfLastRowCompliance - compliancerowsPerPage;
-  const currentRowCompliance = complianceFilterddata?.slice(
-    indexOfFirstRowCompliance,
-    indexOfLastRowCompliance
-  );
+  // const indexOfLastRowCompliance =
+  //   compliancecurrentPage * compliancerowsPerPage;
+  // const indexOfFirstRowCompliance =
+  //   indexOfLastRowCompliance - compliancerowsPerPage;
+  // const complianceFilterddata = complianceFilterddata?.slice(
+  //   indexOfFirstRowCompliance,
+  //   indexOfLastRowCompliance
+  // );
 
-  const handlePageChange = (generalpageNumber) => {
-    setCompliancecurrentPage(generalpageNumber);
-  };
+  // const handlePageChange = (generalpageNumber) => {
+  //   setCompliancecurrentPage(generalpageNumber);
+  // };
 
-  const handleItemsPerPageChange = (selectedOption) => {
-    setCompliancerowsPerPage(selectedOption.value);
-    setCompliancecurrentPage(1);
-  };
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setCompliancerowsPerPage(selectedOption.value);
+  //   setCompliancecurrentPage(1);
+  // };
 
-  const complianceOptions = [
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const complianceOptions = [
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
 
-  const totalPagesGeneral = Math.ceil(
-    complianceFilterddata?.length / compliancerowsPerPage
-  );
+  // const totalPagesGeneral = Math.ceil(
+  //   complianceFilterddata?.length / compliancerowsPerPage
+  // );
 
   useEffect(() => {
     if (
       complianceFilterddata.length > 0 &&
-      currentRowCompliance.length === 0 &&
+      complianceFilterddata.length === 0 &&
       compliancecurrentPage > 1
     ) {
       setCompliancecurrentPage(compliancecurrentPage - 1);
@@ -435,11 +433,11 @@ useEffect(() => {
 
 
       <div className="complainttype">
-        {currentRowCompliance && currentRowCompliance.length > 0 && (
+        {complianceFilterddata && complianceFilterddata.length > 0 && (
           <div className="container show-scrolls" style={{ position: "relative" , maxHeight: "475px",
                 overflowY: "auto"}}>
             <div className="row ">
-              {currentRowCompliance.map((u, i) => {
+              {complianceFilterddata.map((u, i) => {
                 return (
                   <>
                     <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
@@ -625,8 +623,9 @@ useEffect(() => {
        
       )}
 
-      {complianceFilterddata.length > 10 && (
-        <nav style={{
+      {/* {complianceFilterddata.length > 10 && (
+        <nav 
+        style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "end",
@@ -773,7 +772,7 @@ useEffect(() => {
             </li>
           </ul>
         </nav>
-      )}
+      )} */}
 
       <Modal
         className="editform custom-modal"

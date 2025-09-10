@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "./LoaderComponent";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import './Invoices.css';
 import InvoiceTable from "./InvoicelistTable";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
@@ -51,6 +50,7 @@ import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import './BillPdfModal.css';
 import AxiosConfig from "../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
+import PaginationList from "../Components/PaginationList";
 
 
 
@@ -169,7 +169,7 @@ const InvoicePage = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [startDate, endDate] = dateRange;
   const [checkedRows, setCheckedRows] = useState({});
-  const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
+  // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
   const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
 
 
@@ -511,7 +511,7 @@ const InvoicePage = () => {
 
 
     setBills(filtered);
-    setCurrentPage(1)
+    // setCurrentPage(1)
   }, [statusfilter, startDate, endDate, originalBillsFilter]);
 
 
@@ -541,7 +541,7 @@ const InvoicePage = () => {
         });
 
         setReceiptData(filteredItemsReceipt);
-        setCurrentReceiptPage(1);
+        // setCurrentReceiptPage(1);
       }
     }
   }, [statusFilterReceipt]);
@@ -573,7 +573,7 @@ const InvoicePage = () => {
     });
 
     setReceiptData(filtered);
-    setCurrentReceiptPage(1)
+    // setCurrentReceiptPage(1)
   };
 
 
@@ -936,7 +936,7 @@ const InvoicePage = () => {
     setPaymodeErrmsg("");
     setPayableAmount("")
     setPayableAmountError("")
-    setManualInvoiceNumberError("")
+    // setManualInvoiceNumberError("")
     setUnableAddInvoiceDetailsError("")
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
     dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
@@ -1673,86 +1673,113 @@ const InvoicePage = () => {
     }
   };
 
-  const pageSizeOptions = [
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const pageSizeOptions = [
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
+
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(10);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // const currentItems =
+  //   filterInput.length > 0
+  //     ? bills
+  //     : bills?.slice(indexOfFirstItem, indexOfLastItem);
+
+  // const totalPages = Math.ceil(bills.length / itemsPerPage);
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
+
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   if (selectedOption) {
+  //     setItemsPerPage(Number(selectedOption.value));
+  //     setCurrentPage(1);
+  //   }
+  // };
+
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentItems;
+
+  //   const sorted = [...currentItems].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
 
 
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
 
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  //     return 0;
+  //   });
 
-  const currentItems =
-    filterInput.length > 0
-      ? bills
-      : bills?.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(bills.length / itemsPerPage);
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  //   return sorted;
+  // }, [currentItems, sortConfig]);
+  // const handleSort = (key, direction) => {
+  //   setSortConfig({ key, direction });
+  // };
 
-  const handleItemsPerPageChange = (selectedOption) => {
-    if (selectedOption) {
-      setItemsPerPage(Number(selectedOption.value));
-      setCurrentPage(1);
-    }
-  };
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentItems;
+    if (!sortConfig.key) return bills;
 
-    const sorted = [...currentItems].sort((a, b) => {
+    return [...bills].sort((a, b) => {
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
 
-
       if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === 'asc'
-          ? valueA - valueB
-          : valueB - valueA;
+        return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
       }
 
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return sortConfig.direction === 'asc'
+      if (typeof valueA === "string" && typeof valueB === "string") {
+        return sortConfig.direction === "asc"
           ? valueA.localeCompare(valueB)
           : valueB.localeCompare(valueA);
       }
 
       return 0;
     });
+  }, [bills, sortConfig]);
 
-    return sorted;
-  }, [currentItems, sortConfig]);
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
 
 
-  const [currentRecurePage, setCurrentRecurePage] = useState(1);
-  const [itemsPage, setItemsPage] = useState(10);
-  const indexOfLastItemRecure = currentRecurePage * itemsPage;
-  const indexOfFirstItemRecure = indexOfLastItemRecure - itemsPage;
 
+  // const [currentRecurePage, setCurrentRecurePage] = useState(1);
+  // const [itemsPage, setItemsPage] = useState(10);
+  // const indexOfLastItemRecure = currentRecurePage * itemsPage;
+  // const indexOfFirstItemRecure = indexOfLastItemRecure - itemsPage;
 
-  const currentItem =
-    filterInput.length > 0
-      ? recurringbills
-      : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
-
-  // const filteredBills = recurringbills.filter(
-  //   (bill) => bill.stay_type === (activeStay)
-  // );
 
   // const currentItem =
   //   filterInput.length > 0
-  //     ? filteredBills
-  //     : filteredBills.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+  //     ? recurringbills
+  //     : recurringbills?.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
+
+  // // const filteredBills = recurringbills.filter(
+  // //   (bill) => bill.stay_type === (activeStay)
+  // // );
+
+  // // const currentItem =
+  // //   filterInput.length > 0
+  // //     ? filteredBills
+  // //     : filteredBills.slice(indexOfFirstItemRecure, indexOfLastItemRecure);
 
 
 
@@ -1760,33 +1787,62 @@ const InvoicePage = () => {
 
 
 
-  const handlePageChangeRecure = (pageNumber) => {
-    setCurrentRecurePage(pageNumber);
-  };
-  const handleItemsPerPage = (selectedOption) => {
-    setItemsPage(Number(selectedOption.value));
-    setCurrentRecurePage(1);
-  };
+  // const handlePageChangeRecure = (pageNumber) => {
+  //   setCurrentRecurePage(pageNumber);
+  // };
+  // const handleItemsPerPage = (selectedOption) => {
+  //   setItemsPage(Number(selectedOption.value));
+  //   setCurrentRecurePage(1);
+  // };
 
 
 
+
+  // const [sortConfigRecure, setSortConfigRecure] = useState({ key: null, direction: null });
+
+  // const sortedDataRecure = React.useMemo(() => {
+  //   if (!sortConfigRecure.key) return currentItem;
+
+  //   const sorted = [...currentItem].sort((a, b) => {
+  //     const valueA = a[sortConfigRecure.key];
+  //     const valueB = b[sortConfigRecure.key];
+
+
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfigRecure.direction === 'asc'
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
+
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfigRecure.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+
+  //   return sorted;
+  // }, [currentItem, sortConfigRecure]);
 
   const [sortConfigRecure, setSortConfigRecure] = useState({ key: null, direction: null });
 
   const sortedDataRecure = React.useMemo(() => {
-    if (!sortConfigRecure.key) return currentItem;
+    // If no sorting key, just return the full data
+    if (!sortConfigRecure.key) return recurringbills;
 
-    const sorted = [...currentItem].sort((a, b) => {
+    // Sort the full recurringbills array
+    return [...recurringbills].sort((a, b) => {
       const valueA = a[sortConfigRecure.key];
       const valueB = b[sortConfigRecure.key];
 
-
+      // Numeric sorting
       if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfigRecure.direction === 'asc'
-          ? valueA - valueB
-          : valueB - valueA;
+        return sortConfigRecure.direction === 'asc' ? valueA - valueB : valueB - valueA;
       }
 
+      // String sorting
       if (typeof valueA === 'string' && typeof valueB === 'string') {
         return sortConfigRecure.direction === 'asc'
           ? valueA.localeCompare(valueB)
@@ -1795,58 +1851,86 @@ const InvoicePage = () => {
 
       return 0;
     });
-
-    return sorted;
-  }, [currentItem, sortConfigRecure]);
-
-
-
-
-
-
-
-
-
-
-
+  }, [recurringbills, sortConfigRecure]);
 
   const handleSortRecure = (key, direction) => {
     setSortConfigRecure({ key, direction });
   };
 
+  // const totalPage = Math.ceil(recurringbills.length / itemsPage);
 
 
-  const totalPage = Math.ceil(recurringbills.length / itemsPage);
+  // const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
+  // const [itemsperPage, setItemsPERPage] = useState(10);
+  // const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
+  // const indexOfFirstItemReceipt = indexOfLastItemReceipt - itemsperPage;
 
-  const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
-  const [itemsperPage, setItemsPERPage] = useState(10);
-  const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
-  const indexOfFirstItemReceipt = indexOfLastItemReceipt - itemsperPage;
+  // const currentReceiptData =
+  //   filterInput.length > 0
+  //     ? receiptdata
+  //     : receiptdata?.slice(indexOfFirstItemReceipt, indexOfLastItemReceipt);
 
-  const currentReceiptData =
-    filterInput.length > 0
-      ? receiptdata
-      : receiptdata?.slice(indexOfFirstItemReceipt, indexOfLastItemReceipt);
+  // const handlePageChangeReceipt = (pageNumber) => {
+  //   setCurrentReceiptPage(pageNumber);
+  // };
 
-  const handlePageChangeReceipt = (pageNumber) => {
-    setCurrentReceiptPage(pageNumber);
-  };
 
+  // const [sortConfigReceipt, setSortConfigReceipt] = useState({ key: null, direction: null });
+
+  // const sortedDataReceipt = React.useMemo(() => {
+  //   if (!sortConfigReceipt.key) return currentReceiptData;
+
+  //   const sorted = [...currentReceiptData].sort((a, b) => {
+  //     const valueA = a[sortConfigReceipt.key];
+  //     const valueB = b[sortConfigReceipt.key];
+
+
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfigReceipt.direction === 'asc'
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
+
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfigReceipt.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+
+  //   return sorted;
+  // }, [currentReceiptData, sortConfigReceipt]);
+
+
+  // const handleItemsPerPageReceipt = (selectedOption) => {
+  //   setItemsPERPage(Number(selectedOption.value));
+  //   setCurrentReceiptPage(1);
+  // };
+  // const receiptPageOptions = [
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
+
+  // const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage);
+
+  //   const handleSortReceipt = (key, direction) => {
+  //   setSortConfigReceipt({ key, direction });
+  // };
 
   const [sortConfigReceipt, setSortConfigReceipt] = useState({ key: null, direction: null });
 
   const sortedDataReceipt = React.useMemo(() => {
-    if (!sortConfigReceipt.key) return currentReceiptData;
+    if (!sortConfigReceipt.key) return receiptdata;
 
-    const sorted = [...currentReceiptData].sort((a, b) => {
+    return [...receiptdata].sort((a, b) => {
       const valueA = a[sortConfigReceipt.key];
       const valueB = b[sortConfigReceipt.key];
 
-
       if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfigReceipt.direction === 'asc'
-          ? valueA - valueB
-          : valueB - valueA;
+        return sortConfigReceipt.direction === 'asc' ? valueA - valueB : valueB - valueA;
       }
 
       if (typeof valueA === 'string' && typeof valueB === 'string') {
@@ -1857,25 +1941,11 @@ const InvoicePage = () => {
 
       return 0;
     });
-
-    return sorted;
-  }, [currentReceiptData, sortConfigReceipt]);
+  }, [receiptdata, sortConfigReceipt]);
 
   const handleSortReceipt = (key, direction) => {
     setSortConfigReceipt({ key, direction });
   };
-
-  const handleItemsPerPageReceipt = (selectedOption) => {
-    setItemsPERPage(Number(selectedOption.value));
-    setCurrentReceiptPage(1);
-  };
-  const receiptPageOptions = [
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
-
-  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage);
 
 
 
@@ -1949,6 +2019,7 @@ const InvoicePage = () => {
     }
 
   };
+  console.log("rowData",rowData)
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
       setTimeout(() => {
@@ -1998,15 +2069,15 @@ const InvoicePage = () => {
 
   }, [state.InvoiceList.payapleAmountError])
 
-  useEffect(() => {
-    if (state.InvoiceList.ManualInvoiceNumberError) {
-      setFormLoading(false)
-      setLoading(false)
-      setManualInvoiceNumberError(state.InvoiceList.ManualInvoiceNumberError)
+  // useEffect(() => {
+  //   if (state.InvoiceList.ManualInvoiceNumberError) {
+  //     setFormLoading(false)
+  //     setLoading(false)
+  //     setManualInvoiceNumberError(state.InvoiceList.ManualInvoiceNumberError)
 
-    }
+  //   }
 
-  }, [state.InvoiceList.ManualInvoiceNumberError])
+  // }, [state.InvoiceList.ManualInvoiceNumberError])
 
   useEffect(() => {
     if (state.InvoiceList.unableAddInvoiceDetailsError) {
@@ -2637,7 +2708,7 @@ const InvoicePage = () => {
     } else {
       setBills(state.InvoiceList.ManualInvoices);
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
     setDropdownVisible(false);
   };
 
@@ -2699,7 +2770,7 @@ const InvoicePage = () => {
     } else {
       setRecurringBills(state.InvoiceList.RecurringBills);
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
 
     setDropdownVisible(false);
   };
@@ -2726,7 +2797,7 @@ const InvoicePage = () => {
     } else {
       setReceiptData(state.InvoiceList.ReceiptList);
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
 
     setDropdownVisible(false);
   };
@@ -2811,15 +2882,15 @@ const InvoicePage = () => {
   ]);
 
 
-  useEffect(() => {
-    if (
-      recurringbills.length > 0 &&
-      currentItem.length === 0 &&
-      currentRecurePage > 1
-    ) {
-      setCurrentRecurePage(currentRecurePage - 1);
-    }
-  }, [recurringbills])
+  // useEffect(() => {
+  //   if (
+  //     recurringbills.length > 0 &&
+  //     currentItem.length === 0 &&
+  //     currentRecurePage > 1
+  //   ) {
+  //     setCurrentRecurePage(currentRecurePage - 1);
+  //   }
+  // }, [recurringbills])
 
 
   useEffect(() => {
@@ -4532,7 +4603,7 @@ const InvoicePage = () => {
                                           > Action</th>
                                         </tr>
                                       </thead>
-                                      <tbody
+                                      {/* <tbody
                                         style={{
                                           fontSize: "10px",
                                           minHeight: "200px",
@@ -4566,15 +4637,35 @@ const InvoicePage = () => {
                                               }
                                             />
                                           ))}
+                                      </tbody> */}
+                                      <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
+                                        <PaginationList>
+                                          {sortedData.map((item) => (
+                                            <InvoiceTable
+                                              key={item.id}
+                                              item={item}
+                                              OnHandleshowform={handleShowForm}
+                                              OnHandleshowEditform={handleEdit}
+                                              OnHandleshowInvoicePdf={handleInvoiceDetail}
+                                              OnHandleshowDeleteform={handleBillDelete}
+                                              DisplayInvoice={handleDisplayInvoiceDownload}
+                                              billAddPermission={billAddPermission}
+                                              billEditPermission={billEditPermission}
+                                              billDeletePermission={billDeletePermission}
+                                            />
+                                          ))}
+                                        </PaginationList>
                                       </tbody>
+
+
                                     </Table>
                                   </div>
                                 </div>
                               ) : (
 
                                 !loading &&
-                                currentItems &&
-                                currentItems?.length === 0 && (
+                                sortedData &&
+                                sortedData?.length === 0 && (
 
                                   <div className="mt-2">
                                     <div style={{ textAlign: "center" }}>
@@ -4609,7 +4700,7 @@ const InvoicePage = () => {
                                 )
                               )}
 
-                              {bills?.length > 10 && (
+                              {/* {bills?.length > 10 && (
                                 <nav
                                   style={{
                                     display: "flex",
@@ -4781,7 +4872,7 @@ const InvoicePage = () => {
                                     </li>
                                   </ul>
                                 </nav>
-                              )}
+                              )} */}
                             </>
                           )}
                         </Col>
@@ -5176,7 +5267,7 @@ const InvoicePage = () => {
                               > Action</th>
                             </tr>
                           </thead>
-                          <tbody style={{ fontSize: "10px" }}>
+                          {/* <tbody style={{ fontSize: "10px" }}>
 
 
 
@@ -5202,7 +5293,24 @@ const InvoicePage = () => {
                               ))
                             }
 
+                          </tbody> */}
+                          <tbody style={{ fontSize: "10px" }}>
+                            <PaginationList>
+                              {sortedDataRecure.map((item) => (
+                                <RecurringBillList
+                                  key={item.ID}
+                                  item={item}
+                                  checked={checkedRows[item.ID] === true}
+                                  onToggle={() => handleToggle(item.ID, item.Inv_ID)}
+                                  handleDeleteRecurringbills={handleDeleteRecurringbills}
+                                  recuringbillAddPermission={recuringbillAddPermission}
+                                  billrolePermission={billrolePermission}
+                                  OnHandleshowform={handleShowForm}
+                                />
+                              ))}
+                            </PaginationList>
                           </tbody>
+
                         </Table>
                       </div>
                       {/* ) :
@@ -5244,7 +5352,7 @@ const InvoicePage = () => {
 
 
 
-                  {recurringbills && recurringbills.length > 10 && (
+                  {/* {recurringbills && recurringbills.length > 10 && (
                     <nav
                       style={{
                         display: "flex",
@@ -5415,7 +5523,7 @@ const InvoicePage = () => {
                         </li>
                       </ul>
                     </nav>
-                  )}
+                  )} */}
 
 
                 </>
@@ -5784,7 +5892,7 @@ const InvoicePage = () => {
                                           >Action</th>
                                         </tr>
                                       </thead>
-                                      <tbody style={{
+                                      {/* <tbody style={{
                                         fontSize: "10px", minHeight: "200px",
                                         position: "relative",
                                       }}>
@@ -5811,13 +5919,32 @@ const InvoicePage = () => {
                                             />
                                           ))
                                         }
+                                      </tbody> */}
+
+                                      <tbody style={{ fontSize: "10px", minHeight: "200px", position: "relative" }}>
+                                        <PaginationList pageSizeOptions={[{ value: 10, label: "10" }, { value: 50, label: "50" }, { value: 100, label: "100" }]}>
+                                          {sortedDataReceipt.map((item) => (
+                                            <Receipt
+                                              key={item.id}
+                                              item={item}
+                                              receiptaddPermission={receiptaddPermission}
+                                              billrolePermission={billrolePermission}
+                                              OnHandleshowform={handleShowForm}
+                                              OnHandleshowInvoicePdf={handleReceiptDetail}
+                                              onhandleEdit={handleEditReceipt}
+                                              DisplayInvoice={handleDisplayReceiptDownload}
+                                              
+                                            />
+                                          ))}
+                                        </PaginationList>
                                       </tbody>
+
                                     </Table>
                                   </div>
                                 </div>
                               )}
 
-                            {receiptdata.length > 10 && (
+                            {/* {receiptdata.length > 10 && (
                               <nav
                                 style={{
                                   display: "flex",
@@ -5999,9 +6126,9 @@ const InvoicePage = () => {
                                   </li>
                                 </ul>
                               </nav>
-                            )}
-                            {!receiptLoader && currentReceiptData &&
-                              currentReceiptData?.length === 0 && (
+                            )} */}
+                            {!receiptLoader && sortedDataReceipt &&
+                              sortedDataReceipt?.length === 0 && (
                                 <div style={{ marginTop: 20 }}>
                                   <div style={{ textAlign: "center" }}>
                                     {" "}
@@ -6716,12 +6843,12 @@ const InvoicePage = () => {
         </div>
 
       )}
-      {manualInvoiceNumberError ?
+      {/* {manualInvoiceNumberError ?
         <div className='d-flex align-items-center justify-content-center  mb-2' style={{ marginTop: "30px", marginLeft: "30px" }}>
           <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
           <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{manualInvoiceNumberError}</label>
         </div>
-        : null}
+        : null} */}
 
       {unableAddInvoiceDetailsError ?
         <div className='d-flex align-items-center justify-content-center mb-2' style={{ marginTop: "10px", marginLeft: "30px" }}>

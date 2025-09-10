@@ -5,22 +5,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import Addbtn from "../../Assets/Images/New_images/add-circle.png"
 // import { Edit, Trash } from "iconsax-react";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import CheckOutForm from "./UserListCheckoutForm";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { MdError } from "react-icons/md";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import {
-  Table,
-  // Button,
-  // Modal,
-
-} from "react-bootstrap";
+import CustomerProfile from "./CheckoutProfile";
+import { checkoutCustomerProfile } from "../../Redux/Action/smartStayAction";
+import { Table } from "react-bootstrap";
 import PropTypes from "prop-types";
 import './UserlistCheckout.css';
-import Select from "react-select";
+import PaginationList from "../../Components/PaginationList";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 
 function CheckOut(props) {
@@ -34,15 +31,39 @@ function CheckOut(props) {
 
   const [activeDotsId, setActiveDotsId] = useState(null);
   // const [modalType, setModalType] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
   // const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   // const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader, setCheckOutLoader] = useState(false)
-  // const [cofirmForm, setConfirmForm] = useState(false)
+  const [CheckoutProfile, setCheckoutProfile] = useState(false)
+  const [checkouttableshow, setcheckoutTableShow] = useState(true);
+  const [checkoutWithoutPay,setCheckoutWithoutPay] =useState("")
+
+  const handleCustomerProfilePage = (checkout) => {
+    console.log("checkout", checkout)
+    // props?.handleCheckoutOverview(false)
+    setCheckoutWithoutPay(checkout)
+    setCheckoutProfile(true)
+    setcheckoutTableShow(false)
+    dispatch(checkoutCustomerProfile(false))
+    dispatch({
+      type: "CHECKOUTPROFILEDETAILS",
+      payload: { hostel_id: state.login.selectedHostel_Id, id: checkout.ID },
+    });
+    dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: checkout.ID } });
+    // props.setUserList(false)
+    // props?.show()
+
+    // props?.handleCheckoutOverview(false)
+  }
+
+  console.log("all", state);
+  console.log("CheckoutProfile", CheckoutProfile)
+
+
 
 
   useEffect(() => {
@@ -193,31 +214,78 @@ function CheckOut(props) {
   ]);
   const popupRef = useRef(null);
 
-  const indexOfLastCustomer = currentPage * itemsPerPage;
-  const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  const currentCustomers =
-    props.search || props.filterStatus || props.checkoutDateRange?.length === 2
-      ? props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer)
-      : checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  const totalPages = Math.ceil(
-    (props.search || props.filterStatus ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
-  );
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const handleItemsPerPageChange = (selectedOption) => {
-    setItemsPerPage(Number(selectedOption.value));
-    setCurrentPage(1);
-  };
+  // const indexOfLastCustomer = currentPage * itemsPerPage;
+  // const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
+  // const currentCustomers =
+  //   props.search || props.filterStatus || props.checkoutDateRange?.length === 2
+  //     ? props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer)
+  //     : checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  // const totalPages = Math.ceil(
+  //   (props.search || props.filterStatus ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
+  // );
+  // const handlePageChange = (pageNumber) => {
+  //   setCurrentPage(pageNumber);
+  // };
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setItemsPerPage(Number(selectedOption.value));
+  //   setCurrentPage(1);
+  // };
 
 
 
 
-  const pageOptions = [
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const pageOptions = [
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentCustomers;
+
+  //   const sorted = [...currentCustomers].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
+
+
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
+
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+
+  //   return sorted;
+  // }, [currentCustomers, sortConfig]);
+
+  const currentCustomers = React.useMemo(() => {
+    const useFiltered =
+      props.search ||
+      props.filterStatus ||
+      (props.checkoutDateRange?.length === 2);
+
+    if (useFiltered) {
+      return props.filteredUsers || [];
+    }
+
+    return checkOutCustomer || [];
+  }, [
+    props.search,
+    props.filterStatus,
+    props.checkoutDateRange,
+    props.filteredUsers,
+
+  ]);
+
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
@@ -227,15 +295,14 @@ function CheckOut(props) {
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
 
-
       if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === 'asc'
+        return sortConfig.direction === "asc"
           ? valueA - valueB
           : valueB - valueA;
       }
 
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return sortConfig.direction === 'asc'
+      if (typeof valueA === "string" && typeof valueB === "string") {
+        return sortConfig.direction === "asc"
           ? valueA.localeCompare(valueB)
           : valueB.localeCompare(valueA);
       }
@@ -245,16 +312,18 @@ function CheckOut(props) {
 
     return sorted;
   }, [currentCustomers, sortConfig]);
+
+
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
 
-  useEffect(() => {
-    if (props.resetPage) {
-      setCurrentPage(1);
-      props.setResetPage(false);
-    }
-  }, [props.resetPage]);
+  // useEffect(() => {
+  //   if (props.resetPage) {
+  //     setCurrentPage(1);
+  //     props.setResetPage(false);
+  //   }
+  // }, [props.resetPage]);
 
   // const [checkOutEdit, setCheckOutEdit] = useState("");
   // const [checkouteditaction, setCheckoutEditAction] = useState(false)
@@ -340,16 +409,16 @@ function CheckOut(props) {
   // }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
 
-useEffect(() => {
-  if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
-            setDueCustomerShow(true);
+  useEffect(() => {
+    if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
+      setDueCustomerShow(true);
 
-  }
+    }
 
-  setTimeout(() => {
-    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-  }, 500);
-}, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+    }, 500);
+  }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
 
 
@@ -454,301 +523,307 @@ useEffect(() => {
   const [checkoutForm, setcheckoutForm] = useState(false);
 
 
+
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
 
-
+  const handleCloseCheckoutProfile = () => {
+    setCheckoutProfile(false)
+  }
 
 
   return (
 
     <>
-
-      <div>
-        {checkoutLoader &&
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: '200px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>
-        }
-        {checkOutPermissionError ? (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 90
-
-              }}
-            >
-
-              <img
-                src={Emptystate}
-                alt="Empty State"
-
-              />
-
-
-              {checkOutPermissionError && (
+      {checkouttableshow &&
+        <>
+          <div>
+            {checkoutLoader &&
+              <div
+                style={{
+                  position: 'fixed',
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: '200px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
                 <div
                   style={{
-                    color: "red",
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
+            {checkOutPermissionError ? (
+              <>
+                <div
+                  style={{
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
-                    gap: "0.5rem",
-                    marginTop: "1rem",
+                    justifyContent: "center",
+                    marginTop: 90
+
                   }}
                 >
-                  <MdError />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{checkOutPermissionError}</span>
-                </div>
-              )}
-            </div>
-          </>
-        ) :
 
-          <div  >
-            <div>
-              {sortedData?.length > 0 ? (
-                <div
-                  className="p-0 booking-table-userlist  booking-table me-4"
-                  style={{ paddingBottom: "20px", marginLeft: "-14px" }}
-                >
-                  <div
+                  <img
+                    src={Emptystate}
+                    alt="Empty State"
 
-                    className='show-scrolls'
-                    style={{
+                  />
 
-                      height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "430px" : "auto",
-                      overflow: "auto",
-                      borderTop: "1px solid #E8E8E8",
-                      marginBottom: 20,
-                      marginTop: "20px",
-                      paddingRight: 0,
-                      paddingLeft: 0
 
-                    }}
-                  >
-                    <Table
-                      responsive="md"
-
+                  {checkOutPermissionError && (
+                    <div
                       style={{
-                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                        top: 0,
-                        zIndex: 1,
-                        borderRadius: 0
+                        color: "red",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        marginTop: "1rem",
                       }}
                     >
-                      <thead
+                      <MdError />
+                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{checkOutPermissionError}</span>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) :
+
+              <div  >
+                <div>
+                  {sortedData?.length > 0 ? (
+                    <div
+                      className="p-0 booking-table-userlist  booking-table me-4"
+                      style={{ paddingBottom: "20px", marginLeft: "-14px" }}
+                    >
+                      <div
+
+                        className='show-scrolls'
                         style={{
-                          fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                          top: 0,
-                          zIndex: 1
+
+                          height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "430px" : "auto",
+                          overflow: "auto",
+                          borderTop: "1px solid #E8E8E8",
+                          marginBottom: 20,
+                          marginTop: "20px",
+                          paddingRight: 0,
+                          paddingLeft: 0
+
                         }}
                       >
-                        <tr>
+                        <Table
+                          responsive="md"
 
-                          <th
+                          style={{
+                            fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                            borderRadius: 0
+                          }}
+                        >
+                          <thead
                             style={{
-                              textAlign: "start",
-                              padding: "10px",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: "12px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              background: "#E7F1FF",
-                              border: "none",
+                              fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                              top: 0,
+                              zIndex: 1
+                            }}
+                          >
+                            <tr>
 
-                              paddingLeft: "20px"
-                            }}
-                          >
-                            <div className='d-flex gap-1 align-items-center justify-content-start'>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
-                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
-                              </div>
-                              Name</div>
-                          </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  background: "#E7F1FF",
+                                  border: "none",
 
-                          <th
-                            style={{
-                              textAlign: "start",
-                              padding: "10px",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: "12px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              background: "#E7F1FF",
-                              border: "none",
-                              whiteSpace: "nowrap"
-                            }}
-                          >
-                            <div className='d-flex gap-1 align-items-center justify-content-start'>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'asc')} style={{ cursor: "pointer" }} />
-                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'desc')} style={{ cursor: "pointer" }} />
-                              </div>
-                              Mobile No</div>
-                          </th>
-                          <th
-                            style={{
-                              textAlign: "start",
-                              padding: "10px",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: "12px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              background: "#E7F1FF",
-                              border: "none",
-                            }}
-                          >
-                            <div className='d-flex gap-1 align-items-center justify-content-start'>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
-                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
-                              </div>
-                              Floor</div>
-                          </th>
-                          <th
-                            style={{
-                              textAlign: "start",
-                              padding: "10px",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: "12px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              background: "#E7F1FF",
-                              border: "none",
-                            }}
-                          >
-                            <div className='d-flex gap-1 align-items-center justify-content-start'>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'asc')} style={{ cursor: "pointer" }} />
-                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'desc')} style={{ cursor: "pointer" }} />
-                              </div>
-                              Room</div>
-                          </th>
-                          <th
-                            style={{
-                              textAlign: "start",
-                              padding: "10px",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: "12px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              background: "#E7F1FF",
-                              border: "none",
-                            }}
-                          >
-                            <div className='d-flex gap-1 align-items-center justify-content-start'>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'asc')} style={{ cursor: "pointer" }} />
-                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'desc')} style={{ cursor: "pointer" }} />
-                              </div>
-                              Bed</div>
-                          </th>
+                                  paddingLeft: "20px"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Name</div>
+                              </th>
 
-                          <th
-                            style={{
-                              textAlign: "start",
-                              padding: "10px",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: "12px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              background: "#E7F1FF",
-                              border: "none",
-                              whiteSpace: "nowrap"
-                            }}
-                          >
-                            <div className='d-flex gap-1 align-items-center justify-content-start'>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'asc')} style={{ cursor: "pointer" }} />
-                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'desc')} style={{ cursor: "pointer" }} />
-                              </div>
-                              Check-Out Date</div>
-                          </th>
-                          <th
-                            style={{
-                              textAlign: "start",
-                              padding: "10px",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: "12px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              background: "#E7F1FF",
-                              border: "none",
-                            }}
-                          >
-                            <div className='d-flex gap-1 align-items-center justify-content-start'>
-                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'asc')} style={{ cursor: "pointer" }} />
-                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'desc')} style={{ cursor: "pointer" }} />
-                              </div>
-                              Status</div>
-                          </th>
-                          <th
-                            style={{
-                              textAlign: "start",
-                              padding: "10px",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: "12px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              background: "#E7F1FF",
-                              border: "none",
-                              paddingBottom: 12
-                            }}
-                          >
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  background: "#E7F1FF",
+                                  border: "none",
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Mobile No</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  background: "#E7F1FF",
+                                  border: "none",
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Floor</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  background: "#E7F1FF",
+                                  border: "none",
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Room</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  background: "#E7F1FF",
+                                  border: "none",
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Bed</div>
+                              </th>
+
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  background: "#E7F1FF",
+                                  border: "none",
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Check-Out Date</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  background: "#E7F1FF",
+                                  border: "none",
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Status</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  background: "#E7F1FF",
+                                  border: "none",
+                                  paddingBottom: 12
+                                }}
+                              >
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          {/* <tbody>
                         {sortedData && sortedData.length > 0 && sortedData.map((checkout) => {
 
 
                           return (
                             <tr key={checkout.ID} className="customer-row">
 
-                              <td style={{ verticalAlign: "middle", borderBottom: "1px solid #E8E8E8" }}>
+                              <td onClick={()=>handleCustomerProfilePage(checkout)}  style={{ verticalAlign: "middle", borderBottom: "1px solid #E8E8E8" }}>
                                 <div className="d-flex align-items-center">
                                   <span
                                     style={{
                                       fontSize: "13px",
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      color: "#222222",
+                                      color: "blue",
                                       paddingLeft: "4px",
                                       textAlign: "start",
-                                      verticalAlign: "middle"
+                                      verticalAlign: "middle",
+                                      cursor:"pointer"
+                                     
                                     }}
-                                    className=" customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                                    className=" customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                   >
                                     {checkout.Name}
                                   </span>
@@ -805,7 +880,7 @@ useEffect(() => {
                                     verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                                   }}
                                 >
-                                  {checkout.floor_name}
+                                  {checkout.floor_name || "_"}
                                 </span>
                               </td>
 
@@ -838,7 +913,7 @@ useEffect(() => {
                                     verticalAlign: "middle"
                                   }}
                                 >
-                                  {checkout.room_name}
+                                  {checkout.room_name || "_"}
                                 </span>
                               </td>
                               <td
@@ -870,7 +945,7 @@ useEffect(() => {
                                     verticalAlign: "middle"
                                   }}
                                 >
-                                  {checkout.bed_name}
+                                  {checkout.bed_name || "_"}
                                 </span>
                               </td>
                               <td
@@ -1006,91 +1081,7 @@ useEffect(() => {
 
                                       )}
 
-                                      {/* <div
-                                        className="d-flex align-items-center mb-2"
-                                        onClick={() => {
-                                          if (!checkOutEditPermissionError) {
-                                            if (checkout.isActive === 1) {
-                                              handleEdit(checkout);
-                                            } else {
-                                              handleConformEdit(checkout);
-                                            }
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
-                                          opacity: checkOutEditPermissionError ? 0.5 : 1,
-                                          transition: "background-color 0.2s ease",
-                                          padding: "6px 8px",
-                                          borderRadius: 6,
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          if (!checkOutEditPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.currentTarget.style.backgroundColor = "transparent";
-                                        }}
-                                      >
-                                        <Edit
-                                          size="16"
-                                          color={checkOutEditPermissionError ? "#A9A9A9" : "#1E45E1"}
-                                          style={{ marginRight: 8 }}
-                                        />
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy, sans-serif",
-                                            color: checkOutEditPermissionError ? "#A9A9A9" : "#222222",
-                                            cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
-                                          }}
-                                        >
-                                          Edit
-                                        </label>
-                                      </div> */}
-
-
-                                      {/* <div
-                                        className="d-flex align-items-center"
-                                        onClick={() => {
-                                          if (!checkOutDeletePermissionError) {
-                                            handleDelete(checkout);
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: checkOutDeletePermissionError ? "not-allowed" : "pointer",
-                                          opacity: checkOutDeletePermissionError ? 0.5 : 1,
-                                          padding: "6px 8px",
-                                          borderRadius: 6,
-                                          transition: "background 0.2s ease-in-out",
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          if (!checkOutDeletePermissionError) {
-                                            e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                          }
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.currentTarget.style.backgroundColor = "transparent";
-                                        }}
-                                      >
-                                        <Trash
-                                          size="16"
-                                          color={checkOutDeletePermissionError ? "#A9A9A9" : "red"}
-                                          style={{ marginRight: 8 }}
-                                        />
-
-                                        <label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy, sans-serif",
-                                            color: checkOutDeletePermissionError ? "#A9A9A9" : "#FF0000",
-                                            cursor: checkOutDeletePermissionError ? "not-allowed" : "pointer",
-                                          }}
-                                        >
-                                          Delete
-                                        </label>
-                                      </div> */}
+                                   
 
                                     </div>
 
@@ -1102,10 +1093,307 @@ useEffect(() => {
                             </tr>
                           );
                         })}
-                      </tbody>
-                    </Table>
-                  </div>
-                  {((props.search || props.filterStatus) ? props.filteredUsers?.length : checkOutCustomer?.length) > 10 && (
+                      </tbody> */}
+                          <tbody>
+                            <PaginationList>
+                              {sortedData && sortedData.length > 0 &&
+                                sortedData.map((checkout) => (
+                                  <tr key={checkout.ID} className="customer-row">
+                                    <td
+                                      onClick={() => handleCustomerProfilePage(checkout)}
+                                      style={{
+                                        verticalAlign: "middle",
+                                        borderBottom: "1px solid #E8E8E8",
+                                      }}
+                                    >
+                                      <div className="d-flex align-items-center">
+                                        <span
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            color: "blue",
+                                            paddingLeft: "4px",
+                                            textAlign: "start",
+                                            verticalAlign: "middle",
+                                            cursor: "pointer",
+                                          }}
+                                          className="customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                        >
+                                          {checkout.Name}
+                                        </span>
+                                      </div>
+                                    </td>
+
+                                    <td
+                                      style={{
+                                        fontSize: "13px",
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        color: "#000000",
+                                        textAlign: "start",
+                                        verticalAlign: "middle",
+                                        borderBottom: "1px solid #E8E8E8",
+                                      }}
+                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                    >
+                                      +{checkout && String(checkout.Phone).slice(0, String(checkout.Phone).length - 10)}{" "}
+                                      {checkout && String(checkout.Phone).slice(-10)}
+                                    </td>
+
+                                    <td
+                                      style={{
+                                        padding: "10px",
+                                        border: "none",
+                                        textAlign: "start",
+                                        fontSize: "13px",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        verticalAlign: "middle",
+                                        borderBottom: "1px solid #E8E8E8",
+                                      }}
+                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                    >
+                                      <span
+                                        style={{
+                                          padding: "3px 10px",
+                                          borderRadius: "60px",
+                                          backgroundColor: "#EBEBEB",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          display: "inline-block",
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
+                                          whiteSpace: "nowrap",
+                                          verticalAlign: "middle",
+                                        }}
+                                      >
+                                        {checkout.floor_name || "_"}
+                                      </span>
+                                    </td>
+
+                                    <td
+                                      style={{
+                                        padding: "10px",
+                                        border: "none",
+                                        textAlign: "start",
+                                        fontSize: "13px",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        verticalAlign: "middle",
+                                        borderBottom: "1px solid #E8E8E8",
+                                      }}
+                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                    >
+                                      <span
+                                        style={{
+                                          padding: "3px 10px",
+                                          borderRadius: "60px",
+                                          backgroundColor: "#EBEBEB",
+                                          textAlign: "start",
+                                          fontSize: "11px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          display: "inline-block",
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
+                                          whiteSpace: "nowrap",
+                                          verticalAlign: "middle",
+                                        }}
+                                      >
+                                        {checkout.room_name || "_"}
+                                      </span>
+                                    </td>
+
+                                    <td
+                                      style={{
+                                        padding: "10px",
+                                        border: "none",
+                                        textAlign: "start",
+                                        fontSize: "13px",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        verticalAlign: "middle",
+                                        borderBottom: "1px solid #E8E8E8",
+                                      }}
+                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                    >
+                                      <span
+                                        style={{
+                                          padding: "3px 10px",
+                                          borderRadius: "60px",
+                                          backgroundColor: "#EBEBEB",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          display: "inline-block",
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
+                                          whiteSpace: "nowrap",
+                                          verticalAlign: "middle",
+                                        }}
+                                      >
+                                        {checkout.bed_name || "_"}
+                                      </span>
+                                    </td>
+
+                                    <td
+                                      style={{
+                                        padding: "10px",
+                                        border: "none",
+                                        textAlign: "start",
+                                        fontSize: "13px",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        verticalAlign: "middle",
+                                        borderBottom: "1px solid #E8E8E8",
+                                      }}
+                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                    >
+                                      <span
+                                        style={{
+                                          padding: "3px 10px",
+                                          borderRadius: "60px",
+                                          backgroundColor: "#EBEBEB",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          display: "inline-block",
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
+                                          whiteSpace: "nowrap",
+                                          verticalAlign: "middle",
+                                        }}
+                                      >
+                                        {moment(checkout.CheckoutDate, "YYYY-MM-DD").format("DD MMM YYYY")}
+                                      </span>
+                                    </td>
+
+                                    <td
+                                      style={{
+                                        padding: "10px",
+                                        border: "none",
+                                        textAlign: "start",
+                                        fontSize: "13px",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        whiteSpace: "nowrap",
+                                        verticalAlign: "middle",
+                                        borderBottom: "1px solid #E8E8E8",
+                                      }}
+                                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                    >
+                                      <span
+                                        style={{
+                                          backgroundColor: "pink",
+                                          padding: 8,
+                                          borderRadius: 10,
+                                        }}
+                                      >
+                                        {checkout.status}
+                                      </span>
+                                    </td>
+
+                                    <td style={{ borderBottom: "1px solid #E8E8E8" }}>
+                                      <div
+                                        style={{
+                                          cursor: "pointer",
+                                          height: 40,
+                                          width: 40,
+                                          borderRadius: "50%",
+                                          border: "1px solid #EFEFEF",
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          position: "relative",
+                                          backgroundColor: activeDotsId === checkout.ID ? "#E7F1FF" : "white",
+                                        }}
+                                        onClick={(e) => toggleMoreOptions(checkout.ID, checkout, e)}
+                                      >
+                                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                                        {checkout.isActive === 1 && activeDotsId === checkout.ID && (
+                                          <div
+                                            ref={popupRef}
+                                            style={{
+                                              position: "fixed",
+                                              top: popupPosition.top,
+                                              left: popupPosition.left - 20,
+                                              width: 200,
+                                              backgroundColor: "#F9F9F9",
+                                              border: "1px solid #F9F9F9",
+                                              borderRadius: 12,
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                              padding: 10,
+                                              zIndex: 10,
+                                            }}
+                                          >
+                                            {checkout.isActive !== 0 && (
+                                              <div
+                                                className="d-flex align-items-center"
+                                                onClick={() => {
+                                                  if (!props.customerCheckoutPermission) {
+                                                    handleConfirmCheckout(checkout);
+                                                  }
+                                                }}
+                                                style={{
+                                                  cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
+                                                  opacity: props.customerCheckoutPermission ? 0.5 : 1,
+                                                  padding: "6px 8px",
+                                                  borderRadius: 6,
+                                                  transition: "background-color 0.2s ease",
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                  if (!props.customerCheckoutPermission) {
+                                                    e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                  }
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                  e.currentTarget.style.backgroundColor = "transparent";
+                                                }}
+                                              >
+                                                <img
+                                                  src={Addbtn}
+                                                  alt="checkout icon"
+                                                  style={{ height: 16, width: 16, marginRight: 8 }}
+                                                />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 600,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: props.customerCheckoutPermission ? "#A9A9A9" : "#222222",
+                                                    cursor: props.customerCheckoutPermission ? "not-allowed" : "pointer",
+                                                  }}
+                                                >
+                                                  Confirm Check-Out
+                                                </label>
+                                              </div>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
+                              }
+                            </PaginationList>
+                          </tbody>
+
+
+                        </Table>
+                      </div>
+                      {/* {((props.search || props.filterStatus) ? props.filteredUsers?.length : checkOutCustomer?.length) > 10 && (
 
 
 
@@ -1251,65 +1539,65 @@ useEffect(() => {
                       </ul>
                     </nav>
 
-                  )}
+                  )} */}
 
+                    </div>
+
+                  ) : (!checkoutLoader && currentCustomers?.length === 0 && (
+                    <div style={{ marginTop: 30, height: "60vh" }} className="animated-text">
+                      <div style={{ textAlign: "center" }}>
+                        {" "}
+                        <img src={Emptystate} alt="emptystate" />
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          fontSize: 18,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        No checkout List available{" "}
+                      </div>
+                      <div
+                        className="pb-1"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          color: "rgba(75, 75, 75, 1)",
+                        }}
+                      >
+                        There are no checkout List added.{" "}
+                      </div>
+
+                    </div>
+                  ))}
                 </div>
+              </div>
 
-              ) : (!checkoutLoader && currentCustomers?.length === 0 && (
-                <div style={{ marginTop: 30, height: "60vh" }} className="animated-text">
-                  <div style={{ textAlign: "center" }}>
-                    {" "}
-                    <img src={Emptystate} alt="emptystate" />
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 18,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    No checkout List available{" "}
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    There are no checkout List added.{" "}
-                  </div>
-
-                </div>
-              ))}
-            </div>
-          </div>
-
-        }
-        {(checkoutForm ) && (
-          <CheckOutForm
-            show={checkoutForm}
-            item={checkOutCustomer}
-            handleClose={checkoutcloseModal}
-            // currentItem={checkOutEdit}
-            data={checkOutconfirm}
-            // checkouteditaction={checkouteditaction}
-            // checkoutaction={checkoutaction}
-            // cofirmForm={cofirmForm}
-            // setConfirmForm={setConfirmForm}
-            // handleCloseConformForm={handleCloseConformForm}
-            // conformEdit={conformEdit}
-          />
-        )}
+            }
+            {(checkoutForm) && (
+              <CheckOutForm
+                show={checkoutForm}
+                item={checkOutCustomer}
+                handleClose={checkoutcloseModal}
+                // currentItem={checkOutEdit}
+                data={checkOutconfirm}
+              // checkouteditaction={checkouteditaction}
+              // checkoutaction={checkoutaction}
+              // cofirmForm={cofirmForm}
+              // setConfirmForm={setConfirmForm}
+              // handleCloseConformForm={handleCloseConformForm}
+              // conformEdit={conformEdit}
+              />
+            )}
 
 
-        {/* <Modal
+            {/* <Modal
           show={modalType === "delete"}
           onHide={handleModalClose}
           centered
@@ -1396,22 +1684,30 @@ useEffect(() => {
 
 
 
-        {
-          DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup}  />
+
+
+
+
+
+
+
+
+
+
+
+          </div>
+        </>
+      }
+
+      {
+        DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
+      }
+
+ {
+          CheckoutProfile && <CustomerProfile CheckoutProfile ={CheckoutProfile} setcheckoutTableShow= {setcheckoutTableShow} handleCloseCheckoutProfile={handleCloseCheckoutProfile} setCheckoutProfile={setCheckoutProfile} checkoutWithoutPay={checkoutWithoutPay}/>
         }
 
 
-
-
-
-
-
-
-
-
-
-
-      </div>
     </>
   );
 }

@@ -20,7 +20,6 @@ import eye from "../Assets/Images/login-password.png";
 import eyeClosed from "../Assets/Images/Show_password.png";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
-import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import './SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
@@ -132,14 +131,6 @@ function SettingGeneral() {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
-
-  const options = [
-    { value: 2, label: "2" },
-    { value: 5, label: "5" },
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
 
   const handleNewPassword = (e) => {
     const newPassword = e.target.value
@@ -867,31 +858,31 @@ const isChanged =
   }, [state.Settings?.statusCodeForGeneralDelete]);
 
 
-  const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
-  const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
-
-  
-  const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
-  const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
-  const currentRowGeneral = generalFilterddata && generalFilterddata?.slice(
-    indexOfFirstRowGeneral,
-    indexOfLastRowGeneral
-  );
-
-  const handlePageChange = (generalpageNumber) => {
-    setGeneralcurrentPage(generalpageNumber);
-  };
-
-  const handleItemsPerPageChange = (selectedOption) => {
-    setGeneralrowsPerPage(selectedOption.value);
-    setGeneralcurrentPage(1);
-  };
+  // const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
+  // const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
 
 
+  // const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
+  // const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
+  // const currentRowGeneral = generalFilterddata?.slice(
+  //   indexOfFirstRowGeneral,
+  //   indexOfLastRowGeneral
+  // );
 
-  const totalPagesGeneral = Math.ceil(
-    generalFilterddata?.length / generalrowsPerPage
-  );
+  // const handlePageChange = (generalpageNumber) => {
+  //   setGeneralcurrentPage(generalpageNumber);
+  // };
+
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   setGeneralrowsPerPage(selectedOption.value);
+  //   setGeneralcurrentPage(1);
+  // };
+
+
+
+  // const totalPagesGeneral = Math.ceil(
+  //   generalFilterddata?.length / generalrowsPerPage
+  // );
 
 
 
@@ -1110,8 +1101,8 @@ const isChanged =
 
 
 
-        {currentRowGeneral && currentRowGeneral.length > 0 ? (
-          currentRowGeneral.map((item) => {
+        {generalFilterddata && generalFilterddata.length > 0 ? (
+         generalFilterddata.map((item) => {
             const imageUrl = item.profilePic || Profile;
             return (
 
@@ -1411,7 +1402,7 @@ const isChanged =
 
  
 
-      {generalFilterddata?.length > 2 && (
+      {/* {generalFilterddata?.length > 2 && (
         <nav
           style={{
             display: "flex",
@@ -1565,7 +1556,7 @@ const isChanged =
             </li>
           </ul>
         </nav>
-      )}
+      )} */} 
 
       <Modal
         show={showFormGeneral}
