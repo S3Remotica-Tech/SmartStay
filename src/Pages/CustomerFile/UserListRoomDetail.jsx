@@ -26,7 +26,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-import upload from "../../Assets/Images/New_images/upload.png";
+import upload from "../../Assets/Images/New_images/pdf@2x.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Edit, Trash } from "iconsax-react";
@@ -141,6 +141,83 @@ function UserListRoomDetail(props) {
   const [fields, setFields] = useState([]);
   const [showDocModal, setShowDocModal] = useState(false);
    const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
+   const [documentvalue,setDocumentValue] = useState("1")
+    const [previewUrl, setPreviewUrl] = useState(null);
+         const [previewUrl2, setPreviewUrl2]=useState(null)
+
+const handleFileOpen = (url) => {
+  if (!url) return;
+
+  const lowerUrl = url.toLowerCase();
+
+  if (
+    lowerUrl.endsWith(".pdf") ||
+    lowerUrl.endsWith(".jpg") ||
+    lowerUrl.endsWith(".jpeg") ||
+    lowerUrl.endsWith(".png")
+  ) {
+   
+    setPreviewUrl(url);
+    setShowDocModal(true);
+  } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+    window.open(viewerUrl, "_blank");
+  } else {
+    window.open(url, "_blank");
+  }
+};
+
+
+
+
+
+
+const handleFileOpen2 = (url) => {
+  if (!url) return;
+
+  const lowerUrl = url.toLowerCase();
+
+  if (
+    lowerUrl.endsWith(".pdf") ||
+    lowerUrl.endsWith(".jpg") ||
+    lowerUrl.endsWith(".jpeg") ||
+    lowerUrl.endsWith(".png")
+  ) {
+   
+    setPreviewUrl2(url);
+    setShowDocModaldoc2(true);
+  } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+    window.open(viewerUrl, "_blank");
+  } else {
+    window.open(url, "_blank");
+  }
+};
+
+
+// const cleanFileName = (url) => {
+//   const fullName = getFileName(url);
+//   const parts = fullName.split("_");
+//   const ext = fullName.split(".").pop(); 
+//   const short = parts[0].substring(0, 6); 
+//   return `${short}.${ext}`;
+// };
+const cleanFileName = (url) => {
+  if (!url) return "";
+
+  const fullName = decodeURIComponent(url.split("/").pop()); // get actual filename
+  const ext = fullName.split(".").pop(); // extension
+  const baseName = fullName.replace(/\.[^/.]+$/, ""); // remove extension
+
+  const parts = baseName.split("_");
+  const lastPart = parts[parts.length - 1]; // take last meaningful part
+
+  // limit to 8 characters if you want short name
+  const short = lastPart.substring(0, 15);
+
+  return `${short}.${ext}`;
+};
+
 
 
 
@@ -518,6 +595,10 @@ useEffect(() => {
     setValue(newValue);
     setFormShow(false);
     setKycDetailForm(false);
+  };
+    const handleChangesupload = (event, newValue) => {
+    setDocumentValue(newValue);
+    
   };
 
   const options = {
@@ -1272,6 +1353,7 @@ useEffect(() => {
         user_id: props.id,
         invoice_date: formattedInvoiceDate,
         due_date: formattedDueDate,
+        isadvance:1
       },
     });
   };
@@ -2945,93 +3027,110 @@ const imageUrl = imagePreview
                                   </div>
 
                                 </div>
+
+
                               </div>
                             </div>
 
-                            <div className="col-md-12 mb-3 mb-md-0 mt-3">
-                              <div
-                                className="card"
-                                style={{
-                                  borderRadius: "20px",
-                                  padding: "20px",
-                                  marginTop: 30,
-                                  marginLeft: "20px",
-                                }}
-                              >
-                                <div
-                                  className="card-header d-flex justify-content-between align-items-center"
-                                  style={{
-                                    backgroundColor: "transparent",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    borderBottom: "transparent",
-                                    marginBottom: "15px",
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      fontSize: 16,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      lineHeight: "40px",
-                                    }}
-                                  >
-                                    Document
-                                  </div>
-                                </div>
+<div className="card mt-4" style={{marginLeft:25,borderRadius:10}}>
+  <div className="card-body">
+ {/* <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#kycDocs">KYC Documents</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#manualDocs">Manual Documents</a>
+    </li>
+  </ul> */}
+  <TabContext value={documentvalue}>
+  <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+    <TabList
+      onChange={handleChangesupload}
+      aria-label="custom tabs"
+      className="d-flex flex-column flex-sm-row"
+      TabIndicatorProps={{ style: { display: "none" } }} // hide default blue line
+    >
+      <Tab
+        label="KYC Documents"
+        value="1"
+        sx={{
+          textTransform: "capitalize",
+          fontSize: 16,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          color: documentvalue === "1" ? "#070707" : "#4B4B4B",
+          borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
+          minWidth: "auto", 
+        }}
+      />
+      <Tab
+        label="Manual Documents"
+        value="2"
+        sx={{
+          textTransform: "capitalize",
+          fontSize: 16,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          color: documentvalue === "2" ? "#000000" : "#4B4B4B",
+          borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+          minWidth: "auto",
+        }}
+      />
+   
+    </TabList>
+  </Box>
 
-                                <div
-                                  className="row"
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}>
-                                   
-
-
-                                    <button
-                                      className="btn"
-                                      disabled={props.customerAddPermission}
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "5px 10px",
-                                        fontSize: "14px",
-                                        border: "1px solid #D9D9D9",
-                                        fontFamily: "Gilroy",
-                                       
-                                        
-                                      }}
-                                      onClick={() => handleUploadClick(aadharInputRef)}
-                                    >
-                                      <img
+  <TabPanel value="1">
+   <div className="row mt-3">
+       
+ <div className="col-md-6">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+               <img
                                         src={upload}
                                         alt="upload"
                                         width={20}
                                         height={20}
                                         style={{ marginRight: "8px" }}
                                       />
-                                      Upload Document
-                                    </button>
+              <div>
+                {/* <p class="mb-0 fw-semibold small text-wrap">Rental Agreement.pdf</p> */}
+                <p 
+  className="mb-0 fw-semibold small text-truncate" 
+  style={{ maxWidth: "120px" }}  // adjust width
+  title="Rental Agreement.pdf"   // tooltip for full name
+>
+  Rental Agreement.pdf
+</p>
+                <small className="text-muted">180 KB • PDF</small>
+              </div>
+            </div>
+            <div className="d-flex gap-2">
+              <img src={viewdoc} alt="viewdoc"/>
+             <img src={docDown} alt="docDown"/>
+            </div>
+          </div>
+        </div>
 
 
-                                    <input
-                                      type="file"
-                                      ref={aadharInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) => handleFileChange(e, "doc1")}
-                                    />
-
-
-                                    {state.UsersList?.KycCustomerDetails?.pic && (
+        <div className="col-md-6">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+             <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+              <div>
+                <p className="mb-0 fw-semibold small">Aadhar.pdf</p>
+                <small className="text-muted">180 KB • PDF</small>
+              </div>
+            </div>
+           
+             {state.UsersList?.KycCustomerDetails?.pic && (
                                       <div >
-                                        <img
-                                          src={docDown}
-                                          alt="Download Aadhar"
-                                          onClick={handleDownloadKYC}
-                                          style={{ width: 20, height: 20, cursor: "pointer", marginLeft: 170, marginTop: "-70px" }}
-                                        />
 
                                          <img
                                           src={viewdoc}
@@ -3040,14 +3139,22 @@ const imageUrl = imagePreview
                                           style={{
                                             width: 20,
                                             height: 20,
-                                            marginLeft: "10px",
-                                            marginTop: "-70px" 
+                                           
+                                           
                                           }}
                                         />
+                                        <img
+                                          src={docDown}
+                                          alt="Download Aadhar"
+                                          onClick={handleDownloadKYC}
+                                          style={{ width: 20, height: 20, cursor: "pointer"}}
+                                        />
+
+                                        
                                       </div>
                                     )}
-
-<Modal show={showModal} onHide={handleClose} size="md" centered>
+          </div>
+          <Modal show={showModal} onHide={handleClose} size="md" centered>
   <Modal.Header closeButton>
     <Modal.Title>KYC Details</Modal.Title>
   </Modal.Header>
@@ -3139,66 +3246,109 @@ const imageUrl = imagePreview
     </div>
   </Modal.Body>
 </Modal>
+        </div>
+
+   
 
 
 
+ 
 
+        <div className="col-md-6 mt-2">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+             <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+              <div>
+                <p className="mb-0 fw-semibold small">License.pdf</p>
+                <small className="text-muted">180 KB • PDF</small>
+              </div>
+            </div>
+            <div className="d-flex gap-2">
+              <img src={viewdoc} alt="viewdoc"/>
+             <img src={docDown} alt="docDown"/>
+            </div>
+          </div>
+        </div>  
+        <div className="col-md-6 mt-2">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+               <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+              <div>
+                <p className="mb-0 fw-semibold small">Pancard.pdf</p>
+                <small className="text-muted">180 KB • PDF</small>
+              </div>
+            </div>
+            <div className="d-flex gap-2">
+               <img src={viewdoc} alt="viewdoc"/>
+             <img src={docDown} alt ="doc" />
+            </div>
+          </div>
+        </div>
+      </div>
+  </TabPanel>
+  <TabPanel value="2">
+    <div
+                                  className="row mt-3"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}> */}
+                                   
+   <div className="col-md-6">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
 
-                                    <div
-                                      id="kyc-download-card"
+                                    <button
+                                      className="btn"
+                                      // disabled={props.customerAddPermission}
                                       style={{
-                                        position: "absolute",
-                                        top: "-9999px",
-                                        left: "-9999px",
-                                        borderRadius: 10,
-                                        padding: 20,
-                                        width: 320,
-                                        textAlign: "center",
-
+                                        borderRadius: "10px",
+                                        padding: "5px 10px",
+                                        fontSize: "14px",
+                                        // border: "1px solid #D9D9D9",
                                         fontFamily: "Gilroy",
+                                       
+                                        
                                       }}
+                                      onClick={() => handleUploadClick(aadharInputRef)}
                                     >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      {/* Upload Document */} {advanceDetail[0]?.doc1 
+  ? cleanFileName(advanceDetail[0].doc1) 
+  : "Upload Document"}
 
-                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
-                                        KYC Details
-                                      </h6>
-
-                                      <div style={{ marginBottom: 15 }}>
-                                        <img
-                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-                                          alt="KYC"
-                                          style={{
-                                            height: 120,
-                                            width: 120,
-                                            borderRadius: "25%",
-                                            border: "3px solid #f0f0f0",
-                                          }}
-                                        />
-                                      </div>
-
-                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
-                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
-                                      </h5>
-
-                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
-                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
-
-                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                          Adress<br />
-                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
-                                        </p>
-                                      </div>
+                                    </button>
 
 
-                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
-                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
+                                    <input
+                                      type="file"
+                                      ref={aadharInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) => handleFileChange(e, "doc1")}
+                                    />
 
-                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                          Aadhar Number<br />
-                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
-                                        </p>
-                                      </div>
-                                    </div>
+
+                                   
 
 
 
@@ -3235,7 +3385,8 @@ const imageUrl = imagePreview
     <img
       src={viewdoc}
       alt="View Document"
-      onClick={() => setShowDocModal(true)}
+      // onClick={() => setShowDocModal(true)}
+      onClick={() => handleFileOpen(advanceDetail[0]?.doc1)}
       style={{
         width: 20,
         height: 20,
@@ -3265,8 +3416,9 @@ const imageUrl = imagePreview
                                     )}
                                   </div>
 
-
-<Modal
+</div>
+</div>
+{/* <Modal
   show={showDocModal}
   onHide={() => setShowDocModal(false)}
   size="lg"
@@ -3311,22 +3463,65 @@ const imageUrl = imagePreview
       }}
     />
   </Modal.Body>
+</Modal> */}
+
+<Modal
+  show={showDocModal}
+  onHide={() => setShowDocModal(false)}
+  size="md"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px",
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModal(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+{previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+  <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
+) : (
+  <iframe
+    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+    style={{ width: "100%", height: "600px", border: "none" }}
+    title="Document Preview"
+  />
+)}
+  </Modal.Body>
 </Modal>
 
 
-
-
-                                  <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}>
-                                  
+                                  {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}> */}
+                                  <div className="col-md-6">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
                                     <button
                                       className="btn "
-                                      disabled={props.customerAddPermission}
+                                      // disabled={props.customerAddPermission}
                                       style={{
                                         borderRadius: "10px",
                                         padding: "5px 10px",
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
-                                        border: "1px solid #D9D9D9",
+                                        // border: "1px solid #D9D9D9",
                                       }}
                                       onClick={() =>
                                         handleOtherUploadClick(otherDocInputRef)
@@ -3339,7 +3534,8 @@ const imageUrl = imagePreview
                                         height={20}
                                         style={{ marginRight: "8px" }}
                                       />
-                                      Upload Document
+                                      {/* Upload Document */}
+                                        {cleanFileName(advanceDetail[0]?.doc2) || "Untitled Document"}
                                     </button>
                                     <input
                                       type="file"
@@ -3372,7 +3568,8 @@ const imageUrl = imagePreview
                                          <img
                                           src={viewdoc}
                                           alt="docdown"
-                                           onClick={() => setShowDocModaldoc2(true)}
+                                          //  onClick={() => setShowDocModaldoc2(true)}
+                                          onClick={() => handleFileOpen2(advanceDetail[0]?.doc2)}
                                           style={{
                                             width: 20,
                                             height: 20,
@@ -3383,9 +3580,10 @@ const imageUrl = imagePreview
                                         </>
                                       )} 
                                   </div>
+</div>
+</div>
 
-
-                                  <Modal
+                                  {/* <Modal
   show={showDocModaldoc2}
   onHide={() => setShowDocModaldoc2(false)}
   size="lg"
@@ -3430,10 +3628,63 @@ const imageUrl = imagePreview
       }}
     />
   </Modal.Body>
+</Modal> */}
+
+
+
+<Modal
+  show={showDocModaldoc2}
+  onHide={() => setShowDocModaldoc2(false)}
+  size="lg"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px",
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModaldoc2(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+{previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+  <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
+) : (
+  <iframe
+    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+    style={{ width: "100%", height: "600px", border: "none" }}
+    title="Document Preview"
+  />
+)}
+  </Modal.Body>
 </Modal>
                                 </div>
-                              </div>
-                            </div>
+  </TabPanel>
+</TabContext>
+
+
+
+  </div>
+ 
+</div>
+
+                          
                           </div>
 
                           <div style={{ flex: 1 }}>
@@ -4049,14 +4300,14 @@ const imageUrl = imagePreview
                                     >
                                       Additional Contact
                                     </div>
-                                    <button
+                                    {/* <button
                                       disabled={props.customerAddPermission}
                                       className="btn btn-link fw-medium text-decoration-none"
                                       style={{ fontSize: 14, fontFamily: "Gilroy" }}
                                       onClick={handleAdditionalForm}
                                     >
                                       + Add Contact
-                                    </button>
+                                    </button> */}
                                   </div>
 
                                   <div className="card-body" style={{ fontFamily: "Gilroy" }}>
@@ -4290,14 +4541,26 @@ const imageUrl = imagePreview
                                     ) : (
                                       <div
                                         style={{
-                                          fontSize: 18,
+                                          fontSize: 14,
                                           fontFamily: "Gilroy",
-                                          fontWeight: 600,
+                                          fontWeight: 400,
                                           textAlign: "center",
                                         }}
                                       >
-                                        No data Found
+                                        No Contact Details are there!
+                                       <p>
+                                          <button
+                                     
+                                     type="button" className="btn btn-primary"
+                                      disabled={props.customerAddPermission}
+                                      style={{ fontSize: 14, fontFamily: "Gilroy" }}
+                                      onClick={handleAdditionalForm}
+                                    >
+                                      + Add
+                                    </button>
+                                        </p>
                                       </div>
+                                      
                                     )}
                                   </div>
                                 </div>

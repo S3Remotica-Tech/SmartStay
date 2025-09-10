@@ -169,7 +169,7 @@ const InvoicePage = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [startDate, endDate] = dateRange;
   const [checkedRows, setCheckedRows] = useState({});
-  const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
+  // const [manualInvoiceNumberError, setManualInvoiceNumberError] = useState("")
   const [unableAddInvoiceDetailsError, setUnableAddInvoiceDetailsError] = useState("")
 
 
@@ -936,7 +936,7 @@ const InvoicePage = () => {
     setPaymodeErrmsg("");
     setPayableAmount("")
     setPayableAmountError("")
-    setManualInvoiceNumberError("")
+    // setManualInvoiceNumberError("")
     setUnableAddInvoiceDetailsError("")
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
     dispatch({ type: 'CLEAR_INVALID_DETAILS_ERROR' })
@@ -2019,6 +2019,7 @@ const InvoicePage = () => {
     }
 
   };
+  console.log("rowData",rowData)
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
       setTimeout(() => {
@@ -2068,15 +2069,15 @@ const InvoicePage = () => {
 
   }, [state.InvoiceList.payapleAmountError])
 
-  useEffect(() => {
-    if (state.InvoiceList.ManualInvoiceNumberError) {
-      setFormLoading(false)
-      setLoading(false)
-      setManualInvoiceNumberError(state.InvoiceList.ManualInvoiceNumberError)
+  // useEffect(() => {
+  //   if (state.InvoiceList.ManualInvoiceNumberError) {
+  //     setFormLoading(false)
+  //     setLoading(false)
+  //     setManualInvoiceNumberError(state.InvoiceList.ManualInvoiceNumberError)
 
-    }
+  //   }
 
-  }, [state.InvoiceList.ManualInvoiceNumberError])
+  // }, [state.InvoiceList.ManualInvoiceNumberError])
 
   useEffect(() => {
     if (state.InvoiceList.unableAddInvoiceDetailsError) {
@@ -5932,6 +5933,7 @@ const InvoicePage = () => {
                                               OnHandleshowInvoicePdf={handleReceiptDetail}
                                               onhandleEdit={handleEditReceipt}
                                               DisplayInvoice={handleDisplayReceiptDownload}
+                                              
                                             />
                                           ))}
                                         </PaginationList>
@@ -6841,12 +6843,12 @@ const InvoicePage = () => {
         </div>
 
       )}
-      {manualInvoiceNumberError ?
+      {/* {manualInvoiceNumberError ?
         <div className='d-flex align-items-center justify-content-center  mb-2' style={{ marginTop: "30px", marginLeft: "30px" }}>
           <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
           <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{manualInvoiceNumberError}</label>
         </div>
-        : null}
+        : null} */}
 
       {unableAddInvoiceDetailsError ?
         <div className='d-flex align-items-center justify-content-center mb-2' style={{ marginTop: "10px", marginLeft: "30px" }}>
