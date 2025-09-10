@@ -23,7 +23,7 @@ import arrowTot from "../../Assets/Images/New_images/direction-down 01.png";
 import { Tooltip } from "bootstrap";
 
 
-function FinalCheckout({ show, handleClose, data, customerID }) {
+function FinalSettlement({ show, handleClose, data, customerID }) {
 
 
     const state = useSelector((state) => state);
@@ -46,7 +46,7 @@ function FinalCheckout({ show, handleClose, data, customerID }) {
     // const [refundCompleted, setRefundCompleted] = useState(false);
     const [dataBed, setDataBed] = useState([])
     // const [activeTab, setActiveTab] = useState("record");
-    const [hostelData, setHostelData] = useState("")
+    // const [hostelData, setHostelData] = useState("")
     // const [refundableDetails, setReFundableDetails] = useState("")
     // const [detuction, setDetuction] = useState("")
 
@@ -373,12 +373,12 @@ function FinalCheckout({ show, handleClose, data, customerID }) {
     // };
 
 
-    useEffect(() => {
-        if (hostelData) {
-            setCheckOutDate(hostelData?.CheckoutDate)
-        }
+    // useEffect(() => {
+    //     if (hostelData) {
+    //         setCheckOutDate(hostelData?.CheckoutDate)
+    //     }
 
-    }, [hostelData])
+    // }, [hostelData])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -469,11 +469,12 @@ function FinalCheckout({ show, handleClose, data, customerID }) {
                                                 fontWeight: 400,
                                                 backgroundColor: "#FFEFCF"
                                             }}
-                                        >
-                                            {hostelData.floor_name}
+                                        > Second Floor
+                                            {/* {hostelData.floor_name} */}
                                         </span>
                                         <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                            {hostelData["Room Name"]} - {hostelData["Bed Name"]}
+                                           G4-B02
+                                            {/* {hostelData["Room Name"]} - {hostelData["Bed Name"]} */}
                                         </span>
                                     </div>
 
@@ -489,20 +490,28 @@ function FinalCheckout({ show, handleClose, data, customerID }) {
 
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Joined Date</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>  {new Date(hostelData.joining_Date).toLocaleDateString("en-GB")}
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> 
+                                    22/10/2024
+                                     {/* {new Date(hostelData.joining_Date).toLocaleDateString("en-GB")} */}
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Req Checkout Date</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>{new Date(hostelData.request_checkout_date).toLocaleDateString("en-GB")}</span>
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> 24/08/2025
+                                    {/* {new Date(hostelData.request_checkout_date).toLocaleDateString("en-GB")} */}
+                                </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Total Advance Amount</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹ {hostelData.AdvanceAmount}</span>
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹ 8000
+                                    {/* {hostelData.AdvanceAmount} */}
+                                    </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Monthly Rent</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹ {hostelData.RoomRent}</span>
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹ 6000
+                                    {/* {hostelData.RoomRent} */}
+                                    </span>
                             </div>
 
                             <div className="mt-2" style={{ textAlign: "center", backgroundColor: "#FFF7F7" }}>
@@ -1460,10 +1469,10 @@ function FinalCheckout({ show, handleClose, data, customerID }) {
         </div>
     )
 }
-FinalCheckout.propTypes = {
+FinalSettlement.propTypes = {
     show: PropTypes.func.isRequired,
     handleClose: PropTypes.func.isRequired,
     data: PropTypes.func.isRequired,
     customerID: PropTypes.func.isRequired,
 };
-export default FinalCheckout;
+export default FinalSettlement;

@@ -965,7 +965,7 @@ function SettingAmenities({ hostelid }) {
                                 fontFamily: "Gilroy",
                                 fontSize: "14px",
                             }}
-                            onClick={handleDeleteAmenitiesConfirm}
+                            // onClick={handleDeleteAmenitiesConfirm}
                         >
                             Delete
                         </Button>
