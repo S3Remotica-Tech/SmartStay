@@ -4,11 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
-import EmptyState from '../Assets/Images/New_images/empty_image.png';
+// import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import directRight from '../Assets/Images/New_images/direct-right.svg';
+import link2 from '../Assets/Images/New_images/link-2.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Edit, Trash, ProfileAdd } from 'iconsax-react';
-import Form from 'react-bootstrap/Form';
+// import { Edit, Trash, ProfileAdd } from 'iconsax-react';
+// import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
@@ -22,19 +24,19 @@ function SettingAmenities({ hostelid }) {
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    const [showDots, setShowDots] = useState(false);
+    // const [showDots, setShowDots] = useState(false);
     const [openAmenitiesForm, setOpenAmenitiesForm] = useState(false)
     const [IsDisplayAssignAmenities, setIsDisplayAssignAmenities] = useState(false)
     const popupRef = useRef(null);
     const [editDetails, setEditDetails] = useState('')
-    const [isChecked, setIsChecked] = useState(null);
+    // const [isChecked, setIsChecked] = useState(null);
     const [isDisplayRecurring, setIsDisplayRecurring] = useState(false)
-    const [amenityDetails, setAmenityDetails] = useState('')
-    const [switchStates, setSwitchStates] = useState({});
+    // const [amenityDetails, setAmenityDetails] = useState('')
+    // const [switchStates, setSwitchStates] = useState({});
     const [deleteAmenities, setDeleteAmenities] = useState(false)
-    const [deleteID, setDeleteID] = useState('')
-    const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
-    const [loading, setLoading] = useState(true)
+    // const [deleteID, setDeleteID] = useState('')
+    // const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
+    // const [loading, setLoading] = useState(true)
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
     const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
@@ -47,70 +49,70 @@ function SettingAmenities({ hostelid }) {
 
 
 
-    const handleEditAmenities = (amenity) => {
-        setEditDetails(amenity)
-        setOpenAmenitiesForm(true)
-    }
+    // const handleEditAmenities = (amenity) => {
+    //     setEditDetails(amenity)
+    //     setOpenAmenitiesForm(true)
+    // }
 
 
 
-    const handleToggle = (amenity) => {
-        setSwitchStates((prevSwitchStates) => {
-            const newChecked = !prevSwitchStates[amenity.id];
+    // const handleToggle = (amenity) => {
+    //     setSwitchStates((prevSwitchStates) => {
+    //         const newChecked = !prevSwitchStates[amenity.id];
 
-            setIsChecked(newChecked);
-            setAmenityDetails(amenity);
+    //         setIsChecked(newChecked);
+    //         setAmenityDetails(amenity);
 
-            return {
-                ...prevSwitchStates,
-                [amenity.id]: newChecked,
-            };
-        });
-
-
-        if (!switchStates[amenity.id]) {
-            setIsDisplayRecurring(true);
-        }
-    };
+    //         return {
+    //             ...prevSwitchStates,
+    //             [amenity.id]: newChecked,
+    //         };
+    //     });
 
 
-
-    useEffect(() => {
-        if (isChecked === null) return;
-
-        if (isChecked) {
-            setIsDisplayRecurring(true);
-            setIsFormSubmitted(false);
-        } else {
-
-            dispatch({
-                type: 'RECURRINGROLE',
-                payload: {
-                    type: "amenities",
-                    recure: 0,
-                    hostel_id: state.login.selectedHostel_Id,
-                    start_date: '0',
-                    end_date: '0',
-                    am_id: amenityDetails?.id,
-                },
-            });
-        }
-    }, [isChecked]);
+    //     if (!switchStates[amenity.id]) {
+    //         setIsDisplayRecurring(true);
+    //     }
+    // };
 
 
+
+    // useEffect(() => {
+    //     if (isChecked === null) return;
+
+    //     if (isChecked) {
+    //         setIsDisplayRecurring(true);
+    //         setIsFormSubmitted(false);
+    //     } else {
+
+    //         dispatch({
+    //             type: 'RECURRINGROLE',
+    //             payload: {
+    //                 type: "amenities",
+    //                 recure: 0,
+    //                 hostel_id: state.login.selectedHostel_Id,
+    //                 start_date: '0',
+    //                 end_date: '0',
+    //                 am_id: amenityDetails?.id,
+    //             },
+    //         });
+    //     }
+    // }, [isChecked]);
 
 
 
 
-    const handleDotsClick = (index) => {
-        setShowDots((prev) => (prev === index ? null : index));
-    };
+
+
+    // const handleDotsClick = (index) => {
+    //     setShowDots((prev) => (prev === index ? null : index));
+    // };
 
 
 
     const handleClickOutside = (event) => {
         if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setShowDots(false);
+            // setShowDots(false);
         }
     };
 
@@ -133,53 +135,53 @@ function SettingAmenities({ hostelid }) {
     }
 
 
-    const handleCloseRecurringPopUp = () => {
-        setIsDisplayRecurring(false);
+    // const handleCloseRecurringPopUp = () => {
+    //     setIsDisplayRecurring(false);
 
 
-        setSwitchStates((prev) => ({
-            ...prev,
-            [amenityDetails?.id]: false,
-        }));
+    //     setSwitchStates((prev) => ({
+    //         ...prev,
+    //         [amenityDetails?.id]: false,
+    //     }));
 
 
 
-    }
+    // }
 
 
-    const handleDisplayAssignAmenities = (amenity) => {
-        setIsDisplayAssignAmenities(true)
-        setAssignAmenitiesDetails(amenity)
-    }
+    // const handleDisplayAssignAmenities = (amenity) => {
+    //     setIsDisplayAssignAmenities(true)
+    //     setAssignAmenitiesDetails(amenity)
+    // }
     const handleDisplayAssignAmenitiesClose = () => {
         setIsDisplayAssignAmenities(false)
     }
 
 
-    const handleDeleteAmenities = (amen) => {
-        setDeleteID(amen.id)
-        setDeleteAmenities(true)
-    }
+    // const handleDeleteAmenities = (amen) => {
+    //     setDeleteID(amen.id)
+    //     setDeleteAmenities(true)
+    // }
 
     const handleCloseDeleteFormAmenities = () => {
         setDeleteAmenities(false)
     }
 
 
-    const handleDeleteAmenitiesConfirm = () => {
-        if (deleteID) {
-            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
+    // const handleDeleteAmenitiesConfirm = () => {
+    //     if (deleteID) {
+    //         dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
 
-        }
-    }
+    //     }
+    // }
 
-    useEffect(() => {
-        const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
-            acc[amenity.id] = amenity.recuring === 1;
-            return acc;
-        }, {})
-        setSwitchStates(initialSwitchStates);
-    }, [amenitiesFilterddata])
+    // useEffect(() => {
+    //     const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
+    //         acc[amenity.id] = amenity.recuring === 1;
+    //         return acc;
+    //     }, {})
+    //     setSwitchStates(initialSwitchStates);
+    // }, [amenitiesFilterddata])
 
 
 
@@ -195,7 +197,7 @@ function SettingAmenities({ hostelid }) {
         if (state.InvoiceList.StatusCodeAmenitiesGet === 200) {
 
             setAmenitiesFilterddata(state.InvoiceList.AmenitiesList)
-            setLoading(false)
+            // setLoading(false)
 
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_AMENITIES_STATUS_CODE' })
@@ -219,7 +221,7 @@ function SettingAmenities({ hostelid }) {
 
     useEffect(() => {
         if (state.InvoiceList.errorAmenities) {
-            setLoading(false)
+            // setLoading(false)
             setTimeout(() => {
                 dispatch({ type: 'REMOVE_ERROR_AMENITIES' })
             }, 200)
@@ -336,7 +338,7 @@ function SettingAmenities({ hostelid }) {
             }}>
 
             <div
-                className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+                className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3"
                 style={{
 
                     position: "sticky",
@@ -362,8 +364,7 @@ function SettingAmenities({ hostelid }) {
                             color: "white",
                             fontWeight: 600,
                             borderRadius: "8px",
-                            padding: "11px 35px",
-
+                            // padding: "11px 35px",
                             width: 146,
                             height: 45,
                             maxWidth: "100%",
@@ -375,7 +376,7 @@ function SettingAmenities({ hostelid }) {
                         disabled={showPopup}
                     >
                         {" "}
-                        + Amenities
+                        + Add Amenities
                     </Button>
                 </div>
             </div>
@@ -386,14 +387,69 @@ function SettingAmenities({ hostelid }) {
                         Please add a hostel before adding Amentities information.
                     </p>
 
+                    <Card className="shadow-sm flex-fill">
+                        <Card.Body>
 
+                            <div className="d-flex justify-content-between align-items-center mb-2" style={{ borderBottom: "1px solid #F1F1F1", paddingBottom: "9px", }}>
+
+                                <div
+                                    className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                    style={{ width: "35px", height: "35px", backgroundColor: "#F3F6FF" }}
+                                >
+                                    <img src={directRight} alt="directRight" style={{ width: "20px", height: "20px" }} />
+                                </div>
+                                <h6 className="mb-0 flex-grow-1">Washing Machine</h6>
+                                <img
+                                    src={link2}
+                                    alt="link2"
+                                    style={{ width: "18px", height: "18px", marginRight: "8px" }}
+                                />
+                                <div
+                                // onClick={() => handleDotsClick(index)}
+                                >
+                                    <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
+                                </div>
+
+                            </div>
+
+                            <div className="d-flex align-items-center justify-content-between mt-3">
+                                <p
+                                    className="fw-normal mb-0"
+                                    style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                                >
+                                    Price
+                                </p>
+                                <p
+                                    className="fw-semibold mb-0 d-flex align-items-baseline"
+                                    style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                                >
+                                    ₹500/
+                                    <span
+                                        className="fw-normal ms-1"
+                                        style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                                    >
+                                        Month
+                                    </span>
+                                </p>
+                            </div>
+
+
+                            <div className="d-flex align-items-center justify-content-between mt-3">
+                                <span className="fw-normal mb-0"
+                                    style={{ fontFamily: "Gilroy", fontSize: "13px" }}>Pro-write</span>
+                                <div className="form-check form-switch">
+                                    <input className="form-check-input" type="checkbox" defaultChecked />
+                                </div>
+                            </div>
+                        </Card.Body>
+                    </Card>
 
                 </div>
 
 
             )}
 
-            <div className='container mt-4 mb-3 show-scrolls' style={{ position: "relative" , maxHeight: "460px",
+            {/* <div className='container mt-4 mb-3 show-scrolls' style={{ position: "relative" , maxHeight: "460px",
                 overflowY: "auto",backgroundColor:""}}>
 
 
@@ -688,177 +744,144 @@ function SettingAmenities({ hostelid }) {
 
 
 
+            </div> */}
+
+            <div className="d-flex gap-3" style={{ maxWidth: '100%', justifyContent: 'flex-start' }}>
+
+                <Card className="shadow-sm flex-fill" style={{ borderRadius: "20px", width: '370px', minHeight: '180px', maxWidth: '370px', flex: '0 0 370px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <Card.Body>
+
+                        <div className="d-flex justify-content-between align-items-center" style={{ borderBottom: "1px solid #F1F1F1", paddingBottom: "9px", }}>
+
+                            <div
+                                className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                style={{ width: "35px", height: "35px", backgroundColor: "#F3F6FF" }}
+                            >
+                                <img src={directRight} alt="directRight" style={{ width: "20px", height: "20px" }} />
+                            </div>
+                            <h6 className="mb-0 flex-grow-1">Washing Machine</h6>
+                            <img
+                                src={link2}
+                                alt="link2"
+                                style={{ width: "18px", height: "18px", marginRight: "8px" }}
+                            />
+                            <div
+                            // onClick={() => handleDotsClick(index)}
+                            >
+                                <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
+                            </div>
+
+                        </div>
+
+                        <div className="d-flex align-items-center justify-content-between mt-3">
+                            <p
+                                className="fw-normal mb-0"
+                                style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                            >
+                                Price
+                            </p>
+                            <p
+                                className="fw-semibold mb-0 d-flex align-items-baseline"
+                                style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                            >
+                                ₹500/
+                                <span
+                                    className="fw-normal ms-1"
+                                    style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                                >
+                                    Month
+                                </span>
+                            </p>
+                        </div>
+
+
+                        <div className="d-flex align-items-center justify-content-between mt-3">
+                            <span className="fw-normal"
+                                style={{ fontFamily: "Gilroy", fontSize: "13px" }}>Pro-write</span>
+                            <div className="form-check form-switch">
+                                <input className="form-check-input" type="checkbox" defaultChecked />
+                            </div>
+                        </div>
+                    </Card.Body>
+                </Card>
+
+                <Card className="shadow-sm flex-fill" style={{ borderRadius: "20px", width: '370px', minHeight: '180px', maxWidth: '370px', flex: '0 0 370px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <Card.Body>
+
+                        <div className="d-flex justify-content-between align-items-center" style={{ borderBottom: "1px solid #F1F1F1", paddingBottom: "9px", }}>
+
+                            <div
+                                className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                style={{ width: "35px", height: "35px", backgroundColor: "#F3F6FF" }}
+                            >
+                                <img src={directRight} alt="directRight" style={{ width: "20px", height: "20px" }} />
+                            </div>
+                            <h6 className="mb-0 flex-grow-1">GYM</h6>
+                            <img
+                                src={link2}
+                                alt="link2"
+                                style={{ width: "18px", height: "18px", marginRight: "8px" }}
+                            />
+                            <div
+                            // onClick={() => handleDotsClick(index)}
+                            >
+                                <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
+                            </div>
+
+                        </div>
+
+                        <div className="d-flex align-items-center justify-content-between mt-3">
+                            <p
+                                className="fw-normal mb-0"
+                                style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                            >
+                                Price
+                            </p>
+                            <p
+                                className="fw-semibold mb-0 d-flex align-items-baseline"
+                                style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                            >
+                                ₹600/
+                                <span
+                                    className="fw-normal ms-1"
+                                    style={{ fontFamily: "Gilroy", fontSize: "13px" }}
+                                >
+                                    Month
+                                </span>
+                            </p>
+                        </div>
+
+
+                        <div className="d-flex align-items-center justify-content-between mt-3">
+                            <span className="fw-normal"
+                                style={{ fontFamily: "Gilroy", fontSize: "13px" }}>Pro-write</span>
+                            <div className="form-check form-switch">
+                                <input className="form-check-input" type="checkbox" defaultChecked />
+                            </div>
+                        </div>
+                    </Card.Body>
+                </Card>
+
+               
+
+
             </div>
-
-
-            {/* {amenitiesFilterddata.length > 2 && (
-                <nav
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "0px",
-                        right: "0px",
-                        backgroundColor: "#fff",
-                        borderRadius: "5px",
-                        zIndex: 1000,
-                    }}
-
-                >
-
-                    <div>
-                        <Select
-                            value={amenitiesOptions.find(opt => opt.value === amenitiesrowsPerPage)}
-                            onChange={handleItemsPerPageChange}
-                            options={amenitiesOptions}
-                            placeholder="Items per page"
-                            classNamePrefix="custom"
-                            menuPlacement="auto"
-                            noOptionsMessage={() => "No options"}
-                            styles={{
-                                control: (base) => ({
-                                    ...base,
-                                    height: "40px",
-                                    borderRadius: "6px",
-                                    fontSize: "14px",
-                                    color: "#1E45E1",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 600,
-                                    border: "1px solid #1E45E1",
-                                    boxShadow: "0 0 0 1px #1E45E1",
-                                    cursor: "pointer",
-                                    width: 90,
-                                }),
-                                menu: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    border: "1px solid #ced4da",
-                                    fontFamily: "Gilroy",
-                                }),
-                                menuList: (base) => ({
-                                    ...base,
-                                    backgroundColor: "#f8f9fa",
-                                    maxHeight: "200px",
-                                    padding: 0,
-                                    scrollbarWidth: "thin",
-                                    overflowY: "auto",
-                                    fontFamily: "Gilroy",
-                                }),
-                                placeholder: (base) => ({
-                                    ...base,
-                                    color: "#555",
-                                }),
-                                dropdownIndicator: (base) => ({
-                                    ...base,
-                                    color: "#1E45E1",
-                                    cursor: "pointer",
-                                }),
-                                indicatorSeparator: () => ({
-                                    display: "none",
-                                }),
-                                option: (base, state) => ({
-                                    ...base,
-                                    cursor: "pointer",
-                                    backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                                    color: state.isFocused ? "#fff" : "#000",
-                                }),
-                            }}
-                        />
-                    </div>
-
-                    <ul
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            listStyleType: "none",
-                            margin: 0,
-                            padding: 0,
-                        }}
-                    >
-
-                        <li style={{ margin: "0 10px" }}>
-                            <button
-                                style={{
-                                    padding: "5px",
-                                    textDecoration: "none",
-                                    color: amenitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
-                                    cursor: amenitiescurrentPage === 1 ? "not-allowed" : "pointer",
-                                    borderRadius: "50%",
-                                    display: "inline-block",
-                                    minWidth: "30px",
-                                    textAlign: "center",
-                                    backgroundColor: "transparent",
-                                    border: "none",
-                                }}
-                                onClick={() => handlePageChange(amenitiescurrentPage - 1)}
-                                disabled={amenitiescurrentPage === 1}
-                            >
-                                <ArrowLeft2
-                                    size="16"
-                                    color={amenitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                                />
-                            </button>
-                        </li>
-
-
-                        <li
-                            style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
-                        >
-                            {amenitiescurrentPage} of {totalPagesGeneral}
-                        </li>
-
-
-                        <li style={{ margin: "0 10px" }}>
-                            <button
-                                style={{
-                                    padding: "5px",
-                                    textDecoration: "none",
-                                    color:
-                                        amenitiescurrentPage === totalPagesGeneral
-                                            ? "#ccc"
-                                            : "#1E45E1",
-                                    cursor:
-                                        amenitiescurrentPage === totalPagesGeneral
-                                            ? "not-allowed"
-                                            : "pointer",
-                                    borderRadius: "50%",
-                                    display: "inline-block",
-                                    minWidth: "30px",
-                                    textAlign: "center",
-                                    backgroundColor: "transparent",
-                                    border: "none",
-                                }}
-                                onClick={() => handlePageChange(amenitiescurrentPage + 1)}
-                                disabled={amenitiescurrentPage === totalPagesGeneral}
-                            >
-                                <ArrowRight2
-                                    size="16"
-                                    color={
-                                        amenitiescurrentPage === totalPagesGeneral
-                                            ? "#ccc"
-                                            : "#1E45E1"
-                                    }
-                                />
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            )} */}
-
-
-
 
 
             {
                 openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities} hostelid={hostelid} editDetails={editDetails} />
             }
             {
-                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
+                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring}
+                //  handleCloseRecurring={handleCloseRecurringPopUp}
+                  hostelid={hostelid} 
+                // amenityDetails={amenityDetails}
+                 setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
             }
             {
-                IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid} assignAmenitiesDetails={assignAmenitiesDetails} />
+                IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid} 
+                // assignAmenitiesDetails={assignAmenitiesDetails}
+                 />
             }
 
 
@@ -942,7 +965,7 @@ function SettingAmenities({ hostelid }) {
                                 fontFamily: "Gilroy",
                                 fontSize: "14px",
                             }}
-                            onClick={handleDeleteAmenitiesConfirm}
+                            // onClick={handleDeleteAmenitiesConfirm}
                         >
                             Delete
                         </Button>
