@@ -15,7 +15,7 @@ import { CloseCircle } from "iconsax-react";
 import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
-import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import PaginationList from '../../Components/PaginationList';
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -27,7 +27,7 @@ function SettingSubscription() {
   const [planCode, setPlanCode] = useState("");
   const [amount, setAmount] = useState("");
   const [selectedPlan, setSelectedPlan] = useState("");
-  const [hostelCount, setHostelCount] = useState(1);
+  const [hostelCount, setHostelCount] = useState("0");
   const [selectedPlanError, setSelectedPlanError] = useState("");
   const [hostelCountError, setHostelCountError] = useState("");
   const [hostelError, setHostelError] = useState("");
@@ -35,41 +35,40 @@ function SettingSubscription() {
   const [getPlanActive, setGetPlanActive] = useState([]);
   const [selectedHostels, setSelectedHostels] = useState([]);
   const modalRef = useRef();
-const [currentPage, setCurrentPage] = useState(1);
-const [itemsPerPage, setItemsPerPage] = useState(5);
+
 
 const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
 
 
 
-const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
-const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
+// const totalPages = Math.ceil(hostelDetails.length / itemsPerPage);
+// const indexOfLastItem = currentPage * itemsPerPage;
+//   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+//   const paginatedData = hostelDetails.slice(indexOfFirstItem, indexOfLastItem);
 
- const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+//  const handlePageChange = (pageNumber) => {
+//     setCurrentPage(pageNumber);
+//   };
 
-const handleItemsPerPageChange = (selectedOption) => {
-  setItemsPerPage(Number(selectedOption.value));
-  setCurrentPage(1);
-};
+// const handleItemsPerPageChange = (selectedOption) => {
+//   setItemsPerPage(Number(selectedOption.value));
+//   setCurrentPage(1);
+// };
 
 
 
-const pageSizeOptions = [
-  { value: 5, label: "5" },
-  { value: 10, label: "10" },
-  { value: 15, label: "15" }
-];
+// const pageSizeOptions = [
+//   { value: 5, label: "5" },
+//   { value: 10, label: "10" },
+//   { value: 15, label: "15" }
+// ];
 
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
 
   const [customerDetails, setCustomerDetails] = useState("");
-  const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
+  // const [Subscription_hostelIds, setSubscription_HostelIds] = useState([]);
   useEffect(() => {
     if (state?.createAccount?.accountList[0]?.user_details) {
       const customerDetailsPage =
@@ -78,7 +77,7 @@ const pageSizeOptions = [
       setUserId(customerDetails.id);
       setCustomerId(customerDetails.customer_id);
       setPlanType(customerDetails.plan_code);
-      setSubscription_HostelIds(customerDetails.hostel_ids);
+      // setSubscription_HostelIds(customerDetails.hostel_ids);
     }
   }, [state?.createAccount?.accountList[0]?.user_details]);
   useEffect(() => {
@@ -86,6 +85,7 @@ const pageSizeOptions = [
       setGetPlanActive(state?.createAccount?.accountList[0]?.plan_data);
     }
   }, [state?.createAccount?.accountList[0]?.plan_data]);
+ 
 
   useEffect(() => {
     if (customerId) {
@@ -127,20 +127,54 @@ const pageSizeOptions = [
     setSelectedHostels(updatedList);
   };
 
-  const hostelOptions = state.UsersList.hostelListNewDetails.data?.map(
-    (item) => ({
-      label: item.Name,
-      value: item.id,
-    })
+  // const hostelOptions = state.UsersList.hostelListNewDetails.data?.map(
+  //   (item) => ({
+  //     label: item.Name,
+  //     value: item.id,
+  //   })
+  //    (option) =>
+  //     !selectedHostels.some((selected) => selected.value === option.value) &&
+  //     !(Subscription_hostelIds || []).includes(option.value)
+  // );
+  // const hostelOptions = state.UsersList.hostelListNewDetails.data
+  // ?.map((item) => ({
+  //   label: item.Name,
+  //   value: item.id,
+  // }))
+  // .filter(
+  //   (option) =>
+     
+  //     !(hostelOptions || []).includes(option.value)
+  // );
+  
+
+  // const hostelOptions = state.UsersList.hostelListNewDetails.data
+  // ?.map((item) => ({
+  //   label: item.Name,
+  //   value: item.id,
+  // }))
+  // .filter(
+  //   (option) =>     
+  //     !(hostelDetails || []).includes(option.value)
+  // );
+  const hostelOptions = state.UsersList.hostelListNewDetails.data
+  ?.map((item) => ({
+    label: item.Name,
+    value: item.id,
+  }))
+ 
+  .filter(
+    (option) => !selectedHostels.some((sel) => sel.value === option.value)
   );
 
 
 
-  const filteredOptions = (hostelOptions || []).filter(
-    (option) =>
-      !selectedHostels.some((selected) => selected.value === option.value) &&
-      !(Subscription_hostelIds || []).includes(option.value)
-  );
+
+  // const filteredOptions = (hostelOptions || []).filter(
+  //   (option) =>
+  //     !selectedHostels.some((selected) => selected.value === option.value) &&
+  //     !(Subscription_hostelIds || []).includes(option.value)
+  // );
 
   useEffect(() => {
     if (selectedHostels) {
@@ -156,7 +190,7 @@ const pageSizeOptions = [
   }, [selectedHostels]);
 
   useEffect(() => {
-    setHostelCount("1");
+    setHostelCount("0");
     setAmount(Number(selectedPlan) || 0);
   }, [selectedPlan]);
 
@@ -564,13 +598,14 @@ const pageSizeOptions = [
 
                       </tr>
                     </thead>
-                    <tbody
+                    {/* <tbody
                       style={{
                         height: "50px",
                         fontSize: "11px",
                         verticalAlign: "middle",
                       }}
                     >
+                      
                       {paginatedData.length > 0 && paginatedData?.map((view, index) => {
                        let formattedDate = "-";
                     if (view.plan_start) {
@@ -702,7 +737,42 @@ const pageSizeOptions = [
                             </tr>
                           );
                         })}
-                    </tbody>
+                    </tbody> */}
+
+                     <tbody style={{ fontSize: "11px", verticalAlign: "middle", height: "50px" }}>
+          <PaginationList>
+            {hostelDetails.map((view, index) => {
+              let formattedDate = view.plan_start
+                ? `${new Date(view.plan_start).getDate()}/${new Date(view.plan_start).getMonth() + 1}/${new Date(view.plan_start).getFullYear()}`
+                : "-";
+              let DueformattedDate = view.plan_end
+                ? `${new Date(view.plan_end).getDate()}/${new Date(view.plan_end).getMonth() + 1}/${new Date(view.plan_end).getFullYear()}`
+                : "-";
+
+              return (
+                <tr key={index} style={{ marginTop: "20px" }}>
+                  <td>{index + 1}</td>
+                  <td>{view.name}</td>
+                  <td>{formattedDate}</td>
+                  <td>{DueformattedDate}</td>
+                  <td>
+                    <span style={{
+                      color: "black",
+                      backgroundColor: "#D9FFD9",
+                      padding: "3px 10px",
+                      fontSize: "11px",
+                      fontWeight: 500,
+                      borderRadius: "10px"
+                    }}>
+                      {view.plan_status === 1 ? "Active" : "Not Active"}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </PaginationList>
+        </tbody>
+
                   </Table>
                 </div>
               )}
@@ -711,9 +781,11 @@ const pageSizeOptions = [
             </div>
           </div>
         )}
-         {
+        
+         {/* {
               hostelDetails.length > 5 &&
-              <nav style={{
+              <nav 
+              style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "end",
@@ -847,7 +919,7 @@ const pageSizeOptions = [
                   </li>
                 </ul>
               </nav>
-            }
+            } */}
       </div>
 
      
@@ -1368,7 +1440,7 @@ const pageSizeOptions = [
                       </Form.Label>
 
                       <Select
-                        options={filteredOptions}
+                        options={hostelOptions}
                         placeholder="Select Hostel"
                         value={null} 
                         onChange={handleHostelSelect}

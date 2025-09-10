@@ -55,6 +55,7 @@ import Logout from "../Assets/Images/turn-off.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Route, Routes, } from "react-router-dom";
 import Cookies from 'universal-cookie';
+import { checkoutCustomerProfile } from "../Redux/Action/smartStayAction";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -279,6 +280,7 @@ console.log("state",state)
     setIsDropdownOpen(false);
     localStorage.setItem("currentPage", page);
     setIsSidebarOpen(false);
+     dispatch(checkoutCustomerProfile(true))
   };
 
   useEffect(() => {

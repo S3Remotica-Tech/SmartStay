@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddAsset from './AddAsset'
 import AssetListTable from '../../Pages/AssetFile/AssetListTable'
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, ArrowLeft2, ArrowRight2, } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from 'react-toastify';
@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import Select from "react-select";
+import PaginationList from '../../Components/PaginationList';
 
 
 
@@ -37,7 +38,7 @@ function Asset() {
   const [assetEditPermission, setAssetEditPermission] = useState("")
   const [excelDownload, setExcelDownload] = useState("")
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [currentItem, setCurrentItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false)
@@ -329,7 +330,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
     setSelectedPriceRange("date");
 
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
 
@@ -354,7 +355,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
       });
     }
 
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
 
@@ -413,35 +414,62 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
 
 
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const [itemsPerPage, setItemsPerPage] = useState(10);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredData = filterByPriceRange(getData);
 
 
-  const currentItems = searchQuery.length > 0 ? filteredData : filteredData?.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = searchQuery.length > 0 ? filteredData : filteredData?.slice(indexOfFirstItem, indexOfLastItem);
 
 
 
+
+  // const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentItems;
+
+  //   const sorted = [...currentItems].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
+
+
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
+
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+
+  //   return sorted;
+  // }, [currentItems, sortConfig]);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentItems;
+    if (!sortConfig.key) return filteredData;  
 
-    const sorted = [...currentItems].sort((a, b) => {
+    const sorted = [...filteredData].sort((a, b) => {
       const valueA = a[sortConfig.key];
       const valueB = b[sortConfig.key];
 
-
       if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === 'asc'
+        return sortConfig.direction === "asc"
           ? valueA - valueB
           : valueB - valueA;
       }
 
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return sortConfig.direction === 'asc'
+      if (typeof valueA === "string" && typeof valueB === "string") {
+        return sortConfig.direction === "asc"
           ? valueA.localeCompare(valueB)
           : valueB.localeCompare(valueA);
       }
@@ -450,31 +478,14 @@ if( state.bankingDetails?.bankingList?.length === 0){
     });
 
     return sorted;
-  }, [currentItems, sortConfig]);
+  }, [filteredData, sortConfig]);
+
 
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
 
 
-
-  const handleItemsPerPageChange = (selectedOption) => {
-    setItemsPerPage(Number(selectedOption.value));
-    setCurrentPage(1);
-  };
-
-  const pageOptions = [
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
 
 
@@ -509,7 +520,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
     else {
       setGetData(state.AssetList.assetList)
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
 
@@ -527,7 +538,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
     else {
       setGetData(state.AssetList.assetList)
     }
-    setCurrentPage(1);
+    // setCurrentPage(1);
     setShowDropDown(false)
   }
 
@@ -565,15 +576,15 @@ if( state.bankingDetails?.bankingList?.length === 0){
   });
 
 
-  useEffect(() => {
-    if (
-      getData.length > 0 &&
-      currentItems.length === 0 &&
-      currentPage > 1
-    ) {
-      setCurrentPage(currentPage - 1);
-    }
-  }, [getData])
+  // useEffect(() => {
+  //   if (
+  //     getData.length > 0 &&
+  //     currentItems.length === 0 &&
+  //     currentPage > 1
+  //   ) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // }, [getData])
 
 
 
@@ -932,7 +943,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
                 <div
                   className='show-scrolls'
                   style={{
-                    height: currentItems.length >= 8 || sortedData.length >= 8 ? "460px" : "auto",
+                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "460px" : "auto",
                     overflow: "auto",
                                   marginTop: "20px"
                   }}>
@@ -987,7 +998,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
                     </thead>
 
 
-                    <tbody>
+                    {/* <tbody>
                       {
                         loading ? (
                           <>
@@ -1016,6 +1027,38 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
                           )
                       }
+                    </tbody> */}
+                    <tbody>
+                      {
+                        loading ? (
+                          <>
+                            <tr>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            </tr>
+                          </>
+                        )
+
+
+
+                          : (
+                            sortedData && sortedData.length > 0 && (
+                              <>
+                                <PaginationList>
+                                  {sortedData.map((item) => (
+                                    <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} disableActions={state?.login?.planStatus === 0} />
+                                  ))}
+                                </PaginationList>
+                              </>
+                            )
+
+                          )
+                      }
                     </tbody>
 
 
@@ -1025,7 +1068,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
               </div>
             )}
             {
-              !loading && currentItems && currentItems.length === 0 &&
+              !loading && sortedData && sortedData.length === 0 &&
 
               <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
 
@@ -1044,149 +1087,6 @@ if( state.bankingDetails?.bankingList?.length === 0){
             }
 
 
-
-
-            {filteredData.length > 10 &&
-
-
-              <nav
-
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
-                  backgroundColor: "white",
-                  borderRadius: "5px",
-
-                  zIndex: "1000",
-                }}
-              >
-                <div>
-                  <Select
-                    options={pageOptions}
-                    value={
-                      itemsPerPage
-                        ? { value: itemsPerPage, label: `${itemsPerPage}` }
-                        : null
-                    }
-                    onChange={handleItemsPerPageChange}
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        height: "40px",
-                        padding: "0 5px",
-                        border: "1px solid #1E45E1",
-                        borderRadius: "5px",
-                        fontSize: "14px",
-                        color: "#1E45E1",
-                        fontWeight: 600,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                        boxShadow: "0 0 0 1px #1E45E1",
-                        width: 90,
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                        fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        maxHeight: "200px",
-                        overflowY: "auto",
-                        padding: 0,
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#1E45E1",
-                        cursor: "pointer",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                        color: state.isFocused ? "#fff" : "#000",
-                        cursor: "pointer",
-                      }),
-                    }}
-                  />
-                </div>
-
-                <ul
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    listStyleType: "none",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                >
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                    </button>
-                  </li>
-
-                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                    {currentPage} of {totalPages}
-                  </li>
-
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                    >
-                      <ArrowRight2
-                        size="16"
-                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                      />
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-
-            }
 
 
           </div>

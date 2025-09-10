@@ -1761,7 +1761,7 @@ const handleTransactionId = (e) => {
 
                                                 <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                                  
+                                                   {item.reason_name !== "DueAmount" && (
                                                         <Trash
                                                             size="20"
                                                             color="red"
@@ -1769,6 +1769,7 @@ const handleTransactionId = (e) => {
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => handleRemoveField(index)}
                                                         />
+                                                   )}
                                                    
                                                 </div>
                                             </div>
@@ -2158,8 +2159,9 @@ const handleTransactionId = (e) => {
 )}
 
 
-
-          <Form.Check
+{activeTab !== "writeoff" &&(
+    <>
+        <Form.Check
         type="checkbox"
         style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400,color:"#1E45E1"}}
         label="Mark refund as Completed"
@@ -2252,7 +2254,7 @@ const handleTransactionId = (e) => {
                                     )}
                                     </div>
 
-          {/* Transaction ID */}
+         
           <Form.Group className="mb-3">
             <Form.Label  style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}}>Transaction ID</Form.Label>
             <Form.Control  value={transactionId} onChange={(e)=>handleTransactionId(e)} style={{fontFamily:"Gilroy",fontSize:"0.875rem",fontWeight:400}} type="text" placeholder="Enter Transaction ID" />
@@ -2272,6 +2274,10 @@ const handleTransactionId = (e) => {
           </Form.Group>
         </div>
       )}
+    </>
+)
+}
+      
 
 
             <div className="text-end">

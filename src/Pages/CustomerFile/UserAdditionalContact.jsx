@@ -504,7 +504,7 @@ useEffect(() => {
                           
                         }}
                       >
-                        User Names {" "} <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                        Name {" "} <span style={{ color: "red", fontSize: "20px" }}> *</span>
                                                   
                         
                       </Form.Label>
@@ -563,7 +563,7 @@ useEffect(() => {
                          
                         }}
                       >
-                        Guardian {" "}
+                        Relationship {" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}
@@ -614,7 +614,7 @@ useEffect(() => {
                     )}
                   </div>
 
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <Form.Group controlId="exampleForm.ControlInput1">
                       <Form.Label
                         style={{

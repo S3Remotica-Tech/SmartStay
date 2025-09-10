@@ -22,7 +22,6 @@ import EBRoomReading from "./EBRoomReading";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import "react-datepicker/dist/react-datepicker.css";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import EBHostelReading from "./EB_Hostel_Based";
 import closecircle from "../../Assets/Images/New_images/close-circle.png";
@@ -39,6 +38,7 @@ import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { CloseCircle } from "iconsax-react";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import PaginationList from "../../Components/PaginationList";
 
 function EB_Hostel() {
 
@@ -74,7 +74,7 @@ function EB_Hostel() {
   const [endMeterError, setendMeterError] = useState("");
   const [dateError, setDateError] = useState("");
   const [hostelBasedForm, setHostelBasedForm] = useState(false);
-  const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
+  // const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -87,11 +87,11 @@ function EB_Hostel() {
 
   const [formLoading, setFormLoading] = useState(false)
 
-  const electricityPageOptions = [
-    { value: 10, label: "10" },
-    { value: 50, label: "50" },
-    { value: 100, label: "100" },
-  ];
+  // const electricityPageOptions = [
+  //   { value: 10, label: "10" },
+  //   { value: 50, label: "50" },
+  //   { value: 100, label: "100" },
+  // ];
 
 
   const ebBillingUnitList = useSelector((state) => state.Settings.EBBillingUnitlist);
@@ -610,63 +610,88 @@ const isAdmin = userType === "admin" || userType === "agent";
   }, [state.PgList?.AddEBstatusCode]);
 
 
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
-  const indexOfLastRowelectricity =
-    electricitycurrentPage * electricityrowsPerPage;
-  const indexOfFirstRowelectricity =
-    indexOfLastRowelectricity - electricityrowsPerPage;
+  // const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
+  // const indexOfLastRowelectricity =
+  //   electricitycurrentPage * electricityrowsPerPage;
+  // const indexOfFirstRowelectricity =
+  //   indexOfLastRowelectricity - electricityrowsPerPage;
 
-  const currentRoomelectricity =
-    filterInput.length > 0
-      ? electricityFilterddata
-      : electricityFilterddata?.slice(
-        indexOfFirstRowelectricity,
-        indexOfLastRowelectricity
-      );
+  // const currentRoomelectricity =
+  //   filterInput.length > 0
+  //     ? electricityFilterddata
+  //     : electricityFilterddata?.slice(
+  //       indexOfFirstRowelectricity,
+  //       indexOfLastRowelectricity
+  //     );
 
-  const handlePageChange = (pageNumber) => {
-    setelectricitycurrentPage(pageNumber);
-  };
+  // const handlePageChange = (pageNumber) => {
+  //   setelectricitycurrentPage(pageNumber);
+  // };
 
-  const handleItemsPerPageChange = (selectedOption) => {
-    if (selectedOption) {
-      setElectricityrowsPerPage(Number(selectedOption.value));
-      setelectricitycurrentPage(1);
-    }
-  };
+  // const handleItemsPerPageChange = (selectedOption) => {
+  //   if (selectedOption) {
+  //     setElectricityrowsPerPage(Number(selectedOption.value));
+  //     setelectricitycurrentPage(1);
+  //   }
+  // };
 
-  const totalPagesinvoice = Math.ceil(
-    electricityFilterddata?.length / electricityrowsPerPage
-  );
+  // const totalPagesinvoice = Math.ceil(
+  //   electricityFilterddata?.length / electricityrowsPerPage
+  // );
 
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
+  // const sortedData = React.useMemo(() => {
+  //   if (!sortConfig.key) return currentRoomelectricity;
+
+  //   const sorted = [...currentRoomelectricity].sort((a, b) => {
+  //     const valueA = a[sortConfig.key];
+  //     const valueB = b[sortConfig.key];
+
+
+  //     if (!isNaN(valueA) && !isNaN(valueB)) {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA - valueB
+  //         : valueB - valueA;
+  //     }
+
+  //     if (typeof valueA === 'string' && typeof valueB === 'string') {
+  //       return sortConfig.direction === 'asc'
+  //         ? valueA.localeCompare(valueB)
+  //         : valueB.localeCompare(valueA);
+  //     }
+
+  //     return 0;
+  //   });
+
+  //   return sorted;
+  // }, [currentRoomelectricity, sortConfig]);
+
+  const filteredData = filterInput.length > 0 ? electricityFilterddata : electricityFilterddata;
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return currentRoomelectricity;
+  if (!sortConfig.key) return filteredData;
 
-    const sorted = [...currentRoomelectricity].sort((a, b) => {
-      const valueA = a[sortConfig.key];
-      const valueB = b[sortConfig.key];
+  const sorted = [...filteredData].sort((a, b) => {
+    const valueA = a[sortConfig.key];
+    const valueB = b[sortConfig.key];
 
+    if (!isNaN(valueA) && !isNaN(valueB)) {
+      return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
+    }
 
-      if (!isNaN(valueA) && !isNaN(valueB)) {
-        return sortConfig.direction === 'asc'
-          ? valueA - valueB
-          : valueB - valueA;
-      }
+    if (typeof valueA === "string" && typeof valueB === "string") {
+      return sortConfig.direction === "asc"
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA);
+    }
 
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        return sortConfig.direction === 'asc'
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
-      }
+    return 0;
+  });
 
-      return 0;
-    });
+  return sorted;
+}, [filteredData, sortConfig]);
 
-    return sorted;
-  }, [currentRoomelectricity, sortConfig]);
 
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
@@ -722,7 +747,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
     setelectricityFilterddata(filtered);
     setFilterStatus(true);
-    setelectricitycurrentPage(1);
+    // setelectricitycurrentPage(1);
   };
 
 
@@ -1343,7 +1368,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                         </thead>
 
 
-                        <tbody>
+                        {/* <tbody>
                           {sortedData && sortedData.length > 0 && (
                             <>
                               {sortedData.map((v) => {
@@ -1545,7 +1570,85 @@ const isAdmin = userType === "admin" || userType === "agent";
 
                           )
                           }
-                        </tbody>
+                        </tbody> */}
+
+                          <tbody>
+            <PaginationList>
+              {filteredData
+                .map((v) => {
+                  const formattedDate = v.reading_date
+                    ? v.reading_date.split("-").reverse().join("-")
+                    : "";
+                  return (
+                    <tr key={v.id}>
+                      <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8" }}>
+                        <div style={{ marginLeft: 5 }}>{v.username}</div>
+                      </td>
+
+                      <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8" }}>
+                        <span
+                          style={{
+                            padding: "3px 12px",
+                            borderRadius: "60px",
+                            backgroundColor: "#FFEFCF",
+                            fontSize: 13,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          {v.HostelName}
+                        </span>
+                      </td>
+
+                      {hostelBased !== 1 && (
+                        <>
+                          <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8" }}>
+                            <div style={{ marginLeft: 5 }}>{v.floor_name}</div>
+                          </td>
+
+                          <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8", paddingLeft: 20 }}>
+                            <div style={{ marginLeft: 6 }}>{v.Room_Id}</div>
+                          </td>
+                        </>
+                      )}
+
+                      <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8" }}>
+                        <div style={{ marginLeft: 5 }}>{v.start_meter}</div>
+                      </td>
+
+                      <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8" }}>
+                        <div style={{ marginLeft: 5 }}>{v.end_meter}</div>
+                      </td>
+
+                      <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8" }}>
+                        <span
+                          style={{
+                            padding: "5px 16px",
+                            borderRadius: "60px",
+                            backgroundColor: "#EBEBEB",
+                            fontSize: 13,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          {formattedDate}
+                        </span>
+                      </td>
+
+                      <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8", paddingLeft: 20 }}>
+                        {v.unit}
+                      </td>
+
+                      <td style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", textAlign: "start", borderBottom: "1px solid #E8E8E8", paddingLeft: 20 }}>
+                        ₹{v.amount}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </PaginationList>
+          </tbody>
+
+
 
 
                       </Table>
@@ -1588,7 +1691,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
                 {!customerLoader &&
                   !loader &&
-                  currentRoomelectricity?.length === 0 && (
+                  filteredData?.length === 0 && (
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
@@ -1625,7 +1728,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                     </div>
                   )}
 
-                {electricityFilterddata?.length > 10 && (
+                {/* {electricityFilterddata?.length > 10 && (
                   <nav
                     style={{
                       display: "flex",
@@ -1800,7 +1903,7 @@ const isAdmin = userType === "admin" || userType === "agent";
                       </li>
                     </ul>
                   </nav>
-                )}
+                )} */}
               </>
             )}
           </>

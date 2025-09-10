@@ -648,3 +648,11 @@ export async function backtoCheckin(datum) {
     data: datum
   })
 }
+
+
+export async function checkoutDetailView(datum) {
+  console.log("backtoCheckin",datum)
+  return await AxiosConfig.post('checkout_detail_view', datum, {
+    data: datum
+  })
+}

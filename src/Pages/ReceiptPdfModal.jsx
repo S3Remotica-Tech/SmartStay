@@ -56,6 +56,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
   const cardRef = useRef(null);
+  console.log("rowData",rowData)
 
   useEffect(() => {
 
@@ -409,6 +410,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                       {receiptDataNew.invoice_type === "advance" && "Security Deposit Receipt"}
                       {receiptDataNew.invoice_type === "checkout" && "Final Settlement Receipt"}
                       {receiptDataNew.invoice_type !== "advance" && receiptDataNew.invoice_type !== "checkout" && "Payment Receipt"}
+                     
                     </p>
 
 
@@ -418,7 +420,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-2">
                     <div className="col-md-7 mb-3">
                       <p className="mb-1" style={{ fontSize: '13px', color: '#1E45E1', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To:</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={User} alt="user" /> <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',marginLeft:8 }}>{receiptDataNew?.user_details?.name}</span></p>
+                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={User} alt="user" /> <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',marginLeft:8 }}>{receiptDataNew?.user_details?.name }</span></p>
                       <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12} />
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(
@@ -630,7 +632,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-3">
                     <div className="col-md-5 mb-3">
                       <p className=" mb-1" style={{ color: 'rgba(0, 163, 46, 1)', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To :</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={PaymentUser} alt="user" /><span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', marginLeft:12}}>{receiptDataNew?.user_details?.name}</span></p>
+                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={PaymentUser} alt="user" /><span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', marginLeft:12}}>{receiptDataNew?.user_details?.name || rowData?.Name}</span></p>
                       <p className="mb-1"><img src={mob} alt="mob" width={12} height={12} />
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(
@@ -661,7 +663,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                     <div className="col-md-7 mb-3">
                       <div className="row">
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Receipt No :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#{receiptDataNew?.reference_id}</div>
+                        <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#{receiptDataNew?.reference_id || rowData?.reference_id}</div>
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Invoice Ref :</div>
                         <div className="col-6 text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#{receiptDataNew?.invoice_number}</div>
@@ -672,9 +674,9 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Payment Mode :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', paddingLeft: 18 }}> {receiptDataNew?.bank_type !== ""
-                          ? receiptDataNew.bank_type
-                          : receiptDataNew.payment_mode}</div>
+                        <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', paddingLeft: 18 }}>
+                          {receiptDataNew.bank_type || rowData.payment_mode}
+                          </div>
                       </div>
                     </div>
                   </div>
@@ -824,9 +826,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         letterSpacing: '1px'
                       }}
                       >PAYMENT DETAILS</h6>
-                      <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode :  {receiptDataNew?.bank_type !== ""
-                        ? receiptDataNew.bank_type
-                        : receiptDataNew.payment_mode}</p>
+                      <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode :  {receiptDataNew.bank_type || rowData.payment_mode}</p>
                       {receiptDataNew?.invoice_type !== "advance" && (
                         <p
                           className="mb-1"

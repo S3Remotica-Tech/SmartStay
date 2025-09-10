@@ -26,7 +26,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-import upload from "../../Assets/Images/New_images/upload.png";
+import upload from "../../Assets/Images/New_images/pdf@2x.png";
 import UserListKyc from "./UserListKyc";
 import UserAdditionalContact from "./UserAdditionalContact";
 import { Edit, Trash } from "iconsax-react";
@@ -120,7 +120,7 @@ function UserListRoomDetail(props) {
   const [landmarkError, setLandmarkError] = useState("");
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
-  // const [state_nameError, setStateNameError] = useState("");
+  
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   const [contactEdit, setContactEdit] = useState("");
@@ -140,7 +140,84 @@ function UserListRoomDetail(props) {
   const [stayDetailsShow, setStayDetailsShow] = useState(false)
   const [fields, setFields] = useState([]);
   const [showDocModal, setShowDocModal] = useState(false);
-  const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
+   const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
+   const [documentvalue,setDocumentValue] = useState("1")
+    const [previewUrl, setPreviewUrl] = useState(null);
+         const [previewUrl2, setPreviewUrl2]=useState(null)
+
+const handleFileOpen = (url) => {
+  if (!url) return;
+
+  const lowerUrl = url.toLowerCase();
+
+  if (
+    lowerUrl.endsWith(".pdf") ||
+    lowerUrl.endsWith(".jpg") ||
+    lowerUrl.endsWith(".jpeg") ||
+    lowerUrl.endsWith(".png")
+  ) {
+   
+    setPreviewUrl(url);
+    setShowDocModal(true);
+  } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+    window.open(viewerUrl, "_blank");
+  } else {
+    window.open(url, "_blank");
+  }
+};
+
+
+
+
+
+
+const handleFileOpen2 = (url) => {
+  if (!url) return;
+
+  const lowerUrl = url.toLowerCase();
+
+  if (
+    lowerUrl.endsWith(".pdf") ||
+    lowerUrl.endsWith(".jpg") ||
+    lowerUrl.endsWith(".jpeg") ||
+    lowerUrl.endsWith(".png")
+  ) {
+   
+    setPreviewUrl2(url);
+    setShowDocModaldoc2(true);
+  } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+    window.open(viewerUrl, "_blank");
+  } else {
+    window.open(url, "_blank");
+  }
+};
+
+
+// const cleanFileName = (url) => {
+//   const fullName = getFileName(url);
+//   const parts = fullName.split("_");
+//   const ext = fullName.split(".").pop(); 
+//   const short = parts[0].substring(0, 6); 
+//   return `${short}.${ext}`;
+// };
+const cleanFileName = (url) => {
+  if (!url) return "";
+
+  const fullName = decodeURIComponent(url.split("/").pop()); // get actual filename
+  const ext = fullName.split(".").pop(); // extension
+  const baseName = fullName.replace(/\.[^/.]+$/, ""); // remove extension
+
+  const parts = baseName.split("_");
+  const lastPart = parts[parts.length - 1]; // take last meaningful part
+
+  // limit to 8 characters if you want short name
+  const short = lastPart.substring(0, 15);
+
+  return `${short}.${ext}`;
+};
+
 
 
 
@@ -163,7 +240,7 @@ function UserListRoomDetail(props) {
     setAdvanceDueDate("")
   }
 
-  console.log('customerDetails', customerDetails)
+
   const indianStates = [
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
@@ -241,12 +318,8 @@ function UserListRoomDetail(props) {
 
   }, []);
 
+  
 
-  // useEffect(() => {
-  //     if (state.login.selectedHostel_Id) {
-  //       dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
-  //     }
-  //   }, [state.login.selectedHostel_Id]);
 
 
 
@@ -329,8 +402,9 @@ function UserListRoomDetail(props) {
 
   const isFirstRun = useRef(true);
   const MobileNumber = `${countryCode}${props.userData?.Phone}`;
-  console.log("props.userData",props.userData)
+ 
     const [advanceDetail, setAdvanceDetail] = useState("");
+    
  
 useEffect(() => {
   if (isFirstRun.current) {
@@ -355,8 +429,7 @@ useEffect(() => {
       setFirstname(value[0] || "");
       setLastname(value[1] || "");
 
-      // const phoneNumber = String(props.userData?.Phone || "");
-      // const mobileNumber = phoneNumber.slice(-10);
+    
 
     const payload = {
       profile: file,
@@ -394,14 +467,15 @@ useEffect(() => {
     });
   }
 }, [ProfilePic, file, props.userData]);
-console.log("advanceDetail",advanceDetail)
+
+
 
 useEffect(() => {
   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
   if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
-    setFile(base64Pic); // only raw base64 for dispatch
-    // setPreviewFile(`data:image/jpeg;base64,${base64Pic}`); // preview src
+    setFile(base64Pic); 
+  
   }
 }, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
@@ -410,15 +484,15 @@ useEffect(() => {
   if (rawAddress) {
     const parts = rawAddress.split(",").map((part) => part.trim());
 
-    // remove the `S/O:` part
+
     const addressParts = parts.slice(1);
 
-    // pincode, state and city from the END
+   
     const pincodePart = addressParts[addressParts.length - 1];
     const statePart   = addressParts[addressParts.length - 2];
     const cityPart    = addressParts[addressParts.length - 3];
 
-    // remaining items are house/street/area/landmark
+    
     const others = addressParts.slice(0, addressParts.length - 3);
     const [streetNumber, streetName, areaPart, landmarkPart] = others;
 
@@ -432,19 +506,7 @@ useEffect(() => {
 }, [state.UsersList.KycCustomerDetails?.address]);
 
 
-//   useEffect(() => {
-//   const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
-//   if (
-//     base64Pic &&
-//     base64Pic !== "null" &&
-//     base64Pic !== undefined &&
-//     base64Pic !== null
-//   ) {
-//     setFile(`data:image/jpeg;base64,${base64Pic}`);
-   
-//   }
-// }, [state.UsersList?.KycCustomerDetails?.pic]);
   useEffect(() => {
     if (state.UsersList.statusCodeforverifyKYC === 200) {
       dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
@@ -533,6 +595,10 @@ useEffect(() => {
     setValue(newValue);
     setFormShow(false);
     setKycDetailForm(false);
+  };
+    const handleChangesupload = (event, newValue) => {
+    setDocumentValue(newValue);
+    
   };
 
   const options = {
@@ -989,29 +1055,7 @@ useEffect(() => {
 
   const handleCloseEditcustomer = () => {
     setFormShow(false);
-    // setFormError("");
-    // setfloorError("");
-    // setRoomError("");
-    // setBedError("");
-    // setAdvanceAmountError("");
-    // setRoomRentError("");
-    // setHostelIdError("");
-    // setFirstnameError("");
-    // setEmailError("");
-    // setPhoneError("");
-    // setHouseNo("");
-    // setStreet("");
-    // setCity("");
-    // setLandmark("");
-    // setPincode("");
-    // setStateName("");
-    // setStateNameError("");
-    // setPincodeError("");
-    // setCityError("");
-    // setLandmarkError("");
-    // setStreetError("");
-    // setHouse_NoError("");
-    // setDateError("");
+  
     setActiveRow(null);
     setEmailErrorMessage("");
     setJoingDateErrmsg("")
@@ -1305,6 +1349,7 @@ useEffect(() => {
         user_id: props.id,
         invoice_date: formattedInvoiceDate,
         due_date: formattedDueDate,
+        isadvance:1
       },
     });
   };
@@ -1484,40 +1529,40 @@ useEffect(() => {
         return map;
       }, {});
 
-      return initial.map((initialItem) => {
-        const currentItem = currentMap[initialItem.id];
-        if (currentItem) {
-          return {
-            reason_name: currentItem.reason_name,
-            amount: currentItem.amount,
-            customReason: currentItem.customReason,
-            showInput: currentItem.showInput,
-            id: currentItem.id,
-            isDeleted: !!currentItem.isDeleted,
-          };
-        } else {
-          // It was removed => mark as deleted
-          return {
-            reason_name: initialItem.reason_name,
-            amount: String(initialItem.amount).trim(),
-            customReason: initialItem.customReason,
-            showInput: initialItem.showInput,
-            id: initialItem.id,
-            isDeleted: true,
-          };
-        }
-      }).concat(
-        // Add new items that didn’t exist in initial list
-        current.filter(item => !initial.some(init => init.id === item.id)).map(item => ({
-          reason_name: item.reason_name,
-          amount: String(item.amount).trim(),
-          customReason: item.customReason,
-          showInput: item.showInput,
-          id: item.id,
-          isDeleted: !!item.isDeleted,
-        }))
-      );
-    };
+  return initial.map((initialItem) => {
+    const currentItem = currentMap[initialItem.id];
+    if (currentItem) {
+      return {
+        reason_name: currentItem.reason_name,
+        amount: currentItem.amount,
+        customReason: currentItem.customReason,
+        showInput: currentItem.showInput,
+        id: currentItem.id,
+        isDeleted: !!currentItem.isDeleted,
+      };
+    } else {
+     
+      return {
+        reason_name: initialItem.reason_name,
+        amount: String(initialItem.amount).trim(),
+        customReason: initialItem.customReason,
+        showInput: initialItem.showInput,
+        id: initialItem.id,
+        isDeleted: true,
+      };
+    }
+  }).concat(
+   
+    current.filter(item => !initial.some(init => init.id === item.id)).map(item => ({
+      reason_name: item.reason_name,
+      amount: String(item.amount).trim(),
+      customReason: item.customReason,
+      showInput: item.showInput,
+      id: item.id,
+      isDeleted: !!item.isDeleted,
+    }))
+  );
+};
 
 
 
@@ -1579,45 +1624,17 @@ useEffect(() => {
 
       newErrors.push(error);
 
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput,
-        id: item.id || "",
-        isDeleted: item.isDeleted ? true : undefined, // only include if true
-      };
-    });
+  return {
+    reason_name,
+    amount: item.amount || "",
+    showInput: !!item.showInput,
+    id: item.id || "",
+    isDeleted: item.isDeleted ? true : undefined, 
+  };
+});
 
-    // const formattedReasons = fields.map((item) => {
-    //   let reason_name = "";
-
-    //   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-    //     reason_name = item.customReason || item["custom Reason"] || "";
-    //   } else {
-    //     reason_name = item.reason || item.reason_name || "";
-    //   }
-
-    //   const error = { reason: "", amount: "" };
-    //   if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-    //     error.amount = "Please enter amount";
-    //     hasReasonAmountError = true;
-    //   }
-
-
-    //   if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-    //     error.reason = "Please enter reason";
-    //     hasReasonAmountError = true;
-    //   }
-
-    //   newErrors.push(error);
-    //   return {
-    //     reason_name,
-    //     amount: item.amount || "",
-    //     showInput: !!item.showInput,
-    //     id:item.id || ""
-    //   };
-    // });
-    console.log("formattedReasons", formattedReasons)
+    
+   
 
     setErrors(newErrors)
 
@@ -1700,45 +1717,17 @@ useEffect(() => {
 
       newErrors.push(error);
 
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput,
-        id: item.id || "",
-        isDeleted: item.isDeleted ? true : undefined, // only include if true
-      };
-    });
+  return {
+    reason_name,
+    amount: item.amount || "",
+    showInput: !!item.showInput,
+    id: item.id || "",
+    isDeleted: item.isDeleted ? true : undefined, 
+  };
+});
 
 
-    // const formattedReasons = fields.map((item) => {
-    //   let reason_name = "";
-
-    //   if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-    //     reason_name = item.customReason || item["custom Reason"] || "";
-    //   } else {
-    //     reason_name = item.reason || item.reason_name || "";
-    //   }
-
-    //   const error = { reason: "", amount: "" };
-    //   if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-    //     error.amount = "Please enter amount";
-    //     hasReasonAmountError = true;
-    //   }
-
-
-    //   if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-    //     error.reason = "Please enter reason";
-    //     hasReasonAmountError = true;
-    //   }
-
-    //   newErrors.push(error);
-    //   return {
-    //     reason_name,
-    //     amount: item.amount || "",
-    //     showInput: !!item.showInput,
-    //     id:item.id || ""
-    //   };
-    // });
+  
 
     setErrors(newErrors)
 
@@ -1813,7 +1802,7 @@ useEffect(() => {
     }
   }, [state.UsersList.customerdetails.data]);
 
-console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetails.data)
+
 
   const [uploadError, setUploadError] = useState("");
 
@@ -1987,11 +1976,7 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
   };
 
 
-  // const handleRemoveField = (index) => {
-  //   const updatedFields = [...fields];
-  //   updatedFields.splice(index, 1);
-  //   setFields(updatedFields);
-  // };
+ 
 
 
   const handleRemoveField = (index) => {
@@ -2053,7 +2038,7 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
   const [isHovered, setIsHovered] = useState(false);
 
   const MobileNumberupload = `${props.userData?.Phone}`;
-  console.log("props.userData",props.userData)
+
 
   const handleImageUpload = async (event) => {
     const fileImage = event.target.files[0];
@@ -2099,8 +2084,8 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
       Rooms: props.userData?.hstl_Rooms,
       Bed: props.userData?.hstl_Bed,
       joining_date: props.userData?.joining_Date,
-      AdvanceAmount: AdvanceAmount,
-      RoomRent: RoomRent,
+      AdvanceAmount: props.userData?.AdvanceAmount,
+      RoomRent: props.userData?.RoomRent,
       BalanceDue: BalanceDue,
       PaymentType: PaymentType,
       paid_advance: paid_advance,
@@ -2407,57 +2392,13 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                       </>
                     }
 
-                    {/* chekout logic  */}
-                    {/* <Button
-                                disabled={props.customerAddPermission}
-                                type="primary"
-                                style={{
-                                  borderRadius: "20px",
-                                  backgroundColor: "rgba(255, 209, 209, 0.26)",
-                                  border: "none",
-                                  padding: "0 16px",
-                                  height: "32px",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                  color:'rgba(255, 0, 0, 1)'
-                                }}
-                              >
-                               <div style={{height:5 , width:5 , backgroundColor:'rgba(255, 0, 0, 1)', borderRadius:'50%', marginRight: 6}}></div> Checked out 
-                              </Button>
+                
                           
-                            <p   style={{
-                                  fontSize: 14,
-                                  fontWeight: 400,
-                                  fontFamily: "Gilroy",
-                                  marginTop: 4,
-                                }}>Very disciplined tenant, paid on time and maintained the room well.</p> */}
-
 
                   </div>
                 </div>
 
-                {/* chekout logic  */}
-                {/* <div>
-                           <Button
-                                disabled={props.customerAddPermission}
-                                type="primary"
-                                style={{
-                                  borderRadius: "20px",
-                                  backgroundColor: "#1848f1",
-                                  border: "none",
-                                  padding: "0 16px",
-                                  height: "32px",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-                             <img  src={Reload} alt="recheckin" className="me-1"/>   Re Check-In
-                              </Button>
-                      </div> */}
+                  
 
                 <div
 
@@ -2635,156 +2576,8 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                             </div>
                           </div>
 
-                          <div className="card-body">
-                            {/* <div className="row">
-                                    <div className="col-sm-4 d-flex flex-column align-items-start">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Floor
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <Buildings size="16" color="#1E45E1" />
-                                        <span
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginLeft: 5,
-                                          }}
-                                        >
-                                          {" "}
-                                          {item.floor_name &&
-                                            item.floor_name !== "undefined" &&
-                                            item.floor_name !== 0 &&
-                                            item.floor_name !== "null"
-                                            ? item.floor_name
-                                            : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-center">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Room
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={Group}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginTop: "-10px",
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission || !item?.Bed
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                          {item.Rooms ? item.Rooms : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Bed
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission || !item?.Bed
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission || !item?.Bed
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={Group}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            cursor: props.customerEditPermission
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                          {item.Bed ? item.Bed : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </div> */}
+                                <div className="card-body">
+                                 
 
 
 
@@ -3112,156 +2905,8 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                             </div>
                           </div>
 
-                          <div className="card-body">
-                            {/* <div className="row">
-                                    <div className="col-sm-4 d-flex flex-column align-items-start">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Floor
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <Buildings size="16" color="#1E45E1" />
-                                        <span
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginLeft: 5,
-                                          }}
-                                        >
-                                          {" "}
-                                          {item.floor_name &&
-                                            item.floor_name !== "undefined" &&
-                                            item.floor_name !== 0 &&
-                                            item.floor_name !== "null"
-                                            ? item.floor_name
-                                            : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-center">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Room
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={Group}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginTop: "-10px",
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission || !item?.Bed
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                          {item.Rooms ? item.Rooms : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                    <div className="col-sm-4 d-flex flex-column align-items-end">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Bed
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission || !item?.Bed
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission || !item?.Bed
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={Group}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            cursor: props.customerEditPermission
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                          {item.Bed ? item.Bed : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  </div> */}
+                                <div className="card-body">
+                                
 
                             <div className="row">
                               <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
@@ -3493,241 +3138,370 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                         </div>
                       </div>
 
-                      <div className="col-md-12 mb-3 mb-md-0 mt-3">
-                        <div
-                          className="card"
-                          style={{
-                            borderRadius: "20px",
-                            padding: "20px",
-                            marginTop: 30,
-                            marginLeft: "20px",
-                          }}
-                        >
-                          <div
-                            className="card-header d-flex justify-content-between align-items-center"
-                            style={{
-                              backgroundColor: "transparent",
-                              display: "flex",
-                              alignItems: "center",
-                              borderBottom: "transparent",
-                              marginBottom: "15px",
-                            }}
-                          >
-                            <div
-                              style={{
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy, sans-serif",
-                                lineHeight: "40px",
-                              }}
-                            >
-                              Document
-                            </div>
-                          </div>
+<div className="card mt-4" style={{marginLeft:25,borderRadius:10}}>
+  <div className="card-body">
+ {/* <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#kycDocs">KYC Documents</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#manualDocs">Manual Documents</a>
+    </li>
+  </ul> */}
+  <TabContext value={documentvalue}>
+  <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+    <TabList
+      onChange={handleChangesupload}
+      aria-label="custom tabs"
+      className="d-flex flex-column flex-sm-row"
+      TabIndicatorProps={{ style: { display: "none" } }} // hide default blue line
+    >
+      <Tab
+        label="KYC Documents"
+        value="1"
+        sx={{
+          textTransform: "capitalize",
+          fontSize: 16,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          color: documentvalue === "1" ? "#070707" : "#4B4B4B",
+          borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
+          minWidth: "auto", 
+        }}
+      />
+      <Tab
+        label="Manual Documents"
+        value="2"
+        sx={{
+          textTransform: "capitalize",
+          fontSize: 16,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+          color: documentvalue === "2" ? "#000000" : "#4B4B4B",
+          borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+          minWidth: "auto",
+        }}
+      />
+   
+    </TabList>
+  </Box>
 
-                          <div
-                            className="row"
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <div className="col-6 text-start" style={{ backgroundColor: "#EFF4FF", padding: 10, marginTop: "-20px", height: 54, borderRadius: 10, width: 250 }}>
-
-
-
-                              <button
-                                className="btn"
-                                disabled={props.customerAddPermission}
-                                style={{
-                                  borderRadius: "10px",
-                                  padding: "5px 10px",
-                                  fontSize: "14px",
-                                  border: "1px solid #D9D9D9",
-                                  fontFamily: "Gilroy",
-
-
-                                }}
-                                onClick={() => handleUploadClick(aadharInputRef)}
-                              >
-                                <img
-                                  src={upload}
-                                  alt="upload"
-                                  width={20}
-                                  height={20}
-                                  style={{ marginRight: "8px" }}
-                                />
-                                Upload Document
-                              </button>
-
-
-                              <input
-                                type="file"
-                                ref={aadharInputRef}
-                                style={{ display: "none" }}
-                                onChange={(e) => handleFileChange(e, "doc1")}
-                              />
-
-
-                              {state.UsersList?.KycCustomerDetails?.pic && (
-                                <div >
-                                  <img
-                                    src={docDown}
-                                    alt="Download Aadhar"
-                                    onClick={handleDownloadKYC}
-                                    style={{ width: 20, height: 20, cursor: "pointer", marginLeft: 170, marginTop: "-70px" }}
-                                  />
-
-                                  <img
-                                    src={viewdoc}
-                                    alt="docdown"
-                                    onClick={handleViewKYC}
-                                    style={{
-                                      width: 20,
-                                      height: 20,
-                                      marginLeft: "10px",
-                                      marginTop: "-70px"
-                                    }}
-                                  />
-                                </div>
-                              )}
+  <TabPanel value="1">
+   <div className="row mt-3">
+       
+ <div className="col-md-6">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+               <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+              <div>
+                {/* <p class="mb-0 fw-semibold small text-wrap">Rental Agreement.pdf</p> */}
+                <p 
+  className="mb-0 fw-semibold small text-truncate" 
+  style={{ maxWidth: "120px" }}  // adjust width
+  title="Rental Agreement.pdf"   // tooltip for full name
+>
+  Rental Agreement.pdf
+</p>
+                <small className="text-muted">180 KB • PDF</small>
+              </div>
+            </div>
+            <div className="d-flex gap-2">
+              <img src={viewdoc} alt="viewdoc"/>
+             <img src={docDown} alt="docDown"/>
+            </div>
+          </div>
+        </div>
 
 
+        <div className="col-md-6">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+             <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+              <div>
+                <p className="mb-0 fw-semibold small">Aadhar.pdf</p>
+                <small className="text-muted">180 KB • PDF</small>
+              </div>
+            </div>
+           
+             {state.UsersList?.KycCustomerDetails?.pic && (
+                                      <div >
 
-
-
-
-
-                              <div
-                                id="kyc-download-card"
-                                style={{
-                                  position: "absolute",
-                                  top: "-9999px",
-                                  left: "-9999px",
-                                  borderRadius: 10,
-                                  padding: 20,
-                                  width: 320,
-                                  textAlign: "center",
-
-                                  fontFamily: "Gilroy",
-                                }}
-                              >
-
-                                <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
-                                  KYC Details
-                                </h6>
-
-                                <div style={{ marginBottom: 15 }}>
-                                  <img
-                                    src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-                                    alt="KYC"
-                                    style={{
-                                      height: 120,
-                                      width: 120,
-                                      borderRadius: "25%",
-                                      border: "3px solid #f0f0f0",
-                                    }}
-                                  />
-                                </div>
-
-                                <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
-                                  {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
-                                </h5>
-
-                                <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
-                                  <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
-
-                                  <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                    Adress<br />
-                                    <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
-                                  </p>
-                                </div>
-
-
-                                <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
-                                  <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
-
-                                  <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                    Aadhar Number<br />
-                                    <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
-                                  </p>
-                                </div>
-                              </div>
-
-
-
-
-
-
-
-
-
-
-
-                              {/* {advanceDetail[0]?.doc1 && (
-                                      <>
-                                      <a
-                                        href={advanceDetail[0]?.doc1}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <img
-                                          src={docDown}
-                                          alt="docdown"
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                       
-                                      </a>
-                                        <img
+                                         <img
                                           src={viewdoc}
                                           alt="docdown"
-                                            onClick={() => setShowDocModal(true)}
+                                            onClick={handleViewKYC}
                                           style={{
                                             width: 20,
                                             height: 20,
-                                            marginLeft: "10px",
+                                           
+                                           
                                           }}
                                         />
-                                        </>
-                                    )} */}
-                              {advanceDetail[0]?.doc1 && (
-                                <>
+                                        <img
+                                          src={docDown}
+                                          alt="Download Aadhar"
+                                          onClick={handleDownloadKYC}
+                                          style={{ width: 20, height: 20, cursor: "pointer"}}
+                                        />
 
-                                  <a
-                                    href={advanceDetail[0]?.doc1}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    <img
-                                      src={docDown}
-                                      alt="Download Document"
+                                        
+                                      </div>
+                                    )}
+          </div>
+          <Modal show={showModal} onHide={handleClose} size="md" centered>
+  <Modal.Header closeButton>
+    <Modal.Title>KYC Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <div
+      style={{
+        borderRadius: 10,
+        padding: 20,
+        textAlign: "center",
+        fontFamily: "Gilroy",
+      }}
+    >
+      <div style={{ marginBottom: 15 }}>
+        <img
+          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+          alt="KYC"
+          style={{
+            height: 120,
+            width: 120,
+            borderRadius: "25%",
+            border: "3px solid #f0f0f0",
+            objectFit: "cover",
+          }}
+        />
+      </div>
+
+      <h5
+        style={{
+          fontWeight: "bold",
+          fontSize: 18,
+          marginBottom: 20,
+          color: "#222",
+        }}
+      >
+        {state.UsersList?.KycCustomerDetails?.name || "****"}
+      </h5>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 15 }}
+      >
+        <i
+          className="bi bi-geo-alt"
+          style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
+        ></i>
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Address<br />
+          
+          <div style={{
+  maxWidth: "400px",
+  wordBreak: "break-word",
+  whiteSpace: "pre-wrap"
+}}>
+  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
+</div>
+        </p>
+      </div>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 5 }}
+      >
+        <img
+          src={adhar}
+          alt="Aadhaar"
+          style={{ width: 20, height: 20, marginRight: 10 }}
+        />
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Aadhaar Number<br />
+          <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+        </p>
+      </div>
+    </div>
+  </Modal.Body>
+</Modal>
+        </div>
+
+   
+
+
+
+ 
+
+        <div className="col-md-6 mt-2">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+             <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+              <div>
+                <p className="mb-0 fw-semibold small">License.pdf</p>
+                <small className="text-muted">180 KB • PDF</small>
+              </div>
+            </div>
+            <div className="d-flex gap-2">
+              <img src={viewdoc} alt="viewdoc"/>
+             <img src={docDown} alt="docDown"/>
+            </div>
+          </div>
+        </div>  
+        <div className="col-md-6 mt-2">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+               <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+              <div>
+                <p className="mb-0 fw-semibold small">Pancard.pdf</p>
+                <small className="text-muted">180 KB • PDF</small>
+              </div>
+            </div>
+            <div className="d-flex gap-2">
+               <img src={viewdoc} alt="viewdoc"/>
+             <img src={docDown} alt ="doc" />
+            </div>
+          </div>
+        </div>
+      </div>
+  </TabPanel>
+  <TabPanel value="2">
+    <div
+                                  className="row mt-3"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}> */}
+                                   
+   <div className="col-md-6">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+
+                                    <button
+                                      className="btn"
+                                      // disabled={props.customerAddPermission}
                                       style={{
-                                        width: 20,
-                                        height: 20,
-                                        marginLeft: "10px",
-                                        cursor: "pointer",
+                                        borderRadius: "10px",
+                                        padding: "5px 10px",
+                                        fontSize: "14px",
+                                        // border: "1px solid #D9D9D9",
+                                        fontFamily: "Gilroy",
+                                       
+                                        
                                       }}
+                                      onClick={() => handleUploadClick(aadharInputRef)}
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      {/* Upload Document */} {advanceDetail[0]?.doc1 
+  ? cleanFileName(advanceDetail[0].doc1) 
+  : "Upload Document"}
+
+                                    </button>
+
+
+                                    <input
+                                      type="file"
+                                      ref={aadharInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) => handleFileChange(e, "doc1")}
                                     />
-                                  </a>
 
 
-                                  <img
-                                    src={viewdoc}
-                                    alt="View Document"
-                                    onClick={() => setShowDocModal(true)}
-                                    style={{
-                                      width: 20,
-                                      height: 20,
-                                      marginLeft: "10px",
-                                      cursor: "pointer",
-                                    }}
-                                  />
-                                </>
-                              )}
+                                   
+
+
+
+
+
+
+
+
+
+
+
+                                    
+                                    {advanceDetail[0]?.doc1 && (
+  <>
+    
+    <a
+      href={advanceDetail[0]?.doc1}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src={docDown}
+        alt="Download Document"
+        style={{
+          width: 20,
+          height: 20,
+          marginLeft: "10px",
+          cursor: "pointer",
+        }}
+      />
+    </a>
+
+ 
+    <img
+      src={viewdoc}
+      alt="View Document"
+      // onClick={() => setShowDocModal(true)}
+      onClick={() => handleFileOpen(advanceDetail[0]?.doc1)}
+      style={{
+        width: 20,
+        height: 20,
+        marginLeft: "10px",
+        cursor: "pointer",
+      }}
+    />
+  </>
+)}
 
 
 
@@ -3748,176 +3522,276 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                               )}
                             </div>
 
+</div>
+</div>
+{/* <Modal
+  show={showDocModal}
+  onHide={() => setShowDocModal(false)}
+  size="lg"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px", 
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModal(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
 
-                            <Modal
-                              show={showDocModal}
-                              onHide={() => setShowDocModal(false)}
-                              size="lg"
-                              centered
-                              backdrop="static"
-                            >
-                              <Modal.Body
-                                style={{
-                                  padding: "20px",
-                                  position: "relative",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  minHeight: "300px", // optional fallback height
-                                }}
-                              >
-                                <Button
-                                  variant="light"
-                                  onClick={() => setShowDocModal(false)}
-                                  style={{
-                                    position: "absolute",
-                                    top: 10,
-                                    right: 10,
-                                    border: "none",
-                                    fontSize: "20px",
-                                    zIndex: 1,
-                                  }}
-                                >
-                                  &times;
-                                </Button>
+    <img
+      src={advanceDetail[0]?.doc1}
+      alt="Document Preview"
+      style={{
+        maxWidth: "100%",
+        maxHeight: "70vh",
+        height: "auto",
+        width: "auto",
+        borderRadius: "10px",
+        objectFit: "contain",
+      }}
+    />
+  </Modal.Body>
+</Modal> */}
 
-                                <img
-                                  src={advanceDetail[0]?.doc1}
-                                  alt="Document Preview"
-                                  style={{
-                                    maxWidth: "100%",
-                                    maxHeight: "70vh",
-                                    height: "auto",
-                                    width: "auto",
-                                    borderRadius: "10px",
-                                    objectFit: "contain",
-                                  }}
-                                />
-                              </Modal.Body>
-                            </Modal>
+<Modal
+  show={showDocModal}
+  onHide={() => setShowDocModal(false)}
+  size="md"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px",
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModal(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+{previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+  <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
+) : (
+  <iframe
+    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+    style={{ width: "100%", height: "600px", border: "none" }}
+    title="Document Preview"
+  />
+)}
+  </Modal.Body>
+</Modal>
 
 
-
-
-                            <div className="col-6 text-start" style={{ backgroundColor: "#EFF4FF", padding: 10, marginTop: "-20px", height: 54, borderRadius: 10 }}>
-
-                              <button
-                                className="btn "
-                                disabled={props.customerAddPermission}
-                                style={{
-                                  borderRadius: "10px",
-                                  padding: "5px 10px",
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                  border: "1px solid #D9D9D9",
-                                }}
-                                onClick={() =>
-                                  handleOtherUploadClick(otherDocInputRef)
-                                }
-                              >
-                                <img
-                                  src={upload}
-                                  alt="upload"
-                                  width={20}
-                                  height={20}
-                                  style={{ marginRight: "8px" }}
-                                />
-                                Upload Document
-                              </button>
-                              <input
-                                type="file"
-                                ref={otherDocInputRef}
-                                style={{ display: "none" }}
-                                onChange={(e) =>
-                                  handleFileChange(e, "doc2")
-                                }
-                              />
-
-                              {advanceDetail &&
-                                advanceDetail[0]?.doc2 && (
-                                  <>
-                                    <img
-                                      src={docDown}
+                                  {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}> */}
+                                  <div className="col-md-6">
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+                                    <button
+                                      className="btn "
+                                      // disabled={props.customerAddPermission}
                                       style={{
-                                        width: 20,
-                                        height: 20,
-                                        marginLeft: "10px",
-                                        cursor: "pointer",
+                                        borderRadius: "10px",
+                                        padding: "5px 10px",
+                                        fontSize: "14px",
+                                        fontFamily: "Gilroy",
+                                        // border: "1px solid #D9D9D9",
                                       }}
-                                      alt="Download Document"
                                       onClick={() =>
-                                        window.open(
-                                          advanceDetail[0]?.doc2,
-                                          "_blank"
-                                        )
+                                        handleOtherUploadClick(otherDocInputRef)
+                                      }
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      {/* Upload Document */}
+                                        {cleanFileName(advanceDetail[0]?.doc2) || "Untitled Document"}
+                                    </button>
+                                    <input
+                                      type="file"
+                                      ref={otherDocInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) =>
+                                        handleFileChange(e, "doc2")
                                       }
                                     />
-                                    <img
-                                      src={viewdoc}
-                                      alt="docdown"
-                                      onClick={() => setShowDocModaldoc2(true)}
-                                      style={{
-                                        width: 20,
-                                        height: 20,
-                                        marginLeft: "10px",
 
-                                      }}
-                                    />
-                                  </>
-                                )}
-                            </div>
+                                    {advanceDetail &&
+                                      advanceDetail[0]?.doc2 && (
+                                        <>
+                                        <img
+                                          src={docDown}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            cursor: "pointer",
+                                          }}
+                                          alt="Download Document"
+                                          onClick={() =>
+                                            window.open(
+                                              advanceDetail[0]?.doc2,
+                                              "_blank"
+                                            )
+                                          }
+                                        />
+                                         <img
+                                          src={viewdoc}
+                                          alt="docdown"
+                                          //  onClick={() => setShowDocModaldoc2(true)}
+                                          onClick={() => handleFileOpen2(advanceDetail[0]?.doc2)}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            
+                                          }}
+                                        />
+                                        </>
+                                      )} 
+                                  </div>
+</div>
+</div>
+
+                                  {/* <Modal
+  show={showDocModaldoc2}
+  onHide={() => setShowDocModaldoc2(false)}
+  size="lg"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px", 
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModaldoc2(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+
+    <img
+      src={advanceDetail[0]?.doc2}
+      alt="Document Preview"
+      style={{
+        maxWidth: "100%",
+        maxHeight: "70vh",
+        height: "auto",
+        width: "auto",
+        borderRadius: "10px",
+        objectFit: "contain",
+      }}
+    />
+  </Modal.Body>
+</Modal> */}
 
 
-                            <Modal
-                              show={showDocModaldoc2}
-                              onHide={() => setShowDocModaldoc2(false)}
-                              size="lg"
-                              centered
-                              backdrop="static"
-                            >
-                              <Modal.Body
-                                style={{
-                                  padding: "20px",
-                                  position: "relative",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  minHeight: "300px",
-                                }}
-                              >
-                                <Button
-                                  variant="light"
-                                  onClick={() => setShowDocModaldoc2(false)}
-                                  style={{
-                                    position: "absolute",
-                                    top: 10,
-                                    right: 10,
-                                    border: "none",
-                                    fontSize: "20px",
-                                    zIndex: 1,
-                                  }}
-                                >
-                                  &times;
-                                </Button>
 
-                                <img
-                                  src={advanceDetail[0]?.doc2}
-                                  alt="Document Preview"
-                                  style={{
-                                    maxWidth: "100%",
-                                    maxHeight: "70vh",
-                                    height: "auto",
-                                    width: "auto",
-                                    borderRadius: "10px",
-                                    objectFit: "contain",
-                                  }}
-                                />
-                              </Modal.Body>
-                            </Modal>
+<Modal
+  show={showDocModaldoc2}
+  onHide={() => setShowDocModaldoc2(false)}
+  size="lg"
+  centered
+  backdrop="static"
+>
+  <Modal.Body
+    style={{
+      padding: "20px",
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "300px",
+    }}
+  >
+    <Button
+      variant="light"
+      onClick={() => setShowDocModaldoc2(false)}
+      style={{
+        position: "absolute",
+        top: 10,
+        right: 10,
+        border: "none",
+        fontSize: "20px",
+        zIndex: 1,
+      }}
+    >
+      &times;
+    </Button>
+{previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+  <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
+) : (
+  <iframe
+    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+    style={{ width: "100%", height: "600px", border: "none" }}
+    title="Document Preview"
+  />
+)}
+  </Modal.Body>
+</Modal>
+                                </div>
+  </TabPanel>
+</TabContext>
+
+
+
+  </div>
+ 
+</div>
+
+                          
                           </div>
-                        </div>
-                      </div>
-                    </div>
 
                     <div style={{ flex: 1 }}>
                       <div>
@@ -4238,73 +4112,7 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                                   </p>
                                 </div>
 
-                                {/* checkout date  */}
-                                {/* <div className="col-sm-4 col-lg-6  d-flex flex-column align-items-center">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          marginLeft:29
-                                        }}
-                                      >
-                                        Checkout Date
-                                      </p>
-                                      <p
-                                        onClick={() => {
-                                          if (!props.customerEditPermission && item?.Bed) {
-                                            handleShowEditBed(
-                                              customerDetails
-                                            );
-                                          }
-                                        }}
-                                        style={{
-                                          cursor: props.customerEditPermission || !item?.Bed
-                                            ? "not-allowed"
-                                            : "pointer",
-                                          opacity: props.customerEditPermission || !item?.Bed
-                                            ? 0.6
-                                            : 1,
-                                          marginTop: "-10px",
-                                          marginLeft:50
-                                        }}
-                                      >
-                                        <img
-                                          src={LinkImage}
-                                          alt="group"
-                                          style={{
-                                            cursor: props.customerEditPermission || !item?.Bed
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            filter: props.customerEditPermission || !item?.Bed
-                                              ? "grayscale(100%)"
-                                              : "none",
-                                          }}
-                                        />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            cursor: props.customerEditPermission
-                                              ? "not-allowed"
-                                              : "pointer",
-                                            color: props.customerEditPermission
-                                              ? "#888888"
-                                              : "#000000",
-                                          }}
-                                        >
-                                        {item.user_join_date
-    ? new Date(item.user_join_date).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })
-    : "N/A"}
-                                        </span>
-                                      </p>
-                                    </div> */}
+                          
 
 
                               </div>
@@ -4379,7 +4187,7 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                                                 borderRadius: "10px",
                                                 marginTop: "10px",
                                               }}
-                                              // onClick={handlegenerateForm}
+                                            
                                               onClick={() => {
                                                 if (!advanceDetail[0]?.inv_id) {
                                                   handlegenerateForm();
@@ -4590,75 +4398,66 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                           </div>
                         </div>
 
-                        <div
-                          className="col-md-12 col-lg-12 mb-md-0"
-                          style={{
-                            paddingLeft: 20,
-                            paddingRight: 20,
-                            marginTop: 30,
-                          }}
-                        >
-                          <div
-                            className="card"
-                            style={{
-                              borderRadius: "20px",
-                              padding: "20px",
-                            }}
-                          >
-                            <div
-                              className="card-header d-flex justify-content-between align-items-center"
-                              style={{
-                                backgroundColor: "transparent",
-                                borderBottom: "1px solid #e0e0e0",
-                              }}
-                            >
                               <div
-                                className="fw-semibold"
+                                className="col-md-12 col-lg-12 mb-md-0"
                                 style={{
-                                  fontSize: 16,
-                                  lineHeight: "40px",
-                                  fontFamily: "Gilroy"
+                                  paddingLeft: 20,
+                                  paddingRight: 20,
+                                  marginTop: 30,
                                 }}
                               >
-                                Additional Contact
-                              </div>
-                              <button
-                                disabled={props.customerAddPermission}
-                                className="btn btn-link fw-medium text-decoration-none"
-                                style={{ fontSize: 14, fontFamily: "Gilroy" }}
-                                onClick={handleAdditionalForm}
-                              >
-                                + Add Contact
-                              </button>
-                            </div>
+                                <div
+                                  className="card"
+                                  style={{
+                                    borderRadius: "20px",
+                                    padding: "20px",
+                                  }}
+                                >
+                                  <div
+                                    className="card-header d-flex justify-content-between align-items-center"
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      borderBottom: "1px solid #e0e0e0",
+                                    }}
+                                  >
+                                    <div
+                                      className="fw-semibold"
+                                      style={{
+                                        fontSize: 16,
+                                        lineHeight: "40px",
+                                        fontFamily: "Gilroy"
+                                      }}
+                                    >
+                                      Additional Contact
+                                    </div>
+                                    {/* <button
+                                      disabled={props.customerAddPermission}
+                                      className="btn btn-link fw-medium text-decoration-none"
+                                      style={{ fontSize: 14, fontFamily: "Gilroy" }}
+                                      onClick={handleAdditionalForm}
+                                    >
+                                      + Add Contact
+                                    </button> */}
+                                  </div>
 
-                            <div className="card-body" style={{ fontFamily: "Gilroy" }}>
-                              {state?.UsersList?.customerAllDetails
-                                ?.contact_details?.length > 0 ? (
-                                state.UsersList.customerAllDetails
-                                  .contact_details.length > 1 ? (
-                                  <Carousel interval={null} indicators className="custom-carousel">
-                                    {state.UsersList.customerAllDetails.contact_details.map(
-                                      (v, index) => (
-                                        <Carousel.Item key={index}>
-                                          <div>
-                                            <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
-                                              Contact Info{" "}
-                                              {/* <img
-                                                      src={editliner}
-                                                      alt="Edit Icon"
-                                                      width={15}
-                                                      style={{ cursor: "pointer" }}
-                                                      height={15}
-                                                      onClick={() =>
-                                                        handleContactEdit(v)
+                                  <div className="card-body" style={{ fontFamily: "Gilroy" }}>
+                                    {state?.UsersList?.customerAllDetails
+                                      ?.contact_details?.length > 0 ? (
+                                      state.UsersList.customerAllDetails
+                                        .contact_details.length > 1 ? (
+                                        <Carousel interval={null} indicators className="custom-carousel">
+                                          {state.UsersList.customerAllDetails.contact_details.map(
+                                            (v, index) => (
+                                              <Carousel.Item key={index}>
+                                                <div>
+                                                  <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
+                                                    Contact Info{" "}
+                                                   
+                                                    <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} onClick={() => {
+                                                      if (!props.customerEditPermission) {
+                                                        handleContactEdit(v);
                                                       }
-                                                    /> */}
-                                              <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} onClick={() => {
-                                                if (!props.customerEditPermission) {
-                                                  handleContactEdit(v);
-                                                }
-                                              }} />
+                                                    }} />
 
 
                                               <Trash size="16" color={props.customerDeletePermission ? "#A9A9A9" : "red"}
@@ -4864,30 +4663,42 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                                             </div>
                                           </div>
 
+                                              </div>
+                                            )
+                                          )}
                                         </div>
                                       )
+                                    ) : (
+                                      <div
+                                        style={{
+                                          fontSize: 14,
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 400,
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        No Contact Details are there!
+                                       <p>
+                                          <button
+                                     
+                                     type="button" className="btn btn-primary"
+                                      disabled={props.customerAddPermission}
+                                      style={{ fontSize: 14, fontFamily: "Gilroy" }}
+                                      onClick={handleAdditionalForm}
+                                    >
+                                      + Add
+                                    </button>
+                                        </p>
+                                      </div>
+                                      
                                     )}
                                   </div>
-                                )
-                              ) : (
-                                <div
-                                  style={{
-                                    fontSize: 18,
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 600,
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  No data Found
                                 </div>
-                              )}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-
+                        
 
                   {kycdetailsForm === true ? (
                     <UserListKyc
@@ -5628,126 +5439,107 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
 
                                   </Form.Label>
 
-                                  <Select
-                                    options={indianStates}
-                                    ref={stateRef}
-                                    onChange={(selectedOption) => {
-                                      setStateName(selectedOption?.value);
-                                      setFormError("")
-                                    }}
-                                    onInputChange={(inputValue, { action }) => {
-                                      if (action === "input-change") {
-                                        const lettersOnly = inputValue.replace(
-                                          /[^a-zA-Z\s]/g,
-                                          ""
-                                        );
-                                        return lettersOnly;
-                                      }
-                                      return inputValue;
-                                    }}
-                                    value={
-                                      state_name
-                                        ? {
-                                          value: state_name,
-                                          label: state_name,
-                                        }
-                                        : null
-                                    }
-                                    placeholder="Select State"
-                                    classNamePrefix="custom"
-                                    menuPlacement="auto"
-                                    noOptionsMessage={() =>
-                                      "No state available"
-                                    }
-                                    styles={{
-                                      control: (base) => ({
-                                        ...base,
-                                        height: "50px",
-                                        border: "1px solid #D9D9D9",
-                                        borderRadius: "8px",
-                                        fontSize: "16px",
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: state_name ? 600 : 500,
-                                        boxShadow: "none",
-                                      }),
-                                      menu: (base) => ({
-                                        ...base,
-                                        backgroundColor: "#f8f9fa",
-                                        border: "1px solid #ced4da",
-                                      }),
-                                      menuList: (base) => ({
-                                        ...base,
-                                        backgroundColor: "#f8f9fa",
-                                        maxHeight: "120px",
-                                        padding: 0,
-                                        scrollbarWidth: "thin",
-                                        overflowY: "auto",
-                                      }),
-                                      placeholder: (base) => ({
-                                        ...base,
-                                        color: "#555",
-                                      }),
-                                      dropdownIndicator: (base) => ({
-                                        ...base,
-                                        color: "#555",
-                                        cursor: "pointer",
-                                      }),
-                                      indicatorSeparator: () => ({
-                                        display: "none",
-                                      }),
-                                      option: (base, state) => ({
-                                        ...base,
-                                        cursor: "pointer",
-                                        backgroundColor: state.isFocused
-                                          ? "#f0f0f0"
-                                          : "white",
-                                        color: "#000",
-                                      }),
-                                    }}
-                                  />
-                                </Form.Group>
-                                {/* {!state_name  && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError
-                                            style={{
-                                              fontSize: "13px",
-                                              marginRight: "5px",
-                                            }}
-                                          />
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
+                                        <Select
+                                          options={indianStates}
+                                          ref={stateRef}
+                                          onChange={(selectedOption) => {
+                                            setStateName(selectedOption?.value);
+                                            setFormError("")
+                                          }}
+                                          onInputChange={(inputValue, { action }) => {
+                                            if (action === "input-change") {
+                                              const lettersOnly = inputValue.replace(
+                                                /[^a-zA-Z\s]/g,
+                                                ""
+                                              );
+                                              return lettersOnly;
+                                            }
+                                            return inputValue;
+                                          }}
+                                          value={
+                                            state_name
+                                              ? {
+                                                value: state_name,
+                                                label: state_name,
+                                              }
+                                              : null
+                                          }
+                                          placeholder="Select State"
+                                          classNamePrefix="custom"
+                                          menuPlacement="auto"
+                                          noOptionsMessage={() =>
+                                            "No state available"
+                                          }
+                                          styles={{
+                                            control: (base) => ({
+                                              ...base,
+                                              height: "50px",
+                                              border: "1px solid #D9D9D9",
+                                              borderRadius: "8px",
+                                              fontSize: "16px",
+                                              color: "#4B4B4B",
                                               fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {state_nameError}
-                                          </span>
-                                        </div>
-                                      )} */}
-                              </div>
-                            </div>
-                            {formError && (
-                              <div
-                                className="d-flex align-items-center justify-content-center"
-                                ref={nochangeRef} style={{ color: "red" }}
-                              >
-                                <MdError style={{ marginRight: "5px" }} />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {formError}
-                                </span>
-                              </div>
-                            )}
-                          </div>
+                                              fontWeight: state_name ? 600 : 500,
+                                              boxShadow: "none",
+                                            }),
+                                            menu: (base) => ({
+                                              ...base,
+                                              backgroundColor: "#f8f9fa",
+                                              border: "1px solid #ced4da",
+                                            }),
+                                            menuList: (base) => ({
+                                              ...base,
+                                              backgroundColor: "#f8f9fa",
+                                              maxHeight: "120px",
+                                              padding: 0,
+                                              scrollbarWidth: "thin",
+                                              overflowY: "auto",
+                                            }),
+                                            placeholder: (base) => ({
+                                              ...base,
+                                              color: "#555",
+                                            }),
+                                            dropdownIndicator: (base) => ({
+                                              ...base,
+                                              color: "#555",
+                                              cursor: "pointer",
+                                            }),
+                                            indicatorSeparator: () => ({
+                                              display: "none",
+                                            }),
+                                            option: (base, state) => ({
+                                              ...base,
+                                              cursor: "pointer",
+                                              backgroundColor: state.isFocused
+                                                ? "#f0f0f0"
+                                                : "white",
+                                              color: "#000",
+                                            }),
+                                          }}
+                                        />
+                                      </Form.Group>
+                                      
+                                    </div>
+                                  </div>
+                                  {formError && (
+                                    <div
+                                      className="d-flex align-items-center justify-content-center"
+                                      ref={nochangeRef} style={{ color: "red" }}
+                                    >
+                                      <MdError style={{ marginRight: "5px" }} />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {formError}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
 
                           {state?.createAccount?.networkError ?
                             <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
@@ -6324,99 +6116,99 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                                       border: "1px solid #D9D9D9",
                                       height: 50,
 
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </Form.Group>
-                                {advanceAmountError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError
-                                      style={{
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "2px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {advanceAmountError}
-                                    </span>
+                                            borderRadius: 8,
+                                          }}
+                                        />
+                                      </Form.Group>
+                                      {advanceAmountError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError
+                                            style={{
+                                              fontSize: "13px",
+                                              marginRight: "5px",
+                                              marginBottom: "2px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {advanceAmountError}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                      <Form.Group className="mb-3">
+                                        <Form.Label
+                                          style={{
+                                            fontSize: 14,
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                          }}
+                                        >
+                                          Rental Amount {" "}
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "20px",
+                                            }}
+                                          >
+                                            {" "}
+                                            *{" "}
+                                          </span>
+                                        </Form.Label>
+                                        <FormControl
+                                          type="text"
+                                          id="form-controls"
+                                          placeholder="Enter Amount"
+                                          value={RoomRent}
+                                          onChange={(e) => handleRoomRent(e)}
+                                          style={{
+                                            fontSize: 16,
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            boxShadow: "none",
+                                            border: "1px solid #D9D9D9",
+                                            height: 50,
+                                            borderRadius: 8,
+                                          }}
+                                        />
+                                      </Form.Group>
+                                      {roomrentError && (
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            marginTop: "-15px",
+                                          }}
+                                        >
+                                          <MdError
+                                            style={{
+                                              fontSize: "13px",
+                                              marginRight: "5px",
+                                              marginBottom: "2px",
+                                            }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {roomrentError}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
                                   </div>
-                                )}
-                              </div>
-                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <Form.Group className="mb-3">
-                                  <Form.Label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
-                                    Rental Amount {" "}
-                                    <span
-                                      style={{
-                                        color: "red",
-                                        fontSize: "20px",
-                                      }}
-                                    >
-                                      {" "}
-                                      *{" "}
-                                    </span>
-                                  </Form.Label>
-                                  <FormControl
-                                    type="text"
-                                    id="form-controls"
-                                    placeholder="Enter Amount"
-                                    value={RoomRent}
-                                    onChange={(e) => handleRoomRent(e)}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      boxShadow: "none",
-                                      border: "1px solid #D9D9D9",
-                                      height: 50,
-                                      borderRadius: 8,
-                                    }}
-                                  />
-                                </Form.Group>
-                                {roomrentError && (
-                                  <div
-                                    style={{
-                                      color: "red",
-                                      marginTop: "-15px",
-                                    }}
-                                  >
-                                    <MdError
-                                      style={{
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "2px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {roomrentError}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            {/* <fieldset disabled> */}
+                                 
 
                             <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
@@ -6647,8 +6439,8 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
 
 
 
-                            </div>
-                            {/* </fieldset> */}
+                                    </div>
+                                
 
 
                           </div>
@@ -7279,22 +7071,9 @@ console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetai
                           </div>
                         </div>
 
-                        {/* <Button
-                                className="w-100"
-                                style={{
-                                  backgroundColor: "#1E45E1",
-                                  fontWeight: 600,
-                                  height: 50,
-                                  borderRadius: 12,
-                                  fontSize: 16,
-                                  fontFamily: "Montserrat",
-                                }}
-                                onClick={handleSaveButton}
-                              >
-                                save
-                              </Button> */}
-                        <div className="d-flex gap-2">
-                          <Button
+                              
+                              <div className="d-flex gap-2">
+                                <Button
 
                             variant="secondary"
                             className="w-100"
