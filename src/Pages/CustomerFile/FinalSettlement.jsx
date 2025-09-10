@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
-import moment from "moment";
+// import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import Select from "react-select";
@@ -41,7 +41,7 @@ function FinalCheckout({ show, handleClose, data, customerID }) {
     // const [modeOfPaymentError, setModeOfPaymentError] = useState("")
     const [formLoading, setFormLoading] = useState(false)
     const checkOutDateRef = useRef(null);
-    const modeOfPaymentRef = useRef(null);
+    // const modeOfPaymentRef = useRef(null);
     const [showBreakdown, setShowBreakdown] = useState(false);
     // const [refundCompleted, setRefundCompleted] = useState(false);
     const [dataBed, setDataBed] = useState([])
@@ -71,64 +71,64 @@ function FinalCheckout({ show, handleClose, data, customerID }) {
 
     // const [rentalBalance, setRentalBalance] = useState('')
 
-    useEffect(() => {
-        if (state.UsersList.statusCodegetConfirmCheckout) {
-            const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-                (invoice) => invoice.balance > 0
-            );
+    // useEffect(() => {
+    //     if (state.UsersList.statusCodegetConfirmCheckout) {
+    //         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+    //             (invoice) => invoice.balance > 0
+    //         );
 
 
 
-            const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-                (deduction) => deduction.amount > 0
-            );
-            console.log("deduction_details", deduction_details)
+    //         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+    //             (deduction) => deduction.amount > 0
+    //         );
+    //         console.log("deduction_details", deduction_details)
 
-            const invoiceTotal = Array.isArray(validInvoices)
-                ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
-                : 0;
+    //         const invoiceTotal = Array.isArray(validInvoices)
+    //             ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
+    //             : 0;
 
-            console.log("invoiceTotal", invoiceTotal)
-            if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-                const formattedFields = deduction_details.map((item) => ({
-                    reason_name: item.reason || "",
-                    amount: Number(item.amount) || 0,
-                    showInput: false,
-                }));
-
-
-                formattedFields.unshift({
-                    reason_name: "DueAmount",
-                    amount: invoiceTotal,
-                    showInput: false,
-                });
+    //         console.log("invoiceTotal", invoiceTotal)
+    //         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+    //             const formattedFields = deduction_details.map((item) => ({
+    //                 reason_name: item.reason || "",
+    //                 amount: Number(item.amount) || 0,
+    //                 showInput: false,
+    //             }));
 
 
-                setFields(formattedFields);
-
-            } else {
-                setFields([
-                    { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
-                ]);
-
-            }
-            const rentBalance =
-                state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-                    (item) => String(item.action).toLowerCase() === "rent"
-                )?.balance ?? 0;
-            // setRentalBalance(rentBalance)
-            // setDetuction(state?.UsersList?.Deduction)
-            // setReFundableDetails(state?.UsersList?.Refundable_details)
+    //             formattedFields.unshift({
+    //                 reason_name: "DueAmount",
+    //                 amount: invoiceTotal,
+    //                 showInput: false,
+    //             });
 
 
-            setHostelData(state?.UsersList?.hostelData)
+    //             setFields(formattedFields);
 
-        }
+    //         } else {
+    //             setFields([
+    //                 { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
+    //             ]);
 
-        setTimeout(() => {
-            dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-        }, 500);
-    }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
+    //         }
+    //         const rentBalance =
+    //             state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
+    //                 (item) => String(item.action).toLowerCase() === "rent"
+    //             )?.balance ?? 0;
+    //         setRentalBalance(rentBalance)
+    //         setDetuction(state?.UsersList?.Deduction)
+    //         setReFundableDetails(state?.UsersList?.Refundable_details)
+
+
+    //         setHostelData(state?.UsersList?.hostelData)
+
+    //     }
+
+    //     setTimeout(() => {
+    //         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+    //     }, 500);
+    // }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
 
 
     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
@@ -1420,7 +1420,9 @@ function FinalCheckout({ show, handleClose, data, customerID }) {
                                     </Button>
                                     <Button
                                         // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
-                                        style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }} onClick={handleClickGenerate}>Generate</Button>
+                                        style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }} 
+                                        // onClick={handleClickGenerate}
+                                        >Generate</Button>
                                 </div>
                             </div>
                         </div>

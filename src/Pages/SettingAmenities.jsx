@@ -168,20 +168,20 @@ function SettingAmenities({ hostelid }) {
     }
 
 
-    const handleDeleteAmenitiesConfirm = () => {
-        if (deleteID) {
-            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
+    // const handleDeleteAmenitiesConfirm = () => {
+    //     if (deleteID) {
+    //         dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
 
-        }
-    }
+    //     }
+    // }
 
-    useEffect(() => {
-        const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
-            acc[amenity.id] = amenity.recuring === 1;
-            return acc;
-        }, {})
-        // setSwitchStates(initialSwitchStates);
-    }, [amenitiesFilterddata])
+    // useEffect(() => {
+    //     const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
+    //         acc[amenity.id] = amenity.recuring === 1;
+    //         return acc;
+    //     }, {})
+    //     setSwitchStates(initialSwitchStates);
+    // }, [amenitiesFilterddata])
 
 
 
@@ -879,7 +879,9 @@ function SettingAmenities({ hostelid }) {
                  setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
             }
             {
-                IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid} assignAmenitiesDetails={assignAmenitiesDetails} />
+                IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid} 
+                // assignAmenitiesDetails={assignAmenitiesDetails}
+                 />
             }
 
 
