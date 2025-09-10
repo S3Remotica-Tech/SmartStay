@@ -143,7 +143,7 @@ useEffect(() => {
   }, []);
 
 
-console.log("currentItem",currentItem)
+
 
   useEffect(() => {
     if (currentItem) {
@@ -151,8 +151,7 @@ console.log("currentItem",currentItem)
       setVendorName(currentItem.vendorId || "");
       setBrandName(currentItem.brandName || "");
       setSerialNumber(currentItem.serialNumber || "");
-      // setProductCount(currentItem.product_count || "");
-      setSelectedDate(moment(currentItem.purchaseDate).toDate());
+         setSelectedDate(moment(currentItem.purchaseDate).toDate());
       setPrice(currentItem.price || "");
       setId(currentItem.id || 0);
       setProductName(currentItem.productName || 0);
@@ -172,7 +171,7 @@ console.log("currentItem",currentItem)
     }
   }, [currentItem]);
 
-  console.log("currentItem", currentItem)
+
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -183,16 +182,7 @@ console.log("currentItem",currentItem)
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.updateAssetStatusCode === 200) {
       setFormLoading(false)
-      setAssetName("");
-      setVendorName("");
-      setBrandName("");
-      setSerialNumber("");
-      setProductCount("");
-      setPrice("");
-      handleClose();
-      setBankingError("")
-      setJoingDateErrmsg('')
-    }
+          }
   }, [state.AssetList.addAssetStatusCode, state.AssetList.updateAssetStatusCode]);
 
 
@@ -226,11 +216,7 @@ console.log("currentItem",currentItem)
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
-    // const pattern = /^[a-zA-Z\s]*$/;
-    // if (!pattern.test(value)) {
-    //   return;
-    // }
-    setAssetError("");
+       setAssetError("");
 
     setIsChangedError("");
 
@@ -305,11 +291,7 @@ console.log("currentItem",currentItem)
 
   const handleProductNameChange = (e) => {
     const value = e.target.value;
-    // const pattern = /^[a-zA-Z\s]*$/;
-    // if (!pattern.test(value)) {
-    //   return;
-    // }
-    setProductNameError("");
+        setProductNameError("");
     setIsChangedError("");
 
     if (value === "") {
@@ -399,13 +381,14 @@ console.log("currentItem",currentItem)
       initialState.vendorName !== vendorName ||
       initialState.brandName !== brandName ||
       initialState.serialNumber !== serialNumber ||
-      Number(initialState.productCount) !== Number(productCount) ||
+    
       (initialState.selectedDate && selectedDate &&
         moment(initialState.selectedDate).format("YYYY-MM-DD") !==
         moment(selectedDate).format("YYYY-MM-DD")) ||
       Number(initialState.price) !== Number(price) ||
       initialState.productName !== productName;
 
+      
 
     if (!isChanged) {
       setIsChangedError("No Changes Detected");
@@ -423,14 +406,14 @@ console.log("currentItem",currentItem)
       setIsChangedError("");
     }
 
-    if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
+    if (productName && serialNumber && selectedDate && price && assetName ) {
       const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
-      if (currentItem?.id) {
+      if (currentItem?.assetId) {
         dispatch({
           type: "UPDATEASSET",
           payload: {
             hostelId: state.login.selectedHostel_Id,
-            assetId: currentItem?.id,
+            assetId: currentItem?.assetId,
             assetName: assetName,
             productName: productName,
             brandName: brandName,
@@ -438,7 +421,7 @@ console.log("currentItem",currentItem)
             serialNumber: serialNumber,
             purchaseDate: formattedDate,
             price: price,
-            bankingId: modeOfPayment,           
+                  
             isActive: true
 
           },

@@ -36,7 +36,7 @@ export async function GetAsset(hostelId) {
 // v2
 
 export async function updateAsset(asset) {
-     return await AxiosConfigV2.put(`/v2/assets/${asset.assetId}/ ${asset.hostelId}`,asset,{
+     return await AxiosConfigV2.put(`/v2/assets/${asset.assetId}/${asset.hostelId}`,asset,{
         data:asset
         })
   }
