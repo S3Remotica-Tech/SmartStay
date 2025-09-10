@@ -426,9 +426,11 @@ function ParticularHostelDetails(props) {
               </div>
             ))}
 
-            {!loader && !loaderTrigger & roomList.length === 0 && (
+            {!loader && !loaderTrigger && roomList?.length === 0 && (
               <div className='d-flex flex-column align-items-center justify-content-center text-center w-100 px-3 fade-in'>
-                <div><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
+                               <div>
+                  <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+                  </div>
                 <div className="pb-1 mt-1" style={{ fontWeight: 600, fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
                 <div className="pb-1 mt-1" style={{ fontWeight: 500, fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
                 <div className='d-flex justify-content-center pb-1 mt-3'>
