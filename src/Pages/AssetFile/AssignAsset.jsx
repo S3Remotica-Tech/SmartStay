@@ -52,30 +52,27 @@ function StaticExample({ show, handleClose, currentItem }) {
     setPgList(state.login.selectedHostel_Id);
   }, []);
 
-  useEffect(() => {     
-  if (currentItem) {       
-    setPgList(currentItem.hostelId);       
-    setRoom(currentItem.roomId);       
+ useEffect(() => {
+  if (currentItem) {
+    setPgList(currentItem.hostelId);
+    setRoom(currentItem.roomId);
     setSelectedDate(
-      currentItem.assignedAt 
-        ? moment(currentItem.assignedAt, "DD-MM-YYYY HH:mm:ss").toDate() 
+      currentItem.assignedAt
+        ? dayjs(currentItem.assignedAt, "DD-MM-YYYY").toDate()
         : null
-    );       
-    setFloor(currentItem.floorId);       
+    );
 
-    setInitialState({         
-      pglist: currentItem.hostelId || "",         
-      room: currentItem.roomId || "",         
-      selectedDate: currentItem.assignedAt
-        ? moment(currentItem.assignedAt, "DD-MM-YYYY HH:mm:ss").toDate()
-        : null,         
-      floor_id: currentItem.floorId || "",       
-    });     
-  }    
+    setFloor(currentItem.floorId);
+    setInitialState({
+      pglist: currentItem.hostelId || "",
+      room: currentItem.roomId || "",
+      selectedDate: currentItem.assignedAt,
+      floor_id: currentItem.floorId || "",
+    });
+  }
 }, [currentItem]);
 
 
-  console.log("currentItem", currentItem)
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -131,20 +128,9 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
   }, [Floor]);
 
-  // useEffect(() => {
-  //   dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: pglist } });
-  // }, []);
+ 
 
-  // useEffect(() => {
-  //   if (state.AssetList.getRoomStatusCode === 200) {
-  //     setRoomList(state.AssetList?.GetRoomList);
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "REMOVE_GET_ROOMS" });
-  //     }, 1000);
-  //   }
-  // }, [state.AssetList.getRoomStatusCode]);
-
+  console.log("selectedDate",selectedDate)
   const handleAddAssignAsset = () => {
 
     dispatch({ type: 'CLEAR_NETWORK_ERROR' })
@@ -686,8 +672,8 @@ function StaticExample({ show, handleClose, currentItem }) {
                 padding: 12,
               }}
             >
-              {currentItem.hostel_id ? "Save Changes" : "Assign Asset"}
-            </Button>
+               {currentItem?.assignmentStatus  === "Assigned"  ? "Save Changes " : "Assign asset"}
+                         </Button>
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>

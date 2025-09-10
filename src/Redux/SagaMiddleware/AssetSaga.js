@@ -7,22 +7,22 @@ import { toast } from 'react-toastify';
 
 
 function* handleGetAsset(action) {
-    try {
-   const hostelId = action.payload;   
-    const response = yield call(GetAsset, hostelId);
+   try {
+      const hostelId = action.payload;
+      const response = yield call(GetAsset, hostelId);
 
-   if (response?.status === 200 || response?.data?.statusCode === 200) {
-      yield put({ type: 'ASSET_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
+      if (response?.status === 200 || response?.data?.statusCode === 200) {
+         yield put({ type: 'ASSET_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
+      }
+      else if (response?.status === 201 || response?.statusCode === 201) {
+         yield put({ type: 'NO_ASSET_LIST', payload: { response: response?.data?.assets || [], statusCode: response.status || response.statusCode } })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response?.status === 201 || response?.statusCode === 201) {
-      yield put({ type: 'NO_ASSET_LIST', payload: { response: response?.data?.assets || [], statusCode: response.status || response.statusCode } })
-   }
-   if (response) {
-      refreshToken(response)
-   }
-}
 
-     catch (error) {
+   catch (error) {
       if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
       } else {
@@ -66,30 +66,26 @@ function* handleAddAsset(action) {
          });
 
       }
-      else if (response.status === 201 || response.statusCode === 201) {
-         yield put({ type: 'SERIAL_NUMBER_ERROR', payload: response.data.message })
-      } else if (response.status === 202 || response.statusCode === 202) {
-         yield put({ type: 'ASSET_NAME_ERROR', payload: response.data.message })
-      }
-      else if (response.status === 203 || response.data.statusCode === 203) {
-         yield put({ type: 'BANK_AMOUNT_ERROR', payload: response.data.message })
-      }
-      if (response) {
+           if (response) {
          refreshToken(response)
       }
 
 
 
    }
-    catch (error) {
+   catch (error) {
       if (error.code === 'ERR_BAD_REQUEST') {
-        if (error.status === 400 || error.status === 403) {
-          yield put({ type: 'NETWORK_ERROR', payload: error.response.data });
-        }
+         if (error.status === 400 || error.status === 403) {
+            if (error.response.data === 'Serial number already exists') {
+               yield put({ type: 'SERIAL_NUMBER_ERROR', payload: error.response.data });
+            } else {
+               yield put({ type: 'ASSET_NAME_ERROR', payload: error.response.data });
+            }
+         }
       } else if (error.code === 'ERR_NETWORK') {
-        yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
-    }
+   }
 
 
 }
@@ -114,7 +110,7 @@ function* handleUpdateAsset(action) {
       };
 
       if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UPDATE_ASSET', payload: {statusCode: response.status || response.statusCode } })
+         yield put({ type: 'UPDATE_ASSET', payload: { statusCode: response.status || response.statusCode } })
          toast.success(`Updated successfully`, {
             position: "bottom-center",
             autoClose: 2000,
@@ -128,15 +124,7 @@ function* handleUpdateAsset(action) {
          });
 
       }
-      // else if (response.status === 201 || response.statusCode === 201) {
-      //    yield put({ type: 'SERIAL_NUMBER_ERROR', payload: response.data.message })
-      // } else if (response.status === 202 || response.statusCode === 202) {
-      //    yield put({ type: 'ASSET_NAME_ERROR', payload: response.data.message })
-      // }
-      // else if (response.status === 203 || response.data.statusCode === 203) {
-      //    yield put({ type: 'BANK_AMOUNT_ERROR', payload: response.data.message })
-      // }
-      if (response) {
+           if (response) {
          refreshToken(response)
       }
 
@@ -144,13 +132,18 @@ function* handleUpdateAsset(action) {
 
    }
    catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400 || error.status === 403) {
+            if (error.response.data === 'Serial number already exists') {
+               yield put({ type: 'SERIAL_NUMBER_ERROR', payload: error.response.data });
+            } else {
+               yield put({ type: 'ASSET_NAME_ERROR', payload: error.response.data });
+            }
+         }
+      } else if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
    }
-
 
 
 }
@@ -255,10 +248,7 @@ function* handleAssignAsset(action) {
          });
 
       }
-      // else if (response.status === 201 || response.statusCode === 201) {
-      //    yield put({ type: 'ASSET_ERROR', payload: response.data.message })
-      // }
-      if (response) {
+           if (response) {
          refreshToken(response)
       }
    }
@@ -305,7 +295,7 @@ function refreshToken(response) {
 function* AssetSaga() {
    yield takeEvery('ASSETLIST', handleGetAsset)
    yield takeEvery('ADDASSET', handleAddAsset)
-   yield takeEvery('UPDATEASSET',handleUpdateAsset)
+   yield takeEvery('UPDATEASSET', handleUpdateAsset)
    yield takeEvery('DELETEASSET', handleDeleteAsset)
    yield takeEvery('GETROOMS', handleGetHostelRooms)
    yield takeEvery('ASSIGNASSET', handleAssignAsset)

@@ -48,7 +48,6 @@ function Asset() {
   const [filterexcelprice, setFilterExcelPrice] = useState('')
 
 
-console.log(getData,"getData")
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -231,9 +230,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
   }
 
 
-  console.log("state" , state);
 
-  
    
 
   useEffect(() => {
@@ -243,26 +240,16 @@ if( state.bankingDetails?.bankingList?.length === 0){
        dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
    
     } else {
-      // setGetData([])
-      setLoading(false)
+         setLoading(false)
     }
   }, [state.login?.selectedHostel_Id])
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (!state.login.selectedHostel_Id) {
-  //       setGetData([])
-  //       setLoading(false);
-  //     }
-  //   }, 100);
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
 
   useEffect(() => {
-    if (state.AssetList.updateAssetStatusCode === 200, state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
-           setTimeout(() => {
+    if (state.AssetList.updateAssetStatusCode === 200 ||  state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
+           setShow(false)
+      setTimeout(() => {
          dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
         dispatch({ type: 'CLEAR_ADD_ASSET_STATUS_CODE' })
         dispatch({ type: 'CLEAR_UPDATE_ASSET_STATUS_CODE'})
@@ -287,26 +274,6 @@ if( state.bankingDetails?.bankingList?.length === 0){
   }, [state.AssetList.getAssetStatusCode])
 
 
-  console.log("state.AssetList.getAssetStatusCode",state.AssetList.getAssetStatusCode)
-
-  // useEffect(() => {
-  //   if (state.AssetList?.assetList && state.AssetList?.assetList?.length > 0) {
-  //     setGetData(state.AssetList?.assetList)
-  //   }
-
-  // }, [state.AssetList.assetList])
-
-
-  // useEffect(() => {
-  //   if (state.AssetList.NoDataAssetStatusCode === 201) {
-  //     setGetData([])
-  //     setLoading(false)
-  //     setTimeout(() => {
-  //       dispatch({ type: 'CLEAR_NO_ASSET_LIST' })
-  //     }, 2000)
-  //   }
-
-  // }, [state.AssetList.NoDataAssetStatusCode])
 
 
 
@@ -489,7 +456,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
     setSortConfig({ key, direction });
   };
 
-console.log("sortedData",sortedData)
+
 
   const handleItemsPerPageChange = (selectedOption) => {
     setItemsPerPage(Number(selectedOption.value));
@@ -967,8 +934,7 @@ console.log("sortedData",sortedData)
                   style={{
                     height: currentItems.length >= 8 || sortedData.length >= 8 ? "460px" : "auto",
                     overflow: "auto",
-                    // marginBottom: 20,
-                    marginTop: "20px"
+                                  marginTop: "20px"
                   }}>
 
                   <Table
