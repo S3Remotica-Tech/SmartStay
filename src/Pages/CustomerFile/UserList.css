@@ -7,7 +7,9 @@
 .edit-overlay:hover {
   opacity: 1 !important;
 }
-
+.css-8adxxm-MuiButtonBase-root-MuiTab-root {
+    color: #1E45E1 !important;
+}
 
 
 .custom-modal {

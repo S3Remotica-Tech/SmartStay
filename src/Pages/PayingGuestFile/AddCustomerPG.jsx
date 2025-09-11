@@ -257,7 +257,7 @@ function AddCustomer({  showMenu, handleClose   }) {
  
     
   
-    const MobileNumber = `${countryCode}${Phone}`;
+    const MobileNumber = `${Phone}`;
   
     const validateField = (value, fieldName, ref, setError, focusedRef) => {
       const trimmedValue = String(value).trim();

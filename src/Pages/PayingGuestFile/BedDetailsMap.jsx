@@ -24,7 +24,8 @@ import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 // import UserlistForm from '../CustomerFile/UserlistForm';
-import AddCustomerPG from './AddCustomerPG'
+import AddCustomerPG from './AddCustomerPG';
+import FinalSettlement from '../CustomerFile/FinalSettlement';
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -55,9 +56,18 @@ function BedDetailsMap({ room, propsValue }) {
     const [showBed, setShowBed] = useState(false)
     const [details, setDetails] = useState('')
  const [makeasinactive, setMakeasInactive] = useState(false)  
+const [finalsettlepage,setFinalSettlePage] = useState(false)
 
-
-
+const handleshowfinalsettlement = (isvisible ,customerId) => {
+   setCustomerId(customerId)
+   
+      setFinalSettlePage(isvisible)
+      setNoticePeriodBed(false)
+  }
+ 
+  const handleClosefinalsettelment = ()=>{
+    setFinalSettlePage(false)
+  }
     const handleShowReservedBed = () => {
         setShowReservedBed(true)
     }
@@ -411,7 +421,7 @@ console.log("state",state)
             {
                 Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer}
-                    showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout}
+                    showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet={handleshowfinalsettlement}
                 />}
 
 
@@ -459,7 +469,9 @@ console.log("state",state)
                 );
             })()}
 
-
+{
+                  finalsettlepage &&<FinalSettlement show = {finalsettlepage}   handleClose={handleClosefinalsettelment}  data={OccupiedCustomerDetails} customerID={customerId}/>
+                }
 
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
                 {Array.isArray(bedsForRoom) && bedsForRoom.length > 0 &&

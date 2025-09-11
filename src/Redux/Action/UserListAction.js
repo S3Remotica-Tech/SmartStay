@@ -82,7 +82,7 @@ export async function userlist(users) {
 
 
 export async function addUser(params) {
-
+console.log("params",params)
   const formData = new FormData();
 
   if (params.profilePic) {

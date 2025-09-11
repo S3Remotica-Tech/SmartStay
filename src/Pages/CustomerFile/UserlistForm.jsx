@@ -178,12 +178,12 @@ const [bedWarning, setBedWarning] = useState('')
 
 
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "HOSTELDETAILLIST",
-  //     payload: { hostel_Id: state.login.selectedHostel_Id },
-  //   });
-  // }, [hostel_Id]);
+  useEffect(() => {
+    if(state.login.selectedHostel_Id){
+   dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+    }
+  }, []);
 
   useEffect(() => {
     if (Floor) {
@@ -805,7 +805,7 @@ console.log("props",props)
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
+      // dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
       dispatch({
         type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
       });
@@ -2081,7 +2081,7 @@ console.log("props",props)
                         {state.UsersList?.bedAvailableError ?
                           <div className='d-flex  align-items-center  mt-1 mb-1'>
                             <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>Bed unavailable for this date</label>
+                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.UsersList?.bedAvailableError}</label>
                           </div>
                           : null}
  {bedWarning ?

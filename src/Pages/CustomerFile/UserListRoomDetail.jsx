@@ -946,24 +946,26 @@ useEffect(() => {
   };
 
   useEffect(() => {
+    if(Rooms){
     dispatch({
       type: "BEDNUMBERDETAILS",
       payload: {
         hostelId: state.login.selectedHostel_Id,
       },
     });
+  }
   }, [Rooms]);
 
   const handleRooms = (selectedOption) => {
     const roomIdValue = selectedOption?.value || "";
     setRoomId(roomIdValue);
 
-    dispatch({
-      type: "BEDNUMBERDETAILS",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-      },
-    });
+    // dispatch({
+    //   type: "BEDNUMBERDETAILS",
+    //   payload: {
+    //     hostelId: state.login.selectedHostel_Id,
+    //   },
+    // });
     if (roomIdValue === "Selected Room") {
       setRoomError("Please select a valid Room");
     } else {
@@ -2120,6 +2122,49 @@ useEffect(() => {
 
   console.log("CustomerOverView", CustomerOverView)
 
+const [documents, setDocuments] = useState([
+    { name: "Rental Agreement.pdf", size: "180 KB", type: "PDF" },
+    { name: "Aadhar.pdf", size: "180 KB", type: "PDF" },
+    { name: "License.pdf", size: "180 KB", type: "PDF" },
+    { name: "Pancard.pdf", size: "180 KB", type: "PDF" },
+  ]);
+
+  const handleFileUpload = (index, e) => {
+    const file = e.target.files[0];
+    console.log("file",file)
+    if (!file) return;
+ 
+    const updatedDoc = {
+      name: file.name,
+      size: `${Math.round(file.size / 1024)} KB`,
+      type: file.name.split(".").pop().toUpperCase(),
+    };
+ 
+    const newDocuments = [...documents];
+    newDocuments[index] = updatedDoc;
+    setDocuments(newDocuments);
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
 
     <>
@@ -3154,7 +3199,7 @@ useEffect(() => {
       onChange={handleChangesupload}
       aria-label="custom tabs"
       className="d-flex flex-column flex-sm-row"
-      TabIndicatorProps={{ style: { display: "none" } }} // hide default blue line
+      TabIndicatorProps={{ style: { display: "none" } }} 
     >
       <Tab
         label="KYC Documents"
@@ -3164,7 +3209,7 @@ useEffect(() => {
           fontSize: 16,
           fontWeight: 600,
           fontFamily: "Gilroy",
-          color: documentvalue === "1" ? "#070707" : "#4B4B4B",
+          color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
           borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
           minWidth: "auto", 
         }}
@@ -3177,7 +3222,7 @@ useEffect(() => {
           fontSize: 16,
           fontWeight: 600,
           fontFamily: "Gilroy",
-          color: documentvalue === "2" ? "#000000" : "#4B4B4B",
+          color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
           borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
           minWidth: "auto",
         }}
@@ -3187,222 +3232,50 @@ useEffect(() => {
   </Box>
 
   <TabPanel value="1">
-   <div className="row mt-3">
-       
- <div className="col-md-6">
+  <div className="row mt-3">
+      {documents.map((doc, index) => (
+        <div className="col-md-6 mt-2" key={index}>
           <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
             <div className="d-flex align-items-center">
-               <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
+              <img
+                src={upload}
+                alt="upload"
+                width={20}
+                height={20}
+                style={{ marginRight: "8px", cursor: "pointer" }}
+                onClick={() =>
+                  document.getElementById(`fileUpload-${index}`).click()
+                }
+              />
               <div>
-                {/* <p class="mb-0 fw-semibold small text-wrap">Rental Agreement.pdf</p> */}
-                <p 
-  className="mb-0 fw-semibold small text-truncate" 
-  style={{ maxWidth: "120px" }}  // adjust width
-  title="Rental Agreement.pdf"   // tooltip for full name
->
-  Rental Agreement.pdf
-</p>
-                <small className="text-muted">180 KB • PDF</small>
+                <p
+                  className="mb-0 fw-semibold small text-truncate"
+                  style={{ maxWidth: "120px" , fontFamily:"Gilroy"}}
+                  title={doc.name}
+                >
+                  {doc.name}
+                </p>
+                <small className="text-muted">
+                  {doc.size} • {doc.type}
+                </small>
               </div>
             </div>
             <div className="d-flex gap-2">
-              <img src={viewdoc} alt="viewdoc"/>
-             <img src={docDown} alt="docDown"/>
+              <img src={viewdoc} alt="viewdoc" />
+              <img src={docDown} alt="docDown" />
             </div>
           </div>
-        </div>
-
-
-        <div className="col-md-6">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-             <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-              <div>
-                <p className="mb-0 fw-semibold small">Aadhar.pdf</p>
-                <small className="text-muted">180 KB • PDF</small>
-              </div>
-            </div>
-           
-             {state.UsersList?.KycCustomerDetails?.pic && (
-                                      <div >
-
-                                         <img
-                                          src={viewdoc}
-                                          alt="docdown"
-                                            onClick={handleViewKYC}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                           
-                                           
-                                          }}
-                                        />
-                                        <img
-                                          src={docDown}
-                                          alt="Download Aadhar"
-                                          onClick={handleDownloadKYC}
-                                          style={{ width: 20, height: 20, cursor: "pointer"}}
-                                        />
-
-                                        
-                                      </div>
-                                    )}
-          </div>
-          <Modal show={showModal} onHide={handleClose} size="md" centered>
-  <Modal.Header closeButton>
-    <Modal.Title>KYC Details</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <div
-      style={{
-        borderRadius: 10,
-        padding: 20,
-        textAlign: "center",
-        fontFamily: "Gilroy",
-      }}
-    >
-      <div style={{ marginBottom: 15 }}>
-        <img
-          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-          alt="KYC"
-          style={{
-            height: 120,
-            width: 120,
-            borderRadius: "25%",
-            border: "3px solid #f0f0f0",
-            objectFit: "cover",
-          }}
-        />
-      </div>
-
-      <h5
-        style={{
-          fontWeight: "bold",
-          fontSize: 18,
-          marginBottom: 20,
-          color: "#222",
-        }}
-      >
-        {state.UsersList?.KycCustomerDetails?.name || "****"}
-      </h5>
-
-      <div
-        className="d-flex align-items-start"
-        style={{ justifyContent: "center", marginBottom: 15 }}
-      >
-        <i
-          className="bi bi-geo-alt"
-          style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
-        ></i>
-        <p
-          style={{
-            fontSize: 14,
-            color: "#4B4B4B",
-            maxWidth: 220,
-            textAlign: "left",
-            margin: 0,
-          }}
-        >
-          Address<br />
-          
-          <div style={{
-  maxWidth: "400px",
-  wordBreak: "break-word",
-  whiteSpace: "pre-wrap"
-}}>
-  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
-</div>
-        </p>
-      </div>
-
-      <div
-        className="d-flex align-items-start"
-        style={{ justifyContent: "center", marginBottom: 5 }}
-      >
-        <img
-          src={adhar}
-          alt="Aadhaar"
-          style={{ width: 20, height: 20, marginRight: 10 }}
-        />
-        <p
-          style={{
-            fontSize: 14,
-            color: "#4B4B4B",
-            maxWidth: 220,
-            textAlign: "left",
-            margin: 0,
-          }}
-        >
-          Aadhaar Number<br />
-          <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
-        </p>
-      </div>
-    </div>
-  </Modal.Body>
-</Modal>
-        </div>
-
-   
-
-
-
  
-
-        <div className="col-md-6 mt-2">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-             <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-              <div>
-                <p className="mb-0 fw-semibold small">License.pdf</p>
-                <small className="text-muted">180 KB • PDF</small>
-              </div>
-            </div>
-            <div className="d-flex gap-2">
-              <img src={viewdoc} alt="viewdoc"/>
-             <img src={docDown} alt="docDown"/>
-            </div>
-          </div>
-        </div>  
-        <div className="col-md-6 mt-2">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-               <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-              <div>
-                <p className="mb-0 fw-semibold small">Pancard.pdf</p>
-                <small className="text-muted">180 KB • PDF</small>
-              </div>
-            </div>
-            <div className="d-flex gap-2">
-               <img src={viewdoc} alt="viewdoc"/>
-             <img src={docDown} alt ="doc" />
-            </div>
-          </div>
+          {/* Hidden file input per card */}
+          <input
+            type="file"
+            id={`fileUpload-${index}`}
+            style={{ display: "none" }}
+            onChange={(e) => handleFileUpload(index, e)}
+          />
         </div>
-      </div>
+      ))}
+    </div>
   </TabPanel>
   <TabPanel value="2">
     <div
@@ -4332,9 +4205,7 @@ useEffect(() => {
                                     }}
                                   >
                                     
-                                    {
-                                      CustomerOverView.hostelInfo?.monthlyRent !== null ?  `₹ ${ CustomerOverView.hostelInfo?.monthlyRent}` : '0'
-                                    }
+                                     ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
                                   </p>
                                 </div>
 
@@ -4359,11 +4230,7 @@ useEffect(() => {
                                       paddingTop: 7
                                     }}
                                   >
-                                    ₹
-                                    {
-                                      CustomerOverView.hostelInfo?.maintenance
-
-                                    }
+                                      ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
                                   </p>
                                 </div>
 
@@ -4669,7 +4536,7 @@ useEffect(() => {
                                         </div>
                                       )
                                     ) : (
-                                      <div
+                                      <div 
                                         style={{
                                           fontSize: 14,
                                           fontFamily: "Gilroy",
@@ -4679,11 +4546,19 @@ useEffect(() => {
                                       >
                                         No Contact Details are there!
                                        <p>
-                                          <button
+                                          <button 
                                      
-                                     type="button" className="btn btn-primary"
+                                     type="button" className="btn mt-2"
                                       disabled={props.customerAddPermission}
-                                      style={{ fontSize: 14, fontFamily: "Gilroy" }}
+                                      style={{
+                  backgroundColor: "#1E45E1",
+                  fontWeight: 600,
+                  borderRadius: 12,
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  padding: 12,
+                  color:"#fff"
+                }}
                                       onClick={handleAdditionalForm}
                                     >
                                       + Add
@@ -7188,7 +7063,7 @@ useEffect(() => {
           </div>
           <Modal show={showModal} onHide={handleClose} size="md" centered>
             <Modal.Header closeButton>
-              <Modal.Title>KYC Details</Modal.Title>
+              <Modal.Title >KYC Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div

@@ -207,7 +207,7 @@ const state = useSelector(state => state)
               backgroundColor: "#EBEBEB",
             }}
           >
-            {moment(props.item.purchaseDate).format('DD MMM YYYY').toUpperCase()}
+            {props.item.purchaseDate}
           </span>
         </td>
 
