@@ -403,7 +403,8 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
+    // dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } })
   }, [])
 

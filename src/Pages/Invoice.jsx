@@ -2042,10 +2042,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (hostelId) {
-      dispatch({
-        type: "BANKINGLIST",
-        payload: { hostel_id: hostelId },
-      });
+      dispatch({ type: "BANKINGLIST", payload: hostelId  });
     }
   }, [hostelId]);
 
@@ -2251,11 +2248,11 @@ const InvoicePage = () => {
 
 
 
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
-    }
-  }, [hostelId]);
+  // useEffect(() => {
+  //   if (hostelId) {
+  //       dispatch({ type: "BANKINGLIST", payload: hostelId  });
+  //   }
+  // }, [hostelId]);
 
 
 

@@ -36,7 +36,8 @@ function BankingEditTransaction(props) {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id  });
+    // dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
   }, []);
 
   const handleAccount = (selectedOption) => {
@@ -214,7 +215,7 @@ function BankingEditTransaction(props) {
     if (state.bankingDetails.statusEditTrasactionCode === 200) {
       setFormLoading(false)
       handleCloseTransactionEdit();
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
+     dispatch({ type: "BANKINGLIST", payload: hostel_id  });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_BANK_TRANSACTION" });
       }, 1000);

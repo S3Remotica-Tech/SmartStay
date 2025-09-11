@@ -155,7 +155,7 @@ console.log("customerID",customerID)
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
-            dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
+              dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
         }
     }, []);
     useEffect(() => {
@@ -306,7 +306,9 @@ console.log("customerID",customerID)
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
-           dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
+
+             dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+
         }
     }, []);
 
