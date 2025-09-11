@@ -3199,7 +3199,7 @@ const [documents, setDocuments] = useState([
       onChange={handleChangesupload}
       aria-label="custom tabs"
       className="d-flex flex-column flex-sm-row"
-      TabIndicatorProps={{ style: { display: "none" } }} // hide default blue line
+      TabIndicatorProps={{ style: { display: "none" } }} 
     >
       <Tab
         label="KYC Documents"
@@ -3209,7 +3209,7 @@ const [documents, setDocuments] = useState([
           fontSize: 16,
           fontWeight: 600,
           fontFamily: "Gilroy",
-          color: documentvalue === "1" ? "#070707" : "#4B4B4B",
+          color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
           borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
           minWidth: "auto", 
         }}
@@ -3222,7 +3222,7 @@ const [documents, setDocuments] = useState([
           fontSize: 16,
           fontWeight: 600,
           fontFamily: "Gilroy",
-          color: documentvalue === "2" ? "#000000" : "#4B4B4B",
+          color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
           borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
           minWidth: "auto",
         }}
@@ -3250,7 +3250,7 @@ const [documents, setDocuments] = useState([
               <div>
                 <p
                   className="mb-0 fw-semibold small text-truncate"
-                  style={{ maxWidth: "120px" }}
+                  style={{ maxWidth: "120px" , fontFamily:"Gilroy"}}
                   title={doc.name}
                 >
                   {doc.name}
@@ -4536,7 +4536,7 @@ const [documents, setDocuments] = useState([
                                         </div>
                                       )
                                     ) : (
-                                      <div
+                                      <div 
                                         style={{
                                           fontSize: 14,
                                           fontFamily: "Gilroy",
@@ -4546,11 +4546,19 @@ const [documents, setDocuments] = useState([
                                       >
                                         No Contact Details are there!
                                        <p>
-                                          <button
+                                          <button 
                                      
-                                     type="button" className="btn btn-primary"
+                                     type="button" className="btn mt-2"
                                       disabled={props.customerAddPermission}
-                                      style={{ fontSize: 14, fontFamily: "Gilroy" }}
+                                      style={{
+                  backgroundColor: "#1E45E1",
+                  fontWeight: 600,
+                  borderRadius: 12,
+                  fontSize: 16,
+                  fontFamily: "Gilroy",
+                  padding: 12,
+                  color:"#fff"
+                }}
                                       onClick={handleAdditionalForm}
                                     >
                                       + Add
@@ -7055,7 +7063,7 @@ const [documents, setDocuments] = useState([
           </div>
           <Modal show={showModal} onHide={handleClose} size="md" centered>
             <Modal.Header closeButton>
-              <Modal.Title>KYC Details</Modal.Title>
+              <Modal.Title >KYC Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div

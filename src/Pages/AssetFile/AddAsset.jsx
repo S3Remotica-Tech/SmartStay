@@ -52,11 +52,12 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
-useEffect(() => {
-  if (state.login.selectedHostel_Id) {
-    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-  }
-}, []);
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
+    }
+  }, []);
 
 
 
@@ -73,12 +74,7 @@ useEffect(() => {
   });
 
 
-  // useEffect(() => {
-  //   if (state.login.selectedHostel_Id) {
 
-  //     dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
-  //   }
-  // }, [state.login.selectedHostel_Id]);
 
 
 
@@ -115,9 +111,7 @@ useEffect(() => {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-  useEffect(() => {
-    dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
-  }, []);
+
   const handleClose = () => {
     setShow(false)
     setBankingError('')
@@ -143,7 +137,7 @@ useEffect(() => {
   }, []);
 
 
-console.log("selectedDate",selectedDate)
+  console.log("selectedDate", selectedDate)
 
   useEffect(() => {
     if (currentItem) {
@@ -151,11 +145,11 @@ console.log("selectedDate",selectedDate)
       setVendorName(currentItem.vendorId || "");
       setBrandName(currentItem.brandName || "");
       setSerialNumber(currentItem.serialNumber || "");
-        setSelectedDate(
-  currentItem.purchaseDate
-    ? dayjs(currentItem.purchaseDate, "DD-MM-YYYY")
-    : null
-);
+      setSelectedDate(
+        currentItem.purchaseDate
+          ? dayjs(currentItem.purchaseDate, "DD-MM-YYYY")
+          : null
+      );
       setPrice(currentItem.price || "");
       setId(currentItem.id || 0);
       setProductName(currentItem.productName || 0);
@@ -166,9 +160,9 @@ console.log("selectedDate",selectedDate)
         vendorName: currentItem.vendorId || "",
         brandName: currentItem.brandName || "",
         serialNumber: currentItem.serialNumber || "",
-             selectedDate: currentItem.purchaseDate
-    ? dayjs(currentItem.purchaseDate, "DD-MM-YYYY")
-    : null,
+        selectedDate: currentItem.purchaseDate
+          ? dayjs(currentItem.purchaseDate, "DD-MM-YYYY")
+          : null,
         price: currentItem.price || "",
         productName: currentItem.productName || "",
       });
@@ -186,7 +180,7 @@ console.log("selectedDate",selectedDate)
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.updateAssetStatusCode === 200) {
       setFormLoading(false)
-          }
+    }
   }, [state.AssetList.addAssetStatusCode, state.AssetList.updateAssetStatusCode]);
 
 
@@ -220,7 +214,7 @@ console.log("selectedDate",selectedDate)
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
-       setAssetError("");
+    setAssetError("");
 
     setIsChangedError("");
 
@@ -295,7 +289,7 @@ console.log("selectedDate",selectedDate)
 
   const handleProductNameChange = (e) => {
     const value = e.target.value;
-        setProductNameError("");
+    setProductNameError("");
     setIsChangedError("");
 
     if (value === "") {
@@ -385,13 +379,13 @@ console.log("selectedDate",selectedDate)
       initialState.vendorName !== vendorName ||
       initialState.brandName !== brandName ||
       initialState.serialNumber !== serialNumber ||
-    
-     (initialState.selectedDate && selectedDate &&
-  !dayjs(initialState.selectedDate).isSame(selectedDate, "day")) ||
+
+      (initialState.selectedDate && selectedDate &&
+        !dayjs(initialState.selectedDate).isSame(selectedDate, "day")) ||
       Number(initialState.price) !== Number(price) ||
       initialState.productName !== productName;
 
-      
+
 
     if (!isChanged) {
       setIsChangedError("No Changes Detected");
@@ -409,26 +403,29 @@ console.log("selectedDate",selectedDate)
       setIsChangedError("");
     }
 
-    if (productName && serialNumber && selectedDate && price && assetName ) {
+    if (productName && serialNumber && selectedDate && price && assetName) {
       const formattedDate = moment(selectedDate).format("DD-MM-YYYY");
       if (currentItem?.assetId) {
-        dispatch({
-          type: "UPDATEASSET",
-          payload: {
-            hostelId: state.login.selectedHostel_Id,
-            assetId: currentItem?.assetId,
-            assetName: assetName,
+              
+        let payload = {
+          hostelId: state.login.selectedHostel_Id,
+          assetId: currentItem?.assetId,
+          assetName: assetName,
             productName: productName,
             brandName: brandName,
-            vendorId: vendorName,
-            serialNumber: serialNumber,
+          serialNumber: serialNumber,
             purchaseDate: formattedDate,
             price: price,
-                  
-            isActive: true
+          isActive: true,
+        };
 
-          },
-        });
+        if (vendorName) {
+          payload.vendorId = vendorName;
+        }
+
+        dispatch({ type: "UPDATEASSET", payload });
+
+
         setFormLoading(true)
       } else {
         dispatch({
@@ -530,7 +527,7 @@ console.log("selectedDate",selectedDate)
 
 
 
-          
+
 
 
 

@@ -178,12 +178,12 @@ const [bedWarning, setBedWarning] = useState('')
 
 
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "HOSTELDETAILLIST",
-  //     payload: { hostel_Id: state.login.selectedHostel_Id },
-  //   });
-  // }, [hostel_Id]);
+  useEffect(() => {
+    if(state.login.selectedHostel_Id){
+   dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+    }
+  }, []);
 
   useEffect(() => {
     if (Floor) {
@@ -806,9 +806,9 @@ console.log("props",props)
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       // dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
-      // dispatch({
-      //   type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
-      // });
+      dispatch({
+        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
+      });
     }
   }, [state.login.selectedHostel_Id]);
 
