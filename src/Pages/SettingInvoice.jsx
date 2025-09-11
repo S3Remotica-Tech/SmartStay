@@ -900,7 +900,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -923,7 +923,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       setDescription("")
       handleCloseBankAccount();
 
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
       }, 1000);

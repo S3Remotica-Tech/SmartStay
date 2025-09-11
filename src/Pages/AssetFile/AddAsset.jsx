@@ -54,7 +54,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
 useEffect(() => {
   if (state.login.selectedHostel_Id) {
-    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
   }
 }, []);
 

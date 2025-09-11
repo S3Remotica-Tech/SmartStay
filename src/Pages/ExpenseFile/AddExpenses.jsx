@@ -75,7 +75,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   }, [state.ExpenseList.expenceNetBanking])
 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
   }, []);
 
   useEffect(() => {
