@@ -239,6 +239,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
       setLoading(true)
       dispatch({type: 'ASSETLIST',  payload:state.login.selectedHostel_Id})
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+
    
     } else {
          setLoading(false)

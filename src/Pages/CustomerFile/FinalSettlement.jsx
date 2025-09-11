@@ -24,7 +24,7 @@ import { Tooltip } from "bootstrap";
 
 
 function FinalSettlement({ show, handleClose, data, customerID }) {
-
+console.log("customerID",customerID)
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -46,11 +46,112 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     // const [refundCompleted, setRefundCompleted] = useState(false);
     const [dataBed, setDataBed] = useState([])
     // const [activeTab, setActiveTab] = useState("record");
-    // const [hostelData, setHostelData] = useState("")
-    // const [refundableDetails, setReFundableDetails] = useState("")
-    // const [detuction, setDetuction] = useState("")
+    const [hostelData, setHostelData] = useState("")
+    const [refundableDetails, setReFundableDetails] = useState("")
+    const [detuction, setDetuction] = useState("")
+     const [rentalBalance,setRentalBalance] = useState('')
+     console.log("rentalBalance",rentalBalance)
+     useEffect(() => {
+    if (state.UsersList.statusCodegetConfirmCheckout) {
+        const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+            (invoice) => invoice.balance > 0
+        );
+
+        const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+            (deduction) => deduction.amount > 0
+        );
+
+        let formattedFields = [];
+
+        if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+            formattedFields = deduction_details.map((item) => ({
+                reason_name: item.reason || "",
+                amount: Number(item.amount) || 0,
+                showInput: false,
+            }));
+        }
+
+        // ✅ Only other reasons, no DueAmount
+        setFields(formattedFields);
+
+        // Other state updates
+        const rentBalance =
+            state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
+                (item) => String(item.action).toLowerCase() === "rent"
+            )?.balance ?? 0;
+
+        setRentalBalance(rentBalance);
+        setDetuction(state?.UsersList?.Deduction);
+        setReFundableDetails(state?.UsersList?.Refundable_details);
+        setHostelData(state?.UsersList?.hostelData);
+    }
+
+    setTimeout(() => {
+        dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+    }, 500);
+}, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
 
 
+//    useEffect(() => {
+//         if (state.UsersList.statusCodegetConfirmCheckout) {
+//             const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+//                 (invoice) => invoice.balance > 0
+//             );
+
+
+
+//             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+//                 (deduction) => deduction.amount > 0
+//             );
+//             console.log("deduction_details",deduction_details)
+
+//             const invoiceTotal = Array.isArray(validInvoices)
+//                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
+//                 : 0;
+
+// console.log("invoiceTotal",invoiceTotal)
+//             if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+//                 const formattedFields = deduction_details.map((item) => ({
+//                     reason_name: item.reason || "",
+//                     amount: Number(item.amount) || 0,
+//                     showInput: false,
+//                 }));
+           
+            
+//                 formattedFields.unshift({
+//                     reason_name: "DueAmount",
+//                     amount: invoiceTotal,
+//                     showInput: false,
+//                 });
+
+
+//                 setFields(formattedFields);
+//             //   setInvoieTotal(invoiceTotal);
+//             } else {
+//                 setFields([
+//                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
+//                 ]);
+//                 // setInvoieTotal(invoiceTotal);
+//             }
+// const rentBalance =
+//   state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
+//     (item) => String(item.action).toLowerCase() === "rent"
+//   )?.balance ?? 0;
+// setRentalBalance(rentBalance)
+// setDetuction(state?.UsersList?.Deduction)
+// setReFundableDetails(state?.UsersList?.Refundable_details)
+
+
+// setHostelData(state?.UsersList?.hostelData)
+
+//         }
+
+//         setTimeout(() => {
+//             dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+//         }, 500);
+//     }, [state.UsersList.statusCodegetConfirmCheckout, data,dataBed]);
+
+    console.log("hostelData",hostelData)
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
@@ -201,24 +302,13 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     };
 
 
-    // const handleModeOfPaymentChange = (e) => {
-    //     setModeOfPaymentError("")
-    //     setModeOfPayment(e.target.value);
-    // };
-
-    // const handleCommentsChange = (event) => {
-    //     setComments(event.target.value);
-
-    // };
-
-    // const handleToggle = () => {
-    //     setChecked((prev) => !prev);
-
-    // };
+   
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
+
              dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+
         }
     }, []);
 
@@ -373,12 +463,12 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
     // };
 
 
-    // useEffect(() => {
-    //     if (hostelData) {
-    //         setCheckOutDate(hostelData?.CheckoutDate)
-    //     }
+    useEffect(() => {
+        if (hostelData) {
+            setCheckOutDate(hostelData?.CheckoutDate)
+        }
 
-    // }, [hostelData])
+    }, [hostelData])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -458,7 +548,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                 />
 
                                 <div>
-                                    <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{data?.Name || dataBed[0]?.Name}</p>
+                                    <p style={{ fontSize: "1.25rem", fontFamily: "Gilroy", fontWeight: 600 }} className="mb-0">{hostelData?.Name}</p>
                                     <div className="d-flex mb-2">
 
                                         <span
@@ -469,12 +559,12 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                 fontWeight: 400,
                                                 backgroundColor: "#FFEFCF"
                                             }}
-                                        > Second Floor
-                                            {/* {hostelData.floor_name} */}
+                                        > 
+                                            {hostelData.floor_name}
                                         </span>
                                         <span className="badge rounded-pill bg-danger-subtle text-dark" style={{ fontSize: "0.75rem", fontFamily: "Gilroy", fontWeight: 400 }}>
-                                           G4-B02
-                                            {/* {hostelData["Room Name"]} - {hostelData["Bed Name"]} */}
+                                        
+                                            {hostelData["Room Name"]} - {hostelData["Bed Name"]}
                                         </span>
                                     </div>
 
@@ -491,26 +581,26 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Joined Date</span>
                                 <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> 
-                                    22/10/2024
-                                     {/* {new Date(hostelData.joining_Date).toLocaleDateString("en-GB")} */}
+                                   
+                                     {new Date(hostelData.joining_Date).toLocaleDateString("en-GB")}
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Req Checkout Date</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> 24/08/2025
-                                    {/* {new Date(hostelData.request_checkout_date).toLocaleDateString("en-GB")} */}
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> 
+                                    {new Date(hostelData.request_checkout_date).toLocaleDateString("en-GB")}
                                 </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Total Advance Amount</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹ 8000
-                                    {/* {hostelData.AdvanceAmount} */}
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>
+                                    {hostelData.AdvanceAmount}
                                     </span>
                             </div>
                             <div className="d-flex justify-content-between mb-3">
                                 <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Monthly Rent</span>
-                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹ 6000
-                                    {/* {hostelData.RoomRent} */}
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}>₹ {hostelData.RoomRent}
+                                    
                                     </span>
                             </div>
 
@@ -824,7 +914,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
 
                                                 <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                                    {(item.reason_name !== "DueAmount" || index === 0) && (
+                                                     {item.reason_name !== "DueAmount" && (
                                                         <Trash
                                                             size="20"
                                                             color="red"
@@ -943,7 +1033,7 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                                             <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹6,000</td>
                                                         </tr>
                                                         <tr>
-                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Actual Stay Days (14 days * ₹200)</td>
+                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Actual Stay Days ({detuction.stayedDays} days * ₹{detuction.ratePerDay})</td>
                                                             <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹2,800</td>
                                                         </tr>
                                                         <tr>
@@ -992,12 +1082,12 @@ function FinalSettlement({ show, handleClose, data, customerID }) {
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Rent</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹
-                                                {data.RoomRent || dataBed[0]?.RoomRent}</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {refundableDetails.remainingRentRefund}
+                                               </p>
                                         </div>
                                         <div className="d-flex justify-content-between mb-1">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Advance</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {data.RoomRent || dataBed[0]?.RoomRent}</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {refundableDetails.securityDepositRefund}</p>
                                         </div>
 
 

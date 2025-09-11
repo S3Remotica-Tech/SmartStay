@@ -147,16 +147,18 @@ function Sidebar() {
     dispatch({ type: "HOSTELLIST" })
   }, []);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "ACCOUNTDETAILS" });
-    }
-  }, [state.login.selectedHostel_Id]);
+
+  // need this command line
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({ type: "ACCOUNTDETAILS" });
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
 
 
 
-  console.log("hostelListDetail",hostelListDetail)
+ 
 
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
@@ -182,10 +184,7 @@ console.log("state",state)
     }
   }, [state.UsersList.hosteListStatusCode]);
 
-  useEffect(() => {
-    dispatch({ type: "ALL-NOTIFICATION-LIST" });
-  }, []);
-
+  
 
 
 
@@ -325,23 +324,6 @@ console.log("state",state)
   };
 
  
-
-// const handleLogout = () => {
-//   dispatch({ type: "LOG_OUT" });
-//   dispatch({ type: "RESET_ALL" });
-
-//   localStorage.clear();
-
-
-//   const cookies = new Cookies();
-//   cookies.remove("v2-token", { path: "/" });
-//   cookies.remove("token", { path: "/" });
-//   cookies.set("access-denied", null, { path: "/", expires: new Date(0) });
-
-//   window.location.href = "/hostel-management-login";
-// };
-
-
 
 
 

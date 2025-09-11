@@ -16,178 +16,157 @@ import UserlistForm from "../../CustomerFile/UserlistForm";
 
 
 function NoticeBedStatusDetails({
-    show,
-    handleCloseBed,
-    currentItem,
-    showBooking,
-    showNoticeperiodCheckout
+  show,
+  handleCloseBed,
+  currentItem,
+  showBooking,
+  showNoticeperiodCheckout,
+  showfinalsettelemnet
 }) {
 
 
-           const state = useSelector(state => state)
-          const dispatch = useDispatch();
+  const state = useSelector(state => state)
+  const dispatch = useDispatch();
 
-          const [customer, setCustomer] = useState([])
-          const [customerId, setCustomerId] = useState("")
-          
-    const [showDots, setShowDots] = useState('')
-    const [activeRoomId, setActiveRoomId] = useState(null);
-     const [recheckin , setRecheckin] = useState(false)
-    const [bactocheckinForm,setBacktoCheckInForm] = useState(false)
+  const [customer, setCustomer] = useState([])
+  const [customerId, setCustomerId] = useState("")
 
-      const [customer_details , setCustomerDetails] = useState({})
-      
-    const popupRef = useRef(null);
-    
-            
+  const [showDots, setShowDots] = useState('')
+  const [activeRoomId, setActiveRoomId] = useState(null);
+  const [recheckin, setRecheckin] = useState(false)
+  const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
-     console.log(currentItem,"currentItem")
+  const [customer_details, setCustomerDetails] = useState({})
+
+  const popupRef = useRef(null);
 
 
 
-    const handleShowDots = (roomId) => {
-        setShowDots(!showDots)
-        setActiveRoomId(activeRoomId === roomId ? null : roomId);
+  console.log(currentItem, "currentItem")
+
+
+
+  const handleShowDots = (roomId) => {
+    setShowDots(!showDots)
+    setActiveRoomId(activeRoomId === roomId ? null : roomId);
+  }
+
+
+
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setActiveRoomId(null);
     }
+  };
 
 
 
 
-    const handleClickOutside = (event) => {
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setActiveRoomId(null);
-        }
-    };
-
-  
 
 
-   
+  const handleRecheckInBed = () => {
+    setBacktoCheckInForm(true)
+    setRecheckin(true)
+  }
 
-    const handleRecheckInBed = () => {
-         setBacktoCheckInForm(true)
-         setRecheckin(true)
-    }
 
- 
 
 
 
   const handleNewBooking = () => {
-       showBooking(true)    
+    showBooking(true)
   }
- 
+
   const handleCheckout = () => {
-  
-      showNoticeperiodCheckout(true, customerId )
-      dispatch({
-        type: "GETCONFIRMCHECKOUTCUSTOMER",
-        payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
-      });
-    
-     
+
+    showNoticeperiodCheckout(true, customerId)
+    dispatch({
+      type: "GETCONFIRMCHECKOUTCUSTOMER",
+      payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+    });
+
+
   }
 
-     
-        //     useEffect(() => {
-        
-        //         const Hostel_Id = currentItem?.room.Hostel_Id;
-        //         const Floor_Id = currentItem?.room.Floor_Id;
-        //         const Bed_Id = currentItem?.bed.id;
-        //         const Room_Id = currentItem?.room.Room_Id;
-        
-        
-        //         if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-                  
-        //             dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-        //              dispatch({
-        //   type: "USERLIST",
-        //   payload: { hostel_id: Hostel_Id },
-        // });
-        //         }
-        //     }, [currentItem])
-
- 
-
-              useEffect(()=>{
-                if(state.Booking.StatusCodeInactiveCode === 200){
-                  // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room.Floor_Id, hostel_Id: currentItem?.room.Hostel_Id } })
-                  // dispatch({ type: 'HOSTELLIST' })
-               
-                   setTimeout(() => {
-                        dispatch({ type: 'CLEAR_BOOKING_InActive' })
-                      }, 1000)
-              
-                }
-              
-              },[state.Booking.StatusCodeInactiveCode])
+  const handleFinalsettelmentGenerate = () => {
+    showfinalsettelemnet(true, customerId)
+    dispatch({
+      type: "GETCONFIRMCHECKOUTCUSTOMER",
+      payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+    });
+  }
 
 
 
-            // useEffect(() => {
-            //     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-                   
-            //         setCustomer(state.PgList.OccupiedCustomer)
-            //         setCustomerId(state.PgList.OccupiedCustomer[0]?.id)
-            //         setTimeout(() => {
-            //             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-            //         }, 2000)
-            //     }
-        
-            // }, [state.PgList.OccupiedCustomerGetStatusCode])
 
   useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    if (state.Booking.StatusCodeInactiveCode === 200) {
 
-         useEffect(() => {
-        if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
-          handleCloseBed()
-          dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-             setTimeout(() => {
-              dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
-            }, 500); 
-        }
-      }, [state.UsersList?.StatusCodeBacktoCheckin]);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_BOOKING_InActive' })
+      }, 1000)
 
-      useEffect(() => {
-    const usersList = state?.UsersList?.Users;
-    const userDetails = customer; 
-    
-
-     const ParticularcustomerDetails = userDetails.filter((user)=> user.RoomRent > 0)
-       
-        setCustomerId(ParticularcustomerDetails[0]?.id)
-       
-    
-    if (
-        Array.isArray(usersList) &&
-        Array.isArray(ParticularcustomerDetails) &&
-        usersList.length > 0 &&
-        ParticularcustomerDetails.length > 0
-    ) {
-        const targetUserId = ParticularcustomerDetails[0]?.User_Id?.trim()?.toLowerCase();
-
-        const foundCustomer = usersList.find(
-            (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
-        );
-
-        setCustomerDetails(foundCustomer || null);
     }
-}, [state?.UsersList?.Users, customer]);
-  
+
+  }, [state.Booking.StatusCodeInactiveCode])
 
 
 
-    return (
-        <>
+
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
+      handleCloseBed()
+      dispatch({ type: 'USERLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BACK_TO_CHECKIN_USER" });
+      }, 500);
+    }
+  }, [state.UsersList?.StatusCodeBacktoCheckin]);
+
+  useEffect(() => {
+    const usersList = state?.UsersList?.Users;
+    const userDetails = customer;
+
+
+    const ParticularcustomerDetails = userDetails.filter((user) => user.RoomRent > 0)
+
+    setCustomerId(ParticularcustomerDetails[0]?.id)
+
+
+    if (
+      Array.isArray(usersList) &&
+      Array.isArray(ParticularcustomerDetails) &&
+      usersList.length > 0 &&
+      ParticularcustomerDetails.length > 0
+    ) {
+      const targetUserId = ParticularcustomerDetails[0]?.User_Id?.trim()?.toLowerCase();
+
+      const foundCustomer = usersList.find(
+        (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
+      );
+
+      setCustomerDetails(foundCustomer || null);
+    }
+  }, [state?.UsersList?.Users, customer]);
 
 
 
-           <div
+
+  return (
+    <>
+
+
+
+      <div
         className="modal show"
         style={{
           display: "block",
@@ -226,9 +205,9 @@ function NoticeBedStatusDetails({
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}>Room No : {""}
-                    {currentItem?.roomName} 
+                      {currentItem?.roomName}
                     </label>
-                     <span style={{
+                    <span style={{
                       fontSize: 14,
                       color: "#1E45E1",
                       fontFamily: "Gilroy",
@@ -238,8 +217,8 @@ function NoticeBedStatusDetails({
                       color: "#1E45E1",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                    }}> Bed : {""} 
-                    {currentItem?.bedName}
+                    }}> Bed : {""}
+                      {currentItem?.bedName}
                     </span>
                   </div>
                 </div>
@@ -334,6 +313,29 @@ function NoticeBedStatusDetails({
                         <img src={logout} alt="Checkout" />
                         <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Checkout</label>
                       </div>
+
+<div
+                        className="d-flex gap-2 align-items-center"
+                        onClick={() => handleFinalsettelmentGenerate(currentItem)}
+                       
+                        style={{
+                          padding: "10px",
+                          borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+ 
+                          cursor: "pointer"
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                      >
+                        <img src={logout} alt="Checkout" />
+                        <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Generate</label>
+                      </div>
+
+
+
+
+
                     </div>
                   )}
                 </div>
@@ -355,10 +357,10 @@ function NoticeBedStatusDetails({
                         <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
                       </div>
                       <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                       {currentItem?.customerMobile
-                    ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
-                    : "No phone"}
-                        </label></div>
+                        {currentItem?.customerMobile
+                          ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
+                          : "No phone"}
+                      </label></div>
                     </div>
                   </div>
 
@@ -370,7 +372,7 @@ function NoticeBedStatusDetails({
 
               </div>
             </Modal.Body>
-                   <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
+            <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
               <Button
 
                 className="w-100 m-0"
@@ -393,22 +395,22 @@ function NoticeBedStatusDetails({
         </Modal>
       </div>
 
-            {
-             bactocheckinForm && <UserlistForm  setBacktoCheckInForm={setBacktoCheckInForm} bactocheckinForm={bactocheckinForm}
-             customer_details = {customer_details}
-             handleCloseBed = {handleCloseBed} recheckin={recheckin}
-                />
-            }
+      {
+        bactocheckinForm && <UserlistForm setBacktoCheckInForm={setBacktoCheckInForm} bactocheckinForm={bactocheckinForm}
+          customer_details={customer_details}
+          handleCloseBed={handleCloseBed} recheckin={recheckin}
+        />
+      }
 
-        </>
-    );
+    </>
+  );
 }
 NoticeBedStatusDetails.propTypes = {
-    handleCloseBed: PropTypes.func.isRequired,
-    show: PropTypes.func.isRequired,
-    currentItem: PropTypes.func.isRequired,
-    showNoticeperiodCheckout: PropTypes.func.isRequired,
-    showBooking: PropTypes.func.isRequired
+  handleCloseBed: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
+  currentItem: PropTypes.func.isRequired,
+  showNoticeperiodCheckout: PropTypes.func.isRequired,
+  showBooking: PropTypes.func.isRequired
 
 };
 export default NoticeBedStatusDetails;

@@ -128,7 +128,7 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
   }, [Floor]);
 
- 
+ console.log("currentItem",currentItem)
 
   console.log("selectedDate",selectedDate)
   const handleAddAssignAsset = () => {
@@ -175,19 +175,16 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
 
 
-    if (currentItem?.purchaseDate) {
-      const purchaseDate = new Date(currentItem.purchaseDate);
-      const assignDate = new Date(selectedDate);
+   if (currentItem?.purchaseDate) {
+  const purchaseDate = dayjs(currentItem.purchaseDate, "DD/MM/YYYY");
+  const assignDate = dayjs(selectedDate);
 
+  if (assignDate.isBefore(purchaseDate, "day")) {
+    setDateError("Before purchase date not allowed");
+    return;
+  }
+}
 
-      purchaseDate.setHours(0, 0, 0, 0);
-      assignDate.setHours(0, 0, 0, 0);
-
-      if (assignDate < purchaseDate) {
-        setDateError("Before purchase date not allowed");
-        return;
-      }
-    }
 
 
 
