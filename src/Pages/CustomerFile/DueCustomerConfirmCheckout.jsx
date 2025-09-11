@@ -133,7 +133,7 @@ setHostelData(state?.UsersList?.hostelData)
         setTimeout(() => {
             dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
         }, 500);
-    }, [state.UsersList.statusCodegetConfirmCheckout, data,dataBed]);
+    }, [state.UsersList.statusCodegetConfirmCheckout, data]);
 
 
     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount

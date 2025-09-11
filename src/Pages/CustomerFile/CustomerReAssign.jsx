@@ -66,12 +66,7 @@ function CustomerReAssign(props) {
   
     setUserId("")
     dispatch({ type: 'CLEAR_CUSTOMER_DETAILS' })
-    dispatch({
-      type: "BEDNUMBERDETAILS",
-      payload: {
-        hostelId: "",
-              },
-    });
+   
   };
 
 

@@ -73,12 +73,12 @@ useEffect(() => {
   });
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
 
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
-    }
-  }, [state.login.selectedHostel_Id]);
+  //     dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+  //   }
+  // }, [state.login.selectedHostel_Id]);
 
 
 
@@ -143,7 +143,7 @@ useEffect(() => {
   }, []);
 
 
-
+console.log("selectedDate",selectedDate)
 
   useEffect(() => {
     if (currentItem) {
@@ -151,7 +151,11 @@ useEffect(() => {
       setVendorName(currentItem.vendorId || "");
       setBrandName(currentItem.brandName || "");
       setSerialNumber(currentItem.serialNumber || "");
-         setSelectedDate(moment(currentItem.purchaseDate).toDate());
+        setSelectedDate(
+  currentItem.purchaseDate
+    ? dayjs(currentItem.purchaseDate, "DD-MM-YYYY")
+    : null
+);
       setPrice(currentItem.price || "");
       setId(currentItem.id || 0);
       setProductName(currentItem.productName || 0);
@@ -162,9 +166,9 @@ useEffect(() => {
         vendorName: currentItem.vendorId || "",
         brandName: currentItem.brandName || "",
         serialNumber: currentItem.serialNumber || "",
-              selectedDate: currentItem.purchaseDate
-          ? moment(currentItem.purchaseDate).toDate()
-          : null,
+             selectedDate: currentItem.purchaseDate
+    ? dayjs(currentItem.purchaseDate, "DD-MM-YYYY")
+    : null,
         price: currentItem.price || "",
         productName: currentItem.productName || "",
       });
@@ -382,9 +386,8 @@ useEffect(() => {
       initialState.brandName !== brandName ||
       initialState.serialNumber !== serialNumber ||
     
-      (initialState.selectedDate && selectedDate &&
-        moment(initialState.selectedDate).format("YYYY-MM-DD") !==
-        moment(selectedDate).format("YYYY-MM-DD")) ||
+     (initialState.selectedDate && selectedDate &&
+  !dayjs(initialState.selectedDate).isSame(selectedDate, "day")) ||
       Number(initialState.price) !== Number(price) ||
       initialState.productName !== productName;
 
@@ -881,7 +884,7 @@ useEffect(() => {
                           setIsChangedError("");
                           setSelectedDateError("");
                           setJoingDateErrmsg('')
-                          setSelectedDate(date ? date.toDate() : null);
+                          setSelectedDate(date);
                         }}
 
                         disabledDate={(current) => current && current > dayjs().endOf("day")}

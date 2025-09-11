@@ -56,6 +56,7 @@ import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import AddCustomer from "../PayingGuestFile/AddCustomerPG";
 import BookedCheckIn from "./BookedCheckIn";
 import MakeAsInactive from "./MakeAsInactive";
+import FinalSettlement from "./FinalSettlement";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -148,35 +149,18 @@ function UserList(props) {
 console.log("id",id)
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id)
-      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-  }, [state.login.selectedHostel_Id])
 
 
 
 
-  // useEffect(() => {
-  //     if (state.UsersList.floorListStatusCode === 200) {
-  //             setFloorList(state.UsersList.floorList)
-  //       setTimeout(() => {
-  //         dispatch({ type: 'REMOVE_ALL_FLOOR_LIST' })
-  //       }, 500)
-  //     }
 
-  //   }, [state.UsersList.floorListStatusCode])
-
-
-
-
+  
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
-        console.log("hiii");
-
-        setLoading(false)
+            setLoading(false)
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
@@ -2292,10 +2276,14 @@ const handleCloseBooking =() =>{
   }
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
+  const [finalsettlepage,setFinalSettlePage] = useState(false)
+  const [finalsettledData,setFinalsettledData] = useState("")
 
   const handleConformCheckout = (item) => {
     // setDueCustomerShow(true)
     setCheckOutDetails(item)
+    setFinalSettlePage(false)
+    
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
       payload: { id: item.ID, hostel_id: item.Hostel_Id },
@@ -2318,7 +2306,7 @@ const handleCloseBooking =() =>{
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
-      setDueCustomerShow(true);
+      // setDueCustomerShow(true);
 
     }
 
@@ -2327,15 +2315,36 @@ const handleCloseBooking =() =>{
     }, 500);
   }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
+
+  console.log("add_bookingshow",add_bookingshow,"showbookingForm",showbookingForm)
+
+
+const handleCheckoutGenrate = (item)=>{
+   setFinalsettledData(item)
+    setFinalSettlePage(true)
+     setDueCustomerShow(false);
+ 
+    dispatch({
+      type: "GETCONFIRMCHECKOUTCUSTOMER",
+      payload: { id: item.ID, hostel_id: item.Hostel_Id },
+    });
+  }
+
+
+  const handleClosefinal = ()=>{
+  setFinalSettlePage(false)
+}
+
+
   return (
     <div>
-      <Addbooking
+      {/* <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
         setShowbookingForm={setShowbookingForm}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
-      />
+      /> */}
 
       <CheckOutForm
         show={checkoutForm}
@@ -2778,19 +2787,7 @@ const handleCloseBooking =() =>{
                     label="Tenants"
                     value="1"
                   />
-                  {/* <Tab
-                    className="tab-label"
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: 16,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      color: value === "2" ? "#222222" : "#4B4B4B",
-                    }}
-                    label="Bookings"
-                    value="2"
-                  /> */}
-                  <Tab
+                                   <Tab
                     className="tab-label"
                     style={{
                       textTransform: "capitalize",
@@ -3851,8 +3848,54 @@ const handleCloseBooking =() =>{
                                                         Check-Out
                                                       </label>
                                                     </div>
-
-
+<div
+                                                      className="d-flex align-items-center gap-2"
+ 
+                                                      onClick={() => {
+                                                        if (!customerAddPermission) {
+                                                          handleCheckoutGenrate(user);
+                                                        }
+                                                      }}
+ 
+                                                      style={{
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={logout}
+                                                        alt="checkout"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Generate
+                                                      </label>
+                                                    </div>
                                                   </>
 
                                                 )}
@@ -3987,7 +4030,7 @@ const handleCloseBooking =() =>{
 
 
 
-                {
+                {/* {
                   !customerpermissionError &&
                   (
                     (search || filterStatus ? filteredUsers?.length : userListDetail?.length) > 10
@@ -4146,7 +4189,7 @@ const handleCloseBooking =() =>{
                   )
 
 
-                }
+                } */}
 
                 {customerReassign === true ? (
                   <CustomerReAssign
@@ -5736,7 +5779,9 @@ const handleCloseBooking =() =>{
         />
       )}
 
-
+{
+        finalsettlepage &&<FinalSettlement show = {finalsettlepage}  data = {finalsettledData} handleClose={handleClosefinal}/>
+      }
       {
         add_bookingshow && <Addbooking add_bookingshow={add_bookingshow} userDetail={userDetail} setAddBookingsShow={setAddBookingsShow} handleCloseAddBooking={handleCloseAddBooking} bookingDet={bookingDet} />
       }

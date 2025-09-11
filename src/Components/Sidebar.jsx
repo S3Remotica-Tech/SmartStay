@@ -182,10 +182,7 @@ console.log("state",state)
     }
   }, [state.UsersList.hosteListStatusCode]);
 
-  useEffect(() => {
-    dispatch({ type: "ALL-NOTIFICATION-LIST" });
-  }, []);
-
+  
 
 
 
