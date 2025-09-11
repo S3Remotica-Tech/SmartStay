@@ -20,7 +20,8 @@ function NoticeBedStatusDetails({
     handleCloseBed,
     currentItem,
     showBooking,
-    showNoticeperiodCheckout
+    showNoticeperiodCheckout , 
+    showfinalsettelemnet
 }) {
 
 
@@ -75,12 +76,20 @@ function NoticeBedStatusDetails({
   const handleNewBooking = () => {
        showBooking(true)    
   }
+
+  const handleFinalsettelmentGenerate = () => {
+    showfinalsettelemnet(true ,customerId )
+       dispatch({
+        type: "GETCONFIRMCHECKOUTCUSTOMER",
+        payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+      });
+  }
  
 
 
   const handleCheckout = () => {
   
-      showNoticeperiodCheckout(true, customerId )
+      showNoticeperiodCheckout(true, customerId)
       dispatch({
         type: "GETCONFIRMCHECKOUTCUSTOMER",
         payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
@@ -330,6 +339,23 @@ function NoticeBedStatusDetails({
                         <img src={logout} alt="Checkout" />
                         <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Checkout</label>
                       </div>
+                       <div
+                        className="d-flex gap-2 align-items-center"
+                        onClick={() => handleFinalsettelmentGenerate(currentItem)}
+                        
+                        style={{
+                          padding: "10px",
+                          borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+
+                          cursor: "pointer"
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                      >
+                        <img src={logout} alt="Checkout" />
+                        <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Generate</label>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -404,7 +430,8 @@ NoticeBedStatusDetails.propTypes = {
     show: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
     showNoticeperiodCheckout: PropTypes.func.isRequired,
-    showBooking: PropTypes.func.isRequired
+    showBooking: PropTypes.func.isRequired,
+    showfinalsettelemnet:PropTypes.func.isRequired,
 
 };
 export default NoticeBedStatusDetails;
