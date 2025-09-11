@@ -53,7 +53,7 @@ import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import PaginationList from "../../Components/PaginationList";
-
+import FinalSettlement from "./FinalSettlement";
 function UserList(props) {
   const state = useSelector((state) => state);
 
@@ -141,7 +141,8 @@ function UserList(props) {
   const [filterStatus, setFilterStatus] = useState(false);
   const [add_bookingshow, setAddBookingsShow] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
-
+  const [finalsettlepage,setFinalSettlePage] = useState(false)
+  const [finalsettledData,setFinalsettledData] = useState("")
 
 
 
@@ -2324,8 +2325,9 @@ console.log("item",item)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
 
   const handleConformCheckout = (item) => {
-    // setDueCustomerShow(true)
+    setDueCustomerShow(true)
     setCheckOutDetails(item)
+    setFinalSettlePage(false)
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
       payload: { id: item.ID, hostel_id: item.Hostel_Id },
@@ -2348,7 +2350,9 @@ console.log("item",item)
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout && CheckOutDetails) {
-      setDueCustomerShow(true);
+      // setDueCustomerShow(true);
+      // setFinalSettlePage(false)
+      
 
     }
 
@@ -2357,6 +2361,39 @@ console.log("item",item)
     }, 500);
   }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
+
+
+
+
+
+
+
+  
+const handleCheckoutGenrate = (item)=>{
+   setFinalsettledData(item)
+    setFinalSettlePage(true)
+     setDueCustomerShow(false);
+
+    dispatch({
+      type: "GETCONFIRMCHECKOUTCUSTOMER",
+      payload: { id: item.ID, hostel_id: item.Hostel_Id },
+    });
+ 
+}
+  // useEffect(() => {
+  //   if (state.UsersList.statusCodegetConfirmCheckout && finalsettlepage) {
+  //      setFinalSettlePage(true)
+
+  //   }
+
+  //   setTimeout(() => {
+  //     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  //   }, 500);
+  // }, [state.UsersList.statusCodegetConfirmCheckout, finalsettlepage]);
+
+const handleClosefinal = ()=>{
+  setFinalSettlePage(false)
+}
   return (
     <div>
       <Addbooking
@@ -4497,6 +4534,56 @@ console.log("item",item)
                                                       </label>
                                                     </div>
 
+
+
+ <div
+                                                      className="d-flex align-items-center gap-2"
+
+                                                      onClick={() => {
+                                                        if (!customerAddPermission) {
+                                                          handleCheckoutGenrate(user);
+                                                        }
+                                                      }}
+
+                                                      style={{
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={logout}
+                                                        alt="checkout"
+                                                        style={{
+                                                          width: 16,
+                                                          height: 16,
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
+                                                        }}
+                                                      >
+                                                        Generate
+                                                      </label>
+                                                    </div>
 
                                                   </>
 
@@ -6704,6 +6791,9 @@ console.log("item",item)
       {
         DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />
       }
+      {
+        finalsettlepage &&<FinalSettlement show = {finalsettlepage}  data = {finalsettledData} handleClose={handleClosefinal}/>
+      }
     </div>
   );
 }
@@ -6716,5 +6806,6 @@ UserList.propTypes = {
   handleCloseBed: PropTypes.func.isRequired,
   customer_details: PropTypes.func.isRequired,
   customer: PropTypes.func.isRequired,
+
 };
 export default UserList;

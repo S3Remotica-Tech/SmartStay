@@ -31,6 +31,7 @@ import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
 import "./ParticularHostelDetails.css";
+import FinalSettlement from '../CustomerFile/FinalSettlement';
  
 
 
@@ -75,8 +76,8 @@ function ParticularHostelDetails(props) {
   const [customerID, setCustomerID] = useState('')
   const [add_customerform, setAddCustomerForm] = useState(false)
   const [assign_tenantform, setAssignTenantForm] = useState(false)
+  const [finalsettlepage,setFinalSettlePage] = useState(false)
 
-console.log("customerId",customerId)
 
   const handleAddBed = (item, Room_Id) => {
     setShowBed(true)
@@ -299,6 +300,17 @@ console.log("customerID",customerID)
 
   const handleCloseOccupiedCustomer = () => {
     setOccupiedCustomer(false)
+  }
+
+  const handleshowfinalsettlement = (isvisible ,customerId) => {
+   setCustomerId(customerId)
+   
+      setFinalSettlePage(isvisible)
+      setNoticePeriodBed(false)
+  }
+
+  const handleClosefinalsettelment = ()=>{
+    setFinalSettlePage(false)
   }
 
 
@@ -1166,8 +1178,12 @@ console.log("customerID",customerID)
         {
           Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
             handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails}
-            showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout}
+            showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet = {handleshowfinalsettlement}
           />}
+
+           {
+                  finalsettlepage &&<FinalSettlement show = {finalsettlepage}   handleClose={handleClosefinalsettelment}  data={OccupiedCustomerDetails} customerID={customerId}/>
+                }
 
 
         {showReAssignBedForm &&

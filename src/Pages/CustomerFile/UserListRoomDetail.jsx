@@ -1846,6 +1846,11 @@ const formattedReasons = fields.map((item) => {
     setUploadError("");
     dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
   };
+
+
+
+
+  
   useEffect(() => {
     if (state.UsersList.statuscodeForAdharFileError === 201) {
       setUploadError(state.UsersList.adharuploadfileError);
@@ -2109,7 +2114,29 @@ const handleImageUpload = async (event) => {
 
   
 
+const [documents, setDocuments] = useState([
+    { name: "Rental Agreement.pdf", size: "180 KB", type: "PDF" },
+    { name: "Aadhar.pdf", size: "180 KB", type: "PDF" },
+    { name: "License.pdf", size: "180 KB", type: "PDF" },
+    { name: "Pancard.pdf", size: "180 KB", type: "PDF" },
+  ]);
+console.log("documents",documents)
+  const handleFileUpload = (index, e) => {
+    const file = e.target.files[0];
+    console.log("file",file)
+    if (!file) return;
 
+    const updatedDoc = {
+      name: file.name,
+      size: `${Math.round(file.size / 1024)} KB`,
+      type: file.name.split(".").pop().toUpperCase(),
+    };
+
+    const newDocuments = [...documents];
+    newDocuments[index] = updatedDoc;
+    setDocuments(newDocuments);
+  };
+ 
 
   return (
 
@@ -3081,85 +3108,44 @@ const imageUrl = imagePreview
   </Box>
 
   <TabPanel value="1">
-   <div className="row mt-3">
-       
- <div className="col-md-6">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-               <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-              <div>
-                {/* <p class="mb-0 fw-semibold small text-wrap">Rental Agreement.pdf</p> */}
-                <p 
-  className="mb-0 fw-semibold small text-truncate" 
-  style={{ maxWidth: "120px" }}  // adjust width
-  title="Rental Agreement.pdf"   // tooltip for full name
->
-  Rental Agreement.pdf
-</p>
-                <small className="text-muted">180 KB • PDF</small>
+ <div className="row mt-3">
+  {documents.map((doc, index) => {
+    if (doc.name.toLowerCase().includes("aadhar")) {
+      // Aadhaar special case
+      return (
+        <div className="col-md-6 mt-2" key={index}>
+          {state.UsersList?.KycCustomerDetails?.pic ? (
+            <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+              <div className="d-flex align-items-center">
+                <img
+                  src={adhar}
+                  alt="Aadhaar"
+                  style={{ width: 20, height: 20, marginRight: 8 }}
+                />
+                <p className="mb-0 fw-semibold small">Aadhaar (KYC)</p>
               </div>
-            </div>
-            <div className="d-flex gap-2">
-              <img src={viewdoc} alt="viewdoc"/>
-             <img src={docDown} alt="docDown"/>
-            </div>
-          </div>
-        </div>
-
-
-        <div className="col-md-6">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-             <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-              <div>
-                <p className="mb-0 fw-semibold small">Aadhar.pdf</p>
-                <small className="text-muted">180 KB • PDF</small>
+              <div className="d-flex gap-2">
+                <img
+                  src={viewdoc}
+                  alt="viewdoc"
+                  onClick={handleViewKYC}
+                  style={{ cursor: "pointer", width: 20, height: 20 }}
+                />
+                <img
+                  src={docDown}
+                  alt="Download Aadhaar"
+                  onClick={handleDownloadKYC}
+                  style={{ cursor: "pointer", width: 20, height: 20 }}
+                />
               </div>
-            </div>
-           
-             {state.UsersList?.KycCustomerDetails?.pic && (
-                                      <div >
 
-                                         <img
-                                          src={viewdoc}
-                                          alt="docdown"
-                                            onClick={handleViewKYC}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                           
-                                           
-                                          }}
-                                        />
-                                        <img
-                                          src={docDown}
-                                          alt="Download Aadhar"
-                                          onClick={handleDownloadKYC}
-                                          style={{ width: 20, height: 20, cursor: "pointer"}}
-                                        />
-
-                                        
-                                      </div>
-                                    )}
-          </div>
-          <Modal show={showModal} onHide={handleClose} size="md" centered>
+              
+									      <Modal show={showModal} onHide={handleClose} size="md" centered>
   <Modal.Header closeButton>
     <Modal.Title>KYC Details</Modal.Title>
   </Modal.Header>
   <Modal.Body>
-    <div
+    <div 
       style={{
         borderRadius: 10,
         padding: 20,
@@ -3246,57 +3232,152 @@ const imageUrl = imagePreview
     </div>
   </Modal.Body>
 </Modal>
-        </div>
-
-   
 
 
 
- 
+                                    <div
+                                      id="kyc-download-card"
+                                      style={{
+                                        position: "absolute",
+                                        top: "-9999px",
+                                        left: "-9999px",
+                                        borderRadius: 10,
+                                        padding: 20,
+                                        width: 320,
+                                        textAlign: "center",
 
-        <div className="col-md-6 mt-2">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-             <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-              <div>
-                <p className="mb-0 fw-semibold small">License.pdf</p>
-                <small className="text-muted">180 KB • PDF</small>
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+
+                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
+                                        KYC Details
+                                      </h6>
+
+                                      <div style={{ marginBottom: 15 }}>
+                                        <img
+                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+                                          alt="KYC"
+                                          style={{
+                                            height: 120,
+                                            width: 120,
+                                            borderRadius: "25%",
+                                            border: "3px solid #f0f0f0",
+                                          }}
+                                        />
+                                      </div>
+
+                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
+                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
+                                      </h5>
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
+                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Adress<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
+                                        </p>
+                                      </div>
+
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
+                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Aadhar Number<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+                                        </p>
+                                      </div>
+                                    </div>
+
+
+
+            </div>
+          ) : (
+            // Normal Aadhaar card
+            <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+              <div className="d-flex align-items-center">
+                <img
+                  src={upload}
+                  alt="upload"
+                  width={20}
+                  height={20}
+                  style={{ marginRight: "8px", cursor: "pointer" }}
+                  onClick={() =>
+                    document.getElementById(`fileUpload-${index}`).click()
+                  }
+                />
+                <div>
+                  <p
+                    className="mb-0 fw-semibold small text-truncate"
+                    style={{ maxWidth: "120px" }}
+                    title={doc.name}
+                  >
+                    {doc.name}
+                  </p>
+                  <small className="text-muted">
+                    {doc.size} • {doc.type}
+                  </small>
+                </div>
               </div>
             </div>
-            <div className="d-flex gap-2">
-              <img src={viewdoc} alt="viewdoc"/>
-             <img src={docDown} alt="docDown"/>
-            </div>
-          </div>
-        </div>  
-        <div className="col-md-6 mt-2">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-               <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-              <div>
-                <p className="mb-0 fw-semibold small">Pancard.pdf</p>
-                <small className="text-muted">180 KB • PDF</small>
-              </div>
-            </div>
-            <div className="d-flex gap-2">
-               <img src={viewdoc} alt="viewdoc"/>
-             <img src={docDown} alt ="doc" />
+          )}
+
+          {/* Upload input for Aadhaar (only works if KYC not there) */}
+          {!state.UsersList?.KycCustomerDetails?.pic && (
+            <input
+              type="file"
+              id={`fileUpload-${index}`}
+              style={{ display: "none" }}
+              onChange={(e) => handleFileUpload(index, e)}
+            />
+          )}
+        </div>
+      );
+    }
+
+    // All other docs → normal upload card
+    return (
+      <div className="col-md-6 mt-2" key={index}>
+        <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+          <div className="d-flex align-items-center">
+            <img
+              src={upload}
+              alt="upload"
+              width={20}
+              height={20}
+              style={{ marginRight: "8px", cursor: "pointer" }}
+              onClick={() =>
+                document.getElementById(`fileUpload-${index}`).click()
+              }
+            />
+            <div>
+              <p
+                className="mb-0 fw-semibold small text-truncate"
+                style={{ maxWidth: "120px" }}
+                title={doc.name}
+              >
+                {doc.name}
+              </p>
+              <small className="text-muted">
+                {doc.size} • {doc.type}
+              </small>
             </div>
           </div>
         </div>
+
+        <input
+          type="file"
+          id={`fileUpload-${index}`}
+          style={{ display: "none" }}
+          onChange={(e) => handleFileUpload(index, e)}
+        />
       </div>
+    );
+  })}
+</div>
+
   </TabPanel>
   <TabPanel value="2">
     <div
