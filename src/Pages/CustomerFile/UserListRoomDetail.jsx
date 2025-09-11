@@ -41,7 +41,7 @@ import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
 import html2canvas from "html2canvas";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
-import EditImage from "../../Assets/Images/New_images/edit.png"
+import EditImage from "../../Assets/Images/New_images/cus_edit.svg"
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Landamrkimage from "../../Assets/Images/landmark.png";
 import Areaimage from "../../Assets/Images/area_icon.png";
@@ -59,7 +59,7 @@ import EditAddressDetails from "./EditAddressDetails";
 import EditStayDetails from "./EditStayDetails";
 import StayHistory from "./StayHistory";
 import Retry from "../../Assets/Images/New_images/reload.png";
-
+import FileAdd from '../../Assets/Images/New_images/file_add.svg'
 
 
 
@@ -2280,7 +2280,7 @@ const [documents, setDocuments] = useState([
                           <img
                             src={EditImage}
                             alt="Edit"
-                            style={{ width: "20px", height: "20px" }}
+                            style={{ width: "16px", height: "16px" }}
                           />
                         </div>
                       </div>
@@ -2610,8 +2610,8 @@ const [documents, setDocuments] = useState([
                                   src={EditImage}
                                   alt="editimage"
                                   style={{
-                                    height: 20,
-                                    width: 20,
+                                    height: 16,
+                                    width: 16,
                                     color: props.customerEditPermission
                                       ? "#CCCCCC"
                                       : "#000",
@@ -2939,8 +2939,8 @@ const [documents, setDocuments] = useState([
                                   src={EditImage}
                                   alt="editimage"
                                   style={{
-                                    height: 20,
-                                    width: 20,
+                                  height: 16,
+                                    width: 16,
                                     color: props.customerEditPermission
                                       ? "#CCCCCC"
                                       : "#000",
@@ -3715,7 +3715,7 @@ const [documents, setDocuments] = useState([
                                           handleShowStayHistory(CustomerOverView);
                                         }
                                       }}
-                                      style={{
+                                      style={{ height:18, width:18,
                                         cursor: props.customerEditPermission
                                           ? "not-allowed"
                                           : "pointer",
@@ -3756,8 +3756,8 @@ const [documents, setDocuments] = useState([
                                         src={EditImage}
                                         alt="EditImage"
                                         style={{
-                                          height: 20,
-                                          width: 20,
+                                          height: 16,
+                                    width: 16,
                                           color: props.customerEditPermission
                                             ? "#CCCCCC"
                                             : "#000",
@@ -4561,7 +4561,7 @@ const [documents, setDocuments] = useState([
                 }}
                                       onClick={handleAdditionalForm}
                                     >
-                                      + Add
+                                      <img src={FileAdd} style={{}}></img> Add
                                     </button>
                                         </p>
                                       </div>
