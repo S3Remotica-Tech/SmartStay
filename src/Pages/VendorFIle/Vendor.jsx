@@ -25,7 +25,7 @@ function Vendor() {
   const [filteredData, setFilteredData] = useState([])
 
   const [searchQuery, setSearchQuery] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false )
 const [currentItem, setCurrentItem] = useState('')
 
 
@@ -601,146 +601,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
             </div>
 
-            {/* {
-              filteredData.length > 4 &&
-              <nav
-               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "end",
-                padding: "10px",
-                borderRadius: "5px",
-                position: "fixed",
-                zIndex: 1000,
-                width: '83%',
-                bottom: 0,
-                left: '17%',
-                right: '16px',
-                backgroundColor: "#fff"
-              }}>
-
-                <div>
-                  <Select
-                    options={pageSizeOptions}
-                    value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
-                    onChange={handleItemsPerPageChange}
-                    placeholder="Items per page"
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    noOptionsMessage={() => "No options"}
-                   styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "40px",
-                              border: "1px solid #1E45E1",
-                              borderRadius: "5px",
-                              fontSize: "14px",
-                              color: "#1E45E1",
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              fontFamily: "Gilroy",
-                              boxShadow:  "0 0 0 1px #1E45E1",
-                               width:90,
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "200px",
-                              padding: 0,
-                              overflowY: "auto",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#1E45E1",
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                              color: state.isFocused ? "#fff" : "#000",
-                            }),
-                          }}
-                  />
-                </div>
-
-
-                <ul className="selectoption"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    listStyleType: "none",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                >
-
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                    </button>
-                  </li>
-
-
-                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                    {currentPage} of {totalPages}
-                  </li>
-
-
-                  <li style={{ margin: "0 10px" }}>
-                    <button
-                      style={{
-                        padding: "5px",
-                        textDecoration: "none",
-                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                        cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        minWidth: "30px",
-                        textAlign: "center",
-                        backgroundColor: "transparent",
-                        border: "none",
-                      }}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                    >
-                      <ArrowRight2
-                        size="16"
-                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                      />
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            } */}
+          
 
 
 

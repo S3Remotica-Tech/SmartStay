@@ -824,7 +824,7 @@ const isChanged =
       setFormLoading(false)
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
-      dispatch({ type: "ACCOUNTDETAILS" });
+      // dispatch({ type: "ACCOUNTDETAILS" });
       setTimeout(() => {
         dispatch({ type: "CLEAR_SETTING_GENERAL_ADD" });
       }, 200);
@@ -836,7 +836,7 @@ const isChanged =
       setFormLoading(false)
       handleClose();
       dispatch({ type: "GETALLGENERAL" });
-      dispatch({ type: "ACCOUNTDETAILS" });
+      // dispatch({ type: "ACCOUNTDETAILS" });
       setTimeout(() => {
         dispatch({ type: "CLEAR_SETTING_EDIT_GENERAL" });
       }, 200);
