@@ -76,13 +76,14 @@ function UserlistForm(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
+  const [recheckinDateError, setRecheckinDateError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
   const [errors, setErrors] = useState([]);
   const [reason, setReason] = useState("");
-  const [recheckInDate, setRecheckInDate] = useState("");
+  const [recheckInDate, setRecheckInDate] = useState(null);
   const [activeTab, setActiveTab] = useState("long");
   const [floor_name, setFloorName] = useState("")
   const [room_name, setRoomName] = useState("")
@@ -928,9 +929,9 @@ function UserlistForm(props) {
 
 
 
-   const incrementDateAndFormat = (date) => {
-  return dayjs(date).format("YYYY-MM-DD");
-};
+    const incrementDateAndFormat = (date) => {
+      return dayjs(date).format("YYYY-MM-DD");
+    };
 
 
     // const formattedDate = selectedDate
@@ -938,9 +939,9 @@ function UserlistForm(props) {
     //   : "";
     // const invoiceDateObj = new Date(formattedDate);
     const formattedDate = selectedDate
-  ? incrementDateAndFormat(selectedDate)
-  : "";
-const invoiceDateObj = new Date(formattedDate);
+      ? incrementDateAndFormat(selectedDate)
+      : "";
+    const invoiceDateObj = new Date(formattedDate);
     const dueDateObj = new Date(invoiceDateObj);
     dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
@@ -1360,6 +1361,8 @@ const invoiceDateObj = new Date(formattedDate);
   const [bookingRoomId, setBookingRoomId] = useState("")
   const [bookingBedId, setBookingBedId] = useState("")
 
+  //  const today = dayjs().format("DD/MM/YYYY");
+
 
 
 
@@ -1413,7 +1416,7 @@ const invoiceDateObj = new Date(formattedDate);
       setBedName(props?.EditObj?.Booking_Bed)
       setBookingAmount(props.EditObj.booking_amount)
       setFile(props.EditObj.profile)
-      
+
 
       const Bedfilter = state?.UsersList?.roomdetails?.filter(
         (u) =>
@@ -1457,14 +1460,15 @@ const invoiceDateObj = new Date(formattedDate);
     }
 
   }, [props.BookingAssignForm]);
-  const disabledJoiningDate = (current) => {
-    if (!bookingDate) return false;
 
-    return (
-      current.isBefore(bookingDate, "day") ||
-      current.isAfter(dayjs(), "day")
-    );
-  };
+  // const disabledJoiningDate = (current) => {
+  //   if (!bookingDate) return false;
+
+  //   return (
+  //     current.isBefore(bookingDate, "day") ||
+  //     current.isAfter(dayjs(), "day")
+  //   );
+  // };
 
   useEffect(() => {
     if (props.BookingAssignForm) {
@@ -2109,12 +2113,14 @@ const invoiceDateObj = new Date(formattedDate);
     setReason(e.target.value)
     setReasonError("")
   }
-  const [recheckinDateError, setRecheckinDateError] = useState("")
+
   const [reasonError, setReasonError] = useState("")
   const reasonRef = useRef(null);
   const dateRef = useRef(null);
 
   const handleSaveBacktoCheckin = () => {
+    setRecheckinDateError("");
+    console.log("recheckInDate value on submit:", recheckInDate);
     if (!reason) {
       setReasonError("Please Enter Reason");
       reasonRef.current?.focus();
@@ -2125,22 +2131,32 @@ const invoiceDateObj = new Date(formattedDate);
       dateRef.current?.focus();
       return;
     }
-     const incrementDateAndFormat = (date) => {
-  const newDate = new Date(date);
-  const year = newDate.getFullYear();
-  const month = String(newDate.getMonth() + 1).padStart(2, "0");
-  const day = String(newDate.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
 
-   const formattedDate = recheckInDate
-  ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
-  : "";
+    if (!recheckInDate) {
+      setRecheckinDateError("Please Select Date");
+      dateRef.current?.focus();
+      return;
+    }
+
+    const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      const year = newDate.getFullYear();
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const day = String(newDate.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    const formattedDate = recheckInDate
+      ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
+      : "";
 
 
     dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
     setFormLoading(true)
   }
+
+
+
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
@@ -2156,6 +2172,7 @@ const invoiceDateObj = new Date(formattedDate);
 
     }
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
+
 
 
 
@@ -2706,6 +2723,8 @@ const invoiceDateObj = new Date(formattedDate);
                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                             />
                           </div>
+     
+
                         </Form.Group>
 
                         {dateError && (
@@ -3270,7 +3289,7 @@ const invoiceDateObj = new Date(formattedDate);
                     height="35"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = Profileimage; 
+                      e.target.src = Profileimage;
                     }}
                   />
                   <div>
@@ -3392,7 +3411,7 @@ const invoiceDateObj = new Date(formattedDate);
 
 
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -3427,7 +3446,7 @@ const invoiceDateObj = new Date(formattedDate);
 
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Booking Amount
@@ -3437,8 +3456,9 @@ const invoiceDateObj = new Date(formattedDate);
                             type="text"
                             placeholder="Enter Amount"
                             value={bookingAmount}
-                            // onChange={handleAdvanceAmount}
+
                             style={{
+                              marginTop: "-3px",
                               fontSize: 16,
                               color: "#4B4B4B",
                               fontFamily: "Gilroy",
@@ -3451,7 +3471,7 @@ const invoiceDateObj = new Date(formattedDate);
                             }}
                           />
                         </Form.Group>
-                        {advanceAmountError && (
+                        {/* {advanceAmountError && (
                           <div style={{ color: "red" }}>
                             <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                             <label
@@ -3466,7 +3486,7 @@ const invoiceDateObj = new Date(formattedDate);
                               {advanceAmountError}
                             </label>
                           </div>
-                        )}
+                        )} */}
                       </div>
 
 
@@ -3499,7 +3519,7 @@ const invoiceDateObj = new Date(formattedDate);
 
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 mt-1">
                         <Form.Group controlId="purchaseDate">
                           <Form.Label
                             style={{
@@ -3513,12 +3533,12 @@ const invoiceDateObj = new Date(formattedDate);
 
                           </Form.Label>
 
-                          <div
+                          {/* <div
                             className="datepicker-wrapper"
                             style={{ position: "relative", width: "100%" }}
                           >
                             <DatePicker
-                              // disabled
+                             
                               style={{
                                 width: "100%",
                                 height: 48,
@@ -3542,7 +3562,48 @@ const invoiceDateObj = new Date(formattedDate);
                               disabledDate={disabledJoiningDate}
 
                             />
-                          </div>
+                          </div> */}
+
+                         
+
+{/* <div
+  className="datepicker-wrapper"
+  style={{ position: "relative", width: "100%" }}
+>
+  <input
+    type="text"
+    value={today}
+    readOnly
+    style={{
+      width: "100%",
+      height: 48,
+      cursor: "not-allowed",
+      fontFamily: "Gilroy",
+      backgroundColor: "#f5f5f5"
+    }}
+  />
+</div> */}
+
+<div
+  className="datepicker-wrapper"
+  style={{ position: "relative", width: "100%" }}
+>
+  <DatePicker
+    style={{
+      width: "100%",
+      height: 48,
+      cursor: "not-allowed", 
+      fontFamily: "Gilroy",
+      backgroundColor: "#EFF2FF"
+    }}
+    format="DD/MM/YYYY"
+    value={dayjs()}       
+    open={false}         
+    allowClear={false}    
+     inputReadOnly            
+  />
+</div>
+
                         </Form.Group>
 
                         {dateError && (
@@ -5352,8 +5413,8 @@ const invoiceDateObj = new Date(formattedDate);
 
 
                 <div className="d-flex align-items-center gap-3 mb-3 ms-3">
-                  <img
-                    // src={Profileimage}
+                  {/* <img
+                  
                      src={
                       props.EditObj && props.EditObj?.profile && props.EditObj?.profile !== ""
                         ? typeof props.EditObj?.profile === "string"
@@ -5367,7 +5428,25 @@ const invoiceDateObj = new Date(formattedDate);
                     className="rounded-circle"
                     width="35"
                     height="35"
+                  /> */}
+                  <img
+                    src={
+                      typeof file === "string" && file.trim()
+                        ? file
+                        : file instanceof File
+                          ? URL.createObjectURL(file)
+                          : Profileimage
+                    }
+                    alt="Profile"
+                    className="rounded-circle"
+                    width="35"
+                    height="35"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = Profileimage;
+                    }}
                   />
+
                   <div>
                     <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
                       {props.EditObj?.Name}
@@ -6327,29 +6406,6 @@ value={bookingAmount}
                         </span>
                       </Form.Label>
 
-                      {/* <DatePicker
-                       ref={dateRef}
-                        style={{
-                          width: "100%",
-                          height: 48,
-                          cursor: "pointer",
-                          fontFamily: "Gilroy"
-                        }}
-                        format="DD/MM/YYYY"
-                        placeholder="DD/MM/YYYY"
-                        value={recheckInDate ? dayjs(recheckInDate) : null}
-                        onChange={(date) => {
-                        
-                          setRecheckInDate(date ? date.toDate() : null);
-                          setRecheckinDateError("")
-                        }}
-                        getPopupContainer={(triggerNode) =>
-                          triggerNode.closest(".datepicker-wrapper") || document.body
-                        }
-                        dropdownClassName="custom-datepicker-popup"
-                        disabledDate={(current) => current && current > dayjs().endOf("day")}
-                      /> */}
-
                       <DatePicker
                         ref={dateRef}
                         style={{
@@ -6378,8 +6434,9 @@ value={bookingAmount}
                       />
 
 
+
                       {recheckinDateError && (
-                        <div style={{ color: "red" }} >
+                        <div style={{ color: "red" }}>
                           <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                           <label
                             className="mb-0"
@@ -6394,6 +6451,27 @@ value={bookingAmount}
                           </label>
                         </div>
                       )}
+
+
+
+
+
+                      {/* {recheckinDateError && (
+                        <div style={{ color: "red" }} >
+                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {recheckinDateError}
+                          </label>
+                        </div>
+                      )} */}
                     </div>
 
 

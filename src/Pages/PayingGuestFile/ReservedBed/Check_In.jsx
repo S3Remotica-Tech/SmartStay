@@ -27,7 +27,8 @@ function CheckIn({
     const dispatch = useDispatch();
     const bookingDateRef = useRef("");
 
-    const [joiningDate, setJoiningDate] = useState(null);
+    // const [joiningDate, setJoiningDate] = useState(null);
+     const [joiningDate, setJoiningDate] = useState(dayjs().toDate());
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
     const [customer_name, setCustomerName] = useState("")
@@ -207,15 +208,20 @@ if(currentItem){
             setCustomerName(selectedUser?.ID)
         }
     }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
- const disabledJoiningDate = (current) => {
-  if (!bookingDate) return false;
 
-  // Disable if date < bookingDate OR date > today
-  return (
-    current.isBefore(bookingDate, "day") || 
-    current.isAfter(dayjs(), "day")
-  );
-};
+//  const disabledJoiningDate = (current) => {
+//   if (!bookingDate) return false;
+
+//   // Disable if date < bookingDate OR date > today
+//   return (
+//     current.isBefore(bookingDate, "day") || 
+//     current.isAfter(dayjs(), "day")
+//   );
+// };
+
+const disabledJoiningDate = (current) => {
+    return current && current > dayjs().endOf("day");
+  };
   
 
     useEffect(() => {
@@ -837,10 +843,11 @@ if(currentItem){
                                                 fontWeight: 500,
                                             }}
                                         >
-                                            Joining Date   <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                            Joining Date
+                                              <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
 
-                                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                        {/* <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                             <DatePicker
                                                 style={{
                                                     width: "100%",
@@ -860,7 +867,30 @@ if(currentItem){
                                                 // disabledDate={(current) => current && current > dayjs().endOf("day")}
                                                 disabledDate={disabledJoiningDate}
                                             />
-                                        </div>
+                                        </div> */}
+                                         <div
+      className="datepicker-wrapper"
+      style={{ position: "relative", width: "100%" }}
+    >
+      <DatePicker
+        style={{
+          width: "100%",
+          height: 48,
+          cursor: "pointer",
+          fontFamily: "Gilroy",
+        }}
+        format="DD/MM/YYYY"
+        placeholder="DD/MM/YYYY"
+        value={joiningDate ? dayjs(joiningDate) : null} // show current date by default
+        onChange={(date) => {
+          setJoiningDate(date ? date.toDate() : null);
+          setJoingDateErrmsg("");
+        }}
+        getPopupContainer={() => document.body}
+        disabledDate={disabledJoiningDate}
+      />
+    </div>
+  
                                     </Form.Group>
                                     {joiningDateErrmsg.trim() !== "" && (
                                         <div className="d-flex align-items-center">
