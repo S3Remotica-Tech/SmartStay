@@ -4131,9 +4131,9 @@ const handleClosefinal = ()=>{
             <span>
               {user?.user_join_date && user.user_join_date !== "0000-00-00"
                 ? moment(user.user_join_date).format("D MMMM YYYY")
-                : user?.booking_joining_date &&
-                  user.booking_joining_date !== "0000-00-00"
-                ? moment(user.booking_joining_date).format("D MMMM YYYY")
+                : user?.booking_booking_date &&
+                  user.booking_booking_date !== "0000-00-00"
+                ? moment(user.booking_booking_date).format("D MMMM YYYY")
                 : user?.RecheckIn_Date &&
                   user.RecheckIn_Date !== "0000-00-00"
                 ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
@@ -4263,7 +4263,7 @@ const handleClosefinal = ()=>{
                   ref={popupRef}
                   style={{
                     position: "fixed",
-                    top: popupPosition.top - 25,
+                    top: popupPosition.top - 65,
                     left: popupPosition.left,
                     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                     width: "auto",

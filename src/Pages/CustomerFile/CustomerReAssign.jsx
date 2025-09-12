@@ -332,10 +332,13 @@ function CustomerReAssign(props) {
   }, [userId])
 
   useEffect(() => {
-    dispatch({
+    if(currentHostel_id){
+ dispatch({
       type: "HOSTELDETAILLIST",
       payload: { hostel_Id: state.login.selectedHostel_Id },
     });
+    }
+   
   }, [currentHostel_id]);
 
   useEffect(() => {
