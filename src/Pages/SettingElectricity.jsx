@@ -14,10 +14,8 @@ import { CloseCircle } from "iconsax-react";
 import "./SettingElectricity.css";
 
 const SettingElectricity = ({ hostelid }) => {
-
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-
   const [isRecurring, setIsRecurring] = useState(false);
   const [roomBasedCalculation, setRoomBasedCalculation] = useState(false);
   const [hostelBasedCalculation, setHostelBasedCalculation] = useState(false);
@@ -374,7 +372,7 @@ const SettingElectricity = ({ hostelid }) => {
       )}
 
       <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4"
+        className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3"
         style={{
           position: "sticky",
           top: 0,
@@ -422,7 +420,11 @@ const SettingElectricity = ({ hostelid }) => {
                   width: 146,
                 }}
               >
-                <span><img src={editpic} alt="Edit" style={{ marginRight: 6, marginTop: -2 }} /></span> Edit
+                <span style={{ display: "inline-flex", alignItems: "center", gap: "7px" }}>
+                  <img src={editpic} alt="Edit" height={16} width={16} />
+                  Edit
+                </span>
+
               </Button>
             ))
           ) : (
@@ -441,7 +443,7 @@ const SettingElectricity = ({ hostelid }) => {
               }}
               disabled={showPopup}
             >
-              <span><img src={edit} alt="Edit" /></span> Edit
+              + Electricity
             </Button>
           )}
         </div>
@@ -458,116 +460,292 @@ const SettingElectricity = ({ hostelid }) => {
         )}
       </div>
 
-      {EbList && EbList.length > 0
-        ? EbList.map((v, index) => {
-          return (
-            <Row key={index} className="scroll-issue">
-              <Col lg={12} md={12} sm={12} style={{ maxWidth: '900px', width: '100%' }}>
-                <Card
-                  className="border mb-4 mb-md-0"
-                  style={{ borderRadius: 16, background: '#FAFBFF', border: '1px solid #E6EAF3', boxShadow: '0 1px 4px 0 rgba(0,0,0,0.03)', width: '100%' }}
-                >
-                  <Card.Body style={{ padding: '18px 24px' }}>
-                    <div className="d-flex justify-content-between align-items-center" style={{ borderBottom: "1px solid #E6EAF3", paddingBottom: "10px", }}>
-                      <div className="d-flex align-items-center gap-2">
-                        <span style={{ display: 'flex', alignItems: 'center', background: '#E7F1FF', borderRadius: '50%', width: 32, height: 32, justifyContent: 'center', marginRight: 10 }}>
-                          <img src={electricity} alt="electricity" style={{ width: 18, height: 18 }} />
-                        </span>
-                        <span style={{ fontFamily: 'Gilroy', fontSize: 16, color: '#222', fontWeight: 600 }}>Electricity Information</span>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <span style={{ fontFamily: 'Gilroy', fontWeight: 600, fontSize: 16, color: '#222' }}>₹ {v.amount}</span>
-                        <span style={{ fontFamily: 'Gilroy', fontWeight: 400, fontSize: 13, color: '#939393', marginLeft: 4 }}>/Unit</span>
-                      </div>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between mt-3" style={{ borderRadius: 12, padding: '12px 18px', marginTop: 18, }}>
-                      <div style={{ textAlign: 'center', flex: 1 }}>
-                        <div className="fw-medium mb-1"
-                          style={{ fontFamily: "Gilroy", fontSize: "14px" }}
+      <>
+        {EbList && EbList.length > 0
+          ? EbList.map((v, index) => {
+            return (
+              <Row key={index} className="scroll-issue">
+                <Col lg={12} md={12} sm={12} style={{ maxWidth: '900px', width: '100%' }}>
+                  <Card
+                    className="p-2 border mb-4 mb-md-0"
+                    style={{ borderRadius: 16 }}
+                  >
+                    <Card.Body>
+                      <div className="d-flex justify-content-between align-items-center flex-wrap">
 
-                        >Room Based Calculation</div>
-                        <Form.Check
-                          type="switch"
-                          id={`roomBased-${index}`}
-                          checked={roomBasedCalculation}
-                          onChange={() => handleRoomBased(v)}
-                          className="custom-switch-pointer d-flex justify-content-center"
-                          style={{ margin: '0 auto', marginRight: 120 }}
-                        />
-                      </div>
-                      <div style={{ textAlign: 'center', flex: 1 }}>
-                        <div
-                          className="fw-medium mb-1"
-                          style={{ fontFamily: 'Gilroy', fontSize: 14 }}
-                        >
-                          Hostel Based Calculation
+
+                        <div className="d-flex justify-content-between align-items-center" style={{ width: "100%" }}>
+                          <div className="d-flex align-items-center">
+                            <span
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#E7F1FF",
+                                borderRadius: "50%",
+                                width: 32,
+                                height: 32,
+                                justifyContent: "center",
+                                marginRight: 10,
+                              }}
+                            >
+                              <img
+                                src={electricity}
+                                alt="electricity"
+                                style={{ width: 18, height: 18 }}
+                              />
+                            </span>
+                            <span
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontSize: 16,
+                                color: "#222",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Electricity Information
+                            </span>
+                          </div>
+
+                          {/* RIGHT SIDE */}
+                          <div>
+                            <span
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                fontSize: 16,
+                                color: "#222",
+                              }}
+                            >
+                              ₹ {v.amount}rs
+                            </span>
+                            <span
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontWeight: 400,
+                                fontSize: 13,
+                                color: "#939393",
+                                marginLeft: 4,
+                              }}
+                            >
+                              /Unit
+                            </span>
+                          </div>
                         </div>
-                        <Form.Check
-                          type="switch"
-                          id={`hostelBased-${index}`}
-                          checked={hostelBasedCalculation}
-                          onChange={() => handleHostelBased(v)}
-                          className="custom-switch-pointer d-flex justify-content-center"
-                          style={{ margin: '0 auto', marginRight: 120 }}
-                        />
+
+
+
                       </div>
-                      <div style={{ textAlign: 'center', flex: 1 }}>
-                        <div
-                          className="fw-medium mb-1"
-                          style={{ fontFamily: 'Gilroy', fontSize: 14 }}
-                        >
-                          Pro-Write
-                        </div>
-                        <Form.Check
-                          type="switch"
-                          id={`proWrite-${index}`}
-                          checked={isRecurring}
-                          onChange={() => handleRecurringFormShow(v)}
-                          className="custom-switch-pointer d-flex justify-content-center"
-                          style={{ margin: '0 auto', marginRight: 20 }}
-                        />
-                      </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          );
-        })
-        : !loading && (
-          <div
-            className="d-flex align-items-center justify-content-center"
-            style={{
-              width: "100%",
-              margin: "0px auto",
-              backgroundColor: "",
-              marginTop: 120,
-              justifyContent: "center", alignItems: "center"
-            }}
-          >
-            <div>
-              <div className="d-flex  justify-content-center">
-                <img
-                  src={EmptyState}
-                  alt="Empty state"
-                />
+                      <hr />
+
+                      {/* <Form>
+                        <Row className="mb-3">
+
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "#4B4B4B",
+                              }}
+                            >
+                              Room Based Calculation
+                            </Form.Label>
+                            <Form.Check
+                              type="switch"
+                              id="roomBased"
+                              label="Enabled"
+                              checked={roomBasedCalculation}
+                              onChange={() => {
+                                handleRoomBased(v);
+                              }}
+                              className="custom-switch-pointer"
+                            />
+                          </Col>
+
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "#4B4B4B",
+                              }}
+                            >
+                              Hostel Based Calculation
+                            </Form.Label>
+                            <Form.Check
+                              type="switch"
+                              id="hostelBased"
+                              label="Enabled"
+                              className="custom-switch-pointer"
+                              checked={hostelBasedCalculation}
+                              onChange={() => {
+                                handleHostelBased(v);
+                              }}
+                            />
+                          </Col>
+
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "#4B4B4B",
+                              }}
+                            >
+                              Pro-Write
+                            </Form.Label>
+                            <Form.Check
+                              type="switch"
+                              id={`custom-switch-${isRecurring}`}
+                              className="custom-switch-pointer"
+                              checked={isRecurring}
+                              onChange={() => handleRecurringFormShow(v)}
+                            />
+                          </Col>
+
+                        </Row>
+
+                        <style>
+                          {`
+      .custom-switch-pointer input[type="checkbox"],
+      .custom-switch-pointer label {
+        cursor: pointer !important;
+      }
+    `}
+                        </style>
+                      </Form> */}
+
+                      <Form>
+                        <Row className="mb-3 text-center">
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "#4B4B4B",
+                                display: "block",
+                              }}
+                            >
+                              Room Based Calculation
+                            </Form.Label>
+                            <Form.Check style={{ marginLeft: "-75px" }}
+                              type="switch"
+                              id="roomBased"
+                              checked={roomBasedCalculation}
+                              onChange={() => handleRoomBased(v)}
+                              className="custom-switch-pointer"
+                            />
+                          </Col>
+
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "#4B4B4B",
+                                display: "block",
+                              }}
+                            >
+                              Hostel Based Calculation
+                            </Form.Label>
+                            <Form.Check style={{ marginLeft: "-100px" }}
+                              type="switch"
+                              id="hostelBased"
+                              checked={hostelBasedCalculation}
+                              onChange={() => handleHostelBased(v)}
+                              className="custom-switch-pointer"
+                            />
+                          </Col>
+
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "#4B4B4B",
+                                display: "block",
+                              }}
+                            >
+                              Pro-Write
+                            </Form.Label>
+                            <Form.Check style={{ marginLeft: "-17px" }}
+                              type="switch"
+                              id={`custom-switch-${isRecurring}`}
+                              checked={isRecurring}
+                              onChange={() => handleRecurringFormShow(v)}
+                              className="custom-switch-pointer"
+                            />
+                          </Col>
+                        </Row>
+
+                        <style>
+                          {`
+      .custom-switch-pointer input[type="checkbox"],
+      .custom-switch-pointer label {
+        cursor: pointer !important;
+      }
+      .form-check {
+        display: flex;
+        justify-content: center;
+      }
+    `}
+                        </style>
+                      </Form>
+
+
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            );
+          })
+          : !loading && (
+
+
+            <div
+              className="d-flex align-items-center justify-content-center"
+              style={{
+                width: "100%",
+                margin: "0px auto",
+                backgroundColor: "",
+                marginTop: 120,
+                justifyContent: "center", alignItems: "center"
+              }}
+            >
+              <div>
+                <div className="d-flex  justify-content-center">
+                  <img
+                    src={EmptyState}
+
+                    alt="Empty state"
+                  />
+                </div>
+                <div
+                  className="pb-1 mt-3"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 18,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No Electricity available
+                </div>
+
+
               </div>
-              <div
-                className="pb-1 mt-3"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 18,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                No Electricity available
-              </div>
+              <div></div>
             </div>
-            <div></div>
-          </div>
-        )}
+
+          )}
+      </>
 
       <Modal
         show={showFormElectricity}
@@ -1094,3 +1272,4 @@ SettingElectricity.propTypes = {
 };
 
 export default SettingElectricity;
+

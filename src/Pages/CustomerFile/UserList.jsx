@@ -57,7 +57,7 @@ import AddCustomer from "../PayingGuestFile/AddCustomerPG";
 import BookedCheckIn from "./BookedCheckIn";
 import MakeAsInactive from "./MakeAsInactive";
 import FinalSettlement from "./FinalSettlement";
-
+import PaginationList from '../../Components/PaginationList';
 function UserList(props) {
   const state = useSelector((state) => state);
 
@@ -3261,6 +3261,7 @@ const handleCheckoutGenrate = (item)=>{
                             </tr>
                           </thead>
                           <tbody style={{ textAlign: "center" }}>
+                             <PaginationList>
                             {sortedData && sortedData.length > 0 && (
                               <>
                                 {sortedData.map((user) => {
@@ -3330,13 +3331,7 @@ const handleCheckoutGenrate = (item)=>{
                                           whiteSpace: "nowrap"
                                         }}
                                       >
-                                        {/* {user && (user.user_join_date && user.user_join_date !== "0000-00-00"
-  ? <span>{moment(user.user_join_date).format("D MMMM YYYY")}</span>
-  : user.RecheckIn_Date && user.RecheckIn_Date !== "0000-00-00"
-    ? <span>{moment(user.RecheckIn_Date).format("D MMMM YYYY")}</span>
-    : "-"
-)} */}
-                                        <span>
+                                                                              <span>
                                           {user?.actualJoining && user.actualJoining !== "0000-00-00"
                                             ? moment(user.actualJoining, "DD/MM/YYYY").format("D MMMM YYYY")
                                             : user?.expectedJoiningDate && user.expectedJoiningDate !== "0000-00-00"
@@ -4021,6 +4016,7 @@ const handleCheckoutGenrate = (item)=>{
                                 })}
                               </>
                             )}
+                            </PaginationList>
                           </tbody>
                         </Table>
                       </div>

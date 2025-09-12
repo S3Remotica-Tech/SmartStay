@@ -50,13 +50,17 @@ console.log("customerID",customerID)
     const [refundableDetails, setReFundableDetails] = useState("")
     const [detuction, setDetuction] = useState("")
      const [rentalBalance,setRentalBalance] = useState('')
-     console.log("rentalBalance",rentalBalance)
+     const [billAmount,setBillAmount] = useState("")
+
+     
+     console.log("billAmount",rentalBalance)
      useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
             (invoice) => invoice.balance > 0
         );
-
+        setBillAmount(validInvoices)
+       
         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
             (deduction) => deduction.amount > 0
         );
@@ -155,9 +159,9 @@ console.log("customerID",customerID)
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
-            dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
+            dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
         }
-    }, []);
+    }, [state.login.selectedHostel_Id]);
     useEffect(() => {
         const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
 
@@ -234,13 +238,28 @@ console.log("customerID",customerID)
 
     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
 
+    // useEffect(() => {
+    //     if (fields || advanceAmount) {
+        
+    //         const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
+    //             console.log("advanceAmount",totalDeductions)
+    //         const returnAmount = Number(advanceAmount || 0) - totalDeductions;
+    //         setReturnAmount(returnAmount)
+    //     }
+    // }, [fields, advanceAmount])
     useEffect(() => {
-        if (fields || advanceAmount) {
-            const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
-            const returnAmount = Number(advanceAmount || 0) - totalDeductions;
-            setReturnAmount(returnAmount)
-        }
-    }, [fields, advanceAmount])
+    if (fields || advanceAmount) {
+        const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
+
+        const dueAmount = Number(detuction?.DueAmount || 0);  // extra subtraction
+
+        const returnAmount = Number(advanceAmount || 0) - totalDeductions - dueAmount;
+        setReturnAmount(returnAmount);
+
+        console.log("advanceAmount:", advanceAmount, "totalDeductions:", totalDeductions, "dueAmount:", dueAmount, "returnAmount:", returnAmount);
+    }
+}, [fields, advanceAmount, detuction]);
+
 
     // const handleFileChange = (e) => {
     //     const file = e.target.files[0];
@@ -302,13 +321,22 @@ console.log("customerID",customerID)
     };
 
 
-   
+    // const handleModeOfPaymentChange = (e) => {
+    //     setModeOfPaymentError("")
+    //     setModeOfPayment(e.target.value);
+    // };
 
-    useEffect(() => {
-        if (state.login.selectedHostel_Id) {
-           dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
-        }
-    }, []);
+    // const handleCommentsChange = (event) => {
+    //     setComments(event.target.value);
+
+    // };
+
+    // const handleToggle = () => {
+    //     setChecked((prev) => !prev);
+
+    // };
+
+   
 
 
     useEffect(() => {
@@ -964,7 +992,11 @@ console.log("customerID",customerID)
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        {/* {
+                                                            billAmount?.map((user)=>{
+return(
+    <>
+     <tr>
                                                             <td className="fw-normal text-decoration-underline text-primary mt-4"
                                                                 onClick={handleClickInvoiceNo}
                                                                 style={{
@@ -972,26 +1004,59 @@ console.log("customerID",customerID)
                                                                     fontSize: "14px",
                                                                     paddingTop: "1rem"
                                                                 }}>
-                                                                INV001
+                                                                {user.invoiceid}
                                                             </td>
-                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Recurring</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", fontWeight: 500, paddingTop: "1rem" }}>₹5,000.00</td>
+                                                            <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>{user.action}</td>
+                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", fontWeight: 500, paddingTop: "1rem" }}>₹{user.balance}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td className="fw-normal text-decoration-underline text-primary"
-                                                                onClick={handleClickInvoiceNo}
-                                                                style={{
-                                                                    fontFamily: "Gilroy",
-                                                                    fontSize: "14px",
-                                                                }}>
-                                                                INV654
-
-                                                            </td>
-                                                            <td className="fw-normal"
-                                                                style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>Manual</td>
-                                                            <td className="text-end"
-                                                                style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹2,700.00</td>
+                                                            
+                                                           
                                                         </tr>
+    </>
+)
+                                                            })
+                                                        } */}
+                                                        {Array.isArray(billAmount) && billAmount.map((user) => (
+  <tr key={user.invoiceid}>
+    <td
+      className="fw-normal text-decoration-underline text-primary mt-4"
+      onClick={handleClickInvoiceNo}
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        paddingTop: "1rem"
+      }}
+    >
+      {user.invoiceid}
+    </td>
+    <td
+      className="fw-normal"
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        color: "black",
+        paddingTop: "1rem"
+      }}
+    >
+      {user.action}
+    </td>
+    <td
+      className="text-end"
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        color: "black",
+        fontWeight: 500,
+        paddingTop: "1rem"
+      }}
+    >
+      ₹{user.balance}
+    </td>
+  </tr>
+))}
+
+                                                       
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1032,7 +1097,7 @@ console.log("customerID",customerID)
                                                         </tr>
                                                         <tr>
                                                             <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Actual Stay Days ({detuction.stayedDays} days * ₹{detuction.ratePerDay})</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹2,800</td>
+                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹{detuction.stayDeductionAmount}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>EB Amount</td>
@@ -1072,11 +1137,11 @@ console.log("customerID",customerID)
                                     <div className="p-3  rounded mb-3">
                                         <div className="d-flex justify-content-between">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>Final settlement</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>₹ 5600</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>₹  {refundableDetails.totalRefund}</p>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Total Deductions</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400, color: "red" }}>- ₹ {data.AdvanceAmount || dataBed[0]?.AdvanceAmount}</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400, color: "red" }}>- ₹ {detuction.DueAmount}</p>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Rent</p>

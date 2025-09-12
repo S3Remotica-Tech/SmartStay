@@ -199,7 +199,7 @@ export async function CheckIn(CheckIn) {
 
 export async function customerSaveInfo(params) {
 
-
+console.log("params", params)
   const formData = new FormData();
 
   if (params.profilePic) {

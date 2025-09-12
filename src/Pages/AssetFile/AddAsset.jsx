@@ -466,8 +466,24 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
+useEffect(() => {
+  if (state.AssetList?.alreadyAssetNameHere && assetNameRef.current) {
+    assetNameRef.current.focus();
+  }
+}, [state.AssetList?.alreadyAssetNameHere]);
+
+
+
+useEffect(()=>{
+  if(state.AssetList?.alreadySerialNumberHere && serialNumberRef){
+    serialNumberRef.current.focus();
+  }
+
+},[state.AssetList?.alreadySerialNumberHere])
+
   useEffect(() => {
     if (state.AssetList?.alreadyAssetNameHere || state.AssetList?.alreadySerialNumberHere) {
+      
       setFormLoading(false)
     }
 

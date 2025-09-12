@@ -28,7 +28,7 @@ function Asset() {
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [show, setShow] = useState(null)
-  const [showFilter, setShowFilter] = useState(false)
+  const [showFilter, setShowFilter] = useState(null)
   const [loading, setLoading] = useState(false)
   const [assetrolePermission, setAssetRolePermission] = useState("");
 
@@ -346,13 +346,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
       setSelectedDateRange([]);
       setExcelDownloadDates([]);
     } else if (value && state.login.selectedHostel_Id) {
-      dispatch({
-        type: 'ASSETLIST',
-        payload: {
-          hostel_id: state.login.selectedHostel_Id,
-          price_range: value
-        }
-      });
+    dispatch({type: 'ASSETLIST',  payload: state.login.selectedHostel_Id})
     }
 
     // setCurrentPage(1);
@@ -374,8 +368,12 @@ if( state.bankingDetails?.bankingList?.length === 0){
   }, [selectedPriceRange, ExcelFilterDates]);
 
 
+
+
+
   useEffect(() => {
-    if (!showFilter) {
+    if (!showFilter && showFilter !== null) {
+console.log("showFilter",showFilter)
        if(state.login.selectedHostel_Id){
       dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id  })
        }

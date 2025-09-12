@@ -3711,6 +3711,7 @@ const [documents, setDocuments] = useState([
                                   }}>
                                     <img src={Stayhistory} alt="stayhistoryicon"
                                       onClick={() => {
+                                        
                                         if (!props.customerEditPermission) {
                                           handleShowStayHistory(CustomerOverView);
                                         }
