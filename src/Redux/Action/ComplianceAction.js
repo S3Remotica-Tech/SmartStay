@@ -228,10 +228,21 @@ export async function ComplianceChangeStatus({ complaintId, status }) {
   );
 }
 
-export async function complianceDelete(datum) {
-  return await AxiosConfig.post('/complaint/delete_compliant', datum, {
-    data: datum
-  })
+
+// v1
+// export async function complianceDelete(datum) {
+//   return await AxiosConfig.post('/complaint/delete_compliant', datum, {
+//     data: datum
+//   })
+// }
+
+// v2
+export async function complianceDelete(complaintId) {
+  return await AxiosConfigV2.delete(`/v2/complaint/delete-complaint/${complaintId}`,  {
+     headers: {
+      "Content-Type": "application/json",
+    },
+  }) 
 }
 
 // 

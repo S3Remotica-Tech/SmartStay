@@ -64,9 +64,16 @@ export async function AddRecurringBill(manualinvoice) {
   })
 }
 
-export async function GetManualInvoices(datum) {
-  return await AxiosConfig.post('/get_bill_details', datum, {
-    data: datum
+// v1
+// export async function GetManualInvoices(datum) {
+//   return await AxiosConfig.post('/get_bill_details', datum, {
+//     data: datum
+//   })
+// }
+
+// v2
+export async function GetManualInvoices(hostelId) {
+  return await AxiosConfigV2.get(`/v2/bills/${hostelId}`, {
   })
 }
 

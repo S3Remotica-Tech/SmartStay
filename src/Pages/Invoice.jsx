@@ -239,10 +239,7 @@ const InvoicePage = () => {
   useEffect(() => {
     if (hostelId) {
       setLoading(true)
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     }
   }, [hostelId]);
 
@@ -1964,10 +1961,7 @@ const InvoicePage = () => {
 
     if (newValue === "1") {
       setLoading(true);
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     }
 
     if (newValue === "2") {
@@ -2093,10 +2087,7 @@ const InvoicePage = () => {
       setBalance("")
       setFormRecordLoading(false)
       setShowform(false)
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
       dispatch({
         type: "RECEIPTSLIST",
@@ -2442,10 +2433,7 @@ const InvoicePage = () => {
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setLoading(false);
 
       setTimeout(() => {
@@ -2473,10 +2461,7 @@ const InvoicePage = () => {
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
       setShowAllBill(true);
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setLoading(false);
 
       setTimeout(() => {
@@ -2492,10 +2477,7 @@ const InvoicePage = () => {
   ]);
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setLoading(false);
 
       setTimeout(() => {
@@ -2522,10 +2504,7 @@ const InvoicePage = () => {
 
   useEffect(() => {
     if (state.InvoiceList.message !== "" && state.InvoiceList.message !== null) {
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setBills(state.InvoiceList.ManualInvoices);
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
@@ -2722,10 +2701,7 @@ const InvoicePage = () => {
     setBills(bills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
-    dispatch({
-      type: "MANUALINVOICESLIST",
-      payload: { hostel_id: hostelId },
-    });
+dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
   };
 
 
@@ -2834,10 +2810,7 @@ const InvoicePage = () => {
       setOriginalBillsFilterReceipt(state.InvoiceList.ReceiptList)
       setOriginalReceipt(state.InvoiceList.ReceiptList)
       setReceiptLoader(false);
-      dispatch({
-        type: "MANUALINVOICESLIST",
-        payload: { hostel_id: hostelId },
-      });
+      dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_LIST" });
       }, 100);
