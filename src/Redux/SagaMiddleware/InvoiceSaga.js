@@ -911,7 +911,7 @@ function* handleGetManualInvoice(action) {
    const response = yield call(GetManualInvoices, action.payload)
 
    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'MANUAL_INVOICES_LIST', payload: { response: response.data.bill_details, statusCode: response.status || response.data.statusCode } })
+      yield put({ type: 'MANUAL_INVOICES_LIST', payload: { response: response?.data || [], statusCode: response.status || response.data.statusCode } })
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'NODATA_BILL_LIST', payload: { response: response.message, statusCode: response.status || response.statusCode } })

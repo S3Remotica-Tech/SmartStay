@@ -44,7 +44,7 @@ const InvoiceTable = (props) => {
   const handleBillDelete = (props) => {
     props.OnHandleshowDeleteform(props)
   }
-  let Dated = new Date(props.item.Date);
+  let Dated = new Date(props.item?.invoiceDate);
 
   let day = Dated.getDate();
   let month = Dated.getMonth() + 1;
@@ -54,7 +54,7 @@ const InvoiceTable = (props) => {
 
 
 
-  let dueDated = new Date(props.item.DueDate);
+  let dueDated = new Date(props.item?.dueDate);
 
   let daydue = dueDated.getDate();
   let monthdue = dueDated.getMonth() + 1;
@@ -105,16 +105,16 @@ const InvoiceTable = (props) => {
             }}
               onClick={() => handleDownload(props.item)}
             >
-              <div className="ps-1">{props.item.Name}</div>
+              <div className="ps-1">{props.item?.fullName}</div>
 
             </div>
 
           </div>
         </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'>
-          <div className="ps-1">  {props.item.Invoices === null || props.item.Invoices === '' ? '0.00' : props.item.Invoices}</div>
+          <div className="ps-1">  {props.item?.invoiceNumber === null || props.item?.invoiceNumber === '' ? '0.00' : props.item?.invoiceNumber}</div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>{props.item.action === 'auto' ? "Recurring" : props.item.action}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>{props.item.invoiceType === 'auto' ? "Recurring" : props.item.invoiceType}</td>
 
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 5 }}>{formattedDueDate}</span></td>
@@ -130,7 +130,7 @@ const InvoiceTable = (props) => {
           }}
           className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'
         >
-          ₹{Number(props.item?.Amount || 0).toLocaleString('en-IN')}
+          ₹{Number(props.item?.invoiceAmount || 0).toLocaleString('en-IN')}
         </td>
 
         <td
@@ -155,11 +155,11 @@ const InvoiceTable = (props) => {
             fontSize: 13,
             fontWeight: 500,
             fontFamily: "Gilroy",
-            color: props.item.status === "Paid" ? "green" : "red", borderBottom: "1px solid #E8E8E8"
+            color: props.item?.paymentStatus === "Paid" ? "green" : "red", borderBottom: "1px solid #E8E8E8"
           }}
           className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'
         >
-          {props.item.status === "Unpaid" ? (
+          {props.item?.paymentStatus === "PENDING" ? (
             <span
               style={{
                 backgroundColor: "#FFD9D9",
@@ -169,7 +169,7 @@ const InvoiceTable = (props) => {
                 padding: "8px 12px",
               }}
             >
-              Unpaid
+              PENDING
             </span>
           ) : (
             <span

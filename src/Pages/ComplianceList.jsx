@@ -52,8 +52,10 @@ const ComplianceList = (props) => {
 
 
   const handleDeleteFormShow = (item) => {
+    console.log("item" , item);
+    
     setDeleteForm(true);
-    setDeleteId(item.ID);
+    setDeleteId(item.complaintId);
   };
   const handleCloseDeleteForm = () => {
     setDeleteForm(false);
@@ -68,7 +70,7 @@ const ComplianceList = (props) => {
 
   const handleComplianceDelete = () => {
     if (deleteId) {
-      dispatch({ type: "DELETECOMPLIANCE", payload: { id: deleteId } });
+      dispatch({ type: "DELETECOMPLIANCE", payload:  deleteId  });
     }
   };
 

@@ -458,7 +458,7 @@ function* handleDeleteCompliance(action) {
 
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'DELETE_COMPLIANCE', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
-      toast.success(`${response.data.message}`, {
+      toast.success(`${response.data}`, {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,
