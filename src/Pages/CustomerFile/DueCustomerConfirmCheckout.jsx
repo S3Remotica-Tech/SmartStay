@@ -56,12 +56,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data, customerID }) {
 
 
 
-    useEffect(() => {
-        if (state.login.selectedHostel_Id) {
-            dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
-            // dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-        }
-    }, []);
+   
     useEffect(() => {
         const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
 
