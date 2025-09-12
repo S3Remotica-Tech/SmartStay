@@ -49,11 +49,11 @@ function CheckIn({
     //         setRoomRent(matchedBed.bed_amount);
     //     }
     // }, [state.PgList, currentItem]);
-    useEffect(()=>{
-if(currentItem){
-    setRoomRent(currentItem?.bed?.bed_amount)
-}
-    },[currentItem])
+    useEffect(() => {
+        if (currentItem) {
+            setRoomRent(currentItem?.bed?.bed_amount)
+        }
+    }, [currentItem])
 
     const handleRoomRent = (e) => {
         const newAmount = e.target.value;
@@ -198,25 +198,19 @@ if(currentItem){
             //     bookingDateRef.current = formattedBookingDate;
             //     setBookingDate(formattedBookingDate);
             // }
-             if (selectedUser?.booking_booking_date) {
-      const bookingDayjs = dayjs(selectedUser?.booking_booking_date); // ✅ keep as dayjs
+            if (selectedUser?.booking_booking_date) {
+                const bookingDayjs = dayjs(selectedUser?.booking_booking_date); // ✅ keep as dayjs
 
-      bookingDateRef.current = bookingDayjs;
-      setBookingDate(bookingDayjs);  // ✅ store as dayjs
-    }
+                bookingDateRef.current = bookingDayjs;
+                setBookingDate(bookingDayjs);  // ✅ store as dayjs
+            }
             setCustomerName(selectedUser?.ID)
         }
     }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
- const disabledJoiningDate = (current) => {
-  if (!bookingDate) return false;
 
-  // Disable if date < bookingDate OR date > today
-  return (
-    current.isBefore(bookingDate, "day") || 
-    current.isAfter(dayjs(), "day")
-  );
-};
-  
+    const disabledJoiningDate = (current) => {
+        return current && current > dayjs().endOf("day");
+    };
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
@@ -324,7 +318,7 @@ if(currentItem){
 
         if (!joiningDate) {
             setJoingDateErrmsg("Please Select Joining Date")
-             hasError = true;
+            hasError = true;
         }
 
         if (!AdvanceAmount) {
@@ -348,22 +342,22 @@ if(currentItem){
             AdvanceAmount === undefined
         ) {
             setAdvanceAmountError("Please Enter Advance Amount");
-             hasError = true;
+            hasError = true;
         }
         if (Number(AdvanceAmount) <= 0) {
             setAdvanceAmountError("Please Enter Valid Advance Amount");
-           hasError = true;
+            hasError = true;
         }
 
         setErrors(newErrors)
 
         if (!RoomRent && RoomRent !== 0) {
             setRoomRentError("Please Enter Rental Amount");
-           hasError = true;
+            hasError = true;
         }
         if (RoomRent <= 0) {
             setRoomRentError("Please Enter Valid Rental Amount");
-           hasError = true;
+            hasError = true;
         }
         if (!AdvanceAmount && AdvanceAmount !== 0) {
             setAdvanceAmountError("Please Enter Advance Amount");
@@ -375,9 +369,9 @@ if(currentItem){
             hasError = true;
         }
 
- if (hasError) {
-    return;
-  }
+        if (hasError) {
+            return;
+        }
 
 
         const incrementDateAndFormat = (date) => {
@@ -490,9 +484,9 @@ if(currentItem){
                 },
             });
         }
-         setFormLoading(true)
+        setFormLoading(true)
         dispatch({ type: "INVOICELIST" });
-       
+
     };
 
 
@@ -505,7 +499,7 @@ if(currentItem){
             });
             handleClose();
         }
-    }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.statusCodeForAddCustomerSaveInfo]);
+    }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
 
 
@@ -850,14 +844,12 @@ if(currentItem){
                                                 }}
                                                 format="DD/MM/YYYY"
                                                 placeholder="DD/MM/YYYY"
-                                                value={joiningDate ? dayjs(joiningDate) : null}
+                                                value={joiningDate ? dayjs(joiningDate) : null} // show current date by default
                                                 onChange={(date) => {
                                                     setJoiningDate(date ? date.toDate() : null);
-                                                    setJoingDateErrmsg('')
-                                                    // dispatch(JoininDatecustomer(date ? date.toDate() : null));
+                                                    setJoingDateErrmsg("");
                                                 }}
                                                 getPopupContainer={() => document.body}
-                                                // disabledDate={(current) => current && current > dayjs().endOf("day")}
                                                 disabledDate={disabledJoiningDate}
                                             />
                                         </div>
@@ -1101,33 +1093,33 @@ if(currentItem){
                             </div>
                         </Modal.Body>
 
- {formLoading &&
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                      }}
-                    >
-                      <div
-                        style={{
-                          borderTop: '4px solid #1E45E1',
-                          borderRight: '4px solid transparent',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          animation: 'spin 1s linear infinite',
-                        }}
-                      ></div>
-                    </div>
-                  }
+                        {formLoading &&
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: 'transparent',
+                                    opacity: 0.75,
+                                    zIndex: 10,
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        borderTop: '4px solid #1E45E1',
+                                        borderRight: '4px solid transparent',
+                                        borderRadius: '50%',
+                                        width: '40px',
+                                        height: '40px',
+                                        animation: 'spin 1s linear infinite',
+                                    }}
+                                ></div>
+                            </div>
+                        }
 
 
 

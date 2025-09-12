@@ -540,7 +540,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                     }}
                                                 />
                                             </Form.Group>
-                                            {advanceAmountError && (
+                                            {/* {advanceAmountError && (
                                                 <div style={{ color: "red" }}>
                                                     <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                                                     <label
@@ -555,7 +555,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                         {advanceAmountError}
                                                     </label>
                                                 </div>
-                                            )}
+                                            )} */}
                                         </div>
 
 

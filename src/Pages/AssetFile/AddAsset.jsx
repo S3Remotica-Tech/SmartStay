@@ -103,14 +103,14 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [state.AssetList?.alreadySerialNumberHere])
 
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForGetBanking === 200) {
+    if (state.bankingDetails.bankingList) {
 
       setBanking(state.bankingDetails.bankingList)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state.bankingDetails.statusCodeForGetBanking]);
+  }, [state.bankingDetails.bankingList]);
 
 
   const handleClose = () => {
@@ -467,8 +467,24 @@ function StaticExample({ show, setShow, currentItem }) {
 
 
 
+useEffect(() => {
+  if (state.AssetList?.alreadyAssetNameHere && assetNameRef.current) {
+    assetNameRef.current.focus();
+  }
+}, [state.AssetList?.alreadyAssetNameHere]);
+
+
+
+useEffect(()=>{
+  if(state.AssetList?.alreadySerialNumberHere && serialNumberRef){
+    serialNumberRef.current.focus();
+  }
+
+},[state.AssetList?.alreadySerialNumberHere])
+
   useEffect(() => {
     if (state.AssetList?.alreadyAssetNameHere || state.AssetList?.alreadySerialNumberHere) {
+      
       setFormLoading(false)
     }
 

@@ -1059,14 +1059,14 @@ console.log("props",props)
     }
 
   }, [props.BookingAssignForm]);
-  const disabledJoiningDate = (current) => {
-    if (!bookingDate) return false;
+  // const disabledJoiningDate = (current) => {
+  //   if (!bookingDate) return false;
 
-    return (
-      current.isBefore(bookingDate, "day") ||
-      current.isAfter(dayjs(), "day")
-    );
-  };
+  //   return (
+  //     current.isBefore(bookingDate, "day") ||
+  //     current.isAfter(dayjs(), "day")
+  //   );
+  // };
 
 
 
@@ -1596,7 +1596,37 @@ console.log("props",props)
   const reasonRef = useRef(null);
   const dateRef = useRef(null);
 
-  const handleSaveBacktoCheckin = () => {
+  // const handleSaveBacktoCheckin = () => {
+  //   if (!reason) {
+  //     setReasonError("Please Enter Reason");
+  //     reasonRef.current?.focus();
+  //     return;
+  //   }
+  //   if (!recheckInDate) {
+  //     setRecheckinDateError("Please Select Date");
+  //     dateRef.current?.focus();
+  //     return;
+  //   }
+  //   const incrementDateAndFormat = (date) => {
+  //     const newDate = new Date(date);
+  //     const year = newDate.getFullYear();
+  //     const month = String(newDate.getMonth() + 1).padStart(2, "0");
+  //     const day = String(newDate.getDate()).padStart(2, "0");
+  //     return `${year}-${month}-${day}`;
+  //   };
+
+  //   const formattedDate = recheckInDate
+  //     ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
+  //     : "";
+
+
+  //   dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
+  //   setFormLoading(true)
+  // }
+
+const handleSaveBacktoCheckin = () => {
+    setRecheckinDateError("");
+    console.log("recheckInDate value on submit:", recheckInDate);
     if (!reason) {
       setReasonError("Please Enter Reason");
       reasonRef.current?.focus();
@@ -1607,6 +1637,13 @@ console.log("props",props)
       dateRef.current?.focus();
       return;
     }
+ 
+    if (!recheckInDate) {
+      setRecheckinDateError("Please Select Date");
+      dateRef.current?.focus();
+      return;
+    }
+ 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
       const year = newDate.getFullYear();
@@ -1614,7 +1651,7 @@ console.log("props",props)
       const day = String(newDate.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
     };
-
+ 
     const formattedDate = recheckInDate
       ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
       : "";
@@ -1623,6 +1660,9 @@ console.log("props",props)
     dispatch({ type: "BACKTOCHECKIN", payload: { userId: id, RecheckIn_Reason: reason, RecheckIn_Date: formattedDate } });
     setFormLoading(true)
   }
+
+
+
 
   useEffect(() => {
     if (state.UsersList?.StatusCodeBacktoCheckin === 200) {
