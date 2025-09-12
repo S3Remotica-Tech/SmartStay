@@ -159,7 +159,7 @@ console.log("customerID",customerID)
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
-            dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+              dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
         }
     }, [state.login.selectedHostel_Id]);
     useEffect(() => {
@@ -321,22 +321,13 @@ console.log("customerID",customerID)
     };
 
 
-    // const handleModeOfPaymentChange = (e) => {
-    //     setModeOfPaymentError("")
-    //     setModeOfPayment(e.target.value);
-    // };
-
-    // const handleCommentsChange = (event) => {
-    //     setComments(event.target.value);
-
-    // };
-
-    // const handleToggle = () => {
-    //     setChecked((prev) => !prev);
-
-    // };
-
    
+
+    useEffect(() => {
+        if (state.login.selectedHostel_Id) {
+           dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
+        }
+    }, []);
 
 
     useEffect(() => {

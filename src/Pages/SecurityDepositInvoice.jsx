@@ -411,7 +411,7 @@ const handleTermsChange = (e) => {
 
                  useEffect(() => {
                     if(hostelid){
-                    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+                         dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
                     }
                   }, [hostelid]);
  
@@ -434,7 +434,7 @@ const handleTermsChange = (e) => {
          setDescription("")
          handleCloseBankAccount();
    
-         dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelid} });
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
          setTimeout(() => {
            dispatch({ type: "CLEAR_ADD_USER_BANKING" });
          }, 1000);
