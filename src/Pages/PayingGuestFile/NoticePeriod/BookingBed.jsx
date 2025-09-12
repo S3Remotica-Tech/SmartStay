@@ -682,7 +682,7 @@ useEffect(()=>{
                       fontWeight: 500,
                     }}
                   >
-                    Joining Date (Tentative){" "}
+                    Joining Date {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
@@ -725,10 +725,10 @@ useEffect(()=>{
                                                                          }}
                                                         getPopupContainer={() => document.body}
                                                        disabledDate={(current) => {
-    // Disable all future dates
-    if (current && current > dayjs().endOf("day")) {
-      return true;
-    }
+   
+    // if (current && current > dayjs().endOf("day")) {
+    //   return true;
+    // }
 
     // Disable before bookingDate
     if (bookingDate) {

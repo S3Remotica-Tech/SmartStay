@@ -126,6 +126,7 @@ useEffect(()=>{
     const dateRef = useRef();
     const amountRef = useRef();
     const bookingDateRef = useRef();
+    const modeofRef = useRef()
 
    const [dateError, setDateError] = useState("");
    const [booking_customername, setBookingCustomerName] = useState("");
@@ -184,6 +185,9 @@ useEffect(()=>{
         case "bookingDate":
           setError("Please Select Booking Date");
           break;
+           case "modeofpayment":
+          setError("Please Select Payment Mode");
+          break;
         case "amount":
           setError("Please Enter Amount");
           break;
@@ -207,7 +211,30 @@ useEffect(()=>{
       return true;
     }
   };
-
+ const [paymentError, setPaymentError] = useState("");
+  const [modeOfPayment, setModeOfPayment] = useState("");
+ 
+ const [transactionId,setTransactionId] = useState("")
+ const handleTransactionId = (e) => {
+   const value = e.target.value;
+   setTransactionId(value);
+ };
+ 
+ 
+     useEffect(() => {
+         if (state.login.selectedHostel_Id) {
+             dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+         }
+     }, []);
+ 
+ 
+   const handleModeOfPaymentChange = (selectedOption) => {
+     if (!selectedOption) return;
+ 
+     setModeOfPayment(selectedOption);
+     setPaymentError("")
+     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+   };
 
   const validateField = (value, fieldName) => {
   const trimmedValue = String(value ?? "").trim();
@@ -248,6 +275,7 @@ useEffect(()=>{
     const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
     const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
     const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
+     const ismodeofpayment= validateAssignField(modeOfPayment, "modeofpayment", modeofRef, setPaymentError, focusedRef);
 
   
 
@@ -256,6 +284,8 @@ useEffect(()=>{
         bookingDateRef.current.focus();
         focusedRef.current = true;
       }
+    
+
       hasError = true;
     }
    
@@ -264,7 +294,8 @@ useEffect(()=>{
       !isCustomerValid ||
       !isJoiningDateValid ||
       !isAmountValid ||
-      !isBookingDateValid
+      !isBookingDateValid ||
+      !ismodeofpayment
     ) {
       return;
     }
@@ -313,7 +344,9 @@ useEffect(()=>{
         customer_Id: booking_customername,
         mob_no: userDetails.Phone,
         email: userDetails.Email,
-        profile: userDetails.profile
+        profile: userDetails.profile,
+         payment_mode:modeOfPayment,
+        transaction_id:transactionId
       },
     });
     setFormLoading(true)
@@ -887,6 +920,195 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                             </div>
                                           )}
                                         </Col>
+
+                                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                     <Form.Group
+                                                                       
+                                                                       controlId="exampleForm.ControlInput1"
+                                                                     >
+                                                                       <Form.Label
+                                                                         style={{
+                                                                           fontSize: 14,
+                                                                           color: "#222222",
+                                                                           fontFamily: "Gilroy",
+                                                                           fontWeight: 500,
+                                                                           
+                                                                         }}
+                                                                       >
+                                                                         Mode Of Transaction {" "}
+                                                                         <span
+                                                                           style={{
+                                                                             color: "#FF0000",
+                                                                             fontSize: "20px",
+                                                                           }}
+                                                                         >
+                                                                           *
+                                                                         </span>
+                                                                       </Form.Label>
+                                                     
+                                                     
+                                                                       <Select
+                                                                         options={
+                                                                           Array.isArray(state.bankingDetails?.bankingList?.banks)
+                                                                             ? state.bankingDetails.bankingList.banks.map((item) => {
+                                                                               let label = "";
+                                                                               if (item.type === "bank") label = "Bank";
+                                                                               else if (item.type === "upi") label = "UPI";
+                                                                               else if (item.type === "card") label = "Card";
+                                                                               else if (item.type === "cash") label = "Cash";
+                                                     
+                                                                               return {
+                                                                                 value: item.id,
+                                                                                 label: `${item.benificiary_name} - ${label}`,
+                                                                               };
+                                                                             })
+                                                                             : []
+                                                                         }
+                                                                         onChange={(selectedOption) =>
+                                                                           handleModeOfPaymentChange(selectedOption?.value)
+                                                                         }
+                                                                          ref={modeofRef}
+                                                                         value={
+                                                                           modeOfPayment
+                                                                             ? (() => {
+                                                                               const selected = state.bankingDetails?.bankingList?.banks.find(
+                                                                                 (item) => item.id === modeOfPayment
+                                                     
+                                                                               );
+                                                                               if (!selected) return null;
+                                                     
+                                                                               const labelMap = {
+                                                                                 bank: "Bank",
+                                                                                 upi: "UPI",
+                                                                                 card: "Card",
+                                                                                 cash: "Cash",
+                                                                               };
+                                                                               return {
+                                                                                 value: selected.id,
+                                                                                 label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
+                                                                               };
+                                                                             })()
+                                                                             : null
+                                                                         }
+                                                     
+                                                                         placeholder="Select Payment"
+                                                                         classNamePrefix="custom"
+                                                                        //  isDisabled={currentItem}
+                                                                         styles={{
+                                                                           control: (base) => ({
+                                                                             ...base,
+                                                                             fontSize: 16,
+                                                                             color: "rgba(75, 75, 75, 1)",
+                                                                             fontFamily: "Gilroy",
+                                                                             fontWeight: modeOfPayment ? 600 : 500,
+                                                                             border: "1px solid #D9D9D9",
+                                                                             borderRadius: "8px",
+                                                                             boxShadow: "none",
+                                                                             height: 48,
+                                                                             cursor: "pointer",
+                                                                           }),
+                                                                           menu: (base) => ({
+                                                                             ...base,
+                                                                             backgroundColor: "#f8f9fa",
+                                                                             border: "1px solid #ced4da",
+                                                                             fontFamily: "Gilroy",
+                                                                           }),
+                                                                           menuList: (base) => ({
+                                                                             ...base,
+                                                                             backgroundColor: "#f8f9fa",
+                                                                             maxHeight: "120px",
+                                                                             padding: 0,
+                                                                             scrollbarWidth: "thin",
+                                                                             overflowY: "auto",
+                                                                             fontFamily: "Gilroy",
+                                                                           }),
+                                                                           placeholder: (base) => ({
+                                                                             ...base,
+                                                                             color: "#555",
+                                                                           }),
+                                                                           dropdownIndicator: (base) => ({
+                                                                             ...base,
+                                                                             color: "#555",
+                                                                             cursor: "pointer",
+                                                                           }),
+                                                                           option: (base, state) => ({
+                                                                             ...base,
+                                                                             cursor: "pointer",
+                                                                             backgroundColor: state.isFocused ? "lightblue" : "white",
+                                                                             color: "#000",
+                                                                             fontFamily: "Gilroy",
+                                                                           }),
+                                                                           indicatorSeparator: () => ({
+                                                                             display: "none",
+                                                                           }),
+                                                                         }}
+                                                                         noOptionsMessage={() => "No mode available"}
+                                                                       />
+                                                     
+                                                                     </Form.Group>
+                                                                     {paymentError && (
+                                                                       <div className="d-flex align-items-center p-1 ">
+                                                                         <MdError style={{ color: "red", fontSize: "14px",  }} />
+                                                                         <label
+                                                                           className="mb-0"
+                                                                           style={{
+                                                                             color: "red",
+                                                                             fontSize: "12px",
+                                                                             fontFamily: "Gilroy",
+                                                                             fontWeight: 500,
+                                                                             whiteSpace: "nowrap"
+                                                                           }}
+                                                                         >
+                                                                           {paymentError}
+                                                                         </label>
+                                                                       </div>
+                                                                     )}
+                                                                   </div>
+                                        
+                                        
+                                        
+                                                                      <Col md={6}>
+                                                      <Form.Group >
+                                                        <Form.Label
+                                                          style={{
+                                                            fontSize: 14,
+                                                            fontWeight: 500,
+                                                            fontFamily: "Gilroy",
+                                                          }}
+                                                        >
+                                                         Transaction ID{" "}
+                                                                         <span
+                                                                           style={{
+                                                                             color: "white",
+                                                                             fontSize: "20px",
+                                                                           }}
+                                                                         >
+                                                                           
+                                                                         </span>
+                                                        </Form.Label>
+                                                        <FormControl
+                                                          type="text"
+                                                          id="form-controls"
+                                                          placeholder="Enter Transaction ID"
+                                                         value={transactionId} 
+                                                         onChange={(e)=>handleTransactionId(e)} 
+                                                        
+                                                          style={{
+                                                            fontSize: 16,
+                                                            color: "#4B4B4B",
+                                                            fontFamily: "Gilroy",
+                                                            fontWeight: 500,
+                                                            boxShadow: "none",
+                                                            border: "1px solid #D9D9D9",
+                                                            height: 50,
+                                                            borderRadius: 8,
+                                                          }}
+                                                        />
+                                                      </Form.Group>
+                                        
+                                                     
+                                        
+                                                    </Col>
                                    
                                             
                                                 <Col md={12}>
@@ -899,7 +1121,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                        fontWeight: 500,
                                                      }}
                                                    >
-                                                     Joining Date (Tentative) {" "}
+                                                     Joining Date {" "}
                                                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                    </Form.Label>
                                    

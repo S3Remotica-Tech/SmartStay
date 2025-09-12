@@ -679,7 +679,7 @@ const KeyFeaturesNew = () => {
                 fontFamily: "Montserrat"
               }}
             >
-              Automatically generate and send invoices for rent, EB, and other charges. Enable one-click
+              Automatically generate and send invoices for rent, EB and other charges. Enable one-click
               digital payments and receive instant confirmations with minimal manual effort.
             </p>
 
@@ -760,7 +760,7 @@ const KeyFeaturesNew = () => {
               }}
             >
               Ensure tenants never miss an update. SmartStay sends automatic alerts for payments,
-              complaints and agreements via WhatsApp, push notifications, and email — in real-time.
+              complaints and agreements via WhatsApp, push notifications and email — in real-time.
             </p>
 
             <ul style={{ listStyle: "none", padding: 0, margin: 0, fontFamily: "Montserrat", color: "#090F29", fontSize: 18, fontWeight: 600 }}>
