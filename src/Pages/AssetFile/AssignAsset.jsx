@@ -5,7 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
-import moment from "moment";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
@@ -30,7 +29,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [formLoading, setFormLoading] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);
-  const [roomList, setRoomList] = useState([]);
+  
 
   const [initialState, setInitialState] = useState({
     pglist: "",

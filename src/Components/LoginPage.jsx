@@ -106,6 +106,7 @@ const MyComponent = () => {
 
       dispatch({ type: 'LOGININFO', payload: { email_Id: 'shree@gmail.com', password: 'Shree@2025' } });
       setLoading(true)
+      return;
 
     }
   };

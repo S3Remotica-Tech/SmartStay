@@ -666,7 +666,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#{receiptDataNew?.reference_id || rowData?.reference_id}</div>
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Invoice Ref :</div>
-                        <div className="col-6 text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>#{receiptDataNew?.invoice_number}</div>
+                        <div className="col-6 text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{receiptDataNew?.invoice_number ? `#${receiptDataNew.invoice_number}` : "-"}</div>
 
                         <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Date :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
@@ -720,7 +720,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
                   <div className="px-4 pb-3">
                     <div className="table-responsive">
-                      <table className="table  text-center align-middle">
+                      {/* <table className="table  text-center align-middle">
                         <thead style={{ backgroundColor:receiptDataNew?.bill_template?.template_theme || "#00A32E" , color: "#FFFFFF" }}>
                           <tr style={{ color: "white" }}>
                             <th style={{ borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px", color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600 }}>S.NO</th>
@@ -751,10 +751,65 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                             </tr>
                           ))}
                         </tbody>
-                      </table>
+                      </table> */}
+                      <table className="table text-center align-middle">
+  <thead
+    style={{
+      backgroundColor: receiptDataNew?.bill_template?.template_theme || "#00A32E",
+      color: "#FFFFFF",
+    }}
+  >
+    <tr style={{ color: "white" }}>
+      <th
+        style={{
+          borderTopLeftRadius: "12px",
+          borderBottomLeftRadius: "12px",
+          fontSize: "12px",
+          fontFamily: "Gilroy",
+          fontWeight: 400,
+        }}
+      >
+        S.NO
+      </th>
+      <th style={{ fontSize: "12px", fontFamily: "Gilroy", fontWeight: 400 }}>Description</th>
+      <th
+        style={{
+          borderTopRightRadius: "12px",
+          borderBottomRightRadius: "12px",
+          fontSize: "12px",
+          fontFamily: "Gilroy",
+          fontWeight: 400,
+        }}
+      >
+        Amount / INR
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {receiptDataNew?.invoice_type === "booking" ? (
+      <tr style={{ borderBottom: "1px solid #dee2e6" }}>
+        <td style={{ fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>1</td>
+        <td style={{ fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>Booking Amount</td>
+        <td style={{ fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+          Rs: {receiptDataNew?.amount_received}
+        </td>
+      </tr>
+    ) : (
+      receiptDataNew?.amenities?.map((item, index) => (
+        <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
+          <td style={{ fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>{index + 1}</td>
+          <td style={{ fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>{item.am_name}</td>
+          <td style={{ fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>Rs: {item.amount}</td>
+        </tr>
+      ))
+    )}
+  </tbody>
+</table>
+
                     </div>
 
-                    {receiptDataNew.invoice_type !== "advance" && (
+                    {(receiptDataNew.invoice_type !== "advance" || receiptDataNew.invoice_type !== "booking")  &&  (
                       <div className="d-flex justify-content-end mt-3">
                         <div className="w-100 w-md-50" style={{ paddingRight: "50px" }}>
                           <div className="d-flex justify-content-end py-1">

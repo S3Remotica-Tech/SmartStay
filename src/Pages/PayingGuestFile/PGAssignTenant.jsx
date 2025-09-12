@@ -20,7 +20,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
-
+  const modeofRef = useRef()
   const [activeTab, setActiveTab] = useState("LONG");
   const [errors, setErrors] = useState([]);
   const [fields, setFields] = useState([]);
@@ -36,12 +36,12 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     { value: "others", label: "Others" },
   ];
 
-console.log("currentItem",currentItem)
+  console.log("currentItem", currentItem)
 
   useEffect(() => {
-  if (currentItem) {
-    setRoomRent(currentItem?.rentAmount);
-  }
+    if (currentItem) {
+      setRoomRent(currentItem?.rentAmount);
+    }
   }, [currentItem]);
 
   const handleRoomRent = (e) => {
@@ -121,9 +121,20 @@ console.log("currentItem",currentItem)
     }
   }, [])
 
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+    }
+  }, []);
 
+useEffect(() => {
+    if (state.bankingDetails.bankingList) {
 
-
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.bankingList]);
 
   const bookingcustomerRef = useRef();
   const dateRef = useRef();
@@ -173,6 +184,41 @@ console.log("currentItem",currentItem)
     setamountError("");
   };
 
+  const [paymentError, setPaymentError] = useState("");
+  const [modeOfPayment, setModeOfPayment] = useState("");
+
+  const [transactionId, setTransactionId] = useState("")
+  const handleTransactionId = (e) => {
+    const value = e.target.value;
+    setTransactionId(value);
+  };
+
+const labelMap = {
+    CARD: "Card",
+    CASH: "Cash",
+    UPI: "UPI",
+    BANK: "Bank",
+  };
+
+  const paymentOptions = Array.isArray(state.bankingDetails.bankingList)
+    ? state.bankingDetails?.bankingList?.map((item) => ({
+      value: String(item.bankingId),
+      label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
+    }))
+    : [];
+
+
+
+  const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+
+    setModeOfPayment(selectedOption);
+    setPaymentError("")
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  };
+
+
+
 
   const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
     if (!value || value === "Select a PG") {
@@ -190,11 +236,9 @@ console.log("currentItem",currentItem)
         case "amount":
           setError("Please Enter Amount");
           break;
-
-
-
-
-
+        case "modeofpayment":
+          setError("Please Select Payment Mode");
+          break;
         default:
           break;
       }
@@ -212,7 +256,7 @@ console.log("currentItem",currentItem)
   };
 
 
-console.log("  currentItem",  currentItem)
+
 
   const validateField = (value, fieldName) => {
     const trimmedValue = String(value ?? "").trim();
@@ -253,7 +297,7 @@ console.log("  currentItem",  currentItem)
     const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate", dateRef, setJoingDateErrmsg, focusedRef);
     const isBookingDateValid = validateAssignField(bookingDate, "bookingDate", bookingDateRef, setBookingDateErrmsg, focusedRef);
     const isAmountValid = validateAssignField(amount, "amount", amountRef, setamountError, focusedRef);
-
+    const ismodeofpayment = validateAssignField(modeOfPayment, "modeofpayment", modeofRef, setPaymentError, focusedRef);
 
 
     if (!bookingDate) {
@@ -269,24 +313,25 @@ console.log("  currentItem",  currentItem)
       !isCustomerValid ||
       !isJoiningDateValid ||
       !isAmountValid ||
-      !isBookingDateValid
+      !isBookingDateValid ||
+      !ismodeofpayment
     ) {
       return;
     }
 
 
 
-  const formatDate = (date) => {
-  if (!date) return "";
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const year = d.getFullYear();
-  return `${day}-${month}-${year}`;
-};
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
 
-const joiningDateForFormatted = formatDate(joiningDate);
-const bookingDateForFormatted = formatDate(bookingDate);
+    const joiningDateForFormatted = formatDate(joiningDate);
+    const bookingDateForFormatted = formatDate(bookingDate);
 
 
     const userDetails = state.UsersList.Users.find(
@@ -298,7 +343,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
     dispatch({
       type: "ADD_BOOKING",
       payload: {
-         hostelId: currentItem.hostelId,
+        hostelId: currentItem.hostelId,
         joiningDate: joiningDateForFormatted,
         bookingDate: bookingDateForFormatted,
         bookingAmount: amount,
@@ -306,7 +351,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
         roomId: currentItem?.roomId,
         bedId: currentItem?.bedId,
         customerId: booking_customername,
-       
+
       },
     });
     setFormLoading(true)
@@ -322,7 +367,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
 
-        }
+    }
   }, [state?.Booking?.statusCodeForAddBooking]);
 
 
@@ -337,7 +382,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
-        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO'})
+        dispatch({ type: 'REMOVE_STATUS_CODE_FOR_CREATE_CUSTOMER_SAVE_INFO' })
       }, 2000);
     }
   }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
@@ -375,7 +420,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
 
 
 
-  
+
 
 
 
@@ -449,7 +494,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
       newErrors.push(error);
 
       return {
-       type: reason_name,
+        type: reason_name,
         amount: item.amount || "",
         showInput: !!item.showInput
       };
@@ -463,11 +508,11 @@ const bookingDateForFormatted = formatDate(bookingDate);
 
 
 
-        const selectedUser = state?.UsersList?.Users.find(
-        item => item.ID === checkin_customername
-      );
+    const selectedUser = state?.UsersList?.Users.find(
+      item => item.ID === checkin_customername
+    );
 
-    
+
 
     const fullName = selectedUser?.Name?.trim() || "";
 
@@ -476,14 +521,14 @@ const bookingDateForFormatted = formatDate(bookingDate);
     const LastName = lastNameParts.join(" ") || "";
 
     const incrementDateAndFormat = (date) => {
-  const newDate = new Date(date);
+      const newDate = new Date(date);
 
-  const day = String(newDate.getDate()).padStart(2, "0");
-  const month = String(newDate.getMonth() + 1).padStart(2, "0"); 
-  const year = newDate.getFullYear();
+      const day = String(newDate.getDate()).padStart(2, "0");
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const year = newDate.getFullYear();
 
-  return `${day}-${month}-${year}`;
-};
+      return `${day}-${month}-${year}`;
+    };
 
     const formattedDate = checkin_joiningDate
       ? incrementDateAndFormat(checkin_joiningDate)
@@ -522,8 +567,8 @@ const bookingDateForFormatted = formatDate(bookingDate);
           joiningDate: formattedDate,
           advanceAmount: AdvanceAmount,
           rentalAmount: RoomRent,
-          stayType:activeTab,
-          deductions:formattedReasons
+          stayType: activeTab,
+          deductions: formattedReasons
 
         }
       })
@@ -909,6 +954,162 @@ const bookingDateForFormatted = formatDate(bookingDate);
                       </Col>
 
 
+
+                      <Col md={6}>
+                        <Form.Group
+
+                          controlId="exampleForm.ControlInput1"
+                        >
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              color: "#222222",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+
+                            }}
+                          >
+                            Mode Of Transaction {" "}
+                            <span
+                              style={{
+                                color: "#FF0000",
+                                fontSize: "20px",
+                              }}
+                            >
+                              *
+                            </span>
+                          </Form.Label>
+
+
+                          <Select
+                            options={paymentOptions}
+                            onChange={(selectedOption) =>
+                              handleModeOfPaymentChange(selectedOption?.value)
+                            }
+                            value={
+                              modeOfPayment
+                                ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                                : null
+                            }
+                            placeholder="Select Payment"
+                            // isDisabled={currentItem}
+                            noOptionsMessage={() => "No mode available"}
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                fontSize: 16,
+                                color: "rgba(75, 75, 75, 1)",
+                                fontFamily: "Gilroy",
+                                fontWeight: modeOfPayment ? 600 : 500,
+                                border: "1px solid #D9D9D9",
+                                borderRadius: "8px",
+                                boxShadow: "none",
+                                height: 48,
+                                cursor: "pointer",
+                              }),
+                              menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                border: "1px solid #ced4da",
+                                fontFamily: "Gilroy",
+                              }),
+                              menuList: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                maxHeight: "120px",
+                                padding: 0,
+                                scrollbarWidth: "thin",
+                                overflowY: "auto",
+                                fontFamily: "Gilroy",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                cursor: "pointer",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                cursor: "pointer",
+                                backgroundColor: state.isFocused ? "lightblue" : "white",
+                                color: "#000",
+                                fontFamily: "Gilroy",
+                              }),
+                              indicatorSeparator: () => ({
+                                display: "none",
+                              }),
+                            }}
+                          />
+
+
+                        </Form.Group>
+                        {paymentError && (
+                          <div className="d-flex align-items-center p-1 ">
+                            <MdError style={{ color: "red", fontSize: "14px", }} />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap"
+                              }}
+                            >
+                              {paymentError}
+                            </label>
+                          </div>
+                        )}
+                      </Col>
+
+
+
+                      <Col md={6}>
+                        <Form.Group >
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            Transaction ID{" "}
+                            <span
+                              style={{
+                                color: "white",
+                                fontSize: "20px",
+                              }}
+                            >
+
+                            </span>
+                          </Form.Label>
+                          <FormControl
+                            type="text"
+                            id="form-controls"
+                            placeholder="Enter Transaction ID"
+                            value={transactionId}
+                            onChange={(e) => handleTransactionId(e)}
+
+                            style={{
+                              fontSize: 16,
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                              border: "1px solid #D9D9D9",
+                              height: 50,
+                              borderRadius: 8,
+                            }}
+                          />
+                        </Form.Group>
+
+
+
+                      </Col>
+
                       <Col md={12}>
                         <Form.Group controlId="joiningDate">
                           <Form.Label
@@ -919,7 +1120,7 @@ const bookingDateForFormatted = formatDate(bookingDate);
                               fontWeight: 500,
                             }}
                           >
-                            Joining Date (Tentative) {" "}
+                            Joining Date {" "}
                             <span style={{ color: "red", fontSize: "20px" }}> * </span>
                           </Form.Label>
 
@@ -992,16 +1193,6 @@ const bookingDateForFormatted = formatDate(bookingDate);
 
 
                     </div>
-
-
-
-
-
-
-
-
-
-
 
                   </div>
 

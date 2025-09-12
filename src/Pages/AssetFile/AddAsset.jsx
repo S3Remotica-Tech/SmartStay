@@ -23,9 +23,7 @@ function StaticExample({ show, setShow, currentItem }) {
   const [vendorName, setVendorName] = useState("");
   const [brandName, setBrandName] = useState("");
   const [serialNumber, setSerialNumber] = useState("");
-  const [productCount, setProductCount] = useState("");
-  const [price, setPrice] = useState("");
-  const [id, setId] = useState("");
+    const [price, setPrice] = useState("");
   const [productName, setProductName] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [productNameError, setProductNameError] = useState("");
@@ -152,7 +150,7 @@ function StaticExample({ show, setShow, currentItem }) {
           : null
       );
       setPrice(currentItem.price || "");
-      setId(currentItem.id || 0);
+      // setId(currentItem.id || 0);
       setProductName(currentItem.productName || 0);
       setModeOfPayment(currentItem.payment_mode || "");
 

@@ -128,8 +128,27 @@ function BookingModal(props) {
 
 
 
+const labelMap = {
+    CARD: "Card",
+    CASH: "Cash",
+    UPI: "UPI",
+    BANK: "Bank",
+  };
 
+  const paymentOptions = Array.isArray(state.bankingDetails.bankingList)
+    ? state.bankingDetails?.bankingList?.map((item) => ({
+      value: String(item.bankingId),
+      label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
+    }))
+    : [];
+useEffect(() => {
+    if (state.bankingDetails.bankingList) {
 
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.bankingList]);
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
 
@@ -684,102 +703,69 @@ function BookingModal(props) {
                                </Form.Label>
              
              
-                               <Select
-                                 options={
-                                   Array.isArray(state.bankingDetails?.bankingList?.banks)
-                                     ? state.bankingDetails.bankingList.banks.map((item) => {
-                                       let label = "";
-                                       if (item.type === "bank") label = "Bank";
-                                       else if (item.type === "upi") label = "UPI";
-                                       else if (item.type === "card") label = "Card";
-                                       else if (item.type === "cash") label = "Cash";
-             
-                                       return {
-                                         value: item.id,
-                                         label: `${item.benificiary_name} - ${label}`,
-                                       };
-                                     })
-                                     : []
-                                 }
-                                 onChange={(selectedOption) =>
-                                   handleModeOfPaymentChange(selectedOption?.value)
-                                 }
-                                 value={
-                                   modeOfPayment
-                                     ? (() => {
-                                       const selected = state.bankingDetails?.bankingList?.banks.find(
-                                         (item) => item.id === modeOfPayment
-             
-                                       );
-                                       if (!selected) return null;
-             
-                                       const labelMap = {
-                                         bank: "Bank",
-                                         upi: "UPI",
-                                         card: "Card",
-                                         cash: "Cash",
-                                       };
-                                       return {
-                                         value: selected.id,
-                                         label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
-                                       };
-                                     })()
-                                     : null
-                                 }
-             
-                                 placeholder="Select Payment"
-                                 classNamePrefix="custom"
-                                //  isDisabled={currentItem}
-                                 styles={{
-                                   control: (base) => ({
-                                     ...base,
-                                     fontSize: 16,
-                                     color: "rgba(75, 75, 75, 1)",
-                                     fontFamily: "Gilroy",
-                                     fontWeight: modeOfPayment ? 600 : 500,
-                                     border: "1px solid #D9D9D9",
-                                     borderRadius: "8px",
-                                     boxShadow: "none",
-                                     height: 48,
-                                     cursor: "pointer",
-                                   }),
-                                   menu: (base) => ({
-                                     ...base,
-                                     backgroundColor: "#f8f9fa",
-                                     border: "1px solid #ced4da",
-                                     fontFamily: "Gilroy",
-                                   }),
-                                   menuList: (base) => ({
-                                     ...base,
-                                     backgroundColor: "#f8f9fa",
-                                     maxHeight: "120px",
-                                     padding: 0,
-                                     scrollbarWidth: "thin",
-                                     overflowY: "auto",
-                                     fontFamily: "Gilroy",
-                                   }),
-                                   placeholder: (base) => ({
-                                     ...base,
-                                     color: "#555",
-                                   }),
-                                   dropdownIndicator: (base) => ({
-                                     ...base,
-                                     color: "#555",
-                                     cursor: "pointer",
-                                   }),
-                                   option: (base, state) => ({
-                                     ...base,
-                                     cursor: "pointer",
-                                     backgroundColor: state.isFocused ? "lightblue" : "white",
-                                     color: "#000",
-                                     fontFamily: "Gilroy",
-                                   }),
-                                   indicatorSeparator: () => ({
-                                     display: "none",
-                                   }),
-                                 }}
-                                 noOptionsMessage={() => "No mode available"}
-                               />
+                              
+                          <Select
+                            options={paymentOptions}
+                            onChange={(selectedOption) =>
+                              handleModeOfPaymentChange(selectedOption?.value)
+                            }
+                            value={
+                              modeOfPayment
+                                ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                                : null
+                            }
+                            placeholder="Select Payment"
+                            // isDisabled={currentItem}
+                            noOptionsMessage={() => "No mode available"}
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                fontSize: 16,
+                                color: "rgba(75, 75, 75, 1)",
+                                fontFamily: "Gilroy",
+                                fontWeight: modeOfPayment ? 600 : 500,
+                                border: "1px solid #D9D9D9",
+                                borderRadius: "8px",
+                                boxShadow: "none",
+                                height: 48,
+                                cursor: "pointer",
+                              }),
+                              menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                border: "1px solid #ced4da",
+                                fontFamily: "Gilroy",
+                              }),
+                              menuList: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                maxHeight: "120px",
+                                padding: 0,
+                                scrollbarWidth: "thin",
+                                overflowY: "auto",
+                                fontFamily: "Gilroy",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                color: "#555",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                cursor: "pointer",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                cursor: "pointer",
+                                backgroundColor: state.isFocused ? "lightblue" : "white",
+                                color: "#000",
+                                fontFamily: "Gilroy",
+                              }),
+                              indicatorSeparator: () => ({
+                                display: "none",
+                              }),
+                            }}
+                          />
              
                              </Form.Group>
                              {paymentError && (

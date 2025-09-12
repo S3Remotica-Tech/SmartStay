@@ -273,7 +273,7 @@ function Banking() {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
       setFormLoading(false)
       setShowAccountTypeOptions(null);
-       dispatch({ type: "BANKINGLIST", payload: hostelId  });
+       dispatch({ type: "BANKINGLIST", payload: hostel_id  });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
       }, 1000);
@@ -284,7 +284,7 @@ function Banking() {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       setFormLoading(false)
       handleCloseAddBalance();
-       dispatch({ type: "BANKINGLIST", payload: hostelId  });
+       dispatch({ type: "BANKINGLIST", payload: hostel_id  });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
       }, 1000);
@@ -332,7 +332,7 @@ function Banking() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeDeleteBank === 200) {
       handleCloseDelete();
-     dispatch({ type: "BANKINGLIST", payload: hostelId  });
+     dispatch({ type: "BANKINGLIST", payload: hostel_id  });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING" });
       }, 1000);
@@ -366,7 +366,7 @@ function Banking() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDeleteTrans === 200) {
       handleCloseTransactionDelete();
-       dispatch({ type: "BANKINGLIST", payload: hostelId  });
+       dispatch({ type: "BANKINGLIST", payload: hostel_id  });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING_TRANSACTION" });
       }, 1000);
