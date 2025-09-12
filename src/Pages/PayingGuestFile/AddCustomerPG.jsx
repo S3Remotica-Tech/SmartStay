@@ -184,7 +184,7 @@ function AddCustomer({  show, handleClose   }) {
       } else if (input.length === 10) {
         setPhoneError("");
       }
-  
+      setphonenumError("");
       setPhoneErrorMessage("");
       dispatch({ type: "CLEAR_PHONE_ERROR" });
     };
@@ -1014,7 +1014,7 @@ function AddCustomer({  show, handleClose   }) {
                   {step === 2 && (
                     <>
                       <div className="row mt-2">
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                             <Form.Group className="">
                               <Form.Label
                                 style={{
@@ -1171,7 +1171,185 @@ function AddCustomer({  show, handleClose   }) {
                                 </span>
                               </div>
                             )}
-                          </div>
+                          </div> */}
+
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+  <Form.Group>
+    <Form.Label
+      style={{
+        fontSize: 14,
+        color: "#222222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      Flat , House no , Building , Company , Apartment
+    </Form.Label>
+    <FormControl
+      type="text"
+      id="form-controls"
+      placeholder="Enter House No"
+      value={house_no}
+      onChange={(e) => {
+        const value = e.target.value;
+        const regex = /^[a-zA-Z0-9\s,.-]*$/; // allow letters, numbers, space, comma, dot, dash
+        if (regex.test(value)) {
+          handleHouseNo(e);
+        }
+      }}
+      style={{
+        fontSize: 16,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+        height: 40,
+        borderRadius: 8,
+      }}
+    />
+  </Form.Group>
+  {house_noError && (
+    <div style={{ color: "red" }}>
+      <MdError
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: "13px",
+          marginRight: "5px",
+          marginBottom: "1px",
+        }}
+      />
+      <span
+        style={{
+          fontSize: "12px",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+      >
+        {house_noError}
+      </span>
+    </div>
+  )}
+</div>
+
+<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+  <Form.Group>
+    <Form.Label
+      style={{
+        fontSize: 14,
+        color: "#222222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      Area , Street , Sector , Village
+    </Form.Label>
+    <FormControl
+      type="text"
+      id="form-controls"
+      placeholder="Enter Street"
+      value={street}
+      onChange={(e) => {
+        const value = e.target.value;
+        const regex = /^[a-zA-Z\s,.-]*$/; // allow only letters, space, comma, dot, dash
+        if (regex.test(value)) {
+          handleStreetName(e);
+        }
+      }}
+      style={{
+        fontSize: 16,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+        height: 40,
+        borderRadius: 8,
+      }}
+    />
+  </Form.Group>
+  {streetError && (
+    <div style={{ color: "red" }}>
+      <MdError
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: "13px",
+          marginRight: "5px",
+          marginBottom: "1px",
+        }}
+      />
+      <span
+        style={{
+          fontSize: "12px",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+      >
+        {streetError}
+      </span>
+    </div>
+  )}
+</div>
+
+<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+  <Form.Group>
+    <Form.Label
+      style={{
+        fontSize: 14,
+        color: "#222222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      Landmark
+    </Form.Label>
+    <FormControl
+      type="text"
+      id="form-controls"
+      placeholder="E.g , near appollo hospital"
+      value={landmark}
+      onChange={(e) => {
+        const value = e.target.value;
+        const regex = /^[a-zA-Z\s,.]*$/;  
+        if (regex.test(value)) {
+          handleLandmark(e);
+        }
+      }}
+      style={{
+        fontSize: 16,
+        color: "#4B4B4B",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+        height: 40,
+        borderRadius: 8,
+      }}
+    />
+  </Form.Group>
+  {landmarkError && (
+    <div style={{ color: "red" }}>
+      <MdError
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: "13px",
+          marginRight: "5px",
+          marginBottom: "1px",
+        }}
+      />
+      <span
+        style={{
+          fontSize: "12px",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+      >
+        {landmarkError}
+      </span>
+    </div>
+  )}
+</div>
+
     
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <Form.Group
