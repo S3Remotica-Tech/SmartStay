@@ -236,6 +236,7 @@ function Asset() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
+      console.log("ASSETLIST")
       dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       setLoading(true)
     } else {
@@ -259,6 +260,7 @@ function Asset() {
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode === 200 || state.AssetList.deleteAssetStatusCode === 200 || state.AssetList.addAssignAssetStatusCode === 200) {
       setTimeout(() => {
+           console.log("ASSETLIST")
         dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       }, 100)
       setTimeout(() => {
@@ -349,7 +351,7 @@ function Asset() {
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([]);
       setSelectedPriceRange("All");
-
+   console.log("ASSETLIST")
       dispatch({
         type: 'ASSETLIST',
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -375,12 +377,15 @@ function Asset() {
     setFilterExcelPrice(value)
 
     if (value === "All") {
+         console.log("ASSETLIST")
       dispatch({
         type: 'ASSETLIST',
         payload: { hostel_id: state.login.selectedHostel_Id }
       });
     } else if (value === "date") {
+         console.log("ASSETLIST")
       dispatch({
+        
         type: 'ASSETLIST',
         payload: { hostel_id: state.login.selectedHostel_Id }
       });
@@ -388,6 +393,7 @@ function Asset() {
       setSelectedDateRange([]);
       setExcelDownloadDates([]);
     } else if (value) {
+         console.log("ASSETLIST")
       dispatch({
         type: 'ASSETLIST',
         payload: {
@@ -404,6 +410,7 @@ function Asset() {
 
   useEffect(() => {
     if (selectedPriceRange === "date" && ExcelFilterDates.length === 2) {
+         console.log("ASSETLIST")
       dispatch({
         type: 'ASSETLIST',
         payload: {
@@ -418,6 +425,7 @@ function Asset() {
 
   useEffect(() => {
     if (!showFilter) {
+         console.log("ASSETLIST")
       dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       setSelectedPriceRange('All');
       setSelectedDateRange([]);

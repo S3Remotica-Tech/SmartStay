@@ -193,10 +193,14 @@ function UserlistForm(props) {
   }, [selectedDate]);
 
   useEffect(() => {
-    dispatch({
+   if(hostel_Id){
+  dispatch({
+      
       type: "HOSTELDETAILLIST",
       payload: { hostel_Id: state.login.selectedHostel_Id },
     });
+   }
+  
   }, [hostel_Id]);
 
   useEffect(() => {

@@ -60,7 +60,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
         if (state.login.selectedHostel_Id) {
             dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
         }
-    }, []);
+    }, [state.login.selectedHostel_Id]);
+
      useEffect(() => {
       const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
       
@@ -94,29 +95,50 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
                 : 0;
 
 console.log("invoiceTotal",invoiceTotal)
-            if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-                const formattedFields = deduction_details.map((item) => ({
-                    reason_name: item.reason || "",
-                    amount: Number(item.amount) || 0,
-                    showInput: false,
-                }));
+            // if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+            //     const formattedFields = deduction_details.map((item) => ({
+            //         reason_name: item.reason || "",
+            //         amount: Number(item.amount) || 0,
+            //         showInput: false,
+            //     }));
            
             
-                formattedFields.unshift({
-                    reason_name: "DueAmount",
-                    amount: invoiceTotal,
-                    showInput: false,
-                });
+            //     formattedFields.unshift({
+            //         reason_name: "DueAmount",
+            //         amount: invoiceTotal,
+            //         showInput: false,
+            //     });
 
 
-                setFields(formattedFields);
-            //   setInvoieTotal(invoiceTotal);
-            } else {
-                setFields([
-                    { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
-                ]);
-                // setInvoieTotal(invoiceTotal);
-            }
+            //     setFields(formattedFields);
+            // //   setInvoieTotal(invoiceTotal);
+            // } else {
+            //     setFields([
+            //         { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
+            //     ]);
+               
+            // }
+            if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+    const formattedFields = deduction_details.map((item) => ({
+        reason_name: item.reason || "",
+        amount: Number(item.amount) || 0,
+        showInput: false,
+        isDefault: false, // backend la irunthu vanthathu illana false
+    }));
+
+    formattedFields.unshift({
+        reason_name: "DueAmount",
+        amount: invoiceTotal,
+        showInput: false,
+        isDefault: true, // Backend la irunthu vanthathu
+    });
+
+    setFields(formattedFields);
+} else {
+    setFields([
+        { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
+    ]);
+}
 const rentBalance =
   state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
     (item) => String(item.action).toLowerCase() === "rent"
@@ -246,12 +268,7 @@ const handleInputChange = (index, field, value) => {
 
 
 
-    useEffect(() => {
-        if (state.login.selectedHostel_Id) {
-            dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-        }
-    }, []);
-
+   
 
     useEffect(() => {
         if (state.UsersList.conformChekoutError) {
@@ -336,10 +353,20 @@ const handleTransactionId = (e) => {
       }
 
       const error = { reason: "", amount: "" };
-      if (reason_name && !item.amount) {
-        error.amount = "Please enter amount";
-        acc.hasError = true;
-      }
+    //   if (reason_name && !item.amount) {
+    //     error.amount = "Please enter amount";
+    //     acc.hasError = true;
+    //   }
+ if (reason_name) {
+  // Skip validation only if it's the default backend DueAmount
+  if (reason_name === "DueAmount" && item.isDefault) {
+    // No error
+  } else if (!item.amount || Number(item.amount) <= 0) {
+    error.amount = "Please enter amount";
+    acc.hasError = true;
+  }
+}
+
       if (!reason_name && item.amount) {
         error.reason = "Please enter reason";
         acc.hasError = true;
@@ -1761,15 +1788,16 @@ const handleTransactionId = (e) => {
 
                                                 <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                                   {item.reason_name !== "DueAmount" && (
-                                                        <Trash
-                                                            size="20"
-                                                            color="red"
-                                                            variant="Bold"
-                                                            style={{ cursor: "pointer" }}
-                                                            onClick={() => handleRemoveField(index)}
-                                                        />
-                                                   )}
+                                                {item.reason_name === "DueAmount" && !item.isDefault && (
+    <Trash
+        size="20"
+        color="red"
+        variant="Bold"
+        style={{ cursor: "pointer" }}
+        onClick={() => handleRemoveField(index)}
+    />
+)}
+
                                                    
                                                 </div>
                                             </div>

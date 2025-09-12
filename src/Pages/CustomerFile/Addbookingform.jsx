@@ -36,9 +36,29 @@ function BookingModal(props) {
   const [floor, setFloor] = useState('');
   const [bed, setBed] = useState('');
   const [formLoading, setFormLoading] = useState(false)
+  const [modeOfPayment, setModeOfPayment] = useState("");
+
+const [transactionId,setTransactionId] = useState("")
+const handleTransactionId = (e) => {
+  const value = e.target.value;
+  setTransactionId(value);
+};
 
 
+    useEffect(() => {
+        if (state.login.selectedHostel_Id) {
+            dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+        }
+    }, []);
 
+
+  const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+
+    setModeOfPayment(selectedOption);
+    setPaymentError("")
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  };
 
   useEffect(() => {
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
@@ -163,6 +183,7 @@ function BookingModal(props) {
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [file, setFile] = useState(null);
+  const [paymentError, setPaymentError] = useState("");
 
 
   const handleBookingDateChange = (date) => {
@@ -227,6 +248,13 @@ function BookingModal(props) {
       isValid = false;
     } else {
       setAmountError("");
+    }
+    if(!modeOfPayment){
+       setPaymentError("Please Select Mode Of Transaction");
+        isValid = false;
+    }
+    else {
+      setPaymentError("");
     }
 
 
@@ -582,6 +610,186 @@ function BookingModal(props) {
               )}
 
             </Col>
+             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                             <Form.Group
+                               
+                               controlId="exampleForm.ControlInput1"
+                             >
+                               <Form.Label
+                                 style={{
+                                   fontSize: 14,
+                                   color: "#222222",
+                                   fontFamily: "Gilroy",
+                                   fontWeight: 500,
+                                   marginTop: "5px",
+                                 }}
+                               >
+                                 Mode Of Transaction {" "}
+                                 <span
+                                   style={{
+                                     color: "#FF0000",
+                                     fontSize: "20px",
+                                   }}
+                                 >
+                                   *
+                                 </span>
+                               </Form.Label>
+             
+             
+                               <Select
+                                 options={
+                                   Array.isArray(state.bankingDetails?.bankingList?.banks)
+                                     ? state.bankingDetails.bankingList.banks.map((item) => {
+                                       let label = "";
+                                       if (item.type === "bank") label = "Bank";
+                                       else if (item.type === "upi") label = "UPI";
+                                       else if (item.type === "card") label = "Card";
+                                       else if (item.type === "cash") label = "Cash";
+             
+                                       return {
+                                         value: item.id,
+                                         label: `${item.benificiary_name} - ${label}`,
+                                       };
+                                     })
+                                     : []
+                                 }
+                                 onChange={(selectedOption) =>
+                                   handleModeOfPaymentChange(selectedOption?.value)
+                                 }
+                                 value={
+                                   modeOfPayment
+                                     ? (() => {
+                                       const selected = state.bankingDetails?.bankingList?.banks.find(
+                                         (item) => item.id === modeOfPayment
+             
+                                       );
+                                       if (!selected) return null;
+             
+                                       const labelMap = {
+                                         bank: "Bank",
+                                         upi: "UPI",
+                                         card: "Card",
+                                         cash: "Cash",
+                                       };
+                                       return {
+                                         value: selected.id,
+                                         label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
+                                       };
+                                     })()
+                                     : null
+                                 }
+             
+                                 placeholder="Select Payment"
+                                 classNamePrefix="custom"
+                                //  isDisabled={currentItem}
+                                 styles={{
+                                   control: (base) => ({
+                                     ...base,
+                                     fontSize: 16,
+                                     color: "rgba(75, 75, 75, 1)",
+                                     fontFamily: "Gilroy",
+                                     fontWeight: modeOfPayment ? 600 : 500,
+                                     border: "1px solid #D9D9D9",
+                                     borderRadius: "8px",
+                                     boxShadow: "none",
+                                     height: 48,
+                                     cursor: "pointer",
+                                   }),
+                                   menu: (base) => ({
+                                     ...base,
+                                     backgroundColor: "#f8f9fa",
+                                     border: "1px solid #ced4da",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   menuList: (base) => ({
+                                     ...base,
+                                     backgroundColor: "#f8f9fa",
+                                     maxHeight: "120px",
+                                     padding: 0,
+                                     scrollbarWidth: "thin",
+                                     overflowY: "auto",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   placeholder: (base) => ({
+                                     ...base,
+                                     color: "#555",
+                                   }),
+                                   dropdownIndicator: (base) => ({
+                                     ...base,
+                                     color: "#555",
+                                     cursor: "pointer",
+                                   }),
+                                   option: (base, state) => ({
+                                     ...base,
+                                     cursor: "pointer",
+                                     backgroundColor: state.isFocused ? "lightblue" : "white",
+                                     color: "#000",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   indicatorSeparator: () => ({
+                                     display: "none",
+                                   }),
+                                 }}
+                                 noOptionsMessage={() => "No mode available"}
+                               />
+             
+                             </Form.Group>
+                             {paymentError && (
+                               <div className="d-flex align-items-center p-1 mb-2">
+                                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
+                                 <label
+                                   className="mb-0"
+                                   style={{
+                                     color: "red",
+                                     fontSize: "12px",
+                                     fontFamily: "Gilroy",
+                                     fontWeight: 500,
+                                     whiteSpace: "nowrap"
+                                   }}
+                                 >
+                                   {paymentError}
+                                 </label>
+                               </div>
+                             )}
+                           </div>
+
+
+
+                              <Col md={6} style={{marginTop:10}}>
+              <Form.Group >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                 Transaction ID{" "}
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter Transaction ID"
+                 value={transactionId} 
+                 onChange={(e)=>handleTransactionId(e)} 
+                
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+
+             
+
+            </Col>
+            
           </Row>
 
           <Row>
