@@ -328,7 +328,9 @@ const handleTransactionId = (e) => {
         customer_Id: props.userDetail.ID,
         mob_no: props.userDetail.Phone,
         email: props.userDetail.Email,
-        profile: props.userDetail.profile
+        profile: props.userDetail.profile,
+        payment_mode:modeOfPayment,
+        transaction_id:transactionId
       },
     });
     setFormLoading(true)

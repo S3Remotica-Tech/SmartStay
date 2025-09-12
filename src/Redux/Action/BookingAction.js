@@ -68,6 +68,8 @@ export async function AddBooking(datum) {
   if (datum.bed_id) formData.append("bed_id", datum.bed_id)
   if (datum.customer_Id) formData.append("customer_Id", datum.customer_Id)
   if (datum.state) formData.append("state", datum.state)
+      if (datum.payment_mode) formData.append("payment_mode", datum.payment_mode)
+  if (datum.transaction_id) formData.append("transaction_id", datum.transaction_id)
     
  
 
