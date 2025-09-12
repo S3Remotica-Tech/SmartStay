@@ -54,7 +54,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+     
       dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
     }
   }, []);
@@ -102,14 +102,14 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [state.AssetList?.alreadySerialNumberHere])
 
   useEffect(() => {
-    if (state.bankingDetails.statusCodeForGetBanking === 200) {
+    if (state.bankingDetails.bankingList) {
 
       setBanking(state.bankingDetails.bankingList)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state.bankingDetails.statusCodeForGetBanking]);
+  }, [state.bankingDetails.bankingList]);
 
 
   const handleClose = () => {
