@@ -128,13 +128,13 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   }, []);
 
 useEffect(() => {
-    if (state.bankingDetails.bankingList) {
+    if (state.bankingDetails.bankingList.listBanks) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state.bankingDetails.bankingList]);
+  }, [state.bankingDetails.bankingList.listBanks]);
 
   const bookingcustomerRef = useRef();
   const dateRef = useRef();
@@ -200,8 +200,8 @@ const labelMap = {
     BANK: "Bank",
   };
 
-  const paymentOptions = Array.isArray(state.bankingDetails.bankingList)
-    ? state.bankingDetails?.bankingList?.map((item) => ({
+  const paymentOptions = Array.isArray(state.bankingDetails.bankingList.listBanks)
+    ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
       value: String(item.bankingId),
       label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
     }))
@@ -334,10 +334,7 @@ const labelMap = {
     const bookingDateForFormatted = formatDate(bookingDate);
 
 
-    // const userDetails = state.UsersList.Users.find(
-    //   (u) => u.ID === booking_customername
-    // );
-
+    
 
 
     dispatch({
@@ -351,6 +348,8 @@ const labelMap = {
         roomId: currentItem?.roomId,
         bedId: currentItem?.bedId,
         customerId: booking_customername,
+         bankId: modeOfPayment,
+        referenceNumber: transactionId
 
       },
     });
