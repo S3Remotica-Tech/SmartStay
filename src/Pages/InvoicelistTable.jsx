@@ -10,13 +10,8 @@ import PropTypes from "prop-types"
 
 const InvoiceTable = (props) => {
 
-
-
-
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
-
 
   const handleShowDots = (event) => {
     setShowDots(!showDots)
@@ -31,9 +26,8 @@ const InvoiceTable = (props) => {
   const handleShowform = (props) => {
     props.OnHandleshowform(props)
   }
+
   const handleEdit = (props) => {
-
-
     props.OnHandleshowEditform(props.item)
   }
 
@@ -44,23 +38,24 @@ const InvoiceTable = (props) => {
   const handleBillDelete = (props) => {
     props.OnHandleshowDeleteform(props)
   }
-  let Dated = new Date(props.item?.invoiceDate);
 
-  let day = Dated.getDate();
-  let month = Dated.getMonth() + 1;
-  let year = Dated.getFullYear();
+  // let Dated = new Date(props.item?.invoiceDate);
 
-  let formattedDate = `${day}/${month}/${year}`;
+  // let day = Dated.getDate();
+  // let month = Dated.getMonth() + 1;
+  // let year = Dated.getFullYear();
+
+  // let formattedDate = `${day}/${month}/${year}`;
 
 
 
-  let dueDated = new Date(props.item?.dueDate);
+  // let dueDated = new Date(props.item?.dueDate);
 
-  let daydue = dueDated.getDate();
-  let monthdue = dueDated.getMonth() + 1;
-  let yeardue = dueDated.getFullYear();
+  // let daydue = dueDated.getDate();
+  // let monthdue = dueDated.getMonth() + 1;
+  // let yeardue = dueDated.getFullYear();
 
-  let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
+  // let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
 
 
 
@@ -81,18 +76,13 @@ const InvoiceTable = (props) => {
 
 
   const handleDownload = (item) => {
-
     props.DisplayInvoice(true, item)
-
   }
-
-
 
 
   return (
 
     <>
-
       <tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
 
@@ -116,20 +106,9 @@ const InvoiceTable = (props) => {
         </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>{props.item.invoiceType === 'auto' ? "Recurring" : props.item.invoiceType}</td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 5 }}>{formattedDueDate}</span></td>
-        <td
-          style={{
-            border: "none",
-            textAlign: 'start',
-            verticalAlign: 'middle',
-            fontSize: 13,
-            fontWeight: 500,
-            color: "#000000",
-            fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
-          }}
-          className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'
-        >
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{props.item?.invoiceDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft: 5 }}>{props.item?.dueDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>
           ₹{Number(props.item?.invoiceAmount || 0).toLocaleString('en-IN')}
         </td>
 
@@ -147,45 +126,51 @@ const InvoiceTable = (props) => {
         >
           ₹{Number(props.item?.BalanceDue || 0).toLocaleString('en-IN')}
         </td>
+
         <td
-          style={{
-            border: "none",
-            textAlign: "start",
-            verticalAlign: "middle",
-            fontSize: 13,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            color: props.item?.paymentStatus === "Paid" ? "green" : "red", borderBottom: "1px solid #E8E8E8"
-          }}
-          className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'
-        >
-          {props.item?.paymentStatus === "PENDING" ? (
-            <span
-              style={{
-                backgroundColor: "#FFD9D9",
-                color: "#000",
-                borderRadius: "14px",
-                fontFamily: "Gilroy",
-                padding: "8px 12px",
-              }}
-            >
-              PENDING
-            </span>
-          ) : (
-            <span
-              style={{
-                cursor: "pointer",
-                backgroundColor: "#D9FFD9",
-                fontFamily: "Gilroy",
-                color: "#000",
-                borderRadius: "14px",
-                padding: "8px 12px",
-              }}
-            >
-              Paid
-            </span>
-          )}
-        </td>
+  style={{
+    border: "none",
+    textAlign: "start",
+    verticalAlign: "middle",
+    fontSize: 13,
+    fontWeight: 500,
+    fontFamily: "Gilroy",
+    color: props.item?.paymentStatus === "PAID" ? "green" : "red",
+    borderBottom: "1px solid #E8E8E8",
+  }}
+  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+>
+  {(props.item?.paymentStatus === "PENDING" ||
+    props.item?.paymentStatus === "PARTIAL_PAYMENT") && (
+    <span
+      style={{
+        backgroundColor: "#FFD9D9",
+        color: "#000",
+        borderRadius: "14px",
+        fontFamily: "Gilroy",
+        padding: "8px 12px",
+      }}
+    >
+      {props.item?.paymentStatus}
+    </span>
+  )}
+
+  {props.item?.paymentStatus === "PAID" && (
+    <span
+      style={{
+        cursor: "pointer",
+        backgroundColor: "#D9FFD9",
+        fontFamily: "Gilroy",
+        color: "#000",
+        borderRadius: "14px",
+        padding: "8px 12px",
+      }}
+    >
+      {props.item?.paymentStatus}
+    </span>
+  )}
+</td>
+
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
           <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>

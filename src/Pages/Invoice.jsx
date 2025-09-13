@@ -347,17 +347,17 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
   };
 
 
-  const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.banks)
-    ? state.bankingDetails.bankingList.banks.map((item) => {
+  const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.listBanks)
+    ? state.bankingDetails?.bankingList?.listBanks.map((item) => {
       let label = "";
-      if (item.type === "bank") label = "bank";
-      else if (item.type === "upi") label = "upi";
-      else if (item.type === "card") label = "Card";
-      else if (item.type === "cash") label = "cash";
+      if (item.accountType === "BANK") label = "BANK";
+      else if (item.accountType === "UPI") label = "UPI";
+      else if (item.accountType === "CARD") label = "CARD";
+      else if (item.accountType === "CASH") label = "CASH";
 
       return {
-        value: item.id,
-        label: `${item.benificiary_name} - ${label}`,
+        value: item?.bankingId,
+        label: `${item?.accountHolderName} - ${label}`,
       };
     })
     : [];
@@ -873,9 +873,10 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
   const handleShowForm = (props) => {
     setShowform(true);
     setInvoiceValue(props.item);
+    console.log("item" ,props.item );
+    
 
-
-    if (props.item.id !== undefined) {
+    if (props.item.invoiceId !== undefined) {
 
       const dateObject = new Date(props.item.Date);
       const year = dateObject.getFullYear();
@@ -887,37 +888,34 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
         lastDayOfMonth.getMonth() + 1
       ).padStart(2, "0")}-${String(lastDayOfMonth.getDate()).padStart(2, "0")}`;
 
-
-
-
-      let value = props.item.Name.split(" ");
-      setSelectedUserId(props.item.User_Id);
+      // let value = props.item.Name.split(" ");
+      setSelectedUserId(props.item.customerId);
       const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
         day
       ).padStart(2, "0")}`;
       setInvoiceList({
-        id: props.item.id,
-        firstName: value[0],
-        lastName: value[1],
-        phone: props.item.phoneNo,
-        email: props.item.EmailID,
-        hostel_Name: props.item.Hostel_Name,
-        hostel_Id: props.item.Hostel_Id,
-        FloorNo: props.item.Floor_Id,
-        RoomNo: props.item.Room_No,
+        id: props.item?.id,
+        firstName: props.item?.firstName,
+        lastName: props.item?.lastName,
+        phone: props.item?.phoneNo,
+        email: props.item?.EmailID,
+        hostel_Name: props.item?.Hostel_Name,
+        hostel_Id: props.item?.Hostel_Id,
+        FloorNo: props?.item?.Floor_Id,
+        RoomNo: props?.item?.Room_No,
         date: formattedDate,
-        amount: props.item.Amount,
-        paidAmount: props.item.PaidAmount,
-        balanceDue: props.item.BalanceDue === 0 ? "00" : props.item.BalanceDue,
+        amount: props.item?.invoiceAmount,
+        paidAmount: props.item?.paidAmount,
+        balanceDue: props.item?.invoiceAmount === 0 ? "00" : props.item?.invoiceAmount,
         dueDate: formattedDueDate,
-        InvoiceId: props.item.Invoices,
-        invoice_type: props.item.invoice_type,
+        InvoiceId: props.item?.invoiceId,
+        invoice_type: props.item?.invoiceType,
       });
 
     } else {
       setSelectedUserId("");
     }
-  };
+  }
 
   const handleCloseForm = () => {
 
@@ -1007,21 +1005,22 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       invoiceList.InvoiceId &&
       payableAmount &&
       invoiceList.transaction &&
-      formatpaiddate
+      formatpaiddate && hostelId
     ) {
-      dispatch({
-        type: "UPDATEINVOICEDETAILS",
-        payload: {
-          id: invoiceList.id,
-          invoice_id: invoiceList.InvoiceId,
-          invoice_type: 1,
-          amount: payableAmount,
-          balance_due: balance,
-          payment_by: invoiceList.transaction,
-          payment_date: formatpaiddate,
-          bank_id: account,
-        },
-      });
+    dispatch({
+  type: "RECORD_PAYMENT",
+  payload: {
+    hostelId: hostelId,   
+    invoiceId: invoiceList.InvoiceId, 
+    data: {
+      bankId:  invoiceList.transaction,                       
+      paymentDate: formatpaiddate,            
+      referenceId: "",   
+      amount: payableAmount                   
+    }
+  },
+});
+
 
 
 
@@ -2082,12 +2081,12 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
   useEffect(() => {
-    if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
+    if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       setPayableAmount("")
       setBalance("")
       setFormRecordLoading(false)
       setShowform(false)
- dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
+      dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
       dispatch({
         type: "RECEIPTSLIST",
@@ -2095,10 +2094,10 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       });
 
       setTimeout(() => {
-        dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
+        dispatch({ type: "CLEAR_RECORD_PAYMENT" });
       }, 300);
     }
-  }, [state.InvoiceList.UpdateInvoiceStatusCode]);
+  }, [state.InvoiceList.RecordPaymentUpdateStatusCode]);
 
   useEffect(() => {
     setBillRolePermission(state.createAccount.accountList);
