@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { CustomerRecurringEnableDisable, UnAssignAmenities, GetAssignAmenities, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, UpdateInvoice, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AmenitiesSettings, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
+import { CustomerRecurringEnableDisable, UnAssignAmenities, GetAssignAmenities, AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList, RecordPayment, InvoiceSettings, InvoicePDf, GetAmenities, UpdateAmenities, AmenitiesSettings, ManualInvoice, ManualInvoiceUserData, AddManualInvoiceBill, EditManualInvoiceBill, DeleteManualInvoiceBill, ManualInvoiceNumber, GetManualInvoices, RecurrInvoiceamountData, AddRecurringBill, GetRecurrBills, DeleteRecurrBills, InvoiceRecurringsettings, GetReceiptData, AddReceipt, ReferenceIdGet, DeleteReceipt, EditReceipt, ReceiptPDf, AddRecurrBillsUsers, GetBillsPdfDetails, ReceiptPDFNewChanges } from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -282,12 +282,13 @@ function* handleInvoiceList(action) {
    }
 }
 
-function* handleAddInvoiceDetails(param) {
+function* handleRecordPaymentUpdate(action) {
    try {
-      const response = yield call(UpdateInvoice, param.payload)
+       const {hostelId , invoiceId , data} = action.payload
+      const response = yield call(RecordPayment, hostelId , invoiceId , data )
 
       if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UPDATEINVOICE_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+         yield put({ type: 'RECORD-PAYMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
 
          var toastStyle = {
             backgroundColor: "#E6F6E6",
@@ -305,7 +306,7 @@ function* handleAddInvoiceDetails(param) {
 
          };
 
-         toast.success(response.data.message, {
+         toast.success(response.data, {
             position: "bottom-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -1438,7 +1439,7 @@ function refreshToken(response) {
 function* InvoiceSaga() {
    yield takeEvery('INVOICEITEM', handleinvoicelist)
    yield takeEvery('INVOICELIST', handleInvoiceList)
-   yield takeEvery('UPDATEINVOICEDETAILS', handleAddInvoiceDetails)
+   yield takeEvery('RECORD_PAYMENT', handleRecordPaymentUpdate)
    yield takeEvery('INVOICESETTINGS', handleInvoiceSettings)
    yield takeEvery('INVOICEPDF', handleInvoicePdf)
    yield takeEvery('AMENITIESSETTINGS', handleAmenitiesSettings)

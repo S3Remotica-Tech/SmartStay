@@ -12,10 +12,17 @@ export async function invoiceList(invoice) {
   })
 }
 
-export async function UpdateInvoice(datum) {
-  return await AxiosConfig.post('/transaction/list', datum, {
-    data: datum
-  })
+
+// v1 
+// export async function UpdateInvoice(datum) {
+//   return await AxiosConfig.post('/transaction/list', datum, {
+//     data: datum
+//   })
+// }
+
+// v2 
+export async function RecordPayment(hostelId, invoiceId, data) {
+  return await AxiosConfigV2.post( `/v2/transaction/${hostelId}/${invoiceId}`, data)
 }
 
 

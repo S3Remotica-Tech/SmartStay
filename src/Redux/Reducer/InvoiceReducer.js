@@ -19,7 +19,7 @@ export const initialState = {
     ManualInvoice: [],
     BillsErrorstatusCode: 0,
     manualInvoiceStatusCode: 0,
-    UpdateInvoiceStatusCode: 0,
+    RecordPaymentUpdateStatusCode: 0,
     ManualInvoiceNUmber: [],
     ManualInvoiceNumberError: '',
     unableAddInvoiceDetailsError:'',
@@ -157,14 +157,14 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, Invoice: action.payload.response, InvoiceListStatusCode: action.payload.statusCode }
         case 'CLEAR_INVOICE_LIST':
             return { ...state, InvoiceListStatusCode: 0, toTriggerPDF: true }
-        case 'UPDATEINVOICE_DETAILS':
+        case 'RECORD-PAYMENT':
             return {
-                ...state, UpdateInvoiceStatusCode:
+                ...state, RecordPaymentUpdateStatusCode:
                     action.payload.response.statusCode ||
                     action.payload.statusCode
             }
-        case 'CLEAR_INVOICE_UPDATE_LIST':
-            return { ...state, UpdateInvoiceStatusCode: 0, message: null }
+        case 'CLEAR_RECORD_PAYMENT':
+            return { ...state, RecordPaymentUpdateStatusCode: 0, message: null }
         case 'INVOICE_SETTINGS':
             return { ...state, prefix: action.payload.prefix, suffix: action.payload.suffix, profile: action.payload.profile, invoiceSettingsStatusCode: action.payload.statusCode }
         case 'CLEAR_INVOICE_SETTINS_STATUSCODE':
