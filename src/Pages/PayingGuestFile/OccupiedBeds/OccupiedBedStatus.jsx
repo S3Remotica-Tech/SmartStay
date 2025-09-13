@@ -10,7 +10,6 @@ import { LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
 import { FiCalendar, } from "react-icons/fi";
-import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -24,10 +23,10 @@ function OccupiedBedStatus({
     handleShowNoticePeriod
 }) {
 
-console.log("currentItem",currentItem)
 
-    const state = useSelector(state => state)
-    const dispatch = useDispatch();
+
+    // const state = useSelector(state => state)
+    // const dispatch = useDispatch();
 
     // const [customer, setCustomer] = useState([])
     const [showDots, setShowDots] = useState('')

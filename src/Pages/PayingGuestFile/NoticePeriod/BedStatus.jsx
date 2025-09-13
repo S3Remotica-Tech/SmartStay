@@ -28,21 +28,20 @@ function NoticeBedStatusDetails({
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-  const [customer, setCustomer] = useState([])
-  const [customerId, setCustomerId] = useState("")
+  // const [customer, setCustomer] = useState([])
+  // const [customerId, setCustomerId] = useState("")
 
   const [showDots, setShowDots] = useState('')
   const [activeRoomId, setActiveRoomId] = useState(null);
   const [recheckin, setRecheckin] = useState(false)
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
-  const [customer_details, setCustomerDetails] = useState({})
+  // const [customer_details, setCustomerDetails] = useState({})
 
   const popupRef = useRef(null);
 
 
 
-  console.log(currentItem, "currentItem")
 
 
 
@@ -80,20 +79,20 @@ function NoticeBedStatusDetails({
 
   const handleCheckout = () => {
 
-    showNoticeperiodCheckout(true, customerId)
+    showNoticeperiodCheckout(true)
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
-      payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+      // payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
     });
 
 
   }
 
   const handleFinalsettelmentGenerate = () => {
-    showfinalsettelemnet(true, customerId)
+    showfinalsettelemnet(true)
     dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
-      payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+      // payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
     });
   }
 
@@ -132,31 +131,31 @@ function NoticeBedStatusDetails({
     }
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
-  useEffect(() => {
-    const usersList = state?.UsersList?.Users;
-    const userDetails = customer;
+  // useEffect(() => {
+  //   const usersList = state?.UsersList?.Users;
+  //   const userDetails = customer;
 
 
-    const ParticularcustomerDetails = userDetails.filter((user) => user.RoomRent > 0)
+  //   const ParticularcustomerDetails = userDetails.filter((user) => user.RoomRent > 0)
 
-    setCustomerId(ParticularcustomerDetails[0]?.id)
+  //   setCustomerId(ParticularcustomerDetails[0]?.id)
 
 
-    if (
-      Array.isArray(usersList) &&
-      Array.isArray(ParticularcustomerDetails) &&
-      usersList.length > 0 &&
-      ParticularcustomerDetails.length > 0
-    ) {
-      const targetUserId = ParticularcustomerDetails[0]?.User_Id?.trim()?.toLowerCase();
+  //   if (
+  //     Array.isArray(usersList) &&
+  //     Array.isArray(ParticularcustomerDetails) &&
+  //     usersList.length > 0 &&
+  //     ParticularcustomerDetails.length > 0
+  //   ) {
+  //     const targetUserId = ParticularcustomerDetails[0]?.User_Id?.trim()?.toLowerCase();
 
-      const foundCustomer = usersList.find(
-        (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
-      );
+  //     const foundCustomer = usersList.find(
+  //       (user) => user.User_Id?.trim()?.toLowerCase() === targetUserId
+  //     );
 
-      setCustomerDetails(foundCustomer || null);
-    }
-  }, [state?.UsersList?.Users, customer]);
+  //     setCustomerDetails(foundCustomer || null);
+  //   }
+  // }, [state?.UsersList?.Users, customer]);
 
 
 
@@ -397,7 +396,7 @@ function NoticeBedStatusDetails({
 
       {
         bactocheckinForm && <UserlistForm setBacktoCheckInForm={setBacktoCheckInForm} bactocheckinForm={bactocheckinForm}
-          customer_details={customer_details}
+          // customer_details={customer_details}
           handleCloseBed={handleCloseBed} recheckin={recheckin}
         />
       }
@@ -410,7 +409,8 @@ NoticeBedStatusDetails.propTypes = {
   show: PropTypes.func.isRequired,
   currentItem: PropTypes.func.isRequired,
   showNoticeperiodCheckout: PropTypes.func.isRequired,
-  showBooking: PropTypes.func.isRequired
+  showBooking: PropTypes.func.isRequired,
+  showfinalsettelemnet: PropTypes.func.isRequired
 
 };
 export default NoticeBedStatusDetails;

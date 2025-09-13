@@ -21,7 +21,7 @@ import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    const [file, setFile] = useState(null);
+    // const [file, setFile] = useState(null);
     const [activeTab, setActiveTab] = useState("LONG");
     const [formLoading, setFormLoading] = useState(false)
 
@@ -38,6 +38,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const [advanceAmountError, setAdvanceAmountError] = useState("");
     const [RoomRent, setRoomRent] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
+    const [errors, setErrors] = useState('')
 
      const reasonOptions = [
         { value: "maintenance", label: "Maintenance" },
@@ -196,47 +197,47 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
         const dueDateObj = new Date(invoiceDateObj);
         dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
-        const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+        // const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
-        const capitalizeFirstLetter = (str) => {
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        };
+        // const capitalizeFirstLetter = (str) => {
+        //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        // };
 
-        const capitalizedFirstname = capitalizeFirstLetter(firstname);
+        // const capitalizedFirstname = capitalizeFirstLetter(firstname);
 
-        const capitalizedLastname = capitalizeFirstLetter(lastname);
+        // const capitalizedLastname = capitalizeFirstLetter(lastname);
 
 
         setErrors(newErrors)
 
-        const formattedReasons = fields.map((item) => {
-            let reason_name = "";
+        // const formattedReasons = fields.map((item) => {
+        //     let reason_name = "";
 
-            if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-                reason_name = item.customReason || item["custom Reason"] || "";
-            } else {
-                reason_name = item.reason || item.reason_name || "";
-            }
+        //     if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+        //         reason_name = item.customReason || item["custom Reason"] || "";
+        //     } else {
+        //         reason_name = item.reason || item.reason_name || "";
+        //     }
 
-            const error = { reason: "", amount: "" };
-            if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-                error.amount = "Please enter amount";
-                hasReasonAmountError = true;
-            }
+        //     const error = { reason: "", amount: "" };
+        //     if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+        //         error.amount = "Please enter amount";
+        //         hasReasonAmountError = true;
+        //     }
 
 
-            if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-                error.reason = "Please enter reason";
-                hasReasonAmountError = true;
-            }
+        //     if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+        //         error.reason = "Please enter reason";
+        //         hasReasonAmountError = true;
+        //     }
 
-            newErrors.push(error);
-            return {
-                reason_name,
-                amount: item.amount || "",
-                showInput: !!item.showInput
-            };
-        });
+        //     newErrors.push(error);
+        //     return {
+        //         reason_name,
+        //         amount: item.amount || "",
+        //         showInput: !!item.showInput
+        //     };
+        // });
 
 
         if (hasReasonAmountError) return;

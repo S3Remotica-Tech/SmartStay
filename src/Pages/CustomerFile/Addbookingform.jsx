@@ -498,7 +498,7 @@ useEffect(() => {
                 src={
                   file
                     ? (typeof file === "string" ? file : URL.createObjectURL(file))
-                    : (props.userDetail?.profilePic && props.userDetail.profilePic.trim() !== ""
+                    : (props.userDetail?.profilePic && props.userDetail.profilePic !== ""
                       ? props.userDetail.profilePic
                       : Profiles)
                 }
@@ -1423,7 +1423,11 @@ BookingModal.propTypes = {
     Phone: PropTypes.string,
     Email: PropTypes.string,
     profile: PropTypes.string,
-    Name: PropTypes.string
+    Name: PropTypes.string,
+    customerId: PropTypes.string,
+    profilePic:PropTypes.string,
+    firstName:PropTypes.string,
+
   }).isRequired
 };
 

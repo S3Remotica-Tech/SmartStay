@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
-import Select from "react-select";
+// import Select from "react-select";
 import "./ParticularHostelDetails.css";
 import BedDetailsMap from './BedDetailsMap';
 

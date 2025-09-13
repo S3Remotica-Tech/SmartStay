@@ -95,7 +95,7 @@ const ComplianceList = (props) => {
 
 
   const [customer_Id, setCustomer_Id] = useState("");
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [profile, setProfile] = useState("");
 
@@ -103,7 +103,7 @@ const ComplianceList = (props) => {
     
     setCustomer_Id(item.complaintId);
     setShowCard(true);
-    setName(item.Name);
+    // setName(item.Name);
     let Dated = new Date(item.complaintDate);
 
     let day = Dated.getDate();

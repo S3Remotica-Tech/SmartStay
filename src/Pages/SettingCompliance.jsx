@@ -12,7 +12,6 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingCompliance.css";
-import Select from "react-select";
 import { toast } from 'react-toastify';
 
 function SettingCompliance({ hostelid }) {

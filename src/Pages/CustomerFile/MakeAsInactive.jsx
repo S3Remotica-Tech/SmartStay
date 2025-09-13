@@ -1,64 +1,65 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
-import { Table, Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useDispatch, useSelector } from "react-redux";
-import Swal from "sweetalert2";
-import Image from "react-bootstrap/Image";
-import UserlistForm from "./UserlistForm";
-import UserListRoomDetail from "./UserListRoomDetail";
+import { useDispatch} from "react-redux";
+// import Swal from "sweetalert2";
+// import Image from "react-bootstrap/Image";
+// import UserlistForm from "./UserlistForm";
+// import UserListRoomDetail from "./UserListRoomDetail";
 import Modal from "react-bootstrap/Modal";
-import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import closecircle from "../../Assets/Images/New_images/close-circle.png";
-import Box from "@mui/material/Box";
-import TabList from "@mui/lab/TabList";
-import excelimg from "../../Assets/Images/New_images/excel_blue.png";
-import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
+// import Emptystate from "../../Assets/Images/Empty-State.jpg";
+// import closecircle from "../../Assets/Images/New_images/close-circle.png";
+// import Box from "@mui/material/Box";
+// import TabList from "@mui/lab/TabList";
+// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
+// import CustomerReAssign from "./CustomerReAssign";
+// import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import TabPanel from "@mui/lab/TabPanel";
-import TabContext from "@mui/lab/TabContext";
-import Tab from "@mui/material/Tab";
-import UserlistBookings from "./UserlistBookings";
-import UserlistCheckout from "./UserlistCheckout";
-import UserlistWalkin from "./UserlistWalkin";
-import Addbooking from "./Addbookingform";
-import CheckOutForm from "./UserListCheckoutForm";
-import UserlistWalkinForm from "./UserlistWalkinForm";
+// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+// import TabPanel from "@mui/lab/TabPanel";
+// import TabContext from "@mui/lab/TabContext";
+// import Tab from "@mui/material/Tab";
+// import UserlistBookings from "./UserlistBookings";
+// import UserlistCheckout from "./UserlistCheckout";
+// import UserlistWalkin from "./UserlistWalkin";
+// import Addbooking from "./Addbookingform";
+// import CheckOutForm from "./UserListCheckoutForm";
+// import UserlistWalkinForm from "./UserlistWalkinForm";
 // import Edit from "../../Assets/Images/Edit-blue.png";
-import addcircle from "../../Assets/Images/New_images/add-circle.png";
-import searchteam from "../../Assets/Images/New_images/Search Team.png";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
+// import addcircle from "../../Assets/Images/New_images/add-circle.png";
+// import searchteam from "../../Assets/Images/New_images/Search Team.png";
+// import useMediaQuery from "@mui/material/useMediaQuery";
+// import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
-import CustomerCheckout from "./CustomerCheckout";
+// import CustomerCheckout from "./CustomerCheckout";
 import "react-datepicker/dist/react-datepicker.css";
-import { toast } from "react-toastify";
-import Closebtn from "../../Assets/Images/CloseCircle.png";
-import Calendars from "../../Assets/Images/New_images/calendar.png";
+// import { toast } from "react-toastify";
+// import Closebtn from "../../Assets/Images/CloseCircle.png";
+// import Calendars from "../../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import moment from 'moment';
-import Filters from "../../Assets/Images/Filters.svg";
+// import moment from 'moment';
+// import Filters from "../../Assets/Images/Filters.svg";
 import isBetween from "dayjs/plugin/isBetween";
-import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import leftarrow from "../../Assets/Images/arrow-left.png";
-import Select from "react-select";
+// import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+// import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+// import leftarrow from "../../Assets/Images/arrow-left.png";
+// import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
+
 
 
 
 function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 
 
-    const state = useSelector((state) => state);
+    // const state = useSelector((state) => state);
 
-console.log("inActiveDetails",inActiveDetails)
-    const { RangePicker } = DatePicker;
+
+    // const { RangePicker } = DatePicker;
     dayjs.extend(isBetween);
     const dispatch = useDispatch();
     const [formLoading, setFormLoading] = useState(false)
@@ -311,6 +312,16 @@ console.log("inActiveDetails",inActiveDetails)
 
         </Modal>
     )
+}
+MakeAsInactive.propTypes = {
+  show: PropTypes.func.isRequired,
+  handleCloseInActive: PropTypes.func.isRequired,
+  inActiveDetails: PropTypes.shape({
+    profilePic: PropTypes.string,
+    firstName: PropTypes.string,
+    bookedAt: PropTypes.string,
+  }).isRequired,
+  
 }
 
 export default MakeAsInactive

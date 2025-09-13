@@ -175,7 +175,21 @@ function* handleComplianceadd(params) {
 function* handleEditComplaint(action) {
   try {
     const response = yield call(EditComplaint, action.payload);
+  var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
+      };
     if (response.status === 200) {
       yield put({ type: "EDIT_COMPLAINT_SUCCESS",  payload: { response: response.data, statusCode: response.status || response.data.statusCode }  });
       

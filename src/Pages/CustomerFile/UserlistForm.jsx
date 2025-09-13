@@ -26,65 +26,63 @@ function UserlistForm(props) {
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [Phone, setPhone] = useState("");
-  const [hostel_Id, setHostel_Id] = useState("");
-  const [HostelName, setHostelName] = useState("");
+  // const [Phone, setPhone] = useState("");
+  // const [hostel_Id, setHostel_Id] = useState("");
+  // const [HostelName, setHostelName] = useState("");
   const [Floor, setFloor] = useState("");
   const [Rooms, setRooms] = useState("");
   const [Bed, setBed] = useState("");
   const [RoomRent, setRoomRent] = useState("");
-  const [BalanceDue, setBalanceDue] = useState("");
-  const [PaymentType, setPaymentType] = useState("");
+  // const [BalanceDue, setBalanceDue] = useState("");
+  // const [PaymentType, setPaymentType] = useState("");
   const [AdvanceAmount, setAdvanceAmount] = useState("");
-  const [paid_advance, setPaidAdvance] = useState("");
-  const [paid_rent, setPaidrent] = useState("");
-  const [Email, setEmail] = useState("");
-  const [AadharNo, setAadharNo] = useState("");
-  const [PancardNo, setPancardNo] = useState("");
-  const [licence, setLicence] = useState("");
-  const [house_no, setHouseNo] = useState("");
-  const [street, setStreet] = useState("");
-  const [landmark, setLandmark] = useState("");
-  const [pincode, setPincode] = useState("");
-  const [city, setCity] = useState("");
-  const [state_name, setStateName] = useState("");
-  const [payableamount, setPayableamount] = useState("");
+  // const [paid_advance, setPaidAdvance] = useState("");
+  // const [paid_rent, setPaidrent] = useState("");
+  // const [Email, setEmail] = useState("");
+  // const [AadharNo, setAadharNo] = useState("");
+  // const [PancardNo, setPancardNo] = useState("");
+  // const [licence, setLicence] = useState("");
+  // const [house_no, setHouseNo] = useState("");
+  // const [street, setStreet] = useState("");
+  // const [landmark, setLandmark] = useState("");
+  // const [pincode, setPincode] = useState("");
+  // const [city, setCity] = useState("");
+  // const [state_name, setStateName] = useState("");
+  // const [payableamount, setPayableamount] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [floorError, setfloorError] = useState("");
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
-  const [firstnameError, setFirstnameError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [phonenumError, setphonenumError] = useState("");
-  const [emailIdError, setemailIdError] = useState("");
-  const [house_noError, setHouse_NoError] = useState("");
-  const [streetError, setStreetError] = useState("");
-  const [landmarkError, setLandmarkError] = useState("");
-  const [pincodeError, setPincodeError] = useState("");
-  const [cityError, setCityError] = useState("");
-  const [state_nameError, setStateNameError] = useState("");
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  
+  // const [phonenumError, setphonenumError] = useState("");
+  // const [emailIdError, setemailIdError] = useState("");
+  // const [house_noError, setHouse_NoError] = useState("");
+  // const [streetError, setStreetError] = useState("");
+  // const [landmarkError, setLandmarkError] = useState("");
+  // const [pincodeError, setPincodeError] = useState("");
+  // const [cityError, setCityError] = useState("");
+  // const [state_nameError, setStateNameError] = useState("");
+  // const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  // const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
 
   const [loading, setLoading] = useState(false)
-  const countryCode = "91";
+  // const countryCode = "91";
   const [errors, setErrors] = useState([]);
   const [reason, setReason] = useState("");
   const [recheckInDate, setRecheckInDate] = useState("");
   const [activeTab, setActiveTab] = useState("LONG");
-  const [floor_name, setFloorName] = useState("")
-  const [room_name, setRoomName] = useState("")
-  const [bed_name, setBedName] = useState("")
-  const firstnameRef = useRef(null);
-  const phoneRef = useRef(null);
-  const cityRef = useRef(null);
-  const pincodeRef = useRef(null);
-  const stateRef = useRef(null);
+  // const [floor_name, setFloorName] = useState("")
+  // const [room_name, setRoomName] = useState("")
+  // const [bed_name, setBedName] = useState("")
+  // const firstnameRef = useRef(null);
+  // const phoneRef = useRef(null);
+  // const cityRef = useRef(null);
+  // const pincodeRef = useRef(null);
+  // const stateRef = useRef(null);
 
 
 const [availableBed, setAvailableBed] = useState('')
@@ -97,63 +95,63 @@ const [bedWarning, setBedWarning] = useState('')
 
 
 
-  const indianStates = [
-    { value: "Tamil Nadu", label: "Tamil Nadu" },
-    { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-    { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-    { value: "Assam", label: "Assam" },
-    { value: "Bihar", label: "Bihar" },
-    { value: "Chhattisgarh", label: "Chhattisgarh" },
-    { value: "Goa", label: "Goa" },
-    { value: "Gujarat", label: "Gujarat" },
-    { value: "Haryana", label: "Haryana" },
-    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-    { value: "Jharkhand", label: "Jharkhand" },
-    { value: "Karnataka", label: "Karnataka" },
-    { value: "Kerala", label: "Kerala" },
-    { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-    { value: "Maharashtra", label: "Maharashtra" },
-    { value: "Manipur", label: "Manipur" },
-    { value: "Meghalaya", label: "Meghalaya" },
-    { value: "Mizoram", label: "Mizoram" },
-    { value: "Nagaland", label: "Nagaland" },
-    { value: "Odisha", label: "Odisha" },
-    { value: "Punjab", label: "Punjab" },
-    { value: "Rajasthan", label: "Rajasthan" },
-    { value: "Sikkim", label: "Sikkim" },
+  // const indianStates = [
+  //   { value: "Tamil Nadu", label: "Tamil Nadu" },
+  //   { value: "Andhra Pradesh", label: "Andhra Pradesh" },
+  //   { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
+  //   { value: "Assam", label: "Assam" },
+  //   { value: "Bihar", label: "Bihar" },
+  //   { value: "Chhattisgarh", label: "Chhattisgarh" },
+  //   { value: "Goa", label: "Goa" },
+  //   { value: "Gujarat", label: "Gujarat" },
+  //   { value: "Haryana", label: "Haryana" },
+  //   { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+  //   { value: "Jharkhand", label: "Jharkhand" },
+  //   { value: "Karnataka", label: "Karnataka" },
+  //   { value: "Kerala", label: "Kerala" },
+  //   { value: "Madhya Pradesh", label: "Madhya Pradesh" },
+  //   { value: "Maharashtra", label: "Maharashtra" },
+  //   { value: "Manipur", label: "Manipur" },
+  //   { value: "Meghalaya", label: "Meghalaya" },
+  //   { value: "Mizoram", label: "Mizoram" },
+  //   { value: "Nagaland", label: "Nagaland" },
+  //   { value: "Odisha", label: "Odisha" },
+  //   { value: "Punjab", label: "Punjab" },
+  //   { value: "Rajasthan", label: "Rajasthan" },
+  //   { value: "Sikkim", label: "Sikkim" },
 
-    { value: "Telangana", label: "Telangana" },
-    { value: "Tripura", label: "Tripura" },
-    { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-    { value: "Uttarakhand", label: "Uttarakhand" },
-    { value: "West Bengal", label: "West Bengal" },
-    {
-      value: "Andaman and Nicobar Islands",
-      label: "Andaman and Nicobar Islands",
-    },
-    { value: "Chandigarh", label: "Chandigarh" },
-    {
-      value: "Dadra and Nagar Haveli and Daman and Diu",
-      label: "Dadra and Nagar Haveli and Daman and Diu",
-    },
-    { value: "Delhi", label: "Delhi" },
-    { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-    { value: "Ladakh", label: "Ladakh" },
-    { value: "Lakshadweep", label: "Lakshadweep" },
-    { value: "Puducherry", label: "Puducherry" },
-  ];
+  //   { value: "Telangana", label: "Telangana" },
+  //   { value: "Tripura", label: "Tripura" },
+  //   { value: "Uttar Pradesh", label: "Uttar Pradesh" },
+  //   { value: "Uttarakhand", label: "Uttarakhand" },
+  //   { value: "West Bengal", label: "West Bengal" },
+  //   {
+  //     value: "Andaman and Nicobar Islands",
+  //     label: "Andaman and Nicobar Islands",
+  //   },
+  //   { value: "Chandigarh", label: "Chandigarh" },
+  //   {
+  //     value: "Dadra and Nagar Haveli and Daman and Diu",
+  //     label: "Dadra and Nagar Haveli and Daman and Diu",
+  //   },
+  //   { value: "Delhi", label: "Delhi" },
+  //   { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
+  //   { value: "Ladakh", label: "Ladakh" },
+  //   { value: "Lakshadweep", label: "Lakshadweep" },
+  //   { value: "Puducherry", label: "Puducherry" },
+  // ];
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
 
-  const handleImageChange = async (event) => {
-    const fileImage = event.target.files[0];
-    if (fileImage) {
-      setFile(fileImage)
-    }
-  };
+  // const handleImageChange = async (event) => {
+  //   const fileImage = event.target.files[0];
+  //   if (fileImage) {
+  //     setFile(fileImage)
+  //   }
+  // };
 
 
   const handleRemoveField = (index) => {
@@ -210,91 +208,91 @@ const [bedWarning, setBedWarning] = useState('')
 
   }, [state.UsersList.floorListStatusCode])
 
-  const handleFirstName = (e) => {
-    const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
-    setFirstname(value);
-    setFirstnameError("");
-  };
+  // const handleFirstName = (e) => {
+  //   const value = e.target.value;
+  //   const pattern = /^[a-zA-Z\s]*$/;
+  //   if (!pattern.test(value)) {
+  //     return;
+  //   }
+  //   setFirstname(value);
+  //   setFirstnameError("");
+  // };
 
-  useEffect(() => {
-    if (state.UsersList.phoneError) {
-      setFormLoading(false)
-      setLoading(false)
-      setphonenumError(state.UsersList.phoneError);
-    }
-  }, [state.UsersList.phoneError]);
+  // useEffect(() => {
+  //   if (state.UsersList.phoneError) {
+  //     setFormLoading(false)
+  //     setLoading(false)
+  //     setphonenumError(state.UsersList.phoneError);
+  //   }
+  // }, [state.UsersList.phoneError]);
 
-  useEffect(() => {
-    if (state.UsersList.emailError) {
-      setFormLoading(false)
-      setLoading(false)
-      setemailIdError(state.UsersList.emailError);
-    }
-  }, [state.UsersList.emailError]);
-
-
+  // useEffect(() => {
+  //   if (state.UsersList.emailError) {
+  //     setFormLoading(false)
+  //     setLoading(false)
+  //     setemailIdError(state.UsersList.emailError);
+  //   }
+  // }, [state.UsersList.emailError]);
 
 
-  const handleLastName = (e) => {
-    const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
 
-    if (!pattern.test(value)) {
-      return;
-    }
-    setLastname(value);
-  };
 
-  const handlePhone = (e) => {
-    const input = e.target.value.replace(/\D/g, "");
-    setPhone(input);
+  // const handleLastName = (e) => {
+  //   const value = e.target.value;
+  //   const pattern = /^[a-zA-Z\s]*$/;
 
-    if (input.length === 0) {
-      setPhoneError("");
-    } else if (input.length < 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-    } else if (input.length === 10) {
-      setPhoneError("");
-    }
+  //   if (!pattern.test(value)) {
+  //     return;
+  //   }
+  //   setLastname(value);
+  // };
 
-    setPhoneErrorMessage("");
-    setphonenumError("")
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-  };
+  // const handlePhone = (e) => {
+  //   const input = e.target.value.replace(/\D/g, "");
+  //   setPhone(input);
 
-  const handleEmail = (e) => {
-    const emailValue = e.target.value.toLowerCase();
-    setEmail(emailValue);
+  //   if (input.length === 0) {
+  //     setPhoneError("");
+  //   } else if (input.length < 10) {
+  //     setPhoneError("Please Enter Valid Mobile Number");
+  //   } else if (input.length === 10) {
+  //     setPhoneError("");
+  //   }
 
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    const isValidEmail = emailRegex.test(emailValue);
-    if (!emailValue) {
-      setEmailError("");
-      setEmailErrorMessage("");
-    } else if (!isValidEmail) {
-      setEmailErrorMessage("");
-      setEmailError("Please Enter  Valid Email Id");
-    } else {
-      setEmailError("");
-      setEmailErrorMessage("");
-    }
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    setemailIdError("")
-  };
+  //   setPhoneErrorMessage("");
+  //   setphonenumError("")
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  // };
 
-  useEffect(() => {
-    const selectedHostel =
-      state.UsersList.hostelList &&
-      state.UsersList.hostelList?.filter(
-        (item) => item.id === state.login.selectedHostel_Id
-      );
-    setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-    setHostel_Id(state.login.selectedHostel_Id);
-  }, []);
+  // const handleEmail = (e) => {
+  //   const emailValue = e.target.value.toLowerCase();
+  //   setEmail(emailValue);
+
+  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //   const isValidEmail = emailRegex.test(emailValue);
+  //   if (!emailValue) {
+  //     setEmailError("");
+  //     setEmailErrorMessage("");
+  //   } else if (!isValidEmail) {
+  //     setEmailErrorMessage("");
+  //     setEmailError("Please Enter  Valid Email Id");
+  //   } else {
+  //     setEmailError("");
+  //     setEmailErrorMessage("");
+  //   }
+  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
+  //   setemailIdError("")
+  // };
+
+  // useEffect(() => {
+  //   const selectedHostel =
+  //     state.UsersList.hostelList &&
+  //     state.UsersList.hostelList?.filter(
+  //       (item) => item.id === state.login.selectedHostel_Id
+  //     );
+  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
+  //   setHostel_Id(state.login.selectedHostel_Id);
+  // }, []);
 
 
 
@@ -349,24 +347,24 @@ const [bedWarning, setBedWarning] = useState('')
         case "RoomRent":
           setRoomRentError("");
           break;
-        case "Houseno":
-          setHouse_NoError("");
-          break;
-        case "Street":
-          setStreetError("");
-          break;
-        case "Landmark":
-          setLandmarkError("");
-          break;
-        case "City":
-          setCityError("");
-          break;
-        case "Pincode":
-          setPincodeError("");
-          break;
-        case "Statename":
-          setStateNameError("");
-          break;
+        // case "Houseno":
+        //   setHouse_NoError("");
+        //   break;
+        // case "Street":
+        //   setStreetError("");
+        //   break;
+        // case "Landmark":
+        //   setLandmarkError("");
+        //   break;
+        // case "City":
+        //   setCityError("");
+        //   break;
+        // case "Pincode":
+        //   setPincodeError("");
+        //   break;
+        // case "Statename":
+        //   setStateNameError("");
+        //   break;
         default:
           break;
       }
@@ -471,91 +469,91 @@ const handleBed = (selectedOption) => {
     setAdvanceAmountError("");
   };
 
-  const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
-    setHouse_NoError("");
-  };
+  // const handleHouseNo = (e) => {
+  //   setHouseNo(e.target.value);
+  //   setHouse_NoError("");
+  // };
 
-  const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
-  };
+  // const handleStreetName = (e) => {
+  //   setStreet(e.target.value);
+  //   setStreetError("");
+  // };
 
-  const handleLandmark = (e) => {
-    setLandmark(e.target.value);
-    setLandmarkError("");
-  };
+  // const handleLandmark = (e) => {
+  //   setLandmark(e.target.value);
+  //   setLandmarkError("");
+  // };
 
-  const handlePinCodeChange = (e) => {
-    const value = e.target.value;
-    if (!/^\d{0,6}$/.test(value)) {
-      return;
-    }
+  // const handlePinCodeChange = (e) => {
+  //   const value = e.target.value;
+  //   if (!/^\d{0,6}$/.test(value)) {
+  //     return;
+  //   }
 
-    setPincode(value);
-    if (value.length > 0 && value.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    } else {
-      setPincodeError("");
-    }
-  };
+  //   setPincode(value);
+  //   if (value.length > 0 && value.length < 6) {
+  //     setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  //   } else {
+  //     setPincodeError("");
+  //   }
+  // };
 
-  const handleCity = (e) => {
+  // const handleCity = (e) => {
 
-    const value = e.target.value;
-    const regex = /^[a-zA-Z\s]*$/;
-    if (regex.test(value)) {
-      setCity(value);
-      setCityError("");
-    }
-  };
+  //   const value = e.target.value;
+  //   const regex = /^[a-zA-Z\s]*$/;
+  //   if (regex.test(value)) {
+  //     setCity(value);
+  //     setCityError("");
+  //   }
+  // };
 
   const [advanceDate, setAdvanceDate] = useState(null);
   const [advanceDueDate, setAdvanceDueDate] = useState(null);
   const [advanceDateError, setAdvanceDateError] = useState("");
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
-  const handleClose = () => {
-    setFirstname("");
-    setLastname("");
-    setAadharNo("");
-    setPancardNo("");
-    setLicence("");
-    setPhone("");
-    setEmail("");
-    setHouseNo("");
-    setStreet("");
-    setCity("");
-    setLandmark("");
-    setPincode("");
-    setStateName("");
-    setStateNameError("");
-    setPincodeError("");
-    setCityError("");
-    setLandmarkError("");
-    setStreetError("");
-    setHouse_NoError("");
-    setFloor("");
-    setRooms("");
-    setBed("");
-    setAdvanceAmount("");
-    setRoomRent("");
-    setPaymentType("");
-    setBalanceDue("");
-    setPaidAdvance("");
-    setPaidrent("");
-    setPayableamount("");
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
-    if (props?.setShowForm) props.setShowForm(false);
-    if (props?.OnShowTable) props.OnShowTable(true);
-    if (props?.edit === "Edit") {
-      if (props?.OnShowTable) props.OnShowTable(true);
-    } else {
-      if (props?.setRoomDetail) props.setRoomDetail(false);
-    }
-  };
+  // const handleClose = () => {
+  //   setFirstname("");
+  //   setLastname("");
+  //   setAadharNo("");
+  //   setPancardNo("");
+  //   setLicence("");
+  //   setPhone("");
+  //   setEmail("");
+  //   setHouseNo("");
+  //   setStreet("");
+  //   setCity("");
+  //   setLandmark("");
+  //   setPincode("");
+  //   setStateName("");
+  //   setStateNameError("");
+  //   setPincodeError("");
+  //   setCityError("");
+  //   setLandmarkError("");
+  //   setStreetError("");
+  //   setHouse_NoError("");
+  //   setFloor("");
+  //   setRooms("");
+  //   setBed("");
+  //   setAdvanceAmount("");
+  //   setRoomRent("");
+  //   setPaymentType("");
+  //   setBalanceDue("");
+  //   setPaidAdvance("");
+  //   setPaidrent("");
+  //   setPayableamount("");
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
+  //   dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+  //   if (props?.setShowForm) props.setShowForm(false);
+  //   if (props?.OnShowTable) props.OnShowTable(true);
+  //   if (props?.edit === "Edit") {
+  //     if (props?.OnShowTable) props.OnShowTable(true);
+  //   } else {
+  //     if (props?.setRoomDetail) props.setRoomDetail(false);
+  //   }
+  // };
 
 
   const handleCloseAssign = () => {
@@ -586,23 +584,23 @@ console.log("props",props)
       // let value = props.EditObj.Name.split(" ");
       setFirstname(props.EditObj?.firstName);
       setLastname("");
-      setHouseNo(props.EditObj.Address);
-      setStreet(props.EditObj.area);
-      setLandmark(props.EditObj.landmark);
-      setCity(props.EditObj.city);
-      setPincode(props.EditObj.pincode);
-      setStateName(props.EditObj.state);
-      setAadharNo(props.EditObj.AadharNo);
-      setPancardNo(props.EditObj.PancardNo);
-      setLicence(props.EditObj.licence);
-      setPhone(props.EditObj.Phone);
-      setEmail(props.EditObj.Email);
-      setHostelName(props.EditObj.HostelName);
-      setHostel_Id(props.EditObj.Hostel_Id);
+      // setHouseNo(props.EditObj.Address);
+      // setStreet(props.EditObj.area);
+      // setLandmark(props.EditObj.landmark);
+      // setCity(props.EditObj.city);
+      // setPincode(props.EditObj.pincode);
+      // setStateName(props.EditObj.state);
+      // setAadharNo(props.EditObj.AadharNo);
+      // setPancardNo(props.EditObj.PancardNo);
+      // setLicence(props.EditObj.licence);
+      // setPhone(props.EditObj.Phone);
+      // setEmail(props.EditObj.Email);
+      // setHostelName(props.EditObj.HostelName);
+      // setHostel_Id(props.EditObj.Hostel_Id);
       setRooms(props.EditObj.Rooms);
-      setPaymentType(props.EditObj.PaymentType);
-      setBalanceDue(props.EditObj.BalanceDue);
-      setPaidAdvance(props.EditObj.paid_advance);
+      // setPaymentType(props.EditObj.PaymentType);
+      // setBalanceDue(props.EditObj.BalanceDue);
+      // setPaidAdvance(props.EditObj.paid_advance);
     } else {
       // props?.setEdit("Add");
       if (typeof props.setEdit === "function") {
@@ -614,39 +612,39 @@ console.log("props",props)
 
 
 
-  const MobileNumber = `${Phone}`;
+  // const MobileNumber = `${Phone}`;
 
-  const validateField = (value, fieldName, ref, setError, focusedRef) => {
-    const trimmedValue = String(value).trim();
-    if (!trimmedValue) {
-      switch (fieldName) {
-        case "First Name":
-          setError("Please Enter First Name");
-          break;
-        case "Phone Number":
-          setError("Please Enter Phone Number");
-          break;
-        case "Email":
-          setError("Please Enter Email Id");
-          break;
-        case "Hostel ID":
-          setError("Please Select PG");
-          break;
+  // const validateField = (value, fieldName, ref, setError, focusedRef) => {
+  //   const trimmedValue = String(value).trim();
+  //   if (!trimmedValue) {
+  //     switch (fieldName) {
+  //       case "First Name":
+  //         setError("Please Enter First Name");
+  //         break;
+  //       case "Phone Number":
+  //         setError("Please Enter Phone Number");
+  //         break;
+  //       case "Email":
+  //         setError("Please Enter Email Id");
+  //         break;
+  //       case "Hostel ID":
+  //         setError("Please Select PG");
+  //         break;
 
-        default:
-          break;
-      }
+  //       default:
+  //         break;
+  //     }
 
-      if (!focusedRef.current && ref?.current) {
-        ref.current.focus();
-        focusedRef.current = true;
-      }
-      return false;
-    }
+  //     if (!focusedRef.current && ref?.current) {
+  //       ref.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     return false;
+  //   }
 
-    setError("");
-    return true;
-  };
+  //   setError("");
+  //   return true;
+  // };
 
 
 
@@ -748,9 +746,9 @@ console.log("props",props)
       : "";
 
 
-    const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
+    // const capitalizeFirstLetter = (str) => {
+    //   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    // };
 
     // const capitalizedFirstname = capitalizeFirstLetter(firstname);
 
@@ -814,166 +812,166 @@ console.log("props",props)
 
 
 
-  const handleSaveBookingAdvance = async () => {
+  // const handleSaveBookingAdvance = async () => {
 
-    let hasReasonAmountError = false;
-    let newErrors = [];
-
-
-
-    if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
-      setRoomRentError("Please Enter Rental Amount");
-      return;
-    }
-    if (Number(RoomRent) <= 0) {
-      setRoomRentError("Please Enter Valid Rental Amount");
-      return;
-    }
-
-    if (
-      AdvanceAmount === "" ||
-      AdvanceAmount === null ||
-      AdvanceAmount === undefined
-    ) {
-      setAdvanceAmountError("Please Enter Advance Amount");
-      return;
-    }
-    if (Number(AdvanceAmount) <= 0) {
-      setAdvanceAmountError("Please Enter Valid Advance Amount");
-      return;
-    }
-
-    setErrors(newErrors)
+  //   let hasReasonAmountError = false;
+  //   let newErrors = [];
 
 
 
+  //   if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+  //     setRoomRentError("Please Enter Rental Amount");
+  //     return;
+  //   }
+  //   if (Number(RoomRent) <= 0) {
+  //     setRoomRentError("Please Enter Valid Rental Amount");
+  //     return;
+  //   }
 
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate());
-      return newDate.toISOString().split("T")[0];
-    };
+  //   if (
+  //     AdvanceAmount === "" ||
+  //     AdvanceAmount === null ||
+  //     AdvanceAmount === undefined
+  //   ) {
+  //     setAdvanceAmountError("Please Enter Advance Amount");
+  //     return;
+  //   }
+  //   if (Number(AdvanceAmount) <= 0) {
+  //     setAdvanceAmountError("Please Enter Valid Advance Amount");
+  //     return;
+  //   }
 
-
-    // const formattedDate = selectedDate
-    //   ? incrementDateAndFormat(selectedDate)
-    //   : "";
-    // const invoiceDateObj = new Date(formattedDate);
-    const formattedDate = selectedDate
-      ? incrementDateAndFormat(selectedDate)
-      : "";
-    const invoiceDateObj = new Date(formattedDate);
-    const dueDateObj = new Date(invoiceDateObj);
-    dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
-
-    const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
-
-    const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstname);
-
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-
-    setErrors(newErrors)
-
-    const formattedReasons = fields.map((item) => {
-      let reason_name = "";
-
-      if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        reason_name = item.customReason || item["custom Reason"] || "";
-      } else {
-        reason_name = item.reason || item.reason_name || "";
-      }
-
-      const error = { reason: "", amount: "" };
-      if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        error.amount = "Please enter amount";
-        hasReasonAmountError = true;
-      }
-
-
-      if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        error.reason = "Please enter reason";
-        hasReasonAmountError = true;
-      }
-
-      newErrors.push(error);
-      return {
-        reason_name,
-        amount: item.amount || "",
-        showInput: !!item.showInput
-      };
-    });
-
-
-    if (hasReasonAmountError) return;
-
-    if (
-
-      Number(AdvanceAmount) > 0 &&
-      Number(RoomRent) > 0
-    ) {
+  //   setErrors(newErrors)
 
 
 
-      dispatch({
-        type: "ADDUSER",
-        payload: {
-          profile: file,
-          firstname: capitalizedFirstname,
-          LastName: capitalizedLastname,
-          Phone: Phone,
-          Email: Email,
-          Address: house_no,
-          area: street,
-          landmark: landmark,
-          city: city,
-          pincode: pincode,
-          state: state_name,
-          AadharNo: AadharNo,
-          PancardNo: PancardNo,
-          licence: licence,
-          HostelName: HostelName,
-          hostel_Id: hostel_Id,
-          Floor: Floor,
-          Rooms: props.EditObj.booking_room_id,
-          Bed: props.EditObj.booking_bed_id,
-          joining_date: formattedDate,
-          AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
-          BalanceDue: BalanceDue,
-          PaymentType: PaymentType,
-          paid_advance: paid_advance,
-          paid_rent: paid_rent,
-          payable_rent: payableamount,
-          isadvance: 1,
-          invoice_date: formattedDate,
-          due_date: formattedAdvanceDueDate,
-          ID: props.EditObj.ID,
-          reasons: formattedReasons,
-          stay_type: activeTab === "LONG" ? "LONG" : "SHORT",
-          booking_id: props.EditObj.booking_id,
-          booking_date: bookingDate,
-          booking_amount: props.EditObj.booking_amount
 
-        },
-      });
-    }
-    setFormLoading(true)
-    dispatch({ type: "INVOICELIST" });
-  };
+  //   const incrementDateAndFormat = (date) => {
+  //     const newDate = new Date(date);
+  //     newDate.setDate(newDate.getDate());
+  //     return newDate.toISOString().split("T")[0];
+  //   };
 
 
+  //   // const formattedDate = selectedDate
+  //   //   ? incrementDateAndFormat(selectedDate)
+  //   //   : "";
+  //   // const invoiceDateObj = new Date(formattedDate);
+  //   const formattedDate = selectedDate
+  //     ? incrementDateAndFormat(selectedDate)
+  //     : "";
+  //   const invoiceDateObj = new Date(formattedDate);
+  //   const dueDateObj = new Date(invoiceDateObj);
+  //   dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
+
+  //   const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
+
+  //   const capitalizeFirstLetter = (str) => {
+  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  //   };
+
+  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
+
+  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
+
+
+  //   setErrors(newErrors)
+
+  //   const formattedReasons = fields.map((item) => {
+  //     let reason_name = "";
+
+  //     if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+  //       reason_name = item.customReason || item["custom Reason"] || "";
+  //     } else {
+  //       reason_name = item.reason || item.reason_name || "";
+  //     }
+
+  //     const error = { reason: "", amount: "" };
+  //     if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+  //       error.amount = "Please enter amount";
+  //       hasReasonAmountError = true;
+  //     }
+
+
+  //     if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+  //       error.reason = "Please enter reason";
+  //       hasReasonAmountError = true;
+  //     }
+
+  //     newErrors.push(error);
+  //     return {
+  //       reason_name,
+  //       amount: item.amount || "",
+  //       showInput: !!item.showInput
+  //     };
+  //   });
+
+
+  //   if (hasReasonAmountError) return;
+
+  //   if (
+
+  //     Number(AdvanceAmount) > 0 &&
+  //     Number(RoomRent) > 0
+  //   ) {
+
+
+
+  //     dispatch({
+  //       type: "ADDUSER",
+  //       payload: {
+  //         profile: file,
+  //         firstname: capitalizedFirstname,
+  //         LastName: capitalizedLastname,
+  //         Phone: Phone,
+  //         Email: Email,
+  //         Address: house_no,
+  //         area: street,
+  //         landmark: landmark,
+  //         city: city,
+  //         pincode: pincode,
+  //         state: state_name,
+  //         AadharNo: AadharNo,
+  //         PancardNo: PancardNo,
+  //         licence: licence,
+  //         HostelName: HostelName,
+  //         hostel_Id: hostel_Id,
+  //         Floor: Floor,
+  //         Rooms: props.EditObj.booking_room_id,
+  //         Bed: props.EditObj.booking_bed_id,
+  //         joining_date: formattedDate,
+  //         AdvanceAmount: AdvanceAmount,
+  //         RoomRent: RoomRent,
+  //         BalanceDue: BalanceDue,
+  //         PaymentType: PaymentType,
+  //         paid_advance: paid_advance,
+  //         paid_rent: paid_rent,
+  //         payable_rent: payableamount,
+  //         isadvance: 1,
+  //         invoice_date: formattedDate,
+  //         due_date: formattedAdvanceDueDate,
+  //         ID: props.EditObj.ID,
+  //         reasons: formattedReasons,
+  //         stay_type: activeTab === "LONG" ? "LONG" : "SHORT",
+  //         booking_id: props.EditObj.booking_id,
+  //         booking_date: bookingDate,
+  //         booking_amount: props.EditObj.booking_amount
+
+  //       },
+  //     });
+  //   }
+  //   setFormLoading(true)
+  //   dispatch({ type: "INVOICELIST" });
+  // };
 
 
 
 
 
-  const [bookingDate, setBookingDate] = useState("")
-  const [bookingAmount, setBookingAmount] = useState("")
+
+
+  // const [bookingDate, setBookingDate] = useState("")
+  // const [bookingAmount, setBookingAmount] = useState("")
   const [bookingFlooorId, setBookingFloorId] = useState("")
   const [bookingRoomId, setBookingRoomId] = useState("")
   const [bookingBedId, setBookingBedId] = useState("")
@@ -981,7 +979,7 @@ console.log("props",props)
 
   console.log("state", state)
 
-  const bookingDateRef = useRef("");
+  // const bookingDateRef = useRef("");
 
   useEffect(() => {
     if (props.BookingAssignForm) {
@@ -1000,33 +998,33 @@ console.log("props",props)
         setFirstname("");
         setLastname("");
       }
-      setHouseNo(props.EditObj.Address);
-      setStreet(props.EditObj.area);
-      setLandmark(props.EditObj.landmark);
-      setCity(props.EditObj.city);
-      setPincode(props.EditObj.pincode);
-      setStateName(props.EditObj.state);
-      setAadharNo(props.EditObj.AadharNo);
-      setPancardNo(props.EditObj.PancardNo);
-      setLicence(props.EditObj.licence);
-      setPhone(props.EditObj.Phone);
-      setEmail(props.EditObj.Email);
-      setHostelName(props.EditObj.HostelName);
-      setHostel_Id(props.EditObj.Hostel_Id);
+      // setHouseNo(props.EditObj.Address);
+      // setStreet(props.EditObj.area);
+      // setLandmark(props.EditObj.landmark);
+      // setCity(props.EditObj.city);
+      // setPincode(props.EditObj.pincode);
+      // setStateName(props.EditObj.state);
+      // setAadharNo(props.EditObj.AadharNo);
+      // setPancardNo(props.EditObj.PancardNo);
+      // setLicence(props.EditObj.licence);
+      // setPhone(props.EditObj.Phone);
+      // setEmail(props.EditObj.Email);
+      // setHostelName(props.EditObj.HostelName);
+      // setHostel_Id(props.EditObj.Hostel_Id);
       setRooms(props.EditObj.booking_room_id);
       setBed(props.EditObj.booking_bed_id)
-      setPaymentType(props.EditObj.PaymentType);
-      setBalanceDue(props.EditObj.BalanceDue);
-      setPaidAdvance(props.EditObj.paid_advance);
+      // setPaymentType(props.EditObj.PaymentType);
+      // setBalanceDue(props.EditObj.BalanceDue);
+      // setPaidAdvance(props.EditObj.paid_advance);
       setFloor(props.EditObj.booking_floor_id)
       setSelectedDate(props.EditObj.booking_joining_date)
       setBookingFloorId(props.EditObj.Booking_FloorName)
       setBookingRoomId(props.EditObj.booking_room_id)
       setBookingBedId(props.EditObj.booking_bed_id)
-      setFloorName(props?.EditObj?.Booking_FloorName)
-      setRoomName(props?.EditObj?.Booking_Rooms)
-      setBedName(props?.EditObj?.Booking_Bed)
-      setBookingAmount(props.EditObj.booking_amount)
+      // setFloorName(props?.EditObj?.Booking_FloorName)
+      // setRoomName(props?.EditObj?.Booking_Rooms)
+      // setBedName(props?.EditObj?.Booking_Bed)
+      // setBookingAmount(props.EditObj.booking_amount)
       setFile(props.EditObj.profile)
       
 
@@ -1046,14 +1044,14 @@ console.log("props",props)
         setRoomRent(Roomamountfilter[0]?.bed_amount);
       }
 
-      if (props.EditObj?.booking_booking_date) {
-        const dateObj = new Date(props.EditObj.booking_booking_date);
+      // if (props.EditObj?.booking_booking_date) {
+      //   const dateObj = new Date(props.EditObj.booking_booking_date);
 
-        const bookingDayjs = dayjs(dateObj);
+      //   const bookingDayjs = dayjs(dateObj);
 
-        bookingDateRef.current = bookingDayjs;
-        setBookingDate(bookingDayjs);
-      }
+      //   bookingDateRef.current = bookingDayjs;
+      //   setBookingDate(bookingDayjs);
+      // }
 
 
     }
@@ -1176,7 +1174,6 @@ console.log("props",props)
   };
 
 
-  const [step, setStep] = useState(1);
 
 
 
@@ -1380,20 +1377,20 @@ console.log("props",props)
   // };
 
 
-  const handleCloseAssignBooking = () => {
-    // props.setBookingAssignForm(false)
+  // const handleCloseAssignBooking = () => {
+  //   // props.setBookingAssignForm(false)
 
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    if (props?.setBookingAssignForm) props.setBookingAssignForm(false);
-    if (props?.setShowForm) props.setShowForm(false);
-    if (props?.OnShowTable) props.OnShowTable(true);
-    if (props.edit === "Edit") {
-      if (props?.OnShowTable) props.OnShowTable(true);
-    } else {
-      if (props?.setRoomDetail) props.setRoomDetail(false);
-    }
-  }
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
+  //   if (props?.setBookingAssignForm) props.setBookingAssignForm(false);
+  //   if (props?.setShowForm) props.setShowForm(false);
+  //   if (props?.OnShowTable) props.OnShowTable(true);
+  //   if (props.edit === "Edit") {
+  //     if (props?.OnShowTable) props.OnShowTable(true);
+  //   } else {
+  //     if (props?.setRoomDetail) props.setRoomDetail(false);
+  //   }
+  // }
   const handleCloseBacktoCheckin = () => {
     if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
     if (props?.handleCloseBed) props.handleCloseBed();
@@ -1422,37 +1419,37 @@ console.log("props",props)
         setFirstname("");
         setLastname("");
       }
-      setHouseNo(props?.EditObj?.Address?.trim() || props?.customer_details?.Name?.trim());
-      setStreet(props?.EditObj?.area?.trim() || props?.customer_details?.area?.trim());
-      setLandmark(props?.EditObj?.landmark?.trim() || props?.customer_details?.landmark?.trim());
-      setCity(props?.EditObj?.city?.trim() || props?.customer_details?.city?.trim());
-      setPincode(props.EditObj?.pincode || props?.customer_details?.pincode);
-      setStateName(props.EditObj?.state || props?.customer_details?.state);
-      setAadharNo(props.EditObj?.AadharNo || props?.customer_details?.AadharNo);
-      setPancardNo(props.EditObj?.PancardNo || props?.customer_details?.PancardNo);
-      setLicence(props.EditObj?.licence || props?.customer_details?.licence);
-      setPhone(props.EditObj?.Phone || props?.customer_details?.Phone);
-      setEmail(props.EditObj?.Email || props?.customer_details?.Email);
-      setHostelName(props.EditObj?.HostelName || props?.customer_details?.HostelName);
+      // setHouseNo(props?.EditObj?.Address?.trim() || props?.customer_details?.Name?.trim());
+      // setStreet(props?.EditObj?.area?.trim() || props?.customer_details?.area?.trim());
+      // setLandmark(props?.EditObj?.landmark?.trim() || props?.customer_details?.landmark?.trim());
+      // setCity(props?.EditObj?.city?.trim() || props?.customer_details?.city?.trim());
+      // setPincode(props.EditObj?.pincode || props?.customer_details?.pincode);
+      // setStateName(props.EditObj?.state || props?.customer_details?.state);
+      // setAadharNo(props.EditObj?.AadharNo || props?.customer_details?.AadharNo);
+      // setPancardNo(props.EditObj?.PancardNo || props?.customer_details?.PancardNo);
+      // setLicence(props.EditObj?.licence || props?.customer_details?.licence);
+      // setPhone(props.EditObj?.Phone || props?.customer_details?.Phone);
+      // setEmail(props.EditObj?.Email || props?.customer_details?.Email);
+      // setHostelName(props.EditObj?.HostelName || props?.customer_details?.HostelName);
       setRecheckinbedName(props?.EditObj?.Bed || props?.customer_details?.Bed)
 
-      setHostel_Id(props.EditObj?.Hostel_Id || props?.customer_details?.Hostel_Id);
+      // setHostel_Id(props.EditObj?.Hostel_Id || props?.customer_details?.Hostel_Id);
       setRooms(props?.EditObj?.hstl_Rooms || props?.customer_details?.hstl_Rooms);
       setBed(props?.EditObj?.hstl_Bed || props?.customer_details?.hstl_Bed)
-      setPaymentType(props.EditObj?.PaymentType || props?.customer_details?.PaymentType);
+      // setPaymentType(props.EditObj?.PaymentType || props?.customer_details?.PaymentType);
 
-      setBalanceDue(props.EditObj?.BalanceDue || props?.customer_details?.BalanceDue);
-      setPaidAdvance(props.EditObj?.paid_advance || props?.customer_details?.paid_advance);
+      // setBalanceDue(props.EditObj?.BalanceDue || props?.customer_details?.BalanceDue);
+      // setPaidAdvance(props.EditObj?.paid_advance || props?.customer_details?.paid_advance);
       setFloor(props.EditObj?.Floor || props?.customer_details?.Floor)
       setSelectedDate(props.EditObj?.joining_Date || props?.customer_details?.joining_Date)
 
       setBookingFloorId(props.EditObj?.floor_name || props?.customer_details?.floor_name)
       setBookingRoomId(props.EditObj?.Room_Id || props?.customer_details?.Room_Id)
       setBookingBedId(props.EditObj?.Bed || props?.customer_details?.Bed)
-      setBookingAmount(props.EditObj?.pending_advance || props?.customer_details?.pending_advance)
+      // setBookingAmount(props.EditObj?.pending_advance || props?.customer_details?.pending_advance)
       setAdvanceAmount(props.EditObj?.AdvanceAmount || props?.customer_details?.AdvanceAmount)
       setRoomRent(props.EditObj?.RoomRent || props?.customer_details?.RoomRent)
-      setBookingDate(props.EditObj?.booking_booking_date || props?.customer_details?.booking_booking_date)
+      // setBookingDate(props.EditObj?.booking_booking_date || props?.customer_details?.booking_booking_date)
       if (props.EditObj?.req_date || props.customer_details?.req_date) {
         setRequestDate(dayjs(props.EditObj?.req_date || props.customer_details?.req_date));
       }
