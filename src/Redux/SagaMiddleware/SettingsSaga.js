@@ -523,10 +523,21 @@ function* handleDeleteComplainttype(action) {
     }
 
     if (response) refreshToken(response);
-  } catch (error) {
-    console.error("Delete complaint error:", error);
-    toast.error("Failed to delete complaint type", { position: "bottom-center" });
-  }
+  } 
+     catch (error) {
+       if (error.code === 'ERR_BAD_REQUEST') {
+             const ComplaintError = error?.status;
+             const ComplaintErrormessage = error?.response?.data
+             console.log("response" ,ComplaintError , ComplaintErrormessage );
+             
+             if (ComplaintError) {
+                yield put({ type: 'ALREADY_ASSIGNCOMPLAINTTYPE_ERROR', payload: ComplaintErrormessage });
+             } 
+            
+          } else if (error.code === 'ERR_NETWORK') {
+             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+          }
+       }
 }
 
 

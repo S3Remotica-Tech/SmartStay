@@ -181,6 +181,8 @@ const InvoicePage = () => {
   };
 
 
+  console.log("date" , selectedDate);
+  
 
   useEffect(() => {
     if (recurringbills?.length > 0) {
@@ -951,7 +953,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       transaction: "",
       paymentType: "",
     });
-    setSelectedDate(null);
+    // setSelectedDate(null);
   };
 
 
@@ -2084,6 +2086,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     if (state.InvoiceList.RecordPaymentUpdateStatusCode === 200) {
       setPayableAmount("")
       setBalance("")
+      setSelectedDate(null);
       setFormRecordLoading(false)
       setShowform(false)
       dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })

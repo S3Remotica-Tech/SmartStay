@@ -95,9 +95,11 @@ const handleAccountNo = (e) => {
   };
   const [upiId, setUpiId] = useState("")
   const [upiIdError, setUpiIdError] = useState("")
+
   const handleUpiId = (e) => {
     setUpiId(e.target.value)
     setUpiIdError("")
+    setIsChangedError("")
   }
 
 
@@ -124,7 +126,7 @@ const handleAccountNo = (e) => {
       setIfscCode(props.editAddBank.ifscCode);
       setDescription(props.editAddBank?.description);
       setBankId(props.editAddBank.bankingId);
-      setCardType(props.editAddBank?.card_type)
+      setCardType(props.editAddBank?.cardType)
       setCardNo(props.editAddBank?.creditCardNumber || props.editAddBank?.debitCardNumber)
       setUpiId(props.editAddBank.upiId)
 
@@ -143,7 +145,7 @@ const handleAccountNo = (e) => {
         description: props.editAddBank?.description || "",
         upiId: props.editAddBank?.upiId || "",
         cardNo: props.editAddBank?.creditCardNumber || props.editAddBank?.debitCardNumber,
-        cardType: props.editAddBank?.card_type || ""
+        cardType: props.editAddBank?.cardType || ""
       });
 
     } else {
@@ -1145,12 +1147,12 @@ const handleAccountNo = (e) => {
                   </Form.Label>
                   <Select
                     options={[
-                      { value: "credit", label: "Credit" },
-                      { value: "debit", label: "Debit" },
+                      { value: "CREDIT", label: "Credit" },
+                      { value: "DEBIT", label: "Debit" },
                     ]}
                     value={[
-                      { value: "credit", label: "Credit" },
-                      { value: "debit", label: "Debit" },
+                      { value: "CREDIT", label: "Credit" },
+                      { value: "DEBIT", label: "Debit" },
                     ].find((option) => option.value === cardType)}
                     onChange={(selectedOption) => {
                       setCardType(selectedOption?.value || "");
