@@ -30,7 +30,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
 
-  const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('access-denied')));
+  // const [tokenAccessDenied, setTokenAccessDenied] = useState(Number(cookies.get('access-denied')));
 
 
   const login = localStorage.getItem("login");
@@ -86,26 +86,26 @@ console.log("is_Enable", parseData );
 
 
 
-  useEffect(() => {
-    if (tokenAccessDenied === 206) {
-      dispatch({ type: 'LOG_OUT' });
-      setData(false);
-      cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
-      localStorage.clear();
+  // useEffect(() => {
+  //   if (tokenAccessDenied === 206) {
+  //     dispatch({ type: 'LOG_OUT' });
+  //     setData(false);
+  //     cookies.set('access-denied', null, { path: '/', expires: new Date(0) });
+  //     localStorage.clear();
 
-    }
-  }, [tokenAccessDenied]);
+  //   }
+  // }, [tokenAccessDenied]);
 
   
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTokenAccessDenied(Number(cookies.get('access-denied')));
-    }, 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setTokenAccessDenied(Number(cookies.get('access-denied')));
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
 
   useEffect(() => {
