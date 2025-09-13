@@ -128,27 +128,30 @@ function BookingModal(props) {
 
 
 
-const labelMap = {
+  const labelMap = {
     CARD: "Card",
     CASH: "Cash",
     UPI: "UPI",
     BANK: "Bank",
   };
 
-  const paymentOptions = Array.isArray(state.bankingDetails.bankingList)
-    ? state.bankingDetails?.bankingList?.map((item) => ({
+  const paymentOptions = Array.isArray(state.bankingDetails.bankingList.listBanks)
+    ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
       value: String(item.bankingId),
       label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
     }))
     : [];
-useEffect(() => {
-    if (state.bankingDetails.bankingList) {
+
+
+
+  useEffect(() => {
+    if (state.bankingDetails.bankingList?.listBanks) {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state.bankingDetails.bankingList]);
+  }, [state.bankingDetails.bankingList?.listBanks]);
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
 
@@ -318,13 +321,13 @@ useEffect(() => {
       setAmountError("");
     }
 
-// if(!modeOfPayment){
-//        setPaymentError("Please Select Mode Of Transaction");
-//         isValid = false;
-//     }
-//     else {
-//       setPaymentError("");
-//     }
+    if (!modeOfPayment) {
+      setPaymentError("Please Select Mode Of Transaction");
+      isValid = false;
+    }
+    else {
+      setPaymentError("");
+    }
 
     if (!joiningDate) {
       setJoiningDateError("Please select Joining Date");
@@ -381,26 +384,11 @@ useEffect(() => {
         roomId: room,
         bedId: bed,
         customerId: props.userDetail?.customerId,
-
+        bankId: modeOfPayment,
+        referenceNumber: transactionId
       },
     });
 
-    // dispatch({
-    //   type: "ADD_BOOKING",
-    //   payload: {
-    //     joining_date: formattedDate,
-    //     booking_date: bookingFormattedDate,
-    //     amount: bookingAmount,
-    //     hostel_id: state.login.selectedHostel_Id,
-    //     floor_id: Floor,
-    //     room_id: room,
-    //     bed_id: bed,
-    //     customer_Id: props.userDetail.ID,
-    //     mob_no: props.userDetail.Phone,
-    //     email: props.userDetail.Email,
-    //     profile: props.userDetail.profile
-    //   },
-    // });
     setFormLoading(true)
   };
 
@@ -677,119 +665,119 @@ useEffect(() => {
             </Col>
 
 
-<Col md={6} >
-                             <Form.Group
-                               
-                               controlId="exampleForm.ControlInput1"
-                             >
-                               <Form.Label
-                                 style={{
-                                   fontSize: 14,
-                                   color: "#222222",
-                                   fontFamily: "Gilroy",
-                                   fontWeight: 500,
-                                   marginTop: "5px",
-                                 }}
-                               >
-                                 Mode Of Transaction {" "}
-                                 <span
-                                   style={{
-                                     color: "#FF0000",
-                                     fontSize: "20px",
-                                   }}
-                                 >
-                                   *
-                                 </span>
-                               </Form.Label>
-             
-             
-                              
-                          <Select
-                            options={paymentOptions}
-                            onChange={(selectedOption) =>
-                              handleModeOfPaymentChange(selectedOption?.value)
-                            }
-                            value={
-                              modeOfPayment
-                                ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
-                                : null
-                            }
-                            placeholder="Select Payment"
-                            // isDisabled={currentItem}
-                            noOptionsMessage={() => "No mode available"}
-                            styles={{
-                              control: (base) => ({
-                                ...base,
-                                fontSize: 16,
-                                color: "rgba(75, 75, 75, 1)",
-                                fontFamily: "Gilroy",
-                                fontWeight: modeOfPayment ? 600 : 500,
-                                border: "1px solid #D9D9D9",
-                                borderRadius: "8px",
-                                boxShadow: "none",
-                                height: 48,
-                                cursor: "pointer",
-                              }),
-                              menu: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                border: "1px solid #ced4da",
-                                fontFamily: "Gilroy",
-                              }),
-                              menuList: (base) => ({
-                                ...base,
-                                backgroundColor: "#f8f9fa",
-                                maxHeight: "120px",
-                                padding: 0,
-                                scrollbarWidth: "thin",
-                                overflowY: "auto",
-                                fontFamily: "Gilroy",
-                              }),
-                              placeholder: (base) => ({
-                                ...base,
-                                color: "#555",
-                              }),
-                              dropdownIndicator: (base) => ({
-                                ...base,
-                                color: "#555",
-                                cursor: "pointer",
-                              }),
-                              option: (base, state) => ({
-                                ...base,
-                                cursor: "pointer",
-                                backgroundColor: state.isFocused ? "lightblue" : "white",
-                                color: "#000",
-                                fontFamily: "Gilroy",
-                              }),
-                              indicatorSeparator: () => ({
-                                display: "none",
-                              }),
-                            }}
-                          />
-             
-                             </Form.Group>
-                             {paymentError && (
-                               <div className="d-flex align-items-center p-1 mb-2">
-                                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
-                                 <label
-                                   className="mb-0"
-                                   style={{
-                                     color: "red",
-                                     fontSize: "12px",
-                                     fontFamily: "Gilroy",
-                                     fontWeight: 500,
-                                     whiteSpace: "nowrap"
-                                   }}
-                                 >
-                                   {paymentError}
-                                 </label>
-                               </div>
-                             )}
-                           </Col>
+            <Col md={6} >
+              <Form.Group
+
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    marginTop: "5px",
+                  }}
+                >
+                  Mode Of Transaction {" "}
+                  <span
+                    style={{
+                      color: "#FF0000",
+                      fontSize: "20px",
+                    }}
+                  >
+                    *
+                  </span>
+                </Form.Label>
 
 
 
-                              <Col md={6} style={{marginTop:10}}>
+                <Select
+                  options={paymentOptions}
+                  onChange={(selectedOption) =>
+                    handleModeOfPaymentChange(selectedOption?.value)
+                  }
+                  value={
+                    modeOfPayment
+                      ? paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+                      : null
+                  }
+                  placeholder="Select Payment"
+                  // isDisabled={currentItem}
+                  noOptionsMessage={() => "No mode available"}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      fontSize: 16,
+                      color: "rgba(75, 75, 75, 1)",
+                      fontFamily: "Gilroy",
+                      fontWeight: modeOfPayment ? 600 : 500,
+                      border: "1px solid #D9D9D9",
+                      borderRadius: "8px",
+                      boxShadow: "none",
+                      height: 48,
+                      cursor: "pointer",
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      maxHeight: "120px",
+                      padding: 0,
+                      scrollbarWidth: "thin",
+                      overflowY: "auto",
+                      fontFamily: "Gilroy",
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: "#555",
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#555",
+                      cursor: "pointer",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "lightblue" : "white",
+                      color: "#000",
+                      fontFamily: "Gilroy",
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                  }}
+                />
+
+              </Form.Group>
+              {paymentError && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", }} />
+                  <label
+                    className="mb-0"
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      whiteSpace: "nowrap"
+                    }}
+                  >
+                    {paymentError}
+                  </label>
+                </div>
+              )}
+            </Col>
+
+
+
+            <Col md={6} style={{ marginTop: 10 }}>
               <Form.Group >
                 <Form.Label
                   style={{
@@ -798,15 +786,15 @@ useEffect(() => {
                     fontFamily: "Gilroy",
                   }}
                 >
-                 Transaction ID{" "}
+                  Transaction ID{" "}
                 </Form.Label>
                 <FormControl
                   type="text"
                   id="form-controls"
                   placeholder="Enter Transaction ID"
-                 value={transactionId} 
-                 onChange={(e)=>handleTransactionId(e)} 
-                
+                  value={transactionId}
+                  onChange={(e) => handleTransactionId(e)}
+
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -820,7 +808,7 @@ useEffect(() => {
                 />
               </Form.Group>
 
-             
+
 
             </Col>
 
@@ -1425,8 +1413,8 @@ BookingModal.propTypes = {
     profile: PropTypes.string,
     Name: PropTypes.string,
     customerId: PropTypes.string,
-    profilePic:PropTypes.string,
-    firstName:PropTypes.string,
+    profilePic: PropTypes.string,
+    firstName: PropTypes.string,
 
   }).isRequired
 };

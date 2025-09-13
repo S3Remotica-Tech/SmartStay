@@ -101,14 +101,14 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [state.AssetList?.alreadySerialNumberHere])
 
   useEffect(() => {
-    if (state.bankingDetails.bankingList) {
+    if (state.bankingDetails.bankingList.listBanks) {
 
-      setBanking(state.bankingDetails.bankingList)
+      setBanking(state.bankingDetails.bankingList.listBanks)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
     }
-  }, [state.bankingDetails.bankingList]);
+  }, [state.bankingDetails.bankingList.listBanks]);
 
 
   const handleClose = () => {
