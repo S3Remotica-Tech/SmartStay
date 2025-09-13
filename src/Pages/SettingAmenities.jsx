@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Edit, Trash, ProfileAdd } from 'iconsax-react';
+// import { Edit, Trash, ProfileAdd } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
@@ -34,8 +34,8 @@ function SettingAmenities({ hostelid }) {
     const [amenityDetails, setAmenityDetails] = useState('')
     const [switchStates, setSwitchStates] = useState({});
     const [deleteAmenities, setDeleteAmenities] = useState(false)
-    const [deleteID, setDeleteID] = useState('')
-    const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
+    // const [deleteID, setDeleteID] = useState('')
+    // const [assignAmenitiesDetails, setAssignAmenitiesDetails] = useState('')
     const [loading, setLoading] = useState(true)
     const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
@@ -50,10 +50,10 @@ function SettingAmenities({ hostelid }) {
 
 
 
-    const handleEditAmenities = (amenity) => {
-        setEditDetails(amenity)
-        setOpenAmenitiesForm(true)
-    }
+    // const handleEditAmenities = (amenity) => {
+    //     setEditDetails(amenity)
+    //     setOpenAmenitiesForm(true)
+    // }
 
 
 
@@ -150,31 +150,31 @@ function SettingAmenities({ hostelid }) {
     }
 
 
-    const handleDisplayAssignAmenities = (amenity) => {
-        setIsDisplayAssignAmenities(true)
-        setAssignAmenitiesDetails(amenity)
-    }
+    // const handleDisplayAssignAmenities = (amenity) => {
+    //     setIsDisplayAssignAmenities(true)
+    //     setAssignAmenitiesDetails(amenity)
+    // }
     const handleDisplayAssignAmenitiesClose = () => {
         setIsDisplayAssignAmenities(false)
     }
 
 
-    const handleDeleteAmenities = (amen) => {
-        setDeleteID(amen.id)
-        setDeleteAmenities(true)
-    }
+    // const handleDeleteAmenities = (amen) => {
+    //     setDeleteID(amen.id)
+    //     setDeleteAmenities(true)
+    // }
 
     const handleCloseDeleteFormAmenities = () => {
         setDeleteAmenities(false)
     }
 
 
-    const handleDeleteAmenitiesConfirm = () => {
-        if (deleteID) {
-            dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
+    // const handleDeleteAmenitiesConfirm = () => {
+    //     if (deleteID) {
+    //         dispatch({ type: 'DELETEAMENITIES', payload: { am_id: deleteID, hostel_id: state.login.selectedHostel_Id } })
 
-        }
-    }
+    //     }
+    // }
 
     useEffect(() => {
         const initialSwitchStates = amenitiesFilterddata.reduce((acc, amenity) => {
@@ -998,7 +998,9 @@ function SettingAmenities({ hostelid }) {
                 isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
             }
             {
-                IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid} assignAmenitiesDetails={assignAmenitiesDetails} />
+                IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid}
+                //  assignAmenitiesDetails={assignAmenitiesDetails}
+                  />
             }
 
 
@@ -1082,7 +1084,7 @@ function SettingAmenities({ hostelid }) {
                                 fontFamily: "Gilroy",
                                 fontSize: "14px",
                             }}
-                            onClick={handleDeleteAmenitiesConfirm}
+                            // onClick={handleDeleteAmenitiesConfirm}
                         >
                             Delete
                         </Button>

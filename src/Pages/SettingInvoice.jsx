@@ -942,7 +942,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   };
 
   useEffect(() => {
-    if (banking.length > 0) {
+    if (banking?.length > 0) {
       const defaultBank = banking.find((bank) => bank.setus_default === 2) || banking[0];
       setSelectedBankId(defaultBank.id);
     }

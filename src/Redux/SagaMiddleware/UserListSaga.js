@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, 
+import { checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, 
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, 
    getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, 
    userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, 

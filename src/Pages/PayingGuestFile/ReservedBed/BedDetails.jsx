@@ -11,9 +11,9 @@ import { AddCircle, LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
-import UserList from "../../CustomerFile/UserList";
-import { current } from "@reduxjs/toolkit";
-import MakeAsInactive from "../../CustomerFile/MakeAsInactive";
+// import UserList from "../../CustomerFile/UserList";
+// import { current } from "@reduxjs/toolkit";
+// import MakeAsInactive from "../../CustomerFile/MakeAsInactive";
 
 
 function BedDetails({
@@ -27,9 +27,9 @@ function BedDetails({
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    const [customer, setCustomer] = useState([])
+    // const [customer, setCustomer] = useState([])
 
-    console.log("data", currentItem);
+    
     
    
     const [showDots, setShowDots] = useState('')
@@ -69,16 +69,16 @@ function BedDetails({
 
 
 
-    useEffect(() => {
-        if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+    // useEffect(() => {
+    //     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
 
-            setCustomer(state.PgList.OccupiedCustomer)
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-            }, 2000)
-        }
+    //         setCustomer(state.PgList.OccupiedCustomer)
+    //         setTimeout(() => {
+    //             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+    //         }, 2000)
+    //     }
 
-    }, [state.PgList.OccupiedCustomerGetStatusCode])
+    // }, [state.PgList.OccupiedCustomerGetStatusCode])
 
 
 
@@ -117,7 +117,7 @@ function BedDetails({
     
 
 
-    const [customer_details, setCustomerDetails] = useState({})
+    // const [customer_details, setCustomerDetails] = useState({})
 
     const handleMakeInActive = () => {
         handleShowInActiveForm(true)
@@ -126,14 +126,13 @@ function BedDetails({
 
 
 
-    useEffect(() => {
-        if (customer.length > 0) {
-            const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
-            console.log("selecteduser", selectedUser);
-            setCustomerDetails(selectedUser)
-        }
+    // useEffect(() => {
+    //     if (customer.length > 0) {
+    //         const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
+    //                    // setCustomerDetails(selectedUser)
+    //     }
 
-    }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
+    // }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
 
 
 
@@ -362,7 +361,7 @@ BedDetails.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.func.isRequired,
     handleShowCheck_In: PropTypes.func.isRequired,
-    // MakeAsInActive: PropTypes.func.isRequired,
+    handleShowInActiveForm: PropTypes.func.isRequired,
     currentItem: PropTypes.func.isRequired,
 
 };

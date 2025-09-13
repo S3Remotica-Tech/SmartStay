@@ -39,7 +39,7 @@ import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
 import EditImage from "../../Assets/Images/New_images/cus_edit.svg"
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
@@ -1910,27 +1910,27 @@ useEffect(() => {
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
 
-  const handleDownloadKYC = async () => {
-    const kycCard = document.getElementById("kyc-download-card");
-    if (!kycCard) return;
+  // const handleDownloadKYC = async () => {
+  //   const kycCard = document.getElementById("kyc-download-card");
+  //   if (!kycCard) return;
 
 
 
-    await new Promise((res) => setTimeout(res, 300));
+  //   await new Promise((res) => setTimeout(res, 300));
 
-    html2canvas(kycCard).then((canvas) => {
-      const link = document.createElement("a");
-      link.download = "kyc_details.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    });
-  };
+  //   html2canvas(kycCard).then((canvas) => {
+  //     const link = document.createElement("a");
+  //     link.download = "kyc_details.png";
+  //     link.href = canvas.toDataURL("image/png");
+  //     link.click();
+  //   });
+  // };
 
   const [showModal, setShowModal] = useState(false);
 
-  const handleViewKYC = () => {
-    setShowModal(true);
-  };
+  // const handleViewKYC = () => {
+  //   setShowModal(true);
+  // };
 
   const handleClose = () => {
     setShowModal(false);
@@ -2448,7 +2448,7 @@ const [documents, setDocuments] = useState([
                 <div
 
                   style={{
-                    cursor: props.customerEditPermission && !item.hostelInfo?.bedId
+                    cursor: props.customerEditPermission && !CustomerOverView.hostelInfo?.bedId
                       ? "not-allowed"
                       : "pointer",
                     height: 40,
@@ -4562,7 +4562,7 @@ const [documents, setDocuments] = useState([
                 }}
                                       onClick={handleAdditionalForm}
                                     >
-                                      <img src={FileAdd} style={{}}></img> Add
+                                      <img src={FileAdd} style={{}} alt="alt-image"></img> Add
                                     </button>
                                         </p>
                                       </div>

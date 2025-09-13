@@ -715,6 +715,13 @@ CustomerCheckout.propTypes = {
   bed_no: PropTypes.string,
   bed_amount: PropTypes.number,
   bedData: PropTypes.shape({
+    customerId: PropTypes.string.isRequired,
+    hostelId: PropTypes.string.isRequired,
+    profilePic: PropTypes.string.isRequired,
+    fullName: PropTypes.string.isRequired,
+    floorName: PropTypes.string.isRequired,
+    roomName: PropTypes.string.isRequired,
+    bedName: PropTypes.string.isRequired,
     room: PropTypes.shape({
       Hostel_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       Floor_Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -723,6 +730,7 @@ CustomerCheckout.propTypes = {
     bed: PropTypes.shape({
       bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
-  }),
+  }).isRequired, 
 };
+
 export default CustomerCheckout

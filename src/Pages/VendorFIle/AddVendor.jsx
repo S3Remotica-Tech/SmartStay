@@ -5,7 +5,6 @@ import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import Form from "react-bootstrap/Form";
-import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { InputGroup, FormControl } from "react-bootstrap";

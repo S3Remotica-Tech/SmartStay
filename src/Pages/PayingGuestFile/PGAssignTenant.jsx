@@ -334,9 +334,9 @@ const labelMap = {
     const bookingDateForFormatted = formatDate(bookingDate);
 
 
-    const userDetails = state.UsersList.Users.find(
-      (u) => u.ID === booking_customername
-    );
+    // const userDetails = state.UsersList.Users.find(
+    //   (u) => u.ID === booking_customername
+    // );
 
 
 
@@ -508,17 +508,17 @@ const labelMap = {
 
 
 
-    const selectedUser = state?.UsersList?.Users.find(
-      item => item.ID === checkin_customername
-    );
+    // const selectedUser = state?.UsersList?.Users.find(
+    //   item => item.ID === checkin_customername
+    // );
 
 
 
-    const fullName = selectedUser?.Name?.trim() || "";
+    // const fullName = selectedUser?.Name?.trim() || "";
 
-    const [FirstName, ...lastNameParts] = fullName.split(" ");
+    // const [FirstName, ...lastNameParts] = fullName.split(" ");
 
-    const LastName = lastNameParts.join(" ") || "";
+    // const LastName = lastNameParts.join(" ") || "";
 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);

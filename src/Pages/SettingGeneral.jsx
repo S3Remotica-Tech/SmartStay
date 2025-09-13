@@ -167,9 +167,11 @@ function SettingGeneral() {
     dispatch({ type: "CLEAR_CONFORM_PASSWORD_MATCHES" });
   };
 
-  const handleConfirmPass = () => {
-    setConfirmPass(true);
-  };
+  // const handleConfirmPass = () => {
+  //   setConfirmPass(true);
+  // };
+
+  
   const handleCloseConfirmPass = () => {
     setConfirmPass(false);
     setConformPasswordError("")

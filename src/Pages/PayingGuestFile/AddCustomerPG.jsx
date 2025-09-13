@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Plus from "../../Assets/Images/New_images/add-circle.png";
-import imageCompression from "browser-image-compression";
+// import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import "react-datepicker/dist/react-datepicker.css";
@@ -25,8 +25,8 @@ function AddCustomer({  showMenu, handleClose   }) {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [Phone, setPhone] = useState("");
-    const [hostel_Id, setHostel_Id] = useState("");
-    const [HostelName, setHostelName] = useState("");
+    // const [hostel_Id, setHostel_Id] = useState("");
+    // const [HostelName, setHostelName] = useState("");
 
     const [Email, setEmail] = useState("");
     const [house_no, setHouseNo] = useState("");
@@ -44,7 +44,7 @@ function AddCustomer({  showMenu, handleClose   }) {
     const [landmarkError, setLandmarkError] = useState("");
     const [pincodeError, setPincodeError] = useState("");
     const [cityError, setCityError] = useState("");
-    const [state_nameError, setStateNameError] = useState("");
+    // const [state_nameError, setStateNameError] = useState("");
     const [emailErrorMessage, setEmailErrorMessage] = useState("");
     const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
     const [formLoading, setFormLoading] = useState(false);
@@ -200,15 +200,15 @@ function AddCustomer({  showMenu, handleClose   }) {
       }
           };
   
-    useEffect(() => {
-      const selectedHostel =
-         state.UsersList.hostelList &&
-         state.UsersList.hostelList?.filter(
-          (item) => item.id === state.login.selectedHostel_Id
-        );
-      setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-      setHostel_Id(state.login.selectedHostel_Id);
-    }, []);
+    // useEffect(() => {
+    //   const selectedHostel =
+    //      state.UsersList.hostelList &&
+    //      state.UsersList.hostelList?.filter(
+    //       (item) => item.id === state.login.selectedHostel_Id
+    //     );
+    //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
+    //   setHostel_Id(state.login.selectedHostel_Id);
+    // }, []);
   
   
   
@@ -1427,7 +1427,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                    />
                                  </Form.Group>
      
-                                 {!state_name && state_nameError && (
+                                 {/* {!state_name  && (
                                    <div style={{ color: "red", marginTop: "-16px" }}>
                                      <MdError
                                        style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }}
@@ -1443,7 +1443,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                        {state_nameError}
                                      </span>
                                    </div>
-                                 )}
+                                 )} */}
                                </div>
      
      
@@ -1566,6 +1566,7 @@ function AddCustomer({  showMenu, handleClose   }) {
 AddCustomer.propTypes = {
   currentItem: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
+  showMenu: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,

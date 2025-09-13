@@ -23,8 +23,8 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
   const [actionType, setActionType] = useState('addCustomer');
   const [showAddCustomer, setShowAddCustomer] = useState(false)
-  const [rolePermission, setRolePermission] = useState("");
-  const [customerDeletePermission, setCustomerDeletePermission] = useState("")
+  // const [rolePermission, setRolePermission] = useState("");
+  // const [customerDeletePermission, setCustomerDeletePermission] = useState("")
   const [advanceForm, setAdvanceForm] = useState(false)
   const [user_details, setUserDetails] = useState('')
   const { bed} = deleteBedDetails
@@ -37,9 +37,9 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 console.log("deleteBedDetails",deleteBedDetails)
 
-  useEffect(() => {
-    setRolePermission(state.createAccount.accountList);
-  }, [state.createAccount.accountList]);
+  // useEffect(() => {
+  //   setRolePermission(state.createAccount.accountList);
+  // }, [state.createAccount.accountList]);
 
 
   // useEffect(() => {
@@ -329,7 +329,8 @@ console.log("deleteBedDetails",deleteBedDetails)
           )} */}
 
           <Button style={{ width: 130, height: 52, borderRadius: 8, border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
-            disabled={customerDeletePermission} onClick={handleDeleteBed}>
+            // disabled={customerDeletePermission} 
+            onClick={handleDeleteBed}>
             Delete
           </Button>
 

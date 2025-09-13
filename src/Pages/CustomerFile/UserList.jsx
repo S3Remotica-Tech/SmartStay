@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
+import {  ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -48,8 +48,8 @@ import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import leftarrow from "../../Assets/Images/arrow-left.png";
-import Select from "react-select";
-import { CloseCircle } from "iconsax-react";
+// import Select from "react-select";
+// import { CloseCircle } from "iconsax-react";
 import Addbook from "../../Assets/Images/New_images/calendar-tick.svg";
 import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
@@ -1266,7 +1266,7 @@ function UserList(props) {
 
       setFilteredUsers(filtered);
       setDropdownVisible(true);
-      setCurrentPage(1);
+      // setCurrentPage(1);
     } else {
       setFilteredUsers(filteredUsers);
       setDropdownVisible(false);
@@ -1650,7 +1650,7 @@ function UserList(props) {
 
     if (!dates || dates.length !== 2) {
       setFilterStatus(false);
-      setCurrentPage(1);
+      // setCurrentPage(1);
       return;
     }
 
@@ -1669,7 +1669,7 @@ function UserList(props) {
 
     setFilteredUsers(filtered);
     setFilterStatus(true);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
 
@@ -1905,9 +1905,9 @@ function UserList(props) {
     }
     setShowbookingForm(!showbookingForm);
   };
-  const closeModal = () => {
-    setShowbookingForm(false);
-  };
+  // const closeModal = () => {
+  //   setShowbookingForm(false);
+  // };
   const [checkoutForm, setcheckoutForm] = useState(false);
   // const checkOutForm = () => {
   //   if (!state.login.selectedHostel_Id) {
@@ -2205,7 +2205,7 @@ function UserList(props) {
   console.log("props", props);
 
 
-  const [bookingDate, setBookingDate] = useState(null);
+  // const [bookingDate, setBookingDate] = useState(null);
 
   // useEffect(() => {
   //   if (props?.makeasinactive) {
@@ -2227,16 +2227,16 @@ function UserList(props) {
 
   const [inactiveForm, setInActiveForm] = useState(false)
 
-  const [bookingId, setBookingId] = useState("")
+  // const [bookingId, setBookingId] = useState("")
 
   const handleInActive = (item) => {
 
     setInActiveForm(true)
-    setBookingId(item.booking_id)
+    // setBookingId(item.booking_id)
     setInactiveDetails(item)
-    const bookingDateStr = item?.booking_booking_date; // from API
-    const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
-    setBookingDate(bookingDatevalue)
+    // const bookingDateStr = item?.booking_booking_date; // from API
+    // const bookingDatevalue = bookingDateStr ? dayjs(bookingDateStr).startOf("day") : null;
+    // setBookingDate(bookingDatevalue)
   }
 
   const handleCloseInActive = () => {
@@ -2247,8 +2247,8 @@ function UserList(props) {
 
     setInActiveForm(false)
     // setIsACtiveDateError("")
-    setInActiveComments("")
-    setInActiveDate("")
+    // setInActiveComments("")
+    // setInActiveDate("")
 
   }
 
@@ -3575,7 +3575,7 @@ function UserList(props) {
 
 
 
-                                              {(user.currentStatus === "un-assigned") || (user.currentStatus === "Inactive") && (
+                                              {(user.currentStatus === "un-assigned" || user.currentStatus === "Inactive") && (
                                                 <div
                                                   className="d-flex align-items-center gap-2"
                                                   style={{
@@ -3625,7 +3625,7 @@ function UserList(props) {
                                                 </div>
                                               )}
 
-                                              {(user.currentStatus === "un-assigned") || (user.currentStatus === "Inactive") && (
+                                              {(user.currentStatus === "un-assigned" || user.currentStatus === "Inactive") && (
                                                 <div
 
                                                   className="d-flex align-items-center gap-2"

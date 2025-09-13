@@ -17,9 +17,9 @@ import CustomerReAssign from "../CustomerFile/CustomerReAssign";
 import CustomerCheckout from "../CustomerFile/CustomerCheckout";
 import NoticeBedStatusDetails from './NoticePeriod/BedStatus';
 import BookingBed from './NoticePeriod/BookingBed';
-import AddCustomer from './AddCustomerPG';
+// import AddCustomer from './AddCustomerPG';
 import PGAssignTenant from './PGAssignTenant';
-import CheckoutTenant from './NoticePeriod/Check-out Tenant';
+// import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 import OccupiedCustomer from './OccupiedCustomer';
 import DeleteBed from './DeleteBed';
 import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmCheckout';
@@ -48,7 +48,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [Noticeperiod_bed, setNoticePeriodBed] = useState(false)
     const [deleteBedDetails, setDeleteBedDetails] = useState({ bed: null, room: null })
     const [customer, setCustomer] = useState([])
-    const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
+    // const [OccupiedCustomerDetails, setOccupiedCustomerDetails] = useState({ bed: null, room: null })
     const [customerID, setCustomerID] = useState('')
     const [add_customerform, setAddCustomerForm] = useState(false)
     const [assign_tenantform, setAssignTenantForm] = useState(false)
@@ -429,7 +429,7 @@ console.log("state",state)
                 <CustomerReAssign
                     show={showReAssignBedForm}
 
-                    reAssignBedDetail={{ ...OccupiedCustomerDetails, id: customerId }}
+                    // reAssignBedDetail={{ ...OccupiedCustomerDetails, id: customerId }}
                     setCustomerReAssign={handleCloseReassignForm}
                 />
 
@@ -470,7 +470,9 @@ console.log("state",state)
             })()}
 
 {
-                  finalsettlepage &&<FinalSettlement show = {finalsettlepage}   handleClose={handleClosefinalsettelment}  data={OccupiedCustomerDetails} customerID={customerId}/>
+                  finalsettlepage &&<FinalSettlement show = {finalsettlepage}   handleClose={handleClosefinalsettelment}  
+                   data={customer}
+                   customerID={customerId}/>
                 }
 
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
