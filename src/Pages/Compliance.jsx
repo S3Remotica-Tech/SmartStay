@@ -40,7 +40,7 @@ const Compliance = () => {
   const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
   const [Status, setStatus] = useState('');
-  const [hostel_Id, setHostel_Id] = useState('')
+  // const [hostel_Id, setHostel_Id] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
   const [room_name, setRoomName] = useState('')
@@ -536,7 +536,7 @@ const Compliance = () => {
       console.log("filterdetails" ,firstFilteredDetail);
 
        
-        setHostel_Id(firstFilteredDetail.Hostel_Id || '');
+        // setHostel_Id(firstFilteredDetail.Hostel_Id || '');
         setHostelName(firstFilteredDetail.HostelName || '');
         setFloor(firstFilteredDetail.floorId || '');
         setBeds(firstFilteredDetail.bedId || '');
@@ -716,7 +716,7 @@ const Compliance = () => {
         setHostelName('');
         setStatus('');
         setComplaintId('');
-        setHostel_Id('')
+        // setHostel_Id('')
       }
 
 
@@ -753,7 +753,7 @@ const Compliance = () => {
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.description);
       setSelectedDate(new Date(Complaintdata.complaintDate));
-      setHostel_Id(Complaintdata?.Hostel_id)
+      // setHostel_Id(Complaintdata?.Hostel_id)
       setBeds(Complaintdata.bedId)
       setBedName(Complaintdata.bedName)
       setFloor(Complaintdata.Floor_id);

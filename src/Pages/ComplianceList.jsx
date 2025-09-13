@@ -34,7 +34,7 @@ const ComplianceList = (props) => {
   const [deleteForm, setDeleteForm] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
-  const [assignId, setAssignId] = useState("");
+  // const [assignId, setAssignId] = useState("");
   const [loading, setLoading] = useState(true);
   const [formAssignCompliantLoading, setFormAssignCompliantLoading] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
@@ -241,7 +241,7 @@ const ComplianceList = (props) => {
   const handleChangeStatusOpenClose = (item) => {
     console.log("item" , item);
     
-    setAssignId(item?.ID);
+    // setAssignId(item?.ID);
     setShowDots(false);
     setStatus(item?.Status);
     setSelectedStatus(item?.Status)
@@ -379,7 +379,7 @@ const ComplianceList = (props) => {
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
   const handleAssignOpenClose = (item) => {
-    setAssignId(item?.ID);
+    // setAssignId(item?.ID);
     setShowDots(false);
     setCompliant(item?.Assign ?? "");
     setAlreadyAssigned(item?.Assign ?? "");

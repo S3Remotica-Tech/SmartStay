@@ -66,7 +66,7 @@ function UserList(props) {
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
@@ -160,11 +160,12 @@ function UserList(props) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
-        setLoading(false)
+       
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
+         setLoading(true)
       }
       if (value === "2") {
         dispatch({
