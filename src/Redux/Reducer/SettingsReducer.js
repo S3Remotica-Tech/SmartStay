@@ -10,6 +10,7 @@ export const initialState = {
   getcomplainttypeStatuscode: 0,
   addComplaintSuccessStatusCode: 0,
   alreadytypeerror: "",
+  alreadyAssignComplainterror : "" ,
   deletecomplaintStatuscode: 0,
   addEbbillingUnitStatuscode: 0,
   EBBillingUnitlist: [],
@@ -204,6 +205,13 @@ const SettingsReducer = (state = initialState, action) => {
 
     case "CLEAR_ALREADY_COMPLAINTTYPE_ERROR":
       return { ...state, alreadytypeerror: "" };
+
+    case "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
+      return { ...state, alreadyAssignComplainterror: action.payload };
+
+    case "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
+      return { ...state, alreadyAssignComplainterror: "" };
+   
 
 
     case "PLAN-EXPIRED":

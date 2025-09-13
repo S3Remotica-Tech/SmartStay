@@ -39,6 +39,7 @@ function SettingCompliance({ hostelid }) {
 
 
   const handleDeleteClick = () => {
+    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
     setShowPopup(true)
     setShowDots(false)
   }
@@ -62,6 +63,7 @@ function SettingCompliance({ hostelid }) {
 
   const handleCancel = () => {
     setShowPopup(false);
+    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
   };
 
   // useEffect(() => {
@@ -129,6 +131,7 @@ useEffect(() => {
     setPlanExpiredCompliance("");
     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
     dispatch({ type: "CLEAR_PLAN-EXPIRED" })
+     dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
 
   };
 
@@ -140,10 +143,12 @@ useEffect(() => {
           return;
          }
     setShowForm(true);
+    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
   };
 
   const handleAddComplaintType = () => {
     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
     dispatch({ type: "CLEAR_PLAN-EXPIRED" })
 
 
@@ -239,7 +244,15 @@ useEffect(() => {
 
   }, [state.Settings.alreadytypeerror])
 
-  console.log("errormessage" , state.Settings.alreadytypeerror);
+    useEffect(() => {
+    if (state.Settings.alreadyAssignComplainterror) {
+      setFormLoading(false)
+    }
+  }, [state.Settings.alreadyAssignComplainterror])
+
+   const errorMsg = state?.Settings?.alreadyAssignComplainterror;
+
+  console.log("errormessage" , state.Settings.alreadyAssignComplainterror);
   
 
 
@@ -1156,6 +1169,14 @@ useEffect(() => {
             ></div>
           </div>
         }
+ 
+
+{Boolean(errorMsg) && errorMsg !== "undefined" && (
+  <div className="d-flex align-items-center justify-content-center mt-2 mb-2">
+    <MdError style={{ color: "red", marginRight: "5px" }} />
+    <label style={{ color: "red" , fontSize:12 ,   fontFamily: "Gilroy", }}>{errorMsg}</label>
+  </div>
+)}
 
 
         <Modal.Footer

@@ -180,9 +180,9 @@ function Banking() {
   useEffect(() => {
     setLoader(false);
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
-      settransactionFilterddata(state.bankingDetails?.bankingList?.bank_trans || []);
-      setOriginalBillsFilter(state.bankingDetails?.bankingList?.bank_trans)
-      setBanking(state.bankingDetails?.bankingList)
+      settransactionFilterddata(state.bankingDetails?.bankingList?.listTransactions || []);
+      setOriginalBillsFilter(state.bankingDetails?.bankingList?.listTransactions)
+      setBanking(state.bankingDetails?.bankingList?.listBanks)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
@@ -1650,7 +1650,7 @@ const handleSort = (key, direction) => {
             className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
           >
             <div className="ps-2 ps-lg-2">
-              {user.benificiary_name} - {user.type}
+              {user.type}
             </div>
           </td>
           <td
@@ -1676,7 +1676,7 @@ const handleSort = (key, direction) => {
                 backgroundColor: "#EBEBEB",
               }}
             >
-              {formattedDate}
+              {user.createdAt}
             </span>
           </td>
           <td
