@@ -94,8 +94,8 @@ function ParticularHostelDetails(props) {
 console.log("customerID",customerID)
   const handleclickBed = (bed, room) => {
 
-
-    if (bed.isbooked === 1) {
+console.log("customerID",bed, room)
+    if (bed.isbooked === 1 && bed.isNoticePeriod !== 1) {
       setShowReservedBed(true);
       setOccupiedCustomerDetails({ bed, room });
 
