@@ -908,7 +908,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
         date: formattedDate,
         amount: props.item?.invoiceAmount,
         paidAmount: props.item?.paidAmount,
-        balanceDue: props.item?.invoiceAmount === 0 ? "00" : props.item?.invoiceAmount,
+        balanceDue: props.item?.dueAmount === 0 ? "00" : props.item?.dueAmount,
         dueDate: formattedDueDate,
         InvoiceId: props.item?.invoiceId,
         invoice_type: props.item?.invoiceType,

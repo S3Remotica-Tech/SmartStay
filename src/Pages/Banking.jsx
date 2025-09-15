@@ -1650,7 +1650,7 @@ const handleSort = (key, direction) => {
             className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
           >
             <div className="ps-2 ps-lg-2">
-              {user.type}
+              {user.accountHolder}
             </div>
           </td>
           <td
@@ -1703,7 +1703,7 @@ const handleSort = (key, direction) => {
             }}
             className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
           >
-            {user.desc}
+            {user.source}
           </td>
           <td
             style={{
