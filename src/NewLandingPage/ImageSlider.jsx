@@ -9,7 +9,7 @@ import "./ImageSlider.css";
 import Akshay from "../Assets/Images/landingpageimages/akshay.png"
 import LeftArrow from "../Assets/Images/landingpageimages/leftarr.png"
 import RightArrow from "../Assets/Images/landingpageimages/rightarr.png"
-import { Helmet } from "react-helmet-async";
+
 const TestimonialSlider = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -67,41 +67,11 @@ const TestimonialSlider = () => {
     },
   ];
 
+ 
+
   return (
     <>
-      <Helmet prioritizeSeoTags>
-        <html lang="en-IN" />
-
-        {/* Core SEO */}
-        <title>SmartStay PG & Hostel Management Software</title>
-        <meta
-          name="description"
-          content="Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool." />
-        <link rel="canonical" href="https://smartstay.qbatz.com/" />
-        <meta name="robots" content="index, follow" />
-
-        {/* Open Graph */}
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="SmartStay" />
-        <meta property="og:title" content="SmartStay PG & Hostel Management Software" />
-        <meta property="og:description" content="Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool." />
-        <meta property="og:url" content="https://smartstay.qbatz.com/" />
-        <meta property="og:image" content="https://smartstay.qbatz.com/assets/sm_homepage-CODs4gRc.png" />
-        <meta property="og:image:alt" content="SmartStay dashboard showing hostel room availability and bed occupancy" />
-
-
-        {/* Schema.org WebPage */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            name: "SmartStay PG & Hostel Management Software",
-            url: "https://smartstay.qbatz.com/",
-            description:
-              "Indiaâ€™s most trusted hostel software. SmartStay offers rent collection tools, tenant billing, PG booking system, and a complete hostel issue tracking tool.",
-          })}
-        </script>
-      </Helmet>
+    
       <div className="testimonial-container p-5 mb-4" style={{ backgroundColor: "#F8FAFC", position: 'relative' }}>
         <Swiper
           modules={[Navigation, Pagination]}

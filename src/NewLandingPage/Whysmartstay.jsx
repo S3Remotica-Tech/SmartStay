@@ -3,11 +3,10 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Plus from "../Assets/Images/landingpageimages/Plus.png";
 import emailjs from '@emailjs/browser';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from "react-helmet-async";
+
 const SmartStaySection = () => {
 
-  const ogImage = "https://smartstay.qbatz.com/assets/Smartstay_LOGO-CEWVemGR.svg";
-  const ogAlt = "SmartStay logo";
+  
 
   const [formData, setFormData] = useState({
     pg_name: '',
@@ -134,120 +133,11 @@ const SmartStaySection = () => {
       setIsSubmitting(false);
     }
   };
+
+
   return (
     <>
-      <Helmet prioritizeSeoTags>
-        <html lang="en-IN" />
-
-        {/* Core SEO */}
-        <title>SmartStay Hostel Software Pricing – Affordable Plans</title>
-        <meta
-          name="description"
-          content="SmartStay offers affordable hostel software pricing in India with PG plans – Suite Team, Professional & Growth, including rent collection & billing."
-        />
-        <link
-          rel="canonical"
-          href="https://smartstay.qbatz.com/hostel-software-pricing"
-        />
-        <meta name="robots" content="index, follow" />
-
-        {/* Open Graph */}
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="SmartStay" />
-        <meta property="og:locale" content="en_IN" />
-        <meta
-          property="og:url"
-          content="https://smartstay.qbatz.com/hostel-software-pricing"
-        />
-        <meta
-          property="og:title"
-          content="SmartStay Hostel Software Pricing – Affordable Plans"
-        />
-        <meta
-          property="og:description"
-          content="SmartStay offers affordable hostel software pricing in India with PG plans – Suite Team, Professional & Growth, including rent collection & billing."
-        />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:image:alt" content={ogAlt} />
-
-        {/* WebPage schema */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            name: "Hostel Pricing",
-            url: "https://smartstay.qbatz.com/hostel-software-pricing",
-            description:
-              "SmartStay offers affordable hostel software pricing in India with PG plans – Suite Team, Professional & Growth, including rent collection & billing.",
-          })}
-        </script>
-
-        {/* Breadcrumbs: Home › Pricing */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://smartstay.qbatz.com/",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Pricing",
-                item: "https://smartstay.qbatz.com/hostel-software-pricing",
-              },
-            ],
-          })}
-        </script>
-
-        {/* SoftwareApplication + Offers */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: "SmartStay Hostel Management Software",
-            applicationCategory: "BusinessApplication",
-            operatingSystem: "Web",
-            url: "https://smartstay.qbatz.com/hostel-software-pricing",
-            description:
-              "SaaS for hostel & PG management: rent collection, billing, bookings, agreements, KYC and notifications.",
-            offers: [
-              {
-                "@type": "Offer",
-                name: "Suite Team (1 Month)",
-                priceCurrency: "INR",
-                price: "299",
-                url: "https://smartstay.qbatz.com/hostel-software-pricing",
-              },
-              {
-                "@type": "Offer",
-                name: "Suite Professional (1 Month)",
-                priceCurrency: "INR",
-                price: "599",
-                url: "https://smartstay.qbatz.com/hostel-software-pricing",
-              },
-              {
-                "@type": "Offer",
-                name: "Suite Growth (1 Year)",
-                priceCurrency: "INR",
-                price: "999",
-                url: "https://smartstay.qbatz.com/hostel-software-pricing",
-              },
-              {
-                "@type": "Offer",
-                name: "SmartStay Service (1 Year)",
-                priceCurrency: "INR",
-                price: "9999",
-                url: "https://smartstay.qbatz.com/hostel-software-pricing",
-              },
-            ],
-          })}
-        </script>
-      </Helmet>
+     
 
       <Container fluid className="text-white py-5" style={{ backgroundColor: "#090F29", marginBottom: 40, position: "relative", overflow: "visible" }}>
 

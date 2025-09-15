@@ -79,6 +79,13 @@ const KeyFeaturesNew = () => {
     }
   };
 
+  const SEO = {
+    title: "Best Hostel Property Management System - SmartStay",
+    description: "SmartStay’s hostel property management system with digital KYC, e-sign rental agreements, rent automation, tenant alerts & billing.",
+    url: "https://smartstay.qbatz.com/hostel-management-features",
+    image: "https://smartstay.qbatz.com/assets/sm_homepage-CODs4gRc.png",
+    imageAlt: "SmartStay hostel property management features"
+  };
 
 
 
@@ -87,36 +94,29 @@ const KeyFeaturesNew = () => {
 
       <Helmet prioritizeSeoTags>
         <html lang="en-IN" />
-        <title>Best Hostel Property Management System - SmartStay</title>
-        <meta
-          name="description"
-          content="SmartStay’s hostel property management system with digital KYC, e-sign rental agreements, rent automation, tenant alerts & billing"
-        />
-        <link rel="canonical" href="https://smartstay.qbatz.com/hostel-management-features" />
+        <title>{SEO.title}</title>
+        <meta name="description" content={SEO.description} />
+        <link rel="canonical" href={SEO.url} />
         <meta name="robots" content="index, follow" />
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="SmartStay" />
         <meta property="og:locale" content="en_IN" />
-        <meta property="og:url" content="https://smartstay.qbatz.com/hostel-management-features" />
-        <meta property="og:title" content="Best Hostel Property Management System - SmartStay" />
-        <meta
-          property="og:description"
-          content="SmartStay’s hostel property management system with digital KYC, e-sign rental agreements, rent automation, tenant alerts & billing"
-        />
-        <meta property="og:image" content="https://smartstay.qbatz.com/assets/sm_homepage-CODs4gRc.png" />
-        <meta property="og:image:alt" content="SmartStay hostel property management features" />
+        <meta property="og:url" content={SEO.url} />
+        <meta property="og:title" content={SEO.title} />
+        <meta property="og:description" content={SEO.description} />
+        <meta property="og:image" content={SEO.image} />
+        <meta property="og:image:alt" content={SEO.imageAlt} />
 
         {/* Schema.org WebPage */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            name: "SmartStay hostel-management-features",
-            url: "https://smartstay.qbatz.com/hostel-management-features/",
-            description:
-              "SmartStay’s hostel property management system with digital KYC, e-sign rental agreements, rent automation, tenant alerts & billing.",
+            name: SEO.title,
+            url: SEO.url,
+            description: SEO.description
           })}
         </script>
 
@@ -127,17 +127,11 @@ const KeyFeaturesNew = () => {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Home", item: "https://smartstay.qbatz.com/" },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Features",
-                item: "https://smartstay.qbatz.com/hostel-management-features/",
-              },
-            ],
+              { "@type": "ListItem", position: 2, name: "Features", item: SEO.url }
+            ]
           })}
         </script>
       </Helmet>
-
 
       <div
         style={{

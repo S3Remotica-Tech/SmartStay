@@ -5,6 +5,7 @@ import Custommangement from "../Assets/Images/landingpageimages/cus_manage_icon.
 import Report from "../Assets/Images/landingpageimages/Report.png";
 import Hostel from "../Assets/Images/landingpageimages/sm_hostel.png";
 import Lists from "../Assets/Images/landingpageimages/list.svg";
+import { Helmet } from "react-helmet-async";
 
 const features = [
   { id: 1, name: "KYC Verification", icon: Roommangement, alt: "Room management feature of SmartStay hostel booking software with live occupancy tracking", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel, alts: "SmartStay room layout dashboard for hostel booking, bed occupancy, and PG allocation by floor" },
@@ -43,25 +44,71 @@ const KeyFeatures = () => {
   }, []);
 
 
- const handleScrollToFeature = (index) => {
-  setActiveFeature(index);
-  setHideHeaderContent(true);
+  const handleScrollToFeature = (index) => {
+    setActiveFeature(index);
+    setHideHeaderContent(true);
 
-  const element = sectionRefs.current[index];  
- 
-  if (element) {
-    const topOffset = element.getBoundingClientRect().top + window.scrollY - 350;
-    window.scrollTo({ top: topOffset, behavior: "smooth" });
-  }
-};
+    const element = sectionRefs.current[index];
+
+    if (element) {
+      const topOffset = element.getBoundingClientRect().top + window.scrollY - 350;
+      window.scrollTo({ top: topOffset, behavior: "smooth" });
+    }
+  };
 
 
-
+  const SEO = {
+    title: "Best Hostel Property Management System - SmartStay",
+    description: "SmartStay’s hostel property management system with digital KYC, e-sign rental agreements, rent automation, tenant alerts & billing.",
+    url: "https://smartstay.qbatz.com/hostel-management-features",
+    image: "https://smartstay.qbatz.com/assets/sm_homepage-CODs4gRc.png",
+    imageAlt: "SmartStay hostel property management features"
+  };
 
 
 
   return (
     <>
+      <Helmet prioritizeSeoTags>
+        <html lang="en-IN" />
+        <title>{SEO.title}</title>
+        <meta name="description" content={SEO.description} />
+        <link rel="canonical" href={SEO.url} />
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="SmartStay" />
+        <meta property="og:locale" content="en_IN" />
+        <meta property="og:url" content={SEO.url} />
+        <meta property="og:title" content={SEO.title} />
+        <meta property="og:description" content={SEO.description} />
+        <meta property="og:image" content={SEO.image} />
+        <meta property="og:image:alt" content={SEO.imageAlt} />
+
+        {/* Schema.org WebPage */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: SEO.title,
+            url: SEO.url,
+            description: SEO.description
+          })}
+        </script>
+
+        {/* Breadcrumbs */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://smartstay.qbatz.com/" },
+              { "@type": "ListItem", position: 2, name: "Features", item: SEO.url }
+            ]
+          })}
+        </script>
+      </Helmet>
       <Container fluid className="text-center pt-3 ps-0 pe-0 pb-0 position-relative"
         style={{
           background: "linear-gradient(135deg, #E2E6FF, #EFFCFF)",
@@ -109,7 +156,7 @@ const KeyFeatures = () => {
                     style={{
                       borderRadius: "20px",
                       border: activeFeature === feature.index ? "2px solid rgba(30, 69, 225, 1)" : "2px solid transparent",
-                      color: activeFeature === feature.index ? "rgba(30, 69, 225, 1)" : "#6c757d", whiteSpace:"nowrap",fontSize:14
+                      color: activeFeature === feature.index ? "rgba(30, 69, 225, 1)" : "#6c757d", whiteSpace: "nowrap", fontSize: 14
                     }}
                     onClick={() => handleScrollToFeature(index)}
                   >
