@@ -12,7 +12,7 @@ import Form from 'react-bootstrap/Form';
 import { InputGroup } from 'react-bootstrap';
 import { Eye, EyeSlash } from 'iconsax-react';
 import { MdError } from "react-icons/md";
-
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -335,13 +335,80 @@ function CreateAccountPage() {
 
   }, [state.createAccount?.networkError])
 
-  
+
 
 
 
   return (
     <>
+      <Helmet prioritizeSeoTags>
+        <html lang="en-IN" />
+        <title>SmartStay - Hostel Management Software Signup</title>
+        <meta
+          name="description"
+          content="Create your SmartStay account to start managing hostel bookings, rent collection, digital KYC, and billing."
+        />
+        <link
+          rel="canonical"
+          href="https://smartstay.qbatz.com/hostel-management-signup"
+        />
+        <meta name="robots" content="noindex, nofollow, noimageindex" />
+        <meta name="googlebot" content="noindex, nofollow, noimageindex" />
 
+       
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="SmartStay" />
+        <meta
+          property="og:title"
+          content="SmartStay - Hostel Management Software Signup"
+        />
+        <meta
+          property="og:description"
+          content="Sign up for SmartStay to manage PG & hostel operations."
+        />
+        <meta
+          property="og:url"
+          content="https://smartstay.qbatz.com/hostel-management-signup"
+        />
+
+        {/* Schema.org WebPage + RegisterAction */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "SmartStay Signup",
+            url: "https://smartstay.qbatz.com/hostel-management-signup",
+            description:
+              "Create your SmartStay account to start managing hostel bookings, rent collection, digital KYC, and billing.",
+            potentialAction: {
+              "@type": "RegisterAction",
+              target: "https://smartstay.qbatz.com/hostel-management-signup",
+            },
+          })}
+        </script>
+
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://smartstay.qbatz.com/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Signup",
+                item: "https://smartstay.qbatz.com/hostel-management-signup",
+              },
+            ],
+          })}
+        </script>
+      </Helmet>
       <div data-testid='create-account' style={{ width: "100%", fontFamily: "Gilroy", backgroundColor: "" }}>
 
         <div className=" ms-5">

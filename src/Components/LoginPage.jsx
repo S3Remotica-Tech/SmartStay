@@ -15,7 +15,7 @@ import Loginimage from '../Assets/Images/new_login.png';
 import Logo from '../Assets/Images/New_images/Group.png';
 import { Eye, EyeSlash } from 'iconsax-react';
 import { MdError } from "react-icons/md";
-
+import { Helmet } from "react-helmet-async";
 
 const MyComponent = () => {
 
@@ -171,177 +171,242 @@ const MyComponent = () => {
 
   }, [state.createAccount?.networkError])
   return (
+    <>
+      <Helmet prioritizeSeoTags>
+        <html lang="en-IN" />
+        <title>SmartStay - Hostel Management Login</title>
+        <meta
+          name="description"
+          content="Login to your SmartStay hostel management account to manage tenants, invoices, complaints, and reports securely."
+        />
+        <link
+          rel="canonical"
+          href="https://smartstay.qbatz.com/hostel-management-login"
+        />
+        <meta name="robots" content="noindex, nofollow, noimageindex" />
+        <meta name="googlebot" content="noindex, nofollow, noimageindex" />
 
-    <div className='container login_page1 h-100'>
-      <div className='row h-100 align-items-center p-3 mt-md-4 pt-md-4 w-100 fade-in'>
-        <div className='col-lg-6 col-md-6 col-sm-12' style={{ position: "relative" }}>
-          <div className="d-flex gap-1 mb-1" >
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="SmartStay" />
+        <meta property="og:title" content="SmartStay - Hostel Management Login" />
+        <meta
+          property="og:description"
+          content="Secure login for SmartStay hostel management software."
+        />
+        <meta
+          property="og:url"
+          content="https://smartstay.qbatz.com/hostel-management-login"
+        />
 
-            <img src={Logo} alt='logo' style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClicks} />
-            <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", cursor: "pointer" }} onClick={handleLogoClicks} >
-              Smartstay</label></div>
-          </div>
-          <div className='mb-3 mt-2' >
-            <h1 style={{ fontFamily: "Gilroy", fontWeight: 600, color: 'rgba(34, 34, 34, 1)', fontSize: '32px' }}>Welcome back!</h1>
-          </div>
-          <div>
-            <p className='p_font'>Enter your details below to get onto your SmartStay account.</p>
-          </div>
+        {/* Schema.org WebPage + LoginAction */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "SmartStay Login",
+            url: "https://smartstay.qbatz.com/hostel-management-login",
+            description:
+              "Login to your SmartStay hostel management account to manage tenants, invoices, complaints, and reports securely.",
+            potentialAction: {
+              "@type": "LoginAction",
+              target: "https://smartstay.qbatz.com/hostel-management-login",
+            },
+          })}
+        </script>
 
-          {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-            : null}
+        {/* BreadcrumbList */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://smartstay.qbatz.com/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Login",
+                item: "https://smartstay.qbatz.com/hostel-management-login",
+              },
+            ],
+          })}
+        </script>
+      </Helmet>
+      <div className='container login_page1 h-100'>
+        <div className='row h-100 align-items-center p-3 mt-md-4 pt-md-4 w-100 fade-in'>
+          <div className='col-lg-6 col-md-6 col-sm-12' style={{ position: "relative" }}>
+            <div className="d-flex gap-1 mb-1" >
 
-          <div className='mt-4'>
-            <Form className="Form p-0">
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
-              <Form.Control
-                placeholder="Enter Email ID"
-                aria-label="Recipient's username"
-                className='mb-1'
-                aria-describedby="basic-addon2"
-                style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: email_Id ? 600 : 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
-                autoFocus
-                size="lg"
-                disabled={showOtpVerification}
-                value={email_Id} onChange={(e) => handleEmailChange(e)}
+              <img src={Logo} alt='logo' style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClicks} />
+              <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", cursor: "pointer" }} onClick={handleLogoClicks} >
+                Smartstay</label></div>
+            </div>
+            <div className='mb-3 mt-2' >
+              <h1 style={{ fontFamily: "Gilroy", fontWeight: 600, color: 'rgba(34, 34, 34, 1)', fontSize: '32px' }}>Welcome back!</h1>
+            </div>
+            <div>
+              <p className='p_font'>Enter your details below to get onto your SmartStay account.</p>
+            </div>
 
-              />
+            {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+              : null}
 
-              {emailError && <div className='d-flex p-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <div style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</div>
-              </div>
-              }
-
-
-              <div className="mb-1 p-1" >{state.login.errorEmail ?
-                <div className='d-flex p-1 '>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorEmail}</label> </div> : null}</div>
-
-
-
-              <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
-              <InputGroup>
+            <div className='mt-4'>
+              <Form className="Form p-0">
+                <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
                 <Form.Control
-                  size="lg"
+                  placeholder="Enter Email ID"
+                  aria-label="Recipient's username"
                   className='mb-1'
-                  value={password} onChange={(e) => handlePasswordChange(e)}
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter Password"
+                  aria-describedby="basic-addon2"
+                  style={{ boxShadow: "none", border: "1px solid rgba(217, 217, 217, 1)", fontSize: 16, fontWeight: email_Id ? 600 : 500, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy" }}
+                  autoFocus
+                  size="lg"
                   disabled={showOtpVerification}
-                  style={{
-                    position: "relative",
-                    boxShadow: "none",
-                    border: "1px solid rgba(217, 217, 217, 1)",
-                    fontSize: 16,
-                    fontWeight: password ? 600 : 500,
-                    color: "rgba(34, 34, 34, 1)",
-                    fontFamily: "Gilroy",
-                    borderRight: "none"
-                  }}
+                  value={email_Id} onChange={(e) => handleEmailChange(e)}
+
                 />
-                <InputGroup.Text className='mb-1' onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer", borderLeft: "none" }}>
-                  {showPassword ? (
-                    <Eye size="20" color="rgba(30, 69, 225, 1)" />
-                  ) : (
 
-                    <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
-                  )}
-                </InputGroup.Text>
-
-              </InputGroup>
-
-
-
-              {passwordError && (
-                <div className="d-flex align-items-center p-1">
+                {emailError && <div className='d-flex p-1'>
                   <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {passwordError}
-                  </label>
+                  <div style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</div>
                 </div>
-              )}
+                }
 
-              <div className="mb-1 p-1"> {state.login.errorPassword ? <div className='d-flex align-items-center p-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorPassword}</label>
+
+                <div className="mb-1 p-1" >{state.login.errorEmail ?
+                  <div className='d-flex p-1 '>
+                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <label style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorEmail}</label> </div> : null}</div>
+
+
+
+                <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    size="lg"
+                    className='mb-1'
+                    value={password} onChange={(e) => handlePasswordChange(e)}
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter Password"
+                    disabled={showOtpVerification}
+                    style={{
+                      position: "relative",
+                      boxShadow: "none",
+                      border: "1px solid rgba(217, 217, 217, 1)",
+                      fontSize: 16,
+                      fontWeight: password ? 600 : 500,
+                      color: "rgba(34, 34, 34, 1)",
+                      fontFamily: "Gilroy",
+                      borderRight: "none"
+                    }}
+                  />
+                  <InputGroup.Text className='mb-1' onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer", borderLeft: "none" }}>
+                    {showPassword ? (
+                      <Eye size="20" color="rgba(30, 69, 225, 1)" />
+                    ) : (
+
+                      <EyeSlash size="20" color="rgba(30, 69, 225, 1)" />
+                    )}
+                  </InputGroup.Text>
+
+                </InputGroup>
+
+
+
+                {passwordError && (
+                  <div className="d-flex align-items-center p-1">
+                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {passwordError}
+                    </label>
+                  </div>
+                )}
+
+                <div className="mb-1 p-1"> {state.login.errorPassword ? <div className='d-flex align-items-center p-1'>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorPassword}</label>
+                </div>
+                  : null}</div>
+
+
+                <div className="mb-3 d-flex justify-content-between mt-3" >
+                  <Form.Group controlId="formBasicCheckbox">
+                    <Form.Check type="checkbox" label="Stay signed in"
+                      value={checked}
+                      onChange={(e) => handleCheckboxChange(e)}
+                      style={{ fontSize: "14px", fontWeight: 500, fontFamily: 'Gilroy' }} />
+                  </Form.Group>
+                  <Form.Label className='forgot_button create-account-hover' onClick={() => handleForgetPassword()} >Forgot Password?</Form.Label>
+                </div>
+              </Form>
+
+              <div className="d-flex justify-content-center pt-2">
+                <Button type="button" className="btn w-100" style={{ height: '42px', fontWeight: 600, fontSize: "16px", borderRadius: '10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontFamily: "Montserrat" }} onClick={() => handleLogin()}>
+                  Sign in
+                </Button>
               </div>
-                : null}</div>
+            </div>
 
 
-              <div className="mb-3 d-flex justify-content-between mt-3" >
-                <Form.Group controlId="formBasicCheckbox">
-                  <Form.Check type="checkbox" label="Stay signed in"
-                    value={checked}
-                    onChange={(e) => handleCheckboxChange(e)}
-                    style={{ fontSize: "14px", fontWeight: 500, fontFamily: 'Gilroy' }} />
-                </Form.Group>
-                <Form.Label className='forgot_button create-account-hover' onClick={() => handleForgetPassword()} >Forgot Password?</Form.Label>
-              </div>
-            </Form>
+            {loading && <div
+              style={{
+                position: 'absolute',
+                top: 120,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                display: 'flex',
+                height: "50vh",
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
 
-            <div className="d-flex justify-content-center pt-2">
-              <Button type="button" className="btn w-100" style={{ height: '42px', fontWeight: 600, fontSize: "16px", borderRadius: '10px', backgroundColor: "rgba(30, 69, 225, 1)", color: "rgba(255, 255, 255, 1)", fontFamily: "Montserrat" }} onClick={() => handleLogin()}>
-                Sign in
-              </Button>
+
+
+
+          </div>
+          <div className='col-lg-6 col-md-6 col-sm-12 mt-md-3'>
+            <div className='image_div mt-5'>
+              <img src={Loginimage} className='responsive-image' alt='Hai' />
             </div>
           </div>
-
-
-          {loading && <div
-            style={{
-              position: 'absolute',
-              top: 120,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              height: "50vh",
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
-
-
-
-
-        </div>
-        <div className='col-lg-6 col-md-6 col-sm-12 mt-md-3'>
-          <div className='image_div mt-5'>
-            <img src={Loginimage} className='responsive-image' alt='Hai' />
+          <div className='d-flex mt-3 gap-1'>
+            <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16 }}>
+              Don&apos;t have an account?
+            </p><span className="create-account-hover" style={{ color: 'rgba(30, 69, 225, 1)', fontWeight: 600, fontSize: '16px', fontFamily: 'Montserrat', cursor: "pointer" }} onClick={handleCreateAccount}>Create an account</span>
           </div>
+
         </div>
-        <div className='d-flex mt-3 gap-1'>
-          <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16 }}>
-            Don&apos;t have an account?
-          </p><span className="create-account-hover" style={{ color: 'rgba(30, 69, 225, 1)', fontWeight: 600, fontSize: '16px', fontFamily: 'Montserrat', cursor: "pointer" }} onClick={handleCreateAccount}>Create an account</span>
-        </div>
+
+
+        <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} Email_Id={email_Id} checked={checked} />
 
       </div>
-
-
-      <OtpVerificationModal show={showOtpVerification} handleClose={handleCloseModal} Email_Id={email_Id} checked={checked} />
-
-    </div>
-
+    </>
 
   );
 };
