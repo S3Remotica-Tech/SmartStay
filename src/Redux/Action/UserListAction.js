@@ -544,3 +544,12 @@ export async function kycDocuments(datum) {
 //     // Handle the error here
 //   }
 // }
+
+
+
+export async function checkoutDateChange(datum) {
+  console.log("checkoutDateChange",datum)
+  return await AxiosConfig.post('/update_CheckoutDate', datum, {
+    data: datum
+  })
+}

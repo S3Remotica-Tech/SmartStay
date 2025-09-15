@@ -181,7 +181,20 @@ const InvoicePage = () => {
   };
 
 
+console.log("invoiceValue",invoiceValue)
 
+const [matchedDet,setMatchedDetails] = useState("")
+
+useEffect(()=>{
+  if(invoiceValue){
+const matchedDetails = state.UsersList.Users?.filter(
+  (user) => user.ID === invoiceValue.ID
+);
+setMatchedDetails(matchedDetails)
+
+
+  }
+},[invoiceValue])
   useEffect(() => {
     if (recurringbills?.length > 0) {
       const initialChecked = {};
@@ -636,12 +649,13 @@ const InvoicePage = () => {
   const handleAmount = (e) => {
     let value = e.target.value;
 
-    // If user typed something, convert & limit
+    
     if (value !== "") {
       let numValue = Number(value);
       if (numValue > (invoiceList.balanceDue || 0)) {
         numValue = invoiceList.balanceDue || 0;
       }
+      
       value = numValue;
       setBalance((invoiceList.balanceDue || 0) - numValue);
     } else {
@@ -936,6 +950,7 @@ const InvoicePage = () => {
     setPaymodeErrmsg("");
     setPayableAmount("")
     setPayableAmountError("")
+     setSelectedDate("");
     // setManualInvoiceNumberError("")
     setUnableAddInvoiceDetailsError("")
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
@@ -956,7 +971,7 @@ const InvoicePage = () => {
       transaction: "",
       paymentType: "",
     });
-    setSelectedDate(null);
+   
   };
 
 
@@ -2094,6 +2109,7 @@ const InvoicePage = () => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
       setPayableAmount("")
       setBalance("")
+      setSelectedDate("")
       setFormRecordLoading(false)
       setShowform(false)
       dispatch({
@@ -3635,7 +3651,7 @@ const InvoicePage = () => {
                           onHide={handleCloseForm}
                           backdrop="static"
                           centered
-                          dialogClassName="custom-modals-record-payment-style"
+                          // dialogClassName="custom-modals-record-payment-style"
 
                         >
                           <Modal.Dialog
@@ -3657,7 +3673,7 @@ const InvoicePage = () => {
                                 }}
                               >
                                 {`Record payment `}
-                                {invoiceValue?.Name && (
+                                {/* {invoiceValue?.Name && (
                                   <span>
                                     -
                                     <span style={{ color: "#1E45E1" }}>
@@ -3665,8 +3681,8 @@ const InvoicePage = () => {
                                       {invoiceValue.Name}
                                     </span>{" "}
                                   </span>
-                                )}
-                                {invoiceValue?.Invoices && (
+                                )} */}
+                                {/* {invoiceValue?.Invoices && (
                                   <span>
                                     -
                                     <span style={{ color: "#1E45E1" }}>
@@ -3674,16 +3690,60 @@ const InvoicePage = () => {
                                       {invoiceValue.Invoices}
                                     </span>{" "}
                                   </span>
-                                )}
+                                )} */}
                               </div>
 
                               <CloseCircle size="24" color="#000" onClick={handleCloseForm}
                                 style={{ cursor: 'pointer' }} />
                             </Modal.Header>
 
+
+                           
+
                             <Modal.Body>
+                              <>
+                                 <div className="d-flex align-items-center " >
+                                       <img
+                            //    src={
+                            //   matchedDet && matchedDet[0]?.profile !== "0"
+                            //     ? matchedDet[0]?.profile
+                            //     : matchedDet[0]?.profile && matchedDet[0]?.profile !== "0"
+                            //     ? matchedDet[0]?.profile
+                            //     : Profile
+                            // }
+                            src={matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== "0"
+  ? matchedDet[0].profile
+  : Profile
+}
+
+                                style={{ height: 55, width: 55, cursor: "pointer" }}
+                                alt="profile"
+                                className="rounded-circle me-3"
+                              />
+                              {/* <img src={Profile}  style={{ height: 55, width: 55, cursor: "pointer" }}
+                                alt="profile"
+                                className="rounded-circle me-3"/> */}
+                                     <div>
+                                  <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0"> {invoiceValue.Name}</p>
+                              <div className="d-flex mb-2">
+                                <span className="badge rounded-pill bg-warning text-dark me-2" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
+                               {matchedDet[0]?.floor_name}
+                                </span>
+                                <span className="badge rounded-pill bg-danger-subtle text-dark" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
+                                  {/* {hostelData["Room Name"]} - {hostelData["Bed Name"]} */}
+                                 {matchedDet[0]?.Room_Id} - {matchedDet[0]?.Bed}
+                                </span>
+                              </div>
+                              </div>
+                                      <div className="ms-auto text-end mt-2">
+                                        <p   style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,color:"#4B4B4B",padding:0 , margin:0}}>Due Pending</p>
+                                        <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600,}}>
+                                          {/* {checkOutDate} */} {invoiceList.balanceDue}
+                                          </p>
+                                      </div>
+                                    </div>
                               <div className="row">
-                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
 
                                     controlId="exampleForm.ControlInput1"
@@ -3715,7 +3775,7 @@ const InvoicePage = () => {
                                       disabled
                                     />
                                   </Form.Group>
-                                </div>
+                                </div> */}
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
@@ -3763,9 +3823,11 @@ const InvoicePage = () => {
                                       className="no-spinner"
                                       value={payableAmount}
                                       onChange={handleAmount}
-                                    // onKeyDown={(e) => {
-                                    //   if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
-                                    // }}
+                                   onKeyDown={(e) => {
+    if (e.key === "-" || e.key === "e") {
+      e.preventDefault();
+    }
+  }}
                                     />
 
 
@@ -4057,6 +4119,41 @@ const InvoicePage = () => {
                                 </div>
 
 
+                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <Form.Group
+
+                                    controlId="exampleForm.ControlInput1"
+                                  >
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      Transaction ID
+                                    </Form.Label>
+                                    <Form.Control
+                                      type="text"
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                      }}
+                                      placeholder="Enter Transaction ID"
+                                      // value={invoiceList.balanceDue}
+                                      // disabled
+                                    />
+                                  </Form.Group>
+                                </div>
+
+
                                 {invoiceList.transaction === "Net Banking" && (
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Label
@@ -4175,6 +4272,7 @@ const InvoicePage = () => {
                                 )}
 
                               </div>
+                              </>
                               {totalErrormsg.trim() !== "" && (
                                 <div>
                                   <p
@@ -4198,6 +4296,7 @@ const InvoicePage = () => {
                                     {totalErrormsg}
                                   </p>
                                 </div>
+                               
                               )}
                             </Modal.Body>
 
@@ -4244,7 +4343,7 @@ const InvoicePage = () => {
 
 
                             <Modal.Footer style={{ border: "none" }}>
-                              <Button
+                              {/* <Button
                                 className="w-100"
                                 style={{
                                   backgroundColor: "#1E45E1",
@@ -4257,7 +4356,19 @@ const InvoicePage = () => {
                                 onClick={handleSaveInvoiceList}
                               >
                                 Record payment
-                              </Button>
+                              </Button> */}
+
+
+                                 <div className="text-end mt-4">
+                                                                  <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
+                                                                      Cancel
+                                                                  </Button>
+                                                                  <Button
+                                                                      // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
+                                                                      style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }} 
+                                                                      onClick={handleSaveInvoiceList}
+                                                                      >Record</Button>
+                                                              </div>
                             </Modal.Footer>
                           </Modal.Dialog>
                         </Modal>

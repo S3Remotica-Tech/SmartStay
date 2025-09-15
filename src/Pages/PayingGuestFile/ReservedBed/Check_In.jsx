@@ -219,9 +219,9 @@ if(currentItem){
 //   );
 // };
 
-const disabledJoiningDate = (current) => {
-    return current && current > dayjs().endOf("day");
-  };
+// const disabledJoiningDate = (current) => {
+//     return current && current > dayjs().endOf("day");
+//   };
   
 
     useEffect(() => {
@@ -884,7 +884,12 @@ const formatDate = (date) => {
           setJoingDateErrmsg("");
         }}
         getPopupContainer={() => document.body}
-        disabledDate={disabledJoiningDate}
+        // disabledDate={disabledJoiningDate}
+                                     disabledDate={(current) =>
+            
+            (bookingDate && current < bookingDate.startOf("day")) ||
+            current > dayjs().endOf("day")
+          }
       />
     </div>
   
