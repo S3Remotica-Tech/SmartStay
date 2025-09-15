@@ -28,6 +28,8 @@ function CustomerCheckout(props) {
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState('')
   const [lastDate, setLastDate] = useState("");
   const [joiningdate , setJoiningDate] = useState("")
+  const [reAssignDate,setReAssignDate] = useState("")
+  console.log("lastDate",lastDate)
 
     // useEffect(() => {
     //   if(props?.data?.ID || props?.data[0]?.id ){
@@ -53,8 +55,9 @@ useEffect(() => {
     useEffect(() => {
          if (state.UsersList.CustomerdetailsgetStatuscode === 200) {
            const customerData = state.UsersList.customerdetails?.data?.[0]
+           console.log("customerData",customerData)
            const invoiceDetails = state.UsersList.customerdetails?.invoice_details;
-       
+       setReAssignDate(customerData?.reassign_date)
            // 🔹 1. Store Joining Date
            if (customerData?.joining_Date) {
              const joining = new Date(customerData.joining_Date);
@@ -409,53 +412,148 @@ onError={(e) => {
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".datepicker-wrapper")
                               }
-                              disabledDate={(current) => {
-                                if (!current) return false;
+                              // disabledDate={(current) => {
+                              //   if (!current) return false;
                             
-                                const today = dayjs().endOf("day");
+                              //   const today = dayjs().endOf("day");
                             
-                                // 🔹 Parse joiningDate from state (DD-MM-YYYY)
-                                let joining = null;
-                                if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
-                                  const [dd, mm, yyyy] = joiningdate.split("-");
-                                  joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-                                }
+                              //   // 🔹 Parse joiningDate from state (DD-MM-YYYY)
+                              //   let joining = null;
+                              //   if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
+                              //     const [dd, mm, yyyy] = joiningdate.split("-");
+                              //     joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                              //   }
                             
-                                // 🔹 Parse last bill date from state (DD-MM-YYYY)
-                                let lastBillDate = null;
-                                if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
-                                  const [dd, mm, yyyy] = lastDate.split("-");
-                                  lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-                                }
+                              //   // 🔹 Parse last bill date from state (DD-MM-YYYY)
+                              //   let lastBillDate = null;
+                              //   if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
+                              //     const [dd, mm, yyyy] = lastDate.split("-");
+                              //     lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+                              //   }
                             
-                                let minAllowedDate = null;
+                              //   let minAllowedDate = null;
                             
-                                if (joining) {
-                                  const sameMonth =
-                                    joining.month() === today.month() &&
-                                    joining.year() === today.year();
+                              //   if (joining) {
+                              //     const sameMonth =
+                              //       joining.month() === today.month() &&
+                              //       joining.year() === today.year();
                             
-                                  if (sameMonth) {
-                                    // ✅ Case 1: Joining date is in current month → allow from joining date onwards
-                                    minAllowedDate = joining;
-                                  } else if (lastBillDate) {
-                                    // ✅ Case 2: Joining date not in current month → allow from last bill date onwards
-                                    minAllowedDate = lastBillDate;
-                                  }
-                                }
+                              //     if (sameMonth) {
+                                  
+                              //       minAllowedDate = joining;
+                              //     } else if (lastBillDate) {
+                                   
+                              //       minAllowedDate = lastBillDate;
+                              //     }
+                              //   }
                             
-                                // ❌ Block future dates
-                                if (current.isAfter(today)) {
-                                  return true;
-                                }
+                              //   // ❌ Block future dates
+                              //   if (current.isAfter(today)) {
+                              //     return true;
+                              //   }
                             
-                                // ❌ Block all dates before minAllowedDate
-                                if (minAllowedDate && current.isBefore(minAllowedDate)) {
-                                  return true;
-                                }
+                              //   // ❌ Block all dates before minAllowedDate
+                              //   if (minAllowedDate && current.isBefore(minAllowedDate)) {
+                              //     return true;
+                              //   }
                             
-                                return false;
-                              }}
+                              //   return false;
+                              // }}
+// disabledDate={(current) => {
+//   if (!current) return false;
+
+//   const today = dayjs().endOf("day");
+
+//   // 🔹 Parse reAssignDate first (priority)
+//   let reAssign = null;
+//   if (reAssignDate) {
+//     reAssign = dayjs(reAssignDate).startOf("day");
+//   }
+
+//   // 🔹 Parse joiningDate
+//   let joining = null;
+//   if (joiningdate) {
+//     joining = dayjs(joiningdate).startOf("day");
+//   }
+
+//   // 🔹 Parse lastBillDate
+//   let lastBillDate = null;
+//   if (lastDate) {
+//     lastBillDate = dayjs(lastDate).startOf("day");
+//   }
+
+//   // ✅ Priority: reAssign > joining vs bill
+//   let minAllowedDate = null;
+//   if (reAssign) {
+//     minAllowedDate = reAssign;
+//   } else if (joining) {
+//     if (
+//       joining.month() === today.month() &&
+//       joining.year() === today.year()
+//     ) {
+//       minAllowedDate = joining;
+//     } else if (lastBillDate) {
+//       minAllowedDate = lastBillDate;
+//     }
+//   }
+
+//   // ❌ Future dates disable
+//   if (current.isAfter(today)) {
+//     return true;
+//   }
+
+//   // ❌ Before minAllowedDate disable
+//   if (minAllowedDate && current.isBefore(minAllowedDate)) {
+//     return true;
+//   }
+
+//   return false;
+// }}
+disabledDate={(current) => {
+  if (!current) return false;
+
+  const today = dayjs().endOf("day");
+
+  // 🔹 Parse reAssignDate first (priority)
+  let reAssign = null;
+  if (reAssignDate && reAssignDate !== "0000-00-00") {
+    reAssign = dayjs(reAssignDate).startOf("day");
+  }
+
+  // 🔹 Parse joiningDate
+  let joining = null;
+  if (joiningdate && joiningdate !== "0000-00-00") {
+    // handles both "2025-09-14T00:00:00.000Z" & "14-09-2025"
+    joining = dayjs(joiningdate, ["YYYY-MM-DD", "DD-MM-YYYY"]).startOf("day");
+  }
+
+  // 🔹 Parse lastBillDate
+  let lastBillDate = null;
+  if (lastDate && lastDate !== "0000-00-00") {
+    lastBillDate = dayjs(lastDate, ["YYYY-MM-DD", "DD-MM-YYYY"]).startOf("day");
+  }
+
+  // ✅ Priority: reAssign > joining > lastBillDate
+  let minAllowedDate = reAssign || joining || lastBillDate;
+
+  // ❌ Block future dates
+  if (current.isAfter(today)) {
+    return true;
+  }
+
+  // ❌ Block before minAllowedDate
+  if (minAllowedDate && current.isBefore(minAllowedDate, "day")) {
+    return true;
+  }
+
+  return false;
+}}
+
+
+
+
+
+
                             />
 
                           </div>

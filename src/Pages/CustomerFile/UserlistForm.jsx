@@ -1482,22 +1482,27 @@ if (date4 && date4.isValid()) {
     }
 
   }, [props.BookingAssignForm]);
-  useEffect(() => {
-  if (props.EditObj?.booking_joining_date) {
-    const joiningDate = dayjs(props.EditObj.booking_joining_date);
-    const today = dayjs(); // today
 
-    if (joiningDate.isValid()) {
-      if (joiningDate.isAfter(today, "day")) {
-        // future date → force today
-        setSelectedDate(today.format("YYYY-MM-DD"));
-      } else {
-        // past or today → keep original
-        setSelectedDate(joiningDate.format("YYYY-MM-DD"));
-      }
-    }
-  }
+  useEffect(() => {
+  const today = dayjs().format("YYYY-MM-DD");
+  setSelectedDate(today);
 }, [props.EditObj?.booking_joining_date]);
+//   useEffect(() => {
+//   if (props.EditObj?.booking_joining_date) {
+//     const joiningDate = dayjs(props.EditObj.booking_joining_date);
+//     const today = dayjs(); // today
+
+//     if (joiningDate.isValid()) {
+//       if (joiningDate.isAfter(today, "day")) {
+//         // future date → force today
+//         setSelectedDate(today.format("YYYY-MM-DD"));
+//       } else {
+//         // past or today → keep original
+//         setSelectedDate(joiningDate.format("YYYY-MM-DD"));
+//       }
+//     }
+//   }
+// }, [props.EditObj?.booking_joining_date]);
 console.log("ddddddddddddddddd",selectedDate)
 
   // const disabledJoiningDate = (current) => {
@@ -3636,14 +3641,31 @@ console.log("ddddddddddddddddd",selectedDate)
       height: 48,
       cursor: "not-allowed", 
       fontFamily: "Gilroy",
-      backgroundColor: "#EFF2FF"
+      // backgroundColor: "#EFF2FF"
     }}
     format="DD/MM/YYYY"
     // value={dayjs()}       
-    value={selectedDate ? dayjs(selectedDate) : null} 
-    open={false}         
-    allowClear={false}    
-     inputReadOnly            
+    // value={selectedDate ? dayjs(selectedDate) : null} 
+    value={selectedDate ? dayjs(selectedDate) : null}
+                              onChange={(date) => {
+                                setDateError("");
+                                setSelectedDate(date ? date.toDate() : null);
+                                setJoingDateErrmsg('')
+
+                                dispatch(JoininDatecustomer(date ? date.toDate() : null));
+                              }}
+                                disabledDate={(current) =>
+    
+    (bookingDate && current < bookingDate.startOf("day")) ||
+    current > dayjs().endOf("day")
+  }
+
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".show-scroll") || document.body
+                              }
+    // open={false}         
+    // allowClear={false}    
+    //  inputReadOnly            
   />
 </div>
 

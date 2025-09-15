@@ -127,7 +127,8 @@ export const initialState = {
     checkoutprofileDetails:[],
     StatuscodeforCheckoutProfile:0,
     StatusCodeKycDocuments:0,
-    backtocheckinError:''
+    backtocheckinError:'',
+    StatusCodeForDateUpdate:0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -632,6 +633,13 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'Remove_BACK_TO_CHECKIN_ERROR':
             return { ...state, backtocheckinError: '' }
+
+
+
+              case 'CHEKOUT_DATE_CHANGE':
+            return { ...state, StatusCodeForDateUpdate: action.payload.statusCode }
+        case 'CLEAR_CHEKOUT_DATE_CHANGE':
+            return { ...state, StatusCodeForDateUpdate: 0 }
 
         default:
             return state;

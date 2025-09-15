@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,checkoutDetailView,kycDocuments } from "../Action/UserListAction"
+import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,checkoutDetailView,kycDocuments,checkoutDateChange } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -2119,7 +2119,23 @@ function* handlekycDocuments(action) {
 }
 
 
+function* handleCheckoutDateUpdate(action) {
+   const response = yield call(checkoutDateChange, action.payload)
+   console.log("handleCheckoutProfile", response)
 
+
+
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'CHEKOUT_DATE_CHANGE', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+}
 
 
 
@@ -2182,6 +2198,7 @@ function* UserListSaga() {
    yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
    yield takeEvery('CHECKOUTPROFILEDETAILS', handleCheckoutProfile)
       yield takeEvery('KYCDOCUMENTSDETAIL', handlekycDocuments)
+      yield takeEvery('CHECKOUTDATEUPDATE',handleCheckoutDateUpdate)
 
 
 }
