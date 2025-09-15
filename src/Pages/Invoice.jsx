@@ -1975,10 +1975,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
     if (newValue === "3") {
       setReceiptLoader(true);
-      dispatch({
-        type: "RECEIPTSLIST",
-        payload: { hostel_id: hostelId },
-      });
+      dispatch({ type: "RECEIPTSLIST", payload: hostelId });
     }
 
 
@@ -2091,10 +2088,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       setShowform(false)
       dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
-      dispatch({
-        type: "RECEIPTSLIST",
-        payload: { hostel_id: hostelId },
-      });
+      dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_RECORD_PAYMENT" });
@@ -2799,10 +2793,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
     if (hostelId) {
       setReceiptLoader(true);
-      dispatch({
-        type: "RECEIPTSLIST",
-        payload: { hostel_id: hostelId },
-      });
+  dispatch({ type: "RECEIPTSLIST", payload: hostelId });
     }
   }, [hostelId]);
 
@@ -2825,15 +2816,9 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
       state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
-
-
       handleBackBill()
 
-
-      dispatch({
-        type: "RECEIPTSLIST",
-        payload: { hostel_id: hostelId },
-      });
+     dispatch({ type: "RECEIPTSLIST", payload: hostelId });
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_RECEIPTS_ADD" });

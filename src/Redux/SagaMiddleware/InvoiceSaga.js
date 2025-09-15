@@ -909,6 +909,7 @@ function* handleRecurrBillsAdd(params) {
 
 
 function* handleGetManualInvoice(action) {
+   try {
    const response = yield call(GetManualInvoices, action.payload)
 
    if (response.status === 200 || response.data.statusCode === 200) {
@@ -923,6 +924,15 @@ function* handleGetManualInvoice(action) {
    if (response) {
       refreshToken(response)
    }
+}
+catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+   
 }
 
 function* handleGetRecurrbills(action) {
@@ -1041,12 +1051,14 @@ function* handleAddInvoiceRecurringSettings(param) {
 
 
 function* handleGetReceipts(action) {
+
+   try {
    const response = yield call(GetReceiptData, action.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'RECEIPTS_LIST', payload: { response: response.data.all_receipts, statusCode: response.status || response.statusCode } })
+      yield put({ type: 'RECEIPTS_LIST', payload: { response: response?.data || [], statusCode: response.status || response.statusCode } })
    }
-   else if (response.status === 201 || response.statusCode === 201) {
+   else if (response.status === 400 || response.statusCode === 400) {
       yield put({ type: 'NODATA_RECEIPTS_LIST', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
    }
    else {
@@ -1055,6 +1067,16 @@ function* handleGetReceipts(action) {
    if (response) {
       refreshToken(response)
    }
+   }
+     catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+   
+
 }
 
 

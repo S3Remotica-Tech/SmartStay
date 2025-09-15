@@ -1728,7 +1728,7 @@ const handleSort = (key, direction) => {
                 fontFamily: "Gilroy",
               }}
             >
-              {user.desc === "Invoice" ? "Credit" : "Debit"}
+              {user.type}
             </span>
           </td>
         </tr>

@@ -102,10 +102,17 @@ export async function DeleteRecurrBills(bills) {
   })
 }
 
-export async function GetReceiptData(receipt) {
-  return await AxiosConfig.post('/receipts/all_receipts', receipt, { 
-    data: receipt
-  })
+// v1 
+// export async function GetReceiptData(receipt) {
+//   return await AxiosConfig.post('/receipts/all_receipts', receipt, { 
+//     data: receipt
+//   })
+// }
+
+// v2 
+export async function GetReceiptData(hostelId) {
+  return await AxiosConfigV2.get(`/v2/bills/receipts/${hostelId}`, {
+  }) 
 }
 
 export async function AddReceipt(receipt) {
