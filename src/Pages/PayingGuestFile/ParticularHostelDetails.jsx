@@ -257,6 +257,7 @@ console.log("customerID",customerID)
     setNoticePeriodCheckout(isVisible)
     setNoticePeriodBed(false)
     setCustomerID(customerId)
+    
 
   }
 

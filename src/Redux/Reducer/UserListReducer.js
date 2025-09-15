@@ -125,7 +125,9 @@ export const initialState = {
     Refundable_details:[],
     Deduction:[],
     checkoutprofileDetails:[],
-    StatuscodeforCheckoutProfile:0
+    StatuscodeforCheckoutProfile:0,
+    StatusCodeKycDocuments:0,
+    backtocheckinError:''
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -613,6 +615,23 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, checkoutprofileDetails: action.payload.response, StatuscodeforCheckoutProfile: action.payload.statusCode }
         case 'REMOVE_CHECKOUT_PROFILE_DETAILS':
             return { ...state, StatuscodeforCheckoutProfile: 0 }    
+
+
+
+
+              case 'KYC_DOCUMENTS_DETAILS':
+            return { ...state, StatusCodeKycDocuments: action.payload.statusCode }
+        case 'CLEAR_KYC_DOCUMENTS_DETAILS':
+            return { ...state, StatusCodeKycDocuments: 0 }
+
+
+
+            
+        case 'BACK_TO_CHECKIN_ERROR':
+            return { ...state, backtocheckinError: action.payload }
+
+        case 'Remove_BACK_TO_CHECKIN_ERROR':
+            return { ...state, backtocheckinError: '' }
 
         default:
             return state;

@@ -287,14 +287,9 @@ const disabledJoiningDate = (current) => {
             updatedFields[index].customReason = value;
             if (updatedErrors[index]) updatedErrors[index].reason = "";
         }
-        // else if (field === "amount") {
-        //     updatedFields[index].amount = value;
-
-
-        //     if (updatedErrors[index]) updatedErrors[index].amount = "";
-        // }
+    
         else if (field === "amount") {
-            // allow only digits
+          
             if (/^\d*$/.test(value)) {
                 updatedFields[index].amount = value;
                 if (updatedErrors[index]) updatedErrors[index].amount = "";
@@ -315,7 +310,7 @@ const disabledJoiningDate = (current) => {
         dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
     };
 
-
+console.log("joiiiiii",joiningDate)
 
     const handleCheckin = async () => {
 
@@ -386,17 +381,19 @@ const disabledJoiningDate = (current) => {
   }
 
 
-        const incrementDateAndFormat = (date) => {
-            const newDate = new Date(date);
-            newDate.setDate(newDate.getDate() + 1);
-            return newDate.toISOString().split("T")[0];
-        };
+        // const incrementDateAndFormat = (date) => {
+        //     const newDate = new Date(date);
+        //     newDate.setDate(newDate.getDate() + 1);
+        //     return newDate.toISOString().split("T")[0];
+        // };
 
-
-        const formattedDate = joiningDate
-            ? incrementDateAndFormat(joiningDate)
-            : "";
-
+const formatDate = (date) => {
+  const newDate = new Date(date);
+  const offset = newDate.getTimezoneOffset(); 
+  newDate.setMinutes(newDate.getMinutes() - offset);
+  return newDate.toISOString().split("T")[0]; 
+};
+      const formattedDate = joiningDate ? formatDate(joiningDate) : "";
 
         const invoiceDateObj = new Date(formattedDate);
         const dueDays = Number(state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth) || 0;

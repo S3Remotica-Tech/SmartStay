@@ -39,7 +39,7 @@ import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../../Assets/Images/New_images/time-half past.png";
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
 import adhar from "../../Assets/Images/New_images/aadharimg.png"
 import EditImage from "../../Assets/Images/New_images/edit.png"
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
@@ -67,6 +67,9 @@ import Retry from "../../Assets/Images/New_images/reload.png";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
+
+
+  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
@@ -1917,25 +1920,41 @@ const formattedReasons = fields.map((item) => {
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
 
-  const handleDownloadKYC = async () => {
-    const kycCard = document.getElementById("kyc-download-card");
-    if (!kycCard) return;
+  // const handleDownloadKYC = async () => {
+  //   const kycCard = document.getElementById("kyc-download-card");
+  //   if (!kycCard) return;
 
 
 
-    await new Promise((res) => setTimeout(res, 300));
+  //   await new Promise((res) => setTimeout(res, 300));
 
-    html2canvas(kycCard).then((canvas) => {
-      const link = document.createElement("a");
-      link.download = "kyc_details.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    });
-  };
+  //   html2canvas(kycCard).then((canvas) => {
+  //     const link = document.createElement("a");
+  //     link.download = "kyc_details.png";
+  //     link.href = canvas.toDataURL("image/png");
+  //     link.click();
+  //   });
+  // };
 
-   const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+const [selectedDoc, setSelectedDoc] = useState(null);
 
-  const handleViewKYC = () => {
+// const handleViewKYC = (doc) => {
+//   setSelectedDoc(doc);
+//   setShowModal(true);
+// };
+const handleViewKYC = (doc) => {
+    if (doc === "aadhaar") {
+      setSelectedDoc({
+        type: "aadhaar",
+        pic: state.UsersList?.KycCustomerDetails?.pic,
+        name: state.UsersList?.KycCustomerDetails?.name,
+        address: state.UsersList?.KycCustomerDetails?.address,
+        aadhaarNumber: state.UsersList?.KycCustomerDetails?.aadhaarNumber,
+      });
+    } else {
+      setSelectedDoc(doc);
+    }
     setShowModal(true);
   };
 
@@ -1943,7 +1962,11 @@ const formattedReasons = fields.map((item) => {
     setShowModal(false);
   };
  
-
+// useEffect(() => {
+//   if (customerDetails[0]?.kyc_docs?.length) {
+//     setDocuments(customerDetails[0].kyc_docs);
+//   }
+// }, [customerDetails]);
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -2112,31 +2135,178 @@ const handleImageUpload = async (event) => {
 };
 
 
-  
+   const [documents, setDocuments] = useState([
+  { type: "AADHAAR", name: "Aadhar.pdf", size: "180 KB", URL: "" },
+  { type: "PAN", name: "Pancard.pdf", size: "180 KB", URL: "" },
+  { type: "LICENSE", name: "License.pdf", size: "180 KB", URL: "" },
+  { type: "RENTAL_AGREEMENT", name: "Rental Agreement.pdf", size: "180 KB", URL: "" },
+]);
 
-const [documents, setDocuments] = useState([
-    { name: "Rental Agreement.pdf", size: "180 KB", type: "PDF" },
-    { name: "Aadhar.pdf", size: "180 KB", type: "PDF" },
-    { name: "License.pdf", size: "180 KB", type: "PDF" },
-    { name: "Pancard.pdf", size: "180 KB", type: "PDF" },
-  ]);
-console.log("documents",documents)
-  const handleFileUpload = (index, e) => {
-    const file = e.target.files[0];
-    console.log("file",file)
-    if (!file) return;
+useEffect(() => {
+  if (customerDetails[0]?.kyc_docs) {
+    const docsFromApi = customerDetails[0].kyc_docs;
+
+    // Merge backend docs into fixed structure
+    const updatedDocs = documents.map((doc) => {
+      const found = docsFromApi.find((d) => d.type === doc.type);
+      if (found) {
+        return {
+          ...doc,
+          URL: found.URL,
+          name: found.name || doc.name,
+          size: found.size || doc.size,
+        };
+      }
+      return doc; // keep default if not found
+    });
+
+    setDocuments(updatedDocs);
+  }
+}, [customerDetails]);
+
+
+ 
+
+const handleFileUpload = (index, e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    const fileURL = event.target.result; // Base64 data URL
 
     const updatedDoc = {
+      type: documents[index].type,
       name: file.name,
       size: `${Math.round(file.size / 1024)} KB`,
-      type: file.name.split(".").pop().toUpperCase(),
+      URL: fileURL, // ✅ Use this as URL
     };
 
     const newDocuments = [...documents];
     newDocuments[index] = updatedDoc;
     setDocuments(newDocuments);
+
+    // Dispatch with URL instead of raw file
+    dispatch({
+      type: "KYCDOCUMENTSDETAIL",
+      payload: {
+        userId: customerDetails[0].ID,
+        newDocs: [
+          {
+            type: updatedDoc.type,
+            name: updatedDoc.name,
+            URL: updatedDoc.URL,
+          },
+        ],
+      },
+    });
   };
- 
+
+  reader.readAsDataURL(file); // Converts file to Base64 URL
+};
+
+const dispatchedRef = useRef(false);
+
+useEffect(() => {
+  if (state.UsersList.KycCustomerDetails?.pic && !dispatchedRef.current) {
+   
+    dispatch({
+      type: "KYCDOCUMENTSDETAIL",
+      payload: {
+        userId: customerDetails[0]?.ID,
+        newDocs: [
+          {
+            type: "aadhaar",
+            name: state.UsersList.KycCustomerDetails?.name,
+            URL: `data:image/jpeg;base64,${state.UsersList.KycCustomerDetails?.pic}`, 
+          },
+        ],
+      },
+    });
+    dispatchedRef.current = true; 
+  }
+}, [state.UsersList?.KycCustomerDetails]);
+
+
+const handleDownloadKYCtest = (doc) => {
+  if (!doc?.URL) return;
+  const link = document.createElement("a");
+  link.href = doc.URL;
+  link.download = doc.name || "document";
+  link.click();
+};
+
+// Aadhaar KYC card download (screenshot)
+const handleDownloadKYC = () => {
+  const kycCard = document.getElementById("kyc-download-card");
+  if (!kycCard) return;
+
+  import("html2canvas").then((html2canvas) => {
+    html2canvas.default(kycCard).then((canvas) => {
+      const link = document.createElement("a");
+      link.download = "kyc_details.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+  });
+};
+
+
+
+// const handleDownloadKYCtest = (doc) => {
+//   const link = document.createElement("a");
+//   link.href = doc.URL;
+//   link.download = doc.name;
+//   link.click();
+// };
+
+const kycDocs = customerDetails[0]?.kyc_docs;
+
+  // const handleDownloadKYC = () => {
+  //   const kycCard = document.getElementById("kyc-download-card");
+  //   if (!kycCard) return;
+
+  //   import("html2canvas").then((html2canvas) => {
+  //     html2canvas.default(kycCard).then((canvas) => {
+  //       const link = document.createElement("a");
+  //       link.download = "kyc_details.png";
+  //       link.href = canvas.toDataURL("image/png");
+  //       link.click();
+  //     });
+  //   });
+  // };
+
+// const handleDownloadKYC = (doc) => {
+//   if (doc === "aadhaarKYC") {
+//     // Special Aadhaar download
+//     const element = document.getElementById("kyc-download-card");
+//     if (!element) return;
+
+//     html2canvas(element).then((canvas) => {
+//       const link = document.createElement("a");
+//       link.href = canvas.toDataURL("image/png"); // Convert as PNG
+//       link.download = "KYC_Details.png";
+//       link.click();
+//     });
+//   } else {
+//     // Normal doc download
+//     const link = document.createElement("a");
+//     link.href = doc.URL;
+//     link.download = doc.name;
+//     link.click();
+//   }
+// };
+  useEffect(()=>{
+    if(state.UsersList.StatusCodeKycDocuments === 200){
+setTimeout(() => {
+        dispatch({ type: 'CLEAR_BACK_TO_CHECKIN_USER' })
+      }, 3000)
+    }
+
+  },[state.UsersList.StatusCodeKycDocuments])
+  console.log("state.UsersList.StatusCodeKycDocuments",state.UsersList.StatusCodeKycDocuments)
+console.log("customerDetails",customerDetails)
 
   return (
 
@@ -3108,10 +3278,367 @@ const imageUrl = imagePreview
   </Box>
 
   <TabPanel value="1">
- <div className="row mt-3">
+    {/* <div className="row mt-3">
+  {documents.map((doc, index) => {
+    const isAadhar = doc.name.toLowerCase().includes("aadhar");
+    const existingKycDoc = kycDocs?.find(kycDoc => kycDoc.type === doc.type);
+
+    return (
+      <div className="col-md-6 mt-2" key={index}>
+       
+        {isAadhar && state.UsersList?.KycCustomerDetails?.pic ? (
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+              <img
+                src={adhar}
+                alt="Aadhaar"
+                style={{ width: 20, height: 20, marginRight: 8 }}
+              />
+              <p className="mb-0 fw-semibold small">Aadhaar (KYC)</p>
+            </div>
+            <div className="d-flex gap-2">
+              <img
+                src={viewdoc}
+                alt="viewdoc"
+                onClick={handleViewKYC}
+                style={{ cursor: "pointer", width: 20, height: 20 }}
+              />
+              <img
+                src={docDown}
+                alt="Download Aadhaar"
+                onClick={handleDownloadKYCtest}
+                style={{ cursor: "pointer", width: 20, height: 20 }}
+              />
+            </div>
+          </div>
+        ) : existingKycDoc ? (
+         
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+              <img
+                src={adhar}
+                alt={existingKycDoc.type}
+                style={{ width: 20, height: 20, marginRight: 8 }}
+              />
+              <p className="mb-0 fw-semibold small">{existingKycDoc.type}</p>
+            </div>
+            <div className="d-flex gap-2">
+              <img
+                src={viewdoc}
+                alt="viewdoc"
+                onClick={() => handleViewKYC(existingKycDoc)}
+                style={{ cursor: "pointer", width: 20, height: 20 }}
+              />
+              <img
+                src={docDown}
+                alt="Download"
+                
+                onClick={() => handleDownloadKYC("aadhaarKYC")}
+                style={{ cursor: "pointer", width: 20, height: 20 }}
+              />
+            </div>
+          </div>
+        ) : (
+         
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+              <img
+                src={upload}
+                alt="upload"
+                width={20}
+                height={20}
+                style={{ marginRight: "8px", cursor: "pointer" }}
+                onClick={() =>
+                  document.getElementById(`fileUpload-${index}`).click()
+                }
+              />
+              <div>
+                <p
+                  className="mb-0 fw-semibold small text-truncate"
+                  style={{ maxWidth: "120px" }}
+                  title={doc.name}
+                >
+                  {doc.name}
+                </p>
+                <small className="text-muted">
+                  {doc.size} • {doc.type}
+                </small>
+              </div>
+            </div>
+          </div>
+        )}
+
+      
+        {!existingKycDoc && !(
+          isAadhar && state.UsersList?.KycCustomerDetails?.pic
+        ) && (
+          <input
+            type="file"
+            id={`fileUpload-${index}`}
+            style={{ display: "none" }}
+            onChange={(e) => handleFileUpload(index, e)}
+          />
+        )}
+      </div>
+    );
+  })}
+
+    <div
+                                      id="kyc-download-card"
+                                      style={{
+                                        position: "absolute",
+                                        top: "-9999px",
+                                        left: "-9999px",
+                                        borderRadius: 10,
+                                        padding: 20,
+                                        width: 320,
+                                        textAlign: "center",
+
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+
+                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
+                                        KYC Details
+                                      </h6>
+
+                                      <div style={{ marginBottom: 15 }}>
+                                        <img
+                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+                                          alt="KYC"
+                                          style={{
+                                            height: 120,
+                                            width: 120,
+                                            borderRadius: "25%",
+                                            border: "3px solid #f0f0f0",
+                                          }}
+                                        />
+                                      </div>
+
+                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
+                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
+                                      </h5>
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
+                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Adress<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
+                                        </p>
+                                      </div>
+
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
+                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Aadhar Number<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+                                        </p>
+                                      </div>
+                                    </div>
+
+</div> */}
+  <>
+<div className="row mt-3">
+ {documents.map((doc, index) => {
+  const isAadhar = doc.name.toLowerCase().includes("aadhar");
+  const existingKycDoc = kycDocs?.find(
+    (kycDoc) => kycDoc.type === doc.type
+  );
+
+  // Aadhaar disable condition:
+  const aadharDisabled = state.UsersList?.KycCustomerDetails
+
+  return (
+    <div className="col-md-6 mt-2" key={index}>
+      {/* Aadhaar already in DB (CustomerDetails) */}
+      {isAadhar && state.UsersList?.KycCustomerDetails?.pic ? (
+        <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+          <div className="d-flex align-items-center">
+            <img src={adhar} alt="Aadhaar" style={{ width: 20, height: 20, marginRight: 8,cursor:"pointer" }}  onClick={() => {
+                if (!aadharDisabled) {
+                  document.getElementById(`fileUpload-${index}`).click();
+                }
+              }}/>
+            <p className="mb-0 fw-semibold small">Aadhaar (KYC)</p>
+          </div>
+          <div className="d-flex gap-2">
+            <img src={viewdoc} alt="viewdoc" onClick={() => handleViewKYC("aadhaar")}
+              style={{ cursor: "pointer", width: 20, height: 20 }} />
+            <img src={docDown} alt="Download Aadhaar" onClick={handleDownloadKYC}
+              style={{ cursor: "pointer", width: 20, height: 20 }} />
+          </div>
+        </div>
+      ) : existingKycDoc ? (
+        <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+          <div className="d-flex align-items-center">
+            <img src={adhar} alt={existingKycDoc.type} style={{ width: 20, height: 20, marginRight: 8,cursor:"pointer" }}  onClick={() => {
+               
+                  document.getElementById(`fileUpload-${index}`).click();
+                
+              }}/>
+            <p className="mb-0 fw-semibold small">{existingKycDoc.type}</p>
+          </div>
+          <div className="d-flex gap-2">
+            <img src={viewdoc} alt="viewdoc" onClick={() => handleViewKYC(existingKycDoc)}
+              style={{ cursor: "pointer", width: 20, height: 20 }} />
+            <img src={docDown} alt="Download"
+              onClick={() => handleDownloadKYCtest(existingKycDoc)}
+              style={{ cursor: "pointer", width: 20, height: 20 }} />
+          </div>
+        </div>
+      ) : (
+        // Upload UI
+        <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+          <div className="d-flex align-items-center">
+            <img
+              src={upload}
+              alt="upload"
+              width={20}
+              height={20}
+              style={{
+                marginRight: "8px",
+                cursor: aadharDisabled ? "not-allowed" : "pointer",
+                opacity: aadharDisabled ? 0.5 : 1,
+              }}
+              onClick={() => {
+                if (!aadharDisabled) {
+                  document.getElementById(`fileUpload-${index}`).click();
+                }
+              }}
+              title={
+                aadharDisabled
+                  ? "Aadhaar already uploaded"
+                  : "Upload document"
+              }
+            />
+            <div>
+              <p className="mb-0 fw-semibold small text-truncate"
+                style={{ maxWidth: "120px" }}
+                title={doc.name}>
+                {doc.name}
+              </p>
+              <small className="text-muted">
+                {doc.size} • {doc.type}
+              </small>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* File Upload input (only if not disabled) */}
+      {/* {!existingKycDoc && !aadharDisabled && ( */}
+        <input
+          type="file"
+          id={`fileUpload-${index}`}
+          style={{ display: "none" }}
+          onChange={(e) => handleFileUpload(index, e)}
+        />
+      {/* )} */}
+    </div>
+  );
+})}
+
+</div>
+
+
+
+
+      {/* Aadhaar download card (hidden for screenshot) */}
+      <div
+        id="kyc-download-card"
+        style={{
+          position: "absolute",
+          top: "-9999px",
+          left: "-9999px",
+          borderRadius: 10,
+          padding: 20,
+          width: 320,
+          textAlign: "center",
+          fontFamily: "Gilroy",
+        }}
+      >
+        <p style={{ fontWeight: 600, fontSize: 15, marginBottom: 20 ,fontFamily:"Gilroy"}}>
+          KYC Details
+        </p>
+        <div style={{ marginBottom: 15 }}>
+          <img
+            src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+            alt="KYC"
+            style={{
+              height: 120,
+              width: 120,
+              borderRadius: "25%",
+              border: "3px solid #f0f0f0",
+            }}
+          />
+        </div>
+        <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20 }}>
+          {state.UsersList?.KycCustomerDetails?.name || "****"}
+        </h5>
+        <p>
+          <strong>Address:</strong>{" "}
+          {state.UsersList?.KycCustomerDetails?.address ||
+            "No address provided"}
+        </p>
+        <p>
+          <strong>Aadhaar No:</strong>{" "}
+          {state.UsersList?.KycCustomerDetails?.aadhaarNumber}
+        </p>
+      </div>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={handleClose} size="md" centered>
+        <Modal.Header closeButton>
+          <Modal.Title style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600}}>KYC Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedDoc?.type === "aadhaar" ? (
+            // Aadhaar card UI
+            <div style={{ textAlign: "center" }}>
+              <img
+                src={`data:image/jpeg;base64,${selectedDoc.pic}`}
+                alt="KYC"
+                style={{
+                  height: 120,
+                  width: 120,
+                  borderRadius: "25%",
+                  border: "3px solid #f0f0f0",
+                  objectFit: "cover",
+                }}
+              />
+              <p style={{ fontWeight: "600", marginTop: 10,fontFamily:"Gilroy",fontSize:16 }}>
+                {selectedDoc.name}
+              </p>
+              <p style={{ fontWeight: "400",fontFamily:"Gilroy",fontSize:14 }}>
+                <strong>Address:</strong> {selectedDoc.address}
+              </p>
+              <p>
+                <strong>Aadhaar No:</strong> {selectedDoc.aadhaarNumber}
+              </p>
+            </div>
+          ) : (
+            // Other docs UI
+            <div style={{ textAlign: "center" }}>
+              <h6>{selectedDoc?.type}</h6>
+              <iframe
+                src={selectedDoc?.URL}
+                title="Document"
+                style={{ width: "100%", height: 400, border: "none" }}
+              ></iframe>
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
+    </>
+
+
+ {/* <div className="row mt-3">
   {documents.map((doc, index) => {
     if (doc.name.toLowerCase().includes("aadhar")) {
-      // Aadhaar special case
+     
       return (
         <div className="col-md-6 mt-2" key={index}>
           {state.UsersList?.KycCustomerDetails?.pic ? (
@@ -3295,7 +3822,7 @@ const imageUrl = imagePreview
 
             </div>
           ) : (
-            // Normal Aadhaar card
+           
             <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
               <div className="d-flex align-items-center">
                 <img
@@ -3324,7 +3851,7 @@ const imageUrl = imagePreview
             </div>
           )}
 
-          {/* Upload input for Aadhaar (only works if KYC not there) */}
+         
           {!state.UsersList?.KycCustomerDetails?.pic && (
             <input
               type="file"
@@ -3337,7 +3864,7 @@ const imageUrl = imagePreview
       );
     }
 
-    // All other docs → normal upload card
+  
     return (
       <div className="col-md-6 mt-2" key={index}>
         <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
@@ -3376,7 +3903,341 @@ const imageUrl = imagePreview
       </div>
     );
   })}
+</div> */}
+
+
+
+
+{/* <div className="row mt-3">
+  {documents.map((doc, index) => {
+  
+    const existingKycDoc = kycDocs?.find(kycDoc => kycDoc.type === doc.type);
+
+    return (
+      <div className="col-md-6 mt-2" key={index}>
+       
+        {existingKycDoc ? (
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+             
+              <img
+                src={adhar}
+                alt={existingKycDoc.type}
+                style={{ width: 20, height: 20, marginRight: 8 }}
+              />
+              <p className="mb-0 fw-semibold small">{existingKycDoc.type}</p>
+            </div>
+            <div className="d-flex gap-2">
+              <img
+                src={viewdoc}
+                alt="viewdoc"
+                onClick={() => handleViewKYC(existingKycDoc)}
+                style={{ cursor: "pointer", width: 20, height: 20 }}
+              />
+              <img
+                src={docDown}
+                alt="Download"
+                onClick={() => handleDownloadKYC(existingKycDoc)}
+                style={{ cursor: "pointer", width: 20, height: 20 }}
+              />
+            </div>
+          </div>
+        ) : (
+         
+          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+            <div className="d-flex align-items-center">
+              <img
+                src={upload}
+                alt="upload"
+                width={20}
+                height={20}
+                style={{ marginRight: "8px", cursor: "pointer" }}
+                onClick={() =>
+                  document.getElementById(`fileUpload-${index}`).click()
+                }
+              />
+              <div>
+                <p
+                  className="mb-0 fw-semibold small text-truncate"
+                  style={{ maxWidth: "120px" }}
+                  title={doc.name}
+                >
+                  {doc.name}
+                </p>
+                <small className="text-muted">
+                  {doc.size} • {doc.type}
+                </small>
+              </div>
+            </div>
+          </div>
+        )}
+
+        
+        {!existingKycDoc && (
+          <input
+            type="file"
+            id={`fileUpload-${index}`}
+            style={{ display: "none" }}
+            onChange={(e) => handleFileUpload(index, e)}
+          />
+        )}
+      </div>
+    );
+  })}
+</div> */}
+
+
+{/* <div className="row mt-3">
+  {documents.map((doc, index) => (
+    <div className="col-md-6 mt-2" key={index}>
+      {doc.URL ? (
+        <div className="d-flex justify-content-between border rounded p-3 bg-light">
+          <div className="d-flex align-items-center">
+            <p className="mb-0 fw-semibold small">{doc.type}</p>
+          </div>
+          <div className="d-flex gap-2">
+            <img
+              src={viewdoc}
+              alt="View"
+              onClick={() => handleViewKYC(doc)}
+              style={{ cursor: "pointer", width: 20, height: 20 }}
+            />
+            <img
+              src={docDown}
+              alt="Download"
+              onClick={() => handleDownloadKYC(doc)}
+              style={{ cursor: "pointer", width: 20, height: 20 }}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="d-flex justify-content-between border rounded p-3 bg-light">
+          <div className="d-flex align-items-center">
+            <img
+              src={upload}
+              alt="Upload"
+              width={20}
+              height={20}
+              onClick={() => document.getElementById(`fileUpload-${index}`).click()}
+              style={{ marginRight: "8px", cursor: "pointer" }}
+            />
+            <p className="mb-0 fw-semibold small">{doc.name}</p>
+          </div>
+          <input
+            type="file"
+            id={`fileUpload-${index}`}
+            style={{ display: "none" }}
+            onChange={(e) => handleFileUpload(index, e)}
+          />
+        </div>
+      )}
+    </div>
+
+
+
+  ))}
+
+    {state.UsersList?.KycCustomerDetails?.pic && 
+     <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+              <div className="d-flex align-items-center">
+                <img
+                  src={adhar}
+                  alt="Aadhaar"
+                  style={{ width: 20, height: 20, marginRight: 8 }}
+                />
+                <p className="mb-0 fw-semibold small">Aadhaar (KYC)</p>
+              </div>
+              <div className="d-flex gap-2">
+                <img
+                  src={viewdoc}
+                  alt="viewdoc"
+                  onClick={handleViewKYC}
+                  style={{ cursor: "pointer", width: 20, height: 20 }}
+                />
+                <img
+                  src={docDown}
+                  alt="Download Aadhaar"
+                  onClick={handleDownloadKYC}
+                  style={{ cursor: "pointer", width: 20, height: 20 }}
+                />
+              </div>
+
+              
+									      <Modal show={showModal} onHide={handleClose} size="md" centered>
+  <Modal.Header closeButton>
+    <Modal.Title>KYC Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <div 
+      style={{
+        borderRadius: 10,
+        padding: 20,
+        textAlign: "center",
+        fontFamily: "Gilroy",
+      }}
+    >
+      <div style={{ marginBottom: 15 }}>
+        <img
+          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+          alt="KYC"
+          style={{
+            height: 120,
+            width: 120,
+            borderRadius: "25%",
+            border: "3px solid #f0f0f0",
+            objectFit: "cover",
+          }}
+        />
+      </div>
+
+      <h5
+        style={{
+          fontWeight: "bold",
+          fontSize: 18,
+          marginBottom: 20,
+          color: "#222",
+        }}
+      >
+        {state.UsersList?.KycCustomerDetails?.name || "****"}
+      </h5>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 15 }}
+      >
+        <i
+          className="bi bi-geo-alt"
+          style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}
+        ></i>
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Address<br />
+          
+          <div style={{
+  maxWidth: "400px",
+  wordBreak: "break-word",
+  whiteSpace: "pre-wrap"
+}}>
+  {state.UsersList?.KycCustomerDetails?.address || "No address provided"}
 </div>
+        </p>
+      </div>
+
+      <div
+        className="d-flex align-items-start"
+        style={{ justifyContent: "center", marginBottom: 5 }}
+      >
+        <img
+          src={adhar}
+          alt="Aadhaar"
+          style={{ width: 20, height: 20, marginRight: 10 }}
+        />
+        <p
+          style={{
+            fontSize: 14,
+            color: "#4B4B4B",
+            maxWidth: 220,
+            textAlign: "left",
+            margin: 0,
+          }}
+        >
+          Aadhaar Number<br />
+          <span>{state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+        </p>
+      </div>
+    </div>
+  </Modal.Body>
+</Modal>
+
+
+
+                                    <div
+                                      id="kyc-download-card"
+                                      style={{
+                                        position: "absolute",
+                                        top: "-9999px",
+                                        left: "-9999px",
+                                        borderRadius: 10,
+                                        padding: 20,
+                                        width: 320,
+                                        textAlign: "center",
+
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+
+                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
+                                        KYC Details
+                                      </h6>
+
+                                      <div style={{ marginBottom: 15 }}>
+                                        <img
+                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+                                          alt="KYC"
+                                          style={{
+                                            height: 120,
+                                            width: 120,
+                                            borderRadius: "25%",
+                                            border: "3px solid #f0f0f0",
+                                          }}
+                                        />
+                                      </div>
+
+                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
+                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
+                                      </h5>
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
+                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Adress<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
+                                        </p>
+                                      </div>
+
+
+                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
+                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
+
+                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+                                          Aadhar Number<br />
+                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+                                        </p>
+                                      </div>
+                                    </div>
+
+
+
+            </div>
+    }
+
+
+  <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>{selectedDoc?.type} Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {selectedDoc?.URL && (
+      <img
+        src={selectedDoc.URL}
+        alt={selectedDoc.type}
+        style={{ maxWidth: "100%", borderRadius: 8 }}
+      />
+    )}
+    <h6 className="mt-3">{selectedDoc?.name}</h6>
+  </Modal.Body>
+</Modal>
+
+</div> */}
+
 
   </TabPanel>
   <TabPanel value="2">

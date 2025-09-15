@@ -78,17 +78,18 @@ function NoticeBedStatusDetails({
   }
 
   const handleFinalsettelmentGenerate = () => {
+    
     showfinalsettelemnet(true ,customerId )
        dispatch({
         type: "GETCONFIRMCHECKOUTCUSTOMER",
         payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
       });
   }
- 
+   
 
 
   const handleCheckout = () => {
-  
+  console.log("customerId",customerId)
       showNoticeperiodCheckout(true, customerId)
       dispatch({
         type: "GETCONFIRMCHECKOUTCUSTOMER",
@@ -97,8 +98,21 @@ function NoticeBedStatusDetails({
     
      
   }
+  const [detuction,setDetuction] = useState("")
+   
 
+   useEffect(() => {
+             if (state?.UsersList?.Deduction) {
+              console.log("????????????????")
+     setDetuction(state?.UsersList?.Deduction)
+             }
      
+             setTimeout(() => {
+                 dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+             }, 500);
+         }, [state?.UsersList?.Deduction]);
+
+     console.log("detuction",detuction)
             useEffect(() => {
         
                 const Hostel_Id = currentItem?.room.Hostel_Id;
@@ -169,8 +183,9 @@ function NoticeBedStatusDetails({
     
 
      const ParticularcustomerDetails = userDetails.filter((user)=> user.RoomRent > 0)
+    //  console.log("ParticularcustomerDetails", userDetails)
        
-        setCustomerId(ParticularcustomerDetails[0]?.id)
+        setCustomerId(userDetails[0]?.id)
        
     
     if (
@@ -337,7 +352,7 @@ function NoticeBedStatusDetails({
                         onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                       >
                         <img src={logout} alt="Checkout" />
-                        <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Checkout</label>
+                        <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}> {detuction.DueAmount ? "Write-Off":"Check-Out"}</label>
                       </div>
                        <div
                         className="d-flex gap-2 align-items-center"

@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,checkoutDetailView } from "../Action/UserListAction"
+import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,checkoutDetailView,kycDocuments } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -1975,9 +1975,14 @@ function* handleBackToCheckin(action) {
          style: toastStyle,
       });
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
+   // else {
+   //    yield put({ type: 'ERROR', payload: response.data.message })
+   // }
+     else if (response.status === 201 || response.data.statusCode === 201) {
+
+         yield put({ type: 'BACK_TO_CHECKIN_ERROR', payload: response.data.message })
+
+      }
    if (response) {
       refreshToken(response)
    }
@@ -2001,6 +2006,126 @@ function* handleCheckoutProfile(action) {
       refreshToken(response)
    }
 }
+
+
+
+
+
+
+
+
+// function* handlekycDocuments(action) {
+//    const response = yield call(kycDocuments, action.payload)
+//    console.log("handlekycDocuments", response)
+
+//    var toastStyle = {
+//       backgroundColor: "#E6F6E6",
+//       color: "black",
+//       width: "auto",
+//       borderRadius: "60px",
+//       height: "20px",
+//       fontFamily: "Gilroy",
+//       fontWeight: 600,
+//       fontSize: 14,
+//       textAlign: "start",
+//       display: "flex",
+//       alignItems: "center",
+//       padding: "10px",
+
+//    };
+
+//    if (response.status === 200 || response.data.statusCode === 200) {
+//       yield put({ type: 'KYC_DOCUMENTS_DETAILS', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+
+//       toast.success(`${response.data.message}`, {
+//          position: "bottom-center",
+//          autoClose: 2000,
+//          hideProgressBar: true,
+//          closeButton: false,
+//          closeOnClick: true,
+//          pauseOnHover: true,
+//          draggable: true,
+//          progress: undefined,
+//          style: toastStyle,
+//       });
+//    }
+//    else {
+//       yield put({ type: 'ERROR', payload: response.data.message })
+//    }
+//    if (response) {
+//       refreshToken(response)
+//    }
+// }
+
+
+function* handlekycDocuments(action) {
+  const response = yield call(kycDocuments, action.payload);
+  console.log("handlekycDocuments", response);
+
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+  };
+
+  if (response.status === 200 || response.data.statusCode === 200) {
+    let parsedData = response.data.data;
+
+    // 🟢 Backend JSON string return pannina parse pannidum
+    if (typeof parsedData === "string") {
+      try {
+        parsedData = JSON.parse(parsedData);
+      } catch (e) {
+        console.error("Error parsing kyc_docs:", e);
+        parsedData = [];
+      }
+    }
+
+    yield put({
+      type: 'KYC_DOCUMENTS_DETAILS',
+      payload: {
+        response: { ...response.data, data: parsedData },
+        statusCode: response.status || response.data.statusCode,
+      },
+    });
+
+    toast.success(`${response.data.message}`, {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+    });
+  } else {
+    yield put({ type: 'ERROR', payload: response.data.message });
+  }
+
+  if (response) {
+    refreshToken(response);
+  }
+}
+
+
+
+
+
+
+
+
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -2056,6 +2181,7 @@ function* UserListSaga() {
    yield takeEvery('UNASSIGNCUSTOMER', handlecustomerUnAssign)
    yield takeEvery('BACKTOCHECKIN', handleBackToCheckin)
    yield takeEvery('CHECKOUTPROFILEDETAILS', handleCheckoutProfile)
+      yield takeEvery('KYCDOCUMENTSDETAIL', handlekycDocuments)
 
 
 }
