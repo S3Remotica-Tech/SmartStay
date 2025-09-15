@@ -24,7 +24,7 @@ import uploadsett from "../Assets/Images/New_images/upload setting.png";
 import Modal from 'react-bootstrap/Modal';
 import Questionimage from '../Assets/Images/question.png';
 
-  const SecurityReceiptPdfTemplate = () => {
+  const SecurityReceiptPdfTemplate = ({BillsTemplateList}) => {
 
        const dispatch = useDispatch();
          const state = useSelector((state) => state);
@@ -307,20 +307,20 @@ const currentData = {
 
 };
 
-const [BillsTemplateList , setBillsTemplateList] = useState([])
+
 
  
-useEffect(()=> {
-   if(state.login.selectedHostel_Id){
-  setLoading(true)
-   dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
-   }
-},[])
+// useEffect(()=> {
+//    if(state.login.selectedHostel_Id){
+//   setLoading(true)
+//     dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+//    }
+// },[])
 
     useEffect(() => {
     if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
 
-  dispatch({type:'GET_TEMPLATE_LIST' , payload:{hostel_Id: Number(state.login.selectedHostel_Id)}})
+    dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE" });
@@ -328,16 +328,16 @@ useEffect(()=> {
     }
   }, [state.Settings.settingsBillsAddTemplateSucesscode]);
 
-    useEffect(() => {
-         if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+  //   useEffect(() => {
+  //        if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
             
-    setBillsTemplateList(state.Settings.settingsBillsTemplateList)
-      setTimeout(() => {
-        setLoading(false)
-        dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
-      }, 500);
-    }
-  }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+  //   setBillsTemplateList(state.Settings.settingsBillsTemplateList)
+  //     setTimeout(() => {
+  //       setLoading(false)
+  //       dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
+  //     }, 500);
+  //   }
+  // }, [state.Settings.SettingsBilltemplategetsuccessCode]);
 
         useEffect(() => {
            if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {    
