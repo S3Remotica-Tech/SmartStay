@@ -124,7 +124,7 @@ const InvoiceTable = (props) => {
           }}
           className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'
         >
-          ₹{Number(props.item?.BalanceDue || 0).toLocaleString('en-IN')}
+          ₹{Number(props.item?.dueAmount || 0).toLocaleString('en-IN')}
         </td>
 
         <td
@@ -135,13 +135,13 @@ const InvoiceTable = (props) => {
     fontSize: 13,
     fontWeight: 500,
     fontFamily: "Gilroy",
-    color: props.item?.paymentStatus === "PAID" ? "green" : "red",
+    color: props.item?.paymentStatus === "Paid" ? "green" : "red",
     borderBottom: "1px solid #E8E8E8",
   }}
   className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
 >
-  {(props.item?.paymentStatus === "PENDING" ||
-    props.item?.paymentStatus === "PARTIAL_PAYMENT") && (
+  {(props.item?.paymentStatus === "Pending" ||
+    props.item?.paymentStatus === "Partial Payment") && (
     <span
       style={{
         backgroundColor: "#FFD9D9",
@@ -155,7 +155,7 @@ const InvoiceTable = (props) => {
     </span>
   )}
 
-  {props.item?.paymentStatus === "PAID" && (
+  {props.item?.paymentStatus === "Paid" && (
     <span
       style={{
         cursor: "pointer",
