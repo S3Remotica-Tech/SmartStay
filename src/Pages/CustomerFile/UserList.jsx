@@ -1321,6 +1321,10 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
+     dispatch({
+      type: "GETCONFIRMCHECKOUTCUSTOMER",
+      payload: { id: id, hostel_id: state.login.selectedHostel_Id },
+    });
     console.log('handleShowDots', id)
     if (activeRow === id) {
       setActiveRow(null);
@@ -2323,8 +2327,11 @@ console.log("item",item)
   }
   const [DueCustomerShow, setDueCustomerShow] = useState(false)
   const [CheckOutDetails, setCheckOutDetails] = useState("");
+  const [detuction,setDetuction] = useState("")
+  console.log("detuction",detuction)
 
   const handleConformCheckout = (item) => {
+    console.log("handleConformCheckout",item)
     setDueCustomerShow(true)
     setCheckOutDetails(item)
     setFinalSettlePage(false)
@@ -2333,8 +2340,24 @@ console.log("item",item)
       payload: { id: item.ID, hostel_id: item.Hostel_Id },
     });
   }
+  console.log("state.UsersList.statusCodegetConfirmCheckout",state.UsersList.statusCodegetConfirmCheckout)
+  useEffect(() => {
+          if (state.UsersList.statusCodegetConfirmCheckout === 200) {
+           
+  setDetuction(state?.UsersList?.Deduction)
+
+  
+          }
+  
+          setTimeout(() => {
+              dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+          }, 500);
+      }, [state.UsersList.statusCodegetConfirmCheckout]);
+  
+
   const handleCloseDuePopup = () => {
     setDueCustomerShow(false)
+     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
   }
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -4530,7 +4553,8 @@ const handleClosefinal = ()=>{
                                                           margin: 0,
                                                         }}
                                                       >
-                                                        Check-Out
+                                                        {/* Check-Out */}
+                                                        {detuction.DueAmount ? "Write-Off":"Check-Out"}
                                                       </label>
                                                     </div>
 

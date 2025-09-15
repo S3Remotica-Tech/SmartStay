@@ -409,7 +409,7 @@ export async function CustomerUnAssign(datum) {
 
 export async function backtoCheckin(datum) {
   console.log("backtoCheckin",datum)
-  return await AxiosConfig.post('reassign_checkIn', datum, {
+  return await AxiosConfig.post('/reassign_checkIn', datum, {
     data: datum
   })
 }
@@ -421,3 +421,126 @@ export async function checkoutDetailView(datum) {
     data: datum
   })
 }
+
+
+// export async function kycDocuments(datum) {
+//   console.log("kycDocuments",datum)
+//   return await AxiosConfig.post('/users/updateKycDocs', datum, {
+//     data: datum
+//   })
+// }
+export async function kycDocuments(datum) {
+  console.log("kycDocuments", datum);
+  return await AxiosConfig.post('/users/updateKycDocs', datum);
+}
+
+
+// export async function kycDocuments(params) {
+// console.log("kycDocuments",params)
+//   const formData = new FormData();
+//   if (params.userId) formData.append("userId", params.userId);
+
+//   if (params.newDocs) formData.append("newDocs", JSON.stringify(params.newDocs));
+  
+
+//   try {
+//     const response = await AxiosConfig.post('/users/updateKycDocs', formData, {
+//       headers: {
+//         "Content-type": "multipart/form-data",
+//       },
+//       timeout: 100000000,
+//       onUploadProgress: (event) => {
+//         console.log("event", event)
+//       }
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//   }
+// }
+// export async function kycDocuments(params) {
+//   const formData = new FormData();
+//   if (params.userId) formData.append("userId", params.userId);
+
+//   if (params.newDocs) {
+//     for (let i = 0; i < params.newDocs.length; i++) {
+//       const doc = params.newDocs[i];
+
+//       formData.append(`docs[${i}][type]`, doc.type);
+//       formData.append(`docs[${i}][name]`, doc.name);
+
+//       if (doc.file) {
+//         // send file so backend can upload and return URL
+//         formData.append(`docs[${i}][file]`, doc.file);
+//       } else if (doc.URL) {
+//         // already have URL
+//         formData.append(`docs[${i}][URL]`, doc.URL);
+//       }
+//     }
+//   }
+
+//   try {
+//     const response = await AxiosConfig.post("/users/updateKycDocs", formData, {
+//       headers: { "Content-Type": "multipart/form-data" },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//   }
+// }
+
+// export async function kycDocuments(params) {
+//   // Directly use the params object as the payload
+//   const payload = {
+//     userId: params.userId,
+//     newDocs: params.newDocs.map(doc => {
+//       // Create a new object for each document with only the properties you need
+//       return {
+//         type: doc.type,
+//         name: doc.name,
+//         URL: doc.URL || doc.file, // assuming your file upload function handles the URL
+//       };
+//     }),
+//   };
+
+//   try {
+//     const response = await AxiosConfig.post("/users/updateKycDocs", payload); // Axios automatically sets Content-Type to application/json
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//     // Handle error
+//   }
+// }
+// This is your action file
+// export async function kycDocuments(params) {
+//   const formData = new FormData();
+//   if (params.userId) formData.append("userId", params.userId);
+
+//   if (params.newDocs) {
+//     for (let i = 0; i < params.newDocs.length; i++) {
+//       const doc = params.newDocs[i];
+
+//       // Append type and name for each document
+//       formData.append(`docs[${i}][type]`, doc.type);
+//       formData.append(`docs[${i}][name]`, doc.name);
+
+//       // Check if a file object is present, and append it to FormData
+//       if (doc.file) {
+//         formData.append(`docs[${i}][file]`, doc.file);
+//       } else if (doc.URL) {
+//         // If a URL is already available, append that instead
+//         formData.append(`docs[${i}][URL]`, doc.URL);
+//       }
+//     }
+//   }
+
+//   try {
+//     const response = await AxiosConfig.post("/users/updateKycDocs", formData, {
+//       headers: { "Content-Type": "multipart/form-data" }, // This header is crucial for file uploads
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//     // Handle the error here
+//   }
+// }

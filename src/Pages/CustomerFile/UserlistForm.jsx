@@ -78,6 +78,7 @@ function UserlistForm(props) {
   const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [recheckinDateError, setRecheckinDateError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
+  const [backtoError,setBacktoError] = useState("")
 
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
@@ -93,7 +94,6 @@ function UserlistForm(props) {
   const cityRef = useRef(null);
   const pincodeRef = useRef(null);
   const stateRef = useRef(null);
-
 
 
 
@@ -155,6 +155,17 @@ function UserlistForm(props) {
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [dateError, setDateError] = useState("");
+
+
+
+  useEffect(()=>{
+if(state.UsersList.backtocheckinError){
+  setFormLoading(false)
+  setBacktoError(state.UsersList.backtocheckinError)
+
+}
+},[state.UsersList.backtocheckinError])
+
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -1371,6 +1382,13 @@ function UserlistForm(props) {
 
 
   const bookingDateRef = useRef("");
+  const date4 = props.EditObj?.booking_joining_date
+  ? dayjs(props.EditObj.booking_joining_date)
+  : null;
+
+if (date4 && date4.isValid()) {
+  console.log("Valid date:", date4.format("YYYY-MM-DD"));
+}
 
   useEffect(() => {
     if (props.BookingAssignForm) {
@@ -1411,7 +1429,7 @@ function UserlistForm(props) {
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance);
       setFloor(props.EditObj.booking_floor_id)
-      setSelectedDate(props.EditObj.booking_joining_date)
+      // setSelectedDate(props.EditObj.booking_joining_date)
       setBookingFloorId(props.EditObj.Booking_FloorName)
       setBookingRoomId(props.EditObj.booking_room_id)
       setBookingBedId(props.EditObj.booking_bed_id)
@@ -1464,6 +1482,23 @@ function UserlistForm(props) {
     }
 
   }, [props.BookingAssignForm]);
+  useEffect(() => {
+  if (props.EditObj?.booking_joining_date) {
+    const joiningDate = dayjs(props.EditObj.booking_joining_date);
+    const today = dayjs(); // today
+
+    if (joiningDate.isValid()) {
+      if (joiningDate.isAfter(today, "day")) {
+        // future date → force today
+        setSelectedDate(today.format("YYYY-MM-DD"));
+      } else {
+        // past or today → keep original
+        setSelectedDate(joiningDate.format("YYYY-MM-DD"));
+      }
+    }
+  }
+}, [props.EditObj?.booking_joining_date]);
+console.log("ddddddddddddddddd",selectedDate)
 
   // const disabledJoiningDate = (current) => {
   //   if (!bookingDate) return false;
@@ -1872,6 +1907,9 @@ function UserlistForm(props) {
     props.setBacktoCheckInForm(false)
     // props.handleCloseBed()
     props.handleCloseBed?.();
+    setBacktoError("")
+    dispatch({ type: "Remove_BACK_TO_CHECKIN_ERROR"});
+
   }
 
   console.log("bactocheckinForm", props.customer_details, props?.EditObj)
@@ -3601,7 +3639,8 @@ function UserlistForm(props) {
       backgroundColor: "#EFF2FF"
     }}
     format="DD/MM/YYYY"
-    value={dayjs()}       
+    // value={dayjs()}       
+    value={selectedDate ? dayjs(selectedDate) : null} 
     open={false}         
     allowClear={false}    
      inputReadOnly            
@@ -6519,7 +6558,22 @@ value={bookingAmount}
                     ></div>
                   </div>}
 
-
+  {backtoError && (
+                        <div style={{ color: "red" }} >
+                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {backtoError}
+                          </label>
+                        </div>
+                      )}
                   <div style={{ display: "flex", gap: "16px", alignItems: "center", marginTop: 10, justifyContent: "flex-end" }}>
                     <button
                       type="button"
@@ -6556,6 +6610,9 @@ value={bookingAmount}
                       Check-In
                     </button>
                   </div>
+
+
+                 
 
                 </>
 
