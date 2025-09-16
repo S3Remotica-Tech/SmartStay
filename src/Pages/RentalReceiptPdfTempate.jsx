@@ -39,9 +39,13 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
   const [editErrmsg, setEditErrMessage] = useState('')
 
   const [color, setColor] = useState({ r: 0, g: 163, b: 46, a: 1 });
+    const [useGradient, setUseGradient] = useState(true);
+    const defaultGradient = 'linear-gradient(to right, rgba(0,163, 46, 1), rgba(0, 163, 46, 1))';
+
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
+  setUseGradient(false);
     setEditErrMessage("")
   };
 
@@ -174,6 +178,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
   const [MobileError, setMobileError] = useState("")
   const [email, setEmail] = useState("")
   const [emailError, setEmailError] = useState("")
+ 
 
   const handleMobile = (e) => {
     const input = e.target.value.replace(/\D/g, "");
@@ -260,7 +265,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
 
 
   const handleSaveTemplate = () => {
-
+console.log("RentalreceiptTemplate",RentalreceiptTemplate)
     const currentData = {
       contact_number: mobilenum,
       email: email,
@@ -325,7 +330,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
         payload: {
           hostelId: state.login.selectedHostel_Id,
           templateTypeId: RentalreceiptTemplate.typeId,
-          receiptLogo: hostel_logo,
+                   receiptLogo: hostel_logo,
           receiptSign: signature,
           mobile: BillsTemplateList.mobile,
           email: BillsTemplateList.emailId,
@@ -337,9 +342,9 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
           isSignatureCustomized: BillsTemplateList?.isSignatureCustomized,
                                receiptNotes: notes,
           receiptTermsAndCondition: terms,
-                  receiptTemplateColor: useGradient
-            ? defaultGradient
-            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+           receiptTemplateColor: useGradient
+          ? defaultGradient
+          : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
         },
       });
 
@@ -402,25 +407,32 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
 
   useEffect(() => {
     if (RentalreceiptTemplate) {
-      setLogoPreview(RentalreceiptTemplate.logo_url || null)
-      setHostelLogo(BillsTemplateList.isLogoCustomized ? RentalreceiptTemplate.invoiceLogoUrl : BillsTemplateList.logo)
-      setMobileNum(BillsTemplateList.isMobileCustomized ? RentalreceiptTemplate.invoiceMobileNumber : BillsTemplateList.mobile)
-      setEmail(BillsTemplateList.isMailIdCustomized ? RentalreceiptTemplate.invoiceMailId : BillsTemplateList.emailId)
-      setSignature(BillsTemplateList.isSignatureCustomized ? RentalreceiptTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(RentalreceiptTemplate.invoiceSignatureUrl || null)
-      setNotes(RentalreceiptTemplate.invoiceNotes)
-      setTerms(RentalreceiptTemplate.invoiceTermsAndCondition || '')
-      const templateTheme = RentalreceiptTemplate.invoiceTemplateColor;
-      if (templateTheme && templateTheme.includes('rgba')) {
-        const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.?\d+)\)/);
-        if (match) {
-          setColor({
-            r: parseInt(match[1]),
-            g: parseInt(match[2]),
-            b: parseInt(match[3]),
-            a: parseFloat(match[4]),
-          });
+      setLogoPreview(RentalreceiptTemplate.receiptLogoUrl || null)
+      setHostelLogo(BillsTemplateList.isLogoCustomized ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setMobileNum(BillsTemplateList.isMobileCustomized ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
+      setEmail(BillsTemplateList.isMailIdCustomized ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
+      setSignature(BillsTemplateList.isSignatureCustomized ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setSignaturePreview(RentalreceiptTemplate.receiptSignatureUrl || null)
+      setNotes(RentalreceiptTemplate.receiptNotes)
+      setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
+       const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
+      if (templateTheme && templateTheme.trim() !== '') {
+        if (templateTheme.includes('rgba')) {
+          const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+\.?\d*)\)/);
+          if (match) {
+            setColor({
+              r: parseInt(match[1]),
+              g: parseInt(match[2]),
+              b: parseInt(match[3]),
+              a: parseFloat(match[4]),
+            });
+            setUseGradient(false);
+          }
+        } else {
+          setUseGradient(true);
         }
+      } else {
+        setUseGradient(true);
       }
 
     }
@@ -428,8 +440,8 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
   }, [RentalreceiptTemplate])
 
 
-  console.log("RentalreceiptTemplate????????", RentalreceiptTemplate)
-
+ 
+console.log("state",state)
 
 
 
@@ -483,7 +495,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
               <>
                 <p style={{ fontFamily: 'Gilroy', fontSize: 17, fontWeight: 600, }}>Inherited Global Details</p>
 
-                <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-10 " style={{ borderRadius: '10px', overflowY: 'auto', }}>
+                <div className="border ps-3 pe-3 pb-3 pt-2 mb-3 col-lg-11" style={{ borderRadius: '10px', overflowY: 'auto', }}>
                   <div className="d-flex justify-content-end">
                     <img src={EditICon} onClick={handleShowContactNumberForm} style={{ cursor: 'pointer' }} alt="editicon" />
 
@@ -496,7 +508,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
                         alignItems: 'center',
                         marginBottom: '6px'
                       }}>
-                        <label style={{ fontWeight: 600 }}>Hostel/PG Logo</label>
+                        <label style={{ fontWeight: 600, fontFamily:"Gilroy" }}>Hostel/PG Logo</label>
                       </div>
                       <div className="p-3 border rounded" style={{ backgroundColor: '#F0F3FF', textAlign: 'center' }}>
 
@@ -558,7 +570,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
                               alignItems: 'center',
                               marginBottom: '6px'
                             }}>
-                              <label style={{ fontWeight: 600 }}>Contact Number</label>
+                              <label style={{ fontWeight: 600 ,fontFamily: 'Gilroy'}}>Contact Number</label>
                             </div>
 
                             <div style={{
@@ -1173,25 +1185,26 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
                     <div>
 
 
-                      <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalreceiptTemplate?.Name}</div>
-                      <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
-                        {[
-                          [RentalreceiptTemplate?.Address, RentalreceiptTemplate?.area, RentalreceiptTemplate?.landmark]
-                            .filter(Boolean)
-                            .join(", "),
-
-                          [RentalreceiptTemplate?.city, RentalreceiptTemplate?.state]
-                            .filter(Boolean)
-                            .join(", ") + (RentalreceiptTemplate?.pin_code ? ` - ${RentalreceiptTemplate.pin_code}` : "")
-                        ]
-                          .filter(line => line && line.trim() !== "")
-                          .map((line, idx) => (
-                            <React.Fragment key={idx}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))}
-                      </div>
+                       <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
+                     
+                                             <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                               {[
+                                                 [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
+                                                   .filter(Boolean)
+                                                   .join(", "),
+                     
+                                                 [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
+                                                   .filter(Boolean)
+                                                   .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
+                                               ]
+                                                 .filter(line => line && line.trim() !== "")
+                                                 .map((line, idx) => (
+                                                   <React.Fragment key={idx}>
+                                                     {line}
+                                                     <br />
+                                                   </React.Fragment>
+                                                 ))}
+                                             </div>
 
                     </div>
                   </div>
@@ -1547,17 +1560,17 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
                         <div>
 
 
+                          <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
 
-                          <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalreceiptTemplate?.Name}</div>
-                          <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
+                          <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
                             {[
-                              [RentalreceiptTemplate?.Address, RentalreceiptTemplate?.area, RentalreceiptTemplate?.landmark]
-                                .filter(Boolean)
+                              [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
+                                .filter(Boolean)  
                                 .join(", "),
 
-                              [RentalreceiptTemplate?.city, RentalreceiptTemplate?.state]
+                              [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
                                 .filter(Boolean)
-                                .join(", ") + (RentalreceiptTemplate?.pin_code ? ` - ${RentalreceiptTemplate.pin_code}` : "")
+                                .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
                             ]
                               .filter(line => line && line.trim() !== "")
                               .map((line, idx) => (
@@ -1566,7 +1579,7 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
                                   <br />
                                 </React.Fragment>
                               ))}
-                          </div>
+                        </div>
                         </div>
                       </div>
 

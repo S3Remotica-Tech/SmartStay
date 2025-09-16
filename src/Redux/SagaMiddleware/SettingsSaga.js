@@ -1649,6 +1649,7 @@ function* handleGetTemplatelist(action) {
 
 
 function* handleAddIGlobalSettings(params) {
+   try{
    const response = yield call(AddGlobalSettingTemplate, params.payload);
 
 
@@ -1660,11 +1661,17 @@ function* handleAddIGlobalSettings(params) {
       toast.success(response.data, { position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, style: toastStyle })
    }
 
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
+  
    if (response) {
       refreshToken(response)
+   }
+}
+catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 

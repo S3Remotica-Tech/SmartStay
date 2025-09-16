@@ -689,7 +689,7 @@ export async function AddGlobalSettingTemplate(params) {
     if (params.invSign) formData.append("invSign", params.invSign);
     if (params.qrCode) formData.append("qrCode", params.qrCode)
     if (params.receiptLogo) formData.append("receiptLogo", params.receiptLogo)
-    if (params.receiptSign) FormDataEvent.append("receiptSign", receiptSign)
+    if (params.receiptSign) formData.append("receiptSign", params.receiptSign)
       
     const requestPayload = {
       templateTypeId: params.templateTypeId,
