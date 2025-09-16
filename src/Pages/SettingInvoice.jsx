@@ -37,6 +37,7 @@ import NOCReceiptPdfTemplate from "./NocReceiptpdftemplate";
 import RentalReceiptPdfTemplate from "./RentalReceiptPdfTempate";
 import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
 import SecurityReceiptPdfTemplate from "./SecurityDepositReceipt";
+import BankingAddForm from "./BankingAddForm";
 
 
 function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
@@ -63,7 +64,6 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   const [editformErrmsg, setEditFormErrMessage] = useState('')
 
 
-console.log("editformErrmsg",editformErrmsg)
 
   const [edit, setEdit] = useState(false);
   const [cardshow, setCardShow] = useState(true)
@@ -850,7 +850,7 @@ console.log("paymentmobilenum",paymentmobilenum)
 
 
   const handleCloseForm = () => {
-    setShowForm(false);
+    setBankAccountForm(false);
     setEdit(false);
     setCardShow(true)
     setSelectedard('')
@@ -4492,209 +4492,16 @@ flex: "0 1 auto"
       }
 
       {bankaccountform && (
-        <div
-          className="modal show"
-          style={{
-            display: "block",
-            position: "initial",
-            fontFamily: "Gilroy,sans-serif",
-          }}
-        >
-          <Modal
-            show={bankaccountform}
-            onHide={handleCloseBankAccount}
-            centered
-            backdrop="static"
-            dialogClassName="custom-modal"
-          >
-            <Modal.Dialog
-              style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-              className="m-0 p-0"
-            >
-              <div>
-                <Modal.Header
-                  style={{ position: "relative" }}
-                >
-                  <div
-                    style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-                  >
 
 
-                    Banking Details
+<BankingAddForm  showForm={bankaccountform} 
+              setShowForm={handleCloseForm}
+                            setEdit={setEdit}
+             
+              
+              /> 
 
-
-                  </div>
-
-                  <CloseCircle size="24" color="#000" onClick={handleCloseBankAccount}
-                    style={{ cursor: 'pointer' }} />
-
-
-                </Modal.Header>
-              </div>
-              <Modal.Body>
-
-                <div className="row ">
-
-
-
-                  <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                        Beneficiary Name   {" "}
-                        <span style={{ color: "red", fontSize: "20px", }}>  {" "} *{" "} </span>
-                      </Form.Label>
-                      <Form.Control
-                        style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                        type="text"
-                        placeholder="Enter Beneficiary Name"
-                        value={accountName}
-                        onChange={handleAccountName}
-                      />
-                      {accountNameError && (
-                        <div style={{ color: "red" }}>
-                          <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                          <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                        </div>
-                      )}
-                    </Form.Group>
-
-
-                  </div>
-
-                  <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                        Bank Name
-                      </Form.Label>
-                      <Form.Control
-                        style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                        type="text"
-                        placeholder="Enter Bank Name"
-                        value={bank_name}
-                        onChange={handleBankNameChange}
-                      />
-
-
-                    </Form.Group>
-
-
-                  </div>
-
-
-                  <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1" >
-                      <Form.Label
-                        style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                        Account Number
-                      </Form.Label>
-                      <Form.Control
-                        style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                        type="text"
-                        placeholder="Enter Account Number"
-                        value={account_number}
-                        onChange={handleAccountNumberChange}
-
-                      />
-
-
-                    </Form.Group>
-
-
-                  </div>
-
-
-                  <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                        IFSC Code
-                      </Form.Label>
-                      <Form.Control
-                        style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                        type="text"
-                        placeholder="Enter IFSC Code"
-                        value={ifsccode}
-                        onChange={handleIfscCodeChange}
-
-                      />
-
-
-                    </Form.Group>
-
-
-                  </div>
-
-
-
-                  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                        Description
-                      </Form.Label>
-                      <Form.Control
-                        style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                        type="text"
-                        placeholder="Enter Description"
-                        value={description}
-                        onChange={(e) => handleDescription(e)}
-                      />
-
-
-                    </Form.Group>
-
-
-                  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-              </Modal.Body>
-
-
-
-
-              <Modal.Footer style={{ border: "none" }}>
-
-                <Button
-                  className="w-100"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 500,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                    marginTop: "-15px"
-                  }}
-                  onClick={handleSubmitBank}
-                >
-                  Save
-
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
+       
       )}
 
 
