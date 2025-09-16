@@ -240,15 +240,28 @@ const handleTransactionId = (e) => {
     }
 
 
+    // if (!bookingAmount) {
+    //   setAmountError("Please enter Booking Amount");
+    //   isValid = false;
+    // } else if (isNaN(bookingAmount)) {
+    //   setAmountError("Booking Amount must be a number");
+    //   isValid = false;
+    // } else {
+    //   setAmountError("");
+    // }
     if (!bookingAmount) {
-      setAmountError("Please enter Booking Amount");
-      isValid = false;
-    } else if (isNaN(bookingAmount)) {
-      setAmountError("Booking Amount must be a number");
-      isValid = false;
-    } else {
-      setAmountError("");
-    }
+  setAmountError("Please enter Booking Amount");
+  isValid = false;
+} else if (isNaN(bookingAmount)) {
+  setAmountError("Booking Amount must be a number");
+  isValid = false;
+} else if (Number(bookingAmount) <= 0) {
+  setAmountError("Booking Amount must be greater than 0");
+  isValid = false;
+} else {
+  setAmountError("");
+}
+
     if(!modeOfPayment){
        setPaymentError("Please Select Mode Of Transaction");
         isValid = false;
