@@ -58,6 +58,7 @@ import PaginationList from "../Components/PaginationList";
 
 
 
+
 const InvoicePage = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -665,6 +666,7 @@ setMatchedDetails(matchedDetails)
 
     setPayableAmount(value);
     setPayableAmountError("")
+    setAmountErrmsg("");
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
   };
 
@@ -6983,6 +6985,9 @@ setMatchedDetails(matchedDetails)
           />
         </>
       )}
+
+
+     
     </div>
   );
 };

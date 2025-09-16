@@ -819,11 +819,15 @@ if(state.UsersList.backtocheckinError){
 
     if (hasReasonAmountError) return;
 
-    const incrementDateAndFormat = (date) => {
-      const newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate.toISOString().split("T")[0];
+    // const incrementDateAndFormat = (date) => {
+    //   const newDate = new Date(date);
+    //   newDate.setDate(newDate.getDate() + 1);
+    //   return newDate.toISOString().split("T")[0];
+    // };
+     const incrementDateAndFormat = (date) => {
+      return dayjs(date).format("YYYY-MM-DD");
     };
+
     const formattedDate = selectedDate
       ? incrementDateAndFormat(selectedDate)
       : "";
