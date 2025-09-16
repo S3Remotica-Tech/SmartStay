@@ -288,6 +288,14 @@ useEffect(()=>{
 
       hasError = true;
     }
+     if (Number(amount) <= 0) {
+    setamountError("Booking Amount must be greater than 0");
+    if (!focusedRef.current && amountRef?.current) {
+      amountRef.current.focus();
+      focusedRef.current = true;
+    }
+    return;
+  }
    
     if (hasError) return;
     if (
