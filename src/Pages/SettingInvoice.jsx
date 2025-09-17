@@ -1015,7 +1015,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
     const currentTemplate = {
       hostelId: Number(state.login.selectedHostel_Id),
       templateTypeId: RentalinvoiceTemplate.typeId,
-      invSign: signature,
+      invSign: rentalSignatureFile,
       isSignatureCustomized: isCheckedSignature,
       invoicePhoneNumber: paymentmobilenum,
       isMobileCustomized: isCheckedmobile,
@@ -1130,7 +1130,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
           hostelLogo: selectedFile,
           billSignature: sign,
           invLogo: hostel_logo,
-          invSign: signature,
+          invSign: rentalSignatureFile,
           qrCode: qrimagepreview,
           prefix,
           suffix,
@@ -1186,14 +1186,15 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
   useEffect(() => {
     if (RentalinvoiceTemplate) {
-      setLogoPreview(RentalinvoiceTemplate.invoiceLogoUrl || null)
+      setLogoPreview(BillsTemplateList.isLogoCustomized ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
       setHostelLogo(BillsTemplateList.isLogoCustomized ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
       setPaymentMobileNum(BillsTemplateList.isMobileCustomized ? RentalinvoiceTemplate.invoiceMobileNumber : BillsTemplateList.mobile)
       setPaymentinvoiceEmail(BillsTemplateList.isMailIdCustomized ? RentalinvoiceTemplate.invoiceMailId : BillsTemplateList.emailId)
       setPrefix(RentalinvoiceTemplate.prefix || '')
       setSuffix(RentalinvoiceTemplate.suffix || '')
       setSignature(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(RentalinvoiceTemplate.invoiceSignatureUrl || null)
+     setRentalSignatureFile(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
+      setRentalSignaturePreview(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
       setTerms(RentalinvoiceTemplate.invoiceTermsAndCondition || '')
       setTax(RentalinvoiceTemplate.gstPercentile || '')
       setSelectedBankId(RentalinvoiceTemplate.selectedBankId || null)

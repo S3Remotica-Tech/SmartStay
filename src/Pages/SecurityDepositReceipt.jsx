@@ -417,12 +417,12 @@ dispatch({
 
  useEffect(() => {
     if (securityDepositReceiptTemplate) {
-      setLogoPreview(securityDepositReceiptTemplate.receiptLogoUrl || null)
+      setLogoPreview(BillsTemplateList.isLogoCustomized ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
       setHostelLogo(BillsTemplateList.isLogoCustomized ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
       setMobileNum(BillsTemplateList.isMobileCustomized ? securityDepositReceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
       setEmail(BillsTemplateList.isMailIdCustomized ? securityDepositReceiptTemplate.receiptMailId : BillsTemplateList.emailId)
       setSignature(BillsTemplateList.isSignatureCustomized ? securityDepositReceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(securityDepositReceiptTemplate.receiptSignatureUrl || null)
+      setSignaturePreview(BillsTemplateList.isSignatureCustomized ? securityDepositReceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
       setNotes(securityDepositReceiptTemplate.receiptNotes)
       setTerms(securityDepositReceiptTemplate.receiptTermsAndCondition || '')
        const templateTheme = securityDepositReceiptTemplate.receiptTemplateColor;
@@ -1413,8 +1413,8 @@ dispatch({
                     </div>
 
                     <div className="col-md-6 text-end">
-                      {signaturePreview && (
-                        <img src={signaturePreview} alt="signature" style={{ height: 50, width: 100 }} />
+                      {signature && (
+                        <img src={signature} alt="signature" style={{ height: 50, width: 100 }} />
                       )}
                       <p className="mt-4" style={{ fontSize: "11px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "25px" }}>Authorized Signature</p>
                     </div>

@@ -407,12 +407,12 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
 
   useEffect(() => {
     if (RentalreceiptTemplate) {
-      setLogoPreview(RentalreceiptTemplate.receiptLogoUrl || null)
+      setLogoPreview(BillsTemplateList.isLogoCustomized ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
       setHostelLogo(BillsTemplateList.isLogoCustomized ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
       setMobileNum(BillsTemplateList.isMobileCustomized ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
       setEmail(BillsTemplateList.isMailIdCustomized ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
       setSignature(BillsTemplateList.isSignatureCustomized ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(RentalreceiptTemplate.receiptSignatureUrl || null)
+      setSignaturePreview(BillsTemplateList.isSignatureCustomized ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
       setNotes(RentalreceiptTemplate.receiptNotes)
       setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
        const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
@@ -1401,9 +1401,9 @@ console.log("state",state)
                       <div className="col-md-6 text-end">
                         <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
                         </p>
-                        {RentalreceiptTemplate?.receiptSignatureUrl && (
+                        {signature && (
                           <img
-                            src={RentalreceiptTemplate.receiptSignatureUrl}
+                            src={signature}
                             alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 30 }}
 
                           />
