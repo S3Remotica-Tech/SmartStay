@@ -95,14 +95,8 @@ const Compliance = () => {
 
   useEffect(() => {
     if (hosId) {
-      dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: hosId } });
-      dispatch({ type: "USERLIST",
-        payload: { hostel_id: hosId},
-      });
-      dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hosId } });
-        // dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
+    dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: hosId } });
     }
-
   }, [hosId])
 
   
@@ -307,15 +301,22 @@ const Compliance = () => {
     }
 
     if (state.ComplianceList.Compliance) {
-      const filteredItems = state.ComplianceList?.Compliance.filter((user) =>
-        user?.Name?.toLowerCase().includes(filterInput.toLowerCase())
-      );
-      setFilteredUsers(filteredItems);
+    const filteredItems = state.ComplianceList?.Compliance?.filter((user) =>
+  user?.complaintResponseDto?.customerName
+    ?.toLowerCase()
+    .includes(filterInput.toLowerCase())
+);
+
+setFilteredUsers(filteredItems);
+
     } else {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
     }
 
-  }, [state.ComplianceList.statusCodeForAddCompliance, filterInput]);
+  }, [state.ComplianceList.statusCodeForAddCompliance, filterInput])
+
+  console.log("filter" , state.ComplianceList?.Compliance);
+  
 
 
    useEffect(() => {
@@ -381,8 +382,8 @@ const Compliance = () => {
 
   const [hostelname, setHostelName] = useState('')
 
-  const [dateerrmsg, setDateErrmsg] = useState('');
-  const [usererrmsg, setUserErrmsg] = useState('');
+  const [dateerrmsg, setDateErrmsg] = useState('')
+  const [usererrmsg, setUserErrmsg] = useState('')
   const [complaint_typeerrmsg, setComplaintTypeErrmsg] = useState('')
   const [totalErrormsg, setTotalErrmsg] = useState('')
 
@@ -391,15 +392,15 @@ const Compliance = () => {
 
 
   const handleCloseSearch = () => {
-    setSearch(false);
+    setSearch(false)
     setFilterInput("")
     setDropdownVisible(false);
-  };
+  }
 
 
   const handleSearch = () => {
-    setSearch(!search);
-  };
+    setSearch(!search)
+  }
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
@@ -410,19 +411,18 @@ const Compliance = () => {
 
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
-  };
+    setDropdownVisible(e.target.value.length > 0)
+  }
 
   const handleUserSelect = (user) => {
-    setFilterInput(user.Name);
-
+    setFilterInput(user.customerName)
     const selectedUserData = state.ComplianceList.Compliance.filter(
-      (item) => item.Name === user.Name
-    );
-    setFilteredUsers(selectedUserData);
-
-    setDropdownVisible(false);
-  };
+      (item) => item?.complaintResponseDto?.customerName === user.customerName
+    )
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+    setFilteredUsers(selectedUserData)
+    setDropdownVisible(false)
+  }
 
 
 
@@ -448,14 +448,14 @@ const Compliance = () => {
     // setCurrentPage(1)
   };
 
-  const [selectedDateRange, setSelectedDateRange] = useState([]);
+  const [selectedDateRange, setSelectedDateRange] = useState([])
 
   const handleDateChange = (dates) => {
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
-      setSelectedDateRange([]);
-      setStatusfilter("All");
+      setSelectedDateRange([])
+      setStatusfilter("All")
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
-      return;
+      return
     }
 
 
@@ -587,6 +587,7 @@ const Compliance = () => {
       });
       return;
     }
+    dispatch({ type: "USERLIST",payload: { hostel_id: hosId}});
     setEdit(false)
     setShow(true);
   }
@@ -676,8 +677,9 @@ const Compliance = () => {
     
 
     if ( state.login.selectedHostel_Id  && userid && Complainttype && selectedDate  && Floor && Rooms) {
-      const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
-      console.log("date" , formattedDate);
+      // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
+      // console.log("date" , formattedDate);
+      const formattedDate =  selectedDate ? selectedDate.format("DD/MM/YYYY") : null
       
          const payload = {
       customerId: userid,                       
@@ -704,18 +706,18 @@ const Compliance = () => {
         dispatch({ type: 'COMPLIANCE-ADD', payload })
         setFormLoading(true)
 
-        setSelectedUserName('');
-        setComplainttype('');
-        setAssign('');
-        setDescription('');
-        setSelectedDate('')
-        setBeds('')
-        setBedName('')
-        setFloor('');
-        setRooms('');
-        setHostelName('');
-        setStatus('');
-        setComplaintId('');
+        // setSelectedUserName('');
+        // setComplainttype('');
+        // setAssign('');
+        // setDescription('');
+        // setSelectedDate('')
+        // setBeds('')
+        // setBedName('')
+        // setFloor('');
+        // setRooms('');
+        // setHostelName('');
+        // setStatus('');
+        // setComplaintId('');
         // setHostel_Id('')
       }
 
@@ -752,7 +754,13 @@ const Compliance = () => {
       setEditcomplainttype(Complaintdata.complaintTypeId)
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.description);
-      setSelectedDate(new Date(Complaintdata.complaintDate));
+      // setSelectedDate(Complaintdata.complaintDate);
+      setSelectedDate(
+  Complaintdata.complaintDate 
+    ? dayjs(Complaintdata.complaintDate, "DD/MM/YYYY") 
+    : null
+);
+
       // setHostel_Id(Complaintdata?.Hostel_id)
       setBeds(Complaintdata.bedId)
       setBedName(Complaintdata.bedName)
@@ -770,6 +778,9 @@ const Compliance = () => {
       };
     }
   }
+
+  console.log("selectedDate" , selectedDate);
+  
 
    const [EditComplaintDetails  , setEditComplaintDetails] = useState({})
 
@@ -1045,7 +1056,7 @@ console.log("users" , complainttypelist);
                                 boxSizing: "border-box",
                                 width: "100%",
                               }}>
-                                {Array.isArray(filterOptions) && filterOptions.map((user, index) => {
+                                {Array.isArray(filteredUsers) && filteredUsers.map((user, index) => {
                                   const imagedrop = user.profile || Profile;
                                   return (
                                     <li
@@ -1061,7 +1072,7 @@ console.log("users" , complainttypelist);
                                         boxSizing: "border-box",
                                         fontFamily: "Gilroy",
                                       }}
-                                      onClick={() => handleUserSelect(user)}
+                                      onClick={() => handleUserSelect(user.complaintResponseDto)}
                                       onMouseEnter={() => setHoveredIndex(index)}
                                       onMouseLeave={() => setHoveredIndex(null)}
                                     >
@@ -1080,7 +1091,7 @@ console.log("users" , complainttypelist);
                                           e.target.src = Profile;
                                         }}
                                       />
-                                      <div style={{ flexGrow: 1 }}>{user?.Name || "Unnamed"}</div>
+                                      <div style={{ flexGrow: 1 }}>{user?.complaintResponseDto?.customerName || "Unnamed"}</div>
                                     </li>
                                   );
                                 })}
@@ -1694,11 +1705,17 @@ console.log("users" , complainttypelist);
   format="DD/MM/YYYY"
   placeholder="DD/MM/YYYY"
   value={selectedDate ? dayjs(selectedDate) : null}
-  onChange={(date) => {
+  // onChange={(date) => {
+  //   setDateErrmsg('');
+  //   setJoingDateErrmsg('');
+  //   setSelectedDate(date ? date.toDate() : null);
+  // }}
+    onChange={(date) => {
     setDateErrmsg('');
     setJoingDateErrmsg('');
-    setSelectedDate(date ? date.toDate() : null);
+    setSelectedDate(date); // keep as dayjs object
   }}
+
   disabledDate={(current) => {
    
     if(!selectedUsername) {
