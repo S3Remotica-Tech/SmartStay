@@ -1599,9 +1599,10 @@ function* handleGetTemplatelist(action) {
    try {
       const response = yield call(getTemplateList, action.payload);
 
+      console.log("response",response)
 
       if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'GET_TEMPLATELIST', payload: { response: response.data.message, statusCode: response.status || response.statusCode, message: response.data.message } })
+         yield put({ type: 'GET_TEMPLATELIST', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })
       }
       if (response.status === 500 || response.statusCode === 500) {
          yield put({ type: 'ERROR_TEMPLATELIST', payload: { statusCode: response.status || response.statusCode, message: response.data.message } })
@@ -1648,21 +1649,29 @@ function* handleGetTemplatelist(action) {
 
 
 function* handleAddIGlobalSettings(params) {
+   try{
    const response = yield call(AddGlobalSettingTemplate, params.payload);
 
 
-   if (response.successCode === 200 || response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ADD_GLOBAL_SETTINGS', payload: { response: response.data, statusCode: response.successCode || response.statusCode, message: response.message } })
+   if (response.status === 200) {
+   
+      yield put({ type: 'ADD_GLOBAL_SETTINGS', payload: { response: response.data, statusCode: response.status } })
 
       var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy", fontWeight: 600, fontSize: 14, textAlign: "start", display: "flex", alignItems: "center", padding: "10px", };
-      toast.success(response.message, { position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, style: toastStyle })
+      toast.success(response.data, { position: "bottom-center", autoClose: 2000, hideProgressBar: true, closeButton: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, style: toastStyle })
    }
 
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
+  
    if (response) {
       refreshToken(response)
+   }
+}
+catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 

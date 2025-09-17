@@ -46,10 +46,10 @@ export async function Addcomplainttype(type) {
 //   });
 // }
 // v2
-export async function Editcomplainttype({ id, complaintTypeName, isActive , hostelId }) {
+export async function Editcomplainttype({ id, complaintTypeName, isActive, hostelId }) {
   return await AxiosConfigV2.put(`/v2/ComplaintType/${id}`, {
     complaintTypeName,
-    isActive , 
+    isActive,
     hostelId
   }, {
     headers: {
@@ -157,8 +157,8 @@ export async function AddSettingPermission(datum) {
 
 export async function editRolePermission(role) {
   console.log("role edit ", role)
-  return await AxiosConfigV2.put(`/v2/role/${role.id}`, role,{
-     data: role,
+  return await AxiosConfigV2.put(`/v2/role/${role.id}`, role, {
+    data: role,
   });
 }
 
@@ -196,8 +196,8 @@ export async function deleteRolePermission(datum) {
 // }
 
 export async function addStaffUser(hostelId, datum) {
-  console.log("action" , hostelId, datum);
-  
+  console.log("action", hostelId, datum);
+
   return await AxiosConfigV2.post(`/v2/profile/add-user/${hostelId}`, datum, {
     headers: {
       "Content-Type": "application/json",
@@ -205,14 +205,14 @@ export async function addStaffUser(hostelId, datum) {
   });
 }
 
-export async function EditStaffUser(hostelId, userId , datum) {
-  
+export async function EditStaffUser(hostelId, userId, datum) {
+
   return await AxiosConfigV2.put(`/v2/profile/users/${hostelId}/${userId}`, datum, {
     headers: {
       "Content-Type": "application/json",
     },
   });
-}  
+}
 
 
 // v1
@@ -236,7 +236,7 @@ export async function EditStaffUser(hostelId, userId , datum) {
 
 // API call with hostelId in path
 export async function GetAllStaff(hostelId) {
-  
+
   return await AxiosConfigV2.get(`/v2/profile/users-list/${hostelId}`, {
     headers: {
       "Content-Type": "application/json",
@@ -296,27 +296,27 @@ export async function GetAllReport() {
 // v2
 
 export async function AddGeneral(params) {
-     const formData = new FormData();
+  const formData = new FormData();
 
-    if (params.accountInfo) {
-      const accountInfoBlob = new Blob(
-        [JSON.stringify(params.accountInfo)],
-        { type: "application/json" }
-      );
-      formData.append("accountInfo", accountInfoBlob);
-    }
-
-    if (params.profilePic) {
-      formData.append("profilePic", params.profilePic);
-    } 
-    const response = await AxiosConfigV2.post(
-      "/v2/profile/add-admin",
-      formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
+  if (params.accountInfo) {
+    const accountInfoBlob = new Blob(
+      [JSON.stringify(params.accountInfo)],
+      { type: "application/json" }
     );
+    formData.append("accountInfo", accountInfoBlob);
+  }
 
-    return response;
-  
+  if (params.profilePic) {
+    formData.append("profilePic", params.profilePic);
+  }
+  const response = await AxiosConfigV2.post(
+    "/v2/profile/add-admin",
+    formData,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  );
+
+  return response;
+
 }
 
 // export async function AddGeneral(params) {
@@ -361,21 +361,21 @@ export async function AddGeneral(params) {
 //   `/v2/profile/admin/${params.adminId}`,)
 
 //     return response;
-  
+
 // }
 
 // export async function EditGeneral(params) {
 //   const formData = new FormData();
 
 //    console.log("params" , params);
-   
+
 //   const accountInfoBlob = new Blob(
 //     [JSON.stringify(params.payload)],
 //     { type: "application/json" }
 //   );
 //   formData.append("payload", accountInfoBlob);
 
- 
+
 //   if (params.profilePic) {
 //     formData.append("profilePic", params.profilePic);
 //   }
@@ -606,63 +606,159 @@ export async function AddBillTemplate(params) {
   }
 }
 
+// v1
 
-export async function getTemplateList(template) {
-  return await AxiosConfig.post("/FetchTemplateListDetails", template);
+// export async function getTemplateList(template) {
+//   return await AxiosConfig.post("/FetchTemplateListDetails", template);
+// }
+
+
+// v2
+
+export async function getTemplateList(hostelId) {
+  return await AxiosConfigV2.get(`/v2/hostel/config/${hostelId}`);
 }
 
 
 
+// v1
+
+// export async function AddGlobalSettingTemplate(params) {
+//   const formData = new FormData();
+
+//   if (params.is_logo_specific_template !== undefined)
+//     formData.append("is_logo_specific_template", JSON.stringify(params.is_logo_specific_template));
+
+//   if (params.contact_number)
+//     formData.append("contact_number", params.contact_number);
+
+//   if (params.is_contact_specific_template !== undefined)
+//     formData.append("is_contact_specific_template", JSON.stringify(params.is_contact_specific_template));
+
+//   if (params.email)
+//     formData.append("email", params.email);
+
+//   if (params.is_email_specific_template !== undefined)
+//     formData.append("is_email_specific_template", JSON.stringify(params.is_email_specific_template));
+
+//   if (params.is_signature_specific_template !== undefined)
+//     formData.append("is_signature_specific_template", JSON.stringify(params.is_signature_specific_template));
+
+//   if (params.hostel_Id)
+//     formData.append("hostel_Id", params.hostel_Id);
+
+//   if (params.logo_url) formData.append("logo_url", params.logo_url);
 
 
+//   if (params.digital_signature_url) formData.append("digital_signature_url", params.digital_signature_url);
+
+//   try {
+//     const response = await AxiosConfig.post(
+//       "/BillTemplateGlobalSetting",
+//       formData,
+//       {
+//         headers: {
+//           "Content-type": "multipart/form-data",
+//         },
+//         timeout: 100000,
+//       }
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//     throw error;
+//   }
+// }
+
+
+
+// v2
 
 
 export async function AddGlobalSettingTemplate(params) {
-  const formData = new FormData();
 
-  if (params.is_logo_specific_template !== undefined)
-    formData.append("is_logo_specific_template", JSON.stringify(params.is_logo_specific_template));
-
-  if (params.contact_number)
-    formData.append("contact_number", params.contact_number);
-
-  if (params.is_contact_specific_template !== undefined)
-    formData.append("is_contact_specific_template", JSON.stringify(params.is_contact_specific_template));
-
-  if (params.email)
-    formData.append("email", params.email);
-
-  if (params.is_email_specific_template !== undefined)
-    formData.append("is_email_specific_template", JSON.stringify(params.is_email_specific_template));
-
-  if (params.is_signature_specific_template !== undefined)
-    formData.append("is_signature_specific_template", JSON.stringify(params.is_signature_specific_template));
-
-  if (params.hostel_Id)
-    formData.append("hostel_Id", params.hostel_Id);
-
-  if (params.logo_url) formData.append("logo_url", params.logo_url);
-
-
-  if (params.digital_signature_url) formData.append("digital_signature_url", params.digital_signature_url);
+  console.log("params", params)
 
   try {
-    const response = await AxiosConfig.post(
-      "/BillTemplateGlobalSetting",
+    const formData = new FormData();
+
+
+    if (params.hostelLogo) formData.append("hostelLogo", params.hostelLogo);
+    if (params.billSignature) formData.append("billSignature", params.billSignature);
+    if (params.invLogo) formData.append("invLogo", params.invLogo);
+    if (params.invSign) formData.append("invSign", params.invSign);
+    if (params.qrCode) formData.append("qrCode", params.qrCode)
+    if (params.receiptLogo) formData.append("receiptLogo", params.receiptLogo)
+    if (params.receiptSign) formData.append("receiptSign", params.receiptSign)
+      
+    const requestPayload = {
+      templateTypeId: params.templateTypeId,
+      prefix: params.prefix,
+      suffix: params.suffix,
+      gstPercentile: params.gstPercentile,
+      bankId: params.bankId,
+      invoiceNotes: params.invoiceNotes,
+      receiptNotes: params.receiptNotes,
+      invoiceTermsAndCondition: params.invoiceTermsAndCondition,
+      receiptTermsAndCondition: params.receiptTermsAndCondition,
+      invoiceTemplateColor: params.invoiceTemplateColor,
+      receiptTemplateColor: params.receiptTemplateColor,
+      invoicePhoneNumber: params.invoicePhoneNumber,
+      receiptPhoneNumber: params.receiptPhoneNumber,
+      invoiceMailId: params.invoiceMailId,
+      receiptMailId: params.receiptMailId,
+    };
+
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(requestPayload)], { type: "application/json" })
+    );
+
+    const queryParams = new URLSearchParams({
+      mobile: params.mobile,
+      email: params.email,
+      isMobileCustomized: params.isMobileCustomized,
+      isSignatureCustomized: params.isSignatureCustomized,
+      isEmailCustomized: params.isEmailCustomized,
+      isLogoCustomized: params.isLogoCustomized
+
+    }).toString();
+
+    const response = await AxiosConfigV2.post(
+      `/v2/hostel/config/${params.hostelId}?${queryParams}`,
       formData,
       {
         headers: {
-          "Content-type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
         timeout: 100000,
       }
     );
-    return response.data;
+
+    return response;
   } catch (error) {
     console.error("Axios Error", error);
     throw error;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export async function SettingsGetGlobal(datum) {
   return await AxiosConfig.post("/FetchTemplateList", datum, {
     data: datum,
