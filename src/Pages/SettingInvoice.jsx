@@ -1177,7 +1177,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
   const RentalinvoiceTemplate = BillsTemplateList && BillsTemplateList.templates?.find(
-    (template) => template.type === "Rental"
+    (template) => template.type === "RENTAL"
   );
 
   console.log("RentalinvoiceTemplate", RentalinvoiceTemplate)
@@ -1287,7 +1287,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
           isSignatureCustomized: isCheckedSignature,
           hostelLogo: selectedFile,
           billSignature: sign,
-          templateTypeId: BillsTemplateList.templateId
+          // templateTypeId: BillsTemplateList.templateId
         },
       });
 

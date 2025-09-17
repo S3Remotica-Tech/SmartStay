@@ -690,7 +690,7 @@ export async function AddGlobalSettingTemplate(params) {
     if (params.qrCode) formData.append("qrCode", params.qrCode)
     if (params.receiptLogo) formData.append("receiptLogo", params.receiptLogo)
     if (params.receiptSign) formData.append("receiptSign", params.receiptSign)
-      
+
     const requestPayload = {
       templateTypeId: params.templateTypeId,
       prefix: params.prefix,
@@ -709,10 +709,25 @@ export async function AddGlobalSettingTemplate(params) {
       receiptMailId: params.receiptMailId,
     };
 
-    formData.append(
-      "request",
-      new Blob([JSON.stringify(requestPayload)], { type: "application/json" })
+    const filteredPayload = Object.fromEntries(
+      Object.entries(requestPayload).filter(([_, v]) => v !== undefined && v !== null && v !== "")
     );
+
+
+    const hasAnyDetail = Object.keys(filteredPayload).some(
+      (key) => key !== "templateTypeId"
+    );
+
+    if (hasAnyDetail) {
+      filteredPayload.templateTypeId = params.templateTypeId;
+
+      formData.append(
+        "request",
+        new Blob([JSON.stringify(filteredPayload)], { type: "application/json" })
+      );
+    }
+
+
 
     const queryParams = new URLSearchParams({
       mobile: params.mobile,
