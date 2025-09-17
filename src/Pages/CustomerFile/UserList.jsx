@@ -66,7 +66,7 @@ function UserList(props) {
   dayjs.extend(isBetween);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [filterInput, setFilterInput] = useState("");
