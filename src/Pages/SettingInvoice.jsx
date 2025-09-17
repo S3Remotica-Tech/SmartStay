@@ -106,7 +106,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
   console.log("BillsTemplateList", BillsTemplateList, "")
 
-  console.log("signature",signature)
+  console.log("signature", signature)
 
 
 
@@ -235,7 +235,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
   };
 
-console.log("paymentmobilenum",paymentmobilenum)
+  console.log("paymentmobilenum", paymentmobilenum)
   const handlePaymentInvoiceMobile = (e) => {
     const input = e.target.value.replace(/\D/g, "");
     setPaymentMobileNum(input);
@@ -252,7 +252,7 @@ console.log("paymentmobilenum",paymentmobilenum)
 
   };
 
-  
+
 
 
   const handleMobile = (e) => {
@@ -513,7 +513,7 @@ console.log("paymentmobilenum",paymentmobilenum)
   const handleFileSignatureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSign(file); 
+      setSign(file);
       setSignPreview(URL.createObjectURL(file));
       setSignatureErrMsg("");
       setIsSignatureConfirmed(false);
@@ -719,7 +719,7 @@ console.log("paymentmobilenum",paymentmobilenum)
     if (state.login.selectedHostel_Id) {
       setLoading(true)
       dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: state.login.selectedHostel_Id } });
- dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -853,6 +853,7 @@ console.log("paymentmobilenum",paymentmobilenum)
     setBankAccountForm(false);
     setEdit(false);
     setCardShow(true)
+    setShowForm(false)
     setSelectedard('')
     setPrefix('')
     setSelectedDate('')
@@ -862,7 +863,10 @@ console.log("paymentmobilenum",paymentmobilenum)
     setEditFormErrMessage("")
   };
 
-
+  const handleCloseFormBank = () => {
+    setBankAccountForm(false);
+    setEdit(false);
+  }
   const [bankaccountform, setBankAccountForm] = useState(false)
 
 
@@ -884,7 +888,7 @@ console.log("paymentmobilenum",paymentmobilenum)
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-            dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
 
     }
   }, [state.login.selectedHostel_Id]);
@@ -1003,149 +1007,149 @@ console.log("paymentmobilenum",paymentmobilenum)
 
 
 
- 
+
 
   const handleSaveRentalTemplate = () => {
-  const currentTemplate = {
-    hostelId: Number(state.login.selectedHostel_Id),
-    templateTypeId: RentalinvoiceTemplate.typeId,
-    invSign: signature,
-    isSignatureCustomized: isCheckedSignature,
-    invoicePhoneNumber: paymentmobilenum,
-    isMobileCustomized: isCheckedmobile,
-    invoiceMailId: paymentinvoiceemail,
-    isEmailCustomized: isCheckedEmail,
-    invLogo: hostel_logo,
-    isLogoCustomized: isCheckedLogo,
-    qrCode: qrimagepreview,
-    prefix,
-    suffix,
-    gstPercentile: tax,
-    invoiceNotes: notes,
-    invoiceTermsAndCondition: terms,
-    bankId: Number(selectedBankId),
-    invoiceTemplateColor: useGradient
-      ? defaultGradient
-      : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    const currentTemplate = {
+      hostelId: Number(state.login.selectedHostel_Id),
+      templateTypeId: RentalinvoiceTemplate.typeId,
+      invSign: signature,
+      isSignatureCustomized: isCheckedSignature,
+      invoicePhoneNumber: paymentmobilenum,
+      isMobileCustomized: isCheckedmobile,
+      invoiceMailId: paymentinvoiceemail,
+      isEmailCustomized: isCheckedEmail,
+      invLogo: hostel_logo,
+      isLogoCustomized: isCheckedLogo,
+      qrCode: qrimagepreview,
+      prefix,
+      suffix,
+      gstPercentile: tax,
+      invoiceNotes: notes,
+      invoiceTermsAndCondition: terms,
+      bankId: Number(selectedBankId),
+      invoiceTemplateColor: useGradient
+        ? defaultGradient
+        : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    };
+
+    const oldTemplate = {
+      hostelId: Number(state.login.selectedHostel_Id),
+      templateTypeId: RentalinvoiceTemplate.typeId,
+      invSign: RentalinvoiceTemplate.invSign || null,
+      isSignatureCustomized: RentalinvoiceTemplate.isSignatureCustomized,
+      invoicePhoneNumber: RentalinvoiceTemplate.invoicePhoneNumber || "",
+      isMobileCustomized: RentalinvoiceTemplate.isMobileCustomized,
+      invoiceMailId: RentalinvoiceTemplate.invoiceMailId || "",
+      isEmailCustomized: RentalinvoiceTemplate.isEmailCustomized,
+      invLogo: RentalinvoiceTemplate.invLogo || null,
+      isLogoCustomized: RentalinvoiceTemplate.isLogoCustomized,
+      qrCode: RentalinvoiceTemplate.qrCode || null,
+      prefix: RentalinvoiceTemplate.prefix || "",
+      suffix: RentalinvoiceTemplate.suffix || "",
+      gstPercentile: RentalinvoiceTemplate.gstPercentile || "",
+      invoiceNotes: RentalinvoiceTemplate.invoiceNotes || "",
+      invoiceTermsAndCondition: RentalinvoiceTemplate.invoiceTermsAndCondition || "",
+      bankId: Number(RentalinvoiceTemplate.bankId || 0),
+      invoiceTemplateColor: RentalinvoiceTemplate.invoiceTemplateColor || "",
+    };
+
+
+    const isChanged =
+      currentTemplate.invSign !== oldTemplate.invSign ||
+      currentTemplate.invoicePhoneNumber !== oldTemplate.invoicePhoneNumber ||
+      currentTemplate.invoiceMailId !== oldTemplate.invoiceMailId ||
+      currentTemplate.invLogo !== oldTemplate.invLogo ||
+      currentTemplate.qrCode !== oldTemplate.qrCode ||
+      currentTemplate.prefix !== oldTemplate.prefix ||
+      currentTemplate.suffix !== oldTemplate.suffix ||
+      currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
+      currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
+      currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
+      currentTemplate.bankId !== oldTemplate.bankId ||
+      currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
+
+    if (!isChanged) {
+      setEditFormErrMessage("No changes detected");
+      setSignatureErrMsg("");
+      return;
+    }
+
+    console.log("isChanged", isChanged)
+
+
+    if (RentalinvoiceTemplate.isSignatureCustomized) {
+      const Signatureverify = !RentalinvoiceTemplate.invoiceSignatureUrl;
+
+      if (rentalSignatureFile && !isRentalSignatureConfirmed && Signatureverify) {
+        setRentalSignatureError("Please click Done after selecting a signature");
+        return;
+      }
+    }
+
+    if (RentalinvoiceTemplate.isMobileCustomized) {
+      if (paymentmobilenum && paymentmobilenum.length < 10) {
+        setPaymentMobileError("Please Enter Valid Mobile Number");
+        return;
+      } else if (paymentmobilenum.length === 10) {
+        setPaymentMobileError("");
+      }
+    }
+
+    if (RentalinvoiceTemplate.isMailIdCustomized) {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      const isValidEmail = emailRegex.test(paymentinvoiceemail);
+      if (!paymentinvoiceemail) {
+        setPaymentInvoiceEmailError("");
+      } else if (!isValidEmail) {
+        setPaymentInvoiceEmailError("Please Enter Valid Email Id");
+        return;
+      } else {
+        setPaymentInvoiceEmailError("");
+      }
+    }
+
+
+
+    if (RentalinvoiceTemplate.typeId && state.login.selectedHostel_Id) {
+      dispatch({
+        type: "ADDGLOBALSETTING",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          templateTypeId: RentalinvoiceTemplate.typeId,
+          mobile: BillsTemplateList.mobile,
+          email: BillsTemplateList.emailId,
+          invoicePhoneNumber: paymentmobilenum,
+          invoiceMailId: paymentinvoiceemail,
+          isMobileCustomized: isCheckedmobile,
+          isEmailCustomized: isCheckedEmail,
+          isLogoCustomized: isCheckedLogo,
+          isSignatureCustomized: isCheckedSignature,
+          hostelLogo: selectedFile,
+          billSignature: sign,
+          invLogo: hostel_logo,
+          invSign: signature,
+          qrCode: qrimagepreview,
+          prefix,
+          suffix,
+          gstPercentile: tax,
+          invoiceNotes: notes,
+          invoiceTermsAndCondition: terms,
+          bankId: selectedBankId,
+          invoiceTemplateColor: useGradient
+            ? defaultGradient
+            : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+        },
+      });
+      setFormLoading(true)
+
+    }
   };
-
-  const oldTemplate = {
-    hostelId: Number(state.login.selectedHostel_Id),
-    templateTypeId: RentalinvoiceTemplate.typeId,
-    invSign: RentalinvoiceTemplate.invSign || null,
-    isSignatureCustomized: RentalinvoiceTemplate.isSignatureCustomized,
-    invoicePhoneNumber: RentalinvoiceTemplate.invoicePhoneNumber || "",
-    isMobileCustomized: RentalinvoiceTemplate.isMobileCustomized,
-    invoiceMailId: RentalinvoiceTemplate.invoiceMailId || "",
-    isEmailCustomized: RentalinvoiceTemplate.isEmailCustomized,
-    invLogo: RentalinvoiceTemplate.invLogo || null,
-    isLogoCustomized: RentalinvoiceTemplate.isLogoCustomized,
-    qrCode: RentalinvoiceTemplate.qrCode || null,
-    prefix: RentalinvoiceTemplate.prefix || "",
-    suffix: RentalinvoiceTemplate.suffix || "",
-    gstPercentile: RentalinvoiceTemplate.gstPercentile || "",
-    invoiceNotes: RentalinvoiceTemplate.invoiceNotes || "",
-    invoiceTermsAndCondition: RentalinvoiceTemplate.invoiceTermsAndCondition || "",
-    bankId: Number(RentalinvoiceTemplate.bankId || 0),
-    invoiceTemplateColor: RentalinvoiceTemplate.invoiceTemplateColor || "",
-  };
-
-
-  const isChanged =
-    currentTemplate.invSign !== oldTemplate.invSign ||
-    currentTemplate.invoicePhoneNumber !== oldTemplate.invoicePhoneNumber ||
-    currentTemplate.invoiceMailId !== oldTemplate.invoiceMailId ||
-    currentTemplate.invLogo !== oldTemplate.invLogo ||
-    currentTemplate.qrCode !== oldTemplate.qrCode ||
-    currentTemplate.prefix !== oldTemplate.prefix ||
-    currentTemplate.suffix !== oldTemplate.suffix ||
-    currentTemplate.gstPercentile !== oldTemplate.gstPercentile ||
-    currentTemplate.invoiceNotes !== oldTemplate.invoiceNotes ||
-    currentTemplate.invoiceTermsAndCondition !== oldTemplate.invoiceTermsAndCondition ||
-    currentTemplate.bankId !== oldTemplate.bankId ||
-    currentTemplate.invoiceTemplateColor !== oldTemplate.invoiceTemplateColor;
-
-  if (!isChanged) {
-    setEditFormErrMessage("No changes detected");
-    setSignatureErrMsg("");
-    return;
-  }
-
-  console.log("isChanged",isChanged)
-
-
-  if (RentalinvoiceTemplate.isSignatureCustomized) {
-    const Signatureverify = !RentalinvoiceTemplate.invoiceSignatureUrl;
-
-    if (rentalSignatureFile && !isRentalSignatureConfirmed && Signatureverify) {
-      setRentalSignatureError("Please click Done after selecting a signature");
-      return;
-    }
-  }
-
-  if (RentalinvoiceTemplate.isMobileCustomized) {
-    if (paymentmobilenum && paymentmobilenum.length < 10) {
-      setPaymentMobileError("Please Enter Valid Mobile Number");
-      return;
-    } else if (paymentmobilenum.length === 10) {
-      setPaymentMobileError("");
-    }
-  }
-
-  if (RentalinvoiceTemplate.isMailIdCustomized) {
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    const isValidEmail = emailRegex.test(paymentinvoiceemail);
-    if (!paymentinvoiceemail) {
-      setPaymentInvoiceEmailError("");
-    } else if (!isValidEmail) {
-      setPaymentInvoiceEmailError("Please Enter Valid Email Id");
-      return;
-    } else {
-      setPaymentInvoiceEmailError("");
-    }
-  }
-
-
-
-  if (RentalinvoiceTemplate.typeId && state.login.selectedHostel_Id) {
-    dispatch({
-      type: "ADDGLOBALSETTING",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        templateTypeId: RentalinvoiceTemplate.typeId,
-         mobile: BillsTemplateList.mobile,
-        email: BillsTemplateList.emailId,
-        invoicePhoneNumber: paymentmobilenum,
-        invoiceMailId: paymentinvoiceemail,
-        isMobileCustomized: isCheckedmobile,
-        isEmailCustomized: isCheckedEmail,
-        isLogoCustomized: isCheckedLogo,
-        isSignatureCustomized: isCheckedSignature,
-        hostelLogo: selectedFile,
-        billSignature: sign,
-        invLogo: hostel_logo,
-        invSign: signature,
-        qrCode: qrimagepreview,
-        prefix,
-        suffix,
-        gstPercentile: tax,
-        invoiceNotes: notes,
-        invoiceTermsAndCondition: terms,
-        bankId: selectedBankId,
-        invoiceTemplateColor: useGradient
-          ? defaultGradient
-          : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-      },
-    });
-setFormLoading(true)
-
-  }
-};
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-           dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
     }
   }, [])
 
@@ -1229,14 +1233,14 @@ setFormLoading(true)
 
 
 
-console.log("BillsTemplateList",BillsTemplateList)
+  console.log("BillsTemplateList", BillsTemplateList)
 
   const [fieldError, setFieldError] = useState("")
 
   const handleSaveTemplate = () => {
-    const hasSignatureInDB = BillsTemplateList?.signature ;
+    const hasSignatureInDB = BillsTemplateList?.signature;
 
-console.log("hasSignatureInDB",hasSignatureInDB)
+    console.log("hasSignatureInDB", hasSignatureInDB)
 
     if (sign && !isSignatureConfirmed) {
       setSignatureErrMsg("Please click Done after selecting a signature");
@@ -1270,29 +1274,29 @@ console.log("hasSignatureInDB",hasSignatureInDB)
       setNoChangesDetectedMsg("");
     }
 
-if(BillsTemplateList.templateId){
-    dispatch({
-      type: "ADDGLOBALSETTING",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-        mobile: mobilenum,
-        email: email,
-        isMobileCustomized: isCheckedmobile,
-        isEmailCustomized: isCheckedEmail,
-        isLogoCustomized: isCheckedLogo,
-        isSignatureCustomized: isCheckedSignature,
-        hostelLogo: selectedFile,
-        billSignature: sign,
-        templateTypeId: BillsTemplateList.templateId
-      },
-    });
+    if (BillsTemplateList.templateId) {
+      dispatch({
+        type: "ADDGLOBALSETTING",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          mobile: mobilenum,
+          email: email,
+          isMobileCustomized: isCheckedmobile,
+          isEmailCustomized: isCheckedEmail,
+          isLogoCustomized: isCheckedLogo,
+          isSignatureCustomized: isCheckedSignature,
+          hostelLogo: selectedFile,
+          billSignature: sign,
+          templateTypeId: BillsTemplateList.templateId
+        },
+      });
 
-    setFormLoading(true)
-  }
+      setFormLoading(true)
+    }
 
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -1325,7 +1329,7 @@ if(BillsTemplateList.templateId){
   ];
 
 
- 
+
   const subtotal = items.reduce((acc, item) => acc + item.amount, 0);
   const taxAmount = (subtotal * tax) / 100;
   const totalAmount = subtotal + taxAmount;
@@ -1365,7 +1369,7 @@ if(BillsTemplateList.templateId){
         </div>
       }
 
-{formLoading &&
+      {formLoading &&
         <div
           style={{
             position: 'fixed',
@@ -1446,7 +1450,7 @@ if(BillsTemplateList.templateId){
               <div
                 className="d-flex  gap-2 mb-3 "
                 style={{
-flex: "0 1 auto"
+                  flex: "0 1 auto"
                 }}
               >
                 {PdfOptions.map((option) => (
@@ -3419,7 +3423,7 @@ flex: "0 1 auto"
                     style={{ backgroundColor: "#f9f9f9" }}
                   >
                     <img
-                                            src={previewURL ? previewURL : uploadsett}
+                      src={previewURL ? previewURL : uploadsett}
                       alt="logo-preview"
                       style={{ height: 30 }}
                     />
@@ -3548,8 +3552,8 @@ flex: "0 1 auto"
                         border: "none",
                         fontFamily: "Gilroy",
                         fontSize: 12,
-                        color:mobilenum ? "#000" : "rgba(75, 75, 75, 1)",
-                        fontWeight: mobilenum ? 500: 400,
+                        color: mobilenum ? "#000" : "rgba(75, 75, 75, 1)",
+                        fontWeight: mobilenum ? 500 : 400,
                         borderRadius: 8,
                         outline: "none",
                         boxShadow: "none",
@@ -3613,8 +3617,8 @@ flex: "0 1 auto"
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: 12,
-                      color:email ? "#000" : "rgba(75, 75, 75, 1)",
-                      fontWeight: email? 500 :  400,
+                      color: email ? "#000" : "rgba(75, 75, 75, 1)",
+                      fontWeight: email ? 500 : 400,
                       whiteSpace: "nowrap",
                       height: 45
                     }}
@@ -4494,14 +4498,14 @@ flex: "0 1 auto"
       {bankaccountform && (
 
 
-<BankingAddForm  showForm={bankaccountform} 
-              setShowForm={handleCloseForm}
-                            setEdit={setEdit}
-             
-              
-              /> 
+        <BankingAddForm showForm={bankaccountform}
+          setShowForm={handleCloseFormBank}
+          setEdit={setEdit}
 
-       
+
+        />
+
+
       )}
 
 
