@@ -28,12 +28,18 @@ console.log("customerID",customerID)
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
+    console.log("FinalSettlement",data)
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
     // const [modeOfPayment, setModeOfPayment] = useState("");
     // const [comments, setComments] = useState("");
-    const [checkOutDate, setCheckOutDate] = useState("");
+    // const [checkOutDate, setCheckOutDate] = useState("");
+    const [checkOutDate, setCheckOutDate] = useState(() => {
+  const today = new Date();
+ 
+  return today.toISOString().split("T")[0];
+});
     // const [uploadFile, setUploadFile] = useState(null);
     // const [rightOffNote, setRightOffNote] = useState("")
     const [checkoUtDateError, setCheckOutDateError] = useState("");
@@ -59,7 +65,7 @@ console.log("customerID",customerID)
         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
             (invoice) => invoice.balance > 0
         );
-        setBillAmount(validInvoices)
+        setBillAmount(validInvoices);
        
         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
             (deduction) => deduction.amount > 0
@@ -72,13 +78,12 @@ console.log("customerID",customerID)
                 reason_name: item.reason || "",
                 amount: Number(item.amount) || 0,
                 showInput: false,
+                isSystemGenerated: true,   // ✅ Mark API rows
             }));
         }
 
-        // ✅ Only other reasons, no DueAmount
         setFields(formattedFields);
 
-        // Other state updates
         const rentBalance =
             state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
                 (item) => String(item.action).toLowerCase() === "rent"
@@ -94,6 +99,64 @@ console.log("customerID",customerID)
         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
     }, 500);
 }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
+
+
+
+
+
+useEffect(()=>{
+if(checkOutDate){
+  dispatch({ type: "CHECKOUTDATEUPDATE", payload: { hostel_id: state.login.selectedHostel_Id,id:data.ID,checkoutDate:checkOutDate} });
+}
+},[checkOutDate])
+
+
+useEffect(()=>{
+    if(state.UsersList.StatusCodeForDateUpdate === 200){
+ dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE"})
+    }
+},[state.UsersList.StatusCodeForDateUpdate])
+
+//      useEffect(() => {
+//     if (state.UsersList.statusCodegetConfirmCheckout) {
+//         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+//             (invoice) => invoice.balance > 0
+//         );
+//         setBillAmount(validInvoices)
+       
+//         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+//             (deduction) => deduction.amount > 0
+//         );
+
+//         let formattedFields = [];
+
+//         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+//             formattedFields = deduction_details.map((item) => ({
+//                 reason_name: item.reason || "",
+//                 amount: Number(item.amount) || 0,
+//                 showInput: false,
+//             }));
+//         }
+
+//         // ✅ Only other reasons, no DueAmount
+//         setFields(formattedFields);
+
+//         // Other state updates
+//         const rentBalance =
+//             state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
+//                 (item) => String(item.action).toLowerCase() === "rent"
+//             )?.balance ?? 0;
+
+//         setRentalBalance(rentBalance);
+//         setDetuction(state?.UsersList?.Deduction);
+//         setReFundableDetails(state?.UsersList?.Refundable_details);
+//         setHostelData(state?.UsersList?.hostelData);
+//     }
+
+//     setTimeout(() => {
+//         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+//     }, 500);
+// }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
 
 
 //    useEffect(() => {
@@ -159,7 +222,7 @@ console.log("customerID",customerID)
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
-              dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+            dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
         }
     }, [state.login.selectedHostel_Id]);
     useEffect(() => {
@@ -321,13 +384,22 @@ console.log("customerID",customerID)
     };
 
 
-   
+    // const handleModeOfPaymentChange = (e) => {
+    //     setModeOfPaymentError("")
+    //     setModeOfPayment(e.target.value);
+    // };
 
-    useEffect(() => {
-        if (state.login.selectedHostel_Id) {
-           dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id  });
-        }
-    }, []);
+    // const handleCommentsChange = (event) => {
+    //     setComments(event.target.value);
+
+    // };
+
+    // const handleToggle = () => {
+    //     setChecked((prev) => !prev);
+
+    // };
+
+   
 
 
     useEffect(() => {
@@ -480,12 +552,12 @@ console.log("customerID",customerID)
     // };
 
 
-    useEffect(() => {
-        if (hostelData) {
-            setCheckOutDate(hostelData?.CheckoutDate)
-        }
+    // useEffect(() => {
+    //     if (hostelData) {
+    //         setCheckOutDate(hostelData?.CheckoutDate)
+    //     }
 
-    }, [hostelData])
+    // }, [hostelData])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -931,15 +1003,15 @@ console.log("customerID",customerID)
 
                                                 <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
 
-                                                     {item.reason_name !== "DueAmount" && (
-                                                        <Trash
-                                                            size="20"
-                                                            color="red"
-                                                            variant="Bold"
-                                                            style={{ cursor: "pointer" }}
-                                                            onClick={() => handleRemoveField(index)}
-                                                        />
-                                                    )}
+                                                    {(!item.isSystemGenerated || item.reason_name !== "DueAmount") && (
+        <Trash
+            size="20"
+            color="red"
+            variant="Bold"
+            style={{ cursor: "pointer" }}
+            onClick={() => handleRemoveField(index)}
+        />
+    )}
 
 
                                                 </div>

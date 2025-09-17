@@ -19,12 +19,15 @@ import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 
 
 function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
+
+
+//  valdation => joing date enale, before booking darte not allowed
+
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     // const [file, setFile] = useState(null);
     const [activeTab, setActiveTab] = useState("LONG");
     const [formLoading, setFormLoading] = useState(false)
-
     // const [floor_name, setFloorName] = useState("")
     //   const [room_name, setRoomName] = useState("")
     //   const [bed_name, setBedName] = useState("")
@@ -40,7 +43,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const [roomrentError, setRoomRentError] = useState("");
     const [errors, setErrors] = useState('')
 
-     const reasonOptions = [
+    const reasonOptions = [
         { value: "maintenance", label: "Maintenance" },
         { value: "others", label: "Others" },
     ];
@@ -54,15 +57,15 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
         minDate: new Date(),
     };
 
-    
 
- useEffect(() => {
+
+    useEffect(() => {
         if (calendarRef.current) {
             calendarRef.current.flatpickr.set(options);
         }
     }, [selectedDate]);
 
-    
+
 
 
 
@@ -96,7 +99,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     };
 
 
-   
+
 
 
     const handleAddField = () => {
@@ -144,7 +147,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     };
 
 
- const handleSaveBookingAdvance = async () => {
+    const handleSaveBookingAdvance = async () => {
 
         let hasReasonAmountError = false;
         let newErrors = [];
@@ -294,7 +297,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
             // });
         }
         setFormLoading(true)
-        
+
     };
 
 
@@ -302,9 +305,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
 
-   
 
-   
+
+
 
     return (
         <Modal
@@ -365,7 +368,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                     }}
                                 />
                                 <div>
-                                    <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily:"Gilroy" }}>
+                                    <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
                                         {bookingDetails?.firstName}{bookingDetails?.lastName}
                                     </p>
 
@@ -428,7 +431,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             <FormControl
                                                 type="text"
                                                 placeholder="Enter Amount"
-                                                 value={bookingDetails?.floorName}
+                                                value={bookingDetails?.floorName}
                                                 disabled
                                                 style={{
                                                     fontSize: 16,
@@ -610,12 +613,13 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                         style={{
                                                             width: "100%",
                                                             height: 48,
-                                                            cursor: "pointer",
+                                                            cursor: "not-allowed",
                                                             fontFamily: "Gilroy",
-
+                                                            // backgroundColor: "#EFF2FF"
                                                         }}
                                                         format="DD/MM/YYYY"
-                                                        placeholder="DD/MM/YYYY"
+                                                        // value={dayjs()}       
+                                                        // value={selectedDate ? dayjs(selectedDate) : null} 
                                                         value={selectedDate ? dayjs(selectedDate) : null}
                                                         onChange={(date) => {
                                                             setDateError("");
@@ -624,11 +628,19 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                                             dispatch(JoininDatecustomer(date ? date.toDate() : null));
                                                         }}
+                                                        
+                                                        // disabledDate={(current) =>
+
+                                                        //     (bookingDate && current < bookingDate.startOf("day")) ||
+                                                        //     current > dayjs().endOf("day")
+                                                        // }
+
                                                         getPopupContainer={(triggerNode) =>
                                                             triggerNode.closest(".show-scroll") || document.body
                                                         }
-                                                        disabledDate={disabledJoiningDate}
-
+                                                    // open={false}         
+                                                    // allowClear={false}    
+                                                    //  inputReadOnly            
                                                     />
                                                 </div>
                                             </Form.Group>
@@ -1105,7 +1117,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                 </div>}
 
 
-              
+
 
 
             </Modal.Dialog>
@@ -1114,8 +1126,8 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     )
 }
 BookedCheckIn.propTypes = {
-  BookingAssignForm: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  bookingDetails: PropTypes.func.isRequired,
+    BookingAssignForm: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    bookingDetails: PropTypes.func.isRequired,
 }
 export default BookedCheckIn
