@@ -2060,16 +2060,16 @@ useEffect(() => {
                       >ACCOUNT DETAILS</h6>
                       <p className="mb-1"
                         style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        Account No :  {securityDepositInvoiceTemplate?.banking?.acc_num || '-'}
+                        Account No :  {securityDepositInvoiceTemplate?.accountNumber || '-'}
                       </p>
                       <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        IFSC Code : {securityDepositInvoiceTemplate?.banking?.ifsc_code || '-'}
+                        IFSC Code : {securityDepositInvoiceTemplate?.ifscCode || '-'}
                       </p>
                       <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        Bank Name: {securityDepositInvoiceTemplate?.banking?.bank_name || '-'}
+                        Bank Name: {securityDepositInvoiceTemplate?.bankName || '-'}
                       </p>
                       <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        UPI Details : {securityDepositInvoiceTemplate?.banking?.type || '-'}
+                        UPI Details : {securityDepositInvoiceTemplate?.upiId || '-'}
                       </p>
                     </div>
 
