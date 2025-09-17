@@ -494,9 +494,11 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     const file = e.target.files[0];
     setEditFormErrMessage("")
     if (file && file.type.startsWith("image/")) {
+          setHostelLogo(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogoPreview(reader.result);
+    
       };
       reader.readAsDataURL(file);
     }
@@ -1006,14 +1008,14 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
 
-
+console.log("hostel_logo",logoPreview,"signature",signature)
 
 
   const handleSaveRentalTemplate = () => {
     const currentTemplate = {
       hostelId: Number(state.login.selectedHostel_Id),
       templateTypeId: RentalinvoiceTemplate.typeId,
-      invSign: signature,
+      invSign: rentalSignatureFile,
       isSignatureCustomized: isCheckedSignature,
       invoicePhoneNumber: paymentmobilenum,
       isMobileCustomized: isCheckedmobile,
@@ -1128,7 +1130,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
           hostelLogo: selectedFile,
           billSignature: sign,
           invLogo: hostel_logo,
-          invSign: signature,
+          invSign: rentalSignatureFile,
           qrCode: qrimagepreview,
           prefix,
           suffix,
@@ -1184,14 +1186,15 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
   useEffect(() => {
     if (RentalinvoiceTemplate) {
-      setLogoPreview(RentalinvoiceTemplate.invoiceLogoUrl || null)
+      setLogoPreview(BillsTemplateList.isLogoCustomized ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
       setHostelLogo(BillsTemplateList.isLogoCustomized ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
       setPaymentMobileNum(BillsTemplateList.isMobileCustomized ? RentalinvoiceTemplate.invoiceMobileNumber : BillsTemplateList.mobile)
       setPaymentinvoiceEmail(BillsTemplateList.isMailIdCustomized ? RentalinvoiceTemplate.invoiceMailId : BillsTemplateList.emailId)
       setPrefix(RentalinvoiceTemplate.prefix || '')
       setSuffix(RentalinvoiceTemplate.suffix || '')
       setSignature(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(RentalinvoiceTemplate.invoiceSignatureUrl || null)
+     setRentalSignatureFile(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
+      setRentalSignaturePreview(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
       setTerms(RentalinvoiceTemplate.invoiceTermsAndCondition || '')
       setTax(RentalinvoiceTemplate.gstPercentile || '')
       setSelectedBankId(RentalinvoiceTemplate.selectedBankId || null)
@@ -2756,13 +2759,14 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
                                 >ACCOUNT DETAILS</h6>
                                 <p className="mb-1"
                                   style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                  Account No :{RentalinvoiceTemplate?.banking?.acc_num || "N/A"}</p>
+                                  Account No :{RentalinvoiceTemplate?.accountNumber || "N/A"}</p>
                                 <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                  IFSC Code :  {RentalinvoiceTemplate?.banking?.ifsc_code || "N/A"}</p>
+                                  IFSC Code :  {RentalinvoiceTemplate?.ifscCode || "N/A"}</p>
                                 <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                  Bank Name: {RentalinvoiceTemplate?.banking?.bank_name || "N/A"}</p>
+                                  Bank Name: {RentalinvoiceTemplate?.bankName || "N/A"}</p>
                                 <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                  UPI Details : {RentalinvoiceTemplate?.banking?.upi_id || "N/A"}</p>
+                                  UPI Details : {RentalinvoiceTemplate?.upiId
+ || "N/A"}</p>
                               </div>
 
                               <div className="col-md-2"></div>

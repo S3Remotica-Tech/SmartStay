@@ -690,7 +690,9 @@ const oldTemplate = {
 
   useEffect(() => {
   if (securityDepositInvoiceTemplate) {
-    setLogoPreview(securityDepositInvoiceTemplate.invoiceLogoUrl || null);
+    setLogoPreview(BillsTemplateList.isLogoCustomized
+        ? securityDepositInvoiceTemplate.invoiceLogoUrl
+        : BillsTemplateList.logo);
     setHostelLogo(
       BillsTemplateList.isLogoCustomized
         ? securityDepositInvoiceTemplate.invoiceLogoUrl
@@ -713,7 +715,9 @@ const oldTemplate = {
         ? securityDepositInvoiceTemplate.invoiceSignatureUrl
         : BillsTemplateList.signature
     );
-    setSignaturePreview(securityDepositInvoiceTemplate.invoiceSignatureUrl || null);
+    setSignaturePreview(BillsTemplateList.isSignatureCustomized
+        ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+        : BillsTemplateList.signature);
     setTerms(securityDepositInvoiceTemplate.invoiceTermsAndCondition || "");
     setTax(securityDepositInvoiceTemplate.gstPercentile || "");
     setSelectedBankId(securityDepositInvoiceTemplate.selectedBankId || null);
@@ -1870,7 +1874,7 @@ useEffect(() => {
                 }}>
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex gap-2 mb-2 mb-lg-0">
-                      <img src={securityDepositInvoiceTemplate?.logo_url ? securityDepositInvoiceTemplate?.logo_url : Logo} alt="logo" style={{ height: 40, width: 50 }} />
+                      <img src={hostel_logo ? hostel_logo : Logo} alt="logo" style={{ height: 40, width: 50 }} />
                       <div>
                       </div>
                     </div>
@@ -2060,16 +2064,16 @@ useEffect(() => {
                       >ACCOUNT DETAILS</h6>
                       <p className="mb-1"
                         style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        Account No :  {securityDepositInvoiceTemplate?.banking?.acc_num || '-'}
+                        Account No :  {securityDepositInvoiceTemplate?.accountNumber || '-'}
                       </p>
                       <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        IFSC Code : {securityDepositInvoiceTemplate?.banking?.ifsc_code || '-'}
+                        IFSC Code : {securityDepositInvoiceTemplate?.ifscCode || '-'}
                       </p>
                       <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        Bank Name: {securityDepositInvoiceTemplate?.banking?.bank_name || '-'}
+                        Bank Name: {securityDepositInvoiceTemplate?.bankName || '-'}
                       </p>
                       <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                        UPI Details : {securityDepositInvoiceTemplate?.banking?.type || '-'}
+                        UPI Details : {securityDepositInvoiceTemplate?.upiId || '-'}
                       </p>
                     </div>
 
