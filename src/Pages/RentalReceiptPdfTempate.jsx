@@ -398,7 +398,7 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
   }, [state.Settings.SettingsBilltemplategetErrorCode]);
 
   const RentalreceiptTemplate = BillsTemplateList && BillsTemplateList.templates?.find(
-    (template) => template.type === "Rental"
+    (template) => template.type === "RENTAL"
   );
 
 

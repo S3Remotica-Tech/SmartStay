@@ -169,6 +169,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     const handleShowAssignTenant = (isVisible) => {
         setAssignTenantForm(isVisible)
         setEmptyBed(false)
+        
     }
 
     const handleCloseAssignTenant = () => {

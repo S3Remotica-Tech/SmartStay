@@ -844,13 +844,17 @@ function CheckIn({
                                                 }}
                                                 format="DD/MM/YYYY"
                                                 placeholder="DD/MM/YYYY"
-                                                value={joiningDate ? dayjs(joiningDate) : null} // show current date by default
+                                                value={joiningDate ? dayjs(joiningDate) : null}
                                                 onChange={(date) => {
                                                     setJoiningDate(date ? date.toDate() : null);
                                                     setJoingDateErrmsg("");
                                                 }}
                                                 getPopupContainer={() => document.body}
-                                                disabledDate={disabledJoiningDate}
+                                                disabledDate={(current) =>
+            
+            (bookingDate && current < bookingDate.startOf("day")) ||
+            current > dayjs().endOf("day")
+          }
                                             />
                                         </div>
                                     </Form.Group>

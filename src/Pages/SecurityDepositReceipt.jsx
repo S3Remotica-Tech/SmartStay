@@ -377,7 +377,7 @@ dispatch({
 
 
   const securityDepositReceiptTemplate = BillsTemplateList && BillsTemplateList.templates?.find(
-    (template) => template.type === "Security Deposit"
+    (template) => template.type === "ADVANCE"
   );
 
   console.log("securityDepositReceiptTemplate", BillsTemplateList);

@@ -14,6 +14,7 @@ import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Row, Col, } from "react-bootstrap";
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
 
 const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
@@ -30,7 +31,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [AdvanceAmount, setAdvanceAmount] = useState("");
   const [checkin_joiningDate, setCheckinJoiningDate] = useState(null);
   const [Checkin_joiningDateErrmsg, setCheckinJoingDateErrmsg] = useState('')
-
+  const [isTrigger, setIsTrigger] = useState(false)
   const reasonOptions = [
     { value: "maintenance", label: "Maintenance" },
     { value: "others", label: "Others" },
@@ -96,7 +97,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     //   if (updatedErrors[index]) updatedErrors[index].amount = "";
     // }
     else if (field === "amount") {
-      // allow only numbers
+
       if (/^\d*$/.test(value)) {
         updatedFields[index].amount = value;
         if (updatedErrors[index]) updatedErrors[index].amount = "";
@@ -121,15 +122,27 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     }
   }, [])
 
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+      setIsTrigger(true)
+
+
     }
   }, []);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.bankingDetails.bankingList.listBanks) {
-
+      if (state.bankingDetails?.bankingList?.listBanks.length === 0 && isTrigger) {
+        toast.error(
+          <div className="flex items-center gap-2">
+            <span style={{ fontFamily: "Gilroy" }}>Please Create Banking before adding booking</span>
+          </div>,
+        );
+        setIsTrigger(false)
+      }
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });
       }, 200);
@@ -193,7 +206,7 @@ useEffect(() => {
     setTransactionId(value);
   };
 
-const labelMap = {
+  const labelMap = {
     CARD: "Card",
     CASH: "Cash",
     UPI: "UPI",
@@ -334,7 +347,7 @@ const labelMap = {
     const bookingDateForFormatted = formatDate(bookingDate);
 
 
-    
+
 
 
     dispatch({
@@ -348,7 +361,7 @@ const labelMap = {
         roomId: currentItem?.roomId,
         bedId: currentItem?.bedId,
         customerId: booking_customername,
-         bankId: modeOfPayment,
+        bankId: modeOfPayment,
         referenceNumber: transactionId
 
       },

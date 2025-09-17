@@ -680,7 +680,7 @@ const oldTemplate = {
 
 
   const securityDepositInvoiceTemplate = BillsTemplateList && BillsTemplateList.templates?.find(
-    (template) => template.type === "Security Deposit"
+    (template) => template.type === "ADVANCE"
   );
 
 
