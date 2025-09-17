@@ -132,14 +132,14 @@ const ComplianceList = (props) => {
     setProfile(item.profile && item.profile !== "0" ? item.profile : User);
   };
 
-  useEffect(() => {
-    if (customer_Id) {
-      dispatch({
-        type: "GET_COMPLIANCE_COMMENT",
-        payload: { com_id: customer_Id },
-      });
-    }
-  }, [customer_Id]);
+  // useEffect(() => {
+  //   if (customer_Id) {
+  //     dispatch({
+  //       type: "GET_COMPLIANCE_COMMENT",
+  //       payload: { com_id: customer_Id },
+  //     });
+  //   }
+  // }, [customer_Id]);
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForGetComplianceComment === 200) {
@@ -149,25 +149,19 @@ const ComplianceList = (props) => {
     }
   }, [state.ComplianceList.statusCodeForGetComplianceComment]);
 
+
   useEffect(() => {
-    if (state.ComplianceList.statusCodeForAddComplianceComment === 201) {
+    if (state.ComplianceList.statusCodeForAddComplianceComment === 201 && showCard) {
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
       setComments("");
       setShowCard(false);
       setCommentsLoading(false)
-      dispatch({
-        type: "GET_COMPLIANCE_COMMENT",
-        payload: { com_id: customer_Id },
-      });
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
-
-      setTimeout(() => {
         dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
-      }, 1000);
     }
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
 
-
+ 
 
 
 
@@ -243,8 +237,8 @@ const ComplianceList = (props) => {
     
     // setAssignId(item?.ID);
     setShowDots(false);
-    setStatus(item?.Status);
-    setSelectedStatus(item?.Status)
+    setStatus(item?.status  === null ?  "Open"  : item?.status);
+    setSelectedStatus(item?.status  === null ?  "Open"  : item?.status)
     setComplaintId(item?.complaintId)
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
@@ -279,21 +273,6 @@ const ComplianceList = (props) => {
 
     setStatusError("");
 
-
-    // dispatch({
-    //   type: "COMPLIANCECHANGESTATUS",
-    //   payload: {
-    //     type: "status_change",
-    //     assigner: compliant,
-    //     status: status,
-    //     id: assignId,
-    //     hostel_id: hostel_id,
-    //   },
-    // });
-
-    console.log("status" ,complaintId , status );
-    
-
     if(complaintId && status){
        dispatch({
       type: "COMPLIANCECHANGESTATUS",
@@ -320,17 +299,6 @@ const ComplianceList = (props) => {
     if (compliant === "") {
       setStatusErrorType("Please Select User");
     } else {
-
-      // dispatch({
-      //   type: "COMPLIANCEASSIGN",
-      //   payload: {
-      //     type: "assign",
-      //     assigner: compliant,
-      //     status: status,
-      //     id: assignId,
-      //     hostel_id: hostel_id,
-      //   },
-      // });
 
       if(complaintId && compliant){
        dispatch({
@@ -380,6 +348,7 @@ const ComplianceList = (props) => {
 
   const handleAssignOpenClose = (item) => {
     // setAssignId(item?.ID);
+    dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_id } });
     setShowDots(false);
     setCompliant(item?.Assign ?? "");
     setAlreadyAssigned(item?.Assign ?? "");
@@ -866,7 +835,7 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      {moment(props.complaints?.complaintResponseDto?.date).format("DD-MM-YYYY")}{" "}
+                      {props.complaints?.complaintResponseDto?.complaintDate}{" "}
                     </label>
                   </div>
                 </div>
@@ -1090,7 +1059,7 @@ const ComplianceList = (props) => {
                       fontWeight: 500,
                     }}
                   >
-                    {props.complaints.complaintCount}
+                    {props.complaints?.complaintResponseDto?.commentCount}
                   </span>
                 </div>
 
@@ -1134,7 +1103,13 @@ const ComplianceList = (props) => {
                         }}
                       >
                         <img
-                          src={profile}
+                          src={
+                        props.complaints?.complaintResponseDto?.customerProfile === "0" ||
+                          props.complaints?.complaintResponseDto?.customerProfile === "null" ||
+                          props.complaints?.complaintResponseDto?.customerProfile === null
+                          ? User
+                          : props?.complaints?.complaintResponseDto?.customerProfile
+                      }
                           alt="Profile"
                           style={{
                             cursor: "pointer",
@@ -1163,7 +1138,7 @@ const ComplianceList = (props) => {
                               fontFamily: "Gilroy",
                             }}
                           >
-                            {date}
+                            {props.complaints?.complaintResponseDto?.complaintDate}
                           </p>
                         </div>
                       </div>
@@ -1228,11 +1203,13 @@ const ComplianceList = (props) => {
                                   }}
                                 >
                                   <img
-                                    src={
-                                      !item.profile || ["0", "", "undefined", "null", "NULL"].includes(String(item.profile).trim())
-                                        ? User
-                                        : item.profile
-                                    }
+                                   src={
+                        props.complaints?.complaintResponseDto?.customerProfile === "0" ||
+                          props.complaints?.complaintResponseDto?.customerProfile === "null" ||
+                          props.complaints?.complaintResponseDto?.customerProfile === null
+                          ? User
+                          : props?.complaints?.complaintResponseDto?.customerProfile
+                      }
                                     alt="User"
                                     style={{
                                       width: "40px",
@@ -1260,7 +1237,7 @@ const ComplianceList = (props) => {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      {formattedDate}
+                                      {item.commentedAt}
                                     </p>
                                   </div>
                                 </div>
