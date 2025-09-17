@@ -1535,6 +1535,18 @@ function UserList(props) {
     setAddBookingsShow(true);
     setUserDetail(userData)
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
+
+  if (state.bankingDetails?.bankingList?.listBanks.length === 0) {
+      toast.error(
+        <div className="flex items-center gap-2">
+                   <span style={{fontFamily:"Gilroy"}}>Please Create Banking before adding booking</span>
+        </div>,
+            );
+    }
+
+
+
+
   };
 
   const handleCloseAddBooking = () => {

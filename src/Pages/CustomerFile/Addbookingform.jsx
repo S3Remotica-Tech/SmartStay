@@ -18,6 +18,7 @@ import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from "react-select";
+import { toast } from 'react-toastify';
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 
 function BookingModal(props) {
@@ -405,6 +406,9 @@ function BookingModal(props) {
     setFloorError("");
   };
 
+
+    
+
   return (
     <>
 
@@ -449,6 +453,7 @@ function BookingModal(props) {
             </span>
           </div>
         )}
+
 
 
 
