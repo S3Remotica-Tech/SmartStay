@@ -1667,6 +1667,7 @@ function UserlistForm(props) {
                         </Form.Label>
 
                         <Select
+                        isDisabled={!selectedDate}
                           options={
                             state.UsersList.floorList?.map((u) => ({
                               value: u.id,
@@ -1778,6 +1779,7 @@ function UserlistForm(props) {
                         </Form.Label>
 
                         <Select
+                          isDisabled={!selectedDate}
                           options={
                             state.PgList?.roomsList?.map((item) => ({
                               value: item.id,
@@ -1891,6 +1893,7 @@ function UserlistForm(props) {
                         </Form.Label>
 
                         <Select
+                          isDisabled={!selectedDate}
                           options={
                             availableBed
                               ? availableBed

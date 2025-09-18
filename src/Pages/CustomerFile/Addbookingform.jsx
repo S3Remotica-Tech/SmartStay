@@ -973,6 +973,7 @@ console.log("state",state)
 
 
                 <Select
+                isDisabled={!joiningDate}
                   options={
                     state.UsersList.floorList?.map((u) => ({
                       value: u.id,
@@ -1099,6 +1100,7 @@ console.log("state",state)
                 </Form.Label>
 
                 <Select
+                isDisabled={!joiningDate}
                   options={
                     state.PgList?.roomsList?.map((item) => ({
                       value: item.id,
@@ -1211,6 +1213,7 @@ console.log("state",state)
 
 
               <Select
+              isDisabled={!joiningDate}
                 options={
                   availableBed
                     ? availableBed
