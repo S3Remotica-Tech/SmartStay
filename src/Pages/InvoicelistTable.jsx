@@ -5,6 +5,7 @@ import Delete from '../Assets/Images/Delete_red.png';
 import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png';
 import Download from '../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types"
+import WriteOffForm from "./InvoiceWriteOff";
 
 
 
@@ -38,6 +39,26 @@ const InvoiceTable = (props) => {
   const handleBillDelete = (props) => {
     props.OnHandleshowDeleteform(props)
   }
+
+  const [WriteoffForm,setWriteOffForm] = useState(false)
+  const [payapleform,setPayableForm] =useState(false)
+
+const handleWriteOffFrom=(item)=>{
+  console.log("handleWriteOffFrom",item)
+  setWriteOffForm(true)
+  setPayableForm(false)
+}
+const handleCloseWriteOffForm=()=>{
+  setWriteOffForm(false)
+}
+const handleRefundAmount=(item)=>{
+  console.log("handleWriteOffFrom",item)
+  setPayableForm(true)
+  setWriteOffForm(false)
+}
+const handleCloseRefundAmount=()=>{
+  setPayableForm(false)
+}
 
   // let Dated = new Date(props.item?.invoiceDate);
 
@@ -312,6 +333,84 @@ const InvoiceTable = (props) => {
                       </div>
                     )}
 
+                    <div
+                     className={`d-flex justify-content-start align-items-center gap-2 ${props.billAddPermission ? 'disabled' : ''}`}
+                        style={{
+                          cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          padding: "8px 12px",
+                          opacity: props.billAddPermission ? 0.5 : 1,
+                        }}
+                        onClick={() => {
+                          if (!props.billAddPermission) handleRefundAmount(props);
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!props.billAddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                        }}
+                      >
+                        <img
+                          src={Assign}
+                          alt="Record"
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: props.billAddPermission ? "grayscale(100%)" : "none",
+                          }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color:  "#222",
+                             cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          }}
+                        >
+                         Refund Amount
+                        </label>
+                      </div>
+<div
+                       className={`d-flex justify-content-start align-items-center gap-2 ${props.billAddPermission ? 'disabled' : ''}`}
+
+                        style={{
+                          cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          padding: "8px 12px",
+                          opacity: props.billAddPermission ? 0.5 : 1,
+                        }}
+                        onClick={() => {
+                          if (!props.billAddPermission) handleWriteOffFrom(props.item);
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!props.billAddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                        }}
+                      >
+                        <img
+                          src={Assign}
+                          alt="Record"
+                          style={{
+                            height: 16,
+                            width: 16,
+                            filter: props.billAddPermission ? "grayscale(100%)" : "none",
+                          }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy, sans-serif",
+                            color:  "#222",
+                             cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          }}
+                        >
+                         Write_Off
+                        </label>
+                      </div>
+
 
                     <div
                       className={`d-flex justify-content-start align-items-center gap-2  ${props.billDeletePermission ? 'disabled' : ''}`}
@@ -361,6 +460,12 @@ const InvoiceTable = (props) => {
           </div>
         </td>
       </tr>
+
+      {
+        (WriteoffForm || payapleform) &&(
+          <WriteOffForm  WriteoffForm={WriteoffForm} handleCloseWriteOffForm={handleCloseWriteOffForm} payapleform={payapleform} handleCloseRefundAmount={handleCloseRefundAmount}/>
+        )
+      }
     </>
   )
 }
