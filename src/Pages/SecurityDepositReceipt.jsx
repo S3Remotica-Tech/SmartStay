@@ -325,7 +325,7 @@ dispatch({
         },
       });
 
-
+setLoading(true)
 
     }
 
@@ -354,16 +354,7 @@ dispatch({
     }
   }, [state.Settings.settingsBillsAddTemplateSucesscode]);
 
-  //   useEffect(() => {
-  //        if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
-
-  //   setBillsTemplateList(state.Settings.settingsBillsTemplateList)
-  //     setTimeout(() => {
-  //       setLoading(false)
-  //       dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
-  //     }, 500);
-  //   }
-  // }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+  
 
   useEffect(() => {
     if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {
@@ -414,6 +405,15 @@ dispatch({
   // }, [securityDepositReceiptTemplate])
 
 
+useEffect(() => {
+    if (state.Settings.settingGlobalAddStatusCode === 200) {
+      setLoading(false)
+                   setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_GLOBAL_SETTINGS" });
+      }, 1000);
+    }
+
+  }, [state.Settings.settingGlobalAddStatusCode])
 
  useEffect(() => {
     if (securityDepositReceiptTemplate) {
@@ -1083,7 +1083,7 @@ dispatch({
 
 
         <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-          <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
+          <h6 style={{ marginBottom: 12 , fontFamily:"Gilroy"}}>Template Theme</h6>
 
           <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
 
@@ -1191,7 +1191,7 @@ dispatch({
         <div className="d-flex justify-content-center">
           <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius: '8px', backgroundColor: 'white' }} >
 
-            <div className="d-flex justify-content-end ">
+            <div className="d-flex justify-content-end mb-2">
               <button
                 className="btn btn-sm border bg-white"
                 onClick={() => setShowFullView(true)}
@@ -1554,40 +1554,32 @@ dispatch({
                   <div className=" text-white  p-2 position-relative" style={{ minHeight: 90, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="d-flex gap-2 mb-2 mb-lg-0">
-                        <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url : receiptLogo} alt="logo" style={{ height: 64, width: 74, borderRadius: '6px' }} />
+                        <img src={hostel_logo ? hostel_logo : receiptLogo} alt="logo" style={{ height: 64, width: 74, borderRadius: '6px' }} />
 
                       </div>
 
                       <div>
 
-                        <div style={{ fontWeight: 600, fontFamily: "Gilroy" }}>
-                          <div>
-                            <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name}</div>
-                          </div>
-                          <>
-                            <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
-                              {[
-                                [securityDepositReceiptTemplate?.Address, securityDepositReceiptTemplate?.area, securityDepositReceiptTemplate?.landmark]
-                                  .filter(Boolean)
-                                  .join(", "),
-
-                                [securityDepositReceiptTemplate?.city, securityDepositReceiptTemplate?.state]
-                                  .filter(Boolean)
-                                  .join(", ") + (securityDepositReceiptTemplate?.pin_code ? ` - ${securityDepositReceiptTemplate.pin_code}` : "")
-                              ]
-                                .filter(line => line && line.trim() !== "")
-                                .map((line, idx) => (
-                                  <React.Fragment key={idx}>
-                                    {line}
-                                    <br />
-                                  </React.Fragment>
-                                ))}
-                            </div>
-
-
-                          </>
-
-                        </div>
+                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
+                        
+                                                <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                  {[
+                                                    [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
+                                                      .filter(Boolean)
+                                                      .join(", "),
+                        
+                                                    [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
+                                                      .filter(Boolean)
+                                                      .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
+                                                  ]
+                                                    .filter(line => line && line.trim() !== "")
+                                                    .map((line, idx) => (
+                                                      <React.Fragment key={idx}>
+                                                        {line}
+                                                        <br />
+                                                      </React.Fragment>
+                                                    ))}
+                                                </div>
                       </div>
                     </div>
                   </div>

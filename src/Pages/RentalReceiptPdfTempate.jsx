@@ -359,7 +359,7 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
 
   useEffect(() => {
     if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
-setLoading(false)
+
       dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
 
       setTimeout(() => {
@@ -369,7 +369,15 @@ setLoading(false)
   }, [state.Settings.settingsBillsAddTemplateSucesscode]);
 
  
+useEffect(() => {
+    if (state.Settings.settingGlobalAddStatusCode === 200) {
+      setLoading(false)
+                   setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_GLOBAL_SETTINGS" });
+      }, 1000);
+    }
 
+  }, [state.Settings.settingGlobalAddStatusCode])
 
 
   useEffect(() => {
@@ -1026,7 +1034,7 @@ console.log("state",state)
 
 
           <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-            <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
+            <h6 style={{ marginBottom: 12, fontFamily:"Gilroy" }}>Template Theme</h6>
 
             <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
 
@@ -1135,7 +1143,7 @@ console.log("state",state)
             <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius: '8px', backgroundColor: 'white' }} >
               <div className="d-flex justify-content-end ">
                 <button
-                  className="btn btn-sm border bg-white"
+                  className="btn btn-sm border bg-white mb-2"
                   onClick={() => setShowFullView(true)}
                   style={{ height: 25, fontSize: 8, color: 'rgba(23, 23, 23, 1)' }}
                 >

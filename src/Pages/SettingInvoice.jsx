@@ -1492,7 +1492,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
 
             <div className="col-lg-11 " style={{
-              maxHeight: "calc(90vh - 130px)",
+              maxHeight: "calc(95vh - 130px)",
               overflowY: "auto", marginTop: 50,
             }}>
 
@@ -2413,7 +2413,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
 
                     <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-                      <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
+                      <h6 style={{ marginBottom: 12 , fontFamily:"Gilroy"}}>Template Theme</h6>
 
                       <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
 
@@ -2520,12 +2520,12 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
                   </div>
                   <div className="col-lg-7 d-flex justify-content-center" style={{ backgroundColor: 'rgba(244, 246, 255, 1)' }}>
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center p-2">
                       <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius: '8px', backgroundColor: 'white' }} >
 
                         <div className="d-flex justify-content-end ">
                           <button
-                            className="btn btn-sm border bg-white"
+                            className="btn btn-sm border bg-white mb-2"
                             onClick={() => setShowFullView(true)}
                             style={{ height: 25, fontSize: 8, color: 'rgba(23, 23, 23, 1)' }}
                           >
@@ -2977,25 +2977,26 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
                                   <div>
 
-                                    <div style={{ fontSize: 13, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalinvoiceTemplate?.Name}</div>
-                                    <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
-                                      {[
-                                        [RentalinvoiceTemplate?.Address, RentalinvoiceTemplate?.area, RentalinvoiceTemplate?.landmark]
-                                          .filter(Boolean)
-                                          .join(", "),
+                                     <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
 
-                                        [RentalinvoiceTemplate?.city, RentalinvoiceTemplate?.state]
-                                          .filter(Boolean)
-                                          .join(", ") + (RentalinvoiceTemplate?.pin_code ? ` - ${RentalinvoiceTemplate.pin_code}` : "")
-                                      ]
-                                        .filter(line => line && line.trim() !== "")
-                                        .map((line, idx) => (
-                                          <React.Fragment key={idx}>
-                                            {line}
-                                            <br />
-                                          </React.Fragment>
-                                        ))}
-                                    </div>
+                                <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                  {[
+                                    [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
+                                      .filter(Boolean)
+                                      .join(", "),
+
+                                    [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
+                                      .filter(Boolean)
+                                      .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
+                                  ]
+                                    .filter(line => line && line.trim() !== "")
+                                    .map((line, idx) => (
+                                      <React.Fragment key={idx}>
+                                        {line}
+                                        <br />
+                                      </React.Fragment>
+                                    ))}
+                                </div>
 
                                   </div>
                                 </div>
@@ -3154,26 +3155,27 @@ console.log("hostel_logo",logoPreview,"signature",signature)
                               </div>
                               <div className="px-4" style={{ marginTop: 20 }}>
                                 <div className="row">
-                                  <div className="col-md-6 mb-3">
-                                    <h6 style={{
-                                      fontSize: '11px',
-                                      fontFamily: 'Gilroy',
-                                      fontWeight: 700,
-                                      color: 'rgba(30, 69, 225, 1)',
-                                      letterSpacing: '1px'
+                                   <div className="col-md-6 mb-3">
+                                <h6 style={{
+                                  fontSize: '10px',
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: 700,
+                                  color: 'rgba(30, 69, 225, 1)',
+                                  letterSpacing: '1px'
 
-                                    }}
-                                    >ACCOUNT DETAILS</h6>
-                                    <p className="mb-1"
-                                      style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                      Account No : {RentalinvoiceTemplate?.banking?.acc_num || "N/A"}</p>
-                                    <p className="mb-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                      IFSC Code : {RentalinvoiceTemplate?.banking?.ifsc_code || "N/A"}</p>
-                                    <p className="mb-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                      Bank Name: {RentalinvoiceTemplate?.banking?.bank_name || "N/A"}</p>
-                                    <p style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                      UPI Details : {RentalinvoiceTemplate?.banking?.upi_id || "N/A"}</p>
-                                  </div>
+                                }}
+                                >ACCOUNT DETAILS</h6>
+                                <p className="mb-1"
+                                  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                  Account No :{RentalinvoiceTemplate?.accountNumber || "N/A"}</p>
+                                <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                  IFSC Code :  {RentalinvoiceTemplate?.ifscCode || "N/A"}</p>
+                                <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                  Bank Name: {RentalinvoiceTemplate?.bankName || "N/A"}</p>
+                                <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                  UPI Details : {RentalinvoiceTemplate?.upiId
+ || "N/A"}</p>
+                              </div>
 
                                   <div className="col-md-2"></div>
 
