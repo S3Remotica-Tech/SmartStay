@@ -55,7 +55,7 @@ function UserlistForm(props) {
   const [bedError, setBedError] = useState("");
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomrentError, setRoomRentError] = useState("");
-  
+
   // const [phonenumError, setphonenumError] = useState("");
   // const [emailIdError, setemailIdError] = useState("");
   // const [house_noError, setHouse_NoError] = useState("");
@@ -85,8 +85,8 @@ function UserlistForm(props) {
   // const stateRef = useRef(null);
 
 
-const [availableBed, setAvailableBed] = useState('')
-const [bedWarning, setBedWarning] = useState('')
+  const [availableBed, setAvailableBed] = useState('')
+  const [bedWarning, setBedWarning] = useState('')
 
 
   const [fields, setFields] = useState([]);
@@ -177,8 +177,8 @@ const [bedWarning, setBedWarning] = useState('')
 
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
-   dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
 
     }
   }, []);
@@ -347,24 +347,7 @@ const [bedWarning, setBedWarning] = useState('')
         case "RoomRent":
           setRoomRentError("");
           break;
-        // case "Houseno":
-        //   setHouse_NoError("");
-        //   break;
-        // case "Street":
-        //   setStreetError("");
-        //   break;
-        // case "Landmark":
-        //   setLandmarkError("");
-        //   break;
-        // case "City":
-        //   setCityError("");
-        //   break;
-        // case "Pincode":
-        //   setPincodeError("");
-        //   break;
-        // case "Statename":
-        //   setStateNameError("");
-        //   break;
+       
         default:
           break;
       }
@@ -381,73 +364,74 @@ const [bedWarning, setBedWarning] = useState('')
   };
 
   const handleRooms = (selectedValue) => {
-  setRooms(selectedValue);
+    setRooms(selectedValue);
 
 
-  setRoomRent("");
-  setRoomError("");
-};
+    setRoomRent("");
+    setRoomError("");
+  };
 
-useEffect(()=>{
-  if(Rooms){
- const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
-       return view.floorId === Floor && view.roomId === Rooms
-    });
-  setAvailableBed(filteredBed)
-  }
+ 
+  useEffect(() => {
+      if (Rooms) {
+        const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
+          return view.floorId === Floor && view.roomId === Rooms
+        });
+        setAvailableBed(filteredBed)
+      }
   
-},[Rooms])
+    }, [Rooms, selectedDate,  state.UsersList?.availableBedList?.listBeds])
 
-//   const handleBed = (selectedOption) => {
-// console.log("selectedOption",selectedOption)
+  //   const handleBed = (selectedOption) => {
+  // console.log("selectedOption",selectedOption)
 
-//     const selectedBedId = selectedOption?.value || "";
-//     setBed(selectedBedId);
+  //     const selectedBedId = selectedOption?.value || "";
+  //     setBed(selectedBedId);
 
-//     // const Bedfilter = state?.UsersList?.roomdetails?.filter(
-//     //   (u) =>
-//     //     String(u.Hostel_Id) === String(hostel_Id) &&
-//     //     String(u.Floor_Id) === String(Floor) &&
-//     //     String(u.Room_Id) === String(Rooms)
-//     // );
+  //     // const Bedfilter = state?.UsersList?.roomdetails?.filter(
+  //     //   (u) =>
+  //     //     String(u.Hostel_Id) === String(hostel_Id) &&
+  //     //     String(u.Floor_Id) === String(Floor) &&
+  //     //     String(u.Room_Id) === String(Rooms)
+  //     // );
 
-//     // const Roomamountfilter =
-//     //   Bedfilter?.[0]?.bed_details?.filter(
-//     //     (amount) => String(amount.id) === String(selectedBedId)
-//     //   ) ?? [];
+  //     // const Roomamountfilter =
+  //     //   Bedfilter?.[0]?.bed_details?.filter(
+  //     //     (amount) => String(amount.id) === String(selectedBedId)
+  //     //   ) ?? [];
 
-//     // if (Roomamountfilter.length > 0) {
-//     //   setRoomRent(Roomamountfilter[0]?.bed_amount);
-//     // }
+  //     // if (Roomamountfilter.length > 0) {
+  //     //   setRoomRent(Roomamountfilter[0]?.bed_amount);
+  //     // }
 
-//     setBedError("");
-//     setRoomRentError("");
-//   };
+  //     setBedError("");
+  //     setRoomRentError("");
+  //   };
 
 
-const handleBed = (selectedOption) => {
-  dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
-  setBedWarning("");
-  const selectedBedId = selectedOption?.value || "";
-  setBed(selectedBedId);
+  const handleBed = (selectedOption) => {
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+    setBedWarning("");
+    const selectedBedId = selectedOption?.value || "";
+    setBed(selectedBedId);
 
-  const selectedBed = state.UsersList?.bednumberdetails?.find(
-    (bed) => String(bed.bedId) === String(selectedBedId)
-  );
+    const selectedBed = state.UsersList?.bednumberdetails?.find(
+      (bed) => String(bed.bedId) === String(selectedBedId)
+    );
 
-  if (selectedBed) {
-    setRoomRent(selectedBed.rentAmount)
-        if (selectedBed.showWarning) {
-                  setBedWarning(selectedBed.warningMessage);
-    } else {
-      setBedWarning("");
+    if (selectedBed) {
+      setRoomRent(selectedBed.rentAmount)
+      if (selectedBed.showWarning) {
+        setBedWarning(selectedBed.warningMessage);
+      } else {
+        setBedWarning("");
+      }
+
     }
-  
-  }
 
-  setBedError("");
-  setRoomRentError("");
-};
+    setBedError("");
+    setRoomRentError("");
+  };
 
 
 
@@ -570,7 +554,7 @@ const handleBed = (selectedOption) => {
     }
   }
 
-console.log("props",props)
+  console.log("props", props)
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {
@@ -804,9 +788,9 @@ console.log("props",props)
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       // dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: state.login.selectedHostel_Id } });
-      dispatch({
-        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
-      });
+      // dispatch({
+      //   type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
+      // });
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -1026,7 +1010,7 @@ console.log("props",props)
       // setBedName(props?.EditObj?.Booking_Bed)
       // setBookingAmount(props.EditObj.booking_amount)
       setFile(props.EditObj.profile)
-      
+
 
       const Bedfilter = state?.UsersList?.roomdetails?.filter(
         (u) =>
@@ -1105,8 +1089,8 @@ console.log("props",props)
       setLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
-        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR'})
-        
+        dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR' })
+
       }, 3000)
     }
 
@@ -1174,223 +1158,31 @@ console.log("props",props)
   };
 
 
+  const handleJoiningDateChange = (date) => {
+    setDateError("");
+    setSelectedDate(date ? date.toDate() : null);
+    setJoingDateErrmsg('')
+    dispatch(JoininDatecustomer(date ? date.toDate() : null));
+  }
 
+ useEffect(()=>{
+    if(selectedDate){
+      const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
 
+    const joiningDateForFormatted = formatDate(selectedDate);
+      dispatch({ type: 'AVAILBALEBEDDETAILS', payload:{ hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted}})
+    }
 
-  // const handleNext = () => {
-  //   let hasError = false;
-  //   const focusedRef = { current: false };
-  //   if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
-  //   if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
-  //   if (Phone && Phone.length !== 10) {
-  //     setPhoneError("Please Enter Valid Mobile Number");
-  //     if (!focusedRef.current && phoneRef?.current) {
-  //       phoneRef.current.focus();
-  //       focusedRef.current = true;
-  //     }
-  //     hasError = true;
-  //   } else if (Phone) {
-  //     setPhoneError("");
-  //     setPhoneErrorMessage("");
-  //   }
+  },[selectedDate])
 
-  //   if (Email) {
-  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
-  //     if (!isValidEmail) {
-  //       setEmailError("Please Enter Valid Email ID");
-  //       if (!focusedRef.current) {
-  //         focusedRef.current = true;
-  //       }
-  //       hasError = true;
-  //     }
-  //     else {
-  //       setEmailError("");
-  //     }
-  //   } else {
-  //     setEmailError("");
-  //   }
-  //   if (hasError) {
-  //     return
-  //   }
-  //   setStep(2);
-
-  // };
-
-
-
-  // const handlePrevious = () => {
-  //   setStep(1);
-  // };
-
-
-
-  // const handleSaveUserlist = () => {
-  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
-  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
-
-  //   let hasError = false;
-  //   const focusedRef = { current: false };
-
-  //   if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
-  //   if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
-
-
-
-  //   if (Phone && Phone.length !== 10) {
-  //     setPhoneError("Please Enter Valid Mobile Number");
-  //     if (!focusedRef.current && phoneRef?.current) {
-  //       phoneRef.current.focus();
-  //       focusedRef.current = true;
-  //     }
-  //     hasError = true;
-  //   } else if (Phone) {
-  //     setPhoneError("");
-  //     setPhoneErrorMessage("");
-  //   }
-
-  //   if (pincode && pincode.length !== 6) {
-  //     setPincodeError("Pin Code Must Be Exactly 6 Digits");
-  //     if (!focusedRef.current && pincodeRef?.current) {
-  //       pincodeRef.current.focus();
-  //       focusedRef.current = true;
-  //     }
-  //     hasError = true;
-  //   }
-
-  //   if (Email) {
-  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
-  //     if (!isValidEmail) {
-  //       setEmailError("Please Enter Valid Email ID");
-  //       if (!focusedRef.current) {
-  //         focusedRef.current = true;
-  //       }
-  //       hasError = true;
-  //     }
-  //     else {
-  //       setEmailError("");
-  //     }
-  //   } else {
-  //     setEmailError("");
-  //   }
-
-  //   if (hasError) return;
-
-  //   console.log("hasError", hasError)
-
-  //   const capitalizeFirstLetter = (str) => {
-  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //   };
-
-  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
-  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-  //   const basicAndAddressPayload = {
-  //     profilePic: file,
-  //     hostelId: state.login.selectedHostel_Id,
-  //     customerInfo: {
-  //       firstName: capitalizedFirstname,
-  //       lastName: capitalizedLastname,
-  //       mobileNumber: MobileNumber,
-  //       emailId: Email,
-  //       type: 1,
-  //       address: {
-  //         houseNo: house_no,
-  //         street: street,
-  //         landmark: landmark,
-  //         city: city,
-  //         pincode: pincode,
-  //         state: state_name,
-  //       },
-
-
-  //     }
-  //   };
-
-
-  //   const basicPayload = {
-  //     profilePic: file,
-  //     hostelId: state.login.selectedHostel_Id,
-  //     payloads: {
-  //       firstName: capitalizedFirstname,
-  //       lastName: capitalizedLastname,
-  //       mobile: MobileNumber,
-  //       emailId: Email,
-
-
-  //     }
-  //   };
-
-  //   console.log("basicPayload", basicPayload)
-
-
-  //   const hasAddress =
-  //     house_no?.trim() ||
-  //     street?.trim() ||
-  //     landmark?.trim() ||
-  //     city?.trim() ||
-  //     pincode?.trim() ||
-  //     state_name?.trim();
-
-  //   if (hasAddress) {
-  //     dispatch({ type: "ADDUSER", payload: basicAndAddressPayload });
-  //     setFormLoading(true)
-  //   } else {
-  //     dispatch({ type: 'CREATECUSTOMERSAVEINFO', payload: basicPayload })
-  //     setFormLoading(true)
-  //   }
-
-  // };
-
-
-  // const handleCreateCustomer = () => {
-
-
-
-  //   let hasError = false;
-  //   const focusedRef = { current: false };
-
-
-
-  //   if (pincode && pincode.length !== 6) {
-  //     setPincodeError("Pin Code Must Be Exactly 6 Digits");
-  //     if (!focusedRef.current && pincodeRef?.current) {
-  //       pincodeRef.current.focus();
-  //       focusedRef.current = true;
-  //     }
-  //     hasError = true;
-  //   }
-
-
-
-  //   if (hasError) return;
-  //   const capitalizeFirstLetter = (str) => {
-  //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  //   };
-
-  //   const capitalizedFirstname = capitalizeFirstLetter(firstname);
-  //   const capitalizedLastname = capitalizeFirstLetter(lastname);
-
-
-
-  // };
-
-
-  // const handleCloseAssignBooking = () => {
-  //   // props.setBookingAssignForm(false)
-
-  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
-  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
-  //   if (props?.setBookingAssignForm) props.setBookingAssignForm(false);
-  //   if (props?.setShowForm) props.setShowForm(false);
-  //   if (props?.OnShowTable) props.OnShowTable(true);
-  //   if (props.edit === "Edit") {
-  //     if (props?.OnShowTable) props.OnShowTable(true);
-  //   } else {
-  //     if (props?.setRoomDetail) props.setRoomDetail(false);
-  //   }
-  // }
+ 
   const handleCloseBacktoCheckin = () => {
     if (props?.setBacktoCheckInForm) props.setBacktoCheckInForm(false);
     if (props?.handleCloseBed) props.handleCloseBed();
@@ -1621,7 +1413,7 @@ console.log("props",props)
   //   setFormLoading(true)
   // }
 
-const handleSaveBacktoCheckin = () => {
+  const handleSaveBacktoCheckin = () => {
     setRecheckinDateError("");
     console.log("recheckInDate value on submit:", recheckInDate);
     if (!reason) {
@@ -1634,13 +1426,13 @@ const handleSaveBacktoCheckin = () => {
       dateRef.current?.focus();
       return;
     }
- 
+
     if (!recheckInDate) {
       setRecheckinDateError("Please Select Date");
       dateRef.current?.focus();
       return;
     }
- 
+
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
       const year = newDate.getFullYear();
@@ -1648,7 +1440,7 @@ const handleSaveBacktoCheckin = () => {
       const day = String(newDate.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
     };
- 
+
     const formattedDate = recheckInDate
       ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
       : "";
@@ -1789,6 +1581,75 @@ const handleSaveBacktoCheckin = () => {
                 {activeTab === "LONG" ? <>
                   <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                     <div className="row d-flex align-items-center">
+
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <Form.Group controlId="purchaseDate">
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              color: "#222222",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            Joining Date{" "}
+                            <span style={{ color: "red", fontSize: "20px" }}>
+                              *
+                            </span>
+                          </Form.Label>
+
+                          <div
+                            className="datepicker-wrapper"
+                            style={{ position: "relative", width: "100%" }}
+                          >
+                            <DatePicker
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                cursor: "pointer",
+                                fontFamily: "Gilroy"
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                              value={selectedDate ? dayjs(selectedDate) : null}
+                              onChange={(date) => handleJoiningDateChange(date)}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".show-scroll") || document.body
+                              }
+                              disabledDate={(current) => current && current > dayjs().endOf("day")}
+                            />
+                          </div>
+                        </Form.Group>
+
+                        {dateError && (
+                          <div style={{ color: "red", marginTop: "-px" }}>
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {dateError}
+                            </label>
+                          </div>
+                        )}
+
+                        {joiningDateErrmsg.trim() !== "" && (
+                          <div className="d-flex align-items-center">
+                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                              {joiningDateErrmsg}
+                            </label>
+                          </div>
+                        )}
+                      </div>
+
                       <div className="col-12">
                         <Form.Label
                           style={{
@@ -1806,6 +1667,7 @@ const handleSaveBacktoCheckin = () => {
                         </Form.Label>
 
                         <Select
+                        isDisabled={!selectedDate}
                           options={
                             state.UsersList.floorList?.map((u) => ({
                               value: u.id,
@@ -1901,7 +1763,7 @@ const handleSaveBacktoCheckin = () => {
                         )}
                       </div>
 
-                      <div className="col-12 mb-1">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -1917,6 +1779,7 @@ const handleSaveBacktoCheckin = () => {
                         </Form.Label>
 
                         <Select
+                          isDisabled={!selectedDate}
                           options={
                             state.PgList?.roomsList?.map((item) => ({
                               value: item.id,
@@ -2030,6 +1893,7 @@ const handleSaveBacktoCheckin = () => {
                         </Form.Label>
 
                         <Select
+                          isDisabled={!selectedDate}
                           options={
                             availableBed
                               ? availableBed
@@ -2121,7 +1985,7 @@ const handleSaveBacktoCheckin = () => {
                             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.UsersList?.bedAvailableError}</label>
                           </div>
                           : null}
- {bedWarning ?
+                        {bedWarning ?
                           <div className='d-flex  align-items-center  mt-1 mb-1'>
                             <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
                             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bedWarning}</label>
@@ -2148,79 +2012,7 @@ const handleSaveBacktoCheckin = () => {
                         )}
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                        <Form.Group controlId="purchaseDate">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Joining Date{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              *
-                            </span>
-                          </Form.Label>
 
-                          <div
-                            className="datepicker-wrapper"
-                            style={{ position: "relative", width: "100%" }}
-                          >
-                            <DatePicker
-                              style={{
-                                width: "100%",
-                                height: 48,
-                                cursor: "pointer",
-                                fontFamily: "Gilroy"
-                              }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              onChange={(date) => {
-                                setDateError("");
-                                setSelectedDate(date ? date.toDate() : null);
-                                setJoingDateErrmsg('')
-
-                                dispatch(JoininDatecustomer(date ? date.toDate() : null));
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".show-scroll") || document.body
-                              }
-                              disabledDate={(current) => current && current > dayjs().endOf("day")}
-                            />
-                          </div>
-                        </Form.Group>
-
-                        {dateError && (
-                          <div style={{ color: "red", marginTop: "-px" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {dateError}
-                            </label>
-                          </div>
-                        )}
-
-                        {joiningDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              {joiningDateErrmsg}
-                            </label>
-                          </div>
-                        )}
-                      </div>
 
 
 
@@ -2997,13 +2789,13 @@ const handleSaveBacktoCheckin = () => {
                 <div className="d-flex align-items-center gap-3 mb-3 ms-3">
                   <img
                     // src={Profileimage}
-                     src={
+                    src={
                       props.EditObj && props.EditObj?.profile && props.EditObj?.profile !== ""
                         ? typeof props.EditObj?.profile === "string"
-                          ? props.EditObj?.profile.startsWith("/9j/") 
+                          ? props.EditObj?.profile.startsWith("/9j/")
                             ? `data:image/jpeg;base64,${props.EditObj?.profile}`
-                            : props.EditObj?.profile 
-                          : URL.createObjectURL(props.EditObj?.profile) 
+                            : props.EditObj?.profile
+                          : URL.createObjectURL(props.EditObj?.profile)
                         : Profileimage
                     }
                     alt="Profile"

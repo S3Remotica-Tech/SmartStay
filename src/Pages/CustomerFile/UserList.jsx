@@ -2285,6 +2285,7 @@ function UserList(props) {
 
   const handleCloseBooking = () => {
     setBookingAssignForm(false)
+    dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED'})
   }
 
   const handleBookingAssign = (book) => {

@@ -1,17 +1,80 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer, 
-   AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, 
-   getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, 
-   userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, 
-   amenitieAddUser, availableBedDetails, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, 
-   customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, 
-   handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin } from "../Action/UserListAction"
+import {
+   bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
+   AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
+   getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail,
+   userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList,
+   amenitieAddUser, availableBedDetails, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed,
+   customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut,
+   handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin
+} from "../Action/UserListAction"
 
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+function* handleAvailableBedDetailsForDate(bedDetails) {
+   try {
+      const response = yield call(availableBedDetailsForDate, bedDetails.payload)
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'AVAILABLE_BED', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+
+
+}
+
+
+function* handleBookedDetails(action) {
+   try {
+      const response = yield call(bookedDetails, action.payload)
+      if (response.status === 200) {
+         yield put({ type: 'BOOKED_DETAILS', payload: { response: response.data, statusCode: response.status } })
+      }
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+    catch (error) {
+      console.log("error*****", error)
+
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'BED_AVAILABLE_ERROR_BOOKED', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+
+}
+
+
+
 
 
 
@@ -2157,6 +2220,8 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+   yield takeEvery('BOOKEDDETAILS', handleBookedDetails)
+   yield takeEvery('AVAILBALEBEDDETAILS', handleAvailableBedDetailsForDate)
    yield takeEvery('CREATECUSTOMERSAVEINFO', handleCustomerSaveInfo)
    yield takeEvery('CHECKIN', handleCheckIn)
    yield takeEvery('ALLFLOORLIST', handleGetAllFloor)

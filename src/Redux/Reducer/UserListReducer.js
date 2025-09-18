@@ -125,12 +125,15 @@ export const initialState = {
     floorList: [],
     statusCodeForCheckInCustomer: 0,
     statusCodeForAddCustomerSaveInfo: 0,
-    bedAvailableError:'',
-    Refundable_details:[],
-    Deduction:[],
-    hostelData:[],
-    checkoutprofileDetails:[],
-    StatuscodeforCheckoutProfile:0
+    bedAvailableError: '',
+    Refundable_details: [],
+    Deduction: [],
+    hostelData: [],
+    checkoutprofileDetails: [],
+    StatuscodeforCheckoutProfile: 0,
+    availableBedList: [],
+    bookedDetails: [],
+    bedError: ''
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -141,6 +144,16 @@ const UserListReducer = (state = initialState, action) => {
 
         case 'RESET_ALL':
             return initialState;
+        case 'AVAILABLE_BED':
+            return { ...state, availableBedList: action.payload.response }
+        case 'BOOKED_DETAILS':
+            return { ...state, bookedDetails: action.payload.response }
+
+        case 'BED_AVAILABLE_ERROR_BOOKED':
+            return { ...state, bedError: action.payload }
+        case 'REMOVE_BED_AVAILABLE_ERROR_BOOKED':
+            return { ...state, bedError: '' }
+
         case 'DELETE_CUSTOMER':
             return { ...state, deleteCustomerSuccessStatusCode: action.payload.statusCode }
 
@@ -464,10 +477,10 @@ const UserListReducer = (state = initialState, action) => {
             return {
                 ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
                 GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
-             nonRefundable_details:action.payload.response.deduction_details,
-              hostelData:action.payload.response.hostelData,
-              Refundable_details:action.payload.response.Refundable_details,
-              Deduction:action.payload.response.Deduction,
+                nonRefundable_details: action.payload.response.deduction_details,
+                hostelData: action.payload.response.hostelData,
+                Refundable_details: action.payload.response.Refundable_details,
+                Deduction: action.payload.response.Deduction,
                 statusCodegetConfirmCheckout: action.payload.statusCode,
             };
         case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":
@@ -637,10 +650,10 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, StatusCodeBacktoCheckin: 0 }
 
 
-  case 'CHECKOUT_PROFILE_DETAILS':
+        case 'CHECKOUT_PROFILE_DETAILS':
             return { ...state, checkoutprofileDetails: action.payload.response, StatuscodeforCheckoutProfile: action.payload.statusCode }
         case 'REMOVE_CHECKOUT_PROFILE_DETAILS':
-            return { ...state, StatuscodeforCheckoutProfile: 0 }    
+            return { ...state, StatuscodeforCheckoutProfile: 0 }
 
         default:
             return state;
