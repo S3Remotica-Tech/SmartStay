@@ -110,15 +110,15 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
 
-  useEffect(() => {
-    if (state.Settings.statusCodeForSettingFetch === 200) {
-      setGetData(state.Settings.FetchGlobal.message)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_GET_GLOBAL_SETTING" });
-      }, 1000);
-    }
+  // useEffect(() => {
+  //   if (state.Settings.statusCodeForSettingFetch === 200) {
+  //     setGetData(state.Settings.FetchGlobal.message)
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_GET_GLOBAL_SETTING" });
+  //     }, 1000);
+  //   }
 
-  }, [state.Settings.statusCodeForSettingFetch])
+  // }, [state.Settings.statusCodeForSettingFetch])
 
 
   console.log("getData", getData)
@@ -235,7 +235,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
   };
 
-  console.log("paymentmobilenum", paymentmobilenum)
+
   const handlePaymentInvoiceMobile = (e) => {
     const input = e.target.value.replace(/\D/g, "");
     setPaymentMobileNum(input);
@@ -518,7 +518,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       setSign(file);
       setSignPreview(URL.createObjectURL(file));
       setSignatureErrMsg("");
-      setIsSignatureConfirmed(false);
+      setIsSignatureConfirmed(true);
       setFieldError("");
       setSavebuttonshow(true)
     }
@@ -594,7 +594,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       setSignatureErrMsg("Please select a signature file.");
     } else {
       setSignatureErrMsg("");
-      setIsSignatureConfirmed(true);
+      setIsSignatureConfirmed(false);
     }
   };
 
@@ -720,7 +720,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setLoading(true)
-      dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: state.login.selectedHostel_Id } });
+      // dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: state.login.selectedHostel_Id } });
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
   }, [state.login.selectedHostel_Id]);
@@ -789,7 +789,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   useEffect(() => {
     if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
 
-      dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: hostelid } });
+      // dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: hostelid } });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
@@ -840,7 +840,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       });
       return;
     }
-    dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+    // dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
     setIsInvoiceAddMode(true)
     setIsSidebarOpen(false)
     setSelectedard(type)
@@ -1149,11 +1149,11 @@ console.log("hostel_logo",logoPreview,"signature",signature)
   };
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
@@ -1245,7 +1245,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
     console.log("hasSignatureInDB", hasSignatureInDB)
 
-    if (sign && !isSignatureConfirmed) {
+    if (sign && isSignatureConfirmed) {
       setSignatureErrMsg("Please click Done after selecting a signature");
       return
     }
@@ -1254,7 +1254,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
       return;
     }
 
-    // Check email error
+
     if (emailError) {
       setEmailError("Please enter a valid email address");
       return;
@@ -4491,7 +4491,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
                     border: "1px solid #1E45E1",
                   }}
                 >
-                  Update
+                  Updateeeeeeeeeee
                 </button>
               </div>
             </div>
