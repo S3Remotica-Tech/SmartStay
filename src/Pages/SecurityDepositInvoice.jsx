@@ -691,32 +691,32 @@ const oldTemplate = {
   useEffect(() => {
   if (securityDepositInvoiceTemplate) {
     setLogoPreview(BillsTemplateList.isLogoCustomized
-        ? securityDepositInvoiceTemplate.invoiceLogoUrl
+        && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
         : BillsTemplateList.logo);
     setHostelLogo(
       BillsTemplateList.isLogoCustomized
-        ? securityDepositInvoiceTemplate.invoiceLogoUrl
+        && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
         : BillsTemplateList.logo
     );
     setMobileNum(
       BillsTemplateList.isMobileCustomized
-        ? securityDepositInvoiceTemplate.invoiceMobileNumber
+        && securityDepositInvoiceTemplate.invoiceMobileNumber ? securityDepositInvoiceTemplate.invoiceMobileNumber
         : BillsTemplateList.mobile
     );
     setEmail( 
       BillsTemplateList.isMailIdCustomized
-        ? securityDepositInvoiceTemplate.invoiceMailId
+        && securityDepositInvoiceTemplate.invoiceMailId ? securityDepositInvoiceTemplate.invoiceMailId
         : BillsTemplateList.emailId
     );
     setPrefix(securityDepositInvoiceTemplate.prefix || "");
     setSuffix(securityDepositInvoiceTemplate.suffix || "");
     setSignature(
       BillsTemplateList.isSignatureCustomized
-        ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+        && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
         : BillsTemplateList.signature
     );
     setSignaturePreview(BillsTemplateList.isSignatureCustomized
-        ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+        && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
         : BillsTemplateList.signature);
     setTerms(securityDepositInvoiceTemplate.invoiceTermsAndCondition || "");
     setTax(securityDepositInvoiceTemplate.gstPercentile || "");

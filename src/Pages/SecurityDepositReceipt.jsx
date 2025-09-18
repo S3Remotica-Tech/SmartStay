@@ -377,33 +377,7 @@ setLoading(true)
 
 
 
-  // useEffect(() => {
-  //   if (securityDepositReceiptTemplate) {
-  //     setLogoPreview(securityDepositReceiptTemplate.logo_url || null)
-  //     setHostelLogo(securityDepositReceiptTemplate.logo_url || null)
-  //     setMobileNum(securityDepositReceiptTemplate.contact_number)
-  //     setEmail(securityDepositReceiptTemplate.email)
-  //     setSignature(securityDepositReceiptTemplate.digital_signature_url || null)
-  //     setSignaturePreview(securityDepositReceiptTemplate.digital_signature_url || null)
-  //     setTerms(securityDepositReceiptTemplate.terms_and_condition || '')
-  //     setNotes(securityDepositReceiptTemplate.notes || '')
-
-  //     const templateTheme = securityDepositReceiptTemplate.template_theme;
-  //     if (templateTheme && templateTheme.includes('rgba')) {
-  //       const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.?\d+)\)/);
-  //       if (match) {
-  //         setColor({
-  //           r: parseInt(match[1]),
-  //           g: parseInt(match[2]),
-  //           b: parseInt(match[3]),
-  //           a: parseFloat(match[4]),
-  //         });
-  //       }
-  //     }
-  //   }
-
-  // }, [securityDepositReceiptTemplate])
-
+  
 
 useEffect(() => {
     if (state.Settings.settingGlobalAddStatusCode === 200) {
@@ -417,12 +391,12 @@ useEffect(() => {
 
  useEffect(() => {
     if (securityDepositReceiptTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setHostelLogo(BillsTemplateList.isLogoCustomized ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setMobileNum(BillsTemplateList.isMobileCustomized ? securityDepositReceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
-      setEmail(BillsTemplateList.isMailIdCustomized ? securityDepositReceiptTemplate.receiptMailId : BillsTemplateList.emailId)
-      setSignature(BillsTemplateList.isSignatureCustomized ? securityDepositReceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(BillsTemplateList.isSignatureCustomized ? securityDepositReceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setLogoPreview(BillsTemplateList.isLogoCustomized && securityDepositReceiptTemplate.receiptLogoUrl  ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setHostelLogo(BillsTemplateList.isLogoCustomized && securityDepositReceiptTemplate.receiptLogoUrl ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setMobileNum(BillsTemplateList.isMobileCustomized && securityDepositReceiptTemplate.receiptMobileNumber ? securityDepositReceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
+      setEmail(BillsTemplateList.isMailIdCustomized && securityDepositReceiptTemplate.receiptMailId ? securityDepositReceiptTemplate.receiptMailId  : BillsTemplateList.emailId)
+      setSignature(BillsTemplateList.isSignatureCustomized && securityDepositReceiptTemplate.receiptSignatureUrl  ? securityDepositReceiptTemplate.receiptSignatureUrl: BillsTemplateList.signature)
+      setSignaturePreview(BillsTemplateList.isSignatureCustomized && securityDepositReceiptTemplate.receiptSignatureUrl ?securityDepositReceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
       setNotes(securityDepositReceiptTemplate.receiptNotes)
       setTerms(securityDepositReceiptTemplate.receiptTermsAndCondition || '')
        const templateTheme = securityDepositReceiptTemplate.receiptTemplateColor;
@@ -1389,7 +1363,7 @@ useEffect(() => {
                       G-Pay</p>
 
 
-                    <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
+                      <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: {state.createAccount?.accountList?.roleName} - {state.createAccount?.accountList?.firstName}</p>
                     <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status: Paid</p>
 
                   </div>

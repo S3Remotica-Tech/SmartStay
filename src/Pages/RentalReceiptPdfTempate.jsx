@@ -395,16 +395,16 @@ useEffect(() => {
 
 
   console.log("RentalreceiptTemplate", RentalreceiptTemplate)
-
+console.log("state",state)
 
   useEffect(() => {
     if (RentalreceiptTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setHostelLogo(BillsTemplateList.isLogoCustomized ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setMobileNum(BillsTemplateList.isMobileCustomized ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
-      setEmail(BillsTemplateList.isMailIdCustomized ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
-      setSignature(BillsTemplateList.isSignatureCustomized ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(BillsTemplateList.isSignatureCustomized ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setLogoPreview(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setHostelLogo(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setMobileNum(BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
+      setEmail(BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
+      setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl  ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl: BillsTemplateList.signature)
       setNotes(RentalreceiptTemplate.receiptNotes)
       setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
        const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
@@ -1375,7 +1375,7 @@ console.log("state",state)
                       </p>
 
 
-                      <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
+                      <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: {state.createAccount?.accountList?.roleName} - {state.createAccount?.accountList?.firstName}</p>
                       <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status: Paid</p>
 
                     </div>
