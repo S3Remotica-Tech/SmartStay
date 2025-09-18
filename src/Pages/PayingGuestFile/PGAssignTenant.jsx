@@ -1496,7 +1496,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           </Row>
 
                           <Row>
-                            <div className="row align-items-end ms-1 me-1" style={{ paddingRight: 5, paddingLeft: 0 }}>
+                            {/* <div className="row align-items-end ms-1 me-1" style={{ paddingRight: 5, paddingLeft: 0 }}> */}
 
 
                               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
@@ -1588,7 +1588,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
 
-                            </div>
+                            {/* </div> */}
                           </Row>
 
 
