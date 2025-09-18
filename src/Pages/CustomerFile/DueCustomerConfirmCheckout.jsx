@@ -1546,8 +1546,8 @@ useEffect(() => {
         {/* Comments */}
         
 
-{detuction?.DueAmount ? (
-<>
+{/* {detuction?.DueAmount ? (
+<> */}
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         {/* {activeTab === "writeoff" && ( */}
                                             <div className="">
@@ -1670,7 +1670,9 @@ useEffect(() => {
 
 
                                     </div>
-                                    </>):<Form.Group >
+                                    {/* </> */}
+                                    {/* ): */}
+                                    <Form.Group >
           <Form.Label style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400}}>Comments</Form.Label>
           <Form.Control
           style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,height:50}}
@@ -1680,7 +1682,8 @@ useEffect(() => {
             value={comments}
           onChange={handleCommentsChange}
           />
-        </Form.Group>}
+        </Form.Group>
+        {/* } */}
 
       </Modal.Body>
       <Modal.Footer style={{borderTop:"none",marginTop:"-10px"}}>

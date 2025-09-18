@@ -28,12 +28,18 @@ console.log("customerID",customerID)
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
+    console.log("FinalSettlement",data)
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
     // const [modeOfPayment, setModeOfPayment] = useState("");
     // const [comments, setComments] = useState("");
-    const [checkOutDate, setCheckOutDate] = useState("");
+    // const [checkOutDate, setCheckOutDate] = useState("");
+    const [checkOutDate, setCheckOutDate] = useState(() => {
+  const today = new Date();
+ 
+  return today.toISOString().split("T")[0];
+});
     // const [uploadFile, setUploadFile] = useState(null);
     // const [rightOffNote, setRightOffNote] = useState("")
     const [checkoUtDateError, setCheckOutDateError] = useState("");
@@ -93,6 +99,23 @@ console.log("customerID",customerID)
         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
     }, 500);
 }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
+
+
+
+
+
+useEffect(()=>{
+if(checkOutDate){
+  dispatch({ type: "CHECKOUTDATEUPDATE", payload: { hostel_id: state.login.selectedHostel_Id,id:data.ID,checkoutDate:checkOutDate} });
+}
+},[checkOutDate])
+
+
+useEffect(()=>{
+    if(state.UsersList.StatusCodeForDateUpdate === 200){
+ dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE"})
+    }
+},[state.UsersList.StatusCodeForDateUpdate])
 
 //      useEffect(() => {
 //     if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -411,6 +434,20 @@ console.log("customerID",customerID)
     };
 
 
+
+    const handleClickGenerate = ()=>{
+         dispatch({
+                type: "FINALGENERATE",
+                payload: {
+                  user_id ,
+                    // formal_checkout: activeTab === "writeoff",
+                    hostel_id: rightOffNote,
+                    profile: uploadFile,
+                },
+            });
+
+    }
+
     // const handleClickGenerate = () => {
     //     dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
 
@@ -529,12 +566,12 @@ console.log("customerID",customerID)
     // };
 
 
-    useEffect(() => {
-        if (hostelData) {
-            setCheckOutDate(hostelData?.CheckoutDate)
-        }
+    // useEffect(() => {
+    //     if (hostelData) {
+    //         setCheckOutDate(hostelData?.CheckoutDate)
+    //     }
 
-    }, [hostelData])
+    // }, [hostelData])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -1623,7 +1660,7 @@ return(
                                     <Button
                                         // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
                                         style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }} 
-                                        // onClick={handleClickGenerate}
+                                        onClick={handleClickGenerate}
                                         >Generate</Button>
                                 </div>
                             </div>

@@ -2416,6 +2416,8 @@ const handleCheckoutGenrate = (item)=>{
 
 const handleClosefinal = ()=>{
   setFinalSettlePage(false)
+   dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE"})
+   dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
 }
   return (
     <div>

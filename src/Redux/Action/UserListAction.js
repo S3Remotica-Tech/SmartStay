@@ -553,3 +553,11 @@ export async function checkoutDateChange(datum) {
     data: datum
   })
 }
+
+
+export async function generateFinal(datum) {
+  console.log("generateFinal",datum)
+  return await AxiosConfig.post('/generate_checkout_invoice', datum, {
+    data: datum
+  })
+}
