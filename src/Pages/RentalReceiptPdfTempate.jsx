@@ -347,6 +347,7 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
           : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
         },
       });
+      setLoading(true)
 
     }
 
@@ -356,17 +357,9 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
 
 
 
-
-  // useEffect(()=> {
-  //    if(state.login.selectedHostel_Id){
-  //   setLoading(true)
-  //     dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-  //    }
-  // },[])
-
   useEffect(() => {
     if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
-
+setLoading(false)
       dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
 
       setTimeout(() => {
@@ -375,16 +368,7 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
     }
   }, [state.Settings.settingsBillsAddTemplateSucesscode]);
 
-  //   useEffect(() => {
-  //        if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
-
-  //   setBillsTemplateList(state.Settings.settingsBillsTemplateList)
-  //     setTimeout(() => {
-  //         setLoading(false)
-  //       dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
-  //     }, 500);
-  //   }
-  // }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+ 
 
 
 

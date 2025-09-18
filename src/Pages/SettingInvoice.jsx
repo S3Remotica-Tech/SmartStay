@@ -235,6 +235,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
   };
 
+  console.log("paymentmobilenum",paymentmobilenum)
 
   const handlePaymentInvoiceMobile = (e) => {
     const input = e.target.value.replace(/\D/g, "");
@@ -1183,6 +1184,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
   );
 
   console.log("RentalinvoiceTemplate", RentalinvoiceTemplate)
+  console.log("BillsTemplateList",BillsTemplateList)
 
   useEffect(() => {
     if (RentalinvoiceTemplate) {
