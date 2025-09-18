@@ -347,6 +347,7 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
           : `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
         },
       });
+      setLoading(true)
 
     }
 
@@ -355,14 +356,6 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
 
 
 
-
-
-  // useEffect(()=> {
-  //    if(state.login.selectedHostel_Id){
-  //   setLoading(true)
-  //     dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-  //    }
-  // },[])
 
   useEffect(() => {
     if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
@@ -375,17 +368,16 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
     }
   }, [state.Settings.settingsBillsAddTemplateSucesscode]);
 
-  //   useEffect(() => {
-  //        if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
+ 
+useEffect(() => {
+    if (state.Settings.settingGlobalAddStatusCode === 200) {
+      setLoading(false)
+                   setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_GLOBAL_SETTINGS" });
+      }, 1000);
+    }
 
-  //   setBillsTemplateList(state.Settings.settingsBillsTemplateList)
-  //     setTimeout(() => {
-  //         setLoading(false)
-  //       dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
-  //     }, 500);
-  //   }
-  // }, [state.Settings.SettingsBilltemplategetsuccessCode]);
-
+  }, [state.Settings.settingGlobalAddStatusCode])
 
 
   useEffect(() => {
@@ -403,16 +395,16 @@ console.log("RentalreceiptTemplate",RentalreceiptTemplate)
 
 
   console.log("RentalreceiptTemplate", RentalreceiptTemplate)
-
+console.log("state",state)
 
   useEffect(() => {
     if (RentalreceiptTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setHostelLogo(BillsTemplateList.isLogoCustomized ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setMobileNum(BillsTemplateList.isMobileCustomized ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
-      setEmail(BillsTemplateList.isMailIdCustomized ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
-      setSignature(BillsTemplateList.isSignatureCustomized ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(BillsTemplateList.isSignatureCustomized ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setLogoPreview(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setHostelLogo(BillsTemplateList.isLogoCustomized && RentalreceiptTemplate.receiptLogoUrl ? RentalreceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setMobileNum(BillsTemplateList.isMobileCustomized && RentalreceiptTemplate.receiptMobileNumber ? RentalreceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
+      setEmail(BillsTemplateList.isMailIdCustomized && RentalreceiptTemplate.receiptMailId ? RentalreceiptTemplate.receiptMailId : BillsTemplateList.emailId)
+      setSignature(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl  ? RentalreceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalreceiptTemplate.receiptSignatureUrl ? RentalreceiptTemplate.receiptSignatureUrl: BillsTemplateList.signature)
       setNotes(RentalreceiptTemplate.receiptNotes)
       setTerms(RentalreceiptTemplate.receiptTermsAndCondition || '')
        const templateTheme = RentalreceiptTemplate.receiptTemplateColor;
@@ -1042,7 +1034,7 @@ console.log("state",state)
 
 
           <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-            <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
+            <h6 style={{ marginBottom: 12, fontFamily:"Gilroy" }}>Template Theme</h6>
 
             <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
 
@@ -1151,7 +1143,7 @@ console.log("state",state)
             <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius: '8px', backgroundColor: 'white' }} >
               <div className="d-flex justify-content-end ">
                 <button
-                  className="btn btn-sm border bg-white"
+                  className="btn btn-sm border bg-white mb-2"
                   onClick={() => setShowFullView(true)}
                   style={{ height: 25, fontSize: 8, color: 'rgba(23, 23, 23, 1)' }}
                 >
@@ -1383,7 +1375,7 @@ console.log("state",state)
                       </p>
 
 
-                      <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
+                      <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: {state.createAccount?.accountList?.roleName} - {state.createAccount?.accountList?.firstName}</p>
                       <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status: Paid</p>
 
                     </div>

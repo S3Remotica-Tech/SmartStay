@@ -691,32 +691,32 @@ const oldTemplate = {
   useEffect(() => {
   if (securityDepositInvoiceTemplate) {
     setLogoPreview(BillsTemplateList.isLogoCustomized
-        ? securityDepositInvoiceTemplate.invoiceLogoUrl
+        && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
         : BillsTemplateList.logo);
     setHostelLogo(
       BillsTemplateList.isLogoCustomized
-        ? securityDepositInvoiceTemplate.invoiceLogoUrl
+        && securityDepositInvoiceTemplate.invoiceLogoUrl ? securityDepositInvoiceTemplate.invoiceLogoUrl
         : BillsTemplateList.logo
     );
     setMobileNum(
       BillsTemplateList.isMobileCustomized
-        ? securityDepositInvoiceTemplate.invoiceMobileNumber
+        && securityDepositInvoiceTemplate.invoiceMobileNumber ? securityDepositInvoiceTemplate.invoiceMobileNumber
         : BillsTemplateList.mobile
     );
     setEmail( 
       BillsTemplateList.isMailIdCustomized
-        ? securityDepositInvoiceTemplate.invoiceMailId
+        && securityDepositInvoiceTemplate.invoiceMailId ? securityDepositInvoiceTemplate.invoiceMailId
         : BillsTemplateList.emailId
     );
     setPrefix(securityDepositInvoiceTemplate.prefix || "");
     setSuffix(securityDepositInvoiceTemplate.suffix || "");
     setSignature(
       BillsTemplateList.isSignatureCustomized
-        ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+        && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
         : BillsTemplateList.signature
     );
     setSignaturePreview(BillsTemplateList.isSignatureCustomized
-        ? securityDepositInvoiceTemplate.invoiceSignatureUrl
+        && securityDepositInvoiceTemplate.invoiceSignatureUrl ? securityDepositInvoiceTemplate.invoiceSignatureUrl
         : BillsTemplateList.signature);
     setTerms(securityDepositInvoiceTemplate.invoiceTermsAndCondition || "");
     setTax(securityDepositInvoiceTemplate.gstPercentile || "");
@@ -1850,7 +1850,7 @@ useEffect(() => {
 
               <div className="d-flex justify-content-end ">
                 <button
-                  className="btn btn-sm border bg-white"
+                  className="btn btn-sm border bg-white mb-2"
                   onClick={() => setShowFullView(true)}
                   style={{ height: 25, fontSize: 8, color: 'rgba(23, 23, 23, 1)' }}
                 >
@@ -2262,41 +2262,33 @@ useEffect(() => {
                   }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="d-flex gap-2 mb-3 mb-lg-0">
-                        <img src={securityDepositInvoiceTemplate.logo_url ? securityDepositInvoiceTemplate.logo_url : Logo} alt="logo" style={{ height: 64, width: 74 }} />
+                        <img src={hostel_logo ? hostel_logo : Logo} alt="logo" style={{ height: 64, width: 74 }} />
                         <div>
                         </div>
                       </div>
 
                       <div>
 
-                        <div style={{ fontWeight: 600, fontFamily: "Gilroy" }}>
-                          <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> {securityDepositInvoiceTemplate?.Name}</div>
-
-                          <>
-                            <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
-                              {[
-                                [securityDepositInvoiceTemplate?.Address, securityDepositInvoiceTemplate?.area, securityDepositInvoiceTemplate?.landmark]
-                                  .filter(Boolean)
-                                  .join(", "),
-
-                                [securityDepositInvoiceTemplate?.city, securityDepositInvoiceTemplate?.state]
-                                  .filter(Boolean)
-                                  .join(", ") + (securityDepositInvoiceTemplate?.pin_code ? ` - ${securityDepositInvoiceTemplate.pin_code}` : "")
-                              ]
-                                .filter(line => line && line.trim() !== "")
-                                .map((line, idx) => (
-                                  <React.Fragment key={idx}>
-                                    {line}
-                                    <br />
-                                  </React.Fragment>
-                                ))}
-                            </div>
-                            {/* {securityDepositInvoiceTemplate.Address ? securityDepositInvoiceTemplate.Address : ''}, {securityDepositInvoiceTemplate.area ? securityDepositInvoiceTemplate.area : ''},  <br />
-             {securityDepositInvoiceTemplate.city ? securityDepositInvoiceTemplate.city : ''}, {securityDepositInvoiceTemplate.state ? securityDepositInvoiceTemplate.state : ''} - 600 056 */}
-
-                          </>
-
-                        </div>
+                       <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
+                                              
+                                                                      <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                                        {[
+                                                                          [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
+                                                                            .filter(Boolean)
+                                                                            .join(", "),
+                                              
+                                                                          [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
+                                                                            .filter(Boolean)
+                                                                            .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
+                                                                        ]
+                                                                          .filter(line => line && line.trim() !== "")
+                                                                          .map((line, idx) => (
+                                                                            <React.Fragment key={idx}>
+                                                                              {line}
+                                                                              <br />
+                                                                            </React.Fragment>
+                                                                          ))}
+                                                                      </div>
                       </div>
                     </div>
                   </div>
@@ -2442,30 +2434,27 @@ useEffect(() => {
                   </div>
                   <div className="px-4" style={{ marginTop: 20 }}>
                     <div className="row">
-                      <div className="col-md-6 mb-3">
-                        <h6 style={{
-                          fontSize: '11px',
-                          fontFamily: 'Gilroy',
-                          fontWeight: 700,
-                          color: 'rgba(30, 69, 225, 1)',
-                          letterSpacing: '1px'
+                       <div className="col-md-6 mb-3">
+                                <h6 style={{
+                                  fontSize: '10px',
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: 700,
+                                  color: 'rgba(30, 69, 225, 1)',
+                                  letterSpacing: '1px'
 
-                        }}
-                        >ACCOUNT DETAILS</h6>
-                        <p className="mb-1"
-                          style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                          Account No : {securityDepositInvoiceTemplate?.banking?.acc_num || 'N/A'}
-                        </p>
-                        <p className="mb-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                          IFSC Code : {securityDepositInvoiceTemplate?.banking?.ifsc_code || 'N/A'}
-                        </p>
-                        <p className="mb-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                          Bank Name: {securityDepositInvoiceTemplate?.banking?.bank_name || 'N/A'}
-                        </p>
-                        <p style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                          UPI Details : {securityDepositInvoiceTemplate?.banking?.type || 'N/A'}
-                        </p>
-                      </div>
+                                }}
+                                >ACCOUNT DETAILS</h6>
+                                <p className="mb-1"
+                                  style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                  Account No :{securityDepositInvoiceTemplate?.accountNumber || "N/A"}</p>
+                                <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                  IFSC Code :  {securityDepositInvoiceTemplate?.ifscCode || "N/A"}</p>
+                                <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                  Bank Name: {securityDepositInvoiceTemplate?.bankName || "N/A"}</p>
+                                <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                  UPI Details : {securityDepositInvoiceTemplate?.upiId
+ || "N/A"}</p>
+                              </div>
 
                       <div className="col-md-2"></div>
 

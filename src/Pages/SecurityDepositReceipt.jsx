@@ -325,7 +325,7 @@ dispatch({
         },
       });
 
-
+setLoading(true)
 
     }
 
@@ -354,16 +354,7 @@ dispatch({
     }
   }, [state.Settings.settingsBillsAddTemplateSucesscode]);
 
-  //   useEffect(() => {
-  //        if (state.Settings?.SettingsBilltemplategetsuccessCode === 200) {
-
-  //   setBillsTemplateList(state.Settings.settingsBillsTemplateList)
-  //     setTimeout(() => {
-  //       setLoading(false)
-  //       dispatch({ type: "CLEAR_GET_TEMPLATELIST_STATUS_CODE" });
-  //     }, 500);
-  //   }
-  // }, [state.Settings.SettingsBilltemplategetsuccessCode]);
+  
 
   useEffect(() => {
     if (state.Settings?.SettingsBilltemplategetErrorCode === 500) {
@@ -386,43 +377,26 @@ dispatch({
 
 
 
-  // useEffect(() => {
-  //   if (securityDepositReceiptTemplate) {
-  //     setLogoPreview(securityDepositReceiptTemplate.logo_url || null)
-  //     setHostelLogo(securityDepositReceiptTemplate.logo_url || null)
-  //     setMobileNum(securityDepositReceiptTemplate.contact_number)
-  //     setEmail(securityDepositReceiptTemplate.email)
-  //     setSignature(securityDepositReceiptTemplate.digital_signature_url || null)
-  //     setSignaturePreview(securityDepositReceiptTemplate.digital_signature_url || null)
-  //     setTerms(securityDepositReceiptTemplate.terms_and_condition || '')
-  //     setNotes(securityDepositReceiptTemplate.notes || '')
+  
 
-  //     const templateTheme = securityDepositReceiptTemplate.template_theme;
-  //     if (templateTheme && templateTheme.includes('rgba')) {
-  //       const match = templateTheme.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d*\.?\d+)\)/);
-  //       if (match) {
-  //         setColor({
-  //           r: parseInt(match[1]),
-  //           g: parseInt(match[2]),
-  //           b: parseInt(match[3]),
-  //           a: parseFloat(match[4]),
-  //         });
-  //       }
-  //     }
-  //   }
+useEffect(() => {
+    if (state.Settings.settingGlobalAddStatusCode === 200) {
+      setLoading(false)
+                   setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_GLOBAL_SETTINGS" });
+      }, 1000);
+    }
 
-  // }, [securityDepositReceiptTemplate])
-
-
+  }, [state.Settings.settingGlobalAddStatusCode])
 
  useEffect(() => {
     if (securityDepositReceiptTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setHostelLogo(BillsTemplateList.isLogoCustomized ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
-      setMobileNum(BillsTemplateList.isMobileCustomized ? securityDepositReceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
-      setEmail(BillsTemplateList.isMailIdCustomized ? securityDepositReceiptTemplate.receiptMailId : BillsTemplateList.emailId)
-      setSignature(BillsTemplateList.isSignatureCustomized ? securityDepositReceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
-      setSignaturePreview(BillsTemplateList.isSignatureCustomized ? securityDepositReceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
+      setLogoPreview(BillsTemplateList.isLogoCustomized && securityDepositReceiptTemplate.receiptLogoUrl  ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setHostelLogo(BillsTemplateList.isLogoCustomized && securityDepositReceiptTemplate.receiptLogoUrl ? securityDepositReceiptTemplate.receiptLogoUrl : BillsTemplateList.logo)
+      setMobileNum(BillsTemplateList.isMobileCustomized && securityDepositReceiptTemplate.receiptMobileNumber ? securityDepositReceiptTemplate.receiptMobileNumber : BillsTemplateList.mobile)
+      setEmail(BillsTemplateList.isMailIdCustomized && securityDepositReceiptTemplate.receiptMailId ? securityDepositReceiptTemplate.receiptMailId  : BillsTemplateList.emailId)
+      setSignature(BillsTemplateList.isSignatureCustomized && securityDepositReceiptTemplate.receiptSignatureUrl  ? securityDepositReceiptTemplate.receiptSignatureUrl: BillsTemplateList.signature)
+      setSignaturePreview(BillsTemplateList.isSignatureCustomized && securityDepositReceiptTemplate.receiptSignatureUrl ?securityDepositReceiptTemplate.receiptSignatureUrl : BillsTemplateList.signature)
       setNotes(securityDepositReceiptTemplate.receiptNotes)
       setTerms(securityDepositReceiptTemplate.receiptTermsAndCondition || '')
        const templateTheme = securityDepositReceiptTemplate.receiptTemplateColor;
@@ -1083,7 +1057,7 @@ dispatch({
 
 
         <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-          <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
+          <h6 style={{ marginBottom: 12 , fontFamily:"Gilroy"}}>Template Theme</h6>
 
           <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
 
@@ -1191,7 +1165,7 @@ dispatch({
         <div className="d-flex justify-content-center">
           <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius: '8px', backgroundColor: 'white' }} >
 
-            <div className="d-flex justify-content-end ">
+            <div className="d-flex justify-content-end mb-2">
               <button
                 className="btn btn-sm border bg-white"
                 onClick={() => setShowFullView(true)}
@@ -1389,7 +1363,7 @@ dispatch({
                       G-Pay</p>
 
 
-                    <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
+                      <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: {state.createAccount?.accountList?.roleName} - {state.createAccount?.accountList?.firstName}</p>
                     <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status: Paid</p>
 
                   </div>
@@ -1554,40 +1528,32 @@ dispatch({
                   <div className=" text-white  p-2 position-relative" style={{ minHeight: 90, backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="d-flex gap-2 mb-2 mb-lg-0">
-                        <img src={securityDepositReceiptTemplate?.logo_url ? securityDepositReceiptTemplate?.logo_url : receiptLogo} alt="logo" style={{ height: 64, width: 74, borderRadius: '6px' }} />
+                        <img src={hostel_logo ? hostel_logo : receiptLogo} alt="logo" style={{ height: 64, width: 74, borderRadius: '6px' }} />
 
                       </div>
 
                       <div>
 
-                        <div style={{ fontWeight: 600, fontFamily: "Gilroy" }}>
-                          <div>
-                            <div style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>{securityDepositReceiptTemplate?.Name}</div>
-                          </div>
-                          <>
-                            <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>
-                              {[
-                                [securityDepositReceiptTemplate?.Address, securityDepositReceiptTemplate?.area, securityDepositReceiptTemplate?.landmark]
-                                  .filter(Boolean)
-                                  .join(", "),
-
-                                [securityDepositReceiptTemplate?.city, securityDepositReceiptTemplate?.state]
-                                  .filter(Boolean)
-                                  .join(", ") + (securityDepositReceiptTemplate?.pin_code ? ` - ${securityDepositReceiptTemplate.pin_code}` : "")
-                              ]
-                                .filter(line => line && line.trim() !== "")
-                                .map((line, idx) => (
-                                  <React.Fragment key={idx}>
-                                    {line}
-                                    <br />
-                                  </React.Fragment>
-                                ))}
-                            </div>
-
-
-                          </>
-
-                        </div>
+                        <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
+                        
+                                                <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                                  {[
+                                                    [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
+                                                      .filter(Boolean)
+                                                      .join(", "),
+                        
+                                                    [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
+                                                      .filter(Boolean)
+                                                      .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
+                                                  ]
+                                                    .filter(line => line && line.trim() !== "")
+                                                    .map((line, idx) => (
+                                                      <React.Fragment key={idx}>
+                                                        {line}
+                                                        <br />
+                                                      </React.Fragment>
+                                                    ))}
+                                                </div>
                       </div>
                     </div>
                   </div>

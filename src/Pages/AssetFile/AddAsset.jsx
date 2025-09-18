@@ -52,7 +52,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-     dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+    //  dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
       dispatch({ type: 'VENDORLIST', payload: { hostelId: state.login.selectedHostel_Id } })
     }
   }, []);
@@ -984,6 +984,9 @@ useEffect(()=>{
                     </div>
                   )}
                 </div>
+                {
+                  !currentItem && 
+              
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
                   <Form.Group
                     className=""
@@ -1111,7 +1114,7 @@ useEffect(()=>{
                     </div>
                   )}
                 </div>
-
+}
 
               </div>
             </Modal.Body>

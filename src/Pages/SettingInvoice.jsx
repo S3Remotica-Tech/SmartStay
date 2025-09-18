@@ -110,15 +110,15 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
 
-  useEffect(() => {
-    if (state.Settings.statusCodeForSettingFetch === 200) {
-      setGetData(state.Settings.FetchGlobal.message)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_GET_GLOBAL_SETTING" });
-      }, 1000);
-    }
+  // useEffect(() => {
+  //   if (state.Settings.statusCodeForSettingFetch === 200) {
+  //     setGetData(state.Settings.FetchGlobal.message)
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_GET_GLOBAL_SETTING" });
+  //     }, 1000);
+  //   }
 
-  }, [state.Settings.statusCodeForSettingFetch])
+  // }, [state.Settings.statusCodeForSettingFetch])
 
 
   console.log("getData", getData)
@@ -236,6 +236,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   };
 
   console.log("paymentmobilenum", paymentmobilenum)
+
   const handlePaymentInvoiceMobile = (e) => {
     const input = e.target.value.replace(/\D/g, "");
     setPaymentMobileNum(input);
@@ -494,11 +495,11 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     const file = e.target.files[0];
     setEditFormErrMessage("")
     if (file && file.type.startsWith("image/")) {
-          setHostelLogo(file);
+      setHostelLogo(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogoPreview(reader.result);
-    
+
       };
       reader.readAsDataURL(file);
     }
@@ -518,7 +519,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       setSign(file);
       setSignPreview(URL.createObjectURL(file));
       setSignatureErrMsg("");
-      setIsSignatureConfirmed(false);
+      setIsSignatureConfirmed(true);
       setFieldError("");
       setSavebuttonshow(true)
     }
@@ -594,7 +595,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       setSignatureErrMsg("Please select a signature file.");
     } else {
       setSignatureErrMsg("");
-      setIsSignatureConfirmed(true);
+      setIsSignatureConfirmed(false);
     }
   };
 
@@ -720,7 +721,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setLoading(true)
-      dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: state.login.selectedHostel_Id } });
+      // dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: state.login.selectedHostel_Id } });
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
   }, [state.login.selectedHostel_Id]);
@@ -789,7 +790,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   useEffect(() => {
     if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
 
-      dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: hostelid } });
+      // dispatch({ type: "SETTINGS_GET_INVOICE", payload: { hostel_id: hostelid } });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
@@ -840,7 +841,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       });
       return;
     }
-    dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+    // dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
     setIsInvoiceAddMode(true)
     setIsSidebarOpen(false)
     setSelectedard(type)
@@ -1008,7 +1009,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
 
-console.log("hostel_logo",logoPreview,"signature",signature)
+  console.log("hostel_logo", logoPreview, "signature", signature)
 
 
   const handleSaveRentalTemplate = () => {
@@ -1149,11 +1150,11 @@ console.log("hostel_logo",logoPreview,"signature",signature)
   };
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({ type: 'GET_TEMPLATE_LIST', payload: state.login.selectedHostel_Id })
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (state.Settings?.settingsBillsAddTemplateSucesscode === 200) {
@@ -1183,18 +1184,23 @@ console.log("hostel_logo",logoPreview,"signature",signature)
   );
 
   console.log("RentalinvoiceTemplate", RentalinvoiceTemplate)
+  console.log("BillsTemplateList", BillsTemplateList)
 
   useEffect(() => {
     if (RentalinvoiceTemplate) {
-      setLogoPreview(BillsTemplateList.isLogoCustomized ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
-      setHostelLogo(BillsTemplateList.isLogoCustomized ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
-      setPaymentMobileNum(BillsTemplateList.isMobileCustomized ? RentalinvoiceTemplate.invoiceMobileNumber : BillsTemplateList.mobile)
-      setPaymentinvoiceEmail(BillsTemplateList.isMailIdCustomized ? RentalinvoiceTemplate.invoiceMailId : BillsTemplateList.emailId)
+      setLogoPreview(BillsTemplateList.isLogoCustomized && RentalinvoiceTemplate.invoiceLogoUrl ? RentalinvoiceTemplate.invoiceLogoUrl : BillsTemplateList.logo)
+      setHostelLogo(BillsTemplateList.isLogoCustomized && RentalinvoiceTemplate.invoiceLogoUrl ? RentalinvoiceTemplate.invoiceLogoUrl  : BillsTemplateList.logo)
+      setPaymentMobileNum(
+        BillsTemplateList.isMobileCustomized && RentalinvoiceTemplate.invoiceMobileNumber
+          ? RentalinvoiceTemplate.invoiceMobileNumber
+          : BillsTemplateList.mobile
+      );
+      setPaymentinvoiceEmail(BillsTemplateList.isMailIdCustomized && RentalinvoiceTemplate.invoiceMailId  ? RentalinvoiceTemplate.invoiceMailId : BillsTemplateList.emailId)
       setPrefix(RentalinvoiceTemplate.prefix || '')
       setSuffix(RentalinvoiceTemplate.suffix || '')
-      setSignature(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
-     setRentalSignatureFile(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
-      setRentalSignaturePreview(BillsTemplateList.isSignatureCustomized ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
+      setSignature(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
+      setRentalSignatureFile(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl  ? RentalinvoiceTemplate.invoiceSignatureUrl: BillsTemplateList.signature)
+      setRentalSignaturePreview(BillsTemplateList.isSignatureCustomized && RentalinvoiceTemplate.invoiceSignatureUrl ? RentalinvoiceTemplate.invoiceSignatureUrl : BillsTemplateList.signature)
       setTerms(RentalinvoiceTemplate.invoiceTermsAndCondition || '')
       setTax(RentalinvoiceTemplate.gstPercentile || '')
       setSelectedBankId(RentalinvoiceTemplate.selectedBankId || null)
@@ -1245,7 +1251,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
     console.log("hasSignatureInDB", hasSignatureInDB)
 
-    if (sign && !isSignatureConfirmed) {
+    if (sign && isSignatureConfirmed) {
       setSignatureErrMsg("Please click Done after selecting a signature");
       return
     }
@@ -1254,7 +1260,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
       return;
     }
 
-    // Check email error
+
     if (emailError) {
       setEmailError("Please enter a valid email address");
       return;
@@ -1490,7 +1496,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
 
             <div className="col-lg-11 " style={{
-              maxHeight: "calc(90vh - 130px)",
+              maxHeight: "calc(95vh - 130px)",
               overflowY: "auto", marginTop: 50,
             }}>
 
@@ -2411,7 +2417,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
 
                     <div className="col-lg-10" style={{ border: "1px solid #E5E7EB", borderRadius: 12, padding: 16, fontFamily: "sans-serif" }}>
-                      <h6 style={{ marginBottom: 12 }}>Template Theme</h6>
+                      <h6 style={{ marginBottom: 12, fontFamily: "Gilroy" }}>Template Theme</h6>
 
                       <RgbaColorPicker color={color} onChange={handleColorChange} style={{ width: "100%", }} />
 
@@ -2518,12 +2524,12 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
                   </div>
                   <div className="col-lg-7 d-flex justify-content-center" style={{ backgroundColor: 'rgba(244, 246, 255, 1)' }}>
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center p-2">
                       <div className="receipt-container border ps-4 pe-4 pb-4 pt-1 col-10" ref={cardRef} style={{ borderRadius: '8px', backgroundColor: 'white' }} >
 
                         <div className="d-flex justify-content-end ">
                           <button
-                            className="btn btn-sm border bg-white"
+                            className="btn btn-sm border bg-white mb-2"
                             onClick={() => setShowFullView(true)}
                             style={{ height: 25, fontSize: 8, color: 'rgba(23, 23, 23, 1)' }}
                           >
@@ -2766,7 +2772,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
                                   Bank Name: {RentalinvoiceTemplate?.bankName || "N/A"}</p>
                                 <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
                                   UPI Details : {RentalinvoiceTemplate?.upiId
- || "N/A"}</p>
+                                    || "N/A"}</p>
                               </div>
 
                               <div className="col-md-2"></div>
@@ -2975,16 +2981,17 @@ console.log("hostel_logo",logoPreview,"signature",signature)
 
                                   <div>
 
-                                    <div style={{ fontSize: 13, fontWeight: 600, fontFamily: "Gilroy" }}>{RentalinvoiceTemplate?.Name}</div>
-                                    <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
+                                    <div style={{ fontSize: 11, fontWeight: 600, fontFamily: "Gilroy" }}>{state.UsersList.hotelDetailsinPg?.name}</div>
+
+                                    <div style={{ fontSize: 8, fontWeight: 600, fontFamily: "Gilroy" }}>
                                       {[
-                                        [RentalinvoiceTemplate?.Address, RentalinvoiceTemplate?.area, RentalinvoiceTemplate?.landmark]
+                                        [state.UsersList.hotelDetailsinPg?.street, state.UsersList.hotelDetailsinPg?.area, state.UsersList.hotelDetailsinPg?.landmark]
                                           .filter(Boolean)
                                           .join(", "),
 
-                                        [RentalinvoiceTemplate?.city, RentalinvoiceTemplate?.state]
+                                        [state.UsersList.hotelDetailsinPg?.city, state.UsersList.hotelDetailsinPg?.state]
                                           .filter(Boolean)
-                                          .join(", ") + (RentalinvoiceTemplate?.pin_code ? ` - ${RentalinvoiceTemplate.pin_code}` : "")
+                                          .join(", ") + (state.UsersList.hotelDetailsinPg?.pinCode ? ` - ${state.UsersList.hotelDetailsinPg.pinCode}` : "")
                                       ]
                                         .filter(line => line && line.trim() !== "")
                                         .map((line, idx) => (
@@ -3154,7 +3161,7 @@ console.log("hostel_logo",logoPreview,"signature",signature)
                                 <div className="row">
                                   <div className="col-md-6 mb-3">
                                     <h6 style={{
-                                      fontSize: '11px',
+                                      fontSize: '10px',
                                       fontFamily: 'Gilroy',
                                       fontWeight: 700,
                                       color: 'rgba(30, 69, 225, 1)',
@@ -3163,14 +3170,15 @@ console.log("hostel_logo",logoPreview,"signature",signature)
                                     }}
                                     >ACCOUNT DETAILS</h6>
                                     <p className="mb-1"
-                                      style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                      Account No : {RentalinvoiceTemplate?.banking?.acc_num || "N/A"}</p>
-                                    <p className="mb-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                      IFSC Code : {RentalinvoiceTemplate?.banking?.ifsc_code || "N/A"}</p>
-                                    <p className="mb-1" style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                      Bank Name: {RentalinvoiceTemplate?.banking?.bank_name || "N/A"}</p>
-                                    <p style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
-                                      UPI Details : {RentalinvoiceTemplate?.banking?.upi_id || "N/A"}</p>
+                                      style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                      Account No :{RentalinvoiceTemplate?.accountNumber || "N/A"}</p>
+                                    <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                      IFSC Code :  {RentalinvoiceTemplate?.ifscCode || "N/A"}</p>
+                                    <p className="mb-1" style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                      Bank Name: {RentalinvoiceTemplate?.bankName || "N/A"}</p>
+                                    <p style={{ fontSize: '9px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+                                      UPI Details : {RentalinvoiceTemplate?.upiId
+                                        || "N/A"}</p>
                                   </div>
 
                                   <div className="col-md-2"></div>
