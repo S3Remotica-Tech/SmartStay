@@ -40,14 +40,22 @@ function BookingModal(props) {
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [transactionId, setTransactionId] = useState("")
   const [paymentError, setPaymentError] = useState("");
+  const [dateError, setDateError] = useState("");
+  const [bookingAmount, setBookingAmount] = useState(null);
+  const [amountError, setAmountError] = useState("");
+  const [joiningDateError, setJoiningDateError] = useState("");
+  const [floorError, setFloorError] = useState("");
+  const [roomError, setRoomError] = useState("");
+  const [bedError, setBedError] = useState("");
+  const [file, setFile] = useState(null);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({
+  //       type: "BEDNUMBERDETAILS", payload: { hostelId: state.login.selectedHostel_Id }
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -153,6 +161,7 @@ function BookingModal(props) {
       }, 200);
     }
   }, [state.bankingDetails.bankingList?.listBanks]);
+
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
 
@@ -212,28 +221,21 @@ function BookingModal(props) {
   };
   useEffect(() => {
     if (room) {
-      const filteredBed = state.UsersList?.bednumberdetails.filter((view) => {
+      const filteredBed = state.UsersList?.availableBedList?.listBeds?.filter((view) => {
         return view.floorId === Floor && view.roomId === room
       });
       setAvailableBed(filteredBed)
     }
 
-  }, [room])
+  }, [room, joiningDate,state.UsersList?.availableBedList?.listBeds])
 
   const handleCloseBooking = () => {
     dispatch({ type: "ERROR_BOOKING_REMOVE" })
     props.handleCloseAddBooking();
   }
 
-
-  const [dateError, setDateError] = useState("");
-  const [bookingAmount, setBookingAmount] = useState(null);
-  const [amountError, setAmountError] = useState("");
-  const [joiningDateError, setJoiningDateError] = useState("");
-  const [floorError, setFloorError] = useState("");
-  const [roomError, setRoomError] = useState("");
-  const [bedError, setBedError] = useState("");
-  const [file, setFile] = useState(null);
+console.log("state",state)
+  
 
 
   const handleBookingDateChange = (date) => {
@@ -264,8 +266,31 @@ function BookingModal(props) {
     } else {
       setJoiningDateError("");
       setJoiningDate(date);
+
     }
   };
+
+
+
+
+  useEffect(()=>{
+    if(joiningDate){
+      const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    const joiningDateForFormatted = formatDate(joiningDate);
+      dispatch({ type: 'AVAILBALEBEDDETAILS', payload:{ hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted}})
+    }
+
+  },[joiningDate])
+
+
 
 
   const handleBed = (selectedOption) => {

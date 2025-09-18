@@ -806,7 +806,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                            fontSize: 16,
                                            color: "#4B4B4B",
                                            fontFamily: "Gilroy",
-                                           fontWeight: countryCode ? 600 : 500,
+                                           fontWeight: countryCode ? 600 : 300,
                                            boxShadow: "none",
                                            backgroundColor: "#fff",
                                            maxWidth: 90,
@@ -821,13 +821,13 @@ function AddCustomer({  showMenu, handleClose   }) {
                                          ref={phoneRef}
                                          onChange={handlePhone}
                                          type="text"
-                                         placeholder="9876543210"
+                                         placeholder="Enter Mobile Number"
                                          maxLength={10}
                                          style={{
                                            fontSize: 16,
                                            color: "#4B4B4B",
                                            fontFamily: "Gilroy",
-                                           fontWeight: Phone ? 600 : 500,
+                                           fontWeight: Phone ? 600 : 400,
                                            boxShadow: "none",
                                            borderLeft: "unset",
                                            borderRight: "1px solid #D9D9D9",

@@ -21,6 +21,10 @@ import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
+
+
+    
+
 //  valdation => joing date enale, before booking darte not allowed
 
     const state = useSelector((state) => state);
@@ -42,6 +46,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const [RoomRent, setRoomRent] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
     const [errors, setErrors] = useState('')
+    const [bookingAmount, setBookingAmount] =useState('')
 
     const reasonOptions = [
         { value: "maintenance", label: "Maintenance" },
@@ -147,7 +152,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     };
 
 
-    const handleSaveBookingAdvance = async () => {
+    const handleSaveBooking = async () => {
 
         let hasReasonAmountError = false;
         let newErrors = [];
@@ -248,7 +253,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
         if (
 
             Number(AdvanceAmount) > 0 &&
-            Number(RoomRent) > 0
+            Number(RoomRent) > 0 && state.UsersList?.bookedDetails?.canCheckIn
         ) {
 
 
@@ -300,13 +305,28 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
     };
 
+console.log("state", state.UsersList.bedError)
 
 
 
+useEffect(()=>{
+    if(bookingDetails?.customerId){
+        dispatch({ type:'BOOKEDDETAILS', payload: {hostelId:state.login.selectedHostel_Id , customerId: bookingDetails?.customerId}})
+    }
 
+},[bookingDetails])
 
+useEffect(()=>{
+    if(state.UsersList?.bookedDetails || bookingDetails){
+        const parsedDate = bookingDetails?.expectedJoiningDate
+      ? dayjs(bookingDetails.expectedJoiningDate, "DD/MM/YYYY") 
+      : null;
 
+    setSelectedDate(parsedDate);
+         setBookingAmount(state.UsersList.bookedDetails?.bookingAmount)
+    }
 
+},[state.UsersList?.bookedDetails, bookingDetails])
 
 
     return (
@@ -529,7 +549,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                 <FormControl
                                                     type="text"
                                                     placeholder="Enter Amount"
-                                                    // value={bookingAmount}
+                                                    value={bookingAmount}
 
                                                     style={{
                                                         fontSize: 16,
@@ -623,7 +643,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                         value={selectedDate ? dayjs(selectedDate) : null}
                                                         onChange={(date) => {
                                                             setDateError("");
-                                                            setSelectedDate(date ? date.toDate() : null);
+                                                            setSelectedDate(date);
                                                             setJoingDateErrmsg('')
 
                                                             dispatch(JoininDatecustomer(date ? date.toDate() : null));
@@ -1003,16 +1023,17 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                 </div>
 
-                                {state.createAccount?.networkError ?
+                                {state.UsersList.bedError ?
                                     <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
                                         <MdError style={{ color: "red", marginRight: '5px' }} />
-                                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.UsersList.bedError}</label>
                                     </div>
                                     : null}
 
                                 <Button
                                     className="w-100"
-                                    style={{
+                                    disabled={state.UsersList.bedError}
+                                                                      style={{
                                         backgroundColor: "#1E45E1",
                                         fontWeight: 600,
                                         height: 50,
@@ -1021,7 +1042,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                         fontFamily: "Montserrat",
                                         marginTop: 10,
                                     }}
-                                    onClick={handleSaveBookingAdvance}
+                                    onClick={handleSaveBooking}
                                 >
                                     Assign Bed
                                 </Button>

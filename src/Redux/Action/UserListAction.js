@@ -363,11 +363,33 @@ export async function amenitieAddUser(datum) {
 }
 
 
-// v1
+
 
 export async function availableBedDetails(bednum) {
   return await AxiosConfigV2.get(`/v2/hostel/free-beds/${bednum.hostelId}`)
 }
+
+
+
+export async function bookedDetails(booked) {
+  return await AxiosConfigV2.get(`/v2/bookings/initialize-check-in/${booked.hostelId}/${booked.customerId}`)
+}
+
+
+export async function availableBedDetailsForDate(bednum) {
+  return await AxiosConfigV2.get(
+    `/v2/bed/initialize/${bednum.hostelId}`,
+    {
+      params: {
+        joiningDate: bednum.joiningDate
+      }
+    }
+  );
+}
+
+
+
+
 
 export async function KYCValidate(adhar) {
   return await AxiosConfig.post('/aadhar_verify_otp', adhar, {
