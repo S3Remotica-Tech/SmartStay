@@ -1,18 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
+// import LoaderComponent from "../LoaderComponent";
 import { Table } from "react-bootstrap";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Offcanvas, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
 import searchteam from "../../Assets/Images/New_images/Search Team.png";
 import arrowSwap from "../../Assets/Images/New_images/arrow-swap.svg";
 import Group from "../../Assets/Images/New_images/Group.svg";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import electricity from "../../Assets/Images/New_images/electricity.svg";
 import building from '/src/Assets/Images/New_images/building1.svg';
-import Form from "react-bootstrap/Form";
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
+import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
+import emptyimg from "../../Assets/Images/New_images/empty_image.png";
+import EB_TenantOverview from "./EB_TenantOverview";
+// import ClipPathGroup from "../../Assets/Images/New_images/ClipPathGroup.svg";
 
 
 
@@ -21,11 +25,14 @@ const RoomReadingTable = () => {
 
 
   const [activeTab, setActiveTab] = useState("customer");
+  // const [loading, setLoading] = useState(false);
 
   const data = [
     {
+      name: "Karthick",
       floor: "Ground floor",
       room: "Room 001",
+      bed: "Bed No 01",
       occupants: 3,
       billingMonth: "Aug",
       previous: 100,
@@ -35,8 +42,10 @@ const RoomReadingTable = () => {
       note: "EB reading was already entered for this room.",
     },
     {
+      name: "Arun",
       floor: "Ground floor",
       room: "Room 002",
+      bed: "Bed No 02",
       occupants: 3,
       billingMonth: "Aug",
       previous: 220,
@@ -45,8 +54,10 @@ const RoomReadingTable = () => {
       amount: "₹2,200",
     },
     {
+      name: "Karthi",
       floor: "Ground floor",
       room: "Room 003",
+      bed: "Bed No 03",
       occupants: 2,
       billingMonth: "Aug",
       previous: 270,
@@ -55,8 +66,10 @@ const RoomReadingTable = () => {
       amount: "₹0.00",
     },
     {
+      name: "Anu",
       floor: "Ground floor",
       room: "Room 004",
+      bed: "Bed No 04",
       occupants: 3,
       billingMonth: "Aug",
       previous: 300,
@@ -65,8 +78,10 @@ const RoomReadingTable = () => {
       amount: "₹0.00",
     },
     {
+      name: "Siva",
       floor: "Ground floor",
       room: "Room 005",
+      bed: "Bed No 05",
       occupants: 2,
       billingMonth: "Aug",
       previous: 120,
@@ -75,8 +90,10 @@ const RoomReadingTable = () => {
       amount: "₹0.00",
     },
     {
+      name: "Joe",
       floor: "1st floor",
       room: "Room 101",
+      bed: "Bed No 06",
       occupants: 2,
       billingMonth: "Aug",
       previous: 250,
@@ -85,8 +102,10 @@ const RoomReadingTable = () => {
       amount: "₹0.00",
     },
     {
+      name: "Karthick",
       floor: "1st floor",
       room: "Room 102",
+      bed: "Bed No 07",
       occupants: 3,
       billingMonth: "Aug",
       previous: 234,
@@ -95,8 +114,10 @@ const RoomReadingTable = () => {
       amount: "₹0.00",
     },
     {
+      name: "Kumar",
       floor: "1st floor",
       room: "Room 103",
+      bed: "Bed No 08",
       occupants: 3,
       billingMonth: "Aug",
       previous: 213,
@@ -105,8 +126,10 @@ const RoomReadingTable = () => {
       amount: "₹0.00",
     },
     {
+      name: "Priya",
       floor: "1st floor",
       room: "Room 104",
+      bed: "Bed No 09",
       occupants: 3,
       billingMonth: "Aug",
       previous: 220,
@@ -115,8 +138,10 @@ const RoomReadingTable = () => {
       amount: "₹0.00",
     },
     {
+      name: "Anjali",
       floor: "1st floor",
       room: "Room 105",
+      bed: "Bed No 10",
       occupants: 1,
       billingMonth: "Aug",
       previous: 120,
@@ -130,16 +155,50 @@ const RoomReadingTable = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [roomDetail, setRoomDetail] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const [tenantsDetail, setTenantsDetail] = useState(false);
+  const [selectedTenant, setSelectedTenant] = useState(null);
+  const [filterShow, setFilterShow] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  // const [searchText, setSearchText] = useState("");
+  const [filters, setFilters] = useState([]);
+
+  // const handleKeyPress = (e) => {
+  //   if (e.key === "Enter" && searchText.trim() !== "") {
+  //     if (!filters.includes(searchText.trim())) {
+  //       setFilters([...filters, searchText.trim()]);
+  //     }
+  //     setSearchText("");
+  //     e.preventDefault();
+  //   }
+  // };
+
+  const removeFilter = (item) => {
+    setFilters(filters.filter((f) => f !== item));
+  };
+
+  const handleFilterClose = () => setFilterShow(false);
+  const handleFilterShow = () => setFilterShow(true);
+
 
 
   const handleRoomDetailsPage = (room) => {
     setSelectedRoom(room);
     setRoomDetail(true);
   };
+  const handleTenantsDetailsPage = (tenant) => {
+    setSelectedTenant(tenant);
+    setTenantsDetail(true);
+  };
+
 
   const handleBack = () => {
     setRoomDetail(false);
   };
+  const handleBackTenant = () => {
+    setTenantsDetail(false);
+    setSelectedTenant(null);
+  };
+
 
   const handleActionClick = (row) => {
     setSelectedRow(row);
@@ -153,7 +212,8 @@ const RoomReadingTable = () => {
 
 
     <>
-      {!roomDetail ? (
+      {/* {loading && <LoaderComponent />} */}
+      {!roomDetail && !tenantsDetail ? (
         <div className="container-fluid p-4" style={{ fontFamily: "Gilroy" }}>
           <div className="mb-4">
             <label
@@ -208,92 +268,397 @@ const RoomReadingTable = () => {
                       : "2px solid transparent",
                 }}
               >
-                Tenant Reading
+                Tenants Reading
               </div>
+
+
             </div>
+
             <div className="ms-auto d-flex gap-2 me-2">
               <div className="ms-auto d-flex gap-3 me-2 p-1" style={{ backgroundColor: "white", borderRadius: 5, padding: 6, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)" }}>
                 <img src={searchteam} height="20" width="20" alt="search" />
               </div>
 
-              <div className="ms-auto d-flex gap-3 me-2 p-1" style={{ backgroundColor: "white", borderRadius: 5, padding: 6, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)" }}>
-                <FiFilter size={20} style={{ cursor: "pointer" }} />
+              <div>
+                {/* Filter Button */}
+                <div
+                  className="ms-auto d-flex gap-3 me-2 p-1"
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: 5,
+                    padding: 6,
+                    boxShadow: "0px 2px 2px rgba(0,0,0,0.2)",
+                  }}
+                  onClick={handleFilterShow}
+                >
+                  <FiFilter size={20} style={{ cursor: "pointer" }} />
+                </div>
+
+                {/* Right Side Offcanvas */}
+                <Offcanvas
+                  show={filterShow}
+                  onHide={handleFilterClose}
+                  placement="end"
+                  style={{ width: "320px" }}
+                >
+                  <Offcanvas.Header className="d-flex justify-content-between align-items-center">
+                    <Offcanvas.Title style={{ fontWeight: 600 }}>Filter</Offcanvas.Title>
+                    <CloseCircle
+                      size="26"
+                      color="#000000"
+                      style={{ cursor: "pointer" }}
+                      onClick={handleFilterClose}
+                    />
+                  </Offcanvas.Header>
+
+                  <Offcanvas.Body>
+                    <Form>
+
+                      <Form.Group className="mb-3" style={{ position: "relative" }}>
+                        <Form.Label>Datas</Form.Label>
+                        <Form.Control
+                          as="select"
+                          style={{ appearance: "none", paddingRight: "2.5rem" }}
+                        >
+                          <option>All</option>
+                          <option>Active</option>
+                          <option>Inactive</option>
+                        </Form.Control>
+                        <span
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "65%",
+                            transform: "translateY(-50%)",
+                            pointerEvents: "none",
+                          }}
+                        >
+                          <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                        </span>
+                      </Form.Group>
+
+                      <div>
+                        {/* System Filter Header */}
+                        <Form.Group className="mb-3" style={{ position: "relative", cursor: "pointer" }}>
+                          <Form.Label
+                            className="d-flex justify-content-between align-items-center"
+                            onClick={() => setIsOpen(!isOpen)}
+                          >
+                            System Filter
+                            <span>
+                              {isOpen ? <ArrowUp2 size="20" color="black" /> : <ArrowDown2 size="20" color="black" />}
+                            </span>
+                          </Form.Label>
+                        </Form.Group>
+
+                        {/* Filter Contents - Toggle visibility */}
+                        {isOpen && (
+                          <div className="mb-3">
+                            {/* Month & Year */}
+                            <Form.Group className="mb-3" style={{ position: "relative" }}>
+                              <Form.Label>Month &amp; Year</Form.Label>
+                              <Form.Control
+                                as="select"
+                                style={{ appearance: "none", paddingRight: "2.5rem" }}
+                              >
+                                <option>August</option>
+                                <option>July</option>
+                                <option>June</option>
+                              </Form.Control>
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  right: "10px",
+                                  top: "65%",
+                                  transform: "translateY(-50%)",
+                                  pointerEvents: "none",
+                                }}
+                              >
+                                <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                              </span>
+                            </Form.Group>
+
+                            {/* Custom Date */}
+                            <Form.Group className="mb-3">
+                              <Form.Label>Custom Date</Form.Label>
+                              <div className="d-flex gap-2">
+                                <Form.Control type="date" />
+                                <Form.Control type="date" />
+                              </div>
+                            </Form.Group>
+
+                            {/* Floor */}
+                            <Form.Group className="mb-3" style={{ position: "relative" }}>
+                              <Form.Label>Floor</Form.Label>
+                              <Form.Control
+                                as="select"
+                                style={{ appearance: "none", paddingRight: "2.5rem" }}
+                              >
+                                <option>Ground Floor</option>
+                                <option>First Floor</option>
+                                <option>Second Floor</option>
+                              </Form.Control>
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  right: "10px",
+                                  top: "65%",
+                                  transform: "translateY(-50%)",
+                                  pointerEvents: "none",
+                                }}
+                              >
+                                <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                              </span>
+                            </Form.Group>
+                          </div>
+                        )}
+                      </div>
+
+
+
+
+                      {/* Buttons */}
+                      <div className="d-flex justify-content-between mt-4">
+                        <Button
+                          variant="secondary"
+                          onClick={handleFilterClose}
+                          style={{ minWidth: "100px" }}
+                        >
+                          Reset
+                        </Button>
+                        <Button
+                          variant="primary"
+                          onClick={handleFilterClose}
+                          style={{ minWidth: "100px" }}
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                    </Form>
+                  </Offcanvas.Body>
+                </Offcanvas>
               </div>
+
             </div>
           </div>
+         
+          {filters.length > 0 && (
+            <div className="d-flex flex-wrap gap-2 mt-2">
+              {filters.map((item, index) => {
+                let label = item;
+                let value = "";
+                if (item.includes("is ")) {
+                  const parts = item.split("is ");
+                  label = parts[0] + "is";
+                  value = parts[1];
+                }
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      background: "#F5F7FB",
+                      borderRadius: "16px",
+                      padding: "2px 12px 2px 10px",
+                      fontSize: "12px",
+                      color: "#222",
+                      fontWeight: 500,
+                      border: "1px solid #E3E6ED",
+                      maxWidth: "fit-content",
+                      minHeight: "26px",
+                      gap: "6px"
+                    }}
+                  >
+                    <span style={{ color: "#6C757D", fontWeight: 400, marginRight: "2px", whiteSpace: "nowrap" }}>{label}</span>
+                    {value && (
+                      <span style={{ color: "#222", fontWeight: 700, marginRight: "6px", whiteSpace: "nowrap" }}>{value}</span>
+                    )}
+                    {!value && (
+                      <span style={{ color: "#222", fontWeight: 700, marginRight: "6px", whiteSpace: "nowrap" }}>{item}</span>
+                    )}
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background: "#F5F7FB",
+                        borderRadius: "50%",
+                        width: "18px",
+                        height: "18px",
+                        marginLeft: "2px",
+                        cursor: "pointer"
+                      }}
+                      onClick={() => removeFilter(item)}
+                    >
+                      <CloseCircle size="13" color="#222" />
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
-          <div
-            className="table-responsive"
-            style={{
-              background: "#fff",
-              borderRadius: 12,
-              boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-              maxHeight: "420px",
-              overflowY: "auto",
-            }}
-          >
-            <Table bordered={false} className="align-middle mb-0">
-              <thead
+          {activeTab === "customer" && (
+            data.length === 0 ? (
+              <div style={{ textAlign: "center", marginTop: 40 }}>
+                <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
+                  No Room Reading
+                </div>
+                <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                  There are no Room Reading available.
+                </div>
+              </div>
+            ) : (
+              <div className="table-responsive"
                 style={{
-                  backgroundColor: "rgba(231, 241, 255, 1)",
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 2,
+                  background: "#fff",
+                  borderRadius: 12,
+                  boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
+                  maxHeight: "420px",
+                  overflowY: "auto",
                 }}
               >
-                <tr className="text-uppercase">
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                    FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
-                  </th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                    ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
-                  </th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>OCCUPANTS</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>PREVIOUS</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>CURRENT</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TOTAL UNITS</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>AMOUNT</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>ACTION</th>
-                </tr>
-              </thead>
-              <tbody style={{ fontSize: 14, color: "#000" }}>
-                <PaginationList>
-                  {data.map((row, i) => (
-                    <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                      <td style={{ fontSize: 15, fontWeight: 600 }}>{row.floor}</td>
-                      <td
-                        style={{ color: "#1E45E1", cursor: "pointer", fontWeight: 500 }}
-                        onClick={() => handleRoomDetailsPage(row.room)}
-                      >
-                        {row.room}
-                      </td>
-                      <td style={{ paddingLeft: "40px" }}>{row.occupants}</td>
-                      <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
-                      <td style={{ paddingLeft: "40px" }}>{row.previous}</td>
-                      <td style={{ paddingLeft: "40px" }}>{row.current}</td>
-                      <td style={{ paddingLeft: "40px" }}>{row.units}</td>
-                      <td style={{ paddingLeft: "30px" }}>{row.amount}</td>
-                      <td style={{ paddingLeft: "40px" }}>
-                        <img
-                          src={Group}
-                          alt="action"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleActionClick(row)}
-                        />
-                      </td>
+                <Table bordered={false} className="align-middle mb-0">
+                  <thead
+                    style={{
+                      backgroundColor: "rgba(231, 241, 255, 1)",
+                      position: "sticky",
+                      top: 0,
+                      zIndex: 2,
+                    }}
+                  >
+                    <tr className="text-uppercase">
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                        FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
+                      </th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                        ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
+                      </th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>OCCUPANTS</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>PREVIOUS</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>CURRENT</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TOTAL UNITS</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>AMOUNT</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>ACTION</th>
                     </tr>
-                  ))}
-                </PaginationList>
-              </tbody>
-            </Table>
-          </div>
-        </div>
-      ) : (
-        <EB_RoomOverview room={selectedRoom} onBack={handleBack} />
-      )}
+                  </thead>
+                  <tbody style={{ fontSize: 14, color: "#000" }}>
+                    <PaginationList>
+                      {data.map((row, i) => (
+                        <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+                          <td style={{ fontSize: 15, fontWeight: 600 }}>{row.floor}</td>
+                          <td
+                            style={{ color: "#1E45E1", cursor: "pointer", fontWeight: 600 }}
+                            onClick={() => handleRoomDetailsPage(row.room)}
+                          >
+                            {row.room}
+                          </td>
+                          <td style={{ paddingLeft: "40px" }}>{row.occupants}</td>
+                          <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
+                          <td style={{ paddingLeft: "40px" }}>{row.previous}</td>
+                          <td style={{ paddingLeft: "40px" }}>{row.current}</td>
+                          <td style={{ paddingLeft: "40px" }}>{row.units}</td>
+                          <td style={{ paddingLeft: "30px" }}>{row.amount}</td>
+                          <td style={{ paddingLeft: "40px" }}>
+                            <img
+                              src={Group}
+                              alt="action"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleActionClick(row)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </PaginationList>
+                  </tbody>
+                </Table>
+              </div>
+            )
+          )}
 
-      
+
+
+          {activeTab === "room" && (
+            data.length === 0 ? (
+              <div style={{ textAlign: "center", marginTop: 40 }}>
+                <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
+                  No Transaction
+                </div>
+                <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                  There are no Transaction available.
+                </div>
+              </div>
+            ) : (
+              <div className="table-responsive"
+                style={{
+                  background: "#fff",
+                  borderRadius: 12,
+                  boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
+                  maxHeight: "420px",
+                  overflowY: "auto",
+                }}
+              >
+                <Table bordered={false} className="align-middle mb-0">
+                  <thead
+                    style={{
+                      backgroundColor: "rgba(231, 241, 255, 1)",
+                      position: "sticky",
+                      top: 0,
+                      zIndex: 2,
+                    }}
+                  >
+                    <tr className="text-uppercase">
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>NAME</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BED</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>TOTAL UNITS</th>
+                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>AMOUNT <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+
+                    </tr>
+                  </thead>
+                  <tbody style={{ fontSize: 14, color: "#000" }}>
+                    <PaginationList>
+                      {data.map((row, i) => (
+                        <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+
+                          <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1" }}
+                            onClick={() => handleTenantsDetailsPage(row.tenant)}>
+                            <img src={Ellipse1} alt="" style={{ marginRight: "12px" }} />
+                            {row.name}
+                          </td>
+                          <td style={{ fontWeight: 600, color: "black" }}>{row.floor}</td>
+                          <td style={{ fontWeight: 600, color: "black" }}>{row.room}</td>
+                          <td style={{ fontWeight: 600, color: "black" }}>{row.bed}</td>
+                          <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px" }}>{row.units}</td>
+                          <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px", }}>{row.amount}</td>
+
+                        </tr>
+                      ))}
+                    </PaginationList>
+                  </tbody>
+                </Table>
+              </div>
+            )
+          )}
+
+        </div>
+        // ) : (
+        //   <EB_RoomOverview room={selectedRoom} onBack={handleBack} />
+
+        // )}
+
+      ) : roomDetail ? (
+        <EB_RoomOverview room={selectedRoom} onBack={handleBack} />
+      ) : tenantsDetail ? (
+        <EB_TenantOverview tenant={selectedTenant} onBack={handleBackTenant} />
+      ) : null}
+
+
       {showModal && selectedRow && (
         <Modal show={showModal} onHide={() => setShowModal(false)} centered>
 
