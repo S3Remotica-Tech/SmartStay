@@ -3,11 +3,11 @@ import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ChangeBedModal = () => {
+const ChangeBedModal = ({show, handleClose}) => {
   return (
     <Modal
-    //   show={show}
-    //   onHide={handleClose}
+      show={show}
+      onHide={handleClose}
       centered
       backdrop="static"
       keyboard={false}
@@ -20,10 +20,7 @@ const ChangeBedModal = () => {
           borderRadius: 16,
           boxShadow: '0 8px 32px rgba(30, 69, 225, 0.10)',
           padding: '32px 32px 24px 32px',
-          minWidth: 340,
-          maxWidth: 400,
-          margin: 'auto',
-        }}
+                }}
       >
         <div className="text-center">
           <h5 className="mb-2" style={{ fontWeight: 600, fontSize: 20, color: '#222', fontFamily: 'Gilroy' }}>
@@ -35,7 +32,7 @@ const ChangeBedModal = () => {
           <div className="d-flex justify-content-center gap-3 mb-2">
             <Button
               variant="outline-secondary"
-            //   onClick={handleClose}
+              onClick={handleClose}
               style={{
                 borderRadius: 8,
                 minWidth: 110,
@@ -53,7 +50,7 @@ const ChangeBedModal = () => {
             </Button>
             <Button
               variant="primary"
-            //   onClick={handleChangeBed}
+              // onClick={handleChangeBed}
               style={{
                 borderRadius: 8,
                 minWidth: 110,

@@ -26,6 +26,7 @@ import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmChecko
 // import UserlistForm from '../CustomerFile/UserlistForm';
 import AddCustomerPG from './AddCustomerPG';
 import FinalSettlement from '../CustomerFile/FinalSettlement';
+import ChangeBedModal from '../CustomerFile/ChangeBed';
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -55,19 +56,21 @@ function BedDetailsMap({ room, propsValue }) {
     const [showDeleteBed, setShowDeleteBed] = useState(false)
     const [showBed, setShowBed] = useState(false)
     const [details, setDetails] = useState('')
- const [makeasinactive, setMakeasInactive] = useState(false)  
-const [finalsettlepage,setFinalSettlePage] = useState(false)
+    const [makeasinactive, setMakeasInactive] = useState(false)
+    const [finalsettlepage, setFinalSettlePage] = useState(false)
+    const [OpenChangeBed, setOpenChangeBed] = useState(false)
 
-const handleshowfinalsettlement = (isvisible ,customerId) => {
-   setCustomerId(customerId)
-   
-      setFinalSettlePage(isvisible)
-      setNoticePeriodBed(false)
-  }
- 
-  const handleClosefinalsettelment = ()=>{
-    setFinalSettlePage(false)
-  }
+
+    const handleshowfinalsettlement = (isvisible, customerId) => {
+        setCustomerId(customerId)
+
+        setFinalSettlePage(isvisible)
+        setNoticePeriodBed(false)
+    }
+
+    const handleClosefinalsettelment = () => {
+        setFinalSettlePage(false)
+    }
     const handleShowReservedBed = () => {
         setShowReservedBed(true)
     }
@@ -159,8 +162,8 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     }
 
     const handleCloseAddCustomer = () => {
-         dispatch({ type: "CLEAR_PHONE_ERROR" });
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+        dispatch({ type: "CLEAR_PHONE_ERROR" });
+        dispatch({ type: "CLEAR_EMAIL_ERROR" });
         setAddCustomerForm(false)
         setEmptyBed(false)
 
@@ -169,7 +172,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     const handleShowAssignTenant = (isVisible) => {
         setAssignTenantForm(isVisible)
         setEmptyBed(false)
-        
+
     }
 
     const handleCloseAssignTenant = () => {
@@ -203,11 +206,11 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     }
     const handleclickBed = (bed, room) => {
 
-       dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
         if (bed.isBooked && !bed.isOccupied) {
             setShowReservedBed(true);
-           
+
         }
         else if (!bed.isOccupied) {
             setEmptyBed(true);
@@ -217,22 +220,35 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
         else if (bed.onNotice && bed.isOccupied) {
             setOccubiedBed(false);
             setNoticePeriodBed(true);
-                   }
+        }
         else if (bed.isOccupied) {
             setOccubiedBed(true);
-                   }
+        }
     };
 
 
-    const handleShowInActiveForm = () =>{
+    const handleShowInActiveForm = () => {
         setMakeasInactive(true)
         setShowReservedBed(false);
     }
 
 
 
-    const handleCloseInActive = () =>{
-              setMakeasInactive(false)
+    const handleCloseInActive = () => {
+        setMakeasInactive(false)
+    }
+
+
+
+
+    const handleOpenChangeBed = () => {
+          setNoticePeriodBed(false)
+        setOpenChangeBed(true)
+    }
+
+
+    const handleCloseChangedBed = () => {
+        setOpenChangeBed(false)
     }
 
     useEffect(() => {
@@ -269,7 +285,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
         if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
 
             setShowBed(false)
-                     dispatch({
+            dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
@@ -283,7 +299,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
 
     useEffect(() => {
         if (state.PgList.statusCodeDeleteBed === 200) {
-           dispatch({
+            dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
@@ -305,7 +321,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
             setAssignTenantForm(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
-            },500)
+            }, 500)
         }
 
     }, [state.UsersList.statusCodeForCheckInCustomer])
@@ -314,31 +330,31 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
 
-  useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200) {
-         handleCloseAssignTenant()
-       
-           dispatch({
+    useEffect(() => {
+        if (state?.Booking?.statusCodeForAddBooking === 200) {
+            handleCloseAssignTenant()
+
+            dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
-          setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
-      }, 500);
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+            }, 500);
 
-         }
-  }, [state?.Booking?.statusCodeForAddBooking ])
-
-
+        }
+    }, [state?.Booking?.statusCodeForAddBooking])
 
 
 
-  useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-     handleCloseAddCustomer()
-       
-    }
-  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
+
+
+    useEffect(() => {
+        if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
+            handleCloseAddCustomer()
+
+        }
+    }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
     return (
 
@@ -369,7 +385,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
             {/* {
                 add_customerform && <UserlistForm showMenu={add_customerform} setShowMenu={handleCloseAddCustomer} />
             } */}
-             {
+            {
                 add_customerform && <AddCustomerPG showMenu={add_customerform} handleClose={handleCloseAddCustomer} />
             }
 
@@ -396,13 +412,17 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                 showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
             }
 
-  {
+            {
                 makeasinactive && <MakeAsInactive show={makeasinactive} handleCloseInActive={handleCloseInActive}
-                 inActiveDetails={customer}
+                    inActiveDetails={customer}
                 />
 
             }
 
+
+            {
+                OpenChangeBed && <ChangeBedModal show={OpenChangeBed} handleClose={handleCloseChangedBed} />
+            }
 
 
             {/* Occubied bed Details */}
@@ -423,6 +443,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                 Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer}
                     showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet={handleshowfinalsettlement}
+                    handleOpenChangeBed={handleOpenChangeBed}
                 />}
 
 
@@ -470,11 +491,11 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                 );
             })()}
 
-{
-                  finalsettlepage &&<FinalSettlement show = {finalsettlepage}   handleClose={handleClosefinalsettelment}  
-                   data={customer}
-                   customerID={customerId}/>
-                }
+            {
+                finalsettlepage && <FinalSettlement show={finalsettlepage} handleClose={handleClosefinalsettelment}
+                    data={customer}
+                    customerID={customerId} />
+            }
 
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
                 {Array.isArray(bedsForRoom) && bedsForRoom.length > 0 &&
@@ -522,7 +543,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                                                 position: "absolute",
                                                 top: 1,
                                                 right: -10,
-                                                cursor:  "pointer",
+                                                cursor: "pointer",
                                             }}
 
                                         />
@@ -538,7 +559,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                                                 position: "absolute",
                                                 top: 1,
                                                 right: -10,
-                                                cursor:  "pointer",
+                                                cursor: "pointer",
                                             }}
 
                                         />

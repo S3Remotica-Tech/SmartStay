@@ -25,7 +25,8 @@ function NoticeBedStatusDetails({
   currentItem,
   showBooking,
   showNoticeperiodCheckout,
-  showfinalsettelemnet
+  showfinalsettelemnet,
+  handleOpenChangeBed
 }) {
 
 
@@ -58,7 +59,9 @@ function NoticeBedStatusDetails({
   }
 
 
-
+const handleChangeBed = () =>{
+  handleOpenChangeBed(true)
+}
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setActiveMenu(null);
@@ -497,12 +500,15 @@ function NoticeBedStatusDetails({
                                 }
                               }}
                             >
-                              <img src={AddPlus} alt="booking" />
+                              <img src={AddPlus} alt="booking" style={{
+                                filter: currentItem.isOccupied ? "grayscale(100%) brightness(50%)" : "none",
+                                cursor: currentItem.isOccupied ? "not-allowed" : "pointer",
+                              }} />
                               <label
                                 style={{
                                   fontSize: 14,
                                   fontWeight: 500,
-                                  color: currentItem.isOccupied ? "#dcdcdc" :"#222222",
+                                  color: currentItem.isOccupied ? "#dcdcdc" : "#222222",
                                   marginBottom: 0,
                                   fontFamily: "Gilroy",
                                   cursor: currentItem.isOccupied ? "not-allowed" : "pointer",
@@ -518,7 +524,7 @@ function NoticeBedStatusDetails({
                                   position: "absolute",
                                   top: "-100px",
                                   left: 0,
-                                                                   backgroundColor: "#FFF3F3",
+                                  backgroundColor: "#FFF3F3",
                                   padding: "5px 10px",
                                   borderRadius: "6px",
                                   color: "#222",
@@ -526,17 +532,17 @@ function NoticeBedStatusDetails({
                                   fontFamily: "Gilroy",
                                   fontWeight: 500,
                                   boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
-                                                                zIndex: 100,
+                                  zIndex: 100,
                                 }}
                               >
-                               <img src={Settings} alt="alt" /> Complete the Checkout Process for the Occupied tenant, then the button will appear
+                                <img src={Settings} alt="alt" /> Complete the Checkout Process for the Occupied tenant, then the button will appear
                               </div>
                             </div>
 
 
                             <div
                               className="d-flex gap-2 align-items-center"
-                              // onClick={() => handleCheckout(currentItem)}
+                              onClick={() => handleChangeBed(currentItem)}
 
                               style={{
                                 padding: "10px",
