@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import "../../../Pages/AssetFile/addAsset.css";
 import PropTypes from "prop-types";
 import Profile from '../../../Assets/Images/New_images/profile-picture.png'
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import "../../../Pages/AssetFile/addAsset.css";
@@ -13,7 +13,11 @@ import CalenderTick from "../../../Assets/Images/New_images/calendar-tick.svg";
 import TimerPause from "../../../Assets/Images/New_images/timer-pause.svg";
 import logout from "../../../Assets/Images/New_images/logout.svg";
 import UserlistForm from "../../CustomerFile/UserlistForm";
-
+import AddPlus from "../../../Assets/Images/New_images/add-circle.png";
+import Exchange from "../../../Assets/v2Images/exchange.svg"
+import MakeAsInAcive from "../../../Assets/v2Images/Inactive.svg"
+import Checkouts from '../../../Assets/v2Images/calendar-tick.svg'
+import Settings from '../../../Assets/v2Images/info-circle.svg'
 
 function NoticeBedStatusDetails({
   show,
@@ -31,9 +35,10 @@ function NoticeBedStatusDetails({
   // const [customer, setCustomer] = useState([])
   // const [customerId, setCustomerId] = useState("")
 
-  const [showDots, setShowDots] = useState('')
-  const [activeRoomId, setActiveRoomId] = useState(null);
+
+
   const [recheckin, setRecheckin] = useState(false)
+  const [activeMenu, setActiveMenu] = useState(null);
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
   // const [customer_details, setCustomerDetails] = useState({})
@@ -41,21 +46,22 @@ function NoticeBedStatusDetails({
   const popupRef = useRef(null);
 
 
+  console.log("currentItem", currentItem)
+
+  const isNoticeAndBooked = currentItem?.isBooked && currentItem?.isOccupied && currentItem?.isOnNotice
 
 
+  console.log("isNoticeAndBooked", isNoticeAndBooked)
 
-
-  const handleShowDots = (roomId) => {
-    setShowDots(!showDots)
-    setActiveRoomId(activeRoomId === roomId ? null : roomId);
+  const handleShowDots = (type) => {
+    setActiveMenu((prev) => (prev === type ? null : type));
   }
-
 
 
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setActiveRoomId(null);
+      setActiveMenu(null);
     }
   };
 
@@ -222,122 +228,7 @@ function NoticeBedStatusDetails({
                   </div>
                 </div>
 
-                <div onClick={() => handleShowDots(1)}
-                  style={{
-                    cursor: "pointer",
-                    height: 40,
-                    width: 40,
-                    borderRadius: 100,
-                    border: "1px solid #EFEFEF",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    position: "relative",
-                    zIndex: showDots ? 1000 : "auto",
-                    backgroundColor: "white",
-                  }}>
-                  <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                  {String(activeRoomId) === String(1) && (
-                    <div
-                      ref={popupRef}
-                      className="position-absolute"
-                      style={{
-                        right: 0,
-                        top: 50,
-                        width: 160,
-                        border: "1px solid #EBEBEB",
-                        borderRadius: 10,
-                        backgroundColor: "#f9f9f9",
-                        display: "flex",
-                        flexDirection: "column",
-                        zIndex: 1000,
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                      }}
-                    >
 
-                      <div
-                        className="d-flex gap-2 align-items-center"
-                        onClick={() => handleRecheckInBed()}
-
-
-                        style={{
-                          padding: "10px",
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                          cursor: "pointer"
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                      >
-
-                        <img src={CalenderTick} alt="Re-Assign Bed" />
-                        <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Re-Check-in Bed</label>
-                      </div>
-
-                      <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-
-
-                      <div
-                        className="d-flex gap-2 align-items-center"
-                        onClick={() => handleNewBooking()}
-
-                        style={{
-                          padding: "10px",
-                          borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
-
-                          cursor: "pointer"
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                      >
-                        <img src={TimerPause} alt="booking"></img>
-                        <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>New Booking</label>
-                      </div>
-
-                      <div
-                        className="d-flex gap-2 align-items-center"
-                        onClick={() => handleCheckout(currentItem)}
-
-                        style={{
-                          padding: "10px",
-                          borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
-
-                          cursor: "pointer"
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                      >
-                        <img src={logout} alt="Checkout" />
-                        <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Checkout</label>
-                      </div>
-
-<div
-                        className="d-flex gap-2 align-items-center"
-                        onClick={() => handleFinalsettelmentGenerate(currentItem)}
-                       
-                        style={{
-                          padding: "10px",
-                          borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
- 
-                          cursor: "pointer"
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
-                      >
-                        <img src={logout} alt="Checkout" />
-                        <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Generate</label>
-                      </div>
-
-
-
-
-
-                    </div>
-                  )}
-                </div>
 
               </div>
             </Modal.Header>
@@ -345,21 +236,186 @@ function NoticeBedStatusDetails({
             <Modal.Body style={{ padding: "5px 20px" }}>
               <div className="row mt-1">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <label style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }} className="mt-0 mb-1">Occupied by</label>
 
-                  <div className="d-flex gap-3 align-items-center">
-                    <div>
-                      <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                  <div className="d-flex justify-content-between align-items-center">
+
+                    <label style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }} className="mt-0 mb-1">{isNoticeAndBooked ? 'Currently Occupied by' : ' Occupied by'}</label>
+
+                    <div onClick={() => handleShowDots('occupied')}
+                      style={{
+                        cursor: "pointer",
+                        height: 40,
+                        width: 40,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        position: "relative",
+                        zIndex: activeMenu === 'reserved' ? 1000 : "auto",
+                        backgroundColor: "white",
+                      }}
+
+
+                    >
+                      <PiDotsThreeOutlineFill style={{ height: 20, width: 20 }} />
+                      {activeMenu === 'occupied' && (
+                        <div
+                          ref={popupRef}
+                          className="position-absolute"
+                          style={{
+                            right: 0,
+                            top: 50,
+                            width: 160,
+                            border: "1px solid #EBEBEB",
+                            borderRadius: 10,
+                            backgroundColor: "#f9f9f9",
+                            display: "flex",
+                            flexDirection: "column",
+                            zIndex: 1000,
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                          }}
+                        >
+
+
+
+                          {
+                            isNoticeAndBooked ?
+
+                              <div>
+                                <div
+                                  className="d-flex gap-2 align-items-center"
+                                  // onClick={() => handleCheckout(currentItem)}
+
+                                  style={{
+                                    padding: "10px",
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+
+                                    cursor: "pointer"
+                                  }}
+                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                >
+                                  <img src={Checkouts} alt="Checkout" />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Cancel Checkout</label>
+                                </div>
+
+
+                                <div
+                                  className="d-flex gap-2 align-items-center"
+                                  // onClick={() => handleCheckout(currentItem)}
+
+                                  style={{
+                                    padding: "10px",
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+
+                                    cursor: "pointer"
+                                  }}
+                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                >
+                                  <img src={Checkouts} alt="Checkout" />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Checkout</label>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              </div>
+
+
+
+                              :
+                              <div>
+
+
+                                <div
+                                  className="d-flex gap-2 align-items-center"
+                                  onClick={() => handleRecheckInBed()}
+
+
+                                  style={{
+                                    padding: "10px",
+                                    borderTopLeftRadius: 10,
+                                    borderTopRightRadius: 10,
+                                    cursor: "pointer"
+                                  }}
+                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                >
+
+                                  <img src={CalenderTick} alt="Re-Assign Bed" />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Re-Check-in Bed</label>
+                                </div>
+
+                                <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
+
+
+
+                                <div
+                                  className="d-flex gap-2 align-items-center"
+                                  onClick={() => handleFinalsettelmentGenerate(currentItem)}
+
+                                  style={{
+                                    padding: "10px",
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+
+                                    cursor: "pointer"
+                                  }}
+                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                >
+                                  <img src={logout} alt="Checkout" />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Write off</label>
+                                </div>
+                              </div>
+
+
+                          }
+
+                        </div>
+                      )}
                     </div>
-                    <div className="mt-2">
+
+                  </div>
+
+                  <div className="d-flex gap-3 align-items-center justify-content-between">
+                    <div className="d-flex gap-3 align-items-center">
                       <div>
-                        <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
+                        <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                       </div>
-                      <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {currentItem?.customerMobile
+                      <div className="mt-2">
+                        <div>
+                          <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
+                        </div>
+                        <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {/* {currentItem?.customerMobile
                           ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
-                          : "No phone"}
-                      </label></div>
+                          : "No phone"} */}
+
+                          {currentItem?.customerMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.customerMobile)}` : 'No phone'}
+
+
+                        </label></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <label style={{ fontSize: 16, color: "#000", fontFamily: "Gilroy", fontWeight: 500 }}>₹{5500}</label>
+                      </div>
+                      <div>
+                        <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 400 }}>20 Sep 2025</label>
+                      </div>
                     </div>
                   </div>
 
@@ -370,25 +426,245 @@ function NoticeBedStatusDetails({
 
 
               </div>
+
+              {
+                isNoticeAndBooked &&
+                <div className="row mt-1">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div className="d-flex justify-content-between align-items-center">
+
+                      <label style={{ fontSize: 16, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }} className="mt-0 mb-1">Reserved by</label>
+
+                      <div onClick={() => handleShowDots('reserved')}
+                        style={{
+                          cursor: "pointer",
+                          height: 40,
+                          width: 40,
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          position: "relative",
+                          zIndex: activeMenu === 'reserved' ? 1000 : "auto",
+                          backgroundColor: "white",
+                        }}
+
+
+                      >
+                        <PiDotsThreeOutlineFill style={{ height: 20, width: 20 }} />
+                        {activeMenu === 'reserved' && (
+                          <div
+                            ref={popupRef}
+                            className="position-absolute"
+                            style={{
+                              right: 0,
+                              top: 50,
+                              width: 160,
+                              border: "1px solid #EBEBEB",
+                              borderRadius: 10,
+                              backgroundColor: "#f9f9f9",
+                              display: "flex",
+                              flexDirection: "column",
+                              zIndex: 1000,
+                              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                            }}
+                          >
+
+
+
+
+                            <div
+                              className="d-flex gap-2 align-items-center"
+                              style={{
+                                position: "relative",
+                                padding: "10px",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
+                                cursor: currentItem.isOccupied ? "not-allowed" : "pointer",
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!currentItem.isOccupied) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                else {
+                                  const tooltip = e.currentTarget.querySelector(".tooltip-msg");
+                                  tooltip.style.display = "block";
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                if (!currentItem.isOccupied) e.currentTarget.style.backgroundColor = "transparent";
+                                else {
+                                  const tooltip = e.currentTarget.querySelector(".tooltip-msg");
+                                  tooltip.style.display = "none";
+                                }
+                              }}
+                            >
+                              <img src={AddPlus} alt="booking" />
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  color: currentItem.isOccupied ? "#dcdcdc" :"#222222",
+                                  marginBottom: 0,
+                                  fontFamily: "Gilroy",
+                                  cursor: currentItem.isOccupied ? "not-allowed" : "pointer",
+                                }}
+                              >
+                                Check-In
+                              </label>
+
+                              <div
+                                className="tooltip-msg"
+                                style={{
+                                  display: "none",
+                                  position: "absolute",
+                                  top: "-100px",
+                                  left: 0,
+                                                                   backgroundColor: "#FFF3F3",
+                                  padding: "5px 10px",
+                                  borderRadius: "6px",
+                                  color: "#222",
+                                  fontSize: "12px",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
+                                                                zIndex: 100,
+                                }}
+                              >
+                               <img src={Settings} alt="alt" /> Complete the Checkout Process for the Occupied tenant, then the button will appear
+                              </div>
+                            </div>
+
+
+                            <div
+                              className="d-flex gap-2 align-items-center"
+                              // onClick={() => handleCheckout(currentItem)}
+
+                              style={{
+                                padding: "10px",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
+
+                                cursor: "pointer"
+                              }}
+                              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                            >
+                              <img src={Exchange} alt="Checkout" />
+                              <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Change Bed</label>
+                            </div>
+
+                            <div
+                              className="d-flex gap-2 align-items-center"
+                              // onClick={() => handleFinalsettelmentGenerate(currentItem)}
+
+                              style={{
+                                padding: "10px",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
+
+                                cursor: "pointer"
+                              }}
+                              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                            >
+                              <img src={MakeAsInAcive} alt="Checkout" />
+                              <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Make as Inactive</label>
+                            </div>
+
+
+
+
+
+                          </div>
+                        )}
+                      </div>
+
+                    </div>
+
+                    <div className="d-flex gap-3 align-items-center justify-content-between">
+                      <div className="d-flex gap-3 align-items-center">
+                        <div>
+                          <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                        </div>
+                        <div className="mt-2">
+                          <div>
+                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
+                          </div>
+                          <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
+
+                            {currentItem?.customerMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.customerMobile)}` : 'No phone'}
+
+
+                          </label></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div>
+                          <label style={{ fontSize: 16, color: "#000", fontFamily: "Gilroy", fontWeight: 500 }}>₹{5500}</label>
+                        </div>
+                        <div>
+                          <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 400 }}>25 Sep 2025</label>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+
+                  </div>
+
+
+                </div>
+
+              }
+
+
+
+
+
             </Modal.Body>
             <Modal.Footer style={{ border: "none", padding: 15 }} className="mt-1">
-              <Button
 
-                className="w-100 m-0"
-                style={{
-                  color: "red",
-                  border: "1px solid red",
-                  fontWeight: 600,
-                  borderRadius: 60,
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  padding: 10,
-                  backgroundColor: "#fff"
+              <div className="d-flex w-100 gap-2">
 
-                }}
-              >
-                Notice Period
-              </Button>
+
+                <Button
+
+                  className="w-100 m-0"
+                  style={{
+                    color: "red",
+                    border: "1px solid red",
+                    fontWeight: 600,
+                    borderRadius: 60,
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    padding: 10,
+                    backgroundColor: "#fff"
+
+                  }}
+                >
+                  Notice Period
+                </Button>
+
+                <Button
+
+                  className="w-100 m-0"
+                  style={{
+                    color: "#1E45E1",
+                    border: "1px solid #1E45E1",
+                    fontWeight: 600,
+                    borderRadius: 60,
+                    fontSize: 16,
+                    fontFamily: "Gilroy",
+                    padding: 10,
+                    backgroundColor: "#fff"
+
+                  }}
+                >
+                  Reserved
+                </Button>
+
+              </div>
             </Modal.Footer>
           </Modal.Dialog>
         </Modal>

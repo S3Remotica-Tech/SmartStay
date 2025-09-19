@@ -205,7 +205,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
 
        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
-        if (bed.isBooked) {
+        if (bed.isBooked && !bed.isOccupied) {
             setShowReservedBed(true);
            
         }
