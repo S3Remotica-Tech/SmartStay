@@ -55,8 +55,7 @@ const KeyFeaturesNew = () => {
 
     const el = document.querySelector(`[data-feature="${section}"]`);
     if (el) {
-      console.log("Before animation:", el);
-      el.classList.remove("clicked");
+       el.classList.remove("clicked");
       void el.offsetWidth;
       el.classList.add("clicked");
       setTimeout(() => el.classList.remove("clicked"), 200);

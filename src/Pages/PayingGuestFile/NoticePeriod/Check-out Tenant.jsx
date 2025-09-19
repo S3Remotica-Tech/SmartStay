@@ -20,7 +20,6 @@ import { FaCheck } from "react-icons/fa";
 
 function CheckoutTenant({ show, handleClose, data, customerID }) {
 
-console.log("datadata",customerID)
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -141,17 +140,16 @@ console.log("datadata",customerID)
   //     return item.ID === customerID
    
   //   })
-  //    console.log("userId",userId)
+  //   
 
   // },[])
  useEffect(() => {
   const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
-  console.log("userData", userData); 
+ 
 }, [state.UsersList, customerID]);
   const handleConfirmCheckout = () => {
 
-    console.log("handleConfirmCheckout called");
-    console.log("ReturnAmount:", ReturnAmount, "checkOutDate:", checkOutDate);
+    
     dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
     let hasReasonAmountError = false;
     let newErrors = [];
@@ -255,7 +253,7 @@ console.log("datadata",customerID)
             reasons: formattedReasons,
             payment_id: modeOfPayment,
           };
-          console.log("ADDCONFIRMCHECKOUTCUSTOMER payload:", payload);
+       
           dispatch({
             type: "ADDCONFIRMCHECKOUTCUSTOMER",
             payload,
@@ -273,7 +271,7 @@ console.log("datadata",customerID)
           reason_note: rightOffNote,
           profile: uploadFile,
         };
-        console.log("CONFIRMCHECKOUTDUECUSTOMER payload:", payload);
+     
         dispatch({
           type: "CONFIRMCHECKOUTDUECUSTOMER",
           payload,
@@ -354,7 +352,7 @@ console.log("datadata",customerID)
                     }
             },[customer_details])
       
-            console.log("customer", customer_details);
+      
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -365,7 +363,7 @@ console.log("datadata",customerID)
       const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
         (deduction) => deduction.amount > 0
       );
-      console.log("deduction_details", deduction_details)
+     
 
       const invoiceTotal = Array.isArray(validInvoices)
         ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)

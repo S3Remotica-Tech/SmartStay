@@ -43,8 +43,7 @@ function CheckOut(props) {
   const [checkoutWithoutPay,setCheckoutWithoutPay] =useState("")
 
   const handleCustomerProfilePage = (checkout) => {
-    console.log("checkout", checkout)
-    // props?.handleCheckoutOverview(false)
+        // props?.handleCheckoutOverview(false)
     setCheckoutWithoutPay(checkout)
     setCheckoutProfile(true)
     setcheckoutTableShow(false)
@@ -60,8 +59,7 @@ function CheckOut(props) {
     // props?.handleCheckoutOverview(false)
   }
 
-  console.log("all", state);
-  console.log("CheckoutProfile", CheckoutProfile)
+  
 
 
 

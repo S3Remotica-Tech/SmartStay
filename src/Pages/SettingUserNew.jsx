@@ -91,7 +91,7 @@ function SettingNewUser() {
           }
         }, [state?.login?.selectedHostel_Id]);
 
-        console.log("hostelid" , hostel_Id);
+
         
   
   useEffect(() => {

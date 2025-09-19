@@ -37,52 +37,50 @@ function App() {
   const TwoStepEnable = localStorage.getItem("IsEnable");
 
 
-useEffect(() => {
-  
-  try {
-    if (login) {
-      console.log("executeeeeeeeeeeeeeeee")
-      const decryptedData = CryptoJS.AES.decrypt(login, "abcd");
-      const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
-      const parseData = JSON.parse(decryptedString);
+  useEffect(() => {
 
-      console.log("parseData",parseData)
-const decryptedDataTwoStepEnable = CryptoJS.AES.decrypt(TwoStepEnable, "abcd");
-const decryptedStringTwoStepEnable = decryptedDataTwoStepEnable?.toString(CryptoJS.enc.Utf8);
+    try {
+      if (login) {
 
-// Always parse to boolean safely
-let parseDataTwoStepEnable = false;
-try {
-  parseDataTwoStepEnable = JSON.parse(decryptedStringTwoStepEnable);
-} catch {
-  parseDataTwoStepEnable = decryptedStringTwoStepEnable === "true"; 
-}
+        const decryptedData = CryptoJS.AES.decrypt(login, "abcd");
+        const decryptedString = decryptedData.toString(CryptoJS.enc.Utf8);
+        const parseData = JSON.parse(decryptedString);
 
-console.log("is_Enable", parseDataTwoStepEnable ); // boolean
-console.log("is_Enable", parseData ); 
 
-      if (parseDataTwoStepEnable === true || !parseData) {
-        setData(false);
-      } else if (parseDataTwoStepEnable === false && parseData) {
-        setData(true);
+        const decryptedDataTwoStepEnable = CryptoJS.AES.decrypt(TwoStepEnable, "abcd");
+        const decryptedStringTwoStepEnable = decryptedDataTwoStepEnable?.toString(CryptoJS.enc.Utf8);
+
+        let parseDataTwoStepEnable = false;
+        try {
+          parseDataTwoStepEnable = JSON.parse(decryptedStringTwoStepEnable);
+        } catch {
+          parseDataTwoStepEnable = decryptedStringTwoStepEnable === "true";
+        }
+
+
+
+        if (parseDataTwoStepEnable === true || !parseData) {
+          setData(false);
+        } else if (parseDataTwoStepEnable === false && parseData) {
+          setData(true);
+        }
       }
+    } catch {
+      setData(false);
+    } finally {
+      setLoading(false);
     }
-  } catch {
-    setData(false);
-  } finally {
-    setLoading(false);
-  }
-}, [state.createAccount?.accountList,state.login?.isLoggedIn ,login,TwoStepEnable]);
+  }, [state.createAccount?.accountList, state.login?.isLoggedIn, login, TwoStepEnable]);
 
 
 
-// useEffect(() => {
-//   const token = cookies.get('v2-token');
-//   if (token) {
-//     dispatch({ type: "LOGIN_SUCCESS", payload: { token } });
-//     setData(true); 
-//   }
-// }, []);
+  // useEffect(() => {
+  //   const token = cookies.get('v2-token');
+  //   if (token) {
+  //     dispatch({ type: "LOGIN_SUCCESS", payload: { token } });
+  //     setData(true); 
+  //   }
+  // }, []);
 
 
 
@@ -96,7 +94,7 @@ console.log("is_Enable", parseData );
   //   }
   // }, [tokenAccessDenied]);
 
-  
+
 
 
   // useEffect(() => {
@@ -110,7 +108,7 @@ console.log("is_Enable", parseData );
 
   useEffect(() => {
     if (!state.login?.isLoggedIn && !data) {
-     
+
       dispatch({ type: 'CLEAR_DASHBOARD' })
       dispatch(StoreSelectedHostelAction(""))
       cookies.set('access-denied', null, { path: '/', expires: new Date(0) });

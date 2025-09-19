@@ -210,8 +210,7 @@ setStateName(
     //         statePart,
     //         pincodePart,
     //       ] = parts.slice(1); 
-    //  console.log("streetNumber",_repeatedLandmark)
-    //       setHouseNo(`${streetNumber} ${streetName}`);
+     //       setHouseNo(`${streetNumber} ${streetName}`);
     //       setStreet(areaPart);
     //       setLandmark(landmarkPart);
     //       setCity(cityPart);

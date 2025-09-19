@@ -29,7 +29,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
 
 
     const state = useSelector((state) => state);
-    console.log("useSelector",state)
+   
     const dispatch = useDispatch();
     // const [checked, setChecked] = useState(false);
 
@@ -54,8 +54,6 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
     //    const [refundableDetails,setReFundableDetails] = useState("")
        const [detuction,setDetuction] = useState("")
 
-console.log("ReturnAmount",ReturnAmount)
-console.log("formLoading",formLoading)
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
@@ -68,7 +66,7 @@ console.log("formLoading",formLoading)
       
       setDataBed(userData)
     }, [customerID]);
-    console.log("userData", dataBed); 
+
 
     // const reasonOptions = [
     //     { value: "DueAmount", label: "Due Amount" },
@@ -89,13 +87,13 @@ console.log("formLoading",formLoading)
             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
                 (deduction) => deduction.amount > 0
             );
-            console.log("deduction_details",deduction_details)
+         
 
             const invoiceTotal = Array.isArray(validInvoices)
                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
                 : 0;
 
-console.log("invoiceTotal",invoiceTotal)
+
             // if (Array.isArray(deduction_details) && deduction_details.length > 0) {
             //     const formattedFields = deduction_details.map((item) => ({
             //         reason_name: item.reason || "",
@@ -170,7 +168,7 @@ setHostelData(state?.UsersList?.hostelData)
     }, [fields, advanceAmount])
 
 
-console.log("hostelData",hostelData)
+
 
 
 
@@ -294,7 +292,6 @@ useEffect(() => {
 // const handleTransactionId = (e) => {
 //   const value = e.target.value;
 //   setTransactionId(value);
-//   console.log("setTransactionId", value);
 // };
   
 //    const handleConfirmCheckout = () => {

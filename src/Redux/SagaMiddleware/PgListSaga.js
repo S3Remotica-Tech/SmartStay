@@ -67,9 +67,6 @@ function* handleUpdateBed(datum) {
 function* handleGetAllRooms(action) {
   try {
     const response = yield call(getAllRoom, action.payload);
-
-    console.log("response for get room", response)
-
     if (response.status === 200) {
       yield put({ type: 'GET_ALL_ROOMS', payload: { response: response.data, statusCode: response.status } })
 
@@ -91,7 +88,7 @@ function* handleGetAllBed(action) {
   try {
     const response = yield call(getAllBed, action.payload);
 
-    console.log("response for get bed", response)
+   
 
     if (response.status === 200) {
       yield put({ type: 'GET_ALL_BEDS', payload: { response: response.data, statusCode: response.status } })
@@ -116,7 +113,7 @@ function* handlePgList(datum) {
   try {
     const response = yield call(createPgList, datum.payload);
 
-    console.log("response for create pg", response)
+   
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -562,7 +559,7 @@ function* handleCreateBed(action) {
     }
   }
   catch (error) {
-    console.log("error", error)
+   
 
     if (error.code === 'ERR_BAD_REQUEST') {
       if (error.status === 409) {
@@ -723,7 +720,7 @@ function* handleUpdateFloor(action) {
 function* handleOccupiedCustomer(action) {
   const response = yield call(OccupiedCustomer, action.payload);
 
-  console.log("response", response)
+
 
   if (response.status === 200) {
     yield put({

@@ -84,8 +84,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   }, [editDetails]);
 
-  console.log("role" , editDetails);
-  
+ 
 
 
   const handleNameChange = (e) => {
@@ -325,7 +324,7 @@ const handleSubmit = () => {
 };
 
 
-  console.log("userid" , user_Id);
+
   
   
 

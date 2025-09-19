@@ -329,7 +329,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
          }
   }, [state?.Booking?.statusCodeForAddBooking ])
 
-console.log("state",state)
+
 
 
 

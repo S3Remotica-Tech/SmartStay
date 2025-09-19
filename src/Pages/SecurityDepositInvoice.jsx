@@ -87,7 +87,7 @@ const SecurityDepositInvoiceTemplate = ({  BillsTemplateList }) => {
   });
 
 const [edit, setEdit] = useState(false);
-console.log("state",state)
+
  const handleCloseForm = () => {
     setBankAccountForm(false);
     setEdit(false);
@@ -98,7 +98,7 @@ console.log("state",state)
     setAllowImageUpload(false);
   };
 
-console.log("BillsTemplateList",BillsTemplateList)
+
 
   const handleCloseContactNumberForm = () => {
     setContactNumberForm(false);
@@ -315,7 +315,7 @@ console.log("BillsTemplateList",BillsTemplateList)
 
 
 
-console.log("banking",banking)
+
 
   const handleFileSignatureChange = (e) => {
     const file = e.target.files[0];
@@ -684,7 +684,7 @@ const oldTemplate = {
   );
 
 
-  console.log("securityDepositInvoiceTemplate", securityDepositInvoiceTemplate)
+
 
 
 

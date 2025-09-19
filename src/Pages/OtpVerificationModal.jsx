@@ -48,7 +48,7 @@ const OtpVerificationModal = ({ show, handleClose, Email_Id }) => {
       setFormLoading(false)
       dispatch({ type: 'LOGIN-SUCCESS' })
       const token = state.login?.JWTtokenV2
-                  console.log("version2 token", token)
+                
                   const cookies = new Cookies()
              cookies.set('v2-token', token, { path: '/' });
       setTimeout(() => {

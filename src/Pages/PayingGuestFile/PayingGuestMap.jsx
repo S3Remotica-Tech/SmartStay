@@ -31,7 +31,7 @@ function PayingGuestMap(props) {
   };
 
   const handleSelectedHostel = (selectedHostel) => {
-    console.log("selectedHostel",selectedHostel)
+  
     props.OnSelectHostel(selectedHostel);
     props.onRowVisiblity(false);
   };
@@ -116,7 +116,7 @@ function PayingGuestMap(props) {
   };
 
 
-  console.log('props', props)
+ 
 
 
 

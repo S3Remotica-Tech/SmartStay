@@ -32,7 +32,7 @@ function PayingHostel(props) {
   };
 
   const handleSelectedHostel = (selectedHostel) => {
-    console.log("selectedHostel", selectedHostel)
+
     props.OnSelectHostel(selectedHostel);
     props.onRowVisiblity(false);
   };

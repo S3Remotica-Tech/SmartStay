@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 function* handleAddBooking(action) {
    try{
     const response = yield call (AddBooking, action.payload);
-console.log("response booking",response)   
+  
 
     var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -56,7 +56,7 @@ console.log("response booking",response)
     }
      }
      catch (error) {
-          console.log("error*****", error)
+          
     
           if (error.code === 'ERR_BAD_REQUEST') {
              if (error.status === 400) {

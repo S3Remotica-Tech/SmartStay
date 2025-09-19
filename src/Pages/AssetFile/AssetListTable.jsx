@@ -97,7 +97,7 @@ const state = useSelector(state => state)
   const [deleteAsset_Id, setDeleteAsset_Id] = useState('')
 
   const handleShowDeleteAsset = (item) => {
-    console.log("del",item)
+
     setShowDeleteAsset(true)
     setDeleteAsset_Id(item.assetId)
   }

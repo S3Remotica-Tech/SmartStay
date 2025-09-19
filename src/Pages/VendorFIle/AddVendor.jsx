@@ -61,7 +61,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const countryRef = useRef(null);
 
 
-  console.log("currentItem", currentItem)
+  
 
 
   const indianStates = [
@@ -211,7 +211,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
-    console.log("fileImage",fileImage)
+  
 
     if (fileImage) {
        setFile(fileImage);
@@ -527,7 +527,7 @@ function AddVendor({ show, setShow, currentItem }) {
   };
 
 
-  console.log("file",file)
+
 
 
   useEffect(() => {

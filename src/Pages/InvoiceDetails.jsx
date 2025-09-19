@@ -77,7 +77,6 @@ function InvoiceDetail(props) {
     // const filteredDataForUserInvoice = state.UsersList.billPaymentHistory.filter(item => item.Phone === sendInvoiceDetail.phoneNo);
     // // const filteredDataForUserInvoice = state.UsersList.billPaymentHistory.filter((item => item.Phone === sendInvoiceDetail.phoneNo))
 
-    // console.log("filteredDataForUserInvoice", filteredDataForUserInvoice)
     function formatDate(dateString) {
         const date = new Date(dateString);
         const day = date.getDate();

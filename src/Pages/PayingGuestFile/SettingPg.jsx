@@ -35,7 +35,7 @@ import CheckoutTenant from './NoticePeriod/Check-out Tenant';
 
 
 function SettingParticular(props) {
-  console.log("Setting PG props",props)
+ 
 
 
   const dispatch = useDispatch();
@@ -84,9 +84,7 @@ function SettingParticular(props) {
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
 
-console.log("roomList",roomList)
 
-console.log("state",state)
 
   const handleAddBed = (item, Room_Id) => {
     setShowBed(true)
@@ -166,7 +164,7 @@ console.log("state",state)
 
 
   const handleclickBed = (bed, room) => {
-    console.log("bed", bed);
+   
 
     if (bed.isbooked === 1) {
       setShowReservedBed(true);
@@ -252,7 +250,7 @@ console.log("state",state)
   const handleShowReAssignBedPopup = (isVisible, customer_id) => {
     setOccubiedBed(false)
     setShowReAssignBedForm(isVisible)
-    console.log("customer_id", customer_id)
+ 
     setCustomerId(customer_id)
 
   }
@@ -265,7 +263,7 @@ console.log("state",state)
   const handleShowNoticePeriod = (isVisible, customer) => {
     setOccubiedBed(false)
     setMoveToNoticePeriodForm(isVisible)
-    console.log("customer", customer)
+  
     setCustomerDetails(customer)
 
   }

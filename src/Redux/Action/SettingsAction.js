@@ -156,7 +156,7 @@ export async function AddSettingPermission(datum) {
 // v2
 
 export async function editRolePermission(role) {
-  console.log("role edit ", role)
+ 
   return await AxiosConfigV2.put(`/v2/role/${role.id}`, role, {
     data: role,
   });
@@ -196,7 +196,7 @@ export async function deleteRolePermission(datum) {
 // }
 
 export async function addStaffUser(hostelId, datum) {
-  console.log("action", hostelId, datum);
+
 
   return await AxiosConfigV2.post(`/v2/profile/add-user/${hostelId}`, datum, {
     headers: {
@@ -392,7 +392,7 @@ export async function AddGeneral(params) {
 // Editgeneral v2
 
 export async function EditGeneral(params) {
-  console.log("response", params); // should log { adminId, payload: {...}, profilePic? }
+ 
 
   const formData = new FormData();
   formData.append(
@@ -401,7 +401,7 @@ export async function EditGeneral(params) {
   );
 
   if (params.profilePic) {
-    formData.append("profilePic", params.profilePic); // only File/Blob
+    formData.append("profilePic", params.profilePic); 
   }
 
   const response = await AxiosConfigV2.put(
@@ -595,9 +595,7 @@ export async function AddBillTemplate(params) {
         "Content-Type": "multipart/form-data",
       },
       timeout: 100000000,
-      onUploadProgress: (event) => {
-        console.log("Upload progress:", event);
-      }
+     
     });
 
     return response.data;
@@ -676,9 +674,6 @@ export async function getTemplateList(hostelId) {
 
 
 export async function AddGlobalSettingTemplate(params) {
-
-  console.log("params", params)
-
   try {
     const formData = new FormData();
 

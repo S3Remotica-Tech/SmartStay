@@ -65,7 +65,7 @@ function PgList() {
   const [showAddPg, setShowAddPg] = useState(false);
   const [floorList, setFloorList] = useState([])
 
-console.log("floorClick",floorClick)
+
 
 
   const [showFloor, setShowFloor] = useState(false);
@@ -259,7 +259,7 @@ useEffect(() => {
           (_, index) => index >= newRange[0] && index <= newRange[1]
         );
 
-        console.log("firstVisibleFloor", firstVisibleFloor);
+
 
         if (firstVisibleFloor) {
           setFloorClick(firstVisibleFloor.id);

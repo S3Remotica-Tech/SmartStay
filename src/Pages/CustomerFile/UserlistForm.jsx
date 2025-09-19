@@ -382,31 +382,7 @@ function UserlistForm(props) {
   
     }, [Rooms, selectedDate,  state.UsersList?.availableBedList?.listBeds])
 
-  //   const handleBed = (selectedOption) => {
-  // console.log("selectedOption",selectedOption)
-
-  //     const selectedBedId = selectedOption?.value || "";
-  //     setBed(selectedBedId);
-
-  //     // const Bedfilter = state?.UsersList?.roomdetails?.filter(
-  //     //   (u) =>
-  //     //     String(u.Hostel_Id) === String(hostel_Id) &&
-  //     //     String(u.Floor_Id) === String(Floor) &&
-  //     //     String(u.Room_Id) === String(Rooms)
-  //     // );
-
-  //     // const Roomamountfilter =
-  //     //   Bedfilter?.[0]?.bed_details?.filter(
-  //     //     (amount) => String(amount.id) === String(selectedBedId)
-  //     //   ) ?? [];
-
-  //     // if (Roomamountfilter.length > 0) {
-  //     //   setRoomRent(Roomamountfilter[0]?.bed_amount);
-  //     // }
-
-  //     setBedError("");
-  //     setRoomRentError("");
-  //   };
+ 
 
 
   const handleBed = (selectedOption) => {
@@ -415,7 +391,7 @@ function UserlistForm(props) {
     const selectedBedId = selectedOption?.value || "";
     setBed(selectedBedId);
 
-    const selectedBed = state.UsersList?.bednumberdetails?.find(
+    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
       (bed) => String(bed.bedId) === String(selectedBedId)
     );
 
@@ -554,7 +530,6 @@ function UserlistForm(props) {
     }
   }
 
-  console.log("props", props)
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.customerId) {
@@ -782,7 +757,7 @@ function UserlistForm(props) {
   };
 
 
-  console.log("state", state)
+  
 
 
   useEffect(() => {
@@ -961,7 +936,7 @@ function UserlistForm(props) {
   const [bookingBedId, setBookingBedId] = useState("")
 
 
-  console.log("state", state)
+ 
 
   // const bookingDateRef = useRef("");
 
@@ -1415,7 +1390,7 @@ function UserlistForm(props) {
 
   const handleSaveBacktoCheckin = () => {
     setRecheckinDateError("");
-    console.log("recheckInDate value on submit:", recheckInDate);
+ 
     if (!reason) {
       setReasonError("Please Enter Reason");
       reasonRef.current?.focus();

@@ -265,7 +265,6 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
 
 
   const handleSaveTemplate = () => {
-console.log("RentalreceiptTemplate",RentalreceiptTemplate)
     const currentData = {
       contact_number: mobilenum,
       email: email,
@@ -394,8 +393,7 @@ useEffect(() => {
   );
 
 
-  console.log("RentalreceiptTemplate", RentalreceiptTemplate)
-console.log("state",state)
+ 
 
   useEffect(() => {
     if (RentalreceiptTemplate) {
@@ -432,8 +430,7 @@ console.log("state",state)
   }, [RentalreceiptTemplate])
 
 
- 
-console.log("state",state)
+
 
 
 

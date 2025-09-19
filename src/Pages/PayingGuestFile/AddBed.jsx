@@ -49,7 +49,7 @@ function AddBed({ show, setShowBed, currentItem }) {
   }, [state.PgList.createBedStatusCode]);
 
 
-console.log("currentItem ",currentItem )
+
 
 
 const handleBedNoChange = (e) => {

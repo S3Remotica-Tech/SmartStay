@@ -184,7 +184,7 @@ const InvoicePage = () => {
   };
 
 
-  console.log("date" , room_name , bed_name);
+
   
 
   useEffect(() => {
@@ -609,9 +609,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     return date.toISOString().split("T")[0];
   };
 
-  //  console.log("invoiceList",invoiceList)
-  //  console.log("invoiceList",invoiceList.payableAmount)
-  console.log("invoiceList", invoiceList.balanceDue)
+ 
   const [payableAmount, setPayableAmount] = useState("");
   const [balance, setBalance] = useState(0);
 
@@ -656,7 +654,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     dispatch({ type: 'CLEAR_PAYABLE_AMOUNT' })
   };
 
-  console.log("balance", balance)
+
   // const handleAmount = (e) => {
   //   const inputValue = e.target.value.trim();
 
@@ -2020,7 +2018,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
     }
 
   };
-  console.log("rowData",rowData)
+
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
       setTimeout(() => {

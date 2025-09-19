@@ -29,7 +29,7 @@ function StaticExample({
 
 
 
-console.log("editFloor",editFloor)
+
 
 
 

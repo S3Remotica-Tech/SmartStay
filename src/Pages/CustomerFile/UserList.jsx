@@ -146,7 +146,7 @@ function UserList(props) {
   const [add_bookingshow, setAddBookingsShow] = useState(false)
   const [formLoading, setFormLoading] = useState(false)
 
-  console.log("id", id)
+
 
 
 
@@ -1320,14 +1320,13 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
-    console.log('handleShowDots', id)
+   
     if (activeRow === id) {
       setActiveRow(null);
     } else {
       setActiveRow(id);
     }
-    console.log("handleShowDots", activeRow)
-    setSearch(false);
+      setSearch(false);
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + height / 2;
@@ -1433,7 +1432,7 @@ function UserList(props) {
 
 
 
-  console.log("sortedData", sortedData)
+ 
 
 
 
@@ -1512,7 +1511,7 @@ function UserList(props) {
   const [userDatafull, setUserData] = useState("")
 
   const handleRoomDetailsPage = (userData) => {
-    console.log("customerData", userData)
+ 
     setHostelIds(userData.Hostel_Id);
     setUserData(userData)
     setId(userData.customerId);
@@ -2214,7 +2213,7 @@ function UserList(props) {
 
   }, [state.createAccount?.networkError])
 
-  console.log("props", props);
+
 
 
   // const [bookingDate, setBookingDate] = useState(null);
@@ -2313,7 +2312,7 @@ function UserList(props) {
 
 
   const handleBacktoCheckout = (item) => {
-    console.log("handleBacktoCheckout", item)
+   
     handleMenuClick();
     setShowMenu(false);
     setBookingAssignForm(false)
@@ -2366,7 +2365,6 @@ function UserList(props) {
   }, [state.UsersList.statusCodegetConfirmCheckout, CheckOutDetails]);
 
 
-  console.log("add_bookingshow", add_bookingshow, "showbookingForm", showbookingForm)
 
 
   const handleCheckoutGenrate = (item) => {

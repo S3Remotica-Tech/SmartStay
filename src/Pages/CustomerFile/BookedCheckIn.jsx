@@ -38,7 +38,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const calendarRef = useRef(null);
     const [dateError, setDateError] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
-    console.log("bookingDetails", bookingDetails)
+
     const [fields, setFields] = useState([]);
     const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
     const [AdvanceAmount, setAdvanceAmount] = useState("");
@@ -305,7 +305,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
     };
 
-console.log("state", state.UsersList.bedError)
+
 
 
 

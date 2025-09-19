@@ -56,7 +56,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
   const cardRef = useRef(null);
-  console.log("rowData",rowData)
+
 
   useEffect(() => {
 
@@ -201,7 +201,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
     }
   };
 
-  console.log("receiptDataNew", receiptDataNew);
+
   
 
   return (

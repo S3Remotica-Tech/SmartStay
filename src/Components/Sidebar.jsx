@@ -173,7 +173,7 @@ function Sidebar() {
   ]);
 
 
-console.log("state",state)
+
 
   useEffect(() => {
     if (state.UsersList.hosteListStatusCode === 200) {

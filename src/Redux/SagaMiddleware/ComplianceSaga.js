@@ -11,7 +11,7 @@ function* handleUpdateVendor(action) {
    try {
       const response = yield call(updateVendor, action.payload);
 
-console.log("response UPDATE",response)
+
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -121,7 +121,7 @@ function* handleComplianceadd(params) {
    try {
 
       const response = yield call(Compliancedetails, params.payload);
-      console.log("errorstatus" , response);
+      
       
 
       if (response.status === 201 || response.data.statusCode === 201) {
@@ -163,7 +163,7 @@ function* handleComplianceadd(params) {
       }
    }
    catch (error) {
-        console.log("errorstatus" , error);
+      
          if (error.code === 'ERR_BAD_REQUEST') {
             yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
          } else {
@@ -213,7 +213,7 @@ function* handleEditComplaint(action) {
       }
   } 
     catch (error) {
-        console.log("errorstatus" , error);
+     
          if (error.code === 'ERR_BAD_REQUEST') {
             yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
          } else {
@@ -226,7 +226,7 @@ function* handleEditComplaint(action) {
 function* handleVendorGet(action) {
    const response = yield call(VendorList, action.payload);
 
-   console.log("response",response)
+   
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'VENDOR_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -244,7 +244,7 @@ function* handleAddVendor(action) {
    try {
       const response = yield call(addVendor, action.payload);
 
-console.log("response",response)
+
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",

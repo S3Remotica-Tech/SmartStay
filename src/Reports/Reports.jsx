@@ -48,7 +48,6 @@ function Reports() {
   // }, [state.createAccount?.accountList]);
 
   // useEffect(() => {
-  //   console.log("===reportrolePermission[0]", reportrolePermission);
   //   if (
   //     reportrolePermission[0]?.is_owner == 1 ||
   //     reportrolePermission[0]?.role_permissions[15]?.per_view == 1
@@ -62,7 +61,7 @@ function Reports() {
 
 
   // useEffect(() => {
-  //   console.log("===reportrolePermission[0]", reportrolePermission);
+ 
   //   if (
   //     reportrolePermission[0]?.is_owner == 1 ||
   //     reportrolePermission[0]?.role_permissions[15]?.per_create == 1
@@ -75,7 +74,7 @@ function Reports() {
 
 
   // useEffect(() => {
-  //   console.log("===reportrolePermission[0]", reportrolePermission);
+ 
   //   if (
   //     reportrolePermission[0]?.is_owner == 1 ||
   //     reportrolePermission[0]?.role_permissions[15]?.per_delete == 1
@@ -86,7 +85,7 @@ function Reports() {
   //   }
   // }, [reportrolePermission]);
   // useEffect(() => {
-  //   console.log("===reportrolePermission[0]", reportrolePermission);
+
   //   if (
   //     reportrolePermission[0]?.is_owner == 1 ||
   //     reportrolePermission[0]?.role_permissions[15]?.per_edit == 1

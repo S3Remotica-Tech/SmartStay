@@ -827,7 +827,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                            fontSize: 16,
                                            color: "#4B4B4B",
                                            fontFamily: "Gilroy",
-                                           fontWeight: Phone ? 600 : 400,
+                                           fontWeight: 500,
                                            boxShadow: "none",
                                            borderLeft: "unset",
                                            borderRight: "1px solid #D9D9D9",

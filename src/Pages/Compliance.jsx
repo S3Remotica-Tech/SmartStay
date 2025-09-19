@@ -315,7 +315,7 @@ setFilteredUsers(filteredItems);
 
   }, [state.ComplianceList.statusCodeForAddCompliance, filterInput])
 
-  console.log("filter" , state.ComplianceList?.Compliance);
+
   
 
 
@@ -533,7 +533,7 @@ setFilteredUsers(filteredItems);
         
 
         const firstFilteredDetail = filteredDetails[0];
-      console.log("filterdetails" ,firstFilteredDetail);
+  
 
        
         // setHostel_Id(firstFilteredDetail.Hostel_Id || '');
@@ -639,7 +639,7 @@ setFilteredUsers(filteredItems);
 
 
 
-  console.log("selectedUsername" ,selectedUsername);
+
   
 
   const handleAddcomplaint = () => {
@@ -673,12 +673,11 @@ setFilteredUsers(filteredItems);
 
     // setEdit(false)
 
-    console.log("validation" ,userid ,Complainttype ,state.login.selectedHostel_Id ,    );
+  
     
 
     if ( state.login.selectedHostel_Id  && userid && Complainttype && selectedDate  && Floor && Rooms) {
       // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
-      // console.log("date" , formattedDate);
       const formattedDate =  selectedDate ? selectedDate.format("DD/MM/YYYY") : null
       
          const payload = {
@@ -742,7 +741,7 @@ setFilteredUsers(filteredItems);
   
 
     if (Complaintdata) {
-      console.log("complaintdata" ,Complaintdata );
+    
         dispatch({type:"PARTICULAR_COMPLIANT" , payload:{ complaintId : Complaintdata.complaintId}})
 
       setShow(true);
@@ -779,7 +778,7 @@ setFilteredUsers(filteredItems);
     }
   }
 
-  console.log("selectedDate" , selectedDate);
+
   
 
    const [EditComplaintDetails  , setEditComplaintDetails] = useState({})
@@ -822,7 +821,7 @@ setFilteredUsers(filteredItems);
 
   // } , [edit , EditComplaintDetails])
 
-  console.log("editdetails" ,state.ComplianceList.ParticularComplaint ,  EditComplaintDetails);
+
   
 
 
@@ -833,7 +832,6 @@ setFilteredUsers(filteredItems);
     // Status !== initialValuesRef.current.Status ||
     new Date(selectedDate).getTime() !== new Date(initialValuesRef.current.selectedDate).getTime();
 
-    console.log("haschanges" , hasChanges);
     
 
 
@@ -917,7 +915,7 @@ setFilteredUsers(filteredItems);
     }
 
   }, [state.createAccount?.networkError])
-console.log("users" , complainttypelist);
+
 
 
   return (

@@ -189,7 +189,7 @@ function Banking() {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-  console.log("banklist" , state.bankingDetails?.bankingList);
+  
   
 
 

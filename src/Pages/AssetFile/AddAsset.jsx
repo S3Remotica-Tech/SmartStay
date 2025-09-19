@@ -136,7 +136,7 @@ function StaticExample({ show, setShow, currentItem }) {
   }, []);
 
 
-  console.log("selectedDate", selectedDate)
+
 
   useEffect(() => {
     if (currentItem) {

@@ -17,7 +17,7 @@ function DeleteFloor({ show, handleClose, currentItem }) {
   const dispatch = useDispatch();
 
 
-console.log("currentItem",currentItem)
+
 
 
   const handleDelete = () => {
