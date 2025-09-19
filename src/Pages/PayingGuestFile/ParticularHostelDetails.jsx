@@ -457,7 +457,7 @@ function ParticularHostelDetails(props) {
         </div>
 
 
-        {roomList.length > 0 && <>
+        {roomList.length > 0 &&  !state.login.isTrigger && <>
           <div className='row mt-4 ms-2'>
             <div>
               <label

@@ -1,22 +1,22 @@
+
 import PropTypes from "prop-types";
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, } from "react-bootstrap";
 import { FiRepeat } from "react-icons/fi";
-// import building from "../../../Assets/Images/New_images/building.svg";
 import building from '/src/Assets/Images/New_images/building1.svg';
 import Frame from "/src/Assets/Images/New_images/Frame.svg";
 import Group from "/src/Assets/Images/New_images/Group.png";
 import repeatOne from "/src/Assets/Images/New_images/repeate-one.svg";
 
 
-function ConfirmChangeBed({ show, handleClose }) {
+function ConfirmChangeBed({ show, handleClose , reserved_customer  , selectedBedDetails , floorName}) {
 ConfirmChangeBed.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
   const [date, setDate] = useState("2025-07-31");
-  const [rent, setRent] = useState("₹ 6000");
+
 
   return (
 
@@ -69,7 +69,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="building"
                   />
-                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>Ground Floor</span>
+                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{reserved_customer.Booking_FloorName} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -79,7 +79,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '24px', height: '24px', verticalAlign: 'middle' }}
                     alt="Frame"
                   />
-                  <span style={{ position: 'relative', top: '2px' }}>Room G2</span>
+                  <span style={{ position: 'relative', top: '2px' }}>Room {reserved_customer.Booking_Rooms} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -89,7 +89,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="Group"
                   />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed D6</span>
+                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {reserved_customer.Booking_Bed} </span>
                 </p>
 
               </div>
@@ -122,7 +122,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="building"
                   />
-                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>Second Floor</span>
+                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{floorName? floorName : "-"} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -132,7 +132,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '24px', height: '24px', verticalAlign: 'middle' }}
                     alt="Frame"
                   />
-                  <span style={{ position: 'relative', top: '2px' }}>Room S2</span>
+                  <span style={{ position: 'relative', top: '2px' }}>Room {selectedBedDetails.roomName} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -142,7 +142,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="Group"
                   />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed 08</span>
+                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {selectedBedDetails.bedNo} </span>
                 </p>
               </div>
             </div>
@@ -151,32 +151,16 @@ ConfirmChangeBed.propTypes = {
             <div className="d-flex gap-3 mb-3 align-items-end" style={{ fontSize: 13 }}>
 
               <div className="flex-fill" style={{ minWidth: 160 }}>
-                <Form.Label style={{ fontSize: 13, marginBottom: 4 }}>Date</Form.Label>
+                <Form.Label style={{ marginBottom: 4 , fontSize: 14, fontFamily: "Gilroy" }}>Date</Form.Label>
                 <Form.Control
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  style={{ fontSize: 13, height: 40 }}
+                  style={{ fontSize: 13, height: 40 , fontSize: 14, fontFamily: "Gilroy" }}
                 />
               </div>
 
-              <div className="flex-fill" style={{ minWidth: 160 }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Form.Label style={{ fontSize: 13, marginBottom: 4 }}>New Rent Amount</Form.Label>
-                  <Form.Check
-                    type="checkbox"
-                    label="Same as Current"
-                    className="ms-2 d-inline-block"
-                    style={{ fontSize: 12, marginBottom: 0 }}
-                  />
-                </div>
-                <Form.Control
-                  type="text"
-                  value={rent}
-                  onChange={(e) => setRent(e.target.value)}
-                  style={{ fontSize: 13, height: 40 }}
-                />
-              </div>
+             
             </div>
 
 
@@ -186,7 +170,7 @@ ConfirmChangeBed.propTypes = {
               <Button
                 variant="light"
                 className="px-4"
-                style={{ border: "1px solid #ddd", width: "260px", backgroundColor: "white" }}
+                style={{ border: "1px solid #ddd", width: "260px", backgroundColor: "white", fontSize: 16, fontFamily: "Gilroy"  }}
                 onClick={handleClose}
               >
                 Cancel
@@ -198,7 +182,7 @@ ConfirmChangeBed.propTypes = {
                 style={{
                   backgroundColor: "#0056FF",
                   borderRadius: "8px",
-                  width: "260px"
+                  width: "260px" ,fontSize: 16, fontFamily: "Gilroy" 
                 }}
               >
                 <img src={repeatOne} alt="icon" className="me-2" />

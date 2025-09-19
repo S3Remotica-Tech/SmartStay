@@ -28,7 +28,9 @@
     statusCodeForV2Login:0,
     JWTtokenV2: '',
     isOtpRequired: false,
-    userId: ''
+    userId: '',
+    isTrigger: false,
+
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -48,6 +50,8 @@ const SmartStayReducer = (state = initialState, action) => {
         joiningDate: action.payload,
       };
 
+      case 'TRIGGER_PG':
+         return{...state, isTrigger: action.payload}
       case "STORE_HOSTEL_DATA":
          return { ...state, selectedHostel_Id: action.payload };
       case "CLEAR_HOSTEL_DATA":

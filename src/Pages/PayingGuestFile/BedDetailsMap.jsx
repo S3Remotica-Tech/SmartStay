@@ -26,14 +26,22 @@ import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmChecko
 // import UserlistForm from '../CustomerFile/UserlistForm';
 import AddCustomerPG from './AddCustomerPG';
 import FinalSettlement from '../CustomerFile/FinalSettlement';
-import ChangeBedModal from '../CustomerFile/ChangeBed';
+// import ChangeBedModal from '../CustomerFile/ChangeBed';
+// import ChangeBedPgView from './NoticePeriod/ChangeBedPgView';
+import { triggerPG } from '../../Redux/Action/smartStayAction';
+import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Tick from '../../Assets/v2Images/Tick.svg'
 
 function BedDetailsMap({ room, propsValue }) {
 
 
+    console.log("room", room)
+
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     // const [bedList, setBedList] = useState([])
+    const navigate = useNavigate();
     const [emptybed, setEmptyBed] = useState(false)
     const [showReservedBed, setShowReservedBed] = useState(false)
     const [occupiedCustomer, setOccupiedCustomer] = useState(false)
@@ -59,7 +67,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [makeasinactive, setMakeasInactive] = useState(false)
     const [finalsettlepage, setFinalSettlePage] = useState(false)
     const [OpenChangeBed, setOpenChangeBed] = useState(false)
-
+    const [clickedBed, setClickedBed] = useState('')
 
     const handleshowfinalsettlement = (isvisible, customerId) => {
         setCustomerId(customerId)
@@ -205,25 +213,28 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
+        setClickedBed(bed)
+        if (!state.login.isTrigger) {
+            dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
-        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+            if (bed.isBooked && !bed.isOccupied) {
+                setShowReservedBed(true);
 
-        if (bed.isBooked && !bed.isOccupied) {
-            setShowReservedBed(true);
+            }
+            else if (!bed.isOccupied) {
+                setEmptyBed(true);
+                setDeleteBedDetails({ bed, room });
 
+            }
+            else if (bed.onNotice && bed.isOccupied) {
+                setOccubiedBed(false);
+                setNoticePeriodBed(true);
+            }
+            else if (bed.isOccupied) {
+                setOccubiedBed(true);
+            }
         }
-        else if (!bed.isOccupied) {
-            setEmptyBed(true);
-            setDeleteBedDetails({ bed, room });
 
-        }
-        else if (bed.onNotice && bed.isOccupied) {
-            setOccubiedBed(false);
-            setNoticePeriodBed(true);
-        }
-        else if (bed.isOccupied) {
-            setOccubiedBed(true);
-        }
     };
 
 
@@ -242,9 +253,11 @@ function BedDetailsMap({ room, propsValue }) {
 
 
     const handleOpenChangeBed = () => {
-          setNoticePeriodBed(false)
-        setOpenChangeBed(true)
+        setNoticePeriodBed(false)
+        dispatch(triggerPG(true))
     }
+
+    console.log("state", state)
 
 
     const handleCloseChangedBed = () => {
@@ -276,7 +289,7 @@ function BedDetailsMap({ room, propsValue }) {
     }, [room]);
 
 
-
+    console.log("clickedBed", clickedBed)
 
 
 
@@ -328,6 +341,20 @@ function BedDetailsMap({ room, propsValue }) {
 
 
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
+
+
+    const filteredBeds = state.login.isTrigger
+        ? bedsForRoom.filter(
+            (bed) =>
+                // include only when NOT booked & NOT occupied
+                (!bed.isBooked && !bed.isOccupied) ||
+
+                // or when onNotice === true BUT still not booked & not occupied
+                (bed.onNotice === true && !bed.isBooked && !bed.isOccupied)
+        )
+        : bedsForRoom;
+
+
 
 
     useEffect(() => {
@@ -420,9 +447,12 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
 
-            {
-                OpenChangeBed && <ChangeBedModal show={OpenChangeBed} handleClose={handleCloseChangedBed} />
-            }
+            {/* {
+                OpenChangeBed &&
+                
+                // <ChangeBedModal show={OpenChangeBed} handleClose={handleCloseChangedBed} 
+                <ChangeBedPgView   />
+            } */}
 
 
             {/* Occubied bed Details */}
@@ -498,8 +528,8 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
-                {Array.isArray(bedsForRoom) && bedsForRoom.length > 0 &&
-                    bedsForRoom?.map((bed) => (
+                {Array.isArray(filteredBeds) && filteredBeds.length > 0 &&
+                    filteredBeds?.map((bed) => (
                         <div key={bed.id}
                             className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
                         >
@@ -507,6 +537,27 @@ function BedDetailsMap({ room, propsValue }) {
                                 style={{ cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
                             >
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
+
+
+                                    {state.login.isTrigger && clickedBed?.id === bed.id && (
+                                        <div
+                                            style={{
+                                                position: "absolute",
+                                                top: 1,
+                                                right: -10,
+                                                cursor: "pointer",
+                                                backgroundColor: "#fff",
+                                                borderRadius: 5
+                                            }}
+                                        >
+                                            <img src={Tick}
+
+                                                style={{ cursor: "pointer", height: 20, width: 20, }}
+                                            />
+                                        </div>
+                                    )}
+
+
 
                                     {/* booked status */}
                                     {bed.isBooked && bed.onNotice && (
@@ -532,6 +583,10 @@ function BedDetailsMap({ room, propsValue }) {
                                             </div>
                                         </div>
                                     )}
+
+
+
+
 
                                     {bed.isBooked && !bed.onNotice && (
                                         <img
@@ -624,6 +679,72 @@ function BedDetailsMap({ room, propsValue }) {
                     </div>
                 </div>
             </div>
+
+
+            {
+                state.login.isTrigger &&
+
+                <div
+                    className="d-flex justify-content-center align-items-center p-2 border-top bg-white flex-wrap"
+                    style={{
+                        position: "fixed",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        zIndex: 1050,
+                    }}
+                >
+                    <div>
+                        <p
+                            style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: "rgba(75, 75, 75, 1)",
+                                margin: 0,
+                            }}
+                        >
+                            Bed |  {Array.isArray(state.PgList?.bedList?.[room.id])
+                                ? `${state.PgList.bedList[room.id].length} sharing`
+                                : "0 sharing"}
+                        </p>
+
+                        <p>
+                            <span
+                                style={{
+                                    fontWeight: 500,
+                                    color: "rgba(30, 69, 225, 1)",
+                                    fontSize: 16,
+                                    fontFamily: "Gilroy",
+                                }}
+                            >
+                                {`Room ${clickedBed?.roomId || "-"} | Bed ${clickedBed?.bedName || "-"}`}
+                            </span>
+                        </p>
+                    </div>
+
+                    <div style={{ marginLeft: 200 }}>
+                        <Button
+                            style={{
+                                fontSize: 16,
+                                backgroundColor: "#1E45E1",
+                                color: "white",
+                                fontWeight: 600,
+                                borderRadius: 12,
+                                padding: "10px 20px",
+                                fontFamily: "Gilroy",
+                            }}
+                        //   onClick={handleShowconfirmchangeBed}
+                        >
+                            Continue →
+                        </Button>
+                    </div>
+                </div>
+
+
+            }
+
+
 
         </div>
     )
