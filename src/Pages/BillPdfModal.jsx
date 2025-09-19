@@ -92,9 +92,7 @@ const [billReceipt,setBillReceipt] =useState("")
       }, 100);
     }
   }, [state.InvoiceList.BillsPdfSuccessCode]);
-  console.log("billTransaction",billReceipt.subtotal)
-
-  console.log("template" , invoice_details);
+  
   
 
    
@@ -214,7 +212,7 @@ const [billReceipt,setBillReceipt] =useState("")
   // const totalAmount = invoice_details?.total_amount + taxAmount;
 
 
-  console.log("rowData" , state);
+  
   
 
   return (

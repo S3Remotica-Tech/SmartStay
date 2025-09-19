@@ -59,7 +59,7 @@ function* handleBookedDetails(action) {
       }
    }
     catch (error) {
-      console.log("error*****", error)
+      
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
@@ -127,7 +127,7 @@ function* handleCheckIn(datum) {
       }
    }
    catch (error) {
-      console.log("error*****", error)
+    
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
@@ -238,7 +238,7 @@ function* handleDeleteCustomer(customer) {
 function* handleHostelList(hostel) {
    const response = yield call(hostelList, hostel.payload)
 
-   console.log("get all hostel", response)
+
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -337,7 +337,7 @@ function* handleCreateFloor(data) {
    try {
       const response = yield call(createFloor, data.payload);
 
-      console.log("response for add floor", response)
+     
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -1521,10 +1521,9 @@ function* handleCheckoutExportDetails(action) {
 
 function* handleReAssignPage(action) {
    try {
-      console.log("▶️ Reassign Page Saga Triggered with payload:", action.payload);
-
+     
       const response = yield call(customerReAssignBed, action.payload);
-      console.log("✅ API Response:", response);
+    
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -1542,8 +1541,7 @@ function* handleReAssignPage(action) {
       };
 
       if (response.status === 200 || response.data.statusCode === 200) {
-         console.log("🎯 Success Response Data:", response.data);
-
+        
          yield put({
             type: 'REASSIGN_BED',
             payload: {
@@ -1564,19 +1562,17 @@ function* handleReAssignPage(action) {
             style: toastStyle,
          });
       } else {
-         console.warn("⚠️ Error Response:", response);
-         yield put({ type: 'ERROR', payload: response.message });
+                 yield put({ type: 'ERROR', payload: response.message });
       }
 
       if (response) {
-         console.log("🔄 Refreshing Token with response...");
+      
          refreshToken(response);
       }
    }
    catch (err) {
       const error = err || {};
-      console.error("❌ Caught Error in Saga:", error);
-
+      
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2101,7 +2097,7 @@ function* handlecustomerUnAssign(action) {
 
    try {
       const response = yield call(CustomerUnAssign, action.payload)
-      console.log("response", response);
+      
 
 
       if (response.status === 200 || response.statusCode === 200) {
@@ -2134,7 +2130,7 @@ function* handlecustomerUnAssign(action) {
 
 function* handleBackToCheckin(action) {
    const response = yield call(backtoCheckin, action.payload)
-   console.log("handleBackToCheckin", response)
+  
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -2179,8 +2175,7 @@ function* handleBackToCheckin(action) {
 function* handleGetAllFloor(floor) {
    try {
       const response = yield call(GetAllFloor, floor.payload);
-      console.log("get floor response", response)
-      if (response.status === 200) {
+            if (response.status === 200) {
          yield put({ type: 'ALL_FLOOR_LIST', payload: { response: response.data, statusCode: response.status } })
       }
 
@@ -2202,8 +2197,7 @@ function* handleGetAllFloor(floor) {
 
 function* handleCheckoutProfile(action) {
    const response = yield call(checkoutDetailView, action.payload)
-   console.log("handleCheckoutProfile", response)
-
+ 
 
 
    if (response.status === 200 || response.data.statusCode === 200) {

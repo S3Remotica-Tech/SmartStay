@@ -654,7 +654,6 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
     }
   }, [rolePermission]);
 
-  console.log("state", state)
 
 
   return (

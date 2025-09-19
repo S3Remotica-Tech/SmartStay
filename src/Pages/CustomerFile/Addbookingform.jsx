@@ -234,7 +234,6 @@ function BookingModal(props) {
     props.handleCloseAddBooking();
   }
 
-console.log("state",state)
   
 
 

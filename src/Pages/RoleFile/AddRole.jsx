@@ -192,7 +192,6 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
 
-    console.log("state", state)
 
 
     useEffect(() => {

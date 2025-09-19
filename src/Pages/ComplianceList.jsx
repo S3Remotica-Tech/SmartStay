@@ -52,7 +52,7 @@ const ComplianceList = (props) => {
 
 
   const handleDeleteFormShow = (item) => {
-    console.log("item" , item);
+   
     
     setDeleteForm(true);
     setDeleteId(item.complaintId);
@@ -233,7 +233,7 @@ const ComplianceList = (props) => {
   const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
-    console.log("item" , item);
+    
     
     // setAssignId(item?.ID);
     setShowDots(false);

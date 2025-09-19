@@ -74,11 +74,10 @@ function ContactUs() {
         if (formData.user_name  && formData.user_phone && formData.user_city && formData.message) {
             try {
                 const response = await axios.post('https://marketingapi.s3remotica.com/api/user/add_lead', formData);
-                console.log('API response:', response.data);
+              
 
                 await send('service_ael05nx', 'template_3dnr1i6', formData, 'xM8OCsWJd_Fz844uW');
-                console.log('Email successfully sent');
-
+              
                 setStatus('Message sent successfully!');
                 setFormData({
                     user_name: '',

@@ -627,16 +627,7 @@ const CheckOutForm = ({
   //     if (hasReasonAmountError) return;
 
 
-  // console.log("Payload****************", {
-  //   checkout_date: formattedDate,
-  //   id: selectedCustomer,
-  //   hostel_id: data.Hostel_Id,
-  //   comments: comments,
-  //   advance_return: returnAmount,
-  //   reinburse: 1,
-  //   reasons: formattedReasons,
-  //   payment_id: modeOfPayment,
-  // });
+  
   //       dispatch({
   //         type: "ADDCONFIRMCHECKOUTCUSTOMER",
   //         payload: {
@@ -875,7 +866,7 @@ const CheckOutForm = ({
   //    setReturnAmount(due); 
   // }, [advanceamount, fields, conformEdit]);
 
-  // console.log("fields",fields)
+
 
 
   // const handleInputChange = (index, field, value) => {
@@ -998,7 +989,7 @@ const CheckOutForm = ({
 
 
 
-  // console.log("checkouteditaction",checkouteditaction)
+
 
 
 

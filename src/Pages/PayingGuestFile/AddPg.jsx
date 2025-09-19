@@ -55,7 +55,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [images, setImages] = useState(Array(4).fill({ image: null }));
 
 
-  console.log("images",images)
+
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -456,7 +456,7 @@ function AddPg({ show, handleClose, currentItem }) {
     // setStateName("");
   };
 
-console.log("file",file)
+
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
@@ -517,7 +517,7 @@ console.log("file",file)
         image:
           img.image !== "0" && typeof img.image === "string" ? img.image : null,
       }));
-console.log("formattedImages",formattedImages)
+
       setImages(formattedImages.length > 0 ? formattedImages : Array(4).fill({ image: null }));
       setInitialState({ ...initialData, imageUrls: formattedImages });
     }
@@ -525,7 +525,7 @@ console.log("formattedImages",formattedImages)
 
 
 
-  console.log("currentItem",currentItem)
+
  
 const handleFileChange = (index) => async (e) => {
   const selectedFiles = Array.from(e.target.files);
@@ -611,7 +611,7 @@ const handleFileChange = (index) => async (e) => {
     }
   }, [state.PgList.createPgStatusCode])
 
-console.log("state.PgList?.createPgStatusCode",state.PgList)
+
 useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)

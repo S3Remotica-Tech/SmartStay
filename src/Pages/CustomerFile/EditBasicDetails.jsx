@@ -130,7 +130,7 @@ setIsChanged("")
 
 
 
-  console.log("bascisdetails", basicDetails[0].Email);
+
   
 
 

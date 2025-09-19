@@ -75,7 +75,7 @@ const RecurringBillList = (props) => {
 
 
   const handleDelete = () => {
-    console.log("props.item",props.item)
+ 
     props.handleDeleteRecurringbills(props.item);
 
   }

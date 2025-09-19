@@ -138,7 +138,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
   const handleDownload = (item) => {
-console.log("itemReceipt",item)
+
     props.DisplayInvoice(true, item)
     if(item?.id){
           dispatch({type:"RECEIPTPDF_NEWCHANGES",id:item?.id})

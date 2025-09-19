@@ -2118,9 +2118,7 @@ useEffect(() => {
         ? CustomerOverView.profilePic
         : Profiles;
 
-  console.log("state.UsersList.customerdetails", state.UsersList.customerdetails)
-
-  console.log("CustomerOverView", CustomerOverView)
+ 
 
 const [documents, setDocuments] = useState([
     { name: "Rental Agreement.pdf", size: "180 KB", type: "PDF" },
@@ -2131,7 +2129,7 @@ const [documents, setDocuments] = useState([
 
   const handleFileUpload = (index, e) => {
     const file = e.target.files[0];
-    console.log("file",file)
+
     if (!file) return;
  
     const updatedDoc = {

@@ -21,7 +21,7 @@ function BookingBed({
      const state = useSelector(state => state)
      const dispatch = useDispatch();
 
-  console.log("currentitem" ,currentItem );
+
   
     const bookingcustomerRef = useRef();
     const dateRef = useRef();
@@ -41,10 +41,6 @@ function BookingBed({
     const [booking_customererrmsg, setBookingCustomerErrmsg] = useState("");
     const [customer_details , setCustomerDetails] = useState({})
 
-  
-console.log("currentItem",currentItem)
-console.log("booking_customername",booking_customername)
-
 
 useEffect(()=>{
     if (state.login.selectedHostel_Id && currentItem?.room?.Floor_Id && currentItem?.bed?.id && currentItem?.room?.Room_Id) {
@@ -60,7 +56,7 @@ useEffect(()=>{
 
 //  useEffect(() => {
 //   const userData = state.UsersList.Users.filter((item) => item.ID === customerID);
-//   console.log("userData", customerID); 
+
 // }, [state.UsersList, customerID]);
           useEffect(() => {
 
@@ -83,7 +79,7 @@ useEffect(()=>{
         }
     }, [state?.UsersList?.Users , state?.PgList?.OccupiedCustomer]);
 
-    // console.log("userdetails" ,customer_details.CheckoutDate);
+
     
 
 

@@ -62,10 +62,6 @@ const paginatedChildren = React.Children.toArray(children).slice(
 
 if (totalItems === 0) return null; 
 
-console.log("paginatedChildren",paginatedChildren)
-
-console.log('totalItems',totalItems)
-
   return (
     <>
       {paginatedChildren}

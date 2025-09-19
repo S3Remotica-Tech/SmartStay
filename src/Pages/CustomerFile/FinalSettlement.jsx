@@ -24,11 +24,11 @@ import { Tooltip } from "bootstrap";
 
 
 function FinalSettlement({ show, handleClose, data, customerID }) {
-console.log("customerID",customerID)
+
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    console.log("FinalSettlement",data)
+  
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
@@ -59,7 +59,7 @@ console.log("customerID",customerID)
      const [billAmount,setBillAmount] = useState("")
 
      
-     console.log("billAmount",rentalBalance)
+
      useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
@@ -170,13 +170,13 @@ useEffect(()=>{
 //             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
 //                 (deduction) => deduction.amount > 0
 //             );
-//             console.log("deduction_details",deduction_details)
+
 
 //             const invoiceTotal = Array.isArray(validInvoices)
 //                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
 //                 : 0;
 
-// console.log("invoiceTotal",invoiceTotal)
+
 //             if (Array.isArray(deduction_details) && deduction_details.length > 0) {
 //                 const formattedFields = deduction_details.map((item) => ({
 //                     reason_name: item.reason || "",
@@ -218,7 +218,7 @@ useEffect(()=>{
 //         }, 500);
 //     }, [state.UsersList.statusCodegetConfirmCheckout, data,dataBed]);
 
-    console.log("hostelData",hostelData)
+   
 
     useEffect(() => {
         if (state.login.selectedHostel_Id) {
@@ -250,13 +250,13 @@ useEffect(()=>{
     //         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
     //             (deduction) => deduction.amount > 0
     //         );
-    //         console.log("deduction_details", deduction_details)
+
 
     //         const invoiceTotal = Array.isArray(validInvoices)
     //             ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
     //             : 0;
 
-    //         console.log("invoiceTotal", invoiceTotal)
+    
     //         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
     //             const formattedFields = deduction_details.map((item) => ({
     //                 reason_name: item.reason || "",
@@ -305,7 +305,7 @@ useEffect(()=>{
     //     if (fields || advanceAmount) {
         
     //         const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
-    //             console.log("advanceAmount",totalDeductions)
+
     //         const returnAmount = Number(advanceAmount || 0) - totalDeductions;
     //         setReturnAmount(returnAmount)
     //     }
@@ -319,7 +319,6 @@ useEffect(()=>{
         const returnAmount = Number(advanceAmount || 0) - totalDeductions - dueAmount;
         setReturnAmount(returnAmount);
 
-        console.log("advanceAmount:", advanceAmount, "totalDeductions:", totalDeductions, "dueAmount:", dueAmount, "returnAmount:", returnAmount);
     }
 }, [fields, advanceAmount, detuction]);
 
@@ -426,8 +425,7 @@ useEffect(()=>{
     // const handleTransactionId = (e) => {
     //     const value = e.target.value;
     //     setTransactionId(value);
-    //     console.log("setTransactionId", value);
-    // };
+     // };
   
     const handleClickInvoiceNo = () => {
         console.log("INV654 clicked");

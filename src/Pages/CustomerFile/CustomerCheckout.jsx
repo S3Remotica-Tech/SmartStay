@@ -110,7 +110,7 @@ function CustomerCheckout(props) {
       setDateDifference(null);
     }
   };
-  console.log("props", props)
+
 
   const handleCheckOutCustomer = () => {
 
@@ -142,7 +142,6 @@ const formattedrequestDate = dayjs(requestDate).isValid()
   ? dayjs(requestDate).format("DD-MM-YYYY")
   : null;
 
-console.log("formattedDate", formattedDate, "formattedrequestDate", formattedrequestDate);
 
 
    

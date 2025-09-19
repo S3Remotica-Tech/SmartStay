@@ -127,9 +127,8 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
   }, [Floor]);
 
- console.log("currentItem",currentItem)
 
-  console.log("selectedDate",selectedDate)
+ 
   const handleAddAssignAsset = () => {
 
     dispatch({ type: 'CLEAR_NETWORK_ERROR' })

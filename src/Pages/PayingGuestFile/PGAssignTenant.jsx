@@ -37,7 +37,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
     { value: "others", label: "Others" },
   ];
 
-  console.log("currentItem", currentItem)
+
 
   useEffect(() => {
     if (currentItem) {

@@ -82,7 +82,7 @@ export async function userlist(users) {
 
 
 export async function addUser(params) {
-console.log("params",params)
+
   const formData = new FormData();
 
   if (params.profilePic) {
@@ -199,7 +199,7 @@ export async function CheckIn(CheckIn) {
 
 export async function customerSaveInfo(params) {
 
-console.log("params", params)
+
   const formData = new FormData();
 
   if (params.profilePic) {
@@ -447,9 +447,7 @@ export async function AddWalkInCustomer(params) {
         "Content-type": "multipart/form-data",
       },
       timeout: 100000000,
-      onUploadProgress: (event) => {
-        console.log("event", event)
-      }
+      
     });
     return response.data;
   } catch (error) {
@@ -556,7 +554,7 @@ export async function customerAddContact(datum) {
 }
 
 export async function customerAllContact(datum) {
-  console.log("datum", datum);
+
 
   return await AxiosConfig.post('/users/all_contacts', datum, {
     data: datum
@@ -592,9 +590,7 @@ export async function uploadDocument(params) {
         "Content-type": "multipart/form-data",
       },
       timeout: 100000000,
-      onUploadProgress: (event) => {
-        console.log("event", event)
-      }
+      
     });
     return response.data;
   } catch (error) {
@@ -627,7 +623,7 @@ export async function handlegetCustomerDetailsKyc(kyc) {
 
 
 export async function ConfirmCheckout_Due_Customer(params) {
-  console.log("paramsssssss", params)
+
   const formData = new FormData();
   if (params.profile) formData.append("profile", params.profile);
   if (params.id) formData.append("id", params.id)
@@ -645,9 +641,7 @@ export async function ConfirmCheckout_Due_Customer(params) {
         "Content-type": "multipart/form-data",
       },
       timeout: 100000000,
-      onUploadProgress: (event) => {
-        console.log("event", event)
-      }
+      
     });
     return response.data;
   } catch (error) {
@@ -665,7 +659,7 @@ export async function CustomerUnAssign(customer) {
 
 
 export async function backtoCheckin(datum) {
-  console.log("backtoCheckin", datum)
+
   return await AxiosConfig.post('reassign_checkIn', datum, {
     data: datum
   })
@@ -673,7 +667,7 @@ export async function backtoCheckin(datum) {
 
 
 export async function checkoutDetailView(datum) {
-  console.log("backtoCheckin",datum)
+
   return await AxiosConfig.post('checkout_detail_view', datum, {
     data: datum
   })

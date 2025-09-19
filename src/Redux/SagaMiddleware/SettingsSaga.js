@@ -13,7 +13,7 @@ function* handleGetModules() {
 
    try {
       const response = yield call(getModules)
-      console.log("filter", response);
+   
 
       if (response.status === 200) {
          yield put({ type: 'GET_MODULES', payload: { response: response.data, statusCode: response.status } })
@@ -332,7 +332,7 @@ function* handleComplainttypelist(action) {
 function* handleComplaintTypeAdd(params) {
    try {
       const response = yield call(Addcomplainttype, params.payload);
-      console.log("errorstatus" , response);
+      
       
 
       if (response.status === 201 || response.statusCode === 201) {
@@ -396,7 +396,7 @@ function* handleComplaintTypeAdd(params) {
        if (error.code === 'ERR_BAD_REQUEST') {
              const ComplaintError = error?.status;
              const ComplaintErrormessage = error?.response?.data
-             console.log("response" ,ComplaintError , ComplaintErrormessage );
+          
              
              if (ComplaintError) {
                 yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: ComplaintErrormessage });
@@ -469,7 +469,7 @@ function* handleComplaintTypeEdit(action) {
        if (error.code === 'ERR_BAD_REQUEST') {
              const ComplaintError = error?.status;
              const ComplaintErrormessage = error?.response?.data
-             console.log("response" ,ComplaintError , ComplaintErrormessage );
+          
              
              if (ComplaintError) {
                 yield put({ type: 'ALREADY_COMPLAINTTYPE_ERROR', payload: ComplaintErrormessage });
@@ -528,7 +528,7 @@ function* handleDeleteComplainttype(action) {
        if (error.code === 'ERR_BAD_REQUEST') {
              const ComplaintError = error?.status;
              const ComplaintErrormessage = error?.response?.data
-             console.log("response" ,ComplaintError , ComplaintErrormessage );
+      
              
              if (ComplaintError) {
                 yield put({ type: 'ALREADY_ASSIGNCOMPLAINTTYPE_ERROR', payload: ComplaintErrormessage });
@@ -698,7 +698,6 @@ function* handleAddSettingRole(action) {
    try {
       const response = yield call(AddSettingRole, action.payload);
 
-      console.log("response add role", response)
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -822,7 +821,7 @@ function* handleDeleteRolePermission(detail) {
    try {
       const response = yield call(deleteRolePermission, detail.payload);
 
-      console.log("response", response)
+   
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -865,7 +864,7 @@ function* handleDeleteRolePermission(detail) {
       }
    }
    catch (error) {
-      console.log("error", error)
+  
       if (error.response.status === 400) {
          yield put({ type: 'ASSIGNED_ERROR', payload: { statusCode: error.response.status } });
          toast.error("This role is assigned to user", {
@@ -995,7 +994,7 @@ function* handleEditStaffUserPage(detail) {
 }
 
 function* handleGetAllStaffs(action) {
-   // console.log("response" , action);
+  
  try{
     const response = yield call(GetAllStaff, action.payload.hostelId);
    if (response.status === 200 || response.data.statusCode === 200) {
@@ -1227,7 +1226,7 @@ function* handleChangePasswordinStaff(action) {
 function* handleCheckPassword(action) {
    try {
       const response = yield call(passwordCheck, action.payload);
-      console.log("response", response);
+  
 
 
       var toastStyle = {
@@ -1599,7 +1598,7 @@ function* handleGetTemplatelist(action) {
    try {
       const response = yield call(getTemplateList, action.payload);
 
-      console.log("response",response)
+  
 
       if (response.status === 200 || response.statusCode === 200) {
          yield put({ type: 'GET_TEMPLATELIST', payload: { response: response.data, statusCode: response.status || response.statusCode, message: response.data.message } })

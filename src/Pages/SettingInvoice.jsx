@@ -104,9 +104,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   const [BillsTemplateList, setBillsTemplateList] = useState([])
 
 
-  console.log("BillsTemplateList", BillsTemplateList, "")
-
-  console.log("signature", signature)
+  
 
 
 
@@ -121,7 +119,6 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   // }, [state.Settings.statusCodeForSettingFetch])
 
 
-  console.log("getData", getData)
 
 
 
@@ -235,7 +232,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
   };
 
-  console.log("paymentmobilenum", paymentmobilenum)
+
 
   const handlePaymentInvoiceMobile = (e) => {
     const input = e.target.value.replace(/\D/g, "");
@@ -533,15 +530,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
   const [previewURL, setPreviewURL] = useState(null);
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     console.log("Selected file:", file);
-  //     setSelectedFile(file);
-  //     setPreviewURL(URL.createObjectURL(file));
-  //     setFieldError("");
-  //   }
-  // };
+ 
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -1009,7 +998,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
 
-  console.log("hostel_logo", logoPreview, "signature", signature)
+ 
 
 
   const handleSaveRentalTemplate = () => {
@@ -1078,7 +1067,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
       return;
     }
 
-    console.log("isChanged", isChanged)
+  
 
 
     if (RentalinvoiceTemplate.isSignatureCustomized) {
@@ -1183,8 +1172,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
     (template) => template.type === "RENTAL"
   );
 
-  console.log("RentalinvoiceTemplate", RentalinvoiceTemplate)
-  console.log("BillsTemplateList", BillsTemplateList)
+ 
 
   useEffect(() => {
     if (RentalinvoiceTemplate) {
@@ -1242,14 +1230,14 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
 
-  console.log("BillsTemplateList", BillsTemplateList)
+
 
   const [fieldError, setFieldError] = useState("")
 
   const handleSaveTemplate = () => {
     const hasSignatureInDB = BillsTemplateList?.signature;
 
-    console.log("hasSignatureInDB", hasSignatureInDB)
+    
 
     if (sign && isSignatureConfirmed) {
       setSignatureErrMsg("Please click Done after selecting a signature");

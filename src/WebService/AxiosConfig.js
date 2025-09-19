@@ -71,7 +71,6 @@ export default AxiosConfig;
 // if (token) {
 //   AxiosConfig.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 // }
-// console.log("token Bearer",token)
 // export default AxiosConfig;
 
 

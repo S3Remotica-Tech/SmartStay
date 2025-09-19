@@ -10,7 +10,7 @@ function* Login(args) {
   try {
     const response = yield call(login, args.payload);
 
-    console.log("response login", response)
+ 
 
     if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'LOGIN-INFO', payload: { response: response.data, statusCode: response.status || response.statusCode } });
@@ -27,7 +27,7 @@ function* Login(args) {
     }
   }
   catch (error) {
-    console.log("error", error);
+    
 
     if (error?.status === 403) {
       yield put({
@@ -52,7 +52,7 @@ function* LoginV2(args) {
   try {
     const response = yield call(loginV2, args.payload);
 
-    console.log("response login version 2", response)
+   
 
     if (response.status === 200) {
       yield put({ type: 'LOGIN_VERSION_2', payload: { response: response.data, statusCode: response.status || response.statusCode } });
@@ -62,7 +62,7 @@ function* LoginV2(args) {
     }
   }
   catch (error) {
-    console.log("error", error);
+    
 
     if (error?.status === 403) {
       yield put({

@@ -371,8 +371,7 @@ setLoading(true)
     (template) => template.type === "ADVANCE"
   );
 
-  console.log("securityDepositReceiptTemplate", BillsTemplateList);
-  console.log("securityDepositReceiptTemplate", securityDepositReceiptTemplate);
+ 
 
 
 

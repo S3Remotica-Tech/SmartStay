@@ -44,7 +44,7 @@ const InvoiceTable = (props) => {
   const [payapleform,setPayableForm] =useState(false)
 
 const handleWriteOffFrom=(item)=>{
-  console.log("handleWriteOffFrom",item)
+ 
   setWriteOffForm(true)
   setPayableForm(false)
 }
@@ -52,7 +52,7 @@ const handleCloseWriteOffForm=()=>{
   setWriteOffForm(false)
 }
 const handleRefundAmount=(item)=>{
-  console.log("handleWriteOffFrom",item)
+ 
   setPayableForm(true)
   setWriteOffForm(false)
 }

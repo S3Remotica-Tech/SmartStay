@@ -58,7 +58,6 @@ describe('It should check compliance reducer', () => {
             }
         }
         const newState = ComplianceReducer(initialState, action);
-  console.log('👉 newState:', newState);
    expect(newState).toStrictEqual({
     ...initialState,
     Compliance: [],

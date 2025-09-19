@@ -374,7 +374,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
 
   useEffect(() => {
     if (!showFilter && showFilter !== null) {
-console.log("showFilter",showFilter)
+
        if(state.login.selectedHostel_Id){
       dispatch({ type: 'ASSETLIST', payload: state.login.selectedHostel_Id  })
        }

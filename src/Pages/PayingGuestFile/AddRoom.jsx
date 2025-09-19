@@ -20,9 +20,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const modalTitle = isEditing ? "Edit Room" : "Add Room";
   const [formLoading, setFormLoading] = useState(false)
 
-  console.log('editRoom', editRoom)
-  console.log("hostelDetails", hostelDetails)
-
+ 
 
 
   useEffect(() => {

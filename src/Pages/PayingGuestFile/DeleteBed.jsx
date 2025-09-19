@@ -35,7 +35,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
 
-console.log("deleteBedDetails",deleteBedDetails)
+
 
   // useEffect(() => {
   //   setRolePermission(state.createAccount.accountList);
