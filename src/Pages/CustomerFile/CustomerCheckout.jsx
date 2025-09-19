@@ -331,7 +331,7 @@ console.log("formattedDate", formattedDate, "formattedrequestDate", formattedreq
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.fullName}
+                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.firstName}
                               </label>
                             </div>
 

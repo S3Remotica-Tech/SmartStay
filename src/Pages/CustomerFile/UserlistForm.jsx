@@ -415,7 +415,7 @@ function UserlistForm(props) {
     const selectedBedId = selectedOption?.value || "";
     setBed(selectedBedId);
 
-    const selectedBed = state.UsersList?.bednumberdetails?.find(
+    const selectedBed = state.UsersList?.availableBedList?.listBeds?.find(
       (bed) => String(bed.bedId) === String(selectedBedId)
     );
 
