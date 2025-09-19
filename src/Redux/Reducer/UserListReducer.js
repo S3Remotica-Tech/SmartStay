@@ -128,7 +128,9 @@ export const initialState = {
     StatuscodeforCheckoutProfile:0,
     StatusCodeKycDocuments:0,
     backtocheckinError:'',
-    StatusCodeForDateUpdate:0
+    StatusCodeForDateUpdate:0,
+      StatusCodeForFinalGenerate:0,
+
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -640,6 +642,14 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, StatusCodeForDateUpdate: action.payload.statusCode }
         case 'CLEAR_CHEKOUT_DATE_CHANGE':
             return { ...state, StatusCodeForDateUpdate: 0 }
+
+
+
+                case 'CHECKOUT_FINAL_GENERATE':
+            return { ...state, StatusCodeForFinalGenerate: action.payload.statusCode }
+        case 'CLEAR_CHECKOUT_FINAL_GENERATE':
+            return { ...state, StatusCodeForFinalGenerate: 0 }
+            
 
         default:
             return state;

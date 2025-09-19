@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button} from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 // import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +9,8 @@ import { MdError } from "react-icons/md";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+// import { DatePicker } from 'antd';
+// import dayjs from 'dayjs';
 import { CloseCircle} from "iconsax-react";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 // import whiteaddcircle from "../../Assets/Images/white_add-circle.png";
@@ -28,19 +28,33 @@ console.log("customerID",customerID)
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
+    console.log("FinalSettlement",data)
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
     // const [modeOfPayment, setModeOfPayment] = useState("");
     // const [comments, setComments] = useState("");
-    const [checkOutDate, setCheckOutDate] = useState("");
+    // const [checkOutDate, setCheckOutDate] = useState("");
+//  const [checkOutDate] = useState(() => {
+//   const today = new Date();
+//   return today.toISOString().split("T")[0];
+// });
+const [checkOutDate] = useState(() => {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const yyyy = today.getFullYear();
+  return `${dd}/${mm}/${yyyy}`; // 👉 18/09/2025
+});
+
+
     // const [uploadFile, setUploadFile] = useState(null);
     // const [rightOffNote, setRightOffNote] = useState("")
-    const [checkoUtDateError, setCheckOutDateError] = useState("");
+    // const [checkoUtDateError, setCheckOutDateError] = useState("");
     const [ReturnAmount, setReturnAmount] = useState('')
     // const [modeOfPaymentError, setModeOfPaymentError] = useState("")
     const [formLoading, setFormLoading] = useState(false)
-    const checkOutDateRef = useRef(null);
+    // const checkOutDateRef = useRef(null);
     // const modeOfPaymentRef = useRef(null);
     const [showBreakdown, setShowBreakdown] = useState(false);
     // const [refundCompleted, setRefundCompleted] = useState(false);
@@ -49,11 +63,12 @@ console.log("customerID",customerID)
     const [hostelData, setHostelData] = useState("")
     const [refundableDetails, setReFundableDetails] = useState("")
     const [detuction, setDetuction] = useState("")
-     const [rentalBalance,setRentalBalance] = useState('')
+    //  const [rentalBalance,setRentalBalance] = useState('')
      const [billAmount,setBillAmount] = useState("")
+     const [nonRefundable,setRefundable] = useState("")
 
      
-     console.log("billAmount",rentalBalance)
+     console.log("refundableDetails",refundableDetails)
      useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
@@ -78,21 +93,43 @@ console.log("customerID",customerID)
 
         setFields(formattedFields);
 
-        const rentBalance =
-            state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-                (item) => String(item.action).toLowerCase() === "rent"
-            )?.balance ?? 0;
+        // const rentBalance =
+        //     state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
+        //         (item) => String(item.action).toLowerCase() === "rent"
+        //     )?.balance ?? 0;
 
-        setRentalBalance(rentBalance);
+        // setRentalBalance(rentBalance);
         setDetuction(state?.UsersList?.Deduction);
         setReFundableDetails(state?.UsersList?.Refundable_details);
         setHostelData(state?.UsersList?.hostelData);
+        setRefundable(state?.UsersList?.nonRefundable_details)
     }
 
     setTimeout(() => {
         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
     }, 500);
 }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
+
+
+
+
+
+useEffect(()=>{
+if(checkOutDate){
+  dispatch({ type: "CHECKOUTDATEUPDATE", payload: { hostel_id: state.login.selectedHostel_Id,id:data.ID,checkoutDate:checkOutDate} });
+}
+},[checkOutDate])
+
+
+useEffect(()=>{
+    if(state.UsersList.StatusCodeForDateUpdate === 200){
+         dispatch({
+              type: "GETCONFIRMCHECKOUTCUSTOMER",
+              payload: { id: data.ID, hostel_id: state.login.selectedHostel_Id },
+            });
+ dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE"})
+    }
+},[state.UsersList.StatusCodeForDateUpdate])
 
 //      useEffect(() => {
 //     if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -411,6 +448,49 @@ console.log("customerID",customerID)
     };
 
 
+
+    const handleClickGenerate = ()=>{
+//  const refundableAmenities = refundableDetails?.filter(
+//     (a) => a.key === "Refundable Rent" || a.key === "Refundable Advance"
+//   );
+//     console.log("refundableAmenities",refundableAmenities)
+const refundableAmenities = refundableDetails
+    ? [
+        { key: "Refundable Rent", amount: refundableDetails.remainingRentRefund },
+        { key: "Refundable Advance", amount: refundableDetails.securityDepositRefund },
+      ]
+    : [];
+        const reasons = nonRefundable.map((item) => ({
+  key: item.reason,
+  amount: item.amount,
+}));
+         dispatch({
+                type: "FINALGENERATE",
+                payload: {
+                  user_id:data.ID ,
+                   
+                    hostel_id: state.login?.selectedHostel_Id,
+                    amenities: [
+      ...reasons,
+       ...refundableAmenities,
+    ]
+    
+                },
+            });
+
+    }
+
+
+    useEffect(()=>{
+if(state.UsersList.StatusCodeForFinalGenerate === 200){
+handleClose()
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_CHECKOUT_FINAL_GENERATE" });
+            }, 500);
+}
+    },[state.UsersList.StatusCodeForFinalGenerate])
+    console.log("tate.UsersList.StatusCodeForFinalGenerate",state.UsersList.StatusCodeForFinalGenerate)
+
     // const handleClickGenerate = () => {
     //     dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
 
@@ -529,12 +609,12 @@ console.log("customerID",customerID)
     // };
 
 
-    useEffect(() => {
-        if (hostelData) {
-            setCheckOutDate(hostelData?.CheckoutDate)
-        }
+    // useEffect(() => {
+    //     if (hostelData) {
+    //         setCheckOutDate(hostelData?.CheckoutDate)
+    //     }
 
-    }, [hostelData])
+    // }, [hostelData])
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -670,6 +750,14 @@ console.log("customerID",customerID)
                                     </span>
                             </div>
 
+
+                             <div className="d-flex justify-content-between mb-3">
+                                <span style={{ fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400 }}>Checkout Date</span>
+                                <span style={{ fontSize: "1rem", fontFamily: "Gilroy", fontWeight: 600 }}> {checkOutDate}
+                                    
+                                    </span>
+                            </div>
+
                             <div className="mt-2" style={{ textAlign: "center", backgroundColor: "#FFF7F7" }}>
                                 {ReturnAmount < 0 && <span style={{ color: "red", fontSize: "0.875rem", fontFamily: "Gilroy", fontWeight: 400, textAlign: "center" }}>Pending</span>}
                             </div>
@@ -700,7 +788,7 @@ console.log("customerID",customerID)
                             </div>
                             <div style={{ maxHeight: "70vh", overflowY: "auto", padding: "15px" }}>
 
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Group className="mb-2" controlId="purchaseDate">
                                         <Form.Label
                                             style={{
@@ -761,7 +849,7 @@ console.log("customerID",customerID)
                                             </label>
                                         </div>
                                     )}
-                                </div>
+                                </div> */}
 
 
 
@@ -1623,7 +1711,7 @@ return(
                                     <Button
                                         // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
                                         style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }} 
-                                        // onClick={handleClickGenerate}
+                                        onClick={handleClickGenerate}
                                         >Generate</Button>
                                 </div>
                             </div>

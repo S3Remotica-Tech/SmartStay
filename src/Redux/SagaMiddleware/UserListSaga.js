@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,checkoutDetailView,kycDocuments,checkoutDateChange } from "../Action/UserListAction"
+import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,checkoutDetailView,kycDocuments,checkoutDateChange,generateFinal } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -2138,6 +2138,57 @@ function* handleCheckoutDateUpdate(action) {
 }
 
 
+function* handleFinalGenerate(action) {
+  const response = yield call(generateFinal, action.payload);
+  console.log("handleFinalGenerate", response);
+
+  var toastStyle = {
+    backgroundColor: "#E6F6E6",
+    color: "black",
+    width: "auto",
+    borderRadius: "60px",
+    height: "20px",
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    textAlign: "start",
+    display: "flex",
+    alignItems: "center",
+    padding: "10px",
+  };
+
+//   if (response.status === 200 || response.data.statusCode === 200) {
+   
+
+//     yield put({
+//       type: 'CHECKOUT_FINAL_GENERATE',
+//       payload: {
+//         response: { ...response.data, data: parsedData },
+//         statusCode: response.status || response.data.statusCode,
+//       },
+//     });
+ if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'CHECKOUT_FINAL_GENERATE', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+
+    toast.success(`${response.data.message}`, {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+    });
+  } else {
+    yield put({ type: 'ERROR', payload: response.data.message });
+  }
+
+  if (response) {
+    refreshToken(response);
+  }
+}
 
 
 
@@ -2199,6 +2250,7 @@ function* UserListSaga() {
    yield takeEvery('CHECKOUTPROFILEDETAILS', handleCheckoutProfile)
       yield takeEvery('KYCDOCUMENTSDETAIL', handlekycDocuments)
       yield takeEvery('CHECKOUTDATEUPDATE',handleCheckoutDateUpdate)
+      yield takeEvery('FINALGENERATE',handleFinalGenerate)
 
 
 }
