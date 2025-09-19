@@ -2340,6 +2340,29 @@ console.log("item",item)
       payload: { id: item.ID, hostel_id: item.Hostel_Id },
     });
   }
+
+
+const [billAmount,setBillAmount] = useState("")
+console.log("billAmount",billAmount)
+
+
+ useEffect(() => {
+    if (state.UsersList.GetconfirmcheckoutBillDetails) {
+        // const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+        //     (invoice) => invoice.balance > 0
+        // );
+        setBillAmount(state?.UsersList?.GetconfirmcheckoutBillDetails);
+    
+    }
+
+    setTimeout(() => {
+        dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+    }, 500);
+}, [state.UsersList.GetconfirmcheckoutBillDetails]);
+
+
+
+
   console.log("state.UsersList.statusCodegetConfirmCheckout",state.UsersList.statusCodegetConfirmCheckout)
   useEffect(() => {
           if (state.UsersList.statusCodegetConfirmCheckout === 200) {
@@ -4529,57 +4552,61 @@ const handleClosefinal = ()=>{
                                                       </label>
                                                     </div>
 
+{user?.bed_status === "Notice period" &&
+  Array.isArray(billAmount) &&
+  billAmount.some(bill => bill.action === "checkout") && (
+    <div
+      className="d-flex align-items-center gap-2"
+      onClick={() => {
+        if (!customerAddPermission) {
+          handleConformCheckout(user);
+        }
+      }}
+      style={{
+        backgroundColor: "#F9F9F9",
+        cursor: customerAddPermission ? "not-allowed" : "pointer",
+        opacity: customerAddPermission ? 0.6 : 1,
+        padding: "8px 12px",
+        borderRadius: 6,
+        transition: "background 0.2s ease-in-out",
+      }}
+      onMouseEnter={(e) => {
+        if (!customerAddPermission) {
+          e.currentTarget.style.backgroundColor = "#FFFBEF";
+        }
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = "#F9F9F9";
+      }}
+    >
+      <img
+        src={logout}
+        alt="checkout"
+        style={{
+          width: 16,
+          height: 16,
+          filter: customerAddPermission ? "grayscale(100%)" : "none",
+        }}
+      />
+      <label
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          fontFamily: "Gilroy, sans-serif",
+          color: customerAddPermission ? "#888888" : "#222222",
+          cursor: customerAddPermission ? "not-allowed" : "pointer",
+          margin: 0,
+        }}
+      >
+        Check-Out
+      </label>
+    </div>
+)}
 
-                                                    <div
-                                                      className="d-flex align-items-center gap-2"
 
-                                                      onClick={() => {
-                                                        if (!customerAddPermission) {
-                                                          handleConformCheckout(user);
-                                                        }
-                                                      }}
-
-                                                      style={{
-                                                        backgroundColor: "#F9F9F9",
-                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                        opacity: customerAddPermission ? 0.6 : 1,
-                                                        padding: "8px 12px",
-                                                        borderRadius: 6,
-                                                        transition: "background 0.2s ease-in-out",
-                                                      }}
-                                                      onMouseEnter={(e) => {
-                                                        if (!customerAddPermission) {
-                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                        }
-                                                      }}
-                                                      onMouseLeave={(e) => {
-                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={logout}
-                                                        alt="checkout"
-                                                        style={{
-                                                          width: 16,
-                                                          height: 16,
-                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily: "Gilroy, sans-serif",
-                                                          color: customerAddPermission ? "#888888" : "#222222",
-                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                          margin: 0,
-                                                        }}
-                                                      >
-                                                        {/* Check-Out */}
-                                                        {detuction.DueAmount ? "Write-Off":"Check-Out"}
-                                                      </label>
-                                                    </div>
-
+{user?.bed_status === "Notice period" &&
+Array.isArray(billAmount) &&
+!billAmount.some(bill => bill.action === "checkout") && (
 
 
  <div
@@ -4630,6 +4657,7 @@ const handleClosefinal = ()=>{
                                                         Generate
                                                       </label>
                                                     </div>
+  )}
 
                                                   </>
 

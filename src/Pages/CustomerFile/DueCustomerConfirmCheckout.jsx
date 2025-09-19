@@ -52,7 +52,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
     //    const [activeTab, setActiveTab] = useState("record");
        const [hostelData,setHostelData] = useState("")
     //    const [refundableDetails,setReFundableDetails] = useState("")
-       const [detuction,setDetuction] = useState("")
+    //    const [detuction,setDetuction] = useState("")
 
 console.log("ReturnAmount",ReturnAmount)
 console.log("formLoading",formLoading)
@@ -145,7 +145,7 @@ console.log("invoiceTotal",invoiceTotal)
 //     (item) => String(item.action).toLowerCase() === "rent"
 //   )?.balance ?? 0;
 // setRentalBalance(rentBalance)
-setDetuction(state?.UsersList?.Deduction)
+// setDetuction(state?.UsersList?.Deduction)
 // setReFundableDetails(state?.UsersList?.Refundable_details)
 
 
@@ -1469,7 +1469,13 @@ useEffect(() => {
   </div>
           <div className="ms-auto text-end mt-2">
             <p   style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,color:"#4B4B4B",padding:0 , margin:0}}>Checkout Date</p>
-            <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600,}}>{checkOutDate}</p>
+            <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600,}}>{checkOutDate
+    ? new Date(checkOutDate).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
+    : ""}</p>
           </div>
         </div>
 
@@ -1478,28 +1484,7 @@ useEffect(() => {
           <strong>Status: </strong>
           <Badge bg="success">Dues Cleared</Badge>
         </div> */}
-{detuction?.DueAmount ? (
-          <div className="d-flex justify-content-between align-items-center mb-3">
-  <span style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400}}>Status</span>
- <div className="d-flex justify-content-between align-items-center mb-3">
-   
-  <Button
-    style={{
-      fontSize: 12,
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      backgroundColor: "#F03E3E",
-      padding: "3px 12px",
-      borderRadius: 50,
-      border: "none",
-    }}
-  >
- Write-Off
-  </Button>
-</div>
-
-</div>
-):    
+  
   <div className="d-flex justify-content-between align-items-center mb-3">
   <span style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400}}>Status</span>
  <div className="d-flex justify-content-between align-items-center mb-3">
@@ -1515,11 +1500,11 @@ useEffect(() => {
       border: "none",
     }}
   >
-   Checkout
+    Dues Cleared
   </Button>
 </div>
 
-</div>}
+</div>
 
         {/* <div className="d-flex justify-content-between align-items-center mb-3">
   <span style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400}}>Status</span>

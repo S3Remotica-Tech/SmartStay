@@ -1,15 +1,36 @@
-import React, { useState, useEffect, useRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form  } from "react-bootstrap";
-import { CloseCircle, DocumentDownload } from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import Profile2 from "../Assets/Images/New_images/profile-picture.png";
 import homearrow from "../Assets/Images/New_images/home-arrow-up.png";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types"
 
 
 function WriteOffForm(props){
+   const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+  console.log("wraitofDetails",dispatch)
+
+const [matchedDet,setMatchedDetails] = useState("")
+
+useEffect(()=>{
+  if(props.WriteoffForm || props.payapleform){
+const matchedDetails = state.UsersList.Users?.filter(
+  (user) => user.ID === props.wraitofDetails.ID
+);
+setMatchedDetails(matchedDetails)
+
+
+  }
+},[props.WriteoffForm || props.payapleform])
+console.log("matchedDet",matchedDet)
+
     return(
         <>
        <Modal show={props.WriteoffForm} onHide={props.handleCloseWriteOffForm} centered >
@@ -62,7 +83,11 @@ function WriteOffForm(props){
 //     ? dataBed[0].profile
 //     : Profile2
 // }
-src={Profile2}
+// src={Profile2}
+  src={matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== "0"
+  ? matchedDet[0].profile
+  : Profile2
+}
 
     style={{ height: 55, width: 55, cursor: "pointer" }}
     alt="profile"
@@ -70,21 +95,21 @@ src={Profile2}
   />
          <div>
       <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0">
-        {/* {data?.Name || dataBed[0]?.Name} */}Priya
+        {/* {data?.Name || dataBed[0]?.Name} */}{matchedDet[0]?.Name}
         </p>
   <div className="d-flex mb-2">
     <span className="badge rounded-pill bg-warning text-dark me-2" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-      {/* {hostelData.floor_name} */}first_floor
+      {/* {hostelData.floor_name} */}{matchedDet[0]?.floor_name}
     </span>
     <span className="badge rounded-pill bg-danger-subtle text-dark" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-      {/* {hostelData["Room Name"]} - {hostelData["Bed Name"]} */} room_1 -bed_1
+      {/* {hostelData["Room Name"]} - {hostelData["Bed Name"]} */} {matchedDet[0]?.Rooms} - {matchedDet[0]?.Bed}
     </span>
   </div>
   </div>
           <div className="ms-auto text-end mt-2">
             <p   style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,padding:0 , margin:0,color:"blue"}}><img src={homearrow} alt="homearrow" width={16} height={16}/> Due Pending</p>
             <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600,}}>
-                {/* {checkOutDate} */}1000
+                {/* {checkOutDate} */}{props?.wraitofDetails?.BalanceDue}
                 </p>
           </div>
         </div>
@@ -194,7 +219,10 @@ src={Profile2}
     //   ? matchedDet[0].profile
     //   : Profile
     // }
-    src={Profile2}
+     src={matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== "0"
+  ? matchedDet[0].profile
+  : Profile2
+}
     
                                     style={{ height: 55, width: 55, cursor: "pointer" }}
                                     alt="profile"
@@ -206,15 +234,16 @@ src={Profile2}
                                          <div>
                                       <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0"> 
                                         {/* {invoiceValue.Name} */}
+                                        {matchedDet[0]?.Name}
                                         </p>
                                   <div className="d-flex mb-2">
                                     <span className="badge rounded-pill bg-warning text-dark me-2" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
-                                   {/* {matchedDet[0]?.floor_name} */}test
+                                   {matchedDet[0]?.floor_name}
                                     </span>
                                     <span className="badge rounded-pill bg-danger-subtle text-dark" style={{fontSize:"0.75rem",fontFamily:"Gilroy",fontWeight:400}}>
                                       {/* {hostelData["Room Name"]} - {hostelData["Bed Name"]} */}
-                                     {/* {matchedDet[0]?.Room_Id} - {matchedDet[0]?.Bed} */}
-                                     1 - 5
+                                     {matchedDet[0]?.Room_Id} - {matchedDet[0]?.Bed}
+                                  
                                     </span>
                                   </div>
                                   </div>
@@ -747,4 +776,13 @@ src={Profile2}
         </>
     )
 }
+WriteOffForm.propTypes = {
+  WriteoffForm: PropTypes.func.isRequired,
+  wraitofDetails:PropTypes.func.isRequired,
+  handleCloseRefundAmount:PropTypes.func.isRequired,
+  payapleform:PropTypes.func.isRequired,
+  handleCloseWriteOffForm:PropTypes.func.isRequired,
+ 
+};
+
 export default WriteOffForm;

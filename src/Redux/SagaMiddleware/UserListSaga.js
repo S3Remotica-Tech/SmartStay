@@ -2157,16 +2157,18 @@ function* handleFinalGenerate(action) {
     padding: "10px",
   };
 
-  if (response.status === 200 || response.data.statusCode === 200) {
+//   if (response.status === 200 || response.data.statusCode === 200) {
    
 
-    yield put({
-      type: 'CHECKOUT_FINAL_GENERATE',
-      payload: {
-        response: { ...response.data, data: parsedData },
-        statusCode: response.status || response.data.statusCode,
-      },
-    });
+//     yield put({
+//       type: 'CHECKOUT_FINAL_GENERATE',
+//       payload: {
+//         response: { ...response.data, data: parsedData },
+//         statusCode: response.status || response.data.statusCode,
+//       },
+//     });
+ if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'CHECKOUT_FINAL_GENERATE', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
 
     toast.success(`${response.data.message}`, {
       position: "bottom-center",

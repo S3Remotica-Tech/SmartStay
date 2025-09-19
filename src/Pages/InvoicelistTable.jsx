@@ -18,10 +18,12 @@ const InvoiceTable = (props) => {
   const [showDots, setShowDots] = useState('')
   const [WriteoffForm,setWriteOffForm] = useState(false)
   const [payapleform,setPayableForm] =useState(false)
+  const [wraitofDetails,setWraitoffDetails] = useState("")
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 const handleWriteOffFrom=(item)=>{
   console.log("handleWriteOffFrom",item)
+  setWraitoffDetails(item)
   setWriteOffForm(true)
   setPayableForm(false)
 }
@@ -32,6 +34,7 @@ const handleRefundAmount=(item)=>{
   console.log("handleWriteOffFrom",item)
   setPayableForm(true)
   setWriteOffForm(false)
+  setWraitoffDetails(item)
 }
 const handleCloseRefundAmount=()=>{
   setPayableForm(false)
@@ -354,7 +357,7 @@ const handleCloseRefundAmount=()=>{
                           opacity: props.billAddPermission ? 0.5 : 1,
                         }}
                         onClick={() => {
-                          if (!props.billAddPermission) handleRefundAmount(props);
+                          if (!props.billAddPermission) handleRefundAmount(props.item);
                         }}
                         onMouseEnter={(e) => {
                           if (!props.billAddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
@@ -480,7 +483,7 @@ const handleCloseRefundAmount=()=>{
 
       {
         (WriteoffForm || payapleform) &&(
-          <WriteOffForm  WriteoffForm={WriteoffForm} handleCloseWriteOffForm={handleCloseWriteOffForm} payapleform={payapleform} handleCloseRefundAmount={handleCloseRefundAmount}/>
+          <WriteOffForm  WriteoffForm={WriteoffForm} handleCloseWriteOffForm={handleCloseWriteOffForm} payapleform={payapleform} handleCloseRefundAmount={handleCloseRefundAmount} wraitofDetails={wraitofDetails}/>
         )
       }
     </>
