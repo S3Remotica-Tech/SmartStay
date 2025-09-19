@@ -672,7 +672,7 @@ const SettingElectricity = ({ hostelid }) => {
                                 display: "block",
                               }}
                             >
-                              Pro-Write
+                              Pro-Wrate
                             </Form.Label>
                             <Form.Check style={{ marginLeft: "-17px" }}
                               type="switch"
