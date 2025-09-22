@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import building from '/src/Assets/Images/New_images/building1.svg';
 import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
+import verify from "../../Assets/Images/New_images/verify.svg";
+import Bed from "../../Assets/Images/New_images/Bed.svg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FiFilter } from "react-icons/fi";
@@ -13,7 +15,7 @@ import PropTypes from "prop-types";
 
 
 
-const EBRoomOverview = ({ onBack }) => {
+const EBTenantOverview = ({ onBack }) => {
 
 
     const [activeTab, setActiveTab] = useState("customer");
@@ -25,105 +27,132 @@ const EBRoomOverview = ({ onBack }) => {
             pic: Ellipse1,
             name: "Surya",
             bed: "Bed No 01",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
-            totalUnits: 300,
+            floor: "Ground Floor",
             amount: "₹1,000",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
             name: "Rajesh",
+            floor: "Ground Floor",
             bed: "Bed No 02",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: 220,
             amount: "₹2,200",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
+            floor: "Ground Floor",
             name: "Ramesh",
             bed: "Bed No 03",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: "---",
             amount: "₹0.00",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
+            floor: "Ground Floor",
             name: "Xavier",
             bed: "Bed No 04",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: "---",
             amount: "₹0.00",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
+            floor: "Ground Floor",
             name: "Britto",
             bed: "Bed No 05",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: "---",
             amount: "₹0.00",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
+            floor: "Ground Floor",
             name: "Alex",
             bed: "Bed No 01",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: "---",
             amount: "₹0.00",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
+            floor: "Ground Floor",
             name: "Surya",
             bed: "Bed No 01",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: "---",
             amount: "₹0.00",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
+            floor: "Ground Floor",
             name: "Supriya",
             bed: "Bed No 02",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: "---",
             amount: "₹0.00",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
+            floor: "Ground Floor",
             name: "Karthick",
             bed: "Bed No 03",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: "---",
             amount: "₹0.00",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
         },
         {
+            floor: "Ground Floor",
             name: "Priya",
             bed: "Bed No 03",
-            billingMonth: "Aug 2025",
+            billingMonth: "1 sep",
             from: "02 Jul",
             to: "23 Aug",
             totalUnits: "---",
             amount: "₹0.00",
-            action: "⋮",
+            room: "Room 001",
+            units: 300,
 
         },
     ];
+
+    const [roomData] = useState({
+        pic: Ellipse1,
+        roomNo: "004",
+        floor: "Ground Floor",
+        bedNo: "01",
+        name: "ARUN"
+    });
 
 
     return (
@@ -159,7 +188,7 @@ const EBRoomOverview = ({ onBack }) => {
                                 paddingLeft: "10px",
                             }}
                         >
-                            Room Overview
+                            EB Bill Overview
                         </span>
                     </div>
 
@@ -170,29 +199,67 @@ const EBRoomOverview = ({ onBack }) => {
                         zIndex: 10,
                         background: "white"
                     }}>
-                        <div className="card-body">
-
-                            <div className="d-flex align-items-center mb-3 mb-md-0">
 
 
-                                <div style={{ marginLeft: 10 }}>
-                                    <p
-                                        className="card-title mb-0"
+                        <div
+                            className="card-body d-flex align-items-center"
+                            style={{ gap: "12px" }}
+                        >
+                            <img
+                                src={roomData.pic}
+                                alt="Profile"
+                                style={{ width: "60px", height: "60px", borderRadius: "50%" }}
+                            />
+
+                            <div>
+
+                                <p
+                                    className="mb-1"
+                                    style={{
+                                        fontSize: "17px",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                    }}
+                                >
+                                    {roomData.name}
+                                    <img src={verify} alt="verify" style={{ marginTop: "-5px" }}></img>
+                                </p>
+
+                                <div className="d-flex align-items-center" style={{ gap: "16px" }}>
+
+                                    <div className="d-flex align-items-center" style={{ gap: "6px" }}>
+                                        <img src={building} height="14" width="14" alt="Floor" />
+                                        <span style={{ color: "Black", fontWeight: 600, fontSize: "14px" }}>
+                                            {roomData.floor}
+                                        </span>
+                                    </div>
+
+                                    <span style={{ fontSize: "14px", fontWeight: 600, color: "black", }}>
+                                        Room No {roomData.roomNo}
+                                    </span>
+
+                                    <span
                                         style={{
-                                            fontSize: "17px",
+                                            fontSize: "14px",
                                             fontWeight: 600,
-                                            fontFamily: "Gilroy",
+                                            color: "black",
+                                            marginLeft: 5,
                                         }}
                                     >
-                                        Room No 004
-                                    </p>
-                                    <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
-                                        <img src={building} height="14" width="14" alt="Ground Floor" />
-                                        <div style={{ color: "#4B4B4B", fontSize: 14 }}>Ground Floor</div>
-                                    </div>
+                                        <img
+                                            src={Bed}
+                                            height="14"
+                                            width="14"
+                                            style={{ marginRight: 6, marginTop: "-4px" }}
+                                            alt="Bed"
+                                        />
+                                        Bed No {roomData.bedNo}
+                                    </span>
+
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -217,7 +284,7 @@ const EBRoomOverview = ({ onBack }) => {
                                         : "2px solid transparent",
                             }}
                         >
-                            Reading
+                            Current Reading
                         </div>
                         <div
                             onClick={() => setActiveTab("room")}
@@ -234,7 +301,7 @@ const EBRoomOverview = ({ onBack }) => {
                                         : "2px solid transparent",
                             }}
                         >
-                            Occupants
+                            Previous Reading
                         </div>
                     </div>
 
@@ -293,14 +360,20 @@ const EBRoomOverview = ({ onBack }) => {
                                             TO
                                         </th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                                            TOTAL UNITS
+                                            FLOOR
                                         </th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                                            AMOUNT
+                                            ROOM
                                         </th>
 
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
-                                            ACTION
+                                            BED
+                                        </th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                            TOTAL UNITS
+                                        </th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
+                                            AMOUNT
                                         </th>
                                     </tr>
                                 </thead>
@@ -311,10 +384,15 @@ const EBRoomOverview = ({ onBack }) => {
 
                                                 <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.totalUnits}</td>
-                                                <td style={{ paddingLeft: "25px" }}>{row.amount}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.action}</td>
+                                                <td style={{ paddingLeft: "5px" }}>{row.to}</td>
+                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.floor}</td>
+                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.room}</td>
+                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.bed}</td>
+                                                <td style={{ paddingLeft: "40px", fontWeight: 600, color: "black" }}>{row.units}</td>
+                                                <td style={{ paddingLeft: "25px", fontWeight: 600, color: "black" }}>{row.amount}</td>
+
+
+
                                             </tr>
                                         ))}
                                     </PaginationList>
@@ -357,9 +435,6 @@ const EBRoomOverview = ({ onBack }) => {
                                 >
                                     <tr className="text-uppercase">
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                                            NAME
-                                        </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             BILLING MONTH
                                         </th>
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
@@ -368,35 +443,39 @@ const EBRoomOverview = ({ onBack }) => {
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
                                             TO
                                         </th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                            FLOOR
+                                        </th>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                            ROOM
+                                        </th>
+
                                         <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
                                             BED
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
                                             TOTAL UNITS
                                         </th>
-                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                                        <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>
                                             AMOUNT
                                         </th>
-
-
                                     </tr>
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
                                         {billingData.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                                               
-                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>
-                                                    <img src={Ellipse1} alt="" style={{ marginRight: "12px" }} />
-                                                    {row.name}
-                                                </td>
 
                                                 <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.from}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "10px" }}>{row.bed}</td>
-                                                <td style={{ paddingLeft: "40px", fontWeight: 600, color: "black" }}>{row.totalUnits}</td>
+                                                <td style={{ paddingLeft: "5px" }}>{row.to}</td>
+                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.floor}</td>
+                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.room}</td>
+                                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>{row.bed}</td>
+                                                <td style={{ paddingLeft: "40px", fontWeight: 600, color: "black" }}>{row.units}</td>
                                                 <td style={{ paddingLeft: "25px", fontWeight: 600, color: "black" }}>{row.amount}</td>
+
+
 
                                             </tr>
                                         ))}
@@ -411,7 +490,7 @@ const EBRoomOverview = ({ onBack }) => {
     );
 };
 
-EBRoomOverview.propTypes = {
+EBTenantOverview.propTypes = {
     onBack: PropTypes.func.isRequired,
 };
-export default EBRoomOverview;
+export default EBTenantOverview;
