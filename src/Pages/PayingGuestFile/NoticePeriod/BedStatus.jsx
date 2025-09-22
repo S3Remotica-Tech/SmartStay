@@ -87,17 +87,17 @@ const handleFinalsettelmentGenerate = () => {
     });
   }
 
-  const [detuction, setDetuction] = useState("")
+  // const [detuction, setDetuction] = useState("")
 
-  useEffect(() => {
-    if (state?.UsersList?.Deduction) {
-      setDetuction(state?.UsersList?.Deduction)
-    }
+  // useEffect(() => {
+  //   if (state?.UsersList?.Deduction) {
+  //     setDetuction(state?.UsersList?.Deduction)
+  //   }
 
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    }, 500);
-  }, [state?.UsersList?.Deduction]);
+  //   setTimeout(() => {
+  //     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  //   }, 500);
+  // }, [state?.UsersList?.Deduction]);
 
   useEffect(() => {
 

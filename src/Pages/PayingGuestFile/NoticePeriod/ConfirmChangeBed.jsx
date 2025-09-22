@@ -135,7 +135,7 @@ ConfirmChangeBed.propTypes = {
     }
 
 
-    setFormLoading(true)
+    // setFormLoading(true)
   };
 useEffect(() => {
   if (selectedBedDetails?.bedamount ) {
