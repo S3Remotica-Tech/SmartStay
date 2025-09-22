@@ -202,3 +202,9 @@ export const checkoutCustomerProfile = (checoutprofile) => ({
   type: "SET_CHECKOUT_PROFILE",
   payload: checoutprofile,
 });
+
+
+export const  triggerPG = (pg) => ({
+  type: "TRIGGER_PG",
+  payload: pg,
+});

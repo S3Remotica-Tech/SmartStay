@@ -26,13 +26,23 @@ import DueCustomerConfirmCheckout from '../CustomerFile/DueCustomerConfirmChecko
 // import UserlistForm from '../CustomerFile/UserlistForm';
 import AddCustomerPG from './AddCustomerPG';
 import FinalSettlement from '../CustomerFile/FinalSettlement';
+// import ChangeBedModal from '../CustomerFile/ChangeBed';
+// import ChangeBedPgView from './NoticePeriod/ChangeBedPgView';
+import { triggerPG } from '../../Redux/Action/smartStayAction';
+import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import Tick from '../../Assets/v2Images/Tick.svg'
+import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 
 function BedDetailsMap({ room, propsValue }) {
 
 
+    console.log("room", room)
+
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
     // const [bedList, setBedList] = useState([])
+    const navigate = useNavigate();
     const [emptybed, setEmptyBed] = useState(false)
     const [showReservedBed, setShowReservedBed] = useState(false)
     const [occupiedCustomer, setOccupiedCustomer] = useState(false)
@@ -55,19 +65,27 @@ function BedDetailsMap({ room, propsValue }) {
     const [showDeleteBed, setShowDeleteBed] = useState(false)
     const [showBed, setShowBed] = useState(false)
     const [details, setDetails] = useState('')
- const [makeasinactive, setMakeasInactive] = useState(false)  
-const [finalsettlepage,setFinalSettlePage] = useState(false)
+    const [makeasinactive, setMakeasInactive] = useState(false)
+    const [finalsettlepage, setFinalSettlePage] = useState(false)
+    const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] = useState(false)
+    const [clickedBed, setClickedBed] = useState('')
+    const [changeBedClicked, setChangedBedClicked] = useState('')
 
-const handleshowfinalsettlement = (isvisible ,customerId) => {
-   setCustomerId(customerId)
-   
-      setFinalSettlePage(isvisible)
-      setNoticePeriodBed(false)
-  }
- 
-  const handleClosefinalsettelment = ()=>{
-    setFinalSettlePage(false)
-  }
+
+    console.log("First clickedBed",clickedBed)
+
+    console.log("Second changeBedClicked", changeBedClicked)
+
+    const handleshowfinalsettlement = (isvisible, customerId) => {
+        setCustomerId(customerId)
+
+        setFinalSettlePage(isvisible)
+        setNoticePeriodBed(false)
+    }
+
+    const handleClosefinalsettelment = () => {
+        setFinalSettlePage(false)
+    }
     const handleShowReservedBed = () => {
         setShowReservedBed(true)
     }
@@ -159,8 +177,8 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     }
 
     const handleCloseAddCustomer = () => {
-         dispatch({ type: "CLEAR_PHONE_ERROR" });
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+        dispatch({ type: "CLEAR_PHONE_ERROR" });
+        dispatch({ type: "CLEAR_EMAIL_ERROR" });
         setAddCustomerForm(false)
         setEmptyBed(false)
 
@@ -169,7 +187,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     const handleShowAssignTenant = (isVisible) => {
         setAssignTenantForm(isVisible)
         setEmptyBed(false)
-        
+
     }
 
     const handleCloseAssignTenant = () => {
@@ -202,38 +220,77 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
 
     }
     const handleclickBed = (bed, room) => {
+        console.log("room", room)
+        setClickedBed(bed)
+        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
-       dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+        if (!state.login.isTrigger) {
 
-        if (bed.isBooked) {
-            setShowReservedBed(true);
-           
+            if (bed.isBooked && !bed.isOccupied) {
+                setShowReservedBed(true);
+
+            }
+            else if (!bed.isOccupied) {
+                setEmptyBed(true);
+                setDeleteBedDetails({ bed, room });
+
+            }
+            else if (bed.onNotice && bed.isOccupied) {
+                setOccubiedBed(false);
+                setNoticePeriodBed(true);
+            }
+            else if (bed.isOccupied) {
+                setOccubiedBed(true);
+            }
         }
-        else if (!bed.isOccupied) {
-            setEmptyBed(true);
-            setDeleteBedDetails({ bed, room });
 
-        }
-        else if (bed.onNotice && bed.isOccupied) {
-            setOccubiedBed(false);
-            setNoticePeriodBed(true);
-                   }
-        else if (bed.isOccupied) {
-            setOccubiedBed(true);
-                   }
     };
 
+    const handleclickBedForChangeBed = (bed, room) => {
+        console.log("changeddddd", bed, room)
+        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+        setChangedBedClicked(bed)
 
-    const handleShowInActiveForm = () =>{
+    }
+
+
+
+    const handleShowInActiveForm = () => {
         setMakeasInactive(true)
         setShowReservedBed(false);
     }
 
 
 
-    const handleCloseInActive = () =>{
-              setMakeasInactive(false)
+    const handleCloseInActive = () => {
+        setMakeasInactive(false)
     }
+
+
+
+
+    const handleOpenChangeBed = () => {
+        setNoticePeriodBed(false)
+        dispatch(triggerPG(true))
+    }
+
+    console.log("state", state)
+
+
+    const handleCloseChangedBed = () => {
+        setShowConfirmChangeBedModal(false)
+    }
+
+
+    const handleShowConfirmChangeBed = () => {
+        setShowConfirmChangeBedModal(true)
+    }
+
+
+
+
+
+
 
     useEffect(() => {
         if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
@@ -260,7 +317,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     }, [room]);
 
 
-
+    console.log("clickedBed", clickedBed)
 
 
 
@@ -269,7 +326,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
         if (state.PgList.createBedStatusCode === 201 || state.PgList.updateBedStatusCode === 201) {
 
             setShowBed(false)
-                     dispatch({
+            dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
@@ -283,7 +340,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
 
     useEffect(() => {
         if (state.PgList.statusCodeDeleteBed === 200) {
-           dispatch({
+            dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
@@ -305,7 +362,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
             setAssignTenantForm(false)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_STATUS_CODES_CHECK_IN' })
-            },500)
+            }, 500)
         }
 
     }, [state.UsersList.statusCodeForCheckInCustomer])
@@ -314,31 +371,45 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
     const bedsForRoom = state.PgList?.bedList?.[room.id] || [];
 
 
-  useEffect(() => {
-    if (state?.Booking?.statusCodeForAddBooking === 200) {
-         handleCloseAssignTenant()
-       
-           dispatch({
+    const filteredBeds = state.login.isTrigger
+        ? bedsForRoom.filter(
+            (bed) =>
+                // include only when NOT booked & NOT occupied
+                (!bed.isBooked && !bed.isOccupied) ||
+
+                // or when onNotice === true BUT still not booked & not occupied
+                (bed.onNotice === true && !bed.isBooked && !bed.isOccupied)
+        )
+        : bedsForRoom;
+
+
+
+
+    useEffect(() => {
+        if (state?.Booking?.statusCodeForAddBooking === 200) {
+            handleCloseAssignTenant()
+
+            dispatch({
                 type: "GETALLBEDSLIST",
                 payload: { roomId: room.id }
             });
-          setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
-      }, 500);
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
+            }, 500);
 
-         }
-  }, [state?.Booking?.statusCodeForAddBooking ])
-
-
+        }
+    }, [state?.Booking?.statusCodeForAddBooking])
 
 
 
-  useEffect(() => {
-    if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
-     handleCloseAddCustomer()
-       
-    }
-  }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
+
+
+    useEffect(() => {
+        if (state.UsersList?.statusCodeForAddUser === 201 || state.UsersList?.statusCodeForAddCustomerSaveInfo === 201) {
+            handleCloseAddCustomer()
+
+        }
+    }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
     return (
 
@@ -369,7 +440,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
             {/* {
                 add_customerform && <UserlistForm showMenu={add_customerform} setShowMenu={handleCloseAddCustomer} />
             } */}
-             {
+            {
                 add_customerform && <AddCustomerPG showMenu={add_customerform} handleClose={handleCloseAddCustomer} />
             }
 
@@ -396,13 +467,20 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                 showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
             }
 
-  {
+            {
                 makeasinactive && <MakeAsInactive show={makeasinactive} handleCloseInActive={handleCloseInActive}
-                 inActiveDetails={customer}
+                    inActiveDetails={customer}
                 />
 
             }
 
+
+            {
+                showConfirmChangeBedModal &&
+
+                <ConfirmChangeBed show={showConfirmChangeBedModal} handleClose={handleCloseChangedBed} previousBed={clickedBed} currentBed={changeBedClicked} />
+
+            }
 
 
             {/* Occubied bed Details */}
@@ -412,10 +490,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                     handleCloseBed={handlecloseoccubiedbed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
             }
 
-            {/* {
-                Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
-                    handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer} />
-            } */}
+
 
 
             {/* Notice period  */}
@@ -423,6 +498,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                 Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
                     handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer}
                     showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet={handleshowfinalsettlement}
+                    handleOpenChangeBed={handleOpenChangeBed}
                 />}
 
 
@@ -470,15 +546,15 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                 );
             })()}
 
-{
-                  finalsettlepage &&<FinalSettlement show = {finalsettlepage}   handleClose={handleClosefinalsettelment}  
-                   data={customer}
-                   customerID={customerId}/>
-                }
+            {
+                finalsettlepage && <FinalSettlement show={finalsettlepage} handleClose={handleClosefinalsettelment}
+                    data={customer}
+                    customerID={customerId} />
+            }
 
             <div className='row g-2 overflow-auto' style={{ maxHeight: 240 }}>
-                {Array.isArray(bedsForRoom) && bedsForRoom.length > 0 &&
-                    bedsForRoom?.map((bed) => (
+                {Array.isArray(filteredBeds) && filteredBeds.length > 0 &&
+                    filteredBeds?.map((bed) => (
                         <div key={bed.id}
                             className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
                         >
@@ -487,7 +563,28 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                             >
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
 
-                                    {/* booked status */}
+
+                                    {state.login.isTrigger && Number(clickedBed?.id) === Number(bed.id) && (
+                                        <div
+                                            style={{
+                                                position: "absolute",
+                                                top: 1,
+                                                right: -10,
+                                                cursor: "pointer",
+                                                backgroundColor: "#fff",
+                                                borderRadius: 5
+                                            }}
+                                        >
+                                            <img src={Tick}
+
+                                                style={{ cursor: "pointer", height: 20, width: 20, }}
+                                            />
+                                        </div>
+                                    )}
+
+
+
+
                                     {bed.isBooked && bed.onNotice && (
                                         <div className="action-circle">
                                             2
@@ -512,6 +609,10 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                                         </div>
                                     )}
 
+
+
+
+
                                     {bed.isBooked && !bed.onNotice && (
                                         <img
                                             src={recerverimg}
@@ -522,7 +623,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                                                 position: "absolute",
                                                 top: 1,
                                                 right: -10,
-                                                cursor:  "pointer",
+                                                cursor: "pointer",
                                             }}
 
                                         />
@@ -538,7 +639,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                                                 position: "absolute",
                                                 top: 1,
                                                 right: -10,
-                                                cursor:  "pointer",
+                                                cursor: "pointer",
                                             }}
 
                                         />
@@ -546,31 +647,16 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
 
 
 
-                                    {/* occupied + notice */}
-                                    {/* {bed.isOccupied && bed.onNotice && (
-                                        <img
-                                            src={noticeimg}
-                                            alt="notice"
-                                            height={20}
-                                            width={20}
-                                            style={{
-                                                position: "absolute",
-                                                top: 1,
-                                                right: -10,
-                                                cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer'
-                                            }}
-                                            className="me-1 mb-1"
-                                        />
-                                    )} */}
 
-                                    {/* bed color */}
                                     <img className="mt-1"
                                         src={bed.isOccupied ? Green : White}
                                         alt="bedd"
                                         style={{ height: 41, width: 34, cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
                                         onClick={() => {
-                                            if (!propsValue.addPermissionError) {
+                                            if (!propsValue.addPermissionError && !state.login.isTrigger) {
                                                 handleclickBed(bed, bed.roomId);
+                                            } else if(state.login.isTrigger) {
+                                                handleclickBedForChangeBed(bed, bed.roomId);
                                             }
                                         }}
                                     />
@@ -583,7 +669,7 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                         </div>
                     ))}
 
-                {/* Add Bed */}
+
                 <div
                     className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
                     onClick={() => {
@@ -603,6 +689,72 @@ const handleshowfinalsettlement = (isvisible ,customerId) => {
                     </div>
                 </div>
             </div>
+
+
+            {
+                state.login.isTrigger && changeBedClicked.roomId &&
+
+                <div
+                    className="d-flex justify-content-center align-items-center p-2 border-top bg-white flex-wrap"
+                    style={{
+                        position: "fixed",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        zIndex: 1050,
+                    }}
+                >
+                    <div>
+                        <p
+                            style={{
+                                fontSize: 14,
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                color: "rgba(75, 75, 75, 1)",
+                                margin: 0,
+                            }}
+                        >
+                            Bed |  {Array.isArray(state.PgList?.bedList?.[room.id])
+                                ? `${state.PgList.bedList[room.id].length} sharing`
+                                : "0 sharing"}
+                        </p>
+
+                        <p>
+                            <span
+                                style={{
+                                    fontWeight: 500,
+                                    color: "rgba(30, 69, 225, 1)",
+                                    fontSize: 16,
+                                    fontFamily: "Gilroy",
+                                }}
+                            >
+                                {`Room ${customer?.roomName || "N/A"} | Bed ${customer.bedName || "-"}`}
+                            </span>
+                        </p>
+                    </div>
+
+                    <div style={{ marginLeft: 200 }}>
+                        <Button
+                            style={{
+                                fontSize: 16,
+                                backgroundColor: "#1E45E1",
+                                color: "white",
+                                fontWeight: 600,
+                                borderRadius: 12,
+                                padding: "10px 20px",
+                                fontFamily: "Gilroy",
+                            }}
+                            onClick={handleShowConfirmChangeBed}
+                        >
+                            Continue →
+                        </Button>
+                    </div>
+                </div>
+
+
+            }
+
+
 
         </div>
     )

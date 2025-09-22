@@ -305,9 +305,8 @@ function BedDetails({
                                                 <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
                                             </div>
                                             <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                {currentItem?.customerMobile
-                                                    ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
-                                                    : "No phone"}
+                                                                           {currentItem?.customerMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.customerMobile)}` : 'No phone'}
+
                                             </label></div>
                                         </div>
                                     </div>
