@@ -9,9 +9,9 @@ import Profile from '../../../Assets/Images/New_images/profile-picture.png'
 import { LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
-import { FiCalendar, } from "react-icons/fi";
+// import { FiCalendar, } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
-
+import exchange from '../../../Assets/Images/New_images/exchange.svg';
 
 
 
@@ -38,7 +38,12 @@ function OccupiedBedStatus({
 
 
     const handleReAssignBed = () => {
+        if(customer){
+            console.log("customer", customer?.[0]);
+            
         showchangeBed(true, customer?.[0]?.id)
+        }
+
     };
 
     const handleMoveToNoticePeriod = () => {
@@ -206,8 +211,8 @@ function OccupiedBedStatus({
                                                 onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                             >
 
-                                                <FiCalendar size={16} color="#1E45E1" />
-                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Re-Assign Bed</label>
+                                                 <img src={exchange} alt="Re-Assign Bed" />
+                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Change Bed</label>
                                             </div>
 
                                             <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />

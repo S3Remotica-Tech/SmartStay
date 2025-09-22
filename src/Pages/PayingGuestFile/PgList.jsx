@@ -59,16 +59,16 @@ function PgList() {
 
  const handleshowbedDesign = (customerid) => {
    setChangeBedDesignShow(true)
+   if(customerid){
+   dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: customerid} });
+   }
    const usersList = state?.UsersList?.Users;
    const foundCustomer = usersList.find((user) => user?.ID === customerid)
-   setResrvedCustomerDetails(foundCustomer || null);
-   console.log("customerid" , foundCustomer);
-   
+   setResrvedCustomerDetails(foundCustomer || null); 
  }
 
  const handlecloseChangeBed = () => {
    setChangeBedDesignShow(false)
-   setResrvedCustomerDetails({})
  }
 
  
@@ -319,6 +319,20 @@ function PgList() {
 
     }
   }, [state.PgList.createPgStatusCode]);
+
+    useEffect(() => {
+      if (state.UsersList.statusCodeForReassinBed === 200) {
+        handlecloseChangeBed();
+        dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_REASSIGN_BED" });
+        }, 200);
+      }
+    }, [state.UsersList.statusCodeForReassinBed]);
 
   useEffect(() => {
     if (selectedHostel && showHostelDetails) {
