@@ -529,6 +529,8 @@ BedStatusListView.propTypes = {
   deletePermissionError: PropTypes.func.isRequired,
   addPermissionError: PropTypes.func.isRequired,
   editPermissionError: PropTypes.func.isRequired,
+  Reserved_customer_details: PropTypes.func.isRequired,
+  floorName: PropTypes.func.isRequired,
 };
 export default BedStatusListView
 

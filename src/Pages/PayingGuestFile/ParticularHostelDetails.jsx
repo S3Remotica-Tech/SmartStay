@@ -1037,6 +1037,7 @@ ParticularHostelDetails.propTypes = {
   deletePermissionError: PropTypes.func.isRequired,
   addPermissionError: PropTypes.func.isRequired,
   editPermissionError: PropTypes.func.isRequired,
+  showchangeBed: PropTypes.func.isRequired,
 };
 export default ParticularHostelDetails
 

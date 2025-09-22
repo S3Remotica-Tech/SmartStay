@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Modal, Button, Form, } from "react-bootstrap";
 import { FiRepeat } from "react-icons/fi";
 import building from '/src/Assets/Images/New_images/building1.svg';
@@ -13,6 +13,9 @@ function ConfirmChangeBed({ show, handleClose , reserved_customer  , selectedBed
 ConfirmChangeBed.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  reserved_customer: PropTypes.func.isRequired,
+  selectedBedDetails: PropTypes.func.isRequired,
+  floorName: PropTypes.func.isRequired,
 };
   const [date, setDate] = useState("2025-07-31");
 
@@ -155,7 +158,7 @@ ConfirmChangeBed.propTypes = {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  style={{ fontSize: 13, height: 40 , fontSize: 14, fontFamily: "Gilroy" }}
+                  style={{  height: 40 , fontSize: 14, fontFamily: "Gilroy" }}
                 />
               </div>
 

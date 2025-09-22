@@ -29,7 +29,6 @@ import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import { MdError } from "react-icons/md";
 import './PgList.css';
-import ConfirmChangeBed from "./NoticePeriod/ConfirmChangeBed";
 import BedStatusListView from "./NoticePeriod/BedStatusListView";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../../Assets/Images/arrow-left.png";
@@ -61,7 +60,7 @@ function PgList() {
  const handleshowbedDesign = (customerid) => {
    setChangeBedDesignShow(true)
    const usersList = state?.UsersList?.Users;
-   const foundCustomer = usersList.find((user) => user?.ID == customerid)
+   const foundCustomer = usersList.find((user) => user?.ID === customerid)
    setResrvedCustomerDetails(foundCustomer || null);
    console.log("customerid" , foundCustomer);
    

@@ -20,7 +20,6 @@ function OccupiedBedStatus({
     show,
     handleCloseBed,
     currentItem,
-    handleShowReassignBed,
     handleShowNoticePeriod,
     showchangeBed
 }) {
@@ -39,7 +38,6 @@ function OccupiedBedStatus({
 
 
     const handleReAssignBed = () => {
-        // handleShowReassignBed(true, customer?.[0]?.id)
         showchangeBed(true, customer?.[0]?.id)
     };
 
@@ -309,7 +307,7 @@ OccupiedBedStatus.propTypes = {
     handleCloseBed: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     currentItem: PropTypes.object.isRequired,
-     handleShowReassignBed: PropTypes.func.isRequired,
-  handleShowNoticePeriod: PropTypes.func.isRequired,
+    showchangeBed: PropTypes.func.isRequired,
+    handleShowNoticePeriod: PropTypes.func.isRequired,
 };
 export default OccupiedBedStatus;
