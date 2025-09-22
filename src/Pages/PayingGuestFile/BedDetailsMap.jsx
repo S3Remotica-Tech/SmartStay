@@ -32,6 +32,7 @@ import { triggerPG } from '../../Redux/Action/smartStayAction';
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Tick from '../../Assets/v2Images/Tick.svg'
+import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -66,8 +67,14 @@ function BedDetailsMap({ room, propsValue }) {
     const [details, setDetails] = useState('')
     const [makeasinactive, setMakeasInactive] = useState(false)
     const [finalsettlepage, setFinalSettlePage] = useState(false)
-    const [OpenChangeBed, setOpenChangeBed] = useState(false)
+    const [showConfirmChangeBedModal, setShowConfirmChangeBedModal] = useState(false)
     const [clickedBed, setClickedBed] = useState('')
+    const [changeBedClicked, setChangedBedClicked] = useState('')
+
+
+    console.log("First clickedBed",clickedBed)
+
+    console.log("Second changeBedClicked", changeBedClicked)
 
     const handleshowfinalsettlement = (isvisible, customerId) => {
         setCustomerId(customerId)
@@ -213,9 +220,11 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
+        console.log("room", room)
         setClickedBed(bed)
+        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+
         if (!state.login.isTrigger) {
-            dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
             if (bed.isBooked && !bed.isOccupied) {
                 setShowReservedBed(true);
@@ -236,6 +245,14 @@ function BedDetailsMap({ room, propsValue }) {
         }
 
     };
+
+    const handleclickBedForChangeBed = (bed, room) => {
+        console.log("changeddddd", bed, room)
+        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+        setChangedBedClicked(bed)
+
+    }
+
 
 
     const handleShowInActiveForm = () => {
@@ -261,8 +278,19 @@ function BedDetailsMap({ room, propsValue }) {
 
 
     const handleCloseChangedBed = () => {
-        setOpenChangeBed(false)
+        setShowConfirmChangeBedModal(false)
     }
+
+
+    const handleShowConfirmChangeBed = () => {
+        setShowConfirmChangeBedModal(true)
+    }
+
+
+
+
+
+
 
     useEffect(() => {
         if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
@@ -447,12 +475,12 @@ function BedDetailsMap({ room, propsValue }) {
             }
 
 
-            {/* {
-                OpenChangeBed &&
-                
-                // <ChangeBedModal show={OpenChangeBed} handleClose={handleCloseChangedBed} 
-                <ChangeBedPgView   />
-            } */}
+            {
+                showConfirmChangeBedModal &&
+
+                <ConfirmChangeBed show={showConfirmChangeBedModal} handleClose={handleCloseChangedBed} previousBed={clickedBed} currentBed={changeBedClicked} />
+
+            }
 
 
             {/* Occubied bed Details */}
@@ -462,10 +490,7 @@ function BedDetailsMap({ room, propsValue }) {
                     handleCloseBed={handlecloseoccubiedbed} currentItem={customer} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
             }
 
-            {/* {
-                Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
-                    handleCloseBed={handlecloseNoticePeriodBed} currentItem={customer} />
-            } */}
+
 
 
             {/* Notice period  */}
@@ -539,7 +564,7 @@ function BedDetailsMap({ room, propsValue }) {
                                 <div style={{ position: "relative", width: 34, height: 41 }}>
 
 
-                                    {state.login.isTrigger && clickedBed?.id === bed.id && (
+                                    {state.login.isTrigger && Number(clickedBed?.id) === Number(bed.id) && (
                                         <div
                                             style={{
                                                 position: "absolute",
@@ -559,7 +584,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-                                    {/* booked status */}
+
                                     {bed.isBooked && bed.onNotice && (
                                         <div className="action-circle">
                                             2
@@ -622,31 +647,16 @@ function BedDetailsMap({ room, propsValue }) {
 
 
 
-                                    {/* occupied + notice */}
-                                    {/* {bed.isOccupied && bed.onNotice && (
-                                        <img
-                                            src={noticeimg}
-                                            alt="notice"
-                                            height={20}
-                                            width={20}
-                                            style={{
-                                                position: "absolute",
-                                                top: 1,
-                                                right: -10,
-                                                cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer'
-                                            }}
-                                            className="me-1 mb-1"
-                                        />
-                                    )} */}
 
-                                    {/* bed color */}
                                     <img className="mt-1"
                                         src={bed.isOccupied ? Green : White}
                                         alt="bedd"
                                         style={{ height: 41, width: 34, cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
                                         onClick={() => {
-                                            if (!propsValue.addPermissionError) {
+                                            if (!propsValue.addPermissionError && !state.login.isTrigger) {
                                                 handleclickBed(bed, bed.roomId);
+                                            } else if(state.login.isTrigger) {
+                                                handleclickBedForChangeBed(bed, bed.roomId);
                                             }
                                         }}
                                     />
@@ -659,7 +669,7 @@ function BedDetailsMap({ room, propsValue }) {
                         </div>
                     ))}
 
-                {/* Add Bed */}
+
                 <div
                     className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
                     onClick={() => {
@@ -682,7 +692,7 @@ function BedDetailsMap({ room, propsValue }) {
 
 
             {
-                state.login.isTrigger &&
+                state.login.isTrigger && changeBedClicked.roomId &&
 
                 <div
                     className="d-flex justify-content-center align-items-center p-2 border-top bg-white flex-wrap"
@@ -718,7 +728,7 @@ function BedDetailsMap({ room, propsValue }) {
                                     fontFamily: "Gilroy",
                                 }}
                             >
-                                {`Room ${clickedBed?.roomId || "-"} | Bed ${clickedBed?.bedName || "-"}`}
+                                {`Room ${customer?.roomName || "N/A"} | Bed ${customer.bedName || "-"}`}
                             </span>
                         </p>
                     </div>
@@ -734,7 +744,7 @@ function BedDetailsMap({ room, propsValue }) {
                                 padding: "10px 20px",
                                 fontFamily: "Gilroy",
                             }}
-                        //   onClick={handleShowconfirmchangeBed}
+                            onClick={handleShowConfirmChangeBed}
                         >
                             Continue →
                         </Button>

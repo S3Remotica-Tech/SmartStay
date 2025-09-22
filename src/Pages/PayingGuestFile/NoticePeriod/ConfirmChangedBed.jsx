@@ -1,6 +1,5 @@
-
-import PropTypes from "prop-types";
 /* eslint-disable react-hooks/exhaustive-deps */
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, } from "react-bootstrap";
 import { FiRepeat } from "react-icons/fi";
@@ -10,12 +9,18 @@ import Group from "/src/Assets/Images/New_images/Group.png";
 import repeatOne from "/src/Assets/Images/New_images/repeate-one.svg";
 
 
-function ConfirmChangeBed({ show, handleClose , reserved_customer  , selectedBedDetails , floorName}) {
+function ConfirmChangeBed({ show, handleClose, previousBed, currentBed }) {
 ConfirmChangeBed.propTypes = {
   show: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  previousBed:PropTypes.func.isRequired,
+  currentBed:PropTypes.func.isRequired
 };
   const [date, setDate] = useState("2025-07-31");
+
+console.log("previousBed",previousBed)
+
+console.log("currentbed",currentBed)
 
 
   return (
@@ -69,7 +74,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="building"
                   />
-                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{reserved_customer.Booking_FloorName} </span>
+                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{previousBed?.floorName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -79,7 +84,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '24px', height: '24px', verticalAlign: 'middle' }}
                     alt="Frame"
                   />
-                  <span style={{ position: 'relative', top: '2px' }}>Room {reserved_customer.Booking_Rooms} </span>
+                  <span style={{ position: 'relative', top: '2px' }}>Room {previousBed?.roomName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -89,7 +94,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="Group"
                   />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {reserved_customer.Booking_Bed} </span>
+                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {previousBed?.bedName || 'N/A'} </span>
                 </p>
 
               </div>
@@ -122,7 +127,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="building"
                   />
-                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{floorName? floorName : "-"} </span>
+                  <span style={{ position: 'relative', top: '4px', left: '3px' }}>{currentBed?.floorName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -132,7 +137,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '24px', height: '24px', verticalAlign: 'middle' }}
                     alt="Frame"
                   />
-                  <span style={{ position: 'relative', top: '2px' }}>Room {selectedBedDetails.roomName} </span>
+                  <span style={{ position: 'relative', top: '2px' }}>Room {currentBed?.roomName || 'N/A'} </span>
                 </p>
 
                 <p className="mb-3" style={{ fontFamily: 'Gilroy', fontSize: '16px' }}>
@@ -142,7 +147,7 @@ ConfirmChangeBed.propTypes = {
                     style={{ width: '20px', height: '20px', verticalAlign: 'middle' }}
                     alt="Group"
                   />
-                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {selectedBedDetails.bedNo} </span>
+                  <span style={{ position: 'relative', top: '3px', left: '4px' }}>Bed {currentBed?.bedName || 'N/A'} </span>
                 </p>
               </div>
             </div>
@@ -180,7 +185,7 @@ ConfirmChangeBed.propTypes = {
                 variant="primary"
                 className="px-4"
                 style={{
-                  backgroundColor: "#0056FF",
+                  backgroundColor: "#1E45E1",
                   borderRadius: "8px",
                   width: "260px" ,fontSize: 16, fontFamily: "Gilroy" 
                 }}

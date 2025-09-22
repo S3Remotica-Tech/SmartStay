@@ -294,32 +294,7 @@ function ParticularHostelDetails(props) {
       <div >
 
         <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
-          {/* {loader && <div
-            style={{
-              position: 'absolute',
-              top: 200,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>} */}
+          
         </div>
 
         <div className='container-fluid show-scroll' style={{ maxHeight: "400px", overflowY: "auto", marginTop: "-25px" }}>
@@ -346,7 +321,9 @@ function ParticularHostelDetails(props) {
 
 
 
-                    <div onClick={() => handleShowDots(room.id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
+                    <div onClick={() =>{
+                      if(!state.login.isTrigger) handleShowDots(room.id)} }
+                       style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                       <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                       {String(activeRoomId) === String(room.id) && (
                         <div

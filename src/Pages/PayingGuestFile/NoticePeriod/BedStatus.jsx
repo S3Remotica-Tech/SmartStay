@@ -414,10 +414,10 @@ const handleChangeBed = () =>{
                     </div>
                     <div>
                       <div>
-                        <label style={{ fontSize: 16, color: "#000", fontFamily: "Gilroy", fontWeight: 500 }}>₹{5500}</label>
+                        <label style={{ fontSize: 16, color: "#000", fontFamily: "Gilroy", fontWeight: 500 }}>₹{currentItem?.rentAmount}</label>
                       </div>
                       <div>
-                        <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 400 }}>20 Sep 2025</label>
+                        <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 400 }}>{currentItem?.currentTenantLeavingOn}</label>
                       </div>
                     </div>
                   </div>
@@ -608,7 +608,7 @@ const handleChangeBed = () =>{
                           <label style={{ fontSize: 16, color: "#000", fontFamily: "Gilroy", fontWeight: 500 }}>₹{5500}</label>
                         </div>
                         <div>
-                          <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 400 }}>25 Sep 2025</label>
+                          <label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 400 }}>{currentItem?.newTenantJoiningDate}</label>
                         </div>
                       </div>
                     </div>

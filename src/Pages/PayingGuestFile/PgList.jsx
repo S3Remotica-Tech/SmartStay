@@ -721,12 +721,12 @@ function PgList() {
   };
 
 
-const handleCloseChangeBed = () =>{
-  console.log("called")
-  dispatch(triggerPG(false))
-}
+  const handleCloseChangeBed = () => {
+    console.log("called")
+    dispatch(triggerPG(false))
+  }
 
-console.log("state.login.isTrigger",state.login.isTrigger)
+  console.log("state.login.isTrigger", state.login.isTrigger)
 
 
   return (
@@ -854,7 +854,11 @@ console.log("state.login.isTrigger",state.login.isTrigger)
                         }}
                       >
                         <img
-                          src={Profiles}
+                          src={
+                            state.PgList?.OccupiedCustomer?.profilePic
+                            || Profiles
+                          }
+
                           alt={"Default Profile"}
                           style={{
                             height: "60px",
@@ -886,7 +890,7 @@ console.log("state.login.isTrigger",state.login.isTrigger)
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Xavier
+                          {state.PgList?.OccupiedCustomer?.fullName}
 
                         </span>
 
@@ -894,13 +898,13 @@ console.log("state.login.isTrigger",state.login.isTrigger)
 
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '25px' }}>
                           <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                            <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" className="me-1" /> G1
+                            <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.floorName}
                           </div>
                           <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                            <img src={RoomImage} alt="RoomImage" size="16" color="#1E45E1" className="me-1" /> Room1
+                            <img src={RoomImage} alt="RoomImage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.roomName}
                           </div>
                           <div style={{ fontSize: 12, fontFamily: "Gilroy", }}>
-                            <img src={Group} alt="bedimage" size="16" color="#1E45E1" className="me-1" /> Bed 03
+                            <img src={Group} alt="bedimage" size="16" color="#1E45E1" className="me-1" /> {state.PgList?.OccupiedCustomer?.bedName}
                           </div>
 
                         </div>
@@ -1156,105 +1160,105 @@ console.log("state.login.isTrigger",state.login.isTrigger)
                                   </p>
                                 </div>
 
-{
+                                {
 
-                                    !state.login.isTrigger &&
-                                <div
-                                  style={{
-                                    cursor: "pointer",
-                                    height: 40,
-                                    width: 40,
-                                    borderRadius: 100,
-                                    border: "1px solid #EFEFEF",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    position: "relative",
-                                    zIndex: showDots ? 1000 : "auto",
-                                    backgroundColor: showDots ? "#E7F1FF" : "#fff",
-                                  }}
-                                  onClick={handleShowDots}
-                                >
-                                  <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-                                  {showDots && (
-                                    <div
-                                      ref={popupRef}
-                                      className="pg-card"
-                                      style={{
-                                        backgroundColor: "#fff",
-                                        position: "absolute",
-                                        right: 40,
-                                        top: 10,
-                                        border: "1px solid #E0E0E0",
-                                        borderRadius: 10,
-                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                        width: 140,
-                                        zIndex: 1000,
-                                      }}
-                                    >
-                                      <div>
-                                        <div
-                                          className="d-flex gap-2 align-items-center"
-                                          onClick={
-                                            !editPermissionError
-                                              ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
-                                              : undefined
-                                          }
-                                          style={{
-                                            padding: "8px 12px",
-                                            borderRadius: 6,
-                                            pointerEvents: editPermissionError ? "none" : "auto",
-                                            opacity: editPermissionError ? 0.5 : 1,
-                                            cursor: editPermissionError ? "not-allowed" : "pointer",
-                                          }}
-                                        >
-                                          <Edit size="16" color={editPermissionError ? "#A0A0A0" : "#1E45E1"} />
-                                          <span
+                                  !state.login.isTrigger &&
+                                  <div
+                                    style={{
+                                      cursor: "pointer",
+                                      height: 40,
+                                      width: 40,
+                                      borderRadius: 100,
+                                      border: "1px solid #EFEFEF",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      position: "relative",
+                                      zIndex: showDots ? 1000 : "auto",
+                                      backgroundColor: showDots ? "#E7F1FF" : "#fff",
+                                    }}
+                                    onClick={handleShowDots}
+                                  >
+                                    <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                                    {showDots && (
+                                      <div
+                                        ref={popupRef}
+                                        className="pg-card"
+                                        style={{
+                                          backgroundColor: "#fff",
+                                          position: "absolute",
+                                          right: 40,
+                                          top: 10,
+                                          border: "1px solid #E0E0E0",
+                                          borderRadius: 10,
+                                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                          width: 140,
+                                          zIndex: 1000,
+                                        }}
+                                      >
+                                        <div>
+                                          <div
+                                            className="d-flex gap-2 align-items-center"
+                                            onClick={
+                                              !editPermissionError
+                                                ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
+                                                : undefined
+                                            }
                                             style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              color: editPermissionError ? "#A0A0A0" : "#1E45E1",
+                                              padding: "8px 12px",
+                                              borderRadius: 6,
+                                              pointerEvents: editPermissionError ? "none" : "auto",
+                                              opacity: editPermissionError ? 0.5 : 1,
+                                              cursor: editPermissionError ? "not-allowed" : "pointer",
                                             }}
                                           >
-                                            Edit
-                                          </span>
-                                        </div>
+                                            <Edit size="16" color={editPermissionError ? "#A0A0A0" : "#1E45E1"} />
+                                            <span
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                color: editPermissionError ? "#A0A0A0" : "#1E45E1",
+                                              }}
+                                            >
+                                              Edit
+                                            </span>
+                                          </div>
 
-                                        <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "4px 0" }} />
+                                          <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "4px 0" }} />
 
-                                        <div
-                                          className="d-flex gap-2 align-items-center"
-                                          onClick={
-                                            !deletePermissionError
-                                              ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
-                                              : undefined
-                                          }
-                                          style={{
-                                            padding: "8px 12px",
-                                            borderRadius: 6,
-                                            pointerEvents: deletePermissionError ? "none" : "auto",
-                                            opacity: deletePermissionError ? 0.5 : 1,
-                                            cursor: deletePermissionError ? "not-allowed" : "pointer",
-                                          }}
-                                        >
-                                          <Trash size="16" color={deletePermissionError ? "#A0A0A0" : "#FF0000"} />
-                                          <span
+                                          <div
+                                            className="d-flex gap-2 align-items-center"
+                                            onClick={
+                                              !deletePermissionError
+                                                ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
+                                                : undefined
+                                            }
                                             style={{
-                                              fontSize: 14,
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              color: deletePermissionError ? "#A0A0A0" : "#FF0000",
+                                              padding: "8px 12px",
+                                              borderRadius: 6,
+                                              pointerEvents: deletePermissionError ? "none" : "auto",
+                                              opacity: deletePermissionError ? 0.5 : 1,
+                                              cursor: deletePermissionError ? "not-allowed" : "pointer",
                                             }}
                                           >
-                                            Delete
-                                          </span>
+                                            <Trash size="16" color={deletePermissionError ? "#A0A0A0" : "#FF0000"} />
+                                            <span
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy",
+                                                color: deletePermissionError ? "#A0A0A0" : "#FF0000",
+                                              }}
+                                            >
+                                              Delete
+                                            </span>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  )}
-                                </div>
-}
+                                    )}
+                                  </div>
+                                }
                               </div>
 
                             </div>

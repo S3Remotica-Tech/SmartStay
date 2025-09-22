@@ -223,9 +223,8 @@ function OccupiedBedStatus({
                                             </div>
                                             <div>
                                                 <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                    {currentItem?.customerMobile
-                    ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
-                    : "No phone"}
+                                                                               {currentItem?.customerMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.customerMobile)}` : 'No phone'}
+
                                                 </label>
 
                                             </div>
