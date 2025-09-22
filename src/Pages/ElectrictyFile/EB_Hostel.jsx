@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import { Table } from "react-bootstrap";
 import { Modal, Offcanvas, Button, Form } from "react-bootstrap";
@@ -16,6 +16,7 @@ import EB_RoomOverview from "./EB_RoomOverview";
 import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
+import { useDispatch, useSelector } from "react-redux";
 // import ClipPathGroup from "../../Assets/Images/New_images/ClipPathGroup.svg";
 
 
@@ -23,7 +24,36 @@ import EB_TenantOverview from "./EB_TenantOverview";
 
 const RoomReadingTable = () => {
 
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+console.log("RoomReadingTable",state)
+  useEffect(() => {
+    // props.setLoader(true)
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "EBSTARTMETERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
 
+    }
+
+  }, [state.login.selectedHostel_Id]);
+
+
+    const ebList = state.PgList.EB_startmeterlist;
+
+// group and take last entry
+const latestReadings = Object.values(
+  ebList.reduce((acc, item) => {
+    const key = `${item.hostel_id}_${item.floor_id}_${item.room_id}`;
+    // If no entry yet or this one is later, replace
+    if (!acc[key] || new Date(item.date) > new Date(acc[key].date)) {
+      acc[key] = item;
+    }
+    return acc;
+  }, {})
+);
+console.log("latestReadings",latestReadings)
   const [activeTab, setActiveTab] = useState("customer");
   // const [loading, setLoading] = useState(false);
 
@@ -547,21 +577,21 @@ const RoomReadingTable = () => {
                   </thead>
                   <tbody style={{ fontSize: 14, color: "#000" }}>
                     <PaginationList>
-                      {data.map((row, i) => (
+                      {latestReadings.map((row, i) => (
                         <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                          <td style={{ fontSize: 15, fontWeight: 600 }}>{row.floor}</td>
+                          <td style={{ fontSize: 15, fontWeight: 600 }}>{row.floor_name}</td>
                           <td
                             style={{ color: "#1E45E1", cursor: "pointer", fontWeight: 600 }}
                             onClick={() => handleRoomDetailsPage(row.room)}
                           >
-                            {row.room}
+                            {row.Room_Id}
                           </td>
                           <td style={{ paddingLeft: "40px" }}>{row.occupants}</td>
-                          <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
+                           <td>{new Date(row.date).toLocaleString("default", { month: "short" })}</td>
                           <td style={{ paddingLeft: "40px" }}>{row.previous}</td>
-                          <td style={{ paddingLeft: "40px" }}>{row.current}</td>
-                          <td style={{ paddingLeft: "40px" }}>{row.units}</td>
-                          <td style={{ paddingLeft: "30px" }}>{row.amount}</td>
+                          <td style={{ paddingLeft: "40px" }}>{row.reading}</td>
+                          <td style={{ paddingLeft: "40px" }}>{row.total_reading}</td>
+                          <td style={{ paddingLeft: "30px" }}>{row.total_amount}</td>
                           <td style={{ paddingLeft: "40px" }}>
                             <img
                               src={Group}
@@ -786,4 +816,3 @@ const RoomReadingTable = () => {
 };
 
 export default RoomReadingTable;
-
