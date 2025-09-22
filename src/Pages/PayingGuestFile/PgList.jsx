@@ -29,6 +29,12 @@ import overdueimg from "../../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../../Assets/Images/New_images/noticeperiodimg.png";
 import { MdError } from "react-icons/md";
 import './PgList.css';
+import BedStatusListView from "./NoticePeriod/BedStatusListView";
+import Profiles from "../../Assets/Images/New_images/profile-picture.png";
+import leftarrow from "../../Assets/Images/arrow-left.png";
+import Group from "../../Assets/Images/Group.png";
+import Floorimage from "../../Assets/Images/floor_icon.png";
+import RoomImage from "../../Assets/Images/room_icon.png";
 
 function PgList() {
   const dispatch = useDispatch();
@@ -48,8 +54,22 @@ function PgList() {
 
   const popupRef = useRef(null);
 
+ const [changebedDesignshow , setChangeBedDesignShow] = useState(false)
+ const [Reserved_customer_details, setResrvedCustomerDetails] = useState({})
 
+ const handleshowbedDesign = (customerid) => {
+   setChangeBedDesignShow(true)
+   const usersList = state?.UsersList?.Users;
+   const foundCustomer = usersList.find((user) => user?.ID === customerid)
+   setResrvedCustomerDetails(foundCustomer || null);
+   console.log("customerid" , foundCustomer);
+   
+ }
 
+ const handlecloseChangeBed = () => {
+   setChangeBedDesignShow(false)
+   setResrvedCustomerDetails({})
+ }
 
  
   const [floorClick, setFloorClick] = useState("");
@@ -727,10 +747,131 @@ useEffect(() => {
         </>
       ) : (
         <div className="container">
+
+          { changebedDesignshow &&
+
+            <>
+             <div
+                                className="d-flex align-items-center"
+                                style={{
+                                  position: "sticky",
+                                  top: 0,
+                                  zIndex: 1000,
+                                  backgroundColor: "#fff",
+                                  padding: "12px 20px",
+                                  height: "50px",
+                                }}
+                              >
+                                <img
+                                  src={leftarrow}
+                                  onClick={handlecloseChangeBed}
+                                  alt="leftarrow"
+                                  width={20}
+                                  height={20}
+                                  style={{ cursor: "pointer" }}
+                                />
+                                <span
+                                  style={{
+                                    fontWeight: 600,
+                                    fontSize: "18px",
+                                    fontFamily: "Gilroy",
+                                    paddingLeft: "10px",
+                                  }}
+                                >
+                                  Change Bed
+                                </span>
+                              </div>
+            <div
+                                className="card mt-1"
+                                style={{ borderRadius: "14px", marginLeft: "20px" }}
+                              >
+                                <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
+                                  <div className="d-flex align-items-center mb-3 mb-md-0">
+            
+            
+            
+                 
+            <div
+              style={{
+                position: "relative",
+                width: "60px",
+                height: "60px",
+                marginRight: "10px",
+              }}
+            >
+              <img
+                src={Profiles}
+                alt={ "Default Profile"}
+                style={{
+                  height: "60px",
+                  width: "60px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = Profiles;
+                }}
+              />
+            
+             
+            </div>
+            
+            
+            
+            
+            
+            
+            
+                                    <div style={{ marginLeft: 10 }}>
+                                      <span
+                                        className="card-title mb-0"
+                                        style={{
+                                          fontSize: "20px",
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                        }}
+                                      >
+                                        {Reserved_customer_details?.Name} 
+                                        
+                                      </span>
+            
+            
+                                      
+            <div style={{display:'flex', flexDirection:'row', gap:'25px'}}>
+                    <div style={{fontSize:12 ,   fontFamily: "Gilroy",}}>
+                        <img src={Floorimage} alt="Floorimage" size="16" color="#1E45E1" className="me-1"/> {Reserved_customer_details?.Booking_FloorName || Reserved_customer_details?.floor_name} 
+                    </div>
+                    <div style={{fontSize:12 ,   fontFamily: "Gilroy",}}>
+                        <img src={RoomImage} alt="RoomImage" size="16" color="#1E45E1" className="me-1"/> {Reserved_customer_details?.Booking_Rooms || Reserved_customer_details?.Rooms} 
+                    </div>
+                    <div style={{fontSize:12 ,   fontFamily: "Gilroy",}}>
+                        <img src={Group} alt="bedimage" size="16" color="#1E45E1" className="me-1"/> {Reserved_customer_details?.Booking_Bed || Reserved_customer_details?.Bed} 
+                    </div>
+                                      
+                   </div>                   
+                                      
+            
+                                     
+            
+                            
+                                      
+            
+                                    </div>
+                                  </div>
+            
+                              
+            
+                                </div>
+                              </div>
+            </>
+          }
     
           {selectedHostel && (
             <div className="container mt-3">
               <div className="d-flex justify-content-between align-items-center mb-3">
+                     {
+               !changebedDesignshow &&
                 <div className="d-flex align-items-center">
                  
                   <label
@@ -740,17 +881,19 @@ useEffect(() => {
                       color: "rgba(34, 34, 34, 1)",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                    }}
+                    }} 
                   >
                     {showHostelDetails?.Name}
                   </label>
-                </div>
+                </div>}
 
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="me-3">
 
                   </div>
 
+                   {
+               !changebedDesignshow &&
                   <div style={{ marginTop: 5 }}>
                     <Button
                       style={{
@@ -769,6 +912,7 @@ useEffect(() => {
                       +  Floor
                     </Button>
                   </div>
+                    }
                 </div>
               </div>
 
@@ -927,25 +1071,38 @@ useEffect(() => {
               <img className="me-1 mb-1" src={availabeimg} alt="available" />
               Available
             </p>
-            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+            {
+               !changebedDesignshow &&
+ <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
               <img className="me-1 mb-1" src={occubiedimg} alt="occupied" />
               Occupied
             </p>
+            }
+              {
+               !changebedDesignshow &&
             <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
               <img className="me-1 mb-1" src={recerverimg} alt="reserved" />
               Reserved
             </p>
+}
+               {
+               !changebedDesignshow &&
             <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
               <img className="me-1 mb-1" src={overdueimg} alt="overdue" />
               Overdue
-            </p>
-            <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
+            </p> }
+            {
+              Reserved_customer_details?.bed_status !== "Check In" && 
+              <p style={{ margin: 10, fontFamily: "Gilroy", fontSize: 14, fontWeight: 500 }}>
               <img className="me-1 mb-1" src={noticeimg} alt="notice" />
               Notice Period
             </p>
+            }
+            
           </div>
 
-    
+     {
+               !changebedDesignshow &&
           <div
             style={{
               cursor: "pointer",
@@ -1041,20 +1198,37 @@ useEffect(() => {
               </div>
             )}
           </div>
+}
+
         </div>
 
       </div>
     </div>
 
     <Tab.Content>
-      <ParticularHostelDetails
+      {
+        !changebedDesignshow ? 
+          <ParticularHostelDetails
         floorID={floorClick}
         hostel_Id={state.login?.selectedHostel_Id}
         phoneNumber={showHostelDetails.hostel_PhoneNo}
         editPermissionError={editPermissionError}
         deletePermissionError={deletePermissionError}
         addPermissionError={addPermissionError}
+        showchangebed = {handleshowbedDesign}
+      /> : <BedStatusListView  
+         floorID={floorClick}
+        hostel_Id={state.login?.selectedHostel_Id}
+        phoneNumber={showHostelDetails.hostel_PhoneNo}
+        editPermissionError={editPermissionError}
+        deletePermissionError={deletePermissionError}
+        addPermissionError={addPermissionError}
+        showchangebed = {handleshowbedDesign}
+        Reserved_customer_details={Reserved_customer_details}
+        floorName={floorName}
       />
+      }
+    
     </Tab.Content>
   </Col>
 </Row>

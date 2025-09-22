@@ -259,13 +259,20 @@ console.log("customerID",bed, room)
     setNoticePeriodCheckout(isVisible)
     setNoticePeriodBed(false)
     setCustomerID(customerId)
-    
-
   }
 
   const handlecloseNoticeperiodCheckout = () => {
     setNoticePeriodCheckout(false)
   }
+
+  const handleshowchangebed = (isVisible , customerId) => {
+    props?.showchangebed(customerId)
+    setNoticePeriodBed(false)
+    setOccubiedBed(false)
+    setCustomerID(customerId)
+    console.log("customerId" , isVisible ,customerId)
+  }
+
 
   const handleShowAddCustomer = () => {
     setAddCustomerForm(true)
@@ -942,7 +949,7 @@ console.log("customerID",bed, room)
 
         {
           Occubied_bed && <OccupiedBedStatus show={Occubied_bed}
-            handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} />
+            handleCloseBed={handlecloseoccubiedbed} currentItem={OccupiedCustomerDetails} handleShowReassignBed={handleShowReAssignBedPopup} handleShowNoticePeriod={handleShowNoticePeriod} showchangeBed={handleshowchangebed}/>
         }
 
         {/* {
@@ -955,7 +962,8 @@ console.log("customerID",bed, room)
         {
           Noticeperiod_bed && <NoticeBedStatusDetails show={Noticeperiod_bed}
             handleCloseBed={handlecloseNoticePeriodBed} currentItem={OccupiedCustomerDetails}
-            showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet = {handleshowfinalsettlement}
+            showBooking={handleshowNoticePeriodBooking} showNoticeperiodCheckout={handleshowNoticePeriodCheckout} showfinalsettelemnet = {handleshowfinalsettlement} 
+            showchangeBed={handleshowchangebed}
           />}
 
 
@@ -1029,6 +1037,7 @@ ParticularHostelDetails.propTypes = {
   deletePermissionError: PropTypes.func.isRequired,
   addPermissionError: PropTypes.func.isRequired,
   editPermissionError: PropTypes.func.isRequired,
+  showchangebed: PropTypes.func.isRequired,
 };
 export default ParticularHostelDetails
 
