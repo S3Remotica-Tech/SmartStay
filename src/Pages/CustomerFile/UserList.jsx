@@ -950,7 +950,8 @@ function UserList(props) {
   const handleCustomerReAssign = (reuser) => {
     setReasignDetail(reuser);
     setCustomerReAssign(true);
-  };
+  }
+  
   const handleCustomerCheckout = (item) => {
     setCustomerCheckoutpage(true);
     setCustomerCheckoutData(item);
