@@ -21,7 +21,8 @@ function OccupiedBedStatus({
     handleCloseBed,
     currentItem,
     handleShowReassignBed,
-    handleShowNoticePeriod
+    handleShowNoticePeriod,
+    showchangeBed
 }) {
 
 
@@ -38,7 +39,8 @@ function OccupiedBedStatus({
 
 
     const handleReAssignBed = () => {
-        handleShowReassignBed(true, customer?.[0]?.id)
+        // handleShowReassignBed(true, customer?.[0]?.id)
+        showchangeBed(true, customer?.[0]?.id)
     };
 
     const handleMoveToNoticePeriod = () => {
