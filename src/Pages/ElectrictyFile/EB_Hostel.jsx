@@ -1,9 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import React, { useState,useEffect } from "react";
-
 // import LoaderComponent from "../LoaderComponent";
-
 import { Table } from "react-bootstrap";
 import { Modal, Offcanvas, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,20 +13,17 @@ import electricity from "../../Assets/Images/New_images/electricity.svg";
 import building from '/src/Assets/Images/New_images/building1.svg';
 import PaginationList from "../../Components/PaginationList";
 import EB_RoomOverview from "./EB_RoomOverview";
-
-import { useDispatch, useSelector } from "react-redux";
-
-
 import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
+import { useDispatch, useSelector } from "react-redux";
 // import ClipPathGroup from "../../Assets/Images/New_images/ClipPathGroup.svg";
 
 
 
 
-
 const RoomReadingTable = () => {
+
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 console.log("RoomReadingTable",state)
@@ -46,8 +40,7 @@ console.log("RoomReadingTable",state)
   }, [state.login.selectedHostel_Id]);
 
 
-
-  const ebList = state.PgList.EB_startmeterlist;
+    const ebList = state.PgList.EB_startmeterlist;
 
 // group and take last entry
 const latestReadings = Object.values(
@@ -60,118 +53,9 @@ const latestReadings = Object.values(
     return acc;
   }, {})
 );
-
-// Now you have only the latest record per room
-console.log("latestReadings",latestReadings);
-
-
+console.log("latestReadings",latestReadings)
   const [activeTab, setActiveTab] = useState("customer");
   // const [loading, setLoading] = useState(false);
-
-
-  // const data = [
-  //   {
-  //     floor: "Ground floor",
-  //     room: "Room 001",
-  //     occupants: 3,
-  //     billingMonth: "Aug",
-  //     previous: 100,
-  //     current: 400,
-  //     units: 300,
-  //     amount: "₹0.00",
-  //     note: "EB reading was already entered for this room.",
-  //   },
-  //   {
-  //     floor: "Ground floor",
-  //     room: "Room 002",
-  //     occupants: 3,
-  //     billingMonth: "Aug",
-  //     previous: 220,
-  //     current: 440,
-  //     units: 220,
-  //     amount: "₹2,200",
-  //   },
-  //   {
-  //     floor: "Ground floor",
-  //     room: "Room 003",
-  //     occupants: 2,
-  //     billingMonth: "Aug",
-  //     previous: 270,
-  //     current: "---",
-  //     units: "---",
-  //     amount: "₹0.00",
-  //   },
-  //   {
-  //     floor: "Ground floor",
-  //     room: "Room 004",
-  //     occupants: 3,
-  //     billingMonth: "Aug",
-  //     previous: 300,
-  //     current: "---",
-  //     units: "---",
-  //     amount: "₹0.00",
-  //   },
-  //   {
-  //     floor: "Ground floor",
-  //     room: "Room 005",
-  //     occupants: 2,
-  //     billingMonth: "Aug",
-  //     previous: 120,
-  //     current: "---",
-  //     units: "---",
-  //     amount: "₹0.00",
-  //   },
-  //   {
-  //     floor: "1st floor",
-  //     room: "Room 101",
-  //     occupants: 2,
-  //     billingMonth: "Aug",
-  //     previous: 250,
-  //     current: "---",
-  //     units: "---",
-  //     amount: "₹0.00",
-  //   },
-  //   {
-  //     floor: "1st floor",
-  //     room: "Room 102",
-  //     occupants: 3,
-  //     billingMonth: "Aug",
-  //     previous: 234,
-  //     current: "---",
-  //     units: "---",
-  //     amount: "₹0.00",
-  //   },
-  //   {
-  //     floor: "1st floor",
-  //     room: "Room 103",
-  //     occupants: 3,
-  //     billingMonth: "Aug",
-  //     previous: 213,
-  //     current: "---",
-  //     units: "---",
-  //     amount: "₹0.00",
-  //   },
-  //   {
-  //     floor: "1st floor",
-  //     room: "Room 104",
-  //     occupants: 3,
-  //     billingMonth: "Aug",
-  //     previous: 220,
-  //     current: "---",
-  //     units: "---",
-  //     amount: "₹0.00",
-  //   },
-  //   {
-  //     floor: "1st floor",
-  //     room: "Room 105",
-  //     occupants: 1,
-  //     billingMonth: "Aug",
-  //     previous: 120,
-  //     current: "---",
-  //     units: "---",
-  //     amount: "₹0.00",
-  //   },
-  // ];
 
   const data = [
     {
@@ -297,7 +181,6 @@ console.log("latestReadings",latestReadings);
     },
   ];
 
-
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [roomDetail, setRoomDetail] = useState(false);
@@ -348,7 +231,6 @@ console.log("latestReadings",latestReadings);
 
 
   const handleActionClick = (row) => {
-    console.log("item",row)
     setSelectedRow(row);
     setShowModal(true);
   };
@@ -695,21 +577,21 @@ console.log("latestReadings",latestReadings);
                   </thead>
                   <tbody style={{ fontSize: 14, color: "#000" }}>
                     <PaginationList>
-                      {data.map((row, i) => (
+                      {latestReadings.map((row, i) => (
                         <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                          <td style={{ fontSize: 15, fontWeight: 600 }}>{row.floor}</td>
+                          <td style={{ fontSize: 15, fontWeight: 600 }}>{row.floor_name}</td>
                           <td
                             style={{ color: "#1E45E1", cursor: "pointer", fontWeight: 600 }}
                             onClick={() => handleRoomDetailsPage(row.room)}
                           >
-                            {row.room}
+                            {row.Room_Id}
                           </td>
                           <td style={{ paddingLeft: "40px" }}>{row.occupants}</td>
-                          <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
+                           <td>{new Date(row.date).toLocaleString("default", { month: "short" })}</td>
                           <td style={{ paddingLeft: "40px" }}>{row.previous}</td>
-                          <td style={{ paddingLeft: "40px" }}>{row.current}</td>
-                          <td style={{ paddingLeft: "40px" }}>{row.units}</td>
-                          <td style={{ paddingLeft: "30px" }}>{row.amount}</td>
+                          <td style={{ paddingLeft: "40px" }}>{row.reading}</td>
+                          <td style={{ paddingLeft: "40px" }}>{row.total_reading}</td>
+                          <td style={{ paddingLeft: "30px" }}>{row.total_amount}</td>
                           <td style={{ paddingLeft: "40px" }}>
                             <img
                               src={Group}
@@ -750,51 +632,6 @@ console.log("latestReadings",latestReadings);
                   overflowY: "auto",
                 }}
               >
-
-                <tr className="text-uppercase">
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                    FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
-                  </th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                    ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
-                  </th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>OCCUPANTS</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>PREVIOUS</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>CURRENT</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TOTAL UNITS</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>AMOUNT</th>
-                  <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>ACTION</th>
-                </tr>
-              </thead>
-              <tbody style={{ fontSize: 14, color: "#000" }}>
-                
-                <PaginationList>
-                    {latestReadings.map((item, i) => (
-                  // {data.map((row, i) => (
-                    <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                      <td style={{ fontSize: 15, fontWeight: 600 }}>{item.floor_name}</td>
-                      <td
-                        style={{ color: "#1E45E1", cursor: "pointer", fontWeight: 500 }}
-                        onClick={() => handleRoomDetailsPage(item.Room_Id)}
-                      >
-                        {item.Room_Id}
-                      </td>
-                      <td style={{ paddingLeft: "40px" }}>{item.occupants}</td>
-                      <td style={{ paddingLeft: "40px" }}>{item.date}</td>
-                      <td style={{ paddingLeft: "40px" }}>{item.previous}</td>
-                      <td style={{ paddingLeft: "40px" }}>{item.reading}</td>
-                      <td style={{ paddingLeft: "40px" }}>{item.total_reading}</td>
-                      <td style={{ paddingLeft: "30px" }}>{item.total_amount}</td>
-                      <td style={{ paddingLeft: "40px" }}>
-                        <img
-                          src={Group}
-                          alt="action"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleActionClick(item)}
-                        />
-                      </td>
-
                 <Table bordered={false} className="align-middle mb-0">
                   <thead
                     style={{
@@ -811,7 +648,6 @@ console.log("latestReadings",latestReadings);
                       <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BED</th>
                       <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>TOTAL UNITS</th>
                       <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>AMOUNT <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
-
 
                     </tr>
                   </thead>
@@ -904,10 +740,10 @@ console.log("latestReadings",latestReadings);
                     fontWeight: 600,
                   }}
                 >
-                  {selectedRow.Room_Id}
+                  {selectedRow.room}
                   <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
                     <img src={building} height="14" width="14" alt="Ground Floor" />
-                    <div style={{ color: "#4B4B4B", fontSize: 12 }}>{selectedRow.floor_name}</div>
+                    <div style={{ color: "#4B4B4B", fontSize: 12 }}>{selectedRow.floor}</div>
                   </div>
                 </span>
               </div>
@@ -980,4 +816,3 @@ console.log("latestReadings",latestReadings);
 };
 
 export default RoomReadingTable;
-
