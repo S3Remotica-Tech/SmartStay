@@ -88,11 +88,11 @@ function BookingModal(props) {
     }
   }, [state.Booking.bookingEmailError, state.Booking?.bookingBedError]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (state.login.selectedHostel_Id) {
+  //     dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+  //   }
+  // }, []);
 
 
   useEffect(() => {
@@ -144,23 +144,23 @@ function BookingModal(props) {
     BANK: "Bank",
   };
 
-  const paymentOptions = Array.isArray(state.bankingDetails.bankingList.listBanks)
-    ? state.bankingDetails?.bankingList?.listBanks.map((item) => ({
+  const paymentOptions = Array.isArray(state.UsersList?.availableBedList.bankDetails)
+    ? state.UsersList?.availableBedList?.bankDetails.map((item) => ({
       value: String(item.bankingId),
-      label: `${item.accountHolderName} - ${labelMap[item.accountType] || ""}`,
+      label: `${item.holderName} - ${labelMap[item.accountType] || ""}`,
     }))
     : [];
 
 
 
-  useEffect(() => {
-    if (state.bankingDetails.bankingList?.listBanks) {
+  // useEffect(() => {
+  //   if (state.UsersList?.availableBedList) {
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_BANKING_LIST" });
-      }, 200);
-    }
-  }, [state.bankingDetails.bankingList?.listBanks]);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_BANKING_LIST" });
+  //     }, 200);
+  //   }
+  // }, [state.UsersList?.availableBedList]);
 
   const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
@@ -693,7 +693,103 @@ function BookingModal(props) {
 
             </Col>
 
+  <Col md={6}>
+              <Form.Group controlId="joiningDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Joining Date (Tentative) {" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
 
+                <div
+                  className="datepicker-wrapper"
+                  style={{ position: "relative", width: "100%", marginTop: 6 }}
+                >
+
+                  <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+                    <DatePicker
+                      style={{
+                        width: "100%",
+                        height: 48,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                      }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={joiningDate ? dayjs(joiningDate) : null}
+                      onChange={handleJoiningDateChange}
+                      // disabledDate={(current) =>
+                      //   bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
+                      // }
+                      disabledDate={(current) => {
+                        if (!bookingDate) {
+                          return true;
+                        }
+                        return current && current.isBefore(dayjs(bookingDate), "day");
+                      }}
+                      getPopupContainer={() => document.body}
+
+                    />
+                  </div>
+
+
+
+                </div>
+              </Form.Group>
+
+              {joiningDateError && (
+                <div style={{ color: "red" }}>
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {joiningDateError}
+                  </span>
+                </div>
+              )}
+
+              {state.Booking?.ErrorAssignBookingDate && (
+                <div style={{ color: "red" }}>
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {state.Booking?.ErrorAssignBookingDate}
+                  </span>
+                </div>
+              )}
+
+
+
+            </Col>
             <Col md={6} >
               <Form.Group
 
@@ -844,110 +940,8 @@ function BookingModal(props) {
 
 
 
-          </Row>
-
-          <Row>
-            <Col md={12}>
-              <Form.Group controlId="joiningDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Joining Date (Tentative) {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-
-                <div
-                  className="datepicker-wrapper"
-                  style={{ position: "relative", width: "100%", marginTop: 6 }}
-                >
-
-                  <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                    <DatePicker
-                      style={{
-                        width: "100%",
-                        height: 48,
-                        cursor: "pointer",
-                        fontFamily: "Gilroy",
-                      }}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                      value={joiningDate ? dayjs(joiningDate) : null}
-                      onChange={handleJoiningDateChange}
-                      // disabledDate={(current) =>
-                      //   bookingDate && current && current.isBefore(dayjs(bookingDate), "day")
-                      // }
-                      disabledDate={(current) => {
-                        if (!bookingDate) {
-                          return true;
-                        }
-                        return current && current.isBefore(dayjs(bookingDate), "day");
-                      }}
-                      getPopupContainer={() => document.body}
-
-                    />
-                  </div>
-
-
-
-                </div>
-              </Form.Group>
-
-              {joiningDateError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {joiningDateError}
-                  </span>
-                </div>
-              )}
-
-              {state.Booking?.ErrorAssignBookingDate && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {state.Booking?.ErrorAssignBookingDate}
-                  </span>
-                </div>
-              )}
-
-
-
-            </Col>
-          </Row>
-
-          <Row className="">
-            <Col md={12}>
+          
+            <Col md={6}>
               <Form.Group controlId="formFloor">
                 <Form.Label
                   style={{
