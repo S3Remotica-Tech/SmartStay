@@ -14,16 +14,16 @@ import logout from "../../../Assets/Images/New_images/logout.svg";
 import UserlistForm from "../../CustomerFile/UserlistForm";
 import { AddCircle, LogoutCurve, InfoCircle } from "iconsax-react";
 import exchange from '../../../Assets/Images/New_images/exchange.svg';
-
+import TimerPause from '../../../Assets/Images/New_images/calendar-tick.png';
 
 function NoticeBedStatusDetails({
   show,
   handleCloseBed,
   currentItem,
-  // showBooking,
+  showBooking,
   showNoticeperiodCheckout,
-  showchangeBed
-  // showfinalsettelemnet,
+  showchangeBed,
+  showfinalsettelemnet,
   // handleShowCheck_In,
 }) {
 
@@ -42,6 +42,8 @@ function NoticeBedStatusDetails({
   const [noticePeriodCustomer, setNoticePeriodCustomer] = useState({})
   const [reservedCustomer, setReservedCustomer] = useState({})
 
+  console.log("noticeperiodcustomer", customer_details);
+  
   const popupRef = useRef(null);
 
   const handleShowDots = (type) => {
@@ -71,17 +73,31 @@ function NoticeBedStatusDetails({
       showchangeBed(true , reservedCustomer[0]?.id)
   }
 
-  const [detuction, setDetuction] = useState("")
 
-  useEffect(() => {
-    if (state?.UsersList?.Deduction) {
-      setDetuction(state?.UsersList?.Deduction)
-    }
+const handleNewBooking = () => {
+    showBooking(true)
+  }
 
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    }, 500);
-  }, [state?.UsersList?.Deduction]);
+const handleFinalsettelmentGenerate = () => {
+ 
+    showfinalsettelemnet(true, customerId)
+    dispatch({
+      type: "GETCONFIRMCHECKOUTCUSTOMER",
+      payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
+    });
+  }
+
+  // const [detuction, setDetuction] = useState("")
+
+  // useEffect(() => {
+  //   if (state?.UsersList?.Deduction) {
+  //     setDetuction(state?.UsersList?.Deduction)
+  //   }
+
+  //   setTimeout(() => {
+  //     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+  //   }, 500);
+  // }, [state?.UsersList?.Deduction]);
 
   useEffect(() => {
 
@@ -457,12 +473,14 @@ function NoticeBedStatusDetails({
                           >
                             <img src={CalenderTick} alt="Re-Assign Bed" />
                             <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
-                              Re-Check-in Bed
+                              Cancel checkout
                             </label>
                           </div>
 
                           <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
-                          {/* <div
+                          {reservedCustomer && reservedCustomer?.length === 0 && 
+                         
+                          <div
               className="d-flex gap-2 align-items-center"
               onClick={() => handleNewBooking()}
               style={{
@@ -478,9 +496,10 @@ function NoticeBedStatusDetails({
               <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
                 New Booking
               </label>
-            </div> */}
-
-
+            </div>
+             }
+ 
+                       { customer_details.bed_status === "Generated" && 
                           <div
                             className="d-flex gap-2 align-items-center"
                             onClick={() => handleCheckout(currentItem)}
@@ -495,12 +514,14 @@ function NoticeBedStatusDetails({
                           >
                             <img src={logout} alt="Checkout" />
                             <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
-                              {detuction.DueAmount ? "Write-Off" : "Check-Out"}
+                              {/* {detuction.DueAmount ? "Write-Off" : "Check-Out"} */}
+                              Check-Out
                             </label>
                           </div>
+}
 
-
-                          {/* <div
+      { customer_details.bed_status === "Notice period" && 
+               <div
               className="d-flex gap-2 align-items-center"
               onClick={() => handleFinalsettelmentGenerate(currentItem)}
               style={{
@@ -516,7 +537,10 @@ function NoticeBedStatusDetails({
               <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
                 Generate
               </label>
-            </div> */}
+            </div>
+      }
+                 
+
                         </div>
                       )}
                     </div>
@@ -920,7 +944,7 @@ function NoticeBedStatusDetails({
                   return <div className="d-flex w-100 gap-2">{noticeBtn}{reservedBtn}</div>;
                 } else if (noticePeriodCustomer?.length > 0) {
 
-                  return <div className="w-100">{noticeBtn}</div>;
+                  return <div className=" d-flex w-100">{noticeBtn}</div>;
                 } else if (reservedCustomer?.length > 0) {
 
                   return <div className="w-100">{reservedBtn}</div>;

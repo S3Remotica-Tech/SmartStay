@@ -34,11 +34,11 @@ function BedStatusListView(props) {
    const handleShowconfirmchangeBed = () => {
       setConfirmChangeBed(true)
       setReservedCustomer(props?.Reserved_customer_details)
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props?.Reserved_customer_details?.ID} });
    }
 
-   console.log("props", props?.Reserved_customer_details);
+   console.log("props", props);
    
-
     const handleCloseconfirmchangeBed = () => {
       setConfirmChangeBed(false)
    }
@@ -51,12 +51,16 @@ function BedStatusListView(props) {
 
 
   const handleClickBed = (bed, room) => {
+    console.log("bed", bed, room);
+    
       setSelectedBed({
         floorId: room.Floor_Id,
         roomName: room.Room_Name,
+        RoomId : room.Room_Id,
         bedNo: bed.bed_no,
         bedId: bed.id,
-      });
+        bedamount:bed.bed_amount
+      })
   }
 
   const popupRef = useRef(null);
