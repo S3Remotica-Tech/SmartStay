@@ -19,6 +19,7 @@ import EB_TenantOverview from "./EB_TenantOverview";
 // import ClipPathGroup from "../../Assets/Images/New_images/ClipPathGroup.svg";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import { MdError } from "react-icons/md";
 
 
 
@@ -161,6 +162,8 @@ const RoomReadingTable = () => {
   const [selectedTenant, setSelectedTenant] = useState(null);
   const [filterShow, setFilterShow] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [readingError, setReadingError] = useState("");
+  const [dateError, setDateError] = useState("");
 
   const [currentReading, setCurrentReading] = useState("");
   const [readingDate, setReadingDate] = useState(null);
@@ -179,28 +182,53 @@ const RoomReadingTable = () => {
 
 
   const handleCurrentReadingChange = (e) => {
-    setCurrentReading(e.target.value);
+     const value = e.target.value;
+        if (/^\d*\.?\d*$/.test(value)) {
+      setCurrentReading(value);
+      setReadingError('')
+    }
   };
 
   const handleReadingDateChange = (date) => {
     setReadingDate(date ? date : null);
+    setDateError('')
   };
 
 
   const handleSubmit = () => {
+
+    let hasError = false;
+
+    if (!currentReading) {
+      setReadingError("Please enter current reading");
+      hasError = true;
+    } else {
+      setReadingError("");
+    }
+
+    if (!readingDate) {
+      setDateError("Please select reading date");
+      hasError = true;
+    } else {
+      setDateError("");
+    }
+
+    if (hasError) return;
     const formattedDate = readingDate ? dayjs(readingDate).format("DD-MM-YYYY") : "";
-if(formattedDate && currentReading){
-  dispatch({ type: 'ADDROOMREADING', 
-    payload: { 
-    hostelId: state.login.selectedHostel_Id, 
-    reading:currentReading,
-    readingDate: formattedDate,
-    // roomId:,
-    // floorId:,
-  
-  }})
-  
-}
+    if (formattedDate && currentReading) {
+      dispatch({
+        type: 'ADDROOMREADING',
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          reading: currentReading,
+          readingDate: formattedDate,
+          // roomId:,
+          // floorId:,
+
+        }
+      })
+
+    }
 
 
   };
@@ -807,6 +835,35 @@ if(formattedDate && currentReading){
                 value={currentReading}
                 onChange={handleCurrentReadingChange}
               />
+
+
+              {readingError && (
+                <div style={{ color: "red" }}>
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {readingError}
+                  </span>
+                </div>
+              )}
+
+
+
+
+
+
             </Form.Group>
             <Form.Group className="mt-2">
 
@@ -850,6 +907,28 @@ if(formattedDate && currentReading){
 
               </div>
 
+{dateError && (
+                <div style={{ color: "red" }}>
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {dateError}
+                  </span>
+                </div>
+              )}
+
 
             </Form.Group>
 
@@ -858,10 +937,10 @@ if(formattedDate && currentReading){
 
           </Modal.Body>
           <Modal.Footer style={{ border: 'none' }}>
-            <Button style={{ backgroundColor: "transparent", border: "none", color: "black", fontFamily:"Gilroy" }} onClick={() => setShowModal(false)}>
+            <Button style={{ backgroundColor: "transparent", border: "none", color: "black", fontFamily: "Gilroy" }} onClick={() => setShowModal(false)}>
               Cancel
             </Button>
-            <Button style={{ backgroundColor: "#1E45E1", width: '130px' ,fontFamily:"Gilroy" }} onClick={handleSubmit}>
+            <Button style={{ backgroundColor: "#1E45E1", width: '130px', fontFamily: "Gilroy" }} onClick={handleSubmit}>
               Add
             </Button>
           </Modal.Footer>
