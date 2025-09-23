@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button} from "react-bootstrap";
+import { Modal, Button,Form} from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 // import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,7 +44,7 @@ const [checkOutDate] = useState(() => {
   const dd = String(today.getDate()).padStart(2, "0");
   const mm = String(today.getMonth() + 1).padStart(2, "0");
   const yyyy = today.getFullYear();
-  return `${dd}/${mm}/${yyyy}`; // 👉 18/09/2025
+  return `${yyyy}-${mm}-${dd}`; // 👉 18/09/2025
 });
 
 
@@ -671,6 +671,13 @@ handleClose()
         document.head.appendChild(style);
     }, []);
 
+    const [currentReading,setCurrentReading] = useState("")
+
+     const handlecurrentReading =(e)=>{
+    setCurrentReading(e.target.value)
+  
+  }
+
     return (
         <div>
             <Modal show={show} onHide={handleClose} dialogClassName="checkout-modal" size="lg" centered>
@@ -850,7 +857,54 @@ handleClose()
                                         </div>
                                     )}
                                 </div> */}
+<Form.Group className="mt-4">
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                  marginBottom: 5
+                }}
+              >
+                <Form.Label
+                  style={{
+                    fontFamily: 'Gilroy',
+                    fontWeight: 500,
+                    fontStyle: 'normal',
+                    fontSize: '14px',
+                    lineHeight: '100%',
+                    letterSpacing: '0',
+                    marginBottom: 0,
+                    padding: 0
+                  }}
+                >
+                  Current Reading
+                </Form.Label>
 
+                <span
+                  style={{
+                    fontFamily: 'Gilroy',
+                    fontWeight: 400,
+                    fontStyle: 'normal',
+                    fontSize: '14px',
+                    lineHeight: '100%',
+                    letterSpacing: '0',
+                    color: "gray"
+                  }}
+                >
+                  Last Reading: <span style={{ color: '#1E45E1' }}>310.12</span>
+                </span>
+              </div>
+
+              <Form.Control
+                style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "12px 14px" }}
+                type="number"
+                placeholder="471.55"
+                onChange={handlecurrentReading}
+                value={currentReading}
+              />
+            </Form.Group>
 
 
                                 <div className="p-3  rounded mt-3" style={{ backgroundColor: "#E7F1FF", borderRadius: 10 }}>
