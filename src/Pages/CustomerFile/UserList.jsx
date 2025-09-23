@@ -25,8 +25,8 @@ import Tab from "@mui/material/Tab";
 import UserlistBookings from "./UserlistBookings";
 import UserlistCheckout from "./UserlistCheckout";
 import UserlistWalkin from "./UserlistWalkin";
-import Addbooking from "./Addbookingform";
-import CheckOutForm from "./UserListCheckoutForm";
+import BookingModal from "./Addbookingform";
+// import CheckOutForm from "./UserListCheckoutForm";
 import UserlistWalkinForm from "./UserlistWalkinForm";
 // import Edit from "../../Assets/Images/Edit-blue.png";
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
@@ -143,13 +143,14 @@ function UserList(props) {
   const [formLoading, setFormLoading] = useState(false)
   const [finalsettlepage,setFinalSettlePage] = useState(false)
   const [finalsettledData,setFinalsettledData] = useState("")
+   const [search, setSearch] = useState(false);
 
 
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
-        console.log("hiii");
+       
 
         setLoading(false)
         dispatch({
@@ -157,17 +158,13 @@ function UserList(props) {
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
       }
-      if (value === "2") {
-        dispatch({
-          type: "GET_BOOKING_LIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      } else if (value === "3") {
+     else if (value === "3") {
         dispatch({
           type: "CHECKOUTCUSTOMERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
       } else if (value === "4") {
+     
         dispatch({
           type: "WALKINCUSTOMERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
@@ -210,10 +207,10 @@ function UserList(props) {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
 
 
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      // dispatch({
+      //   type: "GET_BOOKING_LIST",
+      //   payload: { hostel_id: state.login.selectedHostel_Id },
+      // });
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1107,14 +1104,7 @@ function UserList(props) {
 
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+ 
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode === 200) {
@@ -1154,13 +1144,13 @@ function UserList(props) {
 
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (state.login.selectedHostel_Id && (search || filterStatus)) {
       dispatch({
         type: "CHECKOUTCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id,search ,filterStatus]);
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
@@ -1173,16 +1163,7 @@ function UserList(props) {
 
   const [customerBooking, setCustomerBooking] = useState("");
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
 
-
-    }
-  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
@@ -1322,25 +1303,40 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
-     dispatch({
-      type: "GETCONFIRMCHECKOUTCUSTOMER",
-      payload: { id: id, hostel_id: state.login.selectedHostel_Id },
-    });
-    console.log('handleShowDots', id)
-    if (activeRow === id) {
-      setActiveRow(null);
-    } else {
-      setActiveRow(id);
-    }
-    console.log("handleShowDots", activeRow)
-    setSearch(false);
+  dispatch({
+    type: "GETCONFIRMCHECKOUTCUSTOMER",
+    payload: { id: id, hostel_id: state.login.selectedHostel_Id },
+  });
 
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + height / 2;
-    const popupLeft = left - 200;
+  if (activeRow === id) {
+    setActiveRow(null);
+    return;
+  } else {
+    setActiveRow(id);
+  }
 
-    setPopupPosition({ top: popupTop, left: popupLeft });
-  };
+  setSearch(false);
+
+  const { top, left, height, bottom } = event.target.getBoundingClientRect();
+  const popupHeight = 120; 
+  const windowHeight = window.innerHeight;
+
+  let popupTop;
+
+
+  if (bottom + popupHeight > windowHeight) {
+    popupTop = top - popupHeight; 
+  } else {
+    popupTop = top + height;
+  }
+
+  const popupLeft = left - 200;
+
+  setPopupPosition({ top: popupTop, left: popupLeft });
+};
+
+
+ 
 
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
@@ -1367,7 +1363,7 @@ function UserList(props) {
 
 
   // const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState(false);
+ 
 
   // const handlePageChange = (pageNumber) => {
   //   setCurrentPage(pageNumber);
@@ -1595,9 +1591,9 @@ function UserList(props) {
 
 
 
- const handleCheckoutOverview = (isvisible) => {
+ const handleCheckoutOverview = () => {
          setUserList(false);
-         console.log("testchekout",isvisible)
+      
          setValue("3")
         //  setAddCheckoutForm(true)
       
@@ -1912,10 +1908,10 @@ function UserList(props) {
     }
     setShowbookingForm(!showbookingForm);
   };
-  const closeModal = () => {
-    setShowbookingForm(false);
-  };
-  const [checkoutForm, setcheckoutForm] = useState(false);
+  // const closeModal = () => {
+  //   setShowbookingForm(false);
+  // };
+  // const [checkoutForm, setcheckoutForm] = useState(false);
   // const checkOutForm = () => {
   //   if (!state.login.selectedHostel_Id) {
   //     toast.error("Please add a hostel before adding checkout information.", {
@@ -1931,9 +1927,9 @@ function UserList(props) {
   //   }
   //   setcheckoutForm(!checkoutForm);
   // };
-  const checkoutcloseModal = () => {
-    setcheckoutForm(false);
-  };
+  // const checkoutcloseModal = () => {
+  //   setcheckoutForm(false);
+  // };
 
   const [walkInForm, setWalkinForm] = useState(false);
   const walkinForm = () => {
@@ -1964,7 +1960,7 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
       dispatch({ type: "USERLIST", payload: { hostel_id: uniqueostel_Id } });
-      setcheckoutForm(false);
+      // setcheckoutForm(false);
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
@@ -2200,7 +2196,7 @@ function UserList(props) {
 
   }, [state.createAccount?.networkError])
 
-  console.log("props.....???????", props);
+
 
 
   const [bookingDate, setBookingDate] = useState(null);
@@ -2228,10 +2224,10 @@ function UserList(props) {
   const [inActiveComments, setInActiveComments] = useState("")
   const [bookingId, setBookingId] = useState("")
   const [inActiveId,setInactiveId] = useState("")
-  console.log("inactivename",inactivename)
+
 
   const handleInActive = (item) => {
-console.log("item",item)
+
     setInActiveForm(true)
     setBookingId(item.booking_id)
     setInactiveName(item)
@@ -2302,7 +2298,7 @@ console.log("item",item)
 
 
   const handleBookingAssign = (book) => {
-    console.log("handleBookingAssign", book)
+    
     setEdit("Edit");
     handleMenuClick();
     setShowMenu(false);
@@ -2445,31 +2441,24 @@ const handleClosefinal = ()=>{
 }
   return (
     <div>
-      <Addbooking
+      {/* <BookingModal
         show={showbookingForm}
         handleClose={closeModal}
         setShowbookingForm={setShowbookingForm}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
-      />
+      /> */}
 
-      <CheckOutForm
+      {/* <CheckOutForm
         show={checkoutForm}
         handleClose={checkoutcloseModal}
         uniqueostel_Id={uniqueostel_Id}
         setUniqostel_Id={setUniqostel_Id}
         setAddCheckoutForm={setAddCheckoutForm}
         checkoutaddform={checkoutaddform}
-      />
+      /> */}
 
-      <UserlistWalkinForm
-        show={walkInForm}
-        handleClose={walkinFormcloseModal}
-        customerrolePermission={customerrolePermission}
-        uniqueostel_Id={uniqueostel_Id}
-        setUniqostel_Id={setUniqostel_Id}
-      />
-
+     
       {userList && (
         <div className="container p-0">
            {
@@ -4188,7 +4177,7 @@ const handleClosefinal = ()=>{
                 ? moment(user.RecheckIn_Date).format("D MMMM YYYY")
                 : "-"} */}
              {
-  ((user?.bed_status === "Check In" || user?.bed_status === "Notice period") &&
+  ((user?.bed_status === "Check In" || user?.bed_status === "Notice period" ||user?.bed_status === "Generated") &&
     user?.user_join_date &&
     user.user_join_date !== "0000-00-00")
     ? moment(user.user_join_date).format("D MMMM YYYY")
@@ -4252,7 +4241,7 @@ const handleClosefinal = ()=>{
               {user.bed_status === "Booking"
                 ? user.Booking_FloorName || "-"
                 : user.bed_status === "Check In" ||
-                  user.bed_status === "Notice period"
+                  user.bed_status === "Notice period" || user.bed_status === "Generated" 
                 ? user.floor_name || "-"
                 : "-"}
             </div>
@@ -4332,10 +4321,20 @@ const handleClosefinal = ()=>{
                   ref={popupRef}
                   style={{
                     position: "fixed",
-                    top: popupPosition.top - 65,
-                    left: popupPosition.left,
+                    // top: popupPosition.top - 55,
+                    // left: popupPosition.left + 60,
+                      left: user?.bed_status === "Generated"
+      ? popupPosition.left + 60
+      : popupPosition.left,
+        top: user?.bed_status === "Generated"
+      ? popupPosition.top - 30
+      : popupPosition.top - 55,
+                   
                     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                     width: "auto",
+                    // minWidth:"100px",
+                    // maxWidth:200,
+
                     backgroundColor: "#F9F9F9",
                     border: "1px solid #EBEBEB",
                     borderRadius: "10px",
@@ -4553,61 +4552,10 @@ const handleClosefinal = ()=>{
                                                       </label>
                                                     </div>
 
-{user?.bed_status === "Notice period" &&
-  Array.isArray(billAmount) &&
-  billAmount.some(bill => bill.action === "checkout") && (
-    <div
-      className="d-flex align-items-center gap-2"
-      onClick={() => {
-        if (!customerAddPermission) {
-          handleConformCheckout(user);
-        }
-      }}
-      style={{
-        backgroundColor: "#F9F9F9",
-        cursor: customerAddPermission ? "not-allowed" : "pointer",
-        opacity: customerAddPermission ? 0.6 : 1,
-        padding: "8px 12px",
-        borderRadius: 6,
-        transition: "background 0.2s ease-in-out",
-      }}
-      onMouseEnter={(e) => {
-        if (!customerAddPermission) {
-          e.currentTarget.style.backgroundColor = "#FFFBEF";
-        }
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = "#F9F9F9";
-      }}
-    >
-      <img
-        src={logout}
-        alt="checkout"
-        style={{
-          width: 16,
-          height: 16,
-          filter: customerAddPermission ? "grayscale(100%)" : "none",
-        }}
-      />
-      <label
-        style={{
-          fontSize: 14,
-          fontWeight: 500,
-          fontFamily: "Gilroy, sans-serif",
-          color: customerAddPermission ? "#888888" : "#222222",
-          cursor: customerAddPermission ? "not-allowed" : "pointer",
-          margin: 0,
-        }}
-      >
-        Check-Out
-      </label>
-    </div>
-)}
 
 
-{user?.bed_status === "Notice period" &&
-Array.isArray(billAmount) &&
-!billAmount.some(bill => bill.action === "checkout") && (
+
+{user?.bed_status === "Notice period" && (
 
 
  <div
@@ -4663,6 +4611,59 @@ Array.isArray(billAmount) &&
                                                   </>
 
                                                 )}
+
+
+
+                                                {user?.bed_status === "Generated" &&
+  Array.isArray(billAmount) &&
+  billAmount.some(bill => bill.action === "checkout") && (
+    <div
+      className="d-flex align-items-center gap-2"
+      onClick={() => {
+        if (!customerAddPermission) {
+          handleConformCheckout(user);
+        }
+      }}
+      style={{
+        backgroundColor: "#F9F9F9",
+        cursor: customerAddPermission ? "not-allowed" : "pointer",
+        opacity: customerAddPermission ? 0.6 : 1,
+        padding: "8px 12px",
+        borderRadius: 6,
+        transition: "background 0.2s ease-in-out",
+      }}
+      onMouseEnter={(e) => {
+        if (!customerAddPermission) {
+          e.currentTarget.style.backgroundColor = "#FFFBEF";
+        }
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = "#F9F9F9";
+      }}
+    >
+      <img
+        src={logout}
+        alt="checkout"
+        style={{
+          width: 16,
+          height: 16,
+          filter: customerAddPermission ? "grayscale(100%)" : "none",
+        }}
+      />
+      <label
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          fontFamily: "Gilroy, sans-serif",
+          color: customerAddPermission ? "#888888" : "#222222",
+          cursor: customerAddPermission ? "not-allowed" : "pointer",
+          margin: 0,
+        }}
+      >
+        Check-Out
+      </label>
+    </div>
+)}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
@@ -6859,9 +6860,20 @@ Array.isArray(billAmount) &&
         />
       )}
 
+{
+  walkInForm && <UserlistWalkinForm
+        show={walkInForm}
+        handleClose={walkinFormcloseModal}
+        customerrolePermission={customerrolePermission}
+        uniqueostel_Id={uniqueostel_Id}
+        setUniqostel_Id={setUniqostel_Id}
+      />
+}
+
+
 
       {
-        add_bookingshow && <Addbooking add_bookingshow={add_bookingshow} userDetail={userDetail} setAddBookingsShow={setAddBookingsShow} handleCloseAddBooking={handleCloseAddBooking} bookingDet={bookingDet} />
+        add_bookingshow && <BookingModal add_bookingshow={add_bookingshow} userDetail={userDetail} setAddBookingsShow={setAddBookingsShow} handleCloseAddBooking={handleCloseAddBooking} bookingDet={bookingDet} />
       }
       {
         DueCustomerShow && <DueCustomerConfirmCheckout show={DueCustomerShow} data={CheckOutDetails} handleClose={handleCloseDuePopup} />

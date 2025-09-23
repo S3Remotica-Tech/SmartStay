@@ -40,15 +40,34 @@ const handleCloseRefundAmount=()=>{
   setPayableForm(false)
 }
 
+  // const handleShowDots = (event) => {
+  //   setShowDots(!showDots)
+
+  //   const { top, left } = event.target.getBoundingClientRect();
+  //   const popupTop = top - 14;
+  //   const popupLeft = left - 180;
+
+  //   setPopupPosition({ top: popupTop, left: popupLeft });
+  // }
   const handleShowDots = (event) => {
-    setShowDots(!showDots)
+  setShowDots(!showDots);
 
-    const { top, left } = event.target.getBoundingClientRect();
-    const popupTop = top - 14;
-    const popupLeft = left - 180;
+  const { top, left, bottom } = event.target.getBoundingClientRect();
 
-    setPopupPosition({ top: popupTop, left: popupLeft });
+  let popupTop = top - 14;
+  const popupLeft = left - 180;
+
+  const popupHeight = 100; 
+  const windowHeight = window.innerHeight;
+
+ 
+  if (bottom + popupHeight > windowHeight) {
+    popupTop = top - popupHeight; 
   }
+
+  setPopupPosition({ top: popupTop, left: popupLeft });
+};
+
 
   const handleShowform = (props) => {
     props.OnHandleshowform(props)
@@ -309,7 +328,7 @@ const handleCloseRefundAmount=()=>{
 
 
                   
-                     {(props.item.action === "checkout" || props.item.action === "advance" || props.item.action === "manual") && props.item.BalanceDue > 0 && (
+                     {(props.item.action === "checkout" || props.item.action === "advance" || props.item.action === "manual" || props.item.action === "checkIn") && props.item.BalanceDue > 0 && (
                       <>
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${props.billAddPermission ? 'disabled' : ''}`}
@@ -354,7 +373,7 @@ const handleCloseRefundAmount=()=>{
                     }
                    
 
-{props.item.action === "checkout" && props.item.BalanceDue > 0 && (
+{ props.item.BalanceDue > 0 && (
   <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${props.billAddPermission ? 'disabled' : ''}`}
                         style={{

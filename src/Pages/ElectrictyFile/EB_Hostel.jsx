@@ -17,6 +17,8 @@ import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
 import { useDispatch, useSelector } from "react-redux";
+import { MdError } from "react-icons/md";
+
 // import ClipPathGroup from "../../Assets/Images/New_images/ClipPathGroup.svg";
 
 
@@ -27,6 +29,17 @@ const RoomReadingTable = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 console.log("RoomReadingTable",state)
+const [currenReadingError,setCurrenReadingError] =useState("")
+const [currentDate] = useState(() => {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const yyyy = today.getFullYear();
+  return `${yyyy}-${mm}-${dd}`; 
+});
+
+
+const [currentReading,setCurrentReading] = useState("")
   useEffect(() => {
     // props.setLoader(true)
     if (state.login.selectedHostel_Id) {
@@ -39,6 +52,35 @@ console.log("RoomReadingTable",state)
 
   }, [state.login.selectedHostel_Id]);
 
+   useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      // setCustomerLoader(true);
+      dispatch({
+        type: "CUSTOMEREBLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+
+
+    }
+
+
+  }, [state.login.selectedHostel_Id]);
+
+const [customerDetails,setCustomerDetails] = useState("")
+
+  useEffect(() => {
+    if (state.PgList.statusCodeforEbCustomer === 200) {
+      setCustomerDetails(state.PgList?.EB_customerTable);
+      // setOriginalElec(state.PgList?.EB_customerTable)
+      // setCustomerLoader(false);
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
+      }, 200);
+    }
+  }, [state.PgList.statusCodeforEbCustomer]);
+  console.log("customerDetails",customerDetails)
 
     const ebList = state.PgList.EB_startmeterlist;
 
@@ -53,7 +95,14 @@ const latestReadings = Object.values(
     return acc;
   }, {})
 );
-console.log("latestReadings",latestReadings)
+
+
+
+
+
+
+
+
   const [activeTab, setActiveTab] = useState("customer");
   // const [loading, setLoading] = useState(false);
 
@@ -215,6 +264,10 @@ console.log("latestReadings",latestReadings)
     setSelectedRoom(room);
     setRoomDetail(true);
   };
+
+
+
+
   const handleTenantsDetailsPage = (tenant) => {
     setSelectedTenant(tenant);
     setTenantsDetail(true);
@@ -235,8 +288,79 @@ console.log("latestReadings",latestReadings)
     setShowModal(true);
   };
 
-  const handleClose = () => setShowModal(false);
+  const handlecurrentReading =(e)=>{
+    setCurrentReading(e.target.value)
+    setCurrenReadingError("")
+  }
 
+  const handleClose = () => {
+    setShowModal(false);
+    setCurrentReading("")
+    setCurrenReadingError("")
+dispatch({type:"CLEAR_EB_ERROR"})
+  }
+
+
+const handleAddElectricity = () => {
+    if (!currentReading) {
+    setCurrenReadingError("Please Enter Current Reading"); // or set an error state
+    return;
+  }
+ 
+  dispatch({
+    type: "CREATEEB",
+    payload: {
+      hostel_id: selectedRow.hostel_id,
+      floor_id: selectedRow.floor_id,
+      room_id: selectedRow.room_id,
+      date: currentDate,
+      reading: currentReading,
+    },
+  });
+};
+
+const [matchedRoomDetails,setMatchedRoomDetails] = useState("")
+
+useEffect(()=>{
+  if(roomDetail){
+
+  console.log("ebList",ebList)
+const matchedDetails = ebList?.filter(
+  (item) =>
+    item.hostel_Id === selectedRoom?.hostel_id &&
+    item.floor_id === selectedRoom?.floor_id &&
+    item.room_id === selectedRoom?.room_id
+);
+console.log("matchedDetails",matchedDetails);
+setMatchedRoomDetails(matchedDetails)
+  }
+
+
+},[roomDetail,selectedRoom])
+
+  useEffect(() => {
+    if (state.PgList?.AddEBstatusCode === 200) {
+    
+      setShowModal(false);
+      dispatch({
+        type: "CUSTOMEREBLIST",
+        payload: { hostel_id: selectedRow.hostel_id },
+      });
+        dispatch({
+        type: "EBSTARTMETERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      setTimeout(()=>{
+ dispatch({ type: 'CLEAR_EB' })
+      },1000)
+    }
+  }, [state.PgList?.AddEBstatusCode]);
+  useEffect(() => {
+    if (state?.PgList?.ebError) {
+     
+      setCurrenReadingError(state?.PgList?.ebError);
+    }
+  }, [state?.PgList?.ebError]);
 
   return (
 
@@ -582,7 +706,7 @@ console.log("latestReadings",latestReadings)
                           <td style={{ fontSize: 15, fontWeight: 600 }}>{row.floor_name}</td>
                           <td
                             style={{ color: "#1E45E1", cursor: "pointer", fontWeight: 600 }}
-                            onClick={() => handleRoomDetailsPage(row.room)}
+                            onClick={() => handleRoomDetailsPage(row)}
                           >
                             {row.Room_Id}
                           </td>
@@ -653,18 +777,18 @@ console.log("latestReadings",latestReadings)
                   </thead>
                   <tbody style={{ fontSize: 14, color: "#000" }}>
                     <PaginationList>
-                      {data.map((row, i) => (
+                      {customerDetails.map((row, i) => (
                         <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
 
                           <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1" }}
                             onClick={() => handleTenantsDetailsPage(row.tenant)}>
                             <img src={Ellipse1} alt="" style={{ marginRight: "12px" }} />
-                            {row.name}
+                            {row.username}
                           </td>
-                          <td style={{ fontWeight: 600, color: "black" }}>{row.floor}</td>
-                          <td style={{ fontWeight: 600, color: "black" }}>{row.room}</td>
+                          <td style={{ fontWeight: 600, color: "black" }}>{row.floor_name}</td>
+                          <td style={{ fontWeight: 600, color: "black" }}>{row.Room_Id}</td>
                           <td style={{ fontWeight: 600, color: "black" }}>{row.bed}</td>
-                          <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px" }}>{row.units}</td>
+                          <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px" }}>{row.unit}</td>
                           <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px", }}>{row.amount}</td>
 
                         </tr>
@@ -683,7 +807,7 @@ console.log("latestReadings",latestReadings)
         // )}
 
       ) : roomDetail ? (
-        <EB_RoomOverview room={selectedRoom} onBack={handleBack} />
+        <EB_RoomOverview room={selectedRoom} onBack={handleBack} matchedRoomDetails={matchedRoomDetails}/>
       ) : tenantsDetail ? (
         <EB_TenantOverview tenant={selectedTenant} onBack={handleBackTenant} />
       ) : null}
@@ -713,7 +837,7 @@ console.log("latestReadings",latestReadings)
           <Modal.Body >
 
             <div className="d-flex justify-content-between align-items-center" style={{ width: "100%", borderBottom: "1px solid #E0E0E0", paddingBottom: 10, marginTop: "-15px" }}>
-              <div className="d-flex align-items-center">
+              {/* <div className="d-flex align-items-center">
                 <span
                   style={{
                     display: "flex",
@@ -740,13 +864,89 @@ console.log("latestReadings",latestReadings)
                     fontWeight: 600,
                   }}
                 >
-                  {selectedRow.room}
+                  {selectedRow.Room_Id}
                   <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
                     <img src={building} height="14" width="14" alt="Ground Floor" />
-                    <div style={{ color: "#4B4B4B", fontSize: 12 }}>{selectedRow.floor}</div>
+                    <div style={{ color: "#4B4B4B", fontSize: 12 }}>{selectedRow.floor_name}</div>
                   </div>
+
+                  <div>Date</div>
                 </span>
-              </div>
+              </div> */}
+ <div className="d-flex justify-content-between align-items-center w-100">
+  {/* Left Section */}
+  <div className="d-flex align-items-center">
+    <span
+      style={{
+        display: "flex",
+        alignItems: "center",
+        background: "#E7F1FF",
+        borderRadius: "50%",
+        width: 46,
+        height: 46,
+        justifyContent: "center",
+        marginRight: 10,
+      }}
+    >
+      <img
+        src={electricity}
+        alt="electricity"
+        style={{ width: 20, height: 20 }}
+      />
+    </span>
+
+    <div>
+      <div
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: 14,
+          color: "#222",
+          fontWeight: 600,
+        }}
+      >
+        {selectedRow.Room_Id}
+      </div>
+
+      <div
+        className="d-flex align-items-center"
+        style={{ gap: 6, marginTop: 4 }}
+      >
+        <img src={building} height="14" width="14" alt="Ground Floor" />
+        <div style={{ color: "#4B4B4B", fontSize: 12 }}>
+          {selectedRow.floor_name}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Right Section (Date) */}
+  <div className="text-end">
+    <div
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 12,
+        fontWeight: 500,
+        color: "#4B4B4B",
+      }}
+    >
+      Date
+    </div>
+    <div
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        fontWeight: 600,
+        color: "#222",
+      }}
+    >
+      {currentDate}
+    </div>
+  </div>
+</div>
+
+ 
+
+
 
 
             </div>
@@ -795,17 +995,43 @@ console.log("latestReadings",latestReadings)
                 style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "12px 14px" }}
                 type="number"
                 placeholder="471.55"
+                onChange={handlecurrentReading}
+                value={currentReading}
               />
             </Form.Group>
+               {currenReadingError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError
+                                          style={{ fontSize: "13px", marginRight: "5px" }}
+                                        />
+                                        <label
+                                          className="mb-0"
+                                          style={{
+                                            color: "red",
+                                            fontSize: "12px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {currenReadingError}
+                                        </label>
+                                      </div>
+                                    )}
 
 
           </Modal.Body>
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
           <Modal.Footer style={{ border: 'none' }}>
             <Button style={{ backgroundColor: "transparent", border: "none", color: "black" }} onClick={() => setShowModal(false)}>
               Cancel
             </Button>
-            <Button style={{ backgroundColor: "#1E45E1", width: '130px' }}>
-              Add
+            <Button style={{ backgroundColor: "#1E45E1", width: '130px' }} onClick={handleAddElectricity}>
+              Add 
             </Button>
           </Modal.Footer>
         </Modal>

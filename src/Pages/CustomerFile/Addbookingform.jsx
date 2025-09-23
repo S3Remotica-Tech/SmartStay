@@ -46,10 +46,12 @@ const handleTransactionId = (e) => {
 
 
     useEffect(() => {
-        if (state.login.selectedHostel_Id) {
+    
+   console.log("BANKINGLIST")
+        if (state.login.selectedHostel_Id && props.add_bookingshow) {
             dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
         }
-    }, []);
+    }, [state.login.selectedHostel_Id && props.add_bookingshow]);
 
 
   const handleModeOfPaymentChange = (selectedOption) => {
@@ -97,15 +99,7 @@ const handleTransactionId = (e) => {
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setFormLoading(false)
-
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+     
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
 

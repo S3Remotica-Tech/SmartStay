@@ -13,11 +13,13 @@ import PropTypes from "prop-types";
 
 
 
-const EBRoomOverview = ({ onBack }) => {
+const EBRoomOverview = ({ onBack,matchedRoomDetails }) => {
 
 
     const [activeTab, setActiveTab] = useState("customer");
     // const [loading, setLoading] = useState(false);
+
+    console.log("matchedRoomDetails",matchedRoomDetails)
 
 
     const billingData = [
@@ -306,14 +308,19 @@ const EBRoomOverview = ({ onBack }) => {
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
-                                        {billingData.map((row, i) => (
+                                     {Array.isArray(matchedRoomDetails) &&
+  matchedRoomDetails.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
 
-                                                <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
+                                                <td style={{ paddingLeft: "40px" }}>  {new Date(row.date).toLocaleDateString("en-US", {
+    month: "short", 
+    year: "numeric",
+  })}
+</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.from}</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.to}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.totalUnits}</td>
-                                                <td style={{ paddingLeft: "25px" }}>{row.amount}</td>
+                                                <td style={{ paddingLeft: "40px" }}>{row.total_reading}</td>
+                                                <td style={{ paddingLeft: "25px" }}>{row.total_amount}</td>
                                                 <td style={{ paddingLeft: "40px" }}>{row.action}</td>
                                             </tr>
                                         ))}
@@ -413,5 +420,6 @@ const EBRoomOverview = ({ onBack }) => {
 
 EBRoomOverview.propTypes = {
     onBack: PropTypes.func.isRequired,
+    matchedRoomDetails:PropTypes.func.isRequired,
 };
 export default EBRoomOverview;

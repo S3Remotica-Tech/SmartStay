@@ -96,10 +96,11 @@ const CheckOutForm = ({
 
 
   useEffect(() => {
+    console.log("BANKINGLIST")
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
-  }, []);
+  }, [state.login.selectedHostel_Id]);
 
   // const handleModeOfPaymentChange = (e) => {
   //   setModeOfPayment(e.target.value);
