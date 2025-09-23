@@ -328,7 +328,7 @@ const handleCloseRefundAmount=()=>{
 
 
                   
-                     {(props.item.action === "checkout" || props.item.action === "advance" || props.item.action === "manual" || props.item.action === "checkIn") && props.item.BalanceDue > 0 && (
+                     {(props.item.action === "checkout" || props.item.action === "advance" || props.item.action === "manual" || props.item.action === "checkIn" || props.item.action === "recuring") && props.item.BalanceDue > 0 && (
                       <>
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${props.billAddPermission ? 'disabled' : ''}`}
