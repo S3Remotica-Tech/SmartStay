@@ -133,7 +133,9 @@ export const initialState = {
     StatuscodeforCheckoutProfile: 0,
     availableBedList: [],
     bookedDetails: [],
-    bedError: ''
+    bedError: '',
+    addRoomReadingStatusCode: 0,
+
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -148,6 +150,13 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, availableBedList: action.payload.response }
         case 'BOOKED_DETAILS':
             return { ...state, bookedDetails: action.payload.response }
+
+
+        case 'ADD_ROOM_READING':
+            return { ...state, addRoomReadingStatusCode: action.payload.statusCode }
+
+        case 'REMOVE_ADD_ROOM_READING':
+            return { ...state, addRoomReadingStatusCode: 0 }
 
         case 'BED_AVAILABLE_ERROR_BOOKED':
             return { ...state, bedError: action.payload }

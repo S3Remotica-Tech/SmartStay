@@ -62,7 +62,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
   const [showform, setShowForm] = useState(false);
   const [contactnumberform, setContactNumberForm] = useState(false)
   const [editformErrmsg, setEditFormErrMessage] = useState('')
-
+const [resetCall, setResetCall] = useState(false)
 
 
   const [edit, setEdit] = useState(false);
@@ -1305,6 +1305,7 @@ function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
   const handleReset = (() => {
+    setResetCall(true)
     setSelectedFile(null)
     setSign(null)
     setSignPreview(null)

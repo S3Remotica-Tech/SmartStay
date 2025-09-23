@@ -672,3 +672,14 @@ export async function checkoutDetailView(datum) {
     data: datum
   })
 }
+
+
+
+export async function addRoomReading(reading) {
+
+  return await AxiosConfigV2.post(`/v2/electricity/${reading.hostelId}`, reading, {
+    data: reading
+  })
+}
+
+

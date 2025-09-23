@@ -286,6 +286,15 @@ function BookingModal(props) {
     const joiningDateForFormatted = formatDate(joiningDate);
       dispatch({ type: 'AVAILBALEBEDDETAILS', payload:{ hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted}})
     }
+if (state.UsersList?.availableBedList.bankDetails.length === 0) {
+      toast.error(
+        <div className="flex items-center gap-2">
+                   <span style={{fontFamily:"Gilroy"}}>Please Create Banking before adding booking</span>
+        </div>,
+            );
+    }
+
+
 
   },[joiningDate])
 
@@ -1337,13 +1346,7 @@ function BookingModal(props) {
 
         </Modal.Body>
 
-        {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null}
-
+       
         {formLoading &&
           <div
             style={{
