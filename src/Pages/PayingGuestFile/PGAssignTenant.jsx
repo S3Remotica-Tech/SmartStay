@@ -1129,7 +1129,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                        fontWeight: 500,
                                                      }}
                                                    >
-                                                     Joining Date {" "}
+                                                     Joining Date (Tentative) {" "}
                                                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                    </Form.Label>
                                    
@@ -1610,7 +1610,7 @@ const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
                                                        fontWeight: 500,
                                                      }}
                                                    >
-                                                     Joining Date (Tentative) {" "}
+                                                     Joining Date {" "}
                                                      <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                    </Form.Label>
                                    
