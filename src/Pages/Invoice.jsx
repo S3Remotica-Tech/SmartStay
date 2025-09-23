@@ -892,6 +892,9 @@ setMatchedDetails(matchedDetails)
   const handleShowForm = (props) => {
     setShowform(true);
     setInvoiceValue(props.item);
+       if (hostelId) {
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
+    }
 
 
     if (props.item.id !== undefined) {
@@ -2057,14 +2060,14 @@ setMatchedDetails(matchedDetails)
     setDownloadInvoice(false);
   };
 
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({
-        type: "BANKINGLIST",
-        payload: { hostel_id: hostelId },
-      });
-    }
-  }, [hostelId]);
+  // useEffect(() => {
+  //   if (hostelId) {
+  //     dispatch({
+  //       type: "BANKINGLIST",
+  //       payload: { hostel_id: hostelId },
+  //     });
+  //   }
+  // }, [hostelId]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
@@ -2269,11 +2272,11 @@ setMatchedDetails(matchedDetails)
 
 
 
-  useEffect(() => {
-    if (hostelId) {
-      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
-    }
-  }, [hostelId]);
+  // useEffect(() => {
+  //   if (hostelId) {
+  //     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostelId } });
+  //   }
+  // }, [hostelId]);
 
 
 
@@ -2619,16 +2622,16 @@ setMatchedDetails(matchedDetails)
     }
   }, [newRows]);
 
-  useEffect(() => {
-
-    if (hostelId) {
-      setRecurLoader(true);
-      dispatch({
-        type: "RECURRING-BILLS-LIST",
-        payload: { hostel_id: hostelId, stay_type: activeStay },
-      });
-    }
-  }, [hostelId, activeStay]);
+  // useEffect(() => {
+ 
+  //   if (hostelId) {
+  //     setRecurLoader(true);
+  //     dispatch({
+  //       type: "RECURRING-BILLS-LIST",
+  //       payload: { hostel_id: hostelId, stay_type: activeStay },
+  //     });
+  //   }
+  // }, [hostelId, activeStay]);
 
   useEffect(() => {
     if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
@@ -2681,7 +2684,7 @@ setMatchedDetails(matchedDetails)
     if (value === "2") {
       const FilterUsertwo = Array.isArray(recurringbills)
         ? recurringbills.filter((item) =>
-          item.user_name?.toLowerCase().includes(filterInput.toLowerCase())
+          item.Name?.toLowerCase().includes(filterInput.toLowerCase())
         )
         : [];
 
@@ -2772,16 +2775,18 @@ setMatchedDetails(matchedDetails)
   };
 
   const handleUserRecuire = (user) => {
-    setFilterInput(user.user_name);
-    const searchItem = user.user_name
+    console.log("user", user);
+    
+    setFilterInput(user.Name);
+    const searchItem = user.Name
 
     if (searchItem !== "") {
       const filteredItems =
         state.InvoiceList.RecurringBills &&
         state.InvoiceList.RecurringBills.filter(
           (user) =>
-            user.user_name &&
-            user.user_name.toLowerCase().includes(searchItem.toLowerCase())
+            user.Name &&
+            user.Name.toLowerCase().includes(searchItem.toLowerCase())
         );
       setRecurringBills(filteredItems);
 
@@ -2838,16 +2843,16 @@ setMatchedDetails(matchedDetails)
   }, [filterStatus]);
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (hostelId) {
-      setReceiptLoader(true);
-      dispatch({
-        type: "RECEIPTSLIST",
-        payload: { hostel_id: hostelId },
-      });
-    }
-  }, [hostelId]);
+  //   if (hostelId) {
+  //     setReceiptLoader(true);
+  //     dispatch({
+  //       type: "RECEIPTSLIST",
+  //       payload: { hostel_id: hostelId },
+  //     });
+  //   }
+  // }, [hostelId]);
 
   useEffect(() => {
     if (state.InvoiceList.ReceiptlistgetStatuscode === 200) {
@@ -3093,7 +3098,7 @@ setMatchedDetails(matchedDetails)
                                 recurringbills
                                   ?.filter(
                                     (item, index, self) =>
-                                      index === self.findIndex((t) => t.user_name === item.user_name)
+                                      index === self.findIndex((t) => t.Name === item.Name)
                                   )
                                   .map((user, index) => (
                                     <li
@@ -3122,7 +3127,7 @@ setMatchedDetails(matchedDetails)
                                     >
                                       <Image
                                         src={user.profile || Profile}
-                                        alt={user.user_name || "Default Profile"}
+                                        alt={user.Name || "Default Profile"}
                                         roundedCircle
                                         style={{ height: "30px", width: "30px", marginRight: "10px" }}
                                         onError={(e) => {
@@ -3130,7 +3135,7 @@ setMatchedDetails(matchedDetails)
                                           e.target.src = Profile;
                                         }}
                                       />
-                                      <span>{user.user_name}</span>
+                                      <span>{user.Name}</span>
                                     </li>
                                   ))
                               )}

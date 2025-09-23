@@ -47,6 +47,7 @@ function Asset() {
   const [ExcelFilterDates, setExcelFilterDates] = useState([])
   const [ExcelDownloadDates, setExcelDownloadDates] = useState([])
   const [filterexcelprice, setFilterExcelPrice] = useState('')
+  const [getapitrigger , setGetApiTrigger] = useState(false)
 
 
 
@@ -286,6 +287,7 @@ function Asset() {
     if (state.AssetList.getAssetStatusCode === 200) {
       setGetData(state.AssetList.assetList)
       setLoading(false)
+      setGetApiTrigger(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_ASSET_STATUS_CODE' })
       }, 2000)
@@ -424,29 +426,36 @@ function Asset() {
 
 
   useEffect(() => {
-    if (!showFilter) {
-         console.log("ASSETLIST")
+    if (!showFilter && getapitrigger) {
       dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       setSelectedPriceRange('All');
       setSelectedDateRange([]);
       setExcelFilterDates([])
       setExcelDownloadDates([])
     }
+
   }, [showFilter]);
+
+  console.log("getdata", getData);
+  
 
   const handleFilterByPrice = () => {
 
     const newShowFilter = !showFilter;
     setShowFilter(newShowFilter);
+    setGetApiTrigger(true)
 
     if (!showFilter) {
+       dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       setSelectedPriceRange("All");
       setSelectedDateRange([]);
       setExcelFilterDates([]);
       setExcelDownloadDates([])
       setGetData(state.AssetList.assetList)
-
     }
+    // else {
+    //     setGetData(state.AssetList.assetList)
+    // }
   };
 
 
