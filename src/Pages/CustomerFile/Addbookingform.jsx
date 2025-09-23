@@ -250,8 +250,7 @@ function BookingModal(props) {
   const handleBookingAmountChange = (e) => {
     const value = e.target.value;
 
-    // only allow numbers
-    if (/^\d*$/.test(value)) {
+      if (/^\d*$/.test(value)) {
       setAmountError("");
       setBookingAmount(value);
     }
@@ -286,20 +285,35 @@ function BookingModal(props) {
     const joiningDateForFormatted = formatDate(joiningDate);
       dispatch({ type: 'AVAILBALEBEDDETAILS', payload:{ hostelId: state.login.selectedHostel_Id, joiningDate: joiningDateForFormatted}})
     }
-if (state.UsersList?.availableBedList.bankDetails.length === 0) {
-      toast.error(
-        <div className="flex items-center gap-2">
-                   <span style={{fontFamily:"Gilroy"}}>Please Create Banking before adding booking</span>
-        </div>,
-            );
-    }
-
-
-
   },[joiningDate])
 
 
 
+const toastShownRef = useRef(false);
+
+useEffect(() => {
+  if (
+    state.UsersList?.availableBedList?.bankDetails?.length === 0 &&
+    !toastShownRef.current && joiningDate
+  ) {
+    toastShownRef.current = true; 
+    toast.error(
+      <div className="flex items-center gap-2">
+        <span style={{ fontFamily: "Gilroy" }}>
+          Please Create Banking before adding booking
+        </span>
+      </div>
+    );
+  }
+
+  
+  if (
+    state.UsersList?.availableBedList?.bankDetails?.length > 0 &&
+    toastShownRef.current
+  ) {
+    toastShownRef.current = false;
+  }
+}, [state.UsersList?.availableBedList?.bankDetails]);
 
   const handleBed = (selectedOption) => {
     dispatch({ type: "ERROR_BOOKING_REMOVE" });
