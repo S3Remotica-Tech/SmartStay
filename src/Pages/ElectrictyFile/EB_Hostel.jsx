@@ -17,6 +17,9 @@ import Ellipse1 from "../../Assets/Images/New_images/Ellipse 1.svg";
 import emptyimg from "../../Assets/Images/New_images/empty_image.png";
 import EB_TenantOverview from "./EB_TenantOverview";
 // import ClipPathGroup from "../../Assets/Images/New_images/ClipPathGroup.svg";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
+import { MdError } from "react-icons/md";
 
 
 
@@ -159,6 +162,11 @@ const RoomReadingTable = () => {
   const [selectedTenant, setSelectedTenant] = useState(null);
   const [filterShow, setFilterShow] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [readingError, setReadingError] = useState("");
+  const [dateError, setDateError] = useState("");
+
+  const [currentReading, setCurrentReading] = useState("");
+  const [readingDate, setReadingDate] = useState(null);
   // const [searchText, setSearchText] = useState("");
   const [filters, setFilters] = useState([]);
 
@@ -171,6 +179,64 @@ const RoomReadingTable = () => {
   //     e.preventDefault();
   //   }
   // };
+
+
+  const handleCurrentReadingChange = (e) => {
+     const value = e.target.value;
+        if (/^\d*\.?\d*$/.test(value)) {
+      setCurrentReading(value);
+      setReadingError('')
+    }
+  };
+
+  const handleReadingDateChange = (date) => {
+    setReadingDate(date ? date : null);
+    setDateError('')
+  };
+
+
+  const handleSubmit = () => {
+
+    let hasError = false;
+
+    if (!currentReading) {
+      setReadingError("Please enter current reading");
+      hasError = true;
+    } else {
+      setReadingError("");
+    }
+
+    if (!readingDate) {
+      setDateError("Please select reading date");
+      hasError = true;
+    } else {
+      setDateError("");
+    }
+
+    if (hasError) return;
+    const formattedDate = readingDate ? dayjs(readingDate).format("DD-MM-YYYY") : "";
+    if (formattedDate && currentReading) {
+      dispatch({
+        type: 'ADDROOMREADING',
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+          reading: currentReading,
+          readingDate: formattedDate,
+          // roomId:,
+          // floorId:,
+
+        }
+      })
+
+    }
+
+
+  };
+
+
+
+
+
 
   const removeFilter = (item) => {
     setFilters(filters.filter((f) => f !== item));
@@ -441,7 +507,7 @@ const RoomReadingTable = () => {
 
             </div>
           </div>
-         
+
           {filters.length > 0 && (
             <div className="d-flex flex-wrap gap-2 mt-2">
               {filters.map((item, index) => {
@@ -713,7 +779,7 @@ const RoomReadingTable = () => {
                   {selectedRow.room}
                   <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
                     <img src={building} height="14" width="14" alt="Ground Floor" />
-                    <div style={{ color: "#4B4B4B", fontSize: 12 }}>{selectedRow.floor}</div>
+                    <div style={{ color: "#4B4B4B", fontSize: 12, fontFamily: "Gilroy" }}>{selectedRow.floor}</div>
                   </div>
                 </span>
               </div>
@@ -757,24 +823,124 @@ const RoomReadingTable = () => {
                     color: "gray"
                   }}
                 >
-                  Last Reading: <span style={{ color: '#1E45E1' }}>310.12</span>
+                  Last Reading: <span style={{ color: '#1E45E1', fontFamily: "Gilroy" }}>310.12</span>
                 </span>
               </div>
 
               <Form.Control
-                style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "12px 14px" }}
+                style={{ marginTop: 10, fontSize: 14, fontWeight: 600, padding: "12px 14px", fontFamily: "Gilroy" }}
                 type="number"
                 placeholder="471.55"
+
+                value={currentReading}
+                onChange={handleCurrentReadingChange}
               />
+
+
+              {readingError && (
+                <div style={{ color: "red" }}>
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {readingError}
+                  </span>
+                </div>
+              )}
+
+
+
+
+
+
             </Form.Group>
+            <Form.Group className="mt-2">
+
+              <Form.Label
+                style={{
+                  fontFamily: 'Gilroy',
+                  fontWeight: 500,
+                  fontStyle: 'normal',
+                  fontSize: '14px',
+                  lineHeight: '100%',
+                  letterSpacing: '0',
+                  marginBottom: 0,
+                  padding: 0
+                }}
+              >
+                Reading Date
+              </Form.Label>
+
+              <div
+                className="datepicker-wrapper"
+                style={{ position: "relative", width: "100%", marginTop: 6 }}
+              >
+
+                <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+                  <DatePicker
+                    style={{
+                      width: "100%",
+                      height: 48,
+                      cursor: "pointer",
+                      fontFamily: "Gilroy",
+                    }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={readingDate ? dayjs(readingDate) : null}
+                    onChange={handleReadingDateChange}
+                    getPopupContainer={() => document.body}
+                  />
+                </div>
+
+
+
+              </div>
+
+{dateError && (
+                <div style={{ color: "red" }}>
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {dateError}
+                  </span>
+                </div>
+              )}
+
+
+            </Form.Group>
+
+
 
 
           </Modal.Body>
           <Modal.Footer style={{ border: 'none' }}>
-            <Button style={{ backgroundColor: "transparent", border: "none", color: "black" }} onClick={() => setShowModal(false)}>
+            <Button style={{ backgroundColor: "transparent", border: "none", color: "black", fontFamily: "Gilroy" }} onClick={() => setShowModal(false)}>
               Cancel
             </Button>
-            <Button style={{ backgroundColor: "#1E45E1", width: '130px' }}>
+            <Button style={{ backgroundColor: "#1E45E1", width: '130px', fontFamily: "Gilroy" }} onClick={handleSubmit}>
               Add
             </Button>
           </Modal.Footer>

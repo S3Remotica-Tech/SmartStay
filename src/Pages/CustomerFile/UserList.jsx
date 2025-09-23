@@ -1535,13 +1535,7 @@ function UserList(props) {
     setUserDetail(userData)
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
 
-  if (state.bankingDetails?.bankingList?.listBanks.length === 0) {
-      toast.error(
-        <div className="flex items-center gap-2">
-                   <span style={{fontFamily:"Gilroy"}}>Please Create Banking before adding booking</span>
-        </div>,
-            );
-    }
+  
 
 
 
@@ -2358,7 +2352,7 @@ function UserList(props) {
       // setDueCustomerShow(true);
 
     }
-
+ 
     setTimeout(() => {
       dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
     }, 500);

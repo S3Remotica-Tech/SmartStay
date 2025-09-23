@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {
+import { addRoomReading, 
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
    getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail,
@@ -14,6 +14,44 @@ import {
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+function* handleAddRoomReading(reading) {
+   try {
+      const response = yield call(addRoomReading, reading.payload)
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'ADD_ROOM_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+
+
+}
+
+
+
+
+
+
 
 
 function* handleAvailableBedDetailsForDate(bedDetails) {
@@ -2214,7 +2252,8 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
-   yield takeEvery('BOOKEDDETAILS', handleBookedDetails)
+   yield takeEvery('ADDROOMREADING', handleAddRoomReading)
+  yield takeEvery('BOOKEDDETAILS', handleBookedDetails)
    yield takeEvery('AVAILBALEBEDDETAILS', handleAvailableBedDetailsForDate)
    yield takeEvery('CREATECUSTOMERSAVEINFO', handleCustomerSaveInfo)
    yield takeEvery('CHECKIN', handleCheckIn)
