@@ -27,6 +27,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     const [initialValues, setInitialValues] = useState(null);
     const [isChanged, setIsChanged] = useState("")
     const [emailError,setEmailError] =useState("")
+    const [phonenumError, setphonenumError] = useState("");
+    const [emailIdError, setemailIdError] = useState("");
 
    
     const handleFirstNameChange = (e) => {
@@ -62,24 +64,27 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
      
     }
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    setemailIdError("")
     setIsChanged("")
   };
 
     const handlePhoneChange = (e) => {
         const input = e.target.value.replace(/\D/g, "");
         setPhone(input);
+          
 
         if (input.length === 0) {
             setPhoneError("");
         } else if (input.length < 10) {
-            setPhoneError("Invalid mobile number");
+            setPhoneError("Please Enter Valid Mobile Number");
         } else if (input.length === 10) {
             setPhoneError("");
         }
+          dispatch({ type: "CLEAR_PHONE_ERROR" });
+          setphonenumError("")
+          setIsChanged("")
 
-setIsChanged("")
-
-        dispatch({ type: "CLEAR_PHONE_ERROR" });
+    
     };
 
 
@@ -109,15 +114,18 @@ setIsChanged("")
             setPhone(mobileNumber);
             setCountryCode(countryCode);
             setId(basicDetails[0].ID);
-            setEmail(basicDetails[0].Email || "")
+               const rawEmail = basicDetails[0]?.Email || "";
+    const validEmail =
+         rawEmail && rawEmail.toLowerCase() !== "n/a" ? rawEmail : "";
 
+      setEmail(validEmail);
           
             setInitialValues({
                 profile: basicDetails[0].profile,
                 firstname: fname,
                 lastname: lname,
                 Phone: mobileNumber,
-                Email: basicDetails[0].Email || "",
+                Email: validEmail,
                 Address: basicDetails[0].Address,
                 area: basicDetails[0].area,
                 landmark: basicDetails[0].landmark,
@@ -143,6 +151,22 @@ setIsChanged("")
 
     }, [state.createAccount?.networkError])
 
+      useEffect(() => {
+        if (state.UsersList.phoneError) {
+        //   setFormLoading(false)
+        //   setLoading(false)
+          setphonenumError(state.UsersList.phoneError);
+        }
+      }, [state.UsersList.phoneError]);
+    
+      useEffect(() => {
+        if (state.UsersList.emailError) {
+        //   setFormLoading(false)
+        //   setLoading(false)
+          setemailIdError(state.UsersList.emailError);
+        }
+      }, [state.UsersList.emailError]);
+
 
 
     const MobileNumber = `${countryCode}${phone}`;
@@ -153,14 +177,14 @@ setIsChanged("")
    
     const handleSubmit = () => {
         if (!firstName) {
-            setFirstNameError("First name is required");
+            setFirstNameError("Please Enter First Name");
             return;
         }
         if (phoneError === "Invalid mobile number") {
             return;
         }
         if (!phone) {
-            setPhoneError("Phone is required");
+            setPhoneError("Please Enter Phone Number");
             return;
         }
          if (emailError) {
@@ -451,6 +475,21 @@ setIsChanged("")
                                         </span>
                                     </div>
                                 )}
+                                  {emailIdError && (
+                                                          <div style={{ color: "red" }}>
+                                                            <MdError />
+                                                            <span
+                                                              style={{
+                                                                fontSize: "12px",
+                                                                color: "red",
+                                                                fontFamily: "Gilroy",
+                                                                fontWeight: 500,
+                                                              }}
+                                                            >
+                                                              {emailIdError}
+                                                            </span>
+                                                          </div>
+                                                        )}
 
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -548,6 +587,26 @@ setIsChanged("")
                                         </span>
                                     </div>
                                 )}
+                                  {phonenumError && (
+                                                          <div style={{ color: "red" }}>
+                                                            <MdError
+                                                              style={{ fontSize: "13px", marginBottom: "2px" }}
+                                                            />
+                                                            <span
+                                                              style={{
+                                                                fontSize: "12px",
+                                                                color: "red",
+                                                                fontFamily: "Gilroy",
+                                                                fontWeight: 500,
+                                                                marginRight: "3px"
+                                                              }}
+                                                            >
+                                                              {" "}
+                                                              {phonenumError}
+                                                            </span>
+                                                          </div>
+                                                        )}
+                                                      
                             </div>
                         </div>
 
