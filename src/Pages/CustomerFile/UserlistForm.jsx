@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl ,Row,Col,} from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "./UserList.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -919,12 +919,23 @@ if(state.UsersList.backtocheckinError){
     let hasReasonAmountError = false;
     let newErrors = [];
 
-
-
-    if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
-      setRoomRentError("Please Enter Rental Amount");
-      return;
+  if(!selectedDate || !RoomRent || !AdvanceAmount){
+    if(!selectedDate){
+    setDateError("Please Select Joining Date");
     }
+    if(!AdvanceAmount){
+    setAdvanceAmountError("Please Enter Advance Amount")
+   }
+   if(RoomRent === "" || RoomRent === null || RoomRent === undefined){
+    setRoomRentError("Please Enter Rental Amount")
+   }
+    return
+  }
+
+    // if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+    //   setRoomRentError("Please Enter Rental Amount");
+    //   return;
+    // }
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Please Enter Valid Rental Amount");
       return;
@@ -1758,8 +1769,13 @@ console.log("ddddddddddddddddd",selectedDate)
 
       if (updatedErrors[index]) updatedErrors[index].reason = "";
     } else if (field === "customReason") {
-      updatedFields[index].customReason = value;
-      if (updatedErrors[index]) updatedErrors[index].reason = "";
+      // updatedFields[index].customReason = value;
+      // if (updatedErrors[index]) updatedErrors[index].reason = "";
+
+      const alphaValue = value.replace(/[^A-Za-z\s]/g, "");
+      updatedFields[index].customReason = alphaValue;
+     if (updatedErrors[index]) updatedErrors[index].reason = "";
+
     } else if (field === "amount") {
 
       // Allow only numbers
@@ -2333,7 +2349,7 @@ console.log("ddddddddddddddddd",selectedDate)
 
                 {activeTab === "long" ? <>
                   <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
-                    <div className="row d-flex align-items-center">
+                    <div className="">
                       <div className="col-12">
                         <Form.Label
                           style={{
@@ -2583,6 +2599,8 @@ console.log("ddddddddddddddddd",selectedDate)
                         )}
                       </div>
 
+                      <div className="row">
+
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Label
                           style={{
@@ -2806,9 +2824,9 @@ console.log("ddddddddddddddddd",selectedDate)
                           </div>
                         )}
                       </div>
+                    </div>
 
-
-
+                        <div className="row">
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group>
@@ -2896,7 +2914,7 @@ console.log("ddddddddddddddddd",selectedDate)
                         )}
                       </div>
 
-
+                    </div>
 
 
 
@@ -3390,7 +3408,8 @@ console.log("ddddddddddddddddd",selectedDate)
 
                 {activeTab === "long" ? <>
                   <div style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
-                    <div className="row d-flex align-items-center">
+                    <div className="">
+                       <div className="row">
                       <div className="col-12">
                         <Form.Label
                           style={{
@@ -3458,9 +3477,9 @@ console.log("ddddddddddddddddd",selectedDate)
 
 
                       </div>
+                      </div>
 
-
-
+<div className="row">
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-">
                         <Form.Label
@@ -3539,10 +3558,13 @@ console.log("ddddddddddddddddd",selectedDate)
                           </div>
                         )} */}
                       </div>
+                      </div>
 
 
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      {/* <div className="row"> */}
+                       <Row>
+                                  <Col md={6}>
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 "> */}
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Booking Date
@@ -3568,9 +3590,11 @@ console.log("ddddddddddddddddd",selectedDate)
                           />
                         </Form.Group>
 
-                      </div>
+                      {/* </div> */}
+                      </Col>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 mt-1">
+ <Col md={6}>
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12"> */}
                         <Form.Group controlId="purchaseDate">
                           <Form.Label
                             style={{
@@ -3642,7 +3666,7 @@ console.log("ddddddddddddddddd",selectedDate)
   <DatePicker
     style={{
       width: "100%",
-      height: 48,
+      height: 50,
       cursor: "not-allowed", 
       fontFamily: "Gilroy",
       // backgroundColor: "#EFF2FF"
@@ -3673,10 +3697,8 @@ console.log("ddddddddddddddddd",selectedDate)
   />
 </div>
 
-                        </Form.Group>
-
-                        {dateError && (
-                          <div style={{ color: "red", marginTop: "-px" }}>
+ {dateError && (
+                          <div style={{ color: "red",  }}>
                             <MdError
                               style={{ fontSize: "13px", marginRight: "5px" }}
                             />
@@ -3702,10 +3724,16 @@ console.log("ddddddddddddddddd",selectedDate)
                             </label>
                           </div>
                         )}
-                      </div>
+                        </Form.Group>
+
+                       
+                      {/* </div> */}
+                      </Col>
+                        
+                      {/* </div> */}
 
 
-
+               
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group>
@@ -3729,8 +3757,7 @@ console.log("ddddddddddddddddd",selectedDate)
                               borderRadius: 8,
                             }}
                           />
-                        </Form.Group>
-                        {advanceAmountError && (
+                           {advanceAmountError && (
                           <div style={{ color: "red" }}>
                             <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                             <label
@@ -3746,13 +3773,11 @@ console.log("ddddddddddddddddd",selectedDate)
                             </label>
                           </div>
                         )}
+                        </Form.Group>
+                       
                       </div>
 
-
-
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Rental Amount
@@ -3774,8 +3799,7 @@ console.log("ddddddddddddddddd",selectedDate)
                               borderRadius: 8,
                             }}
                           />
-                        </Form.Group>
-                        {roomrentError && (
+                           {roomrentError && (
                           <div style={{ color: "red" }}>
                             <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                             <label
@@ -3791,8 +3815,15 @@ console.log("ddddddddddddddddd",selectedDate)
                             </label>
                           </div>
                         )}
+                        </Form.Group>
+                       
                       </div>
+                 
 
+</Row>
+
+
+                     
 
 
 

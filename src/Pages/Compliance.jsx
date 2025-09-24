@@ -1097,12 +1097,12 @@ const Compliance = () => {
                 </div>
 
 
-                <div className='row row-gap-3 container show-scrolls-sidebar'
+                <div className='row row-gap-3 p-4 '
                   style={{
                     height: "500px",
                     overflowY: "auto",
-                    position: "relative",
-                    paddingRight: 20
+                    // position: "relative",
+                    // paddingRight: 20
 
                   }}
                 >

@@ -2032,7 +2032,8 @@ const handleRemoveField = (index) => {
   const handleEditBasicDetails = (item) => {
    
     setBasicDetails(item)
-
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
     setEditBasicDetailsShow(true)
     setCountryCode("91")
 
@@ -3030,7 +3031,7 @@ const imageUrl = imagePreview
                                             wordBreak: "break-word",
                                             overflowWrap: "break-word",
                                             minWidth: 0,
-                                            marginTop: -3
+                                            // marginTop: -3
                                           }}
                                         >
                                           {item.Address}
@@ -3038,8 +3039,8 @@ const imageUrl = imagePreview
                                       </div>
                                     </div>
                                     <div
-                                      className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                                      style={{ whiteSpace: "nowrap" }}
+                                      className="col-sm-4 col-lg-6 d-flex flex-wrap flex-column align-items-center"
+                                   
                                     >
                                       <p
                                         style={{
@@ -3050,35 +3051,41 @@ const imageUrl = imagePreview
                                       >
                                         Street / Area
                                       </p>
-                                       <div
-                                        style={{
-                                          display: "flex",
-                                          marginTop: "-10px",
-                                          gap: "6px",
-                                          width: "100%",
-                                          paddingLeft:75
-                                        }}
-                                      >
-                                          <img src={Areaimage}
-                                          alt="Areaimage"
-                                          size="18"
-                                          color="#1E45E1"
-                                          style={{ marginBottom: "2px" }}
-                                        />
-                                        <span
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            wordBreak: "break-word",
-                                            overflowWrap: "break-word",
-                                            minWidth: 0,
-                                            marginTop: -3
-                                          }}
-                                        >
-                                          {item.area}
-                                        </span>
-                                      </div>
+                                      <div
+  style={{
+    display: "flex",
+    alignItems: "flex-start", 
+    marginTop: "-10px",
+    gap: "6px",
+    width: "100%",
+    paddingLeft: 75,
+  }}
+>
+  <img
+    src={Areaimage}
+    alt="Areaimage"
+    style={{
+      width: 18,  
+      marginTop: 2 
+    }}
+  />
+  <span
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      wordBreak: "break-word",
+      whiteSpace: "pre-wrap",
+      overflowWrap: "break-word",
+      flex: 1,         
+      // marginTop: -3,
+      maxWidth: "120px" 
+    }}
+  >
+    {item.area}
+  </span>
+</div>
+
                                     </div>
                                   </div>
 
@@ -3202,7 +3209,42 @@ const imageUrl = imagePreview
                                       >
                                         State
                                       </p>
-                                      <p style={{ marginTop: "-10px" , marginLeft:15 }}>
+
+                                                                           <div
+  style={{
+    display: "flex",
+    alignItems: "flex-start", 
+    marginTop: "-10px",
+    gap: "6px",
+    width: "100%",
+    paddingLeft: 75,
+  }}
+>
+  <img
+    src={CityImage}
+    alt="CityImage"
+    style={{
+      width: 18,  
+      marginTop: 2 
+    }}
+  />
+  <span
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      wordBreak: "break-word",
+      whiteSpace: "pre-wrap",
+      overflowWrap: "break-word",
+      flex: 1,         
+      // marginTop: -3,
+      maxWidth: "120px" 
+    }}
+  >
+    {item.state}
+  </span>
+</div>
+                                      {/* <p style={{ marginTop: "-10px" , marginLeft:15 }}>
                                         <img src={CityImage} alt="CityImage" size="16" color="#1E45E1" />
                                         <span
                                           style={{
@@ -3218,7 +3260,7 @@ const imageUrl = imagePreview
                                         >
                                           {item.state}
                                         </span>
-                                      </p>
+                                      </p> */}
                                     </div>
                                     
                                   </div>

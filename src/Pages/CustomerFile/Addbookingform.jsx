@@ -41,8 +41,12 @@ function BookingModal(props) {
 const [transactionId,setTransactionId] = useState("")
 const handleTransactionId = (e) => {
   const value = e.target.value;
-  setTransactionId(value);
+  const regex = /^[A-Za-z0-9_.-]*$/;
+  if (regex.test(value)) {
+    setTransactionId(value);
+  }
 };
+
 
 
     useEffect(() => {
@@ -595,28 +599,35 @@ const handleTransactionId = (e) => {
                 />
               </Form.Group>
 
-              {amountError && (
-                <div style={{ color: "red" }}>
+             {amountError && (
+  <div
+    style={{
+      display: "flex",
+      // alignItems: "center", 
+      marginTop: "4px",     // input ku bottom space
+    }}
+  >
+    <MdError
+      style={{
+        marginRight: "5px",
+        fontSize: 15,
+        color: "red",
+        marginTop: "2px",        // icon ku red
+      }}
+    />
+    <span
+      style={{
+        color: "red",
+        fontSize: 12,
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      {amountError}
+    </span>
+  </div>
+)}
 
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {amountError}
-                  </span>
-                </div>
-              )}
 
             </Col>
              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -743,23 +754,29 @@ const handleTransactionId = (e) => {
                                />
              
                              </Form.Group>
-                             {paymentError && (
-                               <div className="d-flex align-items-center p-1 mb-2">
-                                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
-                                 <label
-                                   className="mb-0"
-                                   style={{
-                                     color: "red",
-                                     fontSize: "12px",
-                                     fontFamily: "Gilroy",
-                                     fontWeight: 500,
-                                     whiteSpace: "nowrap"
-                                   }}
-                                 >
-                                   {paymentError}
-                                 </label>
-                               </div>
-                             )}
+                           
+                              {paymentError && (
+                <div style={{ color: "red" }}>
+
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {paymentError}
+                  </span>
+                </div>
+              )}
                            </div>
 
 
