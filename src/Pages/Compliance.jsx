@@ -95,7 +95,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (hosId) {
-    dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: hosId } });
+    dispatch({ type: "COMPLAINT-TYPE-LIST",  payload: { hostel_id:  state?.login?.selectedHostel_Id}  });
     }
   }, [hosId])
 
@@ -251,7 +251,7 @@ const Compliance = () => {
   useEffect(() => {
     if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
 
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: hosId } })
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_COMPLIANCE' })
@@ -260,31 +260,30 @@ const Compliance = () => {
   }, [state.ComplianceList.statusCodeForDeleteCompliance])
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoading(true)
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-      // dispatch({
-      //   type: "USERLIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
-    } else {
+        if (state.login.selectedHostel_Id) {
+           setLoading(true)
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
+         } 
+    else {
       setFilteredUsers([]);
       setLoading(false)
     }
 
-  }, [state.login.selectedHostel_Id, state?.login?.selectedHostel_Id])
+  }, [state.login?.selectedHostel_Id])
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!state.login.selectedHostel_Id) {
-        setFilteredUsers([]);
-        setLoading(false);
-      }
-    }, 100);
 
-    return () => clearInterval(interval);
-  }, []);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (!state.login.selectedHostel_Id) {
+  //       setFilteredUsers([]);
+  //       setLoading(false);
+  //     }
+  //   }, 100);
+
+  //   return () => clearInterval(interval);
+  // }, []);
 
 
 
@@ -293,7 +292,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddCompliance === 201) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } });
       handleClose()
       setTimeout(() => {
         dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' });
@@ -321,7 +320,7 @@ setFilteredUsers(filteredItems);
 
    useEffect(() => {
     if (state.ComplianceList.statusCodeForEditCompliant === 200) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } });
       handleClose()
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EDIT_COMPLIANT_STATUS_CODE' });
@@ -404,7 +403,7 @@ setFilteredUsers(filteredItems);
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
-    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
   }
 
 
@@ -419,7 +418,7 @@ setFilteredUsers(filteredItems);
     const selectedUserData = state.ComplianceList.Compliance.filter(
       (item) => item?.complaintResponseDto?.customerName === user.customerName
     )
-    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id  } })
     setFilteredUsers(selectedUserData)
     setDropdownVisible(false)
   }
@@ -434,15 +433,15 @@ setFilteredUsers(filteredItems);
     setStatusfilter(value);
 
     if (value === "All") {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
     }
 
     else if (value === "date") {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      // dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
     }
 
     else if (value) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId, status: value, } })
+      // dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id, status: value, } })
     }
 
     // setCurrentPage(1)
@@ -454,7 +453,7 @@ setFilteredUsers(filteredItems);
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([])
       setStatusfilter("All")
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
       return
     }
 
@@ -480,6 +479,31 @@ setFilteredUsers(filteredItems);
   };
 
 
+console.log("selectedDateRange",selectedDateRange)
+
+useEffect(() => {
+  if (selectedDateRange?.length === 2) {
+    const newStartDate = dayjs(selectedDateRange[0]).startOf("day").format("DD-MM-YYYY");
+    const newEndDate = dayjs(selectedDateRange[1]).endOf("day").format("DD-MM-YYYY");
+
+    console.log("****", newStartDate,"&&&&", newEndDate);
+if(newStartDate && newEndDate ) {
+    dispatch({
+      type: "COMPLIANCE-LIST",
+      payload: {
+        hostelId: state.login.selectedHostel_Id,
+        startDate: newStartDate,
+        endDate: newEndDate,
+      },
+    });
+  }
+  }
+}, [selectedDateRange]);
+
+
+
+
+
   useEffect(() => {
     if (!filterStatus) {
       setStatusfilter("All");
@@ -489,19 +513,19 @@ setFilteredUsers(filteredItems);
 
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
 
-    if (statusfilter === "date" && ExcelFilterDates.length === 2) {
-      dispatch({
-        type: 'COMPLIANCE-LIST', payload: {
-          hostel_id: hosId,
-          from_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-          to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
-        }
-      })
-    }
-  }, [ExcelFilterDates]);
+  //   if (statusfilter === "date" && ExcelFilterDates.length === 2) {
+  //     dispatch({
+  //       type: 'COMPLIANCE-LIST', payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         from_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+  //         to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
+  //       }
+  //     })
+  //   }
+  // }, [ExcelFilterDates]);
 
 
   useEffect(() => {

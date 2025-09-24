@@ -91,10 +91,10 @@ function* handleParticularcompliant(action) {
 
 
 function* handlecompliancelist(action) {
- 
+    console.log("Saga triggered:", action);
    try{
-    const { hostel_id } = action.payload
-    const response = yield call(complianceList, hostel_id)
+    
+    const response = yield call(complianceList, action.payload)
 
      if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'COMPLIANCE_LIST', payload: { response: response.data || [], filterOptions: response.data.filterOptions || [],
@@ -587,6 +587,7 @@ function refreshToken(response) {
 
 
 function* ComplianceSaga() {
+ 
    yield takeEvery('COMPLIANCE-LIST', handlecompliancelist)
    yield takeEvery('COMPLIANCE-ADD', handleComplianceadd)
    yield takeEvery('EDIT_COMPLAINT', handleEditComplaint)

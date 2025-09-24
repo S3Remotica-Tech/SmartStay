@@ -461,15 +461,15 @@ function AddPg({ show, handleClose, currentItem }) {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (state.PgList.createPgStatusCode === 201) {
-            dispatch({ type: "HOSTELLIST" })
+  // useEffect(() => {
+  //   if (state.PgList.createPgStatusCode === 201) {
+  //           dispatch({ type: "HOSTELLIST" })
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-      }, 4000);
-    }
-  }, [state.PgList.createPgStatusCode, hostel_Id]);
+  //     setTimeout(() => {
+  //       dispatch({ type: "CLEAR_PG_STATUS_CODE" });
+  //     }, 4000);
+  //   }
+  // }, [state.PgList.createPgStatusCode, hostel_Id]);
 
   useEffect(() => {
     if (currentItem) {

@@ -187,7 +187,7 @@ function PgList() {
       state.UsersList.createFloorSuccessStatusCode === 201 ||
       state.PgList.updateFloorSuccessStatusCode === 200
     ) {
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      // dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       // dispatch({ type: "HOSTELLIST" });
       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: hostel_Id } })
 
@@ -241,7 +241,7 @@ function PgList() {
 
   useEffect(() => {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
-      dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
+      // dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       // dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "ALLFLOORLIST", payload: { hostel_id: hostel_Id } });
       setShowDelete(false);
@@ -294,8 +294,7 @@ function PgList() {
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      // dispatch({ type: "HOSTELIDDETAILS" });
-      // dispatch({ type: "HOSTELLIST" });
+            // dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
@@ -328,7 +327,7 @@ function PgList() {
   useEffect(() => {
     if (state.PgList?.createPgStatusCode === 201) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-      // dispatch({ type: "HOSTELLIST" });
+      dispatch({ type: "HOSTELLIST" });
 
       setShowAddPg(false);
       setTimeout(() => {

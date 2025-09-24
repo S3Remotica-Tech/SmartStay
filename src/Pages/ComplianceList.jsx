@@ -152,7 +152,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddComplianceComment === 201 && showCard) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hostel_id } });
       setComments("");
       setShowCard(false);
       setCommentsLoading(false)
@@ -317,7 +317,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.complianceAssignChangeStatus === 200 && showAssignComplaint) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hostel_id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
       setShowAssignComplaint(false);
       setStatusErrorType("");
@@ -334,7 +334,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.complianceChangeStatus === 200 && showChangeStatus) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: {hostelId: hostel_id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
       setShowChangeStatus(false);
       setFormLoading(false)
@@ -539,7 +539,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.complaintResponseDto?.roomName} - B{props.complaints?.complaintResponseDto?.bedName}
+                          {props.complaints?.complaintResponseDto?.roomName} - {props.complaints?.complaintResponseDto?.bedName}
                         </div>
 
 

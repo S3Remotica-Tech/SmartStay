@@ -7,11 +7,19 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 //     data: compliance
 //   })
 // }
+
 // v2
-export async function complianceList(hostelId) {
-  return await AxiosConfigV2.get(`/v2/complaint/all-complaints/${hostelId}`, {
+export async function complianceList(compliance) {
+  console.log("compliance",compliance)
+  return await AxiosConfigV2.get(`/v2/complaint/all-complaints/${compliance.hostelId}`, {
     headers: {
       "Content-Type": "application/json",
+    },
+     params: {
+      customerName: compliance.customerName,
+      status: compliance.status,
+      startDate: compliance.startDate,
+      endDate: compliance.endDate,
     },
   });
 }
