@@ -1820,9 +1820,6 @@ function UserList(props) {
     });
   }
 
-  useEffect(() => {
-    dispatch({ type: "AMENITESNAMES" });
-  }, []);
 
   const amenities = state.UsersList?.amnetieshistory;
 

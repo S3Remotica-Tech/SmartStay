@@ -28,7 +28,7 @@ console.log("customerID",customerID)
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    console.log("FinalSettlement",data)
+    console.log("FinalSettlement",customerID)
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
@@ -116,7 +116,7 @@ const [checkOutDate] = useState(() => {
 
 useEffect(()=>{
 if(checkOutDate){
-  dispatch({ type: "CHECKOUTDATEUPDATE", payload: { hostel_id: state.login.selectedHostel_Id,id:data.ID,checkoutDate:checkOutDate} });
+  dispatch({ type: "CHECKOUTDATEUPDATE", payload: { hostel_id: state.login.selectedHostel_Id,id:data.ID || customerID,checkoutDate:checkOutDate} });
 }
 },[checkOutDate])
 
@@ -467,7 +467,7 @@ const refundableAmenities = refundableDetails
          dispatch({
                 type: "FINALGENERATE",
                 payload: {
-                  user_id:data.ID ,
+                  user_id:data.ID || customerID,
                    
                     hostel_id: state.login?.selectedHostel_Id,
                     amenities: [
