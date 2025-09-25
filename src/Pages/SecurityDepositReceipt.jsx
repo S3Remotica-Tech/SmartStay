@@ -1386,8 +1386,8 @@ useEffect(() => {
                     </div>
 
                     <div className="col-md-6 text-end">
-                      {signature && (
-                        <img src={signature} alt="signature" style={{ height: 50, width: 100 }} />
+                      {signaturePreview && (
+                        <img src={signaturePreview} alt="signature" style={{ height: 50, width: 100 }} />
                       )}
                       <p className="mt-4" style={{ fontSize: "11px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "25px" }}>Authorized Signature</p>
                     </div>

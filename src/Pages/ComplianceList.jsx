@@ -244,6 +244,8 @@ const ComplianceList = (props) => {
     setShowAssignComplaint(false);
   };
 
+console.log("complaintId",complaintId)
+
 
   const ChangeStatusClose = () => {
     setShowChangeStatus(false);
@@ -300,6 +302,8 @@ const ComplianceList = (props) => {
       setStatusErrorType("Please Select User");
     } else {
 
+console.log("complaintId",complaintId, "compliant",compliant)
+
       if(complaintId && compliant){
        dispatch({
       type: "COMPLIANCEASSIGN",
@@ -347,12 +351,14 @@ const ComplianceList = (props) => {
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
   const handleAssignOpenClose = (item) => {
+    console.log("item",item)
     // setAssignId(item?.ID);
     dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_id } });
     setShowDots(false);
     setCompliant(item?.Assign ?? "");
     setAlreadyAssigned(item?.Assign ?? "");
-    setComplaintId(item?.complaintId)
+
+    setComplaintId(item?.complaintId ? item?.complaintId : item?.complaintResponseDto?.complaintId)
     setShowAssignComplaint(true);
     setShowChangeStatus(false);
   };
@@ -1027,7 +1033,10 @@ const ComplianceList = (props) => {
                         }}
                       >
                         successfully attended on{" "}
-                        {moment(props.complaints.complaintResponseDto?.complaintDate).format("DD-MM-YYYY")}
+                        {
+                        props.complaints.complaintResponseDto?.complaintDate
+                        }
+                        {/* {moment(props.complaints.complaintResponseDto?.complaintDate).format("DD-MM-YYYY")} */}
                       </span>
                     </>
                   )}

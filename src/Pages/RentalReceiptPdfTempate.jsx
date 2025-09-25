@@ -234,7 +234,6 @@ const RentalReceiptPdfTemplate = ({ BillsTemplateList }) => {
 
 
 
-
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5,
@@ -1390,9 +1389,9 @@ useEffect(() => {
                       <div className="col-md-6 text-end">
                         <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
                         </p>
-                        {signature && (
+                        {signaturePreview && (
                           <img
-                            src={signature}
+                            src={signaturePreview}
                             alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 30 }}
 
                           />
