@@ -25,9 +25,7 @@ function AddCustomer({  showMenu, handleClose   }) {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [Phone, setPhone] = useState("");
-    // const [hostel_Id, setHostel_Id] = useState("");
-    // const [HostelName, setHostelName] = useState("");
-
+       const [step, setStep] = useState(1);
     const [Email, setEmail] = useState("");
     const [house_no, setHouseNo] = useState("");
     const [street, setStreet] = useState("");
@@ -56,6 +54,7 @@ function AddCustomer({  showMenu, handleClose   }) {
     const pincodeRef = useRef(null);
     const stateRef = useRef(null);
   
+const emailRef = useRef(null);
   
     
   
@@ -136,9 +135,14 @@ function AddCustomer({  showMenu, handleClose   }) {
       setFirstnameError("");
     };
   
+
+
+
     useEffect(() => {
       if (state.UsersList.phoneError) {
-        
+
+        setStep(1)
+        phoneRef.current?.focus();
         setFormLoading(false)
       }
       
@@ -146,13 +150,20 @@ function AddCustomer({  showMenu, handleClose   }) {
   
     useEffect(() => {
       if (state.UsersList.emailError) {
-         setFormLoading(false)
-              }
+        setStep(1)
+              setFormLoading(false)
+                    }
       
     }, [state.UsersList.emailError]);
   
-  
-  
+  console.log("emailRef:", emailRef.current);
+
+  useEffect(() => {
+  if (step === 1 && state.UsersList.emailError) {
+    emailRef.current?.focus();
+  }
+}, [step, state.UsersList.emailError]);
+
   
     const handleLastName = (e) => {
       const value = e.target.value;
@@ -435,7 +446,7 @@ function AddCustomer({  showMenu, handleClose   }) {
  
   
   
-      const [step, setStep] = useState(1);
+   
    
    
   
@@ -935,6 +946,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                          id="form-controls"
                                          placeholder="Enter Email ID"
                                          value={Email}
+                                         ref={emailRef} 
                                          onChange={(e) => handleEmail(e)}
                                          style={{
                                            fontSize: 16,
@@ -1456,7 +1468,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                  : null}
      
                              </div>
-                             {state.UsersList.phoneError && (
+                             {/* {state.UsersList.phoneError && (
                                <div style={{ color: "red" }}>
                                  <MdError
                                    style={{ fontSize: "13px", marginBottom: "2px" }}
@@ -1474,8 +1486,8 @@ function AddCustomer({  showMenu, handleClose   }) {
                                    {state.UsersList.phoneError}
                                  </span>
                                </div>
-                             )}
-                             {state.UsersList.emailError && (
+                             )} */}
+                             {/* {state.UsersList.emailError && (
                                <div style={{ color: "red" }}>
                                  <MdError />
                                  <span
@@ -1489,7 +1501,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                    {state.UsersList.emailError}
                                  </span>
                                </div>
-                             )}
+                             )} */}
                              <div className="d-flex justify-content-end mt-3">
                                <Button style={{
                                  fontFamily: "Gilroy",

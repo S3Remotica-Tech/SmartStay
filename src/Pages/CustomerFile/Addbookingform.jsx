@@ -131,9 +131,14 @@ function BookingModal(props) {
 
 
   const handleTransactionId = (e) => {
-    const value = e.target.value;
+  const value = e.target.value;
+   const regex = /^[A-Za-z0-9_.-]*$/;
+
+  if (regex.test(value)) {
     setTransactionId(value);
-  };
+  }
+};
+
 
 
 
@@ -349,7 +354,7 @@ useEffect(() => {
     let isValid = true;
 
     if (!bookingDate) {
-      setDateError("Please select Booking Date");
+      setDateError("Please Select Booking Date");
       isValid = false;
     } else {
       setDateError("");
@@ -357,7 +362,7 @@ useEffect(() => {
 
 
     if (!bookingAmount) {
-      setAmountError("Please enter Booking Amount");
+      setAmountError("Please Enter Booking Amount");
       isValid = false;
     } else if (isNaN(bookingAmount)) {
       setAmountError("Booking Amount must be a number");
@@ -378,21 +383,21 @@ useEffect(() => {
     }
 
     if (!joiningDate) {
-      setJoiningDateError("Please select Joining Date");
+      setJoiningDateError("Please Select Joining Date");
       isValid = false;
     } else {
       setJoiningDateError("");
     }
 
     if (!Floor) {
-      setFloorError("Please select Floor");
+      setFloorError("Please Select Floor");
       isValid = false;
     } else {
       setFloorError("");
     }
 
     if (!room) {
-      setRoomError("Please select Room");
+      setRoomError("Please Select Room");
       isValid = false;
     } else {
       setRoomError("");
@@ -400,7 +405,7 @@ useEffect(() => {
 
 
     if (!bed) {
-      setBedError("Please select Bed");
+      setBedError("Please Select Bed");
       isValid = false;
     } else {
       setBedError("");
@@ -464,7 +469,7 @@ useEffect(() => {
         show={props.add_bookingshow}
         onHide={handleCloseBooking}
         centered
-        backdrop="static"
+        backdrop="static"  dialogClassName="custom-modals-style"
       >
         <Modal.Header className="d-flex justify-content-between">
           <Modal.Title

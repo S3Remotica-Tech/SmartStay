@@ -23,9 +23,9 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
 
-    
 
-//  valdation => joing date enale, before booking darte not allowed
+
+    //  valdation => joing date enale, before booking darte not allowed
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -46,7 +46,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     const [RoomRent, setRoomRent] = useState("");
     const [roomrentError, setRoomRentError] = useState("");
     const [errors, setErrors] = useState('')
-    const [bookingAmount, setBookingAmount] =useState('')
+    const [bookingAmount, setBookingAmount] = useState('')
 
     const reasonOptions = [
         { value: "maintenance", label: "Maintenance" },
@@ -111,39 +111,77 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
         setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
     };
 
-    const handleInputChange = (index, field, value) => {
-        const updatedFields = [...fields];
-        const updatedErrors = [...errors];
+    // const handleInputChange = (index, field, value) => {
+    //     const updatedFields = [...fields];
+    //     const updatedErrors = [...errors];
 
+    //     if (field === "reason") {
+    //         if (value === "others") {
+    //             updatedFields[index].showInput = true;
+    //             updatedFields[index].reason_name = "others";
+    //             updatedFields[index].customReason = "";
+    //         } else {
+    //             updatedFields[index].showInput = false;
+    //             updatedFields[index].reason = value;
+    //             updatedFields[index].reason_name = value;
+    //             updatedFields[index].customReason = "";
+    //         }
+
+
+    //         if (updatedErrors[index]) updatedErrors[index].reason = "";
+    //     } else if (field === "customReason") {
+    //         updatedFields[index].customReason = value;
+    //         if (updatedErrors[index]) updatedErrors[index].reason = "";
+    //     } else if (field === "amount") {
+
+
+    //         const numericValue = value.replace(/[^0-9]/g, "");
+    //         updatedFields[index].amount = numericValue;
+    //         if (updatedErrors[index]) updatedErrors[index].amount = "";
+
+    //     }
+
+    //     setFields(updatedFields);
+    //     setErrors(updatedErrors);
+    // };
+
+const handleInputChange = (index, field, value) => {
+    const updatedFields = [...fields];
+    const updatedErrors = [...errors];
+
+    if (field === "reason" || field === "customReason") {
+        // allow only letters and spaces
+        const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+        
         if (field === "reason") {
-            if (value === "others") {
+            if (cleanedValue.toLowerCase() === "others") {
                 updatedFields[index].showInput = true;
                 updatedFields[index].reason_name = "others";
                 updatedFields[index].customReason = "";
             } else {
                 updatedFields[index].showInput = false;
-                updatedFields[index].reason = value;
-                updatedFields[index].reason_name = value;
+                updatedFields[index].reason = cleanedValue;
+                updatedFields[index].reason_name = cleanedValue;
                 updatedFields[index].customReason = "";
             }
-
-
-            if (updatedErrors[index]) updatedErrors[index].reason = "";
         } else if (field === "customReason") {
-            updatedFields[index].customReason = value;
-            if (updatedErrors[index]) updatedErrors[index].reason = "";
-        } else if (field === "amount") {
-
-
-            const numericValue = value.replace(/[^0-9]/g, "");
-            updatedFields[index].amount = numericValue;
-            if (updatedErrors[index]) updatedErrors[index].amount = "";
-
+            updatedFields[index].customReason = cleanedValue;
         }
 
-        setFields(updatedFields);
-        setErrors(updatedErrors);
-    };
+        if (updatedErrors[index]) updatedErrors[index].reason = "";
+    } else if (field === "amount") {
+        const numericValue = value.replace(/[^0-9]/g, "");
+        updatedFields[index].amount = numericValue;
+        if (updatedErrors[index]) updatedErrors[index].amount = "";
+    }
+
+    setFields(updatedFields);
+    setErrors(updatedErrors);
+};
+
+
+
+
 
     const handleRemoveField = (index) => {
         const updatedFields = [...fields];
@@ -154,35 +192,38 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
     const handleSaveBooking = async () => {
 
-        let hasReasonAmountError = false;
+        let hasError = false;
+        setRoomRentError("");
+        setAdvanceAmountError("");
         let newErrors = [];
 
 
+        if (!selectedDate) {
+            setJoingDateErrmsg("Please Select Joining Date");
+            hasError = true;
 
-        if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+        }
+
+        if (!RoomRent) {
             setRoomRentError("Please Enter Rental Amount");
-            return;
-        }
-        if (Number(RoomRent) <= 0) {
+            hasError = true;
+        } else if (Number(RoomRent) <= 0) {
             setRoomRentError("Please Enter Valid Rental Amount");
-            return;
+            hasError = true;
         }
 
-        if (
-            AdvanceAmount === "" ||
-            AdvanceAmount === null ||
-            AdvanceAmount === undefined
-
-        ) {
+        if (!AdvanceAmount) {
             setAdvanceAmountError("Please Enter Advance Amount");
-            return;
-        }
-        if (Number(AdvanceAmount) <= 0) {
+            hasError = true;
+        } else if (Number(AdvanceAmount) <= 0) {
             setAdvanceAmountError("Please Enter Valid Advance Amount");
-            return;
+            hasError = true;
         }
 
-        setErrors(newErrors)
+
+
+
+        if (hasError) return;
 
 
 
@@ -309,24 +350,24 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
 
-useEffect(()=>{
-    if(bookingDetails?.customerId){
-        dispatch({ type:'BOOKEDDETAILS', payload: {hostelId:state.login.selectedHostel_Id , customerId: bookingDetails?.customerId}})
-    }
+    useEffect(() => {
+        if (bookingDetails?.customerId) {
+            dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: bookingDetails?.customerId } })
+        }
 
-},[bookingDetails])
+    }, [bookingDetails])
 
-useEffect(()=>{
-    if(state.UsersList?.bookedDetails || bookingDetails){
-        const parsedDate = bookingDetails?.expectedJoiningDate
-      ? dayjs(bookingDetails.expectedJoiningDate, "DD/MM/YYYY") 
-      : null;
+    useEffect(() => {
+        if (state.UsersList?.bookedDetails || bookingDetails) {
+            const parsedDate = bookingDetails?.expectedJoiningDate
+                ? dayjs(bookingDetails.expectedJoiningDate, "DD/MM/YYYY")
+                : null;
 
-    setSelectedDate(parsedDate);
-         setBookingAmount(state.UsersList.bookedDetails?.bookingAmount)
-    }
+            setSelectedDate(parsedDate);
+            setBookingAmount(state.UsersList.bookedDetails?.bookingAmount)
+        }
 
-},[state.UsersList?.bookedDetails, bookingDetails])
+    }, [state.UsersList?.bookedDetails, bookingDetails])
 
 
     return (
@@ -468,7 +509,7 @@ useEffect(()=>{
 
                                         </div>
 
-                                        <div className="col-12 mb-1">
+                                        <div className="col-12">
                                             <Form.Label
                                                 style={{
                                                     fontSize: 14,
@@ -506,7 +547,7 @@ useEffect(()=>{
 
 
 
-                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <Form.Label
                                                 style={{
                                                     fontSize: 14,
@@ -564,22 +605,7 @@ useEffect(()=>{
                                                     }}
                                                 />
                                             </Form.Group>
-                                            {/* {advanceAmountError && (
-                                                <div style={{ color: "red" }}>
-                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                    <label
-                                                        className="mb-0"
-                                                        style={{
-                                                            color: "red",
-                                                            fontSize: "12px",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 500,
-                                                        }}
-                                                    >
-                                                        {advanceAmountError}
-                                                    </label>
-                                                </div>
-                                            )} */}
+
                                         </div>
 
 
@@ -611,7 +637,7 @@ useEffect(()=>{
 
                                         </div>
 
-                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <Form.Group controlId="purchaseDate">
                                                 <Form.Label
                                                     style={{
@@ -621,7 +647,7 @@ useEffect(()=>{
                                                         fontWeight: 500,
                                                     }}
                                                 >
-                                                    Joining Date{" "}
+                                                    Joining Date{" "}  <span style={{ color: "red", fontSize: "20px" }}> *</span>
 
                                                 </Form.Label>
 
@@ -648,7 +674,7 @@ useEffect(()=>{
 
                                                             dispatch(JoininDatecustomer(date ? date.toDate() : null));
                                                         }}
-                                                        
+
                                                         // disabledDate={(current) =>
 
                                                         //     (bookingDate && current < bookingDate.startOf("day")) ||
@@ -664,36 +690,36 @@ useEffect(()=>{
                                                     />
                                                 </div>
                                             </Form.Group>
+                                           
+                                                {dateError && (
+                                                    <div style={{ color: "red", marginTop: "" }}>
+                                                        <MdError
+                                                            style={{ fontSize: "13px", marginRight: "5px" }}
+                                                        />
+                                                        <label
+                                                            className="mb-0"
+                                                            style={{
+                                                                color: "red",
+                                                                fontSize: "12px",
+                                                                fontFamily: "Gilroy",
+                                                                fontWeight: 500,
+                                                            }}
+                                                        >
+                                                            {dateError}
+                                                        </label>
+                                                    </div>
+                                                )}
 
-                                            {dateError && (
-                                                <div style={{ color: "red", marginTop: "-px" }}>
-                                                    <MdError
-                                                        style={{ fontSize: "13px", marginRight: "5px" }}
-                                                    />
-                                                    <label
-                                                        className="mb-0"
-                                                        style={{
-                                                            color: "red",
-                                                            fontSize: "12px",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 500,
-                                                        }}
-                                                    >
-                                                        {dateError}
-                                                    </label>
-                                                </div>
-                                            )}
-
-                                            {joiningDateErrmsg.trim() !== "" && (
-                                                <div className="d-flex align-items-center">
-                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                        {joiningDateErrmsg}
-                                                    </label>
-                                                </div>
-                                            )}
-                                        </div>
-
+                                                {joiningDateErrmsg.trim() !== "" && (
+                                                    <div className="d-flex align-items-center">
+                                                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                            {joiningDateErrmsg}
+                                                        </label>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        
 
 
 
@@ -720,22 +746,24 @@ useEffect(()=>{
                                                     }}
                                                 />
                                             </Form.Group>
-                                            {advanceAmountError && (
-                                                <div style={{ color: "red" }}>
-                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                    <label
-                                                        className="mb-0"
-                                                        style={{
-                                                            color: "red",
-                                                            fontSize: "12px",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 500,
-                                                        }}
-                                                    >
-                                                        {advanceAmountError}
-                                                    </label>
-                                                </div>
-                                            )}
+                                         
+                                                {advanceAmountError && (
+                                                    <div style={{ color: "red" }}>
+                                                        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                                        <label
+                                                            className="mb-0"
+                                                            style={{
+                                                                color: "red",
+                                                                fontSize: "12px",
+                                                                fontFamily: "Gilroy",
+                                                                fontWeight: 500,
+                                                            }}
+                                                        >
+                                                            {advanceAmountError}
+                                                        </label>
+                                                    </div>
+                                                )}
+                                        
                                         </div>
 
 
@@ -765,25 +793,27 @@ useEffect(()=>{
                                                     }}
                                                 />
                                             </Form.Group>
-                                            {roomrentError && (
-                                                <div style={{ color: "red" }}>
-                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                    <label
-                                                        className="mb-0"
-                                                        style={{
-                                                            color: "red",
-                                                            fontSize: "12px",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 500,
-                                                        }}
-                                                    >
-                                                        {roomrentError}
-                                                    </label>
-                                                </div>
-                                            )}
+                                            <div style={{ minHeight: "18px", display: "flex", alignItems: "center" }}>
+
+                                                {roomrentError && (
+                                                    <div style={{ color: "red" }}>
+                                                        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                                        <label
+                                                            className="mb-0"
+                                                            style={{
+                                                                color: "red",
+                                                                fontSize: "12px",
+                                                                fontFamily: "Gilroy",
+                                                                fontWeight: 500,
+                                                            }}
+                                                        >
+                                                            {roomrentError}
+                                                        </label>
+                                                    </div>
+                                                )}
+                                            </div>
+
                                         </div>
-
-
 
 
 
@@ -1033,7 +1063,7 @@ useEffect(()=>{
                                 <Button
                                     className="w-100"
                                     disabled={state.UsersList.bedError}
-                                                                      style={{
+                                    style={{
                                         backgroundColor: "#1E45E1",
                                         fontWeight: 600,
                                         height: 50,

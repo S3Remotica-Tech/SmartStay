@@ -120,7 +120,7 @@ function UserListRoomDetail(props) {
   const [landmarkError, setLandmarkError] = useState("");
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
-  
+
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
   const [contactEdit, setContactEdit] = useState("");
@@ -140,83 +140,83 @@ function UserListRoomDetail(props) {
   const [stayDetailsShow, setStayDetailsShow] = useState(false)
   const [fields, setFields] = useState([]);
   const [showDocModal, setShowDocModal] = useState(false);
-   const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
-   const [documentvalue,setDocumentValue] = useState("1")
-    const [previewUrl, setPreviewUrl] = useState(null);
-         const [previewUrl2, setPreviewUrl2]=useState(null)
+  const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
+  const [documentvalue, setDocumentValue] = useState("1")
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewUrl2, setPreviewUrl2] = useState(null)
 
-const handleFileOpen = (url) => {
-  if (!url) return;
+  const handleFileOpen = (url) => {
+    if (!url) return;
 
-  const lowerUrl = url.toLowerCase();
+    const lowerUrl = url.toLowerCase();
 
-  if (
-    lowerUrl.endsWith(".pdf") ||
-    lowerUrl.endsWith(".jpg") ||
-    lowerUrl.endsWith(".jpeg") ||
-    lowerUrl.endsWith(".png")
-  ) {
-   
-    setPreviewUrl(url);
-    setShowDocModal(true);
-  } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-    window.open(viewerUrl, "_blank");
-  } else {
-    window.open(url, "_blank");
-  }
-};
+    if (
+      lowerUrl.endsWith(".pdf") ||
+      lowerUrl.endsWith(".jpg") ||
+      lowerUrl.endsWith(".jpeg") ||
+      lowerUrl.endsWith(".png")
+    ) {
 
-
+      setPreviewUrl(url);
+      setShowDocModal(true);
+    } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+      window.open(viewerUrl, "_blank");
+    } else {
+      window.open(url, "_blank");
+    }
+  };
 
 
 
 
-const handleFileOpen2 = (url) => {
-  if (!url) return;
-
-  const lowerUrl = url.toLowerCase();
-
-  if (
-    lowerUrl.endsWith(".pdf") ||
-    lowerUrl.endsWith(".jpg") ||
-    lowerUrl.endsWith(".jpeg") ||
-    lowerUrl.endsWith(".png")
-  ) {
-   
-    setPreviewUrl2(url);
-    setShowDocModaldoc2(true);
-  } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-    window.open(viewerUrl, "_blank");
-  } else {
-    window.open(url, "_blank");
-  }
-};
 
 
-// const cleanFileName = (url) => {
-//   const fullName = getFileName(url);
-//   const parts = fullName.split("_");
-//   const ext = fullName.split(".").pop(); 
-//   const short = parts[0].substring(0, 6); 
-//   return `${short}.${ext}`;
-// };
-const cleanFileName = (url) => {
-  if (!url) return "";
+  const handleFileOpen2 = (url) => {
+    if (!url) return;
 
-  const fullName = decodeURIComponent(url.split("/").pop()); // get actual filename
-  const ext = fullName.split(".").pop(); // extension
-  const baseName = fullName.replace(/\.[^/.]+$/, ""); // remove extension
+    const lowerUrl = url.toLowerCase();
 
-  const parts = baseName.split("_");
-  const lastPart = parts[parts.length - 1]; // take last meaningful part
+    if (
+      lowerUrl.endsWith(".pdf") ||
+      lowerUrl.endsWith(".jpg") ||
+      lowerUrl.endsWith(".jpeg") ||
+      lowerUrl.endsWith(".png")
+    ) {
 
-  // limit to 8 characters if you want short name
-  const short = lastPart.substring(0, 15);
+      setPreviewUrl2(url);
+      setShowDocModaldoc2(true);
+    } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+      window.open(viewerUrl, "_blank");
+    } else {
+      window.open(url, "_blank");
+    }
+  };
 
-  return `${short}.${ext}`;
-};
+
+  // const cleanFileName = (url) => {
+  //   const fullName = getFileName(url);
+  //   const parts = fullName.split("_");
+  //   const ext = fullName.split(".").pop(); 
+  //   const short = parts[0].substring(0, 6); 
+  //   return `${short}.${ext}`;
+  // };
+  const cleanFileName = (url) => {
+    if (!url) return "";
+
+    const fullName = decodeURIComponent(url.split("/").pop()); // get actual filename
+    const ext = fullName.split(".").pop(); // extension
+    const baseName = fullName.replace(/\.[^/.]+$/, ""); // remove extension
+
+    const parts = baseName.split("_");
+    const lastPart = parts[parts.length - 1]; // take last meaningful part
+
+    // limit to 8 characters if you want short name
+    const short = lastPart.substring(0, 15);
+
+    return `${short}.${ext}`;
+  };
 
 
 
@@ -318,7 +318,7 @@ const cleanFileName = (url) => {
 
   }, []);
 
-  
+
 
 
 
@@ -402,15 +402,15 @@ const cleanFileName = (url) => {
 
   const isFirstRun = useRef(true);
   const MobileNumber = `${countryCode}${props.userData?.Phone}`;
- 
-    const [advanceDetail, setAdvanceDetail] = useState("");
-    
- 
-useEffect(() => {
-  if (isFirstRun.current) {
-    isFirstRun.current = false;
-    return;
-  }
+
+  const [advanceDetail, setAdvanceDetail] = useState("");
+
+
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
 
 
     if (props.userData?.profile && !file) {
@@ -429,81 +429,81 @@ useEffect(() => {
       setFirstname(value[0] || "");
       setLastname(value[1] || "");
 
-    
-
-    const payload = {
-      profile: file,
-      firstname: value[0] || "",
-      lastname: value[1] || "",
-      Phone: MobileNumber,
-      Email: Email,
-      Address: house_no,
-      area: street,
-      landmark:landmark,
-      city: city,
-      pincode: pincode,
-      state: state_name,
-      AadharNo: AadharNo,
-      PancardNo: PancardNo,
-      licence: licence,
-      HostelName: HostelName,
-      hostel_Id: hostel_Id,
-      Floor: props.userData?.Floor,
-      Rooms: props.userData?.room_id,
-      Bed: props.userData?.hstl_Bed,
-      joining_date: props.userData?.joining_Date,
-      AdvanceAmount: props.userData?.AdvanceAmount,
-      RoomRent:  props.userData?.RoomRent,
-      BalanceDue: BalanceDue,
-      PaymentType: PaymentType,
-      paid_advance: paid_advance,
-      paid_rent: paid_rent,
-      ID: props.userData?.ID,
-    };
-
-    dispatch({
-      type: "ADDUSER",
-      payload: payload,
-    });
-  }
-}, [ProfilePic, file, props.userData]);
 
 
+      const payload = {
+        profile: file,
+        firstname: value[0] || "",
+        lastname: value[1] || "",
+        Phone: MobileNumber,
+        Email: Email,
+        Address: house_no,
+        area: street,
+        landmark: landmark,
+        city: city,
+        pincode: pincode,
+        state: state_name,
+        AadharNo: AadharNo,
+        PancardNo: PancardNo,
+        licence: licence,
+        HostelName: HostelName,
+        hostel_Id: hostel_Id,
+        Floor: props.userData?.Floor,
+        Rooms: props.userData?.room_id,
+        Bed: props.userData?.hstl_Bed,
+        joining_date: props.userData?.joining_Date,
+        AdvanceAmount: props.userData?.AdvanceAmount,
+        RoomRent: props.userData?.RoomRent,
+        BalanceDue: BalanceDue,
+        PaymentType: PaymentType,
+        paid_advance: paid_advance,
+        paid_rent: paid_rent,
+        ID: props.userData?.ID,
+      };
 
-useEffect(() => {
-  const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
+      dispatch({
+        type: "ADDUSER",
+        payload: payload,
+      });
+    }
+  }, [ProfilePic, file, props.userData]);
 
-  if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
-    setFile(base64Pic); 
-  
-  }
-}, [state.UsersList?.KycCustomerDetails?.pic]);
+
+
   useEffect(() => {
-  const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+    const base64Pic = state.UsersList?.KycCustomerDetails?.pic;
 
-  if (rawAddress) {
-    const parts = rawAddress.split(",").map((part) => part.trim());
+    if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
+      setFile(base64Pic);
+
+    }
+  }, [state.UsersList?.KycCustomerDetails?.pic]);
+  useEffect(() => {
+    const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+
+    if (rawAddress) {
+      const parts = rawAddress.split(",").map((part) => part.trim());
 
 
-    const addressParts = parts.slice(1);
+      const addressParts = parts.slice(1);
 
-   
-    const pincodePart = addressParts[addressParts.length - 1];
-    const statePart   = addressParts[addressParts.length - 2];
-    const cityPart    = addressParts[addressParts.length - 3];
 
-    
-    const others = addressParts.slice(0, addressParts.length - 3);
-    const [streetNumber, streetName, areaPart, landmarkPart] = others;
+      const pincodePart = addressParts[addressParts.length - 1];
+      const statePart = addressParts[addressParts.length - 2];
+      const cityPart = addressParts[addressParts.length - 3];
 
-    setHouseNo(`${streetNumber} ${streetName}`);
-    setStreet(areaPart);
-    setLandmark(landmarkPart);
-    setCity(cityPart);
-    setStateName(statePart);
-    setPincode(pincodePart);
-  }
-}, [state.UsersList.KycCustomerDetails?.address]);
+
+      const others = addressParts.slice(0, addressParts.length - 3);
+      const [streetNumber, streetName, areaPart, landmarkPart] = others;
+
+      setHouseNo(`${streetNumber} ${streetName}`);
+      setStreet(areaPart);
+      setLandmark(landmarkPart);
+      setCity(cityPart);
+      setStateName(statePart);
+      setPincode(pincodePart);
+    }
+  }, [state.UsersList.KycCustomerDetails?.address]);
 
 
 
@@ -596,9 +596,9 @@ useEffect(() => {
     setFormShow(false);
     setKycDetailForm(false);
   };
-    const handleChangesupload = (event, newValue) => {
+  const handleChangesupload = (event, newValue) => {
     setDocumentValue(newValue);
-    
+
   };
 
   const options = {
@@ -946,14 +946,14 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    if(Rooms){
-    dispatch({
-      type: "BEDNUMBERDETAILS",
-      payload: {
-        hostelId: state.login.selectedHostel_Id,
-      },
-    });
-  }
+    if (Rooms) {
+      dispatch({
+        type: "BEDNUMBERDETAILS",
+        payload: {
+          hostelId: state.login.selectedHostel_Id,
+        },
+      });
+    }
   }, [Rooms]);
 
   const handleRooms = (selectedOption) => {
@@ -1057,7 +1057,7 @@ useEffect(() => {
 
   const handleCloseEditcustomer = () => {
     setFormShow(false);
-  
+
     setActiveRow(null);
     setEmailErrorMessage("");
     setJoingDateErrmsg("")
@@ -1351,7 +1351,7 @@ useEffect(() => {
         user_id: props.id,
         invoice_date: formattedInvoiceDate,
         due_date: formattedDueDate,
-        isadvance:1
+        isadvance: 1
       },
     });
   };
@@ -1531,40 +1531,40 @@ useEffect(() => {
         return map;
       }, {});
 
-  return initial.map((initialItem) => {
-    const currentItem = currentMap[initialItem.id];
-    if (currentItem) {
-      return {
-        reason_name: currentItem.reason_name,
-        amount: currentItem.amount,
-        customReason: currentItem.customReason,
-        showInput: currentItem.showInput,
-        id: currentItem.id,
-        isDeleted: !!currentItem.isDeleted,
-      };
-    } else {
-     
-      return {
-        reason_name: initialItem.reason_name,
-        amount: String(initialItem.amount).trim(),
-        customReason: initialItem.customReason,
-        showInput: initialItem.showInput,
-        id: initialItem.id,
-        isDeleted: true,
-      };
-    }
-  }).concat(
-   
-    current.filter(item => !initial.some(init => init.id === item.id)).map(item => ({
-      reason_name: item.reason_name,
-      amount: String(item.amount).trim(),
-      customReason: item.customReason,
-      showInput: item.showInput,
-      id: item.id,
-      isDeleted: !!item.isDeleted,
-    }))
-  );
-};
+      return initial.map((initialItem) => {
+        const currentItem = currentMap[initialItem.id];
+        if (currentItem) {
+          return {
+            reason_name: currentItem.reason_name,
+            amount: currentItem.amount,
+            customReason: currentItem.customReason,
+            showInput: currentItem.showInput,
+            id: currentItem.id,
+            isDeleted: !!currentItem.isDeleted,
+          };
+        } else {
+
+          return {
+            reason_name: initialItem.reason_name,
+            amount: String(initialItem.amount).trim(),
+            customReason: initialItem.customReason,
+            showInput: initialItem.showInput,
+            id: initialItem.id,
+            isDeleted: true,
+          };
+        }
+      }).concat(
+
+        current.filter(item => !initial.some(init => init.id === item.id)).map(item => ({
+          reason_name: item.reason_name,
+          amount: String(item.amount).trim(),
+          customReason: item.customReason,
+          showInput: item.showInput,
+          id: item.id,
+          isDeleted: !!item.isDeleted,
+        }))
+      );
+    };
 
 
 
@@ -1626,17 +1626,17 @@ useEffect(() => {
 
       newErrors.push(error);
 
-  return {
-    reason_name,
-    amount: item.amount || "",
-    showInput: !!item.showInput,
-    id: item.id || "",
-    isDeleted: item.isDeleted ? true : undefined, 
-  };
-});
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput,
+        id: item.id || "",
+        isDeleted: item.isDeleted ? true : undefined,
+      };
+    });
 
-    
-   
+
+
 
     setErrors(newErrors)
 
@@ -1719,17 +1719,17 @@ useEffect(() => {
 
       newErrors.push(error);
 
-  return {
-    reason_name,
-    amount: item.amount || "",
-    showInput: !!item.showInput,
-    id: item.id || "",
-    isDeleted: item.isDeleted ? true : undefined, 
-  };
-});
+      return {
+        reason_name,
+        amount: item.amount || "",
+        showInput: !!item.showInput,
+        id: item.id || "",
+        isDeleted: item.isDeleted ? true : undefined,
+      };
+    });
 
 
-  
+
 
     setErrors(newErrors)
 
@@ -1978,7 +1978,7 @@ useEffect(() => {
   };
 
 
- 
+
 
 
   const handleRemoveField = (index) => {
@@ -2064,36 +2064,36 @@ useEffect(() => {
       setFirstname(value[0]?.trim());
       setLastname(value[1] ? value[1].trim() : "");
 
-    
-    const payload = {
-      profile: compressedFile,
-      firstname: value[0]?.trim(),
-      lastname: value[1] ? value[1].trim() : "",
-      Phone: MobileNumberupload,
-      Email: Email,
-      Address: house_no,
-      area: street,
-      landmark: landmark,
-      city: city,
-      pincode: pincode,
-      state: state_name,
-      AadharNo: AadharNo,
-      PancardNo: PancardNo,
-      licence: licence,
-      HostelName: HostelName,
-      hostel_Id:  props.userData?.Hostel_Id,
-      Floor: props.userData?.Floor,
-      Rooms: props.userData?.hstl_Rooms,
-      Bed: props.userData?.hstl_Bed,
-      joining_date: props.userData?.joining_Date,
-      AdvanceAmount: props.userData?.AdvanceAmount,
-      RoomRent: props.userData?.RoomRent,
-      BalanceDue: BalanceDue,
-      PaymentType: PaymentType,
-      paid_advance: paid_advance,
-      paid_rent: paid_rent,
-      ID: props.userData?.ID,
-    };
+
+      const payload = {
+        profile: compressedFile,
+        firstname: value[0]?.trim(),
+        lastname: value[1] ? value[1].trim() : "",
+        Phone: MobileNumberupload,
+        Email: Email,
+        Address: house_no,
+        area: street,
+        landmark: landmark,
+        city: city,
+        pincode: pincode,
+        state: state_name,
+        AadharNo: AadharNo,
+        PancardNo: PancardNo,
+        licence: licence,
+        HostelName: HostelName,
+        hostel_Id: props.userData?.Hostel_Id,
+        Floor: props.userData?.Floor,
+        Rooms: props.userData?.hstl_Rooms,
+        Bed: props.userData?.hstl_Bed,
+        joining_date: props.userData?.joining_Date,
+        AdvanceAmount: props.userData?.AdvanceAmount,
+        RoomRent: props.userData?.RoomRent,
+        BalanceDue: BalanceDue,
+        PaymentType: PaymentType,
+        paid_advance: paid_advance,
+        paid_rent: paid_rent,
+        ID: props.userData?.ID,
+      };
 
       dispatch({
         type: "ADDUSER",
@@ -2118,9 +2118,9 @@ useEffect(() => {
         ? CustomerOverView.profilePic
         : Profiles;
 
- 
 
-const [documents, setDocuments] = useState([
+
+  const [documents, setDocuments] = useState([
     { name: "Rental Agreement.pdf", size: "180 KB", type: "PDF" },
     { name: "Aadhar.pdf", size: "180 KB", type: "PDF" },
     { name: "License.pdf", size: "180 KB", type: "PDF" },
@@ -2131,13 +2131,13 @@ const [documents, setDocuments] = useState([
     const file = e.target.files[0];
 
     if (!file) return;
- 
+
     const updatedDoc = {
       name: file.name,
       size: `${Math.round(file.size / 1024)} KB`,
       type: file.name.split(".").pop().toUpperCase(),
     };
- 
+
     const newDocuments = [...documents];
     newDocuments[index] = updatedDoc;
     setDocuments(newDocuments);
@@ -2435,13 +2435,13 @@ const [documents, setDocuments] = useState([
                       </>
                     }
 
-                
-                          
+
+
 
                   </div>
                 </div>
 
-                  
+
 
                 <div
 
@@ -2619,8 +2619,8 @@ const [documents, setDocuments] = useState([
                             </div>
                           </div>
 
-                                <div className="card-body">
-                                 
+                          <div className="card-body">
+
 
 
 
@@ -2937,7 +2937,7 @@ const [documents, setDocuments] = useState([
                                   src={EditImage}
                                   alt="editimage"
                                   style={{
-                                  height: 16,
+                                    height: 16,
                                     width: 16,
                                     color: props.customerEditPermission
                                       ? "#CCCCCC"
@@ -2948,8 +2948,8 @@ const [documents, setDocuments] = useState([
                             </div>
                           </div>
 
-                                <div className="card-body">
-                                
+                          <div className="card-body">
+
 
                             <div className="row">
                               <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
@@ -3019,7 +3019,7 @@ const [documents, setDocuments] = useState([
                                     color="#1E45E1"
                                     style={{ marginBottom: "2px" }}
                                   />
-                                  <span
+                                  <span title={CustomerOverView.address?.streetName}
                                     style={{
                                       fontSize: 14,
                                       fontWeight: 600,
@@ -3027,11 +3027,17 @@ const [documents, setDocuments] = useState([
                                       wordBreak: "break-word",
                                       overflowWrap: "break-word",
                                       minWidth: 0,
-                                      marginTop: -3
+                                      marginTop: -3,
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      display: "inline-block",
+                                      maxWidth: "200px"
                                     }}
                                   >
                                     {CustomerOverView.address?.streetName}
                                   </span>
+
                                 </div>
                               </div>
                             </div>
@@ -3156,18 +3162,18 @@ const [documents, setDocuments] = useState([
                                 >
                                   State
                                 </p>
-                                <p style={{ marginTop: "-10px", marginLeft: 15 }}>
+                                <p style={{ marginTop: "-10px", marginLeft: 15, marginBottom:0 }} className="d-flex flex-row align-items-center">
                                   <img src={CityImage} alt="CityImage" size="16" color="#1E45E1" />
                                   <span
                                     style={{
                                       fontSize: 14,
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      wordBreak: "break-word",
-                                      overflowWrap: "break-word",
-                                      minWidth: 0,
-                                      marginTop: -3,
-                                      marginLeft: 5
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      display: "inline-block",
+                                      maxWidth: "200px"
                                     }}
                                   >
                                     {CustomerOverView?.address?.state}
@@ -3181,9 +3187,9 @@ const [documents, setDocuments] = useState([
                         </div>
                       </div>
 
-<div className="card mt-4" style={{marginLeft:25,borderRadius:10}}>
-  <div className="card-body">
- {/* <ul class="nav nav-tabs mb-3">
+                      <div className="card mt-4" style={{ marginLeft: 25, borderRadius: 10 }}>
+                        <div className="card-body">
+                          {/* <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
       <a class="nav-link active" data-bs-toggle="tab" href="#kycDocs">KYC Documents</a>
     </li>
@@ -3191,141 +3197,138 @@ const [documents, setDocuments] = useState([
       <a class="nav-link" data-bs-toggle="tab" href="#manualDocs">Manual Documents</a>
     </li>
   </ul> */}
-  <TabContext value={documentvalue}>
-  <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
-    <TabList
-      onChange={handleChangesupload}
-      aria-label="custom tabs"
-      className="d-flex flex-column flex-sm-row"
-      TabIndicatorProps={{ style: { display: "none" } }} 
-    >
-      <Tab
-        label="KYC Documents"
-        value="1"
-        sx={{
-          textTransform: "capitalize",
-          fontSize: 16,
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
-          borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
-          minWidth: "auto", 
-        }}
-      />
-      <Tab
-        label="Manual Documents"
-        value="2"
-        sx={{
-          textTransform: "capitalize",
-          fontSize: 16,
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-          color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
-          borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
-          minWidth: "auto",
-        }}
-      />
-   
-    </TabList>
-  </Box>
-
-  <TabPanel value="1">
-  <div className="row mt-3">
-      {documents.map((doc, index) => (
-        <div className="col-md-6 mt-2" key={index}>
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-              <img
-                src={upload}
-                alt="upload"
-                width={20}
-                height={20}
-                style={{ marginRight: "8px", cursor: "pointer" }}
-                onClick={() =>
-                  document.getElementById(`fileUpload-${index}`).click()
-                }
-              />
-              <div>
-                <p
-                  className="mb-0 fw-semibold small text-truncate"
-                  style={{ maxWidth: "120px" , fontFamily:"Gilroy"}}
-                  title={doc.name}
-                >
-                  {doc.name}
-                </p>
-                <small className="text-muted">
-                  {doc.size} • {doc.type}
-                </small>
-              </div>
-            </div>
-            <div className="d-flex gap-2">
-              <img src={viewdoc} alt="viewdoc" />
-              <img src={docDown} alt="docDown" />
-            </div>
-          </div>
- 
-          {/* Hidden file input per card */}
-          <input
-            type="file"
-            id={`fileUpload-${index}`}
-            style={{ display: "none" }}
-            onChange={(e) => handleFileUpload(index, e)}
-          />
-        </div>
-      ))}
-    </div>
-  </TabPanel>
-  <TabPanel value="2">
-    <div
-                                  className="row mt-3"
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
+                          <TabContext value={documentvalue}>
+                            <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
+                              <TabList
+                                onChange={handleChangesupload}
+                                aria-label="custom tabs"
+                                className="d-flex flex-column flex-sm-row"
+                                TabIndicatorProps={{ style: { display: "none" } }}
+                              >
+                                <Tab
+                                  label="KYC Documents"
+                                  value="1"
+                                  sx={{
+                                    textTransform: "capitalize",
+                                    fontSize: 16,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    color: documentvalue === "1" ? "#1E45E1" : "#4B4B4B",
+                                    borderBottom: documentvalue === "1" ? "2px solid #1E45E1" : "2px solid transparent",
+                                    minWidth: "auto",
                                   }}
-                                >
-                                  {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}> */}
-                                   
-   <div className="col-md-6">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
+                                />
+                                <Tab
+                                  label="Manual Documents"
+                                  value="2"
+                                  sx={{
+                                    textTransform: "capitalize",
+                                    fontSize: 16,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                    color: documentvalue === "2" ? "#1E45E1" : "#4B4B4B",
+                                    borderBottom: documentvalue === "2" ? "2px solid #1E45E1" : "2px solid transparent",
+                                    minWidth: "auto",
+                                  }}
+                                />
 
-                                    <button
-                                      className="btn"
-                                      // disabled={props.customerAddPermission}
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "5px 10px",
-                                        fontSize: "14px",
-                                        // border: "1px solid #D9D9D9",
-                                        fontFamily: "Gilroy",
-                                       
-                                        
-                                      }}
-                                      onClick={() => handleUploadClick(aadharInputRef)}
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      {/* Upload Document */} {advanceDetail[0]?.doc1 
-  ? cleanFileName(advanceDetail[0].doc1) 
-  : "Upload Document"}
+                              </TabList>
+                            </Box>
 
-                                    </button>
+                            <TabPanel value="1">
+                              <div className="row mt-3">
+                                {documents.map((doc, index) => (
+                                  <div className="col-md-6 mt-2" key={index}>
+                                    <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+                                      <div className="d-flex align-items-center">
+                                        <img
+                                          src={upload}
+                                          alt="upload"
+                                          width={20}
+                                          height={20}
+                                          style={{ marginRight: "8px", cursor: "pointer" }}
+                                          onClick={() =>
+                                            document.getElementById(`fileUpload-${index}`).click()
+                                          }
+                                        />
+                                        <div>
+                                          <p
+                                            className="mb-0 fw-semibold small text-truncate"
+                                            style={{ maxWidth: "120px", fontFamily: "Gilroy" }}
+                                            title={doc.name}
+                                          >
+                                            {doc.name}
+                                          </p>
+                                          <small className="text-muted">
+                                            {doc.size} • {doc.type}
+                                          </small>
+                                        </div>
+                                      </div>
+                                      <div className="d-flex gap-2">
+                                        <img src={viewdoc} alt="viewdoc" />
+                                        <img src={docDown} alt="docDown" />
+                                      </div>
+                                    </div>
 
-
+                                    {/* Hidden file input per card */}
                                     <input
                                       type="file"
-                                      ref={aadharInputRef}
+                                      id={`fileUpload-${index}`}
                                       style={{ display: "none" }}
-                                      onChange={(e) => handleFileChange(e, "doc1")}
+                                      onChange={(e) => handleFileUpload(index, e)}
                                     />
+                                  </div>
+                                ))}
+                              </div>
+                            </TabPanel>
+                            <TabPanel value="2">
+                              <div
+                                className="row mt-3"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}> */}
+
+                                <div className="col-md-6">
+                                  <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+                                    <div className="d-flex align-items-center">
+
+                                      <button
+                                        className="btn"
+                                        // disabled={props.customerAddPermission}
+                                        style={{
+                                          borderRadius: "10px",
+                                          padding: "5px 10px",
+                                          fontSize: "14px",
+                                          // border: "1px solid #D9D9D9",
+                                          fontFamily: "Gilroy",
 
 
-                                   
+                                        }}
+                                        onClick={() => handleUploadClick(aadharInputRef)}
+                                      >
+                                        <img
+                                          src={upload}
+                                          alt="upload"
+                                          width={20}
+                                          height={20}
+                                          style={{ marginRight: "8px" }}
+                                        />
+                                        {/* Upload Document */} {advanceDetail[0]?.doc1
+                                          ? cleanFileName(advanceDetail[0].doc1)
+                                          : "Upload Document"}
+
+                                      </button>
+
+
+                                      <input
+                                        type="file"
+                                        ref={aadharInputRef}
+                                        style={{ display: "none" }}
+                                        onChange={(e) => handleFileChange(e, "doc1")}
+                                      />
 
 
 
@@ -3337,65 +3340,68 @@ const [documents, setDocuments] = useState([
 
 
 
-                                    
-                                    {advanceDetail[0]?.doc1 && (
-  <>
-    
-    <a
-      href={advanceDetail[0]?.doc1}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        src={docDown}
-        alt="Download Document"
-        style={{
-          width: 20,
-          height: 20,
-          marginLeft: "10px",
-          cursor: "pointer",
-        }}
-      />
-    </a>
-
- 
-    <img
-      src={viewdoc}
-      alt="View Document"
-      // onClick={() => setShowDocModal(true)}
-      onClick={() => handleFileOpen(advanceDetail[0]?.doc1)}
-      style={{
-        width: 20,
-        height: 20,
-        marginLeft: "10px",
-        cursor: "pointer",
-      }}
-    />
-  </>
-)}
 
 
 
-                              {uploadError && (
-                                <div style={{ color: "red" }}>
-                                  <MdError />
-                                  <span
-                                    style={{
-                                      fontSize: "12px",
-                                      color: "red",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {uploadError}
-                                  </span>
+
+                                      {advanceDetail[0]?.doc1 && (
+                                        <>
+
+                                          <a
+                                            href={advanceDetail[0]?.doc1}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                          >
+                                            <img
+                                              src={docDown}
+                                              alt="Download Document"
+                                              style={{
+                                                width: 20,
+                                                height: 20,
+                                                marginLeft: "10px",
+                                                cursor: "pointer",
+                                              }}
+                                            />
+                                          </a>
+
+
+                                          <img
+                                            src={viewdoc}
+                                            alt="View Document"
+                                            // onClick={() => setShowDocModal(true)}
+                                            onClick={() => handleFileOpen(advanceDetail[0]?.doc1)}
+                                            style={{
+                                              width: 20,
+                                              height: 20,
+                                              marginLeft: "10px",
+                                              cursor: "pointer",
+                                            }}
+                                          />
+                                        </>
+                                      )}
+
+
+
+                                      {uploadError && (
+                                        <div style={{ color: "red" }}>
+                                          <MdError />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {uploadError}
+                                          </span>
+                                        </div>
+                                      )}
+                                    </div>
+
+                                  </div>
                                 </div>
-                              )}
-                            </div>
-
-</div>
-</div>
-{/* <Modal
+                                {/* <Modal
   show={showDocModal}
   onHide={() => setShowDocModal(false)}
   size="lg"
@@ -3442,125 +3448,125 @@ const [documents, setDocuments] = useState([
   </Modal.Body>
 </Modal> */}
 
-<Modal
-  show={showDocModal}
-  onHide={() => setShowDocModal(false)}
-  size="md"
-  centered
-  backdrop="static"
->
-  <Modal.Body
-    style={{
-      padding: "20px",
-      position: "relative",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "300px",
-    }}
-  >
-    <Button
-      variant="light"
-      onClick={() => setShowDocModal(false)}
-      style={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        border: "none",
-        fontSize: "20px",
-        zIndex: 1,
-      }}
-    >
-      &times;
-    </Button>
-{previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-  <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
-) : (
-  <iframe
-    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
-    style={{ width: "100%", height: "600px", border: "none" }}
-    title="Document Preview"
-  />
-)}
-  </Modal.Body>
-</Modal>
-
-
-                                  {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}> */}
-                                  <div className="col-md-6">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-                                    <button
-                                      className="btn "
-                                      // disabled={props.customerAddPermission}
+                                <Modal
+                                  show={showDocModal}
+                                  onHide={() => setShowDocModal(false)}
+                                  size="md"
+                                  centered
+                                  backdrop="static"
+                                >
+                                  <Modal.Body
+                                    style={{
+                                      padding: "20px",
+                                      position: "relative",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      minHeight: "300px",
+                                    }}
+                                  >
+                                    <Button
+                                      variant="light"
+                                      onClick={() => setShowDocModal(false)}
                                       style={{
-                                        borderRadius: "10px",
-                                        padding: "5px 10px",
-                                        fontSize: "14px",
-                                        fontFamily: "Gilroy",
-                                        // border: "1px solid #D9D9D9",
+                                        position: "absolute",
+                                        top: 10,
+                                        right: 10,
+                                        border: "none",
+                                        fontSize: "20px",
+                                        zIndex: 1,
                                       }}
-                                      onClick={() =>
-                                        handleOtherUploadClick(otherDocInputRef)
-                                      }
                                     >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
+                                      &times;
+                                    </Button>
+                                    {previewUrl && previewUrl.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                      <img src={previewUrl} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
+                                    ) : (
+                                      <iframe
+                                        src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+                                        style={{ width: "100%", height: "600px", border: "none" }}
+                                        title="Document Preview"
                                       />
-                                      {/* Upload Document */}
-                                        {cleanFileName(advanceDetail[0]?.doc2) || "Untitled Document"}
-                                    </button>
-                                    <input
-                                      type="file"
-                                      ref={otherDocInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) =>
-                                        handleFileChange(e, "doc2")
-                                      }
-                                    />
+                                    )}
+                                  </Modal.Body>
+                                </Modal>
 
-                                    {advanceDetail &&
-                                      advanceDetail[0]?.doc2 && (
-                                        <>
+
+                                {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}> */}
+                                <div className="col-md-6">
+                                  <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+                                    <div className="d-flex align-items-center">
+                                      <button
+                                        className="btn "
+                                        // disabled={props.customerAddPermission}
+                                        style={{
+                                          borderRadius: "10px",
+                                          padding: "5px 10px",
+                                          fontSize: "14px",
+                                          fontFamily: "Gilroy",
+                                          // border: "1px solid #D9D9D9",
+                                        }}
+                                        onClick={() =>
+                                          handleOtherUploadClick(otherDocInputRef)
+                                        }
+                                      >
                                         <img
-                                          src={docDown}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                            cursor: "pointer",
-                                          }}
-                                          alt="Download Document"
-                                          onClick={() =>
-                                            window.open(
-                                              advanceDetail[0]?.doc2,
-                                              "_blank"
-                                            )
-                                          }
+                                          src={upload}
+                                          alt="upload"
+                                          width={20}
+                                          height={20}
+                                          style={{ marginRight: "8px" }}
                                         />
-                                         <img
-                                          src={viewdoc}
-                                          alt="docdown"
-                                          //  onClick={() => setShowDocModaldoc2(true)}
-                                          onClick={() => handleFileOpen2(advanceDetail[0]?.doc2)}
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                            
-                                          }}
-                                        />
-                                        </>
-                                      )} 
-                                  </div>
-</div>
-</div>
+                                        {/* Upload Document */}
+                                        {cleanFileName(advanceDetail[0]?.doc2) || "Untitled Document"}
+                                      </button>
+                                      <input
+                                        type="file"
+                                        ref={otherDocInputRef}
+                                        style={{ display: "none" }}
+                                        onChange={(e) =>
+                                          handleFileChange(e, "doc2")
+                                        }
+                                      />
 
-                                  {/* <Modal
+                                      {advanceDetail &&
+                                        advanceDetail[0]?.doc2 && (
+                                          <>
+                                            <img
+                                              src={docDown}
+                                              style={{
+                                                width: 20,
+                                                height: 20,
+                                                marginLeft: "10px",
+                                                cursor: "pointer",
+                                              }}
+                                              alt="Download Document"
+                                              onClick={() =>
+                                                window.open(
+                                                  advanceDetail[0]?.doc2,
+                                                  "_blank"
+                                                )
+                                              }
+                                            />
+                                            <img
+                                              src={viewdoc}
+                                              alt="docdown"
+                                              //  onClick={() => setShowDocModaldoc2(true)}
+                                              onClick={() => handleFileOpen2(advanceDetail[0]?.doc2)}
+                                              style={{
+                                                width: 20,
+                                                height: 20,
+                                                marginLeft: "10px",
+
+                                              }}
+                                            />
+                                          </>
+                                        )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* <Modal
   show={showDocModaldoc2}
   onHide={() => setShowDocModaldoc2(false)}
   size="lg"
@@ -3609,60 +3615,60 @@ const [documents, setDocuments] = useState([
 
 
 
-<Modal
-  show={showDocModaldoc2}
-  onHide={() => setShowDocModaldoc2(false)}
-  size="lg"
-  centered
-  backdrop="static"
->
-  <Modal.Body
-    style={{
-      padding: "20px",
-      position: "relative",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "300px",
-    }}
-  >
-    <Button
-      variant="light"
-      onClick={() => setShowDocModaldoc2(false)}
-      style={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        border: "none",
-        fontSize: "20px",
-        zIndex: 1,
-      }}
-    >
-      &times;
-    </Button>
-{previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
-  <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
-) : (
-  <iframe
-    src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
-    style={{ width: "100%", height: "600px", border: "none" }}
-    title="Document Preview"
-  />
-)}
-  </Modal.Body>
-</Modal>
-                                </div>
-  </TabPanel>
-</TabContext>
+                                <Modal
+                                  show={showDocModaldoc2}
+                                  onHide={() => setShowDocModaldoc2(false)}
+                                  size="lg"
+                                  centered
+                                  backdrop="static"
+                                >
+                                  <Modal.Body
+                                    style={{
+                                      padding: "20px",
+                                      position: "relative",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      minHeight: "300px",
+                                    }}
+                                  >
+                                    <Button
+                                      variant="light"
+                                      onClick={() => setShowDocModaldoc2(false)}
+                                      style={{
+                                        position: "absolute",
+                                        top: 10,
+                                        right: 10,
+                                        border: "none",
+                                        fontSize: "20px",
+                                        zIndex: 1,
+                                      }}
+                                    >
+                                      &times;
+                                    </Button>
+                                    {previewUrl2 && previewUrl2.match(/\.(jpeg|jpg|png|gif)$/i) ? (
+                                      <img src={previewUrl2} alt="Document Preview" style={{ maxWidth: "100%", maxHeight: "600px" }} />
+                                    ) : (
+                                      <iframe
+                                        src={`https://docs.google.com/gview?url=${encodeURIComponent(previewUrl)}&embedded=true`}
+                                        style={{ width: "100%", height: "600px", border: "none" }}
+                                        title="Document Preview"
+                                      />
+                                    )}
+                                  </Modal.Body>
+                                </Modal>
+                              </div>
+                            </TabPanel>
+                          </TabContext>
 
 
 
-  </div>
- 
-</div>
+                        </div>
 
-                          
-                          </div>
+                      </div>
+
+
+                    </div>
 
                     <div style={{ flex: 1 }}>
                       <div>
@@ -3709,12 +3715,13 @@ const [documents, setDocuments] = useState([
                                   }}>
                                     <img src={Stayhistory} alt="stayhistoryicon"
                                       onClick={() => {
-                                        
+
                                         if (!props.customerEditPermission) {
                                           handleShowStayHistory(CustomerOverView);
                                         }
                                       }}
-                                      style={{ height:18, width:18,
+                                      style={{
+                                        height: 18, width: 18,
                                         cursor: props.customerEditPermission
                                           ? "not-allowed"
                                           : "pointer",
@@ -3756,7 +3763,7 @@ const [documents, setDocuments] = useState([
                                         alt="EditImage"
                                         style={{
                                           height: 16,
-                                    width: 16,
+                                          width: 16,
                                           color: props.customerEditPermission
                                             ? "#CCCCCC"
                                             : "#000",
@@ -3984,7 +3991,7 @@ const [documents, setDocuments] = useState([
                                   </p>
                                 </div>
 
-                          
+
 
 
                               </div>
@@ -4059,7 +4066,7 @@ const [documents, setDocuments] = useState([
                                                 borderRadius: "10px",
                                                 marginTop: "10px",
                                               }}
-                                            
+
                                               onClick={() => {
                                                 if (!advanceDetail[0]?.inv_id) {
                                                   handlegenerateForm();
@@ -4168,11 +4175,11 @@ const [documents, setDocuments] = useState([
 
                                     ) : (
                                       <div
-                                       className="d-flex text-center justify-content-center"
+                                        className="d-flex text-center justify-content-center"
                                       >
-                                       <label  style={{
+                                        <label style={{
                                           fontSize: 16,
-                                                                                   fontWeight: 600,
+                                          fontWeight: 600,
                                           textAlign: "center",
                                           fontFamily: "Gilroy"
                                         }}> In this User Not Assigned</label>
@@ -4203,37 +4210,37 @@ const [documents, setDocuments] = useState([
                                       paddingTop: 7
                                     }}
                                   >
-                                    
-                                     ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
+
+                                    ₹ {CustomerOverView.hostelInfo?.monthlyRent ?? 0}
                                   </p>
                                 </div>
 
-{
-  CustomerOverView.hostelInfo?.maintenance !== null  && 
-                                 <div className="col-sm-4 d-flex flex-column align-items-start">
-                                  <div
-                                    style={{
-                                      fontSize: 12,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
-                                    Maintenance
-                                  </div>
-                                  <p
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      // color: 'rgba(30, 69, 225, 1)',
-                                      paddingTop: 7
-                                    }}
-                                  >
+                                {
+                                  CustomerOverView.hostelInfo?.maintenance !== null &&
+                                  <div className="col-sm-4 d-flex flex-column align-items-start">
+                                    <div
+                                      style={{
+                                        fontSize: 12,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+                                      Maintenance
+                                    </div>
+                                    <p
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        // color: 'rgba(30, 69, 225, 1)',
+                                        paddingTop: 7
+                                      }}
+                                    >
                                       ₹ {CustomerOverView.hostelInfo?.maintenance ?? 0}
-                                  </p>
-                                </div>
+                                    </p>
+                                  </div>
 
-                                  }
+                                }
                                 {CustomerOverView?.hostelInfo?.otherDeductionsBreakup?.map((item, index) => (
                                   <div key={index} className="col-sm-4 d-flex flex-column align-items-start mb-2">
                                     <div
@@ -4264,39 +4271,39 @@ const [documents, setDocuments] = useState([
                           </div>
                         </div>
 
+                        <div
+                          className="col-md-12 col-lg-12 mb-md-0"
+                          style={{
+                            paddingLeft: 20,
+                            paddingRight: 20,
+                            marginTop: 30,
+                          }}
+                        >
+                          <div
+                            className="card"
+                            style={{
+                              borderRadius: "20px",
+                              padding: "20px",
+                            }}
+                          >
+                            <div
+                              className="card-header d-flex justify-content-between align-items-center"
+                              style={{
+                                backgroundColor: "transparent",
+                                borderBottom: "1px solid #e0e0e0",
+                              }}
+                            >
                               <div
-                                className="col-md-12 col-lg-12 mb-md-0"
+                                className="fw-semibold"
                                 style={{
-                                  paddingLeft: 20,
-                                  paddingRight: 20,
-                                  marginTop: 30,
+                                  fontSize: 16,
+                                  lineHeight: "40px",
+                                  fontFamily: "Gilroy"
                                 }}
                               >
-                                <div
-                                  className="card"
-                                  style={{
-                                    borderRadius: "20px",
-                                    padding: "20px",
-                                  }}
-                                >
-                                  <div
-                                    className="card-header d-flex justify-content-between align-items-center"
-                                    style={{
-                                      backgroundColor: "transparent",
-                                      borderBottom: "1px solid #e0e0e0",
-                                    }}
-                                  >
-                                    <div
-                                      className="fw-semibold"
-                                      style={{
-                                        fontSize: 16,
-                                        lineHeight: "40px",
-                                        fontFamily: "Gilroy"
-                                      }}
-                                    >
-                                      Additional Contact
-                                    </div>
-                                    {/* <button
+                                Additional Contact
+                              </div>
+                              {/* <button
                                       disabled={props.customerAddPermission}
                                       className="btn btn-link fw-medium text-decoration-none"
                                       style={{ fontSize: 14, fontFamily: "Gilroy" }}
@@ -4304,26 +4311,26 @@ const [documents, setDocuments] = useState([
                                     >
                                       + Add Contact
                                     </button> */}
-                                  </div>
+                            </div>
 
-                                  <div className="card-body" style={{ fontFamily: "Gilroy" }}>
-                                    {state?.UsersList?.customerAllDetails
-                                      ?.contact_details?.length > 0 ? (
-                                      state.UsersList.customerAllDetails
-                                        .contact_details.length > 1 ? (
-                                        <Carousel interval={null} indicators className="custom-carousel">
-                                          {state.UsersList.customerAllDetails.contact_details.map(
-                                            (v, index) => (
-                                              <Carousel.Item key={index}>
-                                                <div>
-                                                  <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
-                                                    Contact Info{" "}
-                                                   
-                                                    <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} onClick={() => {
-                                                      if (!props.customerEditPermission) {
-                                                        handleContactEdit(v);
-                                                      }
-                                                    }} />
+                            <div className="card-body" style={{ fontFamily: "Gilroy" }}>
+                              {state?.UsersList?.customerAllDetails
+                                ?.contact_details?.length > 0 ? (
+                                state.UsersList.customerAllDetails
+                                  .contact_details.length > 1 ? (
+                                  <Carousel interval={null} indicators className="custom-carousel">
+                                    {state.UsersList.customerAllDetails.contact_details.map(
+                                      (v, index) => (
+                                        <Carousel.Item key={index}>
+                                          <div>
+                                            <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
+                                              Contact Info{" "}
+
+                                              <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} onClick={() => {
+                                                if (!props.customerEditPermission) {
+                                                  handleContactEdit(v);
+                                                }
+                                              }} />
 
 
                                               <Trash size="16" color={props.customerDeletePermission ? "#A9A9A9" : "red"}
@@ -4529,50 +4536,50 @@ const [documents, setDocuments] = useState([
                                             </div>
                                           </div>
 
-                                              </div>
-                                            )
-                                          )}
                                         </div>
                                       )
-                                    ) : (
-                                      <div 
-                                        style={{
-                                          fontSize: 14,
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 400,
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        No Contact Details are there!
-                                       <p>
-                                          <button 
-                                     
-                                     type="button" className="btn mt-2"
+                                    )}
+                                  </div>
+                                )
+                              ) : (
+                                <div
+                                  style={{
+                                    fontSize: 14,
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 400,
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  No Contact Details are there!
+                                  <p>
+                                    <button
+
+                                      type="button" className="btn mt-2"
                                       disabled={props.customerAddPermission}
                                       style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  borderRadius: 12,
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  padding: 12,
-                  color:"#fff"
-                }}
+                                        backgroundColor: "#1E45E1",
+                                        fontWeight: 600,
+                                        borderRadius: 12,
+                                        fontSize: 16,
+                                        fontFamily: "Gilroy",
+                                        padding: 12,
+                                        color: "#fff"
+                                      }}
                                       onClick={handleAdditionalForm}
                                     >
                                       <img src={FileAdd} style={{}} alt="alt-image"></img> Add
                                     </button>
-                                        </p>
-                                      </div>
-                                      
-                                    )}
-                                  </div>
+                                  </p>
                                 </div>
-                              </div>
+
+                              )}
                             </div>
                           </div>
                         </div>
-                        
+                      </div>
+                    </div>
+                  </div>
+
 
                   {kycdetailsForm === true ? (
                     <UserListKyc
@@ -5313,107 +5320,107 @@ const [documents, setDocuments] = useState([
 
                                   </Form.Label>
 
-                                        <Select
-                                          options={indianStates}
-                                          ref={stateRef}
-                                          onChange={(selectedOption) => {
-                                            setStateName(selectedOption?.value);
-                                            setFormError("")
-                                          }}
-                                          onInputChange={(inputValue, { action }) => {
-                                            if (action === "input-change") {
-                                              const lettersOnly = inputValue.replace(
-                                                /[^a-zA-Z\s]/g,
-                                                ""
-                                              );
-                                              return lettersOnly;
-                                            }
-                                            return inputValue;
-                                          }}
-                                          value={
-                                            state_name
-                                              ? {
-                                                value: state_name,
-                                                label: state_name,
-                                              }
-                                              : null
-                                          }
-                                          placeholder="Select State"
-                                          classNamePrefix="custom"
-                                          menuPlacement="auto"
-                                          noOptionsMessage={() =>
-                                            "No state available"
-                                          }
-                                          styles={{
-                                            control: (base) => ({
-                                              ...base,
-                                              height: "50px",
-                                              border: "1px solid #D9D9D9",
-                                              borderRadius: "8px",
-                                              fontSize: "16px",
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: state_name ? 600 : 500,
-                                              boxShadow: "none",
-                                            }),
-                                            menu: (base) => ({
-                                              ...base,
-                                              backgroundColor: "#f8f9fa",
-                                              border: "1px solid #ced4da",
-                                            }),
-                                            menuList: (base) => ({
-                                              ...base,
-                                              backgroundColor: "#f8f9fa",
-                                              maxHeight: "120px",
-                                              padding: 0,
-                                              scrollbarWidth: "thin",
-                                              overflowY: "auto",
-                                            }),
-                                            placeholder: (base) => ({
-                                              ...base,
-                                              color: "#555",
-                                            }),
-                                            dropdownIndicator: (base) => ({
-                                              ...base,
-                                              color: "#555",
-                                              cursor: "pointer",
-                                            }),
-                                            indicatorSeparator: () => ({
-                                              display: "none",
-                                            }),
-                                            option: (base, state) => ({
-                                              ...base,
-                                              cursor: "pointer",
-                                              backgroundColor: state.isFocused
-                                                ? "#f0f0f0"
-                                                : "white",
-                                              color: "#000",
-                                            }),
-                                          }}
-                                        />
-                                      </Form.Group>
-                                      
-                                    </div>
-                                  </div>
-                                  {formError && (
-                                    <div
-                                      className="d-flex align-items-center justify-content-center"
-                                      ref={nochangeRef} style={{ color: "red" }}
-                                    >
-                                      <MdError style={{ marginRight: "5px" }} />
-                                      <span
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "red",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {formError}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
+                                  <Select
+                                    options={indianStates}
+                                    ref={stateRef}
+                                    onChange={(selectedOption) => {
+                                      setStateName(selectedOption?.value);
+                                      setFormError("")
+                                    }}
+                                    onInputChange={(inputValue, { action }) => {
+                                      if (action === "input-change") {
+                                        const lettersOnly = inputValue.replace(
+                                          /[^a-zA-Z\s]/g,
+                                          ""
+                                        );
+                                        return lettersOnly;
+                                      }
+                                      return inputValue;
+                                    }}
+                                    value={
+                                      state_name
+                                        ? {
+                                          value: state_name,
+                                          label: state_name,
+                                        }
+                                        : null
+                                    }
+                                    placeholder="Select State"
+                                    classNamePrefix="custom"
+                                    menuPlacement="auto"
+                                    noOptionsMessage={() =>
+                                      "No state available"
+                                    }
+                                    styles={{
+                                      control: (base) => ({
+                                        ...base,
+                                        height: "50px",
+                                        border: "1px solid #D9D9D9",
+                                        borderRadius: "8px",
+                                        fontSize: "16px",
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: state_name ? 600 : 500,
+                                        boxShadow: "none",
+                                      }),
+                                      menu: (base) => ({
+                                        ...base,
+                                        backgroundColor: "#f8f9fa",
+                                        border: "1px solid #ced4da",
+                                      }),
+                                      menuList: (base) => ({
+                                        ...base,
+                                        backgroundColor: "#f8f9fa",
+                                        maxHeight: "120px",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        overflowY: "auto",
+                                      }),
+                                      placeholder: (base) => ({
+                                        ...base,
+                                        color: "#555",
+                                      }),
+                                      dropdownIndicator: (base) => ({
+                                        ...base,
+                                        color: "#555",
+                                        cursor: "pointer",
+                                      }),
+                                      indicatorSeparator: () => ({
+                                        display: "none",
+                                      }),
+                                      option: (base, state) => ({
+                                        ...base,
+                                        cursor: "pointer",
+                                        backgroundColor: state.isFocused
+                                          ? "#f0f0f0"
+                                          : "white",
+                                        color: "#000",
+                                      }),
+                                    }}
+                                  />
+                                </Form.Group>
+
+                              </div>
+                            </div>
+                            {formError && (
+                              <div
+                                className="d-flex align-items-center justify-content-center"
+                                ref={nochangeRef} style={{ color: "red" }}
+                              >
+                                <MdError style={{ marginRight: "5px" }} />
+                                <span
+                                  style={{
+                                    fontSize: "12px",
+                                    color: "red",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  {formError}
+                                </span>
+                              </div>
+                            )}
+                          </div>
 
                           {state?.createAccount?.networkError ?
                             <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
@@ -5990,99 +5997,99 @@ const [documents, setDocuments] = useState([
                                       border: "1px solid #D9D9D9",
                                       height: 50,
 
-                                            borderRadius: 8,
-                                          }}
-                                        />
-                                      </Form.Group>
-                                      {advanceAmountError && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError
-                                            style={{
-                                              fontSize: "13px",
-                                              marginRight: "5px",
-                                              marginBottom: "2px",
-                                            }}
-                                          />
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {advanceAmountError}
-                                          </span>
-                                        </div>
-                                      )}
-                                    </div>
-                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                      <Form.Group className="mb-3">
-                                        <Form.Label
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          Rental Amount {" "}
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            {" "}
-                                            *{" "}
-                                          </span>
-                                        </Form.Label>
-                                        <FormControl
-                                          type="text"
-                                          id="form-controls"
-                                          placeholder="Enter Amount"
-                                          value={RoomRent}
-                                          onChange={(e) => handleRoomRent(e)}
-                                          style={{
-                                            fontSize: 16,
-                                            color: "#4B4B4B",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            boxShadow: "none",
-                                            border: "1px solid #D9D9D9",
-                                            height: 50,
-                                            borderRadius: 8,
-                                          }}
-                                        />
-                                      </Form.Group>
-                                      {roomrentError && (
-                                        <div
-                                          style={{
-                                            color: "red",
-                                            marginTop: "-15px",
-                                          }}
-                                        >
-                                          <MdError
-                                            style={{
-                                              fontSize: "13px",
-                                              marginRight: "5px",
-                                              marginBottom: "2px",
-                                            }}
-                                          />
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {roomrentError}
-                                          </span>
-                                        </div>
-                                      )}
-                                    </div>
+                                      borderRadius: 8,
+                                    }}
+                                  />
+                                </Form.Group>
+                                {advanceAmountError && (
+                                  <div style={{ color: "red" }}>
+                                    <MdError
+                                      style={{
+                                        fontSize: "13px",
+                                        marginRight: "5px",
+                                        marginBottom: "2px",
+                                      }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {advanceAmountError}
+                                    </span>
                                   </div>
-                                 
+                                )}
+                              </div>
+                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <Form.Group className="mb-3">
+                                  <Form.Label
+                                    style={{
+                                      fontSize: 14,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    Rental Amount {" "}
+                                    <span
+                                      style={{
+                                        color: "red",
+                                        fontSize: "20px",
+                                      }}
+                                    >
+                                      {" "}
+                                      *{" "}
+                                    </span>
+                                  </Form.Label>
+                                  <FormControl
+                                    type="text"
+                                    id="form-controls"
+                                    placeholder="Enter Amount"
+                                    value={RoomRent}
+                                    onChange={(e) => handleRoomRent(e)}
+                                    style={{
+                                      fontSize: 16,
+                                      color: "#4B4B4B",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                      boxShadow: "none",
+                                      border: "1px solid #D9D9D9",
+                                      height: 50,
+                                      borderRadius: 8,
+                                    }}
+                                  />
+                                </Form.Group>
+                                {roomrentError && (
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      marginTop: "-15px",
+                                    }}
+                                  >
+                                    <MdError
+                                      style={{
+                                        fontSize: "13px",
+                                        marginRight: "5px",
+                                        marginBottom: "2px",
+                                      }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {roomrentError}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
 
                             <div style={{ backgroundColor: "#F7F9FF", borderRadius: 10, paddingBottom: 5, }} className="mt-3 mb-3 me-2">
 
@@ -6313,8 +6320,8 @@ const [documents, setDocuments] = useState([
 
 
 
-                                    </div>
-                                
+                            </div>
+
 
 
                           </div>
@@ -6945,9 +6952,9 @@ const [documents, setDocuments] = useState([
                           </div>
                         </div>
 
-                              
-                              <div className="d-flex gap-2">
-                                <Button
+
+                        <div className="d-flex gap-2">
+                          <Button
 
                             variant="secondary"
                             className="w-100"

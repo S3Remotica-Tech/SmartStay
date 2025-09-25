@@ -201,10 +201,15 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
   const [modeOfPayment, setModeOfPayment] = useState("");
 
   const [transactionId, setTransactionId] = useState("")
-  const handleTransactionId = (e) => {
-    const value = e.target.value;
+ const handleTransactionId = (e) => {
+  const value = e.target.value;
+  const regex = /^[A-Za-z0-9_.-]*$/;
+
+  if (regex.test(value)) {
     setTransactionId(value);
-  };
+  }
+};
+
 
   const labelMap = {
     CARD: "Card",

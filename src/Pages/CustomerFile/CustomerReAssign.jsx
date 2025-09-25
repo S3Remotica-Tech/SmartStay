@@ -262,7 +262,7 @@ function CustomerReAssign(props) {
 
  
     if (!newBed || newBed === "") {
-      setBedError("Please select a bed");
+      setBedError("Please Select  Bed");
       return;
     }
 
@@ -552,155 +552,9 @@ const getImageSrc = () => {
                   <div  className="show-scroll p-2 mt-0 me-0">
 
                     <div className="row  d-flex align-items-center">
-                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-3">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Current Floor{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
-                          </Form.Label>
-                          <FormControl
-                            id="form-controls"
-                            placeholder="Enter name"
-                            type="text"
-                            value={currentFloor}
-
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #E7F1FF",
-                              height: 50,
-                              borderRadius: 8,
-                              backgroundColor: "#E7F1FF",
-                            }}
-                          />
-                        </Form.Group>
-
-                      </div> */}
-
-                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-3">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Current Room{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
-                          </Form.Label>
-                          <FormControl
-                            id="form-controls"
-                            placeholder="Enter name"
-                            type="text"
-                            value={currentRoom}
-
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #E7F1FF",
-                              height: 50,
-                              borderRadius: 8,
-                              backgroundColor: "#E7F1FF",
-                            }}
-                          />
-                        </Form.Group>
-
-                      </div> */}
-
-                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-3">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              color: "#222222",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            Current Bed{" "}
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
-                          </Form.Label>
-                          <FormControl
-                            id="form-controls"
-                            placeholder="Enter name"
-                            type="text"
-                            value={currentBed}
-
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #E7F1FF",
-                              height: 50,
-                              borderRadius: 8,
-                              backgroundColor: "#E7F1FF",
-                            }}
-                          />
-                        </Form.Group>
-
-                      </div> */}
-                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="">
-                          <Form.Label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            Current Rent Amount
-                            <span style={{ color: "red", fontSize: "20px" }}>
-                              {" "}
-                              *{" "}
-                            </span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            id="form-controls"
-                            placeholder="Enter Amount"
-                            value={currentRoomRent}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #E7F1FF",
-                              height: 50,
-                              borderRadius: 8,
-                              backgroundColor: "#E7F1FF",
-                            }}
-                          />
-                        </Form.Group>
-
-                      </div> */}
+                    
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group className="mb-2">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -708,7 +562,7 @@ const getImageSrc = () => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Reassign Floor
+                          New Floor
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -811,9 +665,11 @@ const getImageSrc = () => {
                             </span>
                           </div>
                         )}
+                        </Form.Group>
                       </div>
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                         <Form.Group className="mb-2">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -821,7 +677,7 @@ const getImageSrc = () => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Reassign Room{" "}
+                          New Room{" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -924,9 +780,11 @@ const getImageSrc = () => {
                             </span>
                           </div>
                         )}
+                        </Form.Group>
                       </div>
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <Form.Group className="mb-2">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -934,7 +792,7 @@ const getImageSrc = () => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Reassign Bed{" "}
+                         New Bed{" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -1023,89 +881,7 @@ const getImageSrc = () => {
 
                         />
 
-                        {/* <Select
-                          options={
-                            state.UsersList?.bednumberdetails?.bed_details
-                              ?.length > 0
-                              ? state.UsersList.bednumberdetails.bed_details
-                                .filter(
-                                  (item) =>
-                                    item.bed_no !== "0" &&
-                                    item.bed_no !== "undefined" &&
-                                    item.bed_no !== "" &&
-                                    item.bed_no !== "null"
-                                )
-                                .map((item) => ({
-                                  value: item.id,
-                                  label: item.bed_no,
-                                }))
-                              : []
-                          }
-                          onChange={handleBed}
-                          ref={BedRef}
-                          value={
-                            newBed
-                              ? {
-                                value: newBed,
-                                label:
-                                  state.UsersList?.bednumberdetails?.bed_details?.find(
-                                    (bed) => bed.id === newBed
-                                  )?.bed_no || "Selected Bed",
-                              }
-                              : null
-                          }
-                          placeholder="Selected Bed"
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          noOptionsMessage={() => "No beds available"}
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "50px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: newBed ? 600 : 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              cursor: "pointer"
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                              color: "#000",
-                            }),
-                          }}
-                        /> */}
-
+                     
 
                         {bedError && (
                           <div style={{ color: "red", marginTop: "1px" }}>
@@ -1126,6 +902,7 @@ const getImageSrc = () => {
                             </span>
                           </div>
                         )}
+                        </Form.Group>
                       </div>
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1276,7 +1053,7 @@ const getImageSrc = () => {
 
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-2">
                           <Form.Label
                             style={{
                               fontSize: 14,
@@ -1287,10 +1064,11 @@ const getImageSrc = () => {
                               whiteSpace: "nowrap",
                             }}
                           >
-                            New Rent Amount {" "} <span style={{ color: "red", fontSize: "20px" }}>
+                            New Rent Amount {" "}  <span style={{ color: "red", fontSize: "20px", marginLeft:5 }}>
                               *
                             </span>
                             <Form.Check
+                             style={{cursor:"pointer"}}
                               type="checkbox"
                               label={
                                 <span
@@ -1305,9 +1083,9 @@ const getImageSrc = () => {
                                   Same as Current
                                 </span>
                               }
-                              className="ms-3"
+                              className="ms-3 "
                               ref={rentRef}
-                              onChange={(e) => {
+                   onChange={(e) => {
                                 if (e.target.checked) {
                                   setNewRoomRent(currentRoomRent);
                                   setRentError("");
@@ -1412,7 +1190,7 @@ const getImageSrc = () => {
                 }}
                 onClick={handleSaveReassignBed}
               >
-                Reassign Bed
+                Change Bed
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

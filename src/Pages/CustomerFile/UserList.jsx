@@ -1534,12 +1534,6 @@ function UserList(props) {
     setAddBookingsShow(true);
     setUserDetail(userData)
     dispatch({ type: "UPDATE_USERSLIST_FALSE" });
-
-  
-
-
-
-
   };
 
   const handleCloseAddBooking = () => {
@@ -3778,7 +3772,7 @@ function UserList(props) {
                                                       margin: 0,
                                                     }}
                                                   >
-                                                    Re-Assign Bed
+                                               Change Bed
                                                   </label>
                                                 </div>
 

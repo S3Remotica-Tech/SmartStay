@@ -176,7 +176,7 @@ function OccupiedBedStatus({
                                             >
 
                                                 <FiCalendar size={16} color="#1E45E1" />
-                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Re-Assign Bed</label>
+                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Change Bed</label>
                                             </div>
 
                                             <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
