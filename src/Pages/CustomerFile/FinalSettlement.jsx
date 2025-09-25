@@ -69,7 +69,7 @@ const [checkOutDate] = useState(() => {
      const [amnitiesDetails,setAmnitiesDetails] = useState("")
 
      
-    
+    console.log("nonRefundable",nonRefundable)
      useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(

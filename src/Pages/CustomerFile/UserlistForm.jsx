@@ -410,6 +410,7 @@ if(state.UsersList.backtocheckinError){
 
     setRoomRent("");
     setRoomError("");
+     setBed("");
   };
 
   const handleBed = (selectedOption) => {
@@ -762,15 +763,15 @@ if(state.UsersList.backtocheckinError){
     if (!validateAssignField(RoomRent, "RoomRent"));
 
     if (Floor === "Selected Floor" || floorError) {
-      setfloorError("Please Select a Valid PG");
+      setfloorError("Please Select Floor");
       return;
     }
     if (Rooms === "Selected Room" || roomError) {
-      setRoomError("Please Select a Valid PG");
+      setRoomError("Please Select Room");
       return;
     }
     if (Bed === "Selected Bed" || bedError) {
-      setBedError("Please Select a Valid PG");
+      setBedError("Please Select Bed");
       return;
     }
 
@@ -993,6 +994,7 @@ if(state.UsersList.backtocheckinError){
     const capitalizedFirstname = capitalizeFirstLetter(firstname);
 
     const capitalizedLastname = capitalizeFirstLetter(lastname);
+    console.log("capitalizedLastname",capitalizedLastname)
 
 
     setErrors(newErrors)
@@ -1045,7 +1047,7 @@ if(state.UsersList.backtocheckinError){
         payload: {
           profile: file,
           firstname: capitalizedFirstname,
-          LastName: capitalizedLastname,
+          lastname: capitalizedLastname,
           Phone: Phone,
           Email: Email,
           Address: house_no,
@@ -2345,22 +2347,28 @@ if (Email) {
   const handleSaveBacktoCheckin = () => {
     setRecheckinDateError("");
     console.log("recheckInDate value on submit:", recheckInDate);
-    if (!reason) {
-      setReasonError("Please Enter Reason");
-      reasonRef.current?.focus();
-      return;
-    }
-    if (!recheckInDate) {
-      setRecheckinDateError("Please Select Date");
-      dateRef.current?.focus();
-      return;
-    }
+  
+  let hasError = false;
 
-    if (!recheckInDate) {
-      setRecheckinDateError("Please Select Date");
+  if (!reason) {
+    setReasonError("Please Enter Reason");
+    hasError = true;
+  }
+
+  if (!recheckInDate) {
+    setRecheckinDateError("Please Select Date");
+    hasError = true;
+  }
+
+  if (hasError) {
+    
+    if (!reason) {
+      reasonRef.current?.focus();
+    } else if (!recheckInDate) {
       dateRef.current?.focus();
-      return;
     }
+    return; 
+  }
 
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
