@@ -3,9 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form  } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
-// import moment from "moment";
+import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-// import { MdError } from "react-icons/md";
+import { MdError } from "react-icons/md";
 // import Image from "react-bootstrap/Image";
 // import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
@@ -32,6 +32,8 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
     console.log("useSelector",state)
     const dispatch = useDispatch();
     // const [checked, setChecked] = useState(false);
+
+  
 
     const [fields, setFields] = useState([]);
     // const [errors, setErrors] = useState([]);
@@ -78,7 +80,88 @@ console.log("formLoading",formLoading)
     // const [invoiceTotal,setInvoieTotal] = useState('')
     // const [rentalBalance,setRentalBalance] = useState('')
 
-    useEffect(() => {
+//     useEffect(() => {
+//         if (state.UsersList.statusCodegetConfirmCheckout) {
+//             const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
+//                 (invoice) => invoice.balance > 0
+//             );
+
+
+
+//             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
+//                 (deduction) => deduction.amount > 0
+//             );
+//             console.log("deduction_details",deduction_details)
+
+//             const invoiceTotal = Array.isArray(validInvoices)
+//                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
+//                 : 0;
+
+// console.log("invoiceTotal",invoiceTotal)
+//             // if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+//             //     const formattedFields = deduction_details.map((item) => ({
+//             //         reason_name: item.reason || "",
+//             //         amount: Number(item.amount) || 0,
+//             //         showInput: false,
+//             //     }));
+           
+            
+//             //     formattedFields.unshift({
+//             //         reason_name: "DueAmount",
+//             //         amount: invoiceTotal,
+//             //         showInput: false,
+//             //     });
+
+
+//             //     setFields(formattedFields);
+//             // //   setInvoieTotal(invoiceTotal);
+//             // } else {
+//             //     setFields([
+//             //         { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
+//             //     ]);
+               
+//             // }
+//             if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+//     const formattedFields = deduction_details.map((item) => ({
+//         reason_name: item.reason || "",
+//         amount: Number(item.amount) || 0,
+//         showInput: false,
+//         isDefault: false, 
+//     }));
+
+//     formattedFields.unshift({
+//         reason_name: "DueAmount",
+//         amount: invoiceTotal,
+//         showInput: false,
+//         isDefault: true, 
+//     });
+
+//     setFields(formattedFields);
+// } else {
+//     setFields([
+//         { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
+//     ]);
+// }
+// // const rentBalance =
+// //   state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
+// //     (item) => String(item.action).toLowerCase() === "rent"
+// //   )?.balance ?? 0;
+// // setRentalBalance(rentBalance)
+// // setDetuction(state?.UsersList?.Deduction)
+// // setReFundableDetails(state?.UsersList?.Refundable_details)
+
+
+// setHostelData(state?.UsersList?.hostelData)
+
+//         }
+
+//         setTimeout(() => {
+//             dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+//         }, 500);
+//     }, [state.UsersList.statusCodegetConfirmCheckout, data]);
+
+
+useEffect(() => {
         if (state.UsersList.statusCodegetConfirmCheckout) {
             const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
                 (invoice) => invoice.balance > 0
@@ -96,50 +179,29 @@ console.log("formLoading",formLoading)
                 : 0;
 
 console.log("invoiceTotal",invoiceTotal)
-            // if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-            //     const formattedFields = deduction_details.map((item) => ({
-            //         reason_name: item.reason || "",
-            //         amount: Number(item.amount) || 0,
-            //         showInput: false,
-            //     }));
+            if (Array.isArray(deduction_details) && deduction_details.length > 0) {
+                const formattedFields = deduction_details.map((item) => ({
+                    reason_name: item.reason || "",
+                    amount: Number(item.amount) || 0,
+                    showInput: false,
+                }));
            
             
-            //     formattedFields.unshift({
-            //         reason_name: "DueAmount",
-            //         amount: invoiceTotal,
-            //         showInput: false,
-            //     });
+                formattedFields.unshift({
+                    reason_name: "DueAmount",
+                    amount: invoiceTotal,
+                    showInput: false,
+                });
 
 
-            //     setFields(formattedFields);
-            // //   setInvoieTotal(invoiceTotal);
-            // } else {
-            //     setFields([
-            //         { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
-            //     ]);
-               
-            // }
-            if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-    const formattedFields = deduction_details.map((item) => ({
-        reason_name: item.reason || "",
-        amount: Number(item.amount) || 0,
-        showInput: false,
-        isDefault: false, // backend la irunthu vanthathu illana false
-    }));
-
-    formattedFields.unshift({
-        reason_name: "DueAmount",
-        amount: invoiceTotal,
-        showInput: false,
-        isDefault: true, // Backend la irunthu vanthathu
-    });
-
-    setFields(formattedFields);
-} else {
-    setFields([
-        { reason_name: "DueAmount", amount: invoiceTotal, showInput: false, isDefault: true },
-    ]);
-}
+                setFields(formattedFields);
+            //   setInvoieTotal(invoiceTotal);
+            } else {
+                setFields([
+                    { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
+                ]);
+                // setInvoieTotal(invoiceTotal);
+            }
 // const rentBalance =
 //   state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
 //     (item) => String(item.action).toLowerCase() === "rent"
@@ -156,7 +218,7 @@ setHostelData(state?.UsersList?.hostelData)
         setTimeout(() => {
             dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
         }, 500);
-    }, [state.UsersList.statusCodegetConfirmCheckout, data]);
+    }, [state.UsersList.statusCodegetConfirmCheckout, data,dataBed]);
 
 
     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
@@ -268,15 +330,24 @@ console.log("hostelData",hostelData)
     // };
 
 
-
+const [confirmCheckoutError,setConfirmCheckoutError] = useState("")
    
-
+ 
     useEffect(() => {
         if (state.UsersList.conformChekoutError) {
             setFormLoading(false)
-
+setConfirmCheckoutError(state.UsersList.conformChekoutError)
         }
     }, [state.UsersList.conformChekoutError])
+
+
+
+     const handleClosePopup=()=>{
+     setConfirmCheckoutError("")
+        handleClose()
+       
+ dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
+    }
     const quillRef = useRef(null);
 
 useEffect(() => {
@@ -296,27 +367,64 @@ useEffect(() => {
 //   setTransactionId(value);
 //   console.log("setTransactionId", value);
 // };
-  
+  console.log("fields",fields)
+
+
+
+
+//   const handleConfirmCheckout = ()=>{
+//       const formatDate = (date) =>
+//     typeof date === "string" ? date : moment(date).format("YYYY-MM-DD");
+
+//   const formattedCheckOutDate = moment(formatDate(checkOutDate), "YYYY-MM-DD");
+//   console.log("formattedCheckOutDate",formattedCheckOutDate)
+ 
+// //   dispatch({
+// //       type: "ADDCONFIRMCHECKOUTCUSTOMER",
+// //       payload: {
+       
+// //         comments:comments,
+// //         id: userId,
+// //     hostel_id: data?.Hostel_Id || dataBed[0]?.Hostel_Id,
+// //     reasons:fields,
+// //     checkout_date: formattedCheckOutDate,
+
+       
+        
+// //       },
+// //     });
+//   }
+
+const handleConfirmCheckout = () => {
+  // Helper to format date
+//   const formatDate = (date) => (typeof date === "string" ? date : moment(date).format("YYYY-MM-DD"));
+
+  const formattedCheckOutDate = moment(checkOutDate).format("YYYY-MM-DD");
+console.log(formattedCheckOutDate);
+
+  const payload = {
+      comments: comments,
+      id: data?.ID,
+      hostel_id: data?.Hostel_Id || dataBed[0]?.Hostel_Id,
+      reasons: fields,
+      checkout_date: formattedCheckOutDate,
+      attach: uploadFile,
+      reinburse:1
+    }
+  dispatch({
+    type: "ADDCONFIRMCHECKOUTCUSTOMER",
+    payload: payload
+    
+    
+  });
+};
+
+
 //    const handleConfirmCheckout = () => {
 //   dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
 
 //   let hasError = false;
 
-//   // --- Date Validation ---
-// //   if (!checkOutDate) {
-// //     setCheckOutDateError("Please select a checkout Date");
-// //     checkOutDateRef.current?.focus();
-// //     return;
-// //   }
-
-//   // --- Mode of Payment Validation ---
-// //   if (ReturnAmount > 0 && !modeOfPayment) {
-// //     // setModeOfPaymentError("Please Select Mode Of Payment");
-// //     if (!hasError) {
-// //       modeOfPaymentRef.current?.focus();
-// //       hasError = true;
-// //     }
-// //   }
 
 
 //   if (hasError) return;
@@ -385,7 +493,7 @@ useEffect(() => {
 //     { formattedReasons: [], errors: [], hasError: false }
 //   );
 
-//   setErrors(errors);
+// //   setErrors(errors);
 //   if (reasonError) return;
 
 // //   setCheckOutDateError("");
@@ -440,11 +548,12 @@ useEffect(() => {
         }
 
     }, [hostelData])
+    console.log("checkouurt",hostelData)
 
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
             setFormLoading(false)
-            handleClose()
+            handleClosePopup()
             dispatch({
                       type: "USERLIST",
                       payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1421,7 +1530,7 @@ useEffect(() => {
     </Modal> */}
 
 
-    <Modal show={show} onHide={handleClose} centered >
+    <Modal show={show} onHide={handleClosePopup} centered >
      
        <Modal.Header
                           style={{ marginBottom: "10px", position: "relative",borderBottom:"none" }}
@@ -1438,7 +1547,7 @@ useEffect(() => {
                             </div>
                           
                           </div>
-                          <CloseCircle size="24" color="#000" onClick={handleClose}
+                          <CloseCircle size="24" color="#000" onClick={handleClosePopup}
                             style={{ cursor: 'pointer' }} />
                         </Modal.Header>
       <Modal.Body>
@@ -1671,11 +1780,35 @@ useEffect(() => {
         {/* } */}
 
       </Modal.Body>
+        {confirmCheckoutError && (
+                                    <div
+                                        className="d-flex align-items-center p-1"
+                                        style={{ marginTop: "-6px" }}>
+                                        <MdError
+                                            style={{
+                                                color: "red",
+                                                marginRight: "5px",
+                                                fontSize: "12px",
+                                            }}
+                                        />
+                                        <label
+                                            className="mb-0"
+                                            style={{
+                                                color: "red",
+                                                fontSize: "12px",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            {confirmCheckoutError}
+                                        </label>
+                                    </div>
+                                )}
       <Modal.Footer style={{borderTop:"none",marginTop:"-10px"}}>
-        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} className="btn btn-light" onClick={handleClose}>
+        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} className="btn btn-light" onClick={handleClosePopup}>
           Cancel
         </Button>
-        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary">Check-Out</Button>
+        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary" onClick={handleConfirmCheckout}>Check-Out</Button>
       </Modal.Footer>
     </Modal>
         </div>

@@ -15,9 +15,14 @@ import PropTypes from "prop-types"
 function WriteOffForm(props){
    const state = useSelector((state) => state);
     const dispatch = useDispatch();
-  console.log("wraitofDetails",dispatch)
+  console.log("wraitofDetails",props.wraitofDetails)
 
 const [matchedDet,setMatchedDetails] = useState("")
+const [comments,setComments] = useState("")
+
+const handleCommentsChange = (e)=>{
+  setComments(e.target.value)
+}
 
 useEffect(()=>{
   if(props.WriteoffForm || props.payapleform){
@@ -25,10 +30,44 @@ const matchedDetails = state.UsersList.Users?.filter(
   (user) => user.ID === props.wraitofDetails.ID
 );
 setMatchedDetails(matchedDetails)
+console.log("matchedDetails",matchedDetails)
 
 
   }
-},[props.WriteoffForm || props.payapleform])
+},[props.WriteoffForm ,props.payapleform])
+
+
+const handleSaveWriteOff=()=>{
+
+
+const payload ={
+       formal_checkout: 1,
+      reason_note:comments,
+      id :props.wraitofDetails.ID,
+      hostel_id:props.wraitofDetails.Hostel_Id
+  }
+  dispatch({
+      type: "CONFIRMCHECKOUTDUECUSTOMER",
+      payload: payload
+    });
+}
+
+  useEffect(() => {
+        if (state.UsersList.statusCodeForDueCustomer === 200 ) {
+          props.handleCloseWriteOffForm()
+            dispatch({
+                      type: "USERLIST",
+                      payload: { hostel_id: state.login.selectedHostel_Id },
+                    })
+                    //  dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
+            setTimeout(() => {
+                dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
+            }, 500);
+        }
+
+    }, [state.UsersList.statusCodeForDueCustomer])
+
+
 console.log("matchedDet",matchedDet)
 
     return(
@@ -128,8 +167,8 @@ console.log("matchedDet",matchedDet)
             as="textarea"
             placeholder="Please Enter Comments"
             rows={3}
-        //     value={comments}
-        //   onChange={handleCommentsChange}
+            value={comments}
+          onChange={handleCommentsChange}
           />
         </Form.Group>
       
@@ -141,7 +180,7 @@ console.log("matchedDet",matchedDet)
          >
           Cancel
         </Button>
-        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary">Conform</Button>
+        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary" onClick={handleSaveWriteOff}>Conform</Button>
       </Modal.Footer>
     </Modal>
 

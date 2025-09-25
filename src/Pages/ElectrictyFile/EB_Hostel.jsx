@@ -344,7 +344,7 @@ setMatchedRoomDetails(matchedDetails)
       setShowModal(false);
       dispatch({
         type: "CUSTOMEREBLIST",
-        payload: { hostel_id: selectedRow.hostel_id },
+        payload: { hostel_id: selectedRow?.hostel_id },
       });
         dispatch({
         type: "EBSTARTMETERLIST",
