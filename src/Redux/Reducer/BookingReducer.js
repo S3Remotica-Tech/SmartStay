@@ -15,7 +15,8 @@ export const initialState = {
   ErrorAssignBooking: "",
   ErrorAssignBookingDate: '',
   ErrorAssignBookingMobile: '',
-  StatusCodeInactiveCode:0
+  StatusCodeInactiveCode:0,
+  StatusCodeChangeBedSuccess:0 ,
 };
 
 const BookingReducer = (state = initialState, action) => {
@@ -88,6 +89,10 @@ case "REMOVE_ALREADY_MOBILE_ERROR":
             return { ...state, StatusCodeInactiveCode: action.payload.statusCode }
         case 'CLEAR_BOOKING_InActive':
             return { ...state, StatusCodeInactiveCode: 0 }
+      case 'BOOKING-BEDCHANGE':
+            return { ...state, StatusCodeChangeBedSuccess: action.payload.statusCode }
+      case 'CLEAR_BOOKING_BEDCHANGE':
+            return { ...state, StatusCodeChangeBedSuccess: 0 }        
     default:
       return state;
   }

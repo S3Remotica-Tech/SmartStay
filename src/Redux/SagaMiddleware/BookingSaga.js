@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { AddBooking,GetAddBooking,DeleteBooking,assignBooking,assignBookingBed,bookingInActive } from "../Action/BookingAction";
+import { AddBooking,GetAddBooking,DeleteBooking,assignBooking,assignBookingBed,bookingInActive , ChangeBookingBed } from "../Action/BookingAction";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
@@ -63,8 +63,6 @@ function* handleAddBooking(action) {
       }
    }
  }
-
-
 
 
  function* handleGetBooking(action) {
@@ -257,6 +255,66 @@ function* handleBookingInActive(action) {
    }
 }
 
+function* handleChangeBookingBed(action) {
+   try{
+    const response = yield call (ChangeBookingBed, action.payload);
+   
+
+    var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center", 
+      padding: "10px",
+     
+    };
+
+    if (response.status === 200 || response.data.statusCode === 200){
+      yield put ({type : 'BOOKING-BEDCHANGE' , payload:{response:response.data, statusCode:response.status ||  response.data.statusCode}})
+      toast.success(`${response.data.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+     });
+    }
+
+    else if(response.statusCode === 202 ) {
+      yield put({ type: 'BOOKING_EMAIL_ERROR', payload: response.message });
+   }
+
+    else if(response.statusCode === 203 )  {   
+      yield put({ type: 'BOOKING_PHONE_ERROR', payload: response.message });
+   }
+  
+    else {
+       yield put ({type:'ERROR_BOOKING', payload:response.message})
+    }
+    if(response){
+       refreshToken(response)
+    }
+     }
+     catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+ }
+
 
  function refreshToken(response){
     if(response.data && response.data.refresh_token){
@@ -280,5 +338,6 @@ function* handleBookingInActive(action) {
     yield takeEvery('ASSIGN_BOOKING', handleAsignBooking)
     yield takeEvery('BOOKINGBEDDETAILS', handleBookingBed)
      yield takeEvery('BOOKINGACTIVE', handleBookingInActive)
+   yield takeEvery('BOOKING_BEDCHANGE', handleChangeBookingBed)
  }
  export default CreateBookinSaga;

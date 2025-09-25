@@ -37,7 +37,7 @@ function BedStatusListView(props) {
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props?.Reserved_customer_details?.ID} });
    }
 
-   console.log("props", props);
+   console.log("props", props.Reserved_customer_details);
    
     const handleCloseconfirmchangeBed = () => {
       setConfirmChangeBed(false)
