@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button,Form} from "react-bootstrap";
+import { Modal, Button,Form,InputGroup} from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 // import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,11 +24,11 @@ import { Tooltip } from "bootstrap";
 
 
 function FinalSettlement({ show, handleClose, data, customerID }) {
-console.log("customerID",customerID)
+console.log("customerID",data)
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    console.log("FinalSettlement",customerID)
+    console.log("FinalSettlement",state)
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
@@ -66,9 +66,10 @@ const [checkOutDate] = useState(() => {
     //  const [rentalBalance,setRentalBalance] = useState('')
      const [billAmount,setBillAmount] = useState("")
      const [nonRefundable,setRefundable] = useState("")
+     const [amnitiesDetails,setAmnitiesDetails] = useState("")
 
      
-     console.log("refundableDetails",refundableDetails)
+    
      useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
@@ -103,6 +104,7 @@ const [checkOutDate] = useState(() => {
         setReFundableDetails(state?.UsersList?.Refundable_details);
         setHostelData(state?.UsersList?.hostelData);
         setRefundable(state?.UsersList?.nonRefundable_details)
+        setAmnitiesDetails(state.UsersList?.finalsettleLastrent.amenities_list)
     }
 
     setTimeout(() => {
@@ -111,7 +113,7 @@ const [checkOutDate] = useState(() => {
 }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
 
 
-
+ console.log("refundableDetails",amnitiesDetails)
 
 
 useEffect(()=>{
@@ -119,6 +121,8 @@ if(checkOutDate){
   dispatch({ type: "CHECKOUTDATEUPDATE", payload: { hostel_id: state.login.selectedHostel_Id,id:data.ID || customerID,checkoutDate:checkOutDate} });
 }
 },[checkOutDate])
+
+ 
 
 
 useEffect(()=>{
@@ -130,6 +134,23 @@ useEffect(()=>{
  dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE"})
     }
 },[state.UsersList.StatusCodeForDateUpdate])
+
+  useEffect(() => {
+    if (state.PgList?.AddEBstatusCode === 200) {
+    
+   dispatch({
+              type: "GETCONFIRMCHECKOUTCUSTOMER",
+              payload: { id: data.ID, hostel_id: state.login.selectedHostel_Id },
+            });
+        dispatch({
+        type: "EBSTARTMETERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      setTimeout(()=>{
+ dispatch({ type: 'CLEAR_EB' })
+      },1000)
+    }
+  }, [state.PgList?.AddEBstatusCode]);
 
 //      useEffect(() => {
 //     if (state.UsersList.statusCodegetConfirmCheckout) {
@@ -442,43 +463,144 @@ useEffect(()=>{
     //     setTransactionId(value);
     //     console.log("setTransactionId", value);
     // };
+
+
+     const [currentReading,setCurrentReading] = useState("")
+    const [currenReadingError,setCurrenReadingError] =useState("")
+    const [isConfirmed, setIsConfirmed] = useState(false);
+
+
+      useEffect(() => {
+        if (state?.PgList?.ebError) {
+         
+          setCurrenReadingError(state?.PgList?.ebError);
+        }
+      }, [state?.PgList?.ebError]);
+    
+
+     const handlecurrentReading =(e)=>{
+    setCurrentReading(e.target.value)
+    setCurrenReadingError("")
+    dispatch({type:"CLEAR_EB_ERROR"})
+     setIsConfirmed(false);
+  
+  }
   
     const handleClickInvoiceNo = () => {
         console.log("INV654 clicked");
     };
 
+//     const handleCheckedtrue =(e)=>{
+//         setIsConfirmed(e.target.checked)
+//         setCurrenReadingError("")
 
 
-    const handleClickGenerate = ()=>{
-//  const refundableAmenities = refundableDetails?.filter(
-//     (a) => a.key === "Refundable Rent" || a.key === "Refundable Advance"
-//   );
-//     console.log("refundableAmenities",refundableAmenities)
-const refundableAmenities = refundableDetails
+//           dispatch({
+//     type: "CREATEEB",
+//     payload: {
+//       hostel_id : data.Hostel_Id,
+//       floor_id: data.Floor,
+//       room_id :data.hstl_Rooms,
+//       date: checkOutDate,
+//       reading: currentReading,
+//     },
+//   });
+//     }
+const handleCheckedtrue = (e) => {
+  const checked = e.target.checked;
+  setIsConfirmed(checked);
+  setCurrenReadingError("");
+  
+
+ 
+  if (checked && currentReading) {
+    dispatch({
+      type: "CREATEEB",
+      payload: {
+        hostel_id: data.Hostel_Id,
+        floor_id: data.Floor,
+        room_id: data.hstl_Rooms,
+        date: checkOutDate,
+        reading: currentReading,
+      },
+    });
+  } else if (!currentReading) {
+    setCurrenReadingError("Please enter current reading");
+  }
+};
+
+
+
+
+
+const handleClickGenerate = () => {
+  let hasError = false;
+
+  // Validate current reading
+  if (!currentReading) {
+    setCurrenReadingError("Please enter current reading");
+    hasError = true;
+  }
+
+  // Validate checkbox
+  if (!isConfirmed) {
+    setCurrenReadingError("Please confirm current reading");
+    hasError = true;
+  }
+
+  if (hasError) return;
+
+  // Prepare payload
+  const refundableAmenities = refundableDetails
     ? [
         { key: "Refundable Rent", amount: refundableDetails.remainingRentRefund },
         { key: "Refundable Advance", amount: refundableDetails.securityDepositRefund },
       ]
     : [];
-        const reasons = nonRefundable.map((item) => ({
-  key: item.reason,
-  amount: item.amount,
-}));
-         dispatch({
-                type: "FINALGENERATE",
-                payload: {
-                  user_id:data.ID || customerID,
-                   
-                    hostel_id: state.login?.selectedHostel_Id,
-                    amenities: [
-      ...reasons,
-       ...refundableAmenities,
-    ]
-    
-                },
-            });
 
-    }
+  const reasons = nonRefundable.map((item) => ({
+    key: item.reason,
+    amount: item.amount,
+  }));
+
+  dispatch({
+    type: "FINALGENERATE",
+    payload: {
+      user_id: data.ID || customerID,
+      hostel_id: state.login?.selectedHostel_Id,
+      amenities: [...reasons, ...refundableAmenities],
+    //   currentReading: currentReading, // add reading to payload if needed
+    //   isConfirmed: isConfirmed,       // add checkbox status
+    },
+  });
+};
+//     const handleClickGenerate = ()=>{
+
+// const refundableAmenities = refundableDetails
+//     ? [
+//         { key: "Refundable Rent", amount: refundableDetails.remainingRentRefund },
+//         { key: "Refundable Advance", amount: refundableDetails.securityDepositRefund },
+//       ]
+//     : [];
+//         const reasons = nonRefundable.map((item) => ({
+//   key: item.reason,
+//   amount: item.amount,
+// }));
+//          dispatch({
+//                 type: "FINALGENERATE",
+//                 payload: {
+//                   user_id:data.ID || customerID,
+                   
+//                     hostel_id: state.login?.selectedHostel_Id,
+//                     amenities: [
+//       ...reasons,
+//        ...refundableAmenities,
+//     ]
+    
+//                 },
+//             });
+
+//     }
 
 
     useEffect(()=>{
@@ -490,6 +612,10 @@ handleClose()
 }
     },[state.UsersList.StatusCodeForFinalGenerate])
     console.log("tate.UsersList.StatusCodeForFinalGenerate",state.UsersList.StatusCodeForFinalGenerate)
+
+    const rows = Array.isArray(amnitiesDetails)
+  ? amnitiesDetails
+  : Object.values(amnitiesDetails);
 
     // const handleClickGenerate = () => {
     //     dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
@@ -671,12 +797,7 @@ handleClose()
         document.head.appendChild(style);
     }, []);
 
-    const [currentReading,setCurrentReading] = useState("")
-
-     const handlecurrentReading =(e)=>{
-    setCurrentReading(e.target.value)
-  
-  }
+   
 
     return (
         <div>
@@ -857,7 +978,7 @@ handleClose()
                                         </div>
                                     )}
                                 </div> */}
-<Form.Group className="mt-4">
+{/* <Form.Group className="mt-4">
               <div
                 style={{
                   display: 'flex',
@@ -904,7 +1025,179 @@ handleClose()
                 onChange={handlecurrentReading}
                 value={currentReading}
               />
-            </Form.Group>
+            </Form.Group> */}
+       {/* <Form.Group className="mt-4">
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+      marginBottom: 5
+    }}
+  >
+    <Form.Label
+      style={{
+        fontFamily: 'Gilroy',
+        fontWeight: 500,
+        fontStyle: 'normal',
+        fontSize: '14px',
+        lineHeight: '100%',
+        letterSpacing: '0',
+        marginBottom: 0,
+        padding: 0
+      }}
+    >
+      Current Reading
+    </Form.Label>
+
+    <span
+      style={{
+        fontFamily: 'Gilroy',
+        fontWeight: 400,
+        fontStyle: 'normal',
+        fontSize: '14px',
+        lineHeight: '100%',
+        letterSpacing: '0',
+        color: "gray"
+      }}
+    >
+      Last Reading: <span style={{ color: '#1E45E1' }}>310.12</span>
+    </span>
+  </div>
+
+ 
+  <InputGroup style={{ marginTop: 10 }}>
+    <Form.Control
+      style={{ fontSize: 14, fontWeight: 600, padding: "12px 14px" }}
+      type="number"
+      placeholder="471.55"
+      onChange={handlecurrentReading}
+      value={currentReading}
+    />
+    <InputGroup.Text>
+      <Form.Check
+        type="checkbox"
+        id="confirmReading"
+        checked={isConfirmed}
+        onChange={handleCheckedtrue}
+      />
+    </InputGroup.Text>
+  </InputGroup>
+</Form.Group> */}
+
+
+<Form.Group className="mt-4">
+         <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                  marginBottom: 5
+                }}
+              >
+                <Form.Label
+                  style={{
+                    fontFamily: 'Gilroy',
+                    fontWeight: 500,
+                    fontStyle: 'normal',
+                    fontSize: '14px',
+                    lineHeight: '100%',
+                    letterSpacing: '0',
+                    marginBottom: 0,
+                    padding: 0
+                  }}
+                >
+                  Current Reading
+                </Form.Label>
+
+                <span
+                  style={{
+                    fontFamily: 'Gilroy',
+                    fontWeight: 400,
+                    fontStyle: 'normal',
+                    fontSize: '14px',
+                    lineHeight: '100%',
+                    letterSpacing: '0',
+                    color: "gray"
+                  }}
+                >
+                  Last Reading: <span style={{ color: '#1E45E1' }}>{state.UsersList?.finalsettleLastrent?.LastReading}</span>
+                </span>
+              </div>
+
+
+  <InputGroup style={{ marginTop: 10 }}>
+    <Form.Control
+      type="number"
+      placeholder="471.55"
+      value={currentReading}
+      onChange={handlecurrentReading}
+      style={{ fontSize: 14, fontWeight: 600, padding: "12px 14px" }}
+    />
+    <InputGroup.Text
+    //   style={{
+    //     borderColor: !isConfirmed &&  currenReadingError? "red" : "#ced4da",
+    //     borderWidth: 1,
+    //     borderStyle: "solid",
+    //     padding: "0 6px"
+    //   }}
+    >
+      {/* <Form.Check
+        type="checkbox"
+        id="confirmReading"
+        checked={isConfirmed}
+        onChange={handleCheckedtrue}
+        style={{ margin: 0, borderColor: !isConfirmed &&  currenReadingError? "red" : "#ced4da", }}
+      /> */}
+     <Form.Check
+  type="checkbox"
+  id="confirmReading"
+  checked={isConfirmed}
+  onChange={handleCheckedtrue}
+  style={{ margin: 0 }}
+>
+  <Form.Check.Input
+    type="checkbox"
+    checked={isConfirmed}
+    onChange={handleCheckedtrue}
+    style={{
+      borderColor: !isConfirmed && currenReadingError ? "red" : "#ced4da",
+    }}
+  />
+</Form.Check>
+
+    </InputGroup.Text>
+  </InputGroup>
+
+  
+</Form.Group>
+{state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+
+ {currenReadingError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError
+                                          style={{ fontSize: "13px", marginRight: "5px" }}
+                                        />
+                                        <label
+                                          className="mb-0"
+                                          style={{
+                                            color: "red",
+                                            fontSize: "12px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {currenReadingError}
+                                        </label>
+                                      </div>
+                                    )}
 
 
                                 <div className="p-3  rounded mt-3" style={{ backgroundColor: "#E7F1FF", borderRadius: 10 }}>
@@ -1275,7 +1568,7 @@ return(
                                                     <tbody>
                                                         <tr>
                                                             <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Last Rent Paid (30 Days)</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹6,000</td>
+                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹{state?.UsersList?.finalsettleLastrent?.lastRentPaidAmount}</td>
                                                         </tr>
                                                         <tr>
                                                             <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Actual Stay Days ({detuction.stayedDays} days * ₹{detuction.ratePerDay})</td>
@@ -1283,12 +1576,30 @@ return(
                                                         </tr>
                                                         <tr>
                                                             <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>EB Amount</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹600</td>
+                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹0</td>
                                                         </tr>
-                                                        <tr>
+
+  {rows.map((item, index) => (
+    <tr key={index}>
+      <td
+       className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}
+      >
+        {item.Amnities_Name}
+      </td>
+      <td
+      className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}
+      >
+        ₹{item.Amount}
+      </td>
+    </tr>
+  ))}
+
+
+                                                        {/* <tr>
+                                                           
                                                             <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>Gym</td>
                                                             <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹500</td>
-                                                        </tr>
+                                                        </tr> */}
                                                     </tbody>
                                                 </table>
                                             </div>

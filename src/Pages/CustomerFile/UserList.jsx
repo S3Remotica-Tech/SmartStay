@@ -2374,7 +2374,7 @@ console.log("billAmount",billAmount)
 
   const handleCloseDuePopup = () => {
     setDueCustomerShow(false)
-     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+     dispatch({ type: "CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   }
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {

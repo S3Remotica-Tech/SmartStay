@@ -130,6 +130,7 @@ export const initialState = {
     backtocheckinError:'',
     StatusCodeForDateUpdate:0,
       StatusCodeForFinalGenerate:0,
+      finalsettleLastrent:[]
 
 }
 
@@ -440,6 +441,7 @@ const UserListReducer = (state = initialState, action) => {
         case "GET_CONFIRM_CHECK_OUT_CUSTOMER":
             return {
                 ...state, GetconfirmcheckoutBillDetails: action.payload.response.bill_details,
+                finalsettleLastrent:action.payload.response,
                 GetconfirmcheckoutUserDetails: action.payload.response.checkout_details,
              nonRefundable_details:action.payload.response.deduction_details,
               hostelData:action.payload.response.hostelData,

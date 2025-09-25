@@ -254,10 +254,74 @@ export async function GetConfirmCheckOut(checkout) {
   })
 }
 
-export async function AddConfirmCheckOut(checkout) {
-  return await AxiosConfig.post('/add/confirm_checkout', checkout, {
-    data: checkout
-  })
+// export async function AddConfirmCheckOut(checkout) {
+//   return await AxiosConfig.post('/add/confirm_checkout', checkout, {
+//     data: checkout
+//   })
+// }
+
+
+// export async function AddConfirmCheckOut(params) {
+// console.log("paramsssssss",params)
+//   const formData = new FormData();
+//   if (params.attach) formData.append("attach", params.attach);
+//   if (params.id) formData.append("id", params.id)
+//   if (params.hostel_id) formData.append("hostel_id", params.hostel_id)
+//   if (params.checkout_date) formData.append("checkout_date", params.checkout_date)
+//   if (params.reinburse) formData.append("reinburse", params.reinburse)
+//   if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
+//   if (params.formal_checkout) formData.append("formal_checkout", params.formal_checkout)
+//   if (params.advance_return) formData.append("advance_return", params.advance_return)
+// // formData.append("reason_note", params.reason_note || "")
+  
+
+//   try {
+//     const response = await AxiosConfig.post('/add/confirm_checkout', formData, {
+//       headers: {
+//         "Content-type": "multipart/form-data",
+//       },
+//       timeout: 100000000,
+//       onUploadProgress: (event) => {
+//         console.log("event", event)
+//       }
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Axios Error", error);
+//   }
+// }
+
+export async function AddConfirmCheckOut(params) {
+  console.log("paramsssssss", params);
+
+  const formData = new FormData();
+
+  // File key must match backend
+  if (params.attach) formData.append("attach", params.attach);
+
+  if (params.id) formData.append("id", params.id);
+  if (params.hostel_id) formData.append("hostel_id", params.hostel_id);
+  if (params.checkout_date) formData.append("checkout_date", params.checkout_date);
+  if (params.reinburse) formData.append("reinburse", params.reinburse);
+  if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
+  if (params.formal_checkout) formData.append("formal_checkout", params.formal_checkout);
+  if (params.advance_return) formData.append("advance_return", params.advance_return);
+  if (params.comments) formData.append("comments", params.comments);
+
+  try {
+    const response = await AxiosConfig.post('/add/confirm_checkout', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      timeout: 100000000,
+      onUploadProgress: (event) => {
+        console.log("Upload Progress:", event);
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
+  }
 }
 
 
@@ -382,7 +446,8 @@ console.log("paramsssssss",params)
   if (params.reinburse) formData.append("reinburse", params.reinburse)
   if (params.reasons) formData.append("reasons", JSON.stringify(params.reasons));
   if (params.formal_checkout) formData.append("formal_checkout", params.formal_checkout)
-  if (params.reason_note) formData.append("reason_note", params.reason_note)
+  // if (params.reason_note) formData.append("reason_note", params.reason_note)
+formData.append("reason_note", params.reason_note || "")
   
 
   try {

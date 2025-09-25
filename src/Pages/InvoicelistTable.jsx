@@ -29,6 +29,7 @@ const handleWriteOffFrom=(item)=>{
 }
 const handleCloseWriteOffForm=()=>{
   setWriteOffForm(false)
+  setPayableForm(false)
 }
 const handleRefundAmount=(item)=>{
   console.log("handleWriteOffFrom",item)
@@ -38,6 +39,7 @@ const handleRefundAmount=(item)=>{
 }
 const handleCloseRefundAmount=()=>{
   setPayableForm(false)
+   setWriteOffForm(false)
 }
 
   // const handleShowDots = (event) => {
@@ -54,7 +56,7 @@ const handleCloseRefundAmount=()=>{
 
   const { top, left, bottom } = event.target.getBoundingClientRect();
 
-  let popupTop = top - 14;
+  let popupTop = top - 35;
   const popupLeft = left - 180;
 
   const popupHeight = 100; 

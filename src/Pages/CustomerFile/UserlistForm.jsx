@@ -454,10 +454,19 @@ if(state.UsersList.backtocheckinError){
     setAdvanceAmountError("");
   };
 
+  // const handleHouseNo = (e) => {
+  //   setHouseNo(e.target.value);
+  //   setHouse_NoError("");
+  // };
   const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
+  if (regex.test(value)) {
+    setHouseNo(value);
     setHouse_NoError("");
-  };
+  }
+};
 
   const handleStreetName = (e) => {
     setStreet(e.target.value);
@@ -1077,6 +1086,8 @@ if(state.UsersList.backtocheckinError){
     setFormLoading(true)
     dispatch({ type: "INVOICELIST" });
   };
+
+
 
   // const handleSaveUserlistAddUserButon = () => {
 
@@ -1793,48 +1804,194 @@ console.log("ddddddddddddddddd",selectedDate)
 
 
   const [step, setStep] = useState(1);
+  console.log("state?.UsersList?.Users",state?.UsersList?.Users)
+const handleNext = () => {
+  let hasError = false;
+  const focusedRef = { current: false };
 
+  if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
+  if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
 
+  // Phone length validation
+  if (Phone && Phone.length !== 10) {
+    setPhoneError("Please Enter Valid Mobile Number");
+    if (!focusedRef.current && phoneRef?.current) {
+      phoneRef.current.focus();
+      focusedRef.current = true;
+    }
+    hasError = true;
+  } else if (Phone) {
+    setPhoneError("");
+    setPhoneErrorMessage("");
+  }
 
-  const handleNext = () => {
-    let hasError = false;
-    const focusedRef = { current: false };
-    if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
-    if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
-    if (Phone && Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
+  // ✅ Duplicate Phone check (with 91 prefix)
+  if (Phone) {
+    const fullPhone = "91" + Phone;
+    const isDuplicatePhone = state?.UsersList?.Users?.some(
+      (u) => String(u.Phone) === String(fullPhone)
+    );
+
+    if (isDuplicatePhone) {
+      setPhoneError("This phone number already exists");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;
       }
       hasError = true;
-    } else if (Phone) {
-      setPhoneError("");
-      setPhoneErrorMessage("");
     }
+  }
 
-    if (Email) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmail = emailRegex.test(Email.toLowerCase());
-      if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current) {
-          focusedRef.current = true;
-        }
-        hasError = true;
+  // ✅ Email validation + duplicate check (ignore "N/A")
+if (Email) {
+  const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  const isValidEmail = emailRegex.test(Email.toLowerCase().trim());
+
+  if (!isValidEmail) {
+    setEmailError("Please Enter Valid Email ID");
+    if (!focusedRef.current) {
+      focusedRef.current = true;
+    }
+    hasError = true;
+  } else {
+    // Duplicate email check
+    const isDuplicateEmail = state?.UsersList?.Users?.some((u) => {
+      const dbEmail = String(u.Email || "").trim().toLowerCase();
+      const currentEmail = Email.trim().toLowerCase();
+
+      // "N/A" or empty skip
+      if (!dbEmail || dbEmail === "n/a") return false;
+
+      return dbEmail === currentEmail;
+    });
+
+    if (isDuplicateEmail) {
+      setEmailError("This email ID already exists");
+      if (!focusedRef.current) {
+        focusedRef.current = true;
       }
-      else {
-        setEmailError("");
-      }
+      hasError = true;
     } else {
       setEmailError("");
     }
-    if (hasError) {
-      return
-    }
-    setStep(2);
+  }
+} else {
+  setEmailError("");
+}
 
-  };
+  if (hasError) {
+    return;
+  }
+
+  setStep(2);
+};
+
+
+
+// const handleNext = () => {
+//   let hasError = false;
+//   const focusedRef = { current: false };
+
+//   if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
+//   if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
+
+//   if (Phone && Phone.length !== 10) {
+//     setPhoneError("Please Enter Valid Mobile Number");
+//     if (!focusedRef.current && phoneRef?.current) {
+//       phoneRef.current.focus();
+//       focusedRef.current = true;
+//     }
+//     hasError = true;
+//   } else if (Phone) {
+//     setPhoneError("");
+//     setPhoneErrorMessage("");
+//   }
+
+//   // 🔴 Phone duplicate check
+//  const normalizePhone = (num) => String(num).replace(/\D/g, ""); // keep only digits
+
+// // 🔴 Phone duplicate check
+// if (Phone) {
+//   const fullPhone = "91" + Phone;  // country code add
+//   const isDuplicate = state?.UsersList?.Users?.some(
+//     (u) => String(u.Phone) === String(fullPhone)
+//   );
+
+//   if (isDuplicate) {
+//     setPhoneError("This phone number already exists");
+//     if (!focusedRef.current && phoneRef?.current) {
+//       phoneRef.current.focus();
+//       focusedRef.current = true;
+//     }
+//     hasError = true;
+//   }
+// }
+
+
+
+//   if (Email) {
+//     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+//     const isValidEmail = emailRegex.test(Email.toLowerCase());
+//     if (!isValidEmail) {
+//       setEmailError("Please Enter Valid Email ID");
+//       if (!focusedRef.current) {
+//         focusedRef.current = true;
+//       }
+//       hasError = true;
+//     } else {
+//       setEmailError("");
+//     }
+//   } else {
+//     setEmailError("");
+//   }
+
+//   if (hasError) {
+//     return;
+//   }
+
+//   setStep(2);
+// };
+
+
+  // const handleNext = () => {
+  //   let hasError = false;
+  //   const focusedRef = { current: false };
+  //   if (!validateField(firstname, "First Name", firstnameRef, setFirstnameError, focusedRef)) hasError = true;
+  //   if (!validateField(Phone, "Phone Number", phoneRef, setPhoneError, focusedRef)) hasError = true;
+  //   if (Phone && Phone.length !== 10) {
+  //     setPhoneError("Please Enter Valid Mobile Number");
+  //     if (!focusedRef.current && phoneRef?.current) {
+  //       phoneRef.current.focus();
+  //       focusedRef.current = true;
+  //     }
+  //     hasError = true;
+  //   } else if (Phone) {
+  //     setPhoneError("");
+  //     setPhoneErrorMessage("");
+  //   }
+
+  //   if (Email) {
+  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  //     const isValidEmail = emailRegex.test(Email.toLowerCase());
+  //     if (!isValidEmail) {
+  //       setEmailError("Please Enter Valid Email ID");
+  //       if (!focusedRef.current) {
+  //         focusedRef.current = true;
+  //       }
+  //       hasError = true;
+  //     }
+  //     else {
+  //       setEmailError("");
+  //     }
+  //   } else {
+  //     setEmailError("");
+  //   }
+  //   if (hasError) {
+  //     return
+  //   }
+  //   setStep(2);
+
+  // };
 
 
 
@@ -5116,40 +5273,7 @@ console.log("ddddddddddddddddd",selectedDate)
                             : null}
 
                         </div>
-                        {phonenumError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginBottom: "2px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                marginRight: "3px"
-                              }}
-                            >
-                              {" "}
-                              {phonenumError}
-                            </span>
-                          </div>
-                        )}
-                        {emailIdError && (
-                          <div style={{ color: "red" }}>
-                            <MdError />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {emailIdError}
-                            </span>
-                          </div>
-                        )}
+                       
                         <div className="d-flex justify-content-end mt-3">
                           <Button style={{
                             fontFamily: "Gilroy",
