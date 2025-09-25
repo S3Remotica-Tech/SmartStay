@@ -723,7 +723,7 @@ const getImageSrc = () => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Reassign Floor
+                          New Floor
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -836,7 +836,7 @@ const getImageSrc = () => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Reassign Room{" "}
+                          New Room{" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -949,7 +949,7 @@ const getImageSrc = () => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Reassign Bed{" "}
+                          New Bed{" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -1302,7 +1302,8 @@ const getImageSrc = () => {
                               whiteSpace: "nowrap",
                             }}
                           >
-                            New Rent Amount {" "} <span style={{ color: "red", fontSize: "20px" }}>
+                            New Rent Amount {" "} {" "} 
+                            <span style={{ color: "red", fontSize: "20px" , marginLeft:'4px'}}>
                               *
                             </span>
                             <Form.Check
@@ -1427,7 +1428,7 @@ const getImageSrc = () => {
                 }}
                 onClick={handleSaveReassignBed}
               >
-                Reassign Bed
+                Change Bed
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

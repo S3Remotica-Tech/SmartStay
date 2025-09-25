@@ -958,6 +958,9 @@ function UserList(props) {
     setCustomerRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
+ 
+  
+
 
   useEffect(() => {
     const userType = customerrolePermission[0]?.user_details?.user_type;
@@ -2215,6 +2218,7 @@ function UserList(props) {
 
 
   const [inactivename, setInactiveName] = useState("")
+   console.log("inactivename", inactivename);
 
   const [inactiveForm, setInActiveForm] = useState(false)
   const [inActiveDate, setInActiveDate] = useState(null)
@@ -4489,7 +4493,7 @@ const handleClosefinal = ()=>{
                                                         margin: 0,
                                                       }}
                                                     >
-                                                      Re-Assign Bed
+                                                      Change Bed
                                                     </label>
                                                   </div>
 
@@ -5269,7 +5273,7 @@ const handleClosefinal = ()=>{
 
           <CloseCircle size="24" color="#000" onClick={handleCloseInActive} style={{ cursor: "pointer" }} />
         </Modal.Header>
-        <div className="d-flex align-items-center gap-3 mb-3 ms-3">
+        <div className="d-flex align-items-center gap-1 mb-3 ms-3">
 
           <img
             src={
@@ -5281,17 +5285,73 @@ const handleClosefinal = ()=>{
             }
             alt="Profile"
             className="rounded-circle"
-            width="35"
-            height="35"
+            width="60"
+            height="60"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = Profile;
             }}
           />
           <div>
-            <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
+            {/* <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
               {inactivename?.Name}
-            </p>
+            </p> */}
+             <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div className="ps-3">
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 16,
+                                  fontWeight: 500,
+                                  color: "#222222",
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                {inactivename?.Name}
+                              </label>
+                            </div>
+
+                          </div>
+
+                          <div className="d-flex flex-wrap gap-2 ms-2">
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFEFCF",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {inactivename?.Booking_FloorName} 
+                            </div>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#FFE0D9",
+                                padding: "6px 12px",
+                                borderRadius: "60px",
+                                fontFamily: "Gilroy",
+                                fontSize: 12,
+                                color: "#222",
+                                fontWeight: 500,
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                             {inactivename?.Booking_Rooms} - {inactivename?.Booking_Bed}
+                            </div>
+
+
+                          </div>
+                        </div>
 
           </div>
         </div>
