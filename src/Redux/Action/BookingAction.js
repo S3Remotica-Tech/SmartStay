@@ -120,3 +120,7 @@ export async function AddBooking(datum) {
           data:datum
         })
       }
+
+      export async function ChangeBookingBed(booking) {
+      return await AxiosConfig.post('/ChangeBookingBed', booking);
+      }

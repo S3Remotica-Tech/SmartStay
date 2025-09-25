@@ -58,6 +58,8 @@ function PgList() {
  const [Reserved_customer_details, setResrvedCustomerDetails] = useState({})
 
  const handleshowbedDesign = (customerid) => {
+  console.log("customerid",customerid );
+  
    setChangeBedDesignShow(true)
    if(customerid){
    dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: customerid} });
@@ -333,6 +335,20 @@ function PgList() {
         }, 200);
       }
     }, [state.UsersList.statusCodeForReassinBed]);
+
+        useEffect(() => {
+      if (state.Booking.StatusCodeChangeBedSuccess === 200) {
+        handlecloseChangeBed();
+        dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_BOOKING_BEDCHANGE" });
+        }, 200);
+      }
+    }, [state.Booking.StatusCodeChangeBedSuccess]);
 
   useEffect(() => {
     if (selectedHostel && showHostelDetails) {

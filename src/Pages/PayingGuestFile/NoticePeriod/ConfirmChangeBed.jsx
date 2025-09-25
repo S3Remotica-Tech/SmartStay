@@ -55,6 +55,8 @@ ConfirmChangeBed.propTypes = {
   };
 
 
+   console.log("reservedcustomer", reserved_customer);
+   
 
 
    const validateAssignField = (value, fieldName, ref, focusedRef, setError) => {
@@ -97,27 +99,101 @@ ConfirmChangeBed.propTypes = {
   console.log("selectedCustomer", selectedCustomer);
   
 
-   const handleSaveReassignBed = () => {
-    focusedRef.current = false;
-    let hasError = false;
+  //  const handleSaveReassignBed = () => {
+  //   focusedRef.current = false;
+  //   let hasError = false;
 
-    if (!validateAssignField(newRoomRent, "newRoomRent", rentRef, focusedRef, setRentError)) hasError = true;
-    if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
+  //   if (!validateAssignField(newRoomRent, "newRoomRent", rentRef, focusedRef, setRentError)) hasError = true;
+  //   if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
 
-    if (hasError) return;
+  //   if (hasError) return;
 
-    const formatToISODate = (date) => {
-      const d = new Date(date);
-      const yyyy = d.getFullYear();
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const dd = String(d.getDate()).padStart(2, '0');
-      return `${yyyy}-${mm}-${dd}`;
-    };
+  //   const formatToISODate = (date) => {
+  //     const d = new Date(date);
+  //     const yyyy = d.getFullYear();
+  //     const mm = String(d.getMonth() + 1).padStart(2, '0');
+  //     const dd = String(d.getDate()).padStart(2, '0');
+  //     return `${yyyy}-${mm}-${dd}`;
+  //   };
 
-    const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
+  //   const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
 
-    if(formattedDate && newRoomRent && selectedCustomer){
-      dispatch({
+  //   if(formattedDate && newRoomRent && selectedCustomer){
+  //     dispatch({
+  //     type: "CUSTOMERREASSINBED",
+  //     payload: {
+  //       hostel_id: Number(selectedCustomer.Hostel_Id),
+  //       c_floor: Number(selectedCustomer.Floor),
+  //       c_room: Number(selectedCustomer.Room_Id),
+  //       c_bed: Number(selectedCustomer.Bed),
+  //       re_floor: selectedBedDetails.floorId,
+  //       re_room: selectedBedDetails.RoomId,
+  //       re_bed: selectedBedDetails.bedId,
+  //       re_date: formattedDate,
+  //       re_rent: newRoomRent,
+  //       user_id: selectedCustomer?.ID,
+  //     },
+  //   });
+  //   }
+
+  //   else if (reserved_customer?.bed_status === "Booking"){
+  //         dispatch({
+  //     type: "BOOKING_BEDCHANGE",
+  //     payload: {
+  //       hostel_id: Number(selectedCustomer.Hostel_Id),
+  //       floor_id: Number(selectedCustomer.Floor),
+  //       room_id: Number(selectedCustomer.Room_Id),
+  //       bed_id: Number(selectedCustomer.Bed),
+  //       change_floor_id: selectedBedDetails.floorId,
+  //       change_room_id: selectedBedDetails.RoomId,
+  //       change_bed_id: selectedBedDetails.bedId,
+  //       bookingDate: formattedDate,
+  //       id: selectedCustomer?.ID,
+  //     },
+  //   });
+  //   }
+  // };
+
+
+  const handleSaveReassignBed = () => {
+  focusedRef.current = false;
+  let hasError = false;
+
+  if (!validateAssignField(newRoomRent, "newRoomRent", rentRef, focusedRef, setRentError)) hasError = true;
+  if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
+
+  if (hasError) return;
+
+  const formatToISODate = (date) => {
+    const d = new Date(date);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
+
+  // 🔹 PRIORITY: Check if customer is in Booking status
+  if (reserved_customer?.bed_status === "Booking" && reserved_customer && formattedDate) {
+    dispatch({
+      type: "BOOKING_BEDCHANGE",
+      payload: {
+        hostel_id: Number(selectedCustomer.Hostel_Id),
+        floor_id: Number(reserved_customer.booking_floor_id),
+        room_id: Number(reserved_customer.booking_room_id),
+        bed_id: Number(reserved_customer.booking_bed_id),
+        change_floor_id: selectedBedDetails.floorId,
+        change_room_id: selectedBedDetails.RoomId,
+        change_bed_id: selectedBedDetails.bedId,
+        bookingDate: formattedDate,
+        id: reserved_customer?.ID,
+      },
+    });
+  } 
+  // 🔹 Otherwise, it's a normal reassignment
+  else if (formattedDate && newRoomRent && selectedCustomer) {
+    dispatch({
       type: "CUSTOMERREASSINBED",
       payload: {
         hostel_id: Number(selectedCustomer.Hostel_Id),
@@ -132,11 +208,11 @@ ConfirmChangeBed.propTypes = {
         user_id: selectedCustomer?.ID,
       },
     });
-    }
+  }
 
+  // setFormLoading(true)
+};
 
-    // setFormLoading(true)
-  };
 useEffect(() => {
   if (selectedBedDetails?.bedamount ) {
     // default → show bed amount
@@ -248,9 +324,9 @@ useEffect(() => {
           </Modal.Header>
 
 
-          <Modal.Body className="pb-1 pt-3" style={{ minHeight: 370, height: 370, }} >
+          <Modal.Body className="pb-1 pt-3" style={{ minHeight: 350, maxHeight: 540, }} >
 
-            <div className="d-flex justify-content-between align-items-start mb-3" >
+            <div className="d-flex justify-content-between align-items-start mb-1" >
 
               <div>
                 <p className="mb-2" style={{ fontFamily: 'Gilroy' }}>Current Bed</p>
@@ -342,10 +418,10 @@ useEffect(() => {
             </div>
 
 
-            <div className="d-flex gap-2 flex-row" style={{ fontSize: 13 }}>
+           
 
              
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <Form.Group className="mb-2" controlId="purchaseDate">
                           <Form.Label
                             style={{
@@ -367,21 +443,7 @@ useEffect(() => {
                             className="datepicker-wrapper"
                             style={{ position: "relative", width: "100%" }}
                           >
-                            {/* <DatePicker
-                              style={{ width: "100%", height: 48, border: "1px solid lightgrey", cursor: "pointer", fontFamily: "Gilroy", }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              ref={selectedDateRef}
-                              onChange={(date) => {
-                                setDateError("");
-                                setSelectedDate(date ? date.toDate() : null);
-                              }}
-                              getPopupContainer={(triggerNode) =>
-                                triggerNode.closest(".datepicker-wrapper")
-                              }
-                              disabledDate={(current) => current && current > dayjs().endOf("day")}
-                            /> */}
+                           
 
                        <DatePicker
   style={{
@@ -402,61 +464,126 @@ useEffect(() => {
    getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".datepicker-wrapper")
                               }
-  disabledDate={(current) => {
-    if (!current) return false;
+   disabledDate={(current) => {
+  if (!current) return false;
 
-    const today = dayjs().endOf("day");
+  const today = dayjs().endOf("day");
+
+  let joining = null;
+  if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
+    const [dd, mm, yyyy] = joiningdate.split("-");
+    joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+  }
+
+  let lastBillDate = null;
+  if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
+    const [dd, mm, yyyy] = lastDate.split("-");
+    lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+  }
+
+  let reAssign = null;
+  if (reAssignDate && /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)) {
+    const [dd, mm, yyyy] = reAssignDate.split("-");
+    reAssign = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+  }
+
+  let minAllowedDate = null;
+  if (reAssign) {
+    minAllowedDate = reAssign;
+  } else if (joining) {
+    const sameMonth =
+      joining.month() === today.month() &&
+      joining.year() === today.year();
+
+    if (sameMonth) {
+      minAllowedDate = joining;
+    } else if (lastBillDate) {
+      minAllowedDate = lastBillDate;
+    }
+  }
 
 
-    let joining = null;
-    if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
-      const [dd, mm, yyyy] = joiningdate.split("-");
-      joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+  if (reserved_customer?.bed_status === "Booking" && reserved_customer?.booking_booking_date) {
+    const bookingDate = dayjs(reserved_customer.booking_booking_date).startOf("day");
+
+    if (bookingDate.isSame(today, "day")) {
+      return !current.isSame(today, "day");
     }
 
-    
-    let lastBillDate = null;
-    if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
-      const [dd, mm, yyyy] = lastDate.split("-");
-      lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+    if (current.isBefore(bookingDate) || current.isAfter(today)) {
+      return true; 
     }
-
-    
-    let reAssign = null;
-    if (reAssignDate && /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)) {
-      const [dd, mm, yyyy] = reAssignDate.split("-");
-      reAssign = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
-    }
-
-    let minAllowedDate = null;
-
-    if (reAssign) {
-   
-      minAllowedDate = reAssign;
-    } else if (joining) {
-      const sameMonth =
-        joining.month() === today.month() &&
-        joining.year() === today.year();
-
-      if (sameMonth) {
-        minAllowedDate = joining;
-      } else if (lastBillDate) {
-        minAllowedDate = lastBillDate;
-      }
-    }
-
-    
-    if (current.isAfter(today)) {
-      return true;
-    }
+    return false; 
+  }
 
  
-    if (minAllowedDate && current.isBefore(minAllowedDate)) {
-      return true;
-    }
+  if (current.isAfter(today)) {
+    return true;
+  }
 
-    return false;
-  }}
+  if (minAllowedDate && current.isBefore(minAllowedDate)) {
+    return true;
+  }
+
+  return false;
+}}
+
+
+  // disabledDate={(current) => {
+  //   if (!current) return false;
+
+  //   const today = dayjs().endOf("day");
+
+
+  //   let joining = null;
+  //   if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
+  //     const [dd, mm, yyyy] = joiningdate.split("-");
+  //     joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+  //   }
+
+    
+  //   let lastBillDate = null;
+  //   if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
+  //     const [dd, mm, yyyy] = lastDate.split("-");
+  //     lastBillDate = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+  //   }
+
+    
+  //   let reAssign = null;
+  //   if (reAssignDate && /^\d{2}-\d{2}-\d{4}$/.test(reAssignDate)) {
+  //     const [dd, mm, yyyy] = reAssignDate.split("-");
+  //     reAssign = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
+  //   }
+
+  //   let minAllowedDate = null;
+
+  //   if (reAssign) {
+   
+  //     minAllowedDate = reAssign;
+  //   } else if (joining) {
+  //     const sameMonth =
+  //       joining.month() === today.month() &&
+  //       joining.year() === today.year();
+
+  //     if (sameMonth) {
+  //       minAllowedDate = joining;
+  //     } else if (lastBillDate) {
+  //       minAllowedDate = lastBillDate;
+  //     }
+  //   }
+
+    
+  //   if (current.isAfter(today)) {
+  //     return true;
+  //   }
+
+ 
+  //   if (minAllowedDate && current.isBefore(minAllowedDate)) {
+  //     return true;
+  //   }
+
+  //   return false;
+  // }}
 />
 
 
@@ -490,9 +617,9 @@ useEffect(() => {
 
                       </div>
 
-
-
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      {reserved_customer.bed_status !== "Booking" && 
+                      (
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <Form.Group className="mb-3">
                           <Form.Label
                             style={{
@@ -579,14 +706,18 @@ useEffect(() => {
 
 
                       </div>
+                      )
+                      }
+
+                    
 
              
-            </div>
+            
 
 
 
 
-            <div className="d-flex col-lg-10 gap-3 mt-1 ">
+            <div className="d-flex col-lg-10 gap-3 mt-3">
               <Button
                 variant="light"
                 className="px-4"

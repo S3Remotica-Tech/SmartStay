@@ -15,6 +15,7 @@ import UserlistForm from "../../CustomerFile/UserlistForm";
 import { AddCircle, LogoutCurve, InfoCircle } from "iconsax-react";
 import exchange from '../../../Assets/Images/New_images/exchange.svg';
 import TimerPause from '../../../Assets/Images/New_images/calendar-tick.png';
+import dayjs from 'dayjs';
 
 function NoticeBedStatusDetails({
   show,
@@ -39,8 +40,8 @@ function NoticeBedStatusDetails({
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
   const [customer_details, setCustomerDetails] = useState({})
-  const [noticePeriodCustomer, setNoticePeriodCustomer] = useState({})
-  const [reservedCustomer, setReservedCustomer] = useState({})
+  const [noticePeriodCustomer, setNoticePeriodCustomer] = useState([])
+  const [reservedCustomer, setReservedCustomer] = useState([])
 
   console.log("noticeperiodcustomer", customer_details);
   
@@ -168,8 +169,8 @@ const handleFinalsettelmentGenerate = () => {
     const usersList = state?.UsersList?.Users
     const userDetails = customer
 
-    const ParticularcustomerDetails = userDetails.filter((user) => user.RoomRent > 0)
-    const ReservedcustomerDetails = userDetails.filter((user) => user.RoomRent === 0)
+    const ParticularcustomerDetails = userDetails.filter((user) => user.user_status === "NoticePeriod")
+    const ReservedcustomerDetails = userDetails.filter((user) => user.user_status === "Booking")
     setNoticePeriodCustomer(ParticularcustomerDetails || {})
     setReservedCustomer(ReservedcustomerDetails || {})
     setCustomerId(userDetails[0]?.id)
@@ -191,8 +192,10 @@ const handleFinalsettelmentGenerate = () => {
     }
   }, [state?.UsersList?.Users, customer]);
 
-
-
+  const JoiningDate = dayjs(noticePeriodCustomer?.[0]?.Date).format("DD MMM YYYY");
+  const BookingDate = dayjs(reservedCustomer?.[0]?.Date).format("DD MMM YYYY");
+  console.log("reserve", reservedCustomer);
+  
 
   return (
     <>
@@ -547,6 +550,7 @@ const handleFinalsettelmentGenerate = () => {
                   </div>
 
                   {/* Customer info */}
+                    <div className="d-flex flex-row justify-content-between">
                   <div className="d-flex gap-3 align-items-center mt-2">
                     <div>
                       <Image
@@ -575,6 +579,35 @@ const handleFinalsettelmentGenerate = () => {
                       </div>
                     </div>
                   </div>
+                   <div className="mt-2">
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 18,
+                                  color: "rgba(34, 34, 34, 1)",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 400,
+                                }}
+                              >
+                                 ₹ {noticePeriodCustomer?.[0]?.RoomRent}
+                              </label>
+                            </div>
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 16,
+                                  color: "rgba(75, 75, 75, 1)",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 400,
+                                }}
+                              >
+                                
+                                {JoiningDate || "N/A"}
+                              </label>
+                            </div>
+                          
+                          </div>
+                          </div>
                 </div>
               </div>
 
@@ -831,7 +864,7 @@ const handleFinalsettelmentGenerate = () => {
                           </div>
                         </div>
 
-
+                       <div className="d-flex flex-row justify-content-between">
                         <div className="d-flex gap-3 align-items-center">
                           <div>
                             <Image
@@ -877,6 +910,37 @@ const handleFinalsettelmentGenerate = () => {
                             </div>
                           </div>
                         </div>
+
+                         <div className="mt-2">
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 18,
+                                  color: "rgba(34, 34, 34, 1)",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 400,
+                                }}
+                              >
+                                 ₹ {reservedCustomer?.[0]?.Booking_Amount}
+                              </label>
+                            </div>
+                            <div>
+                              <label
+                                style={{
+                                  fontSize: 16,
+                                  color: "rgba(75, 75, 75, 1)",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 400,
+                                }}
+                              >
+                                
+                                {BookingDate || "N/A"}
+                              </label>
+                            </div>
+                          
+                          </div>
+                          </div>
+
                       </div>
                     </div>
                   </>
