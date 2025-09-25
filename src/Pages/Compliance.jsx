@@ -95,12 +95,12 @@ const Compliance = () => {
 
   useEffect(() => {
     if (hosId) {
-    dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: hosId } });
+      dispatch({ type: "COMPLAINT-TYPE-LIST", payload: { hostel_id: state?.login?.selectedHostel_Id } });
     }
   }, [hosId])
 
-  
-  
+
+
 
   useEffect(() => {
     if (state.UsersList?.exportComplianceDetails?.response?.fileUrl) {
@@ -251,7 +251,7 @@ const Compliance = () => {
   useEffect(() => {
     if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
 
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: hosId } })
 
       setTimeout(() => {
         dispatch({ type: 'CLEAR_DELETE_COMPLIANCE' })
@@ -262,29 +262,28 @@ const Compliance = () => {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setLoading(true)
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-      // dispatch({
-      //   type: "USERLIST",
-      //   payload: { hostel_id: state.login.selectedHostel_Id },
-      // });
-    } else {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
+    }
+    else {
       setFilteredUsers([]);
       setLoading(false)
     }
 
-  }, [state.login.selectedHostel_Id, state?.login?.selectedHostel_Id])
+  }, [state.login?.selectedHostel_Id])
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!state.login.selectedHostel_Id) {
-        setFilteredUsers([]);
-        setLoading(false);
-      }
-    }, 100);
 
-    return () => clearInterval(interval);
-  }, []);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (!state.login.selectedHostel_Id) {
+  //       setFilteredUsers([]);
+  //       setLoading(false);
+  //     }
+  //   }, 100);
+
+  //   return () => clearInterval(interval);
+  // }, []);
 
 
 
@@ -293,41 +292,41 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddCompliance === 201) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } });
       handleClose()
       setTimeout(() => {
         dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' });
       }, 500);
     }
 
-    if (state.ComplianceList.Compliance) {
-    const filteredItems = state.ComplianceList?.Compliance?.filter((user) =>
-  user?.complaintResponseDto?.customerName
-    ?.toLowerCase()
-    .includes(filterInput.toLowerCase())
-);
+    // if (state.ComplianceList.Compliance) {
+    //   const filteredItems = state.ComplianceList?.Compliance?.filter((user) =>
+    //     user?.complaintResponseDto?.customerName
+    //       ?.toLowerCase()
+    //       .includes(filterInput.toLowerCase())
+    //   );
 
-setFilteredUsers(filteredItems);
+    //   setFilteredUsers(filteredItems);
 
-    } else {
-      setFilteredUsers(state.ComplianceList?.Compliance || []);
-    }
+    // } else {
+    //   setFilteredUsers(state.ComplianceList?.Compliance || []);
+    // }
 
-  }, [state.ComplianceList.statusCodeForAddCompliance, filterInput])
-
-
-  
+  }, [state.ComplianceList.statusCodeForAddCompliance])
 
 
-   useEffect(() => {
+
+
+
+  useEffect(() => {
     if (state.ComplianceList.statusCodeForEditCompliant === 200) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } });
       handleClose()
       setTimeout(() => {
         dispatch({ type: 'CLEAR_EDIT_COMPLIANT_STATUS_CODE' });
       }, 500);
     }
- }, [state.ComplianceList.statusCodeForEditCompliant]);
+  }, [state.ComplianceList.statusCodeForEditCompliant]);
 
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -404,7 +403,7 @@ setFilteredUsers(filteredItems);
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
-    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
   }
 
 
@@ -416,37 +415,37 @@ setFilteredUsers(filteredItems);
 
   const handleUserSelect = (user) => {
     setFilterInput(user.customerName)
-    const selectedUserData = state.ComplianceList.Compliance.filter(
-      (item) => item?.complaintResponseDto?.customerName === user.customerName
-    )
-    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
-    setFilteredUsers(selectedUserData)
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id, customerName: user.customerName } })
+
     setDropdownVisible(false)
   }
 
 
+  useEffect(() => {
+    if (!filterInput) {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
 
+    }
+
+  }, [filterInput])
 
 
   const handleStatusFilter = (event) => {
+  const value = event.target.value;
+  setStatusfilter(value);
 
-    const value = event.target.value;
-    setStatusfilter(value);
+  let statusValue = value;
+  if (value === "null") {
+    statusValue = null; 
+  }
 
-    if (value === "All") {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
-    }
+  if (value === "All") {
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
+  } else {
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id, status: statusValue } })
+  }
+};
 
-    else if (value === "date") {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
-    }
-
-    else if (value) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId, status: value, } })
-    }
-
-    // setCurrentPage(1)
-  };
 
   const [selectedDateRange, setSelectedDateRange] = useState([])
 
@@ -454,7 +453,7 @@ setFilteredUsers(filteredItems);
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([])
       setStatusfilter("All")
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
       return
     }
 
@@ -480,6 +479,31 @@ setFilteredUsers(filteredItems);
   };
 
 
+  console.log("selectedDateRange", selectedDateRange)
+
+  useEffect(() => {
+    if (selectedDateRange?.length === 2) {
+      const newStartDate = dayjs(selectedDateRange[0]).startOf("day").format("DD-MM-YYYY");
+      const newEndDate = dayjs(selectedDateRange[1]).endOf("day").format("DD-MM-YYYY");
+
+      console.log("****", newStartDate, "&&&&", newEndDate);
+      if (newStartDate && newEndDate) {
+        dispatch({
+          type: "COMPLIANCE-LIST",
+          payload: {
+            hostelId: state.login.selectedHostel_Id,
+            startDate: newStartDate,
+            endDate: newEndDate,
+          },
+        });
+      }
+    }
+  }, [selectedDateRange]);
+
+
+
+
+
   useEffect(() => {
     if (!filterStatus) {
       setStatusfilter("All");
@@ -489,19 +513,19 @@ setFilteredUsers(filteredItems);
 
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
 
-    if (statusfilter === "date" && ExcelFilterDates.length === 2) {
-      dispatch({
-        type: 'COMPLIANCE-LIST', payload: {
-          hostel_id: hosId,
-          from_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-          to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
-        }
-      })
-    }
-  }, [ExcelFilterDates]);
+  //   if (statusfilter === "date" && ExcelFilterDates.length === 2) {
+  //     dispatch({
+  //       type: 'COMPLIANCE-LIST', payload: {
+  //         hostelId: state.login.selectedHostel_Id,
+  //         from_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+  //         to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
+  //       }
+  //     })
+  //   }
+  // }, [ExcelFilterDates]);
 
 
   useEffect(() => {
@@ -529,13 +553,13 @@ setFilteredUsers(filteredItems);
       }
       )
       if (filteredDetails.length > 0) {
-       
-        
+
+
 
         const firstFilteredDetail = filteredDetails[0];
-  
 
-       
+
+
         // setHostel_Id(firstFilteredDetail.Hostel_Id || '');
         setHostelName(firstFilteredDetail.HostelName || '');
         setFloor(firstFilteredDetail.floorId || '');
@@ -587,7 +611,7 @@ setFilteredUsers(filteredItems);
       });
       return;
     }
-    dispatch({ type: "USERLIST",payload: { hostel_id: hosId}});
+    dispatch({ type: "USERLIST", payload: { hostel_id: hosId } });
     setEdit(false)
     setShow(true);
   }
@@ -640,7 +664,7 @@ setFilteredUsers(filteredItems);
 
 
 
-  
+
 
   const handleAddcomplaint = () => {
 
@@ -673,32 +697,32 @@ setFilteredUsers(filteredItems);
 
     // setEdit(false)
 
-  
-    
 
-    if ( state.login.selectedHostel_Id  && userid && Complainttype && selectedDate  && Floor && Rooms) {
+
+
+    if (state.login.selectedHostel_Id && userid && Complainttype && selectedDate && Floor && Rooms) {
       // const formattedDate = selectedDate ? moment(selectedDate).format('DD-MM-YYYY') : '';
-      const formattedDate =  selectedDate ? selectedDate.format("DD/MM/YYYY") : null
-      
-         const payload = {
-      customerId: userid,                       
-      complaintTypeId: Complainttype,           
-      floorId: Floor,                          
-      roomId: Rooms,   
-      bedId: beds,                         
-      complaintDate: formattedDate,            
-      description: description || "",         
-      hostelId: state.login.selectedHostel_Id                       
-    }
+      const formattedDate = selectedDate ? selectedDate.format("DD/MM/YYYY") : null
+
+      const payload = {
+        customerId: userid,
+        complaintTypeId: Complainttype,
+        floorId: Floor,
+        roomId: Rooms,
+        bedId: beds,
+        complaintDate: formattedDate,
+        description: description || "",
+        hostelId: state.login.selectedHostel_Id
+      }
       if (edit && complaintId && hasChanges && formattedDate) {
-         dispatch({
-    type: "EDIT_COMPLAINT",
-    payload: {
-      complaintId: complaintId,   
-      complaintDate: formattedDate,  
-      description: description,     
-    },
-  });
+        dispatch({
+          type: "EDIT_COMPLAINT",
+          payload: {
+            complaintId: complaintId,
+            complaintDate: formattedDate,
+            description: description,
+          },
+        });
         setFormLoading(true)
       }
       else {
@@ -738,11 +762,11 @@ setFilteredUsers(filteredItems);
   const handleEditcomplaint = (Complaintdata) => {
 
     setEdit(true)
-  
+
 
     if (Complaintdata) {
-    
-        dispatch({type:"PARTICULAR_COMPLIANT" , payload:{ complaintId : Complaintdata.complaintId}})
+
+      dispatch({ type: "PARTICULAR_COMPLIANT", payload: { complaintId: Complaintdata.complaintId } })
 
       setShow(true);
 
@@ -755,10 +779,10 @@ setFilteredUsers(filteredItems);
       setDescription(Complaintdata.description);
       // setSelectedDate(Complaintdata.complaintDate);
       setSelectedDate(
-  Complaintdata.complaintDate 
-    ? dayjs(Complaintdata.complaintDate, "DD/MM/YYYY") 
-    : null
-);
+        Complaintdata.complaintDate
+          ? dayjs(Complaintdata.complaintDate, "DD/MM/YYYY")
+          : null
+      );
 
       // setHostel_Id(Complaintdata?.Hostel_id)
       setBeds(Complaintdata.bedId)
@@ -779,13 +803,13 @@ setFilteredUsers(filteredItems);
   }
 
 
-  
 
-   const [EditComplaintDetails  , setEditComplaintDetails] = useState({})
 
-    useEffect(() => {
+  const [EditComplaintDetails, setEditComplaintDetails] = useState({})
+
+  useEffect(() => {
     if (state.ComplianceList.statusCodeforgetparticularCompliant === 200) {
-     setEditComplaintDetails(state.ComplianceList.ParticularComplaint)
+      setEditComplaintDetails(state.ComplianceList.ParticularComplaint)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_PARTICULAR_COMPLIANT_STATUS' });
       }, 500);
@@ -822,7 +846,7 @@ setFilteredUsers(filteredItems);
   // } , [edit , EditComplaintDetails])
 
 
-  
+
 
 
 
@@ -832,7 +856,7 @@ setFilteredUsers(filteredItems);
     // Status !== initialValuesRef.current.Status ||
     new Date(selectedDate).getTime() !== new Date(initialValuesRef.current.selectedDate).getTime();
 
-    
+
 
 
 
@@ -917,6 +941,21 @@ setFilteredUsers(filteredItems);
   }, [state.createAccount?.networkError])
 
 
+
+  const uniqueCompliance = Array.isArray(state.ComplianceList?.Compliance)
+    ? state.ComplianceList.Compliance.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => (
+          t.complaintResponseDto.customerId === item.complaintResponseDto.customerId
+        ))
+    )
+    : [];
+
+  const filterUsers = uniqueCompliance?.filter((user) =>
+    user?.complaintResponseDto?.customerName
+      ?.toLowerCase()
+      .includes(filterInput.toLowerCase())
+  );
 
   return (
     <>
@@ -1054,45 +1093,65 @@ setFilteredUsers(filteredItems);
                                 boxSizing: "border-box",
                                 width: "100%",
                               }}>
-                                {Array.isArray(filteredUsers) && filteredUsers.map((user, index) => {
-                                  const imagedrop = user.profile || Profile;
-                                  return (
-                                    <li
-                                      key={index}
-                                      className="d-flex align-items-center"
-                                      style={{
-                                        width: "100%",
-                                        padding: "10px",
-                                        borderRadius: 8,
-                                        backgroundColor: hoveredIndex === index ? "#1E45E1" : "#fff",
-                                        color: hoveredIndex === index ? "#fff" : "#000",
-                                        cursor: "pointer",
-                                        boxSizing: "border-box",
-                                        fontFamily: "Gilroy",
-                                      }}
-                                      onClick={() => handleUserSelect(user.complaintResponseDto)}
-                                      onMouseEnter={() => setHoveredIndex(index)}
-                                      onMouseLeave={() => setHoveredIndex(null)}
-                                    >
-                                      <Image
-                                        src={imagedrop}
-                                        alt={user?.Name || "Default Profile"}
-                                        roundedCircle
+                                {filterUsers?.length > 0 ? (
+                                  filterUsers.map((user, index) => {
+                                    const imagedrop = user?.complaintResponseDto?.customerProfile || Profile;
+                                    return (
+                                      <li
+                                        key={index}
+                                        className="d-flex align-items-center"
                                         style={{
-                                          height: "30px",
-                                          width: "30px",
-                                          marginRight: "10px",
-                                          flexShrink: 0,
+                                          width: "100%",
+                                          padding: "10px",
+                                          borderRadius: 8,
+                                          backgroundColor: hoveredIndex === index ? "#1E45E1" : "#fff",
+                                          color: hoveredIndex === index ? "#fff" : "#000",
+                                          cursor: "pointer",
+                                          boxSizing: "border-box",
+                                          fontFamily: "Gilroy",
                                         }}
-                                        onError={(e) => {
-                                          e.target.onerror = null;
-                                          e.target.src = Profile;
-                                        }}
-                                      />
-                                      <div style={{ flexGrow: 1 }}>{user?.complaintResponseDto?.customerName || "Unnamed"}</div>
-                                    </li>
-                                  );
-                                })}
+                                        onClick={() => handleUserSelect(user.complaintResponseDto)}
+                                        onMouseEnter={() => setHoveredIndex(index)}
+                                        onMouseLeave={() => setHoveredIndex(null)}
+                                      >
+                                        <Image
+                                          src={imagedrop}
+                                          alt={user?.Name || "Default Profile"}
+                                          roundedCircle
+                                          style={{
+                                            height: "30px",
+                                            width: "30px",
+                                            marginRight: "10px",
+                                            flexShrink: 0,
+                                          }}
+                                          onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = Profile;
+                                          }}
+                                        />
+                                        <div style={{ flexGrow: 1 }}>
+                                          {user?.complaintResponseDto?.customerName || "Unnamed"}
+                                        </div>
+                                      </li>
+                                    );
+                                  })
+                                ) : (
+                                  <li
+                                    className="d-flex align-items-center justify-content-center"
+                                    style={{
+                                      width: "100%",
+                                      padding: "10px",
+                                      borderRadius: 8,
+                                      backgroundColor: "#fff",
+                                      color: "#000",
+                                      boxSizing: "border-box",
+                                      fontFamily: "Gilroy",
+                                    }}
+                                  >
+                                    No Customer found
+                                  </li>
+                                )}
+
                               </ul>
 
                             </div>
@@ -1129,7 +1188,7 @@ setFilteredUsers(filteredItems);
                             style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy", cursor: "pointer" }}
                           >
                             <option value="All">All</option>
-                            <option value="open">Open</option>
+                            <option value="null">Open</option>
                             <option value="in-progress">In Progress</option>
                             <option value="resolved">Resolved</option>
                             <option value="date">Date</option>
@@ -1145,7 +1204,7 @@ setFilteredUsers(filteredItems);
                             value={selectedDateRange}
                             onChange={handleDateChange}
                             format="DD-MM-YYYY"
-                            style={{ height: 40, cursor: "pointer" }}
+                            style={{ height: 40, cursor: "pointer", fontFamily: "Gilroy" }}
                           />
                         </div>
                       )}
@@ -1403,93 +1462,93 @@ setFilteredUsers(filteredItems);
 
 
                               <Select
-  options={
-    state?.UsersList?.Users?.filter(
-      (u) =>
-        u.floorId &&
-        u.floorId !== "0" &&
-        u.floorId !== "null" &&
-        u.floorId !== "undefined" &&
-        u.roomId &&
-        u.roomId !== "0" &&
-        u.roomId !== "null" &&
-        u.roomId !== "undefined"
-    ).map((u) => ({
-      value: u.customerId,   
-      label: u.firstName,    
-    })) || []
-  }
-  onChange={handleCheckoutChange}
-  value={
-    selectedUsername
-      ? state?.UsersList?.Users?.find((u) => u.customerId === selectedUsername) && {
-          value: selectedUsername, 
-          label:
-            state?.UsersList?.Users?.find((u) => u.customerId === selectedUsername)
-              ?.firstName || "",
-        }
-      : null
-  }
-  placeholder="Select a customer"
-  classNamePrefix="custom"
-  menuPlacement="auto"
-  isDisabled={edit}
-  noOptionsMessage={() => "No customers available"}
-  components={
-    edit
-      ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
-      : undefined
-  }
-  styles={{
-    control: (base) => ({
-      ...base,
-      height: "50px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      backgroundColor: edit ? "#E7F1FF" : "#fff",
-      cursor: "pointer",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      opacity: 1,
-      cursor: edit ? "not-allowed" : "pointer",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: edit ? "not-allowed" : "pointer",
-      backgroundColor: state.isFocused ? "lightblue" : "white",
-      color: "#000",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
+                                options={
+                                  state?.UsersList?.Users?.filter(
+                                    (u) =>
+                                      u.floorId &&
+                                      u.floorId !== "0" &&
+                                      u.floorId !== "null" &&
+                                      u.floorId !== "undefined" &&
+                                      u.roomId &&
+                                      u.roomId !== "0" &&
+                                      u.roomId !== "null" &&
+                                      u.roomId !== "undefined"
+                                  ).map((u) => ({
+                                    value: u.customerId,
+                                    label: u.firstName,
+                                  })) || []
+                                }
+                                onChange={handleCheckoutChange}
+                                value={
+                                  selectedUsername
+                                    ? state?.UsersList?.Users?.find((u) => u.customerId === selectedUsername) && {
+                                      value: selectedUsername,
+                                      label:
+                                        state?.UsersList?.Users?.find((u) => u.customerId === selectedUsername)
+                                          ?.firstName || "",
+                                    }
+                                    : null
+                                }
+                                placeholder="Select a customer"
+                                classNamePrefix="custom"
+                                menuPlacement="auto"
+                                isDisabled={edit}
+                                noOptionsMessage={() => "No customers available"}
+                                components={
+                                  edit
+                                    ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
+                                    : undefined
+                                }
+                                styles={{
+                                  control: (base) => ({
+                                    ...base,
+                                    height: "50px",
+                                    border: "1px solid #D9D9D9",
+                                    borderRadius: "8px",
+                                    fontSize: "16px",
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                    boxShadow: "none",
+                                    backgroundColor: edit ? "#E7F1FF" : "#fff",
+                                    cursor: "pointer",
+                                  }),
+                                  menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    border: "1px solid #ced4da",
+                                    fontFamily: "Gilroy",
+                                  }),
+                                  menuList: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    maxHeight: "120px",
+                                    padding: 0,
+                                    scrollbarWidth: "thin",
+                                    overflowY: "auto",
+                                    fontFamily: "Gilroy",
+                                  }),
+                                  placeholder: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                  }),
+                                  dropdownIndicator: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                    opacity: 1,
+                                    cursor: edit ? "not-allowed" : "pointer",
+                                  }),
+                                  option: (base, state) => ({
+                                    ...base,
+                                    cursor: edit ? "not-allowed" : "pointer",
+                                    backgroundColor: state.isFocused ? "lightblue" : "white",
+                                    color: "#000",
+                                  }),
+                                  indicatorSeparator: () => ({
+                                    display: "none",
+                                  }),
+                                }}
+                              />
 
 
 
@@ -1524,100 +1583,100 @@ setFilteredUsers(filteredItems);
 
 
 
-                           <Select
-  options={
-    Array.isArray(complainttypelist) && complainttypelist.length > 0
-      ? complainttypelist.map((u) => ({
-          value: u.complaintTypeId,    
-          label: u.complaintTypeName,    
-        }))
-      : []
-  }
-  onChange={handleComplaintType}
-  value={
-    edit && editcomplainttype
-      ? {
-          value: editcomplainttype,
-          label:
-            complainttypelist.find(
-              (c) => c.complaintTypeId === editcomplainttype
-            )?.complaintTypeName || editcomplainttype,
-        }
-      : Complainttype
-      ? {
-          value: Complainttype,
-          label:
-            complainttypelist.find(
-              (c) => c.complaintTypeId === Complainttype
-            )?.complaintTypeName || Complainttype,
-        }
-      : null
-  }
-  placeholder="Select a type"
-  classNamePrefix="custom"
-  menuPlacement="auto"
-  isDisabled={edit}
-  components={
-    edit
-      ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
-      : undefined
-  }
-  noOptionsMessage={() => "No complaint types available"}
-  styles={{
-    control: (base) => ({
-      ...base,
-      height: "50px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      backgroundColor: edit ? "#E7F1FF" : "#fff",
-      cursor: "pointer",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-      fontFamily: "Gilroy",
-      cursor: "pointer",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-      fontFamily: "Gilroy",
-      cursor: "pointer",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      display: "inline-block",
-      fill: "currentColor",
-      lineHeight: 1,
-      stroke: "currentColor",
-      strokeWidth: 0,
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      color: state.isSelected ? "#fff" : "#000",
-      fontFamily: "Gilroy",
-    }),
-  }}
-/>
+                            <Select
+                              options={
+                                Array.isArray(complainttypelist) && complainttypelist.length > 0
+                                  ? complainttypelist.map((u) => ({
+                                    value: u.complaintTypeId,
+                                    label: u.complaintTypeName,
+                                  }))
+                                  : []
+                              }
+                              onChange={handleComplaintType}
+                              value={
+                                edit && editcomplainttype
+                                  ? {
+                                    value: editcomplainttype,
+                                    label:
+                                      complainttypelist.find(
+                                        (c) => c.complaintTypeId === editcomplainttype
+                                      )?.complaintTypeName || editcomplainttype,
+                                  }
+                                  : Complainttype
+                                    ? {
+                                      value: Complainttype,
+                                      label:
+                                        complainttypelist.find(
+                                          (c) => c.complaintTypeId === Complainttype
+                                        )?.complaintTypeName || Complainttype,
+                                    }
+                                    : null
+                              }
+                              placeholder="Select a type"
+                              classNamePrefix="custom"
+                              menuPlacement="auto"
+                              isDisabled={edit}
+                              components={
+                                edit
+                                  ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
+                                  : undefined
+                              }
+                              noOptionsMessage={() => "No complaint types available"}
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  backgroundColor: edit ? "#E7F1FF" : "#fff",
+                                  cursor: "pointer",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
+                                  cursor: "pointer",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                  fontFamily: "Gilroy",
+                                  cursor: "pointer",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  display: "inline-block",
+                                  fill: "currentColor",
+                                  lineHeight: 1,
+                                  stroke: "currentColor",
+                                  strokeWidth: 0,
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: "pointer",
+                                  color: state.isSelected ? "#fff" : "#000",
+                                  fontFamily: "Gilroy",
+                                }),
+                              }}
+                            />
 
 
 
@@ -1698,46 +1757,46 @@ setFilteredUsers(filteredItems);
                               </Form.Label>
 
                               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                           <DatePicker
-  style={{ width: "100%", height: 50, cursor: "pointer", fontFamily: "Gilroy" }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY"
-  value={selectedDate ? dayjs(selectedDate) : null}
-  // onChange={(date) => {
-  //   setDateErrmsg('');
-  //   setJoingDateErrmsg('');
-  //   setSelectedDate(date ? date.toDate() : null);
-  // }}
-    onChange={(date) => {
-    setDateErrmsg('');
-    setJoingDateErrmsg('');
-    setSelectedDate(date); // keep as dayjs object
-  }}
+                                <DatePicker
+                                  style={{ width: "100%", height: 50, cursor: "pointer", fontFamily: "Gilroy" }}
+                                  format="DD/MM/YYYY"
+                                  placeholder="DD/MM/YYYY"
+                                  value={selectedDate ? dayjs(selectedDate) : null}
+                                  // onChange={(date) => {
+                                  //   setDateErrmsg('');
+                                  //   setJoingDateErrmsg('');
+                                  //   setSelectedDate(date ? date.toDate() : null);
+                                  // }}
+                                  onChange={(date) => {
+                                    setDateErrmsg('');
+                                    setJoingDateErrmsg('');
+                                    setSelectedDate(date); // keep as dayjs object
+                                  }}
 
-  disabledDate={(current) => {
-   
-    if(!selectedUsername) {
-      return true
-    }
+                                  disabledDate={(current) => {
 
-    const selectedUser = state?.UsersList?.Users?.find(
-      (item) => item.customerId === userid
-    );
+                                    if (!selectedUsername) {
+                                      return true
+                                    }
 
-    if (!selectedUser || !selectedUser.bookedAt) {
-      return current && current > dayjs().endOf("day");
-    }
+                                    const selectedUser = state?.UsersList?.Users?.find(
+                                      (item) => item.customerId === userid
+                                    );
 
-    const bookedDate = dayjs(selectedUser.bookedAt, "DD/MM/YYYY"); 
-    return (
-      (current && current < bookedDate.startOf("day")) || 
-      (current && current > dayjs().endOf("day"))        
-    );
-  }}
-  getPopupContainer={(triggerNode) =>
-    triggerNode.closest(".datepicker-wrapper")
-  }
-/>
+                                    if (!selectedUser || !selectedUser.bookedAt) {
+                                      return current && current > dayjs().endOf("day");
+                                    }
+
+                                    const bookedDate = dayjs(selectedUser.bookedAt, "DD/MM/YYYY");
+                                    return (
+                                      (current && current < bookedDate.startOf("day")) ||
+                                      (current && current > dayjs().endOf("day"))
+                                    );
+                                  }}
+                                  getPopupContainer={(triggerNode) =>
+                                    triggerNode.closest(".datepicker-wrapper")
+                                  }
+                                />
 
                               </div>
                               {dateerrmsg.trim() !== "" && (

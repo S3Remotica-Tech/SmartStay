@@ -152,7 +152,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddComplianceComment === 201 && showCard) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hostel_id } });
       setComments("");
       setShowCard(false);
       setCommentsLoading(false)
@@ -244,6 +244,8 @@ const ComplianceList = (props) => {
     setShowAssignComplaint(false);
   };
 
+console.log("complaintId",complaintId)
+
 
   const ChangeStatusClose = () => {
     setShowChangeStatus(false);
@@ -300,6 +302,8 @@ const ComplianceList = (props) => {
       setStatusErrorType("Please Select User");
     } else {
 
+console.log("complaintId",complaintId, "compliant",compliant)
+
       if(complaintId && compliant){
        dispatch({
       type: "COMPLIANCEASSIGN",
@@ -317,7 +321,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.complianceAssignChangeStatus === 200 && showAssignComplaint) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hostel_id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
       setShowAssignComplaint(false);
       setStatusErrorType("");
@@ -334,7 +338,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.complianceChangeStatus === 200 && showChangeStatus) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: {hostelId: hostel_id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
       setShowChangeStatus(false);
       setFormLoading(false)
@@ -347,12 +351,14 @@ const ComplianceList = (props) => {
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
   const handleAssignOpenClose = (item) => {
+    console.log("item",item)
     // setAssignId(item?.ID);
     dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_id } });
     setShowDots(false);
     setCompliant(item?.Assign ?? "");
     setAlreadyAssigned(item?.Assign ?? "");
-    setComplaintId(item?.complaintId)
+
+    setComplaintId(item?.complaintId ? item?.complaintId : item?.complaintResponseDto?.complaintId)
     setShowAssignComplaint(true);
     setShowChangeStatus(false);
   };
@@ -539,7 +545,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.complaintResponseDto?.roomName} - B{props.complaints?.complaintResponseDto?.bedName}
+                          {props.complaints?.complaintResponseDto?.roomName} - {props.complaints?.complaintResponseDto?.bedName}
                         </div>
 
 
@@ -1027,7 +1033,10 @@ const ComplianceList = (props) => {
                         }}
                       >
                         successfully attended on{" "}
-                        {moment(props.complaints.complaintResponseDto?.complaintDate).format("DD-MM-YYYY")}
+                        {
+                        props.complaints.complaintResponseDto?.complaintDate
+                        }
+                        {/* {moment(props.complaints.complaintResponseDto?.complaintDate).format("DD-MM-YYYY")} */}
                       </span>
                     </>
                   )}

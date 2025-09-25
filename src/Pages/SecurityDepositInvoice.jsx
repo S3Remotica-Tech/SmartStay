@@ -1874,7 +1874,7 @@ useEffect(() => {
                 }}>
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex gap-2 mb-2 mb-lg-0">
-                      <img src={hostel_logo ? hostel_logo : Logo} alt="logo" style={{ height: 40, width: 50 }} />
+                      <img src={logoPreview ? logoPreview : Logo} alt="logo" style={{ height: 40, width: 50 }} />
                       <div>
                       </div>
                     </div>
@@ -2112,8 +2112,8 @@ useEffect(() => {
                   </div>
 
                   <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
-                    {signature && (
-                      <img src={signature} alt="signature" style={{ height: 40, width: 90 }} />
+                    {signaturePreview && (
+                      <img src={signaturePreview} alt="signature" style={{ height: 40, width: 90 }} />
                     )}
                     <p
                       style={{ fontSize: '11px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(44, 44, 44, 1)', }}

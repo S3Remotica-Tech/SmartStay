@@ -502,6 +502,7 @@ const [resetCall, setResetCall] = useState(false)
     }
   };
 
+  console.log("hostel_logo",hostel_logo)
 
   const fileInputRef = useRef(null);
   const [sign, setSign] = useState(null);
@@ -2549,8 +2550,8 @@ const [resetCall, setResetCall] = useState(false)
 
                                 <img
                                   src={
-                                    hostel_logo
-                                      ? hostel_logo
+                                logoPreview
+                                      ? logoPreview
                                       : Logo
                                   }
                                   alt="logo"
@@ -2795,9 +2796,9 @@ const [resetCall, setResetCall] = useState(false)
                             </div>
 
                             <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
-                              {signature && (
+                              {rentalSignaturePreview && (
                                 <img
-                                  src={signature}
+                                  src={rentalSignaturePreview}
                                   alt="Digital Signature" style={{ height: 60, width: 130, paddingLeft: 30 }}
 
                                 />
@@ -2956,15 +2957,12 @@ const [resetCall, setResetCall] = useState(false)
                               }}>
                                 <div className="d-flex justify-content-between align-items-center">
                                   <div className="d-flex gap-2 mb-3 mb-lg-0">
-                                    <img
-                                      src={
-                                        hostel_logo
-                                          ? hostel_logo
-                                          : Logo
-                                      }
-                                      alt="logo"
-                                      style={{ height: 64, width: 74 }}
-                                    />
+                                    
+                                     {logoPreview ? (
+                                                            <img src={logoPreview} alt="Preview" style={{ height: 40, width: 50, borderRadius: '6px', }} />
+                                                          ) : (
+                                                            <img src={Logo} alt="upload" style={{ height: 40, width: 50, borderRadius: '6px', }} />
+                                                          )}
 
                                   </div>
 
