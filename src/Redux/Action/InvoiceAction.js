@@ -18,7 +18,11 @@ export async function UpdateInvoice(datum) {
   })
 }
 
-
+export async function refundableAmount(datum) {
+  return await AxiosConfig.post('/Refundtransitionlist', datum, {
+    data: datum
+  })
+}
 
 export async function ManualInvoice() {
   return await AxiosConfig.get('/manual/manual-invoice', {

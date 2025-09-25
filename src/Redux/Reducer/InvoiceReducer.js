@@ -85,6 +85,7 @@ export const initialState = {
             2: false,
             3: false,
         },
+        statusCodeForPayapleAmount:0
 
 }
 
@@ -378,6 +379,14 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, payapleAmountError: action.payload }
         case 'CLEAR_PAYABLE_AMOUNT':
             return { ...state, payapleAmountError: '' }
+
+   case 'REFUND_AMOUNT':
+            return { ...state, statusodeForPayableAmount: action.payload.statusCode }
+        case 'CLEAR_REFUND_AMOUNT':
+            return { ...state, statusodeForPayableAmount: 0 }
+
+
+
 
         default:
             return state;
