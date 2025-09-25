@@ -847,9 +847,14 @@ useEffect(() => {
   };
 
   const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
+     const value = e.target.value;
+     const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
+  if (regex.test(value)) {
+    setHouseNo(value);
     setHouse_NoError("");
     setFormError("");
+  }
   };
 
   const handleStreetName = (e) => {
@@ -3034,7 +3039,7 @@ const imageUrl = imagePreview
                                             // marginTop: -3
                                           }}
                                         >
-                                          {item.Address}
+                                          {item?.Address || ""}
                                         </span>
                                       </div>
                                     </div>
@@ -3120,7 +3125,7 @@ const imageUrl = imagePreview
                                             marginTop: -3
                                           }}
                                         >
-                                          {item.landmark}
+                                          {item?.landmark || ""}
                                         </span>
                                       </div>
                                     </div>
@@ -3138,7 +3143,7 @@ const imageUrl = imagePreview
                                       >
                                         Pincode
                                       </p>
-                                      <p style={{ marginTop: "-10px", marginRight:15 }}>
+                                      <p style={{ marginTop: "-10px", marginRight: item?.pincode === "0" ? "45px" : "15px" }}>
                                         <img src={PincodeImage} alt="PincodeImage"  size="16" color="#1E45E1" />
                                          <span
                                           style={{
@@ -3149,10 +3154,10 @@ const imageUrl = imagePreview
                                             overflowWrap: "break-word",
                                             minWidth: 0,
                                             marginTop: -3,
-                                              marginLeft:5
+                                            marginLeft: 5
                                           }}
                                         >
-                                          {item.pincode}
+                                           {item?.pincode === "0" ? "" : item?.pincode || ""}
                                         </span>
                                       </p>
                                     </div>
@@ -3191,7 +3196,7 @@ const imageUrl = imagePreview
                                             
                                           }}
                                         >
-                                          {item.city}
+                                         {item?.city === "undefined" ? "" : item?.city || ""}
                                         </span>
                                       </div>
                                     </div>
@@ -3241,7 +3246,7 @@ const imageUrl = imagePreview
       maxWidth: "120px" 
     }}
   >
-    {item.state}
+    {item?.state === "undefined" ? "" : item?.state || ""}
   </span>
 </div>
                                       {/* <p style={{ marginTop: "-10px" , marginLeft:15 }}>

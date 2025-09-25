@@ -102,6 +102,29 @@ setStateName(
         setFormError("")
 
     };
+    
+const validatePincode = (pin) => {
+  const cleanedPin = String(pin || "").trim();
+
+  if (cleanedPin.length === 0) {
+    return ""; 
+  }
+
+  if (!/^\d{6}$/.test(cleanedPin)) {
+    return "Pin Code Must Be Exactly 6 Digits";
+  }
+
+  if (cleanedPin.startsWith("0")) {
+    return "Pin Code Cannot Start With 0";
+  }
+
+  if (cleanedPin.endsWith("000")) {
+    return "Last 3 digits cannot be 000";
+  }
+
+  return ""; 
+};
+
 
     
     const handlePincodeChange = (e) => {
@@ -111,12 +134,10 @@ setStateName(
     }
 
     setPincode(value);
-    if (value.length > 0 && value.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    } else {
-      setPincodeError("");
-    }
-    setFormError("")
+  const err = validatePincode(value, pincodeRef);
+  setPincodeError(err);
+  setFormError("");
+
   };
 
     const handleCityChange = (e) => {
@@ -283,23 +304,38 @@ const MobileNumber = `${countryCode}${phone}`;
   const pincodeRef = useRef(null);
 
     const handleSubmitAddress = ()=>{
-         const focusedRef = { current: false };
- const cleanedPincode = String(pincode || "").trim();
+//          const focusedRef = { current: false };
+//  const cleanedPincode = String(pincode || "").trim();
 
-  if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
+//   if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+//     setPincodeError("Pin Code Must Be Exactly 6 Digits");
 
+//     if (!focusedRef.current && pincodeRef?.current) {
+//       pincodeRef.current.focus();
+//       focusedRef.current = true;
+//     }
+
+//     return; 
+//   } else {
+//     setPincodeError("");
+//   }
+
+//           if (!initialState) return;
+const focusedRef = { current: false };
+  const err = validatePincode(pincode, pincodeRef);
+
+  if (err) {
+    setPincodeError(err);
     if (!focusedRef.current && pincodeRef?.current) {
       pincodeRef.current.focus();
       focusedRef.current = true;
     }
-
     return; 
   } else {
     setPincodeError("");
   }
 
-          if (!initialState) return;
+  if (!initialState) return;
 
   const noChanges =
     houseNo === initialState.Address &&
@@ -310,7 +346,7 @@ const MobileNumber = `${countryCode}${phone}`;
     stateName === initialState.state;
 
   if (noChanges) {
-    setFormError("No changes detected.");
+    setFormError("No changes detected");
     return;
   }
         const capitalizeFirstLetter = (str) => {

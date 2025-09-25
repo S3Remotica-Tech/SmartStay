@@ -399,7 +399,8 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                                         value={lastName}
                                         onChange={handleLastNameChange}
                                         type="text"
-                                        placeholder="Enter Last Name"
+                                        placeholder="Enter Last name"
+
                                         style={{
                                             fontSize: 16,
                                             color: "#4B4B4B",
