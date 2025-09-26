@@ -72,7 +72,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
         if (input.length === 0) {
             setPhoneError("");
         } else if (input.length < 10) {
-            setPhoneError("Invalid mobile number");
+            setPhoneError("Please Enter Mobile Number");
         } else if (input.length === 10) {
             setPhoneError("");
         }
@@ -153,14 +153,14 @@ setIsChanged("")
    
     const handleSubmit = () => {
         if (!firstName) {
-            setFirstNameError("First name is required");
+            setFirstNameError("Please Enter First Name");
             return;
         }
-        if (phoneError === "Invalid mobile number") {
+        if (phoneError === "Please Enter Mobile Number") {
             return;
         }
         if (!phone) {
-            setPhoneError("Phone is required");
+            setPhoneError("Please Enter Mobile Number");
             return;
         }
          if (emailError) {
