@@ -25,7 +25,7 @@ const SettingElectricity = ({ hostelid }) => {
   const [totalErr, setTotalErr] = useState("");
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
-  const [calculatedenddate, setCalculatedEnddate] = useState("");
+  const [calculatedenddate, setCalculatedEnddate] = useState("28");
   const [formLoading, setFormLoading] = useState(false)
   const [formRecurringLoading, setFormRecurringLoading] = useState(false)
 
@@ -184,7 +184,10 @@ console.log("recurringform",recurringform)
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
-    setProWrate(false);
+    dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: hostelid,
+      });
     setCalculatedstartdateErrmsg("");
     setCalculatedEnddateErrMsg("");
     setCalculatedEnddate("");
@@ -226,16 +229,28 @@ setRecurringForm(true);
       }
       return;
     } else {
-      dispatch({
-        type: "SETTINGSADDRECURRING",
-        payload: {
-          hostel_id: Number(hostelid),
-          type: "electricity",
-          recure: 1,
-          start_date: Number(calculatedstartdate),
-          end_date: Number(calculatedenddate),
-        },
-      });
+
+dispatch({
+      type: "ROOMHOSTELEBCHANGE",
+      payload: {
+        hostelId: hostelid,
+        // isHostelBased: true,
+        //  isRoomBased: false,
+        isProRate: true,
+        calculationStartingDate: calculatedstartdate,
+        frequent:every_recurr
+      },
+    });
+      // dispatch({
+      //   type: "SETTINGSADDRECURRING",
+      //   payload: {
+      //     hostel_id: Number(hostelid),
+      //     type: "electricity",
+      //     recure: 1,
+      //     start_date: Number(calculatedstartdate),
+      //     end_date: Number(calculatedenddate),
+      //   },
+      // });
       setFormRecurringLoading(true)
       setProWrate(false);
     }
@@ -245,7 +260,7 @@ setRecurringForm(true);
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
       setCalculatedstartdate("");
       setCalculatedEnddate("");
-      setFormRecurringLoading(false)
+      
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: hostelid,
@@ -258,7 +273,6 @@ setRecurringForm(true);
   }, [state.InvoiceList.settingsaddRecurringStatusCode]);
 
 
-  console.log("hostelBasedCalculation", hostelBasedCalculation, "roomBasedCalculation", roomBasedCalculation)
 
 
   const handleHostelBased = () => {
@@ -269,6 +283,7 @@ setRecurringForm(true);
       payload: {
         hostelId: hostelid,
         isHostelBased: true,
+         isRoomBased: false,
       },
     });
   };
@@ -280,7 +295,9 @@ setRecurringForm(true);
       type: "ROOMHOSTELEBCHANGE",
       payload: {
         hostelId: hostelid,
+        isHostelBased: false,
         isRoomBased: true,
+
       },
     });
   };
@@ -295,6 +312,8 @@ setRecurringForm(true);
 
   useEffect(() => {
     if (state.Settings?.ebSettingsChangesStatusCode === 200) {
+      setFormRecurringLoading(false)
+      setRecurringForm(false)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: hostelid,
@@ -560,7 +579,7 @@ setRecurringForm(true);
                       <Col>
                         <Form.Label
                           style={{
-                            fontSize: 12,
+                            fontSize: 14,
                             fontFamily: "Gilroy",
                             fontWeight: 600,
                             color: "#4B4B4B",
@@ -1041,10 +1060,9 @@ setRecurringForm(true);
                     <div className="col-lg-4">
                       <Select
                         options={options}
+                        isDisabled
                         onChange={handleEndDateChange}
-                        value={options.find(
-                          (option) => option.value === calculatedenddate
-                        )}
+                        value={options.find(option => option.value === 28)}
                         placeholder="Select"
                         classNamePrefix="custom"
                         menuPlacement="auto"

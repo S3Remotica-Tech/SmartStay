@@ -127,6 +127,8 @@ export async function ChangeRoomHostelElectricity(change) {
         isRoomBased: change.isRoomBased,
         isHostelBased: change.isHostelBased,
         isProRate: change.isProRate,
+        calculationStartingDate: change.calculationStartingDate,
+        frequent: change.frequent
       },
     }
   );
