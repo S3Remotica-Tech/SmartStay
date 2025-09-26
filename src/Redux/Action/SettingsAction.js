@@ -93,17 +93,46 @@ export async function DeletecomplaintType(complaintId) {
 
 
 
+// export async function AddEBBillingUnit(type) {
+//   return await AxiosConfig.post("/add_ebbilling_settings", type, {
+//     data: type,
+//   });
+// }
+
+
 export async function AddEBBillingUnit(type) {
-  return await AxiosConfig.post("/add_ebbilling_settings", type, {
+  return await AxiosConfigV2.put(`/v2/hostel/electricity/${type.hostelId}`, type, {
     data: type,
   });
 }
 
-export async function GetEBBillingUnit(hostel_Id) {
-  return await AxiosConfig.post("/get_ebbilling_settings", hostel_Id, {
-    data: hostel_Id,
-  });
+// export async function GetEBBillingUnit(hostel_Id) {
+//   return await AxiosConfig.post("/get_ebbilling_settings", hostel_Id, {
+//     data: hostel_Id,
+//   });
+// }
+
+export async function GetEBBillingUnit(hostelId) {
+  console.log("hostelId",hostelId)
+  return await AxiosConfigV2.get(`/v2/hostel/electricity/${hostelId}`);
 }
+
+
+export async function ChangeRoomHostelElectricity(change) {
+  return await AxiosConfigV2.put(
+    `/v2/hostel/electricity/config/${change.hostelId}`,
+    {},
+    {
+      params: {
+        isRoomBased: change.isRoomBased,
+        isHostelBased: change.isHostelBased,
+        isProRate: change.isProRate,
+      },
+    }
+  );
+}
+
+
 
 
 // v1

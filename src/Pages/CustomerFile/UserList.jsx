@@ -3341,9 +3341,10 @@ function UserList(props) {
                                         {user.firstName}
                                       </span>
                                     </td>
-                                    <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                    <td className=""
                                       style={{
                                         paddingTop: 15,
+                                         paddingLeft: 26,
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",
@@ -3354,9 +3355,10 @@ function UserList(props) {
                                       }}
                                     >
                                       <span style={{ backgroundColor: "#EDD3D8", padding: 6, borderRadius: 10 }}>{user.currentStatus}</span> </td>
-                                    <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                    <td className=""
                                       style={{
                                         paddingTop: 15,
+                                         paddingLeft: 26,
                                         border: "none",
                                         textAlign: "start",
                                         fontSize: "13px",

@@ -375,7 +375,7 @@ setIsChanged("")
                                         value={lastName}
                                         onChange={handleLastNameChange}
                                         type="text"
-                                        placeholder="Enter Amount"
+                                        placeholder="Enter Last Name"
                                         style={{
                                             fontSize: 16,
                                             color: "#4B4B4B",

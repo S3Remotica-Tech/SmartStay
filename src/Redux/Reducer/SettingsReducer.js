@@ -10,7 +10,7 @@ export const initialState = {
   getcomplainttypeStatuscode: 0,
   addComplaintSuccessStatusCode: 0,
   alreadytypeerror: "",
-  alreadyAssignComplainterror : "" ,
+  alreadyAssignComplainterror: "",
   deletecomplaintStatuscode: 0,
   addEbbillingUnitStatuscode: 0,
   EBBillingUnitlist: [],
@@ -80,20 +80,21 @@ export const initialState = {
   settingsBillsggetRecurrSucesscode: 0,
   settingsAddInvoiceSucesscode: 0,
 
-  planExpired:'',
-  SettingsInvoice : [],
-  settingsInvoicegetSucesscode : 0,
-  settingsInvoicegetErrorStatuscode : 0,
+  planExpired: '',
+  SettingsInvoice: [],
+  settingsInvoicegetSucesscode: 0,
+  settingsInvoicegetErrorStatuscode: 0,
   settingsBillsAddTemplateSucesscode: 0,
-  settingsBillsTemplateList : [],
-  SettingsBilltemplategetsuccessCode : 0,
-  SettingsBilltemplategetErrorCode : 0,
-  settingGlobalAddStatusCode:0,
-    FetchGlobal: [],
+  settingsBillsTemplateList: [],
+  SettingsBilltemplategetsuccessCode: 0,
+  SettingsBilltemplategetErrorCode: 0,
+  settingGlobalAddStatusCode: 0,
+  FetchGlobal: [],
   statusCodeForSettingFetch: 0,
   getModules: [],
   getModulesSuccessStatusCode: 0,
- 
+  ebSettingsChangesStatusCode: 0
+
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -111,6 +112,12 @@ const SettingsReducer = (state = initialState, action) => {
       return { ...state, errorRole: action.payload.statusCode };
     case "REMOVE_ERROR_ROLE":
       return { ...state, errorRole: 0 };
+
+
+    case 'ROOM_HOSTEL_EB_CHANGE':
+      return { ...state, ebSettingsChangesStatusCode: action.payload.statusCode };
+    case 'REMOVE_ROOM_HOSTEL_EB_CHANGE':
+      return { ...state, ebSettingsChangesStatusCode: 0 };
 
     case "ASSIGNED_ERROR":
       return {
@@ -209,7 +216,7 @@ const SettingsReducer = (state = initialState, action) => {
 
     case "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR":
       return { ...state, alreadyAssignComplainterror: "" };
-   
+
 
 
     case "PLAN-EXPIRED":
@@ -348,13 +355,13 @@ const SettingsReducer = (state = initialState, action) => {
       };
 
     case "CLEAR_NO_USER_STAFF_LIST_ERROR":
-      return { ...state, StatusForNoStaffList: 0 }; 
+      return { ...state, StatusForNoStaffList: 0 };
 
-case 'GET_MODULES':
-   return {...state, getModules: action.payload.response,getModulesSuccessStatusCode: action.payload.statusCode };
-case 'REMOVE_GET_MODULES_STATUS_CODE':
-   return { ...state, getModulesSuccessStatusCode: 0  };
-       
+    case 'GET_MODULES':
+      return { ...state, getModules: action.payload.response, getModulesSuccessStatusCode: action.payload.statusCode };
+    case 'REMOVE_GET_MODULES_STATUS_CODE':
+      return { ...state, getModulesSuccessStatusCode: 0 };
+
     case "EB_UNIT_ERROR":
       return { ...state, ebUnitError: action.payload };
 
@@ -397,7 +404,7 @@ case 'REMOVE_GET_MODULES_STATUS_CODE':
         EditStatusCodeForSettingGeneral: action.payload.statusCode,
       };
     case "CLEAR_SETTING_EDIT_GENERAL":
-      return { ...state, EditStatusCodeForSettingGeneral: 0 };  
+      return { ...state, EditStatusCodeForSettingGeneral: 0 };
 
     case "GET_ALL_GENERAL":
       return {
@@ -529,7 +536,7 @@ case 'REMOVE_GET_MODULES_STATUS_CODE':
       return { ...state, settingsInvoicegetErrorStatuscode: 0 };
 
     case 'RECURRINGOFF':
-      return { ...state, RecurringOffStatusCode: action.payload.statusCode};
+      return { ...state, RecurringOffStatusCode: action.payload.statusCode };
     case 'REMOVE_RECURRINGOFF':
       return { ...state, RecurringOffStatusCode: 0 };
 
@@ -539,13 +546,13 @@ case 'REMOVE_GET_MODULES_STATUS_CODE':
 
 
 
-       case "ADD_GLOBAL_SETTINGS":
-      return {...state,  settingGlobalAddStatusCode: action.payload.statusCode,};
+    case "ADD_GLOBAL_SETTINGS":
+      return { ...state, settingGlobalAddStatusCode: action.payload.statusCode, };
     case "CLEAR_ADD_GLOBAL_SETTINGS":
-      return { ...state, settingGlobalAddStatusCode: 0 }; 
+      return { ...state, settingGlobalAddStatusCode: 0 };
 
 
-       case "GET_GLOBAL_SETTING":
+    case "GET_GLOBAL_SETTING":
       return {
         ...state,
         FetchGlobal: action.payload.response,
@@ -555,20 +562,20 @@ case 'REMOVE_GET_MODULES_STATUS_CODE':
       return { ...state, statusCodeForSettingFetch: 0 };
 
     case "ADD-BILLS-TEMPLATE":
-      return {...state,  settingsBillsAddTemplateSucesscode: action.payload.statusCode,};
+      return { ...state, settingsBillsAddTemplateSucesscode: action.payload.statusCode, };
     case "CLEAR_ADD_BILLS_TEMPLATE_STATUS_CODE":
-      return { ...state, settingsBillsAddTemplateSucesscode: 0 }; 
+      return { ...state, settingsBillsAddTemplateSucesscode: 0 };
 
-      
+
     case "GET_TEMPLATELIST":
-      return {...state, settingsBillsTemplateList : action.payload.response, SettingsBilltemplategetsuccessCode: action.payload.statusCode,};
+      return { ...state, settingsBillsTemplateList: action.payload.response, SettingsBilltemplategetsuccessCode: action.payload.statusCode, };
     case "CLEAR_GET_TEMPLATELIST_STATUS_CODE":
-      return { ...state, SettingsBilltemplategetsuccessCode: 0 }; 
-      
+      return { ...state, SettingsBilltemplategetsuccessCode: 0 };
+
     case "ERROR_TEMPLATELIST":
-      return {...state,  SettingsBilltemplategetErrorCode: action.payload.statusCode,};
+      return { ...state, SettingsBilltemplategetErrorCode: action.payload.statusCode, };
     case "CLEAR_ERROR_TEMPLATELIST_STATUS_CODE":
-      return { ...state, SettingsBilltemplategetErrorCode: 0 };   
+      return { ...state, SettingsBilltemplategetErrorCode: 0 };
 
     default:
       return state;

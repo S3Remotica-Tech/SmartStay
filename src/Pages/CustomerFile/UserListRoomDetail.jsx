@@ -2443,7 +2443,7 @@ function UserListRoomDetail(props) {
 
 
 
-                <div
+                {/* <div
 
                   style={{
                     cursor: props.customerEditPermission && !CustomerOverView.hostelInfo?.bedId
@@ -2476,7 +2476,7 @@ function UserListRoomDetail(props) {
                         : "#000",
                     }}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
 

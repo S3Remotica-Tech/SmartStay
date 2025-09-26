@@ -82,7 +82,7 @@ const ebOptions = [
     if (selectedHostel) {
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: { hostel_id: selectedHostel },
+        payload: selectedHostel ,
       });
     }
 
