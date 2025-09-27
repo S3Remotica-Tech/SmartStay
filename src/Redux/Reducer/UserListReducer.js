@@ -130,7 +130,9 @@ export const initialState = {
     backtocheckinError:'',
     StatusCodeForDateUpdate:0,
       StatusCodeForFinalGenerate:0,
-      finalsettleLastrent:[]
+      finalsettleLastrent:[],
+      internalError:'',
+       bllingError:''
 
 }
 
@@ -221,6 +223,12 @@ const UserListReducer = (state = initialState, action) => {
              return { ...state, phoneError: action.payload }
         case 'CLEAR_PHONE_ERROR':
             return { ...state, phoneError: '' }
+
+
+            case 'INTERNAL_ERROR':
+             return { ...state, internalError: action.payload }
+              case 'CLEAR_INTERNAL_ERROR':
+            return { ...state, internalError: '' }
         case 'ERROR':
             return { ...state, errorMessage: action.payload, roomdetails: [], bednumberdetails: [] }
         case 'HOSTEL_LIST':
@@ -651,6 +659,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, StatusCodeForFinalGenerate: action.payload.statusCode }
         case 'CLEAR_CHECKOUT_FINAL_GENERATE':
             return { ...state, StatusCodeForFinalGenerate: 0 }
+
+
+            case 'GET_CONFIRM_CHECK_OUT_ERROR':
+             return { ...state, bllingError: action.payload }
+              case 'CLEAR_GET_CONFIRM_CHECK_OUT_ERROR':
+            return { ...state, bllingError: '' }
             
 
         default:

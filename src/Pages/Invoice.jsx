@@ -887,7 +887,7 @@ setMatchedDetails(matchedDetails)
     setShowDeleteform(false);
   };
 
-
+console.log("invoiceList.transaction",invoiceList.transaction)
 
   const handleShowForm = (props) => {
     setShowform(true);

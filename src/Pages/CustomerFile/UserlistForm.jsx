@@ -233,7 +233,7 @@ if(state.UsersList.backtocheckinError){
     setFirstname(value);
     setFirstnameError("");
   };
-
+const [internalError,setInternalError]=useState("")
   useEffect(() => {
     if (state.UsersList.phoneError) {
       setFormLoading(false)
@@ -241,6 +241,13 @@ if(state.UsersList.backtocheckinError){
       setphonenumError(state.UsersList.phoneError);
     }
   }, [state.UsersList.phoneError]);
+   useEffect(() => {
+    if (state.UsersList.internalError) {
+      setFormLoading(false)
+      setLoading(false)
+      setInternalError(state.UsersList.internalError);
+    }
+  }, [state.UsersList.internalError]);
 
   useEffect(() => {
     if (state.UsersList.emailError) {
@@ -461,12 +468,15 @@ if(state.UsersList.backtocheckinError){
   // };
   const handleHouseNo = (e) => {
   const value = e.target.value;
+  // const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
   const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
 
   if (regex.test(value)) {
     setHouseNo(value);
     setHouse_NoError("");
+    setInternalError("")
   }
+   dispatch({ type: "CLEAR_INTERNAL_ERROR" });
 };
 
   const handleStreetName = (e) => {
@@ -540,6 +550,8 @@ if(state.UsersList.backtocheckinError){
     setPayableamount("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
+      dispatch({ type: "CLEAR_INTERNAL_ERROR" });
+      setInternalError("")
     props.setShowMenu(false);
     props.setShowForm(false);
     props.OnShowTable(true);
@@ -555,6 +567,7 @@ if(state.UsersList.backtocheckinError){
 
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
+      dispatch({ type: "CLEAR_INTERNAL_ERROR" });
     props.setShowAssignMenu(false);
     props.setShowForm(false);
     props.OnShowTable(true);
@@ -5272,7 +5285,25 @@ if (Email) {
                           </div>
 
 
-
+  {internalError && (
+                                <div style={{ color: "red" }}>
+                                  <MdError
+                                    style={{ fontSize: "13px", marginBottom: "2px" }}
+                                  />
+                                  <span
+                                    style={{
+                                      fontSize: "12px",
+                                      color: "red",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                      marginRight: "3px"
+                                    }}
+                                  >
+                                    {" "}
+                                    {internalError}
+                                  </span>
+                                </div>
+                              )}
                           {state.createAccount?.networkError ?
                             <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
                               <MdError style={{ color: "red", marginRight: '5px' }} />
