@@ -274,6 +274,8 @@ function BookingModal(props) {
   };
 
 
+  console.log("props.userDetail",props.userDetail)
+
 
 
   useEffect(()=>{

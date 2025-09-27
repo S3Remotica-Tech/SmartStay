@@ -722,9 +722,9 @@ function* handleDeleteElectricity(action) {
 
 }
 
-function* handleGetAllRoles() {
+function* handleGetAllRoles(role) {
    try{
-  const response = yield call(GetAllRoles)
+  const response = yield call(GetAllRoles, role.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ROLE_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })

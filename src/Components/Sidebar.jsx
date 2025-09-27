@@ -386,7 +386,7 @@ useEffect(() => {
           : Profile
       );
     }
-  }, [hostelListDetail]);
+  }, [state.UsersList.hosteListStatusCode]);
 
   useEffect(() => {
     const savedHostelId = localStorage.getItem("selectedHostelId");
@@ -433,9 +433,7 @@ useEffect(() => {
       setIsInitialized(true);
     }
   }, [
-    state.UsersList.hostelList,
-    hostelListDetail,
-    state.UsersList.hosteListStatusCode,
+          state.UsersList.hosteListStatusCode,
     isInitialized,
      ]);
 
@@ -459,9 +457,7 @@ useEffect(() => {
     }
   }, [
     state.login?.isLoggedIn,
-    state.UsersList.hostelList,
-    hostelListDetail,
-    state.UsersList.hosteListStatusCode,
+       state.UsersList.hosteListStatusCode,
   ]);
 
 
@@ -479,7 +475,7 @@ useEffect(() => {
           : Profile
       );
     }
-  }, [hostelListDetail]);
+  }, [state.UsersList.hosteListStatusCode]);
 
 
 

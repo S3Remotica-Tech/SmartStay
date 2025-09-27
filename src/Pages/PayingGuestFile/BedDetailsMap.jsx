@@ -102,8 +102,9 @@ function BedDetailsMap({ room, propsValue }) {
 
     const handleShowReAssignBedPopup = (isVisible, customer_id) => {
         setOccubiedBed(false)
-        setShowReAssignBedForm(isVisible)
-        setCustomerId(customer_id)
+         dispatch(triggerPG(true))
+        // setShowReAssignBedForm(isVisible)
+        // setCustomerId(customer_id)
 
     }
     const handleShowNoticePeriod = (isVisible, customer) => {

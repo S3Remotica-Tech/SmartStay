@@ -167,7 +167,7 @@ const RoomReadingTable = () => {
  const [loading, setLoading] = useState(false);
   const [roomReadingList, setRoomReadingList] = useState([])
 
- 
+ console.log("loading",loading)
   // const [searchText, setSearchText] = useState("");
   const [filters, setFilters] = useState([]);
 
@@ -232,7 +232,7 @@ const RoomReadingTable = () => {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: 'GETROOMREADING', payload: state.login.selectedHostel_Id })
-      setLoading|(true)
+      setLoading(true)
     }
   }, [state.login.selectedHostel_Id])
 
@@ -647,27 +647,11 @@ const RoomReadingTable = () => {
 
 
 
-
- 
-
-
-
-
-
-
-
-
-
-
-              </div>
-            )
-          )}
-
- {loading &&
+{loading &&
                 <div
                     style={{
                         position: 'absolute',
-                        top: '50%',
+                        top: '70%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
                         display: 'flex',
@@ -690,6 +674,22 @@ const RoomReadingTable = () => {
                     ></div>
                 </div>
             }
+ 
+
+
+
+
+
+
+
+
+
+
+              </div>
+            )
+          )}
+
+ 
 
           {activeTab === "customer" && (
             data?.length === 0 ? (
