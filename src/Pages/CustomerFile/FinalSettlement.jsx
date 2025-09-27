@@ -32,7 +32,7 @@ console.log("customerID",data)
 
     const [fields, setFields] = useState([]);
     const [errors, setErrors] = useState([]);
-    // const [modeOfPayment, setModeOfPayment] = useState("");
+    const [billingError, setBillingError] = useState("");
     // const [comments, setComments] = useState("");
     // const [checkOutDate, setCheckOutDate] = useState("");
 //  const [checkOutDate] = useState(() => {
@@ -46,7 +46,21 @@ const [checkOutDate] = useState(() => {
   const yyyy = today.getFullYear();
   return `${yyyy}-${mm}-${dd}`; // 👉 18/09/2025
 });
+const handleCloseForm = ()=>{
+    handleClose()
+    setBillingError("")
+    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_ERROR" });
+}
 
+
+useEffect(()=>{
+    if(state.UsersList.bllingError){
+        setBillingError(state.UsersList.bllingError)
+
+    }
+
+},[state.UsersList.bllingError])
+console.log("billngError",billingError)
 
     // const [uploadFile, setUploadFile] = useState(null);
     // const [rightOffNote, setRightOffNote] = useState("")
@@ -65,7 +79,7 @@ const [checkOutDate] = useState(() => {
     const [detuction, setDetuction] = useState("")
     //  const [rentalBalance,setRentalBalance] = useState('')
      const [billAmount,setBillAmount] = useState("")
-     const [nonRefundable,setRefundable] = useState("")
+     const [nonRefundable,setnonRefundable] = useState("")
      const [amnitiesDetails,setAmnitiesDetails] = useState("")
 
      
@@ -93,6 +107,7 @@ const [checkOutDate] = useState(() => {
         }
 
         setFields(formattedFields);
+        
 
         // const rentBalance =
         //     state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
@@ -103,7 +118,7 @@ const [checkOutDate] = useState(() => {
         setDetuction(state?.UsersList?.Deduction);
         setReFundableDetails(state?.UsersList?.Refundable_details);
         setHostelData(state?.UsersList?.hostelData);
-        setRefundable(state?.UsersList?.nonRefundable_details)
+        setnonRefundable(state?.UsersList?.nonRefundable_details)
         setAmnitiesDetails(state.UsersList?.finalsettleLastrent.amenities_list)
     }
 
@@ -113,8 +128,37 @@ const [checkOutDate] = useState(() => {
 }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
 
 
- console.log("refundableDetails",amnitiesDetails)
+//  console.log("refundableDetails",refundabl)
+// const totalNonRefundable = nonRefundable.reduce((sum, item) => {
+//   return sum + (Number(item.amount) || 0);
+// }, 0);
+// total calculation
 
+
+
+
+
+// Total of existing nonRefundable rows
+const totalNonRefundable = (Array.isArray(nonRefundable) ? nonRefundable : []).reduce(
+  (sum, item) => sum + (Number(item.amount) || 0),
+  0
+);
+
+// Total of newly added rows only (isNew = true)
+const extraFields = (Array.isArray(fields) ? fields : []).filter(
+  f => f.isNew
+);
+
+const totalFields = extraFields.reduce(
+  (sum, item) => sum + (Number(item.amount) || 0),
+  0
+);
+
+
+const grandTotal = totalNonRefundable + totalFields;
+
+const balanceAmount =(Number(hostelData.AdvanceAmount) || 0) - grandTotal ;
+console.log("balanceAmount",balanceAmount)
 
 useEffect(()=>{
 if(checkOutDate){
@@ -349,7 +393,7 @@ useEffect(()=>{
     if (fields || advanceAmount) {
         const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
 
-        const dueAmount = Number(detuction?.DueAmount || 0);  // extra subtraction
+        const dueAmount = Number(detuction?.DueAmount || 0); 
 
         const returnAmount = Number(advanceAmount || 0) - totalDeductions - dueAmount;
         setReturnAmount(returnAmount);
@@ -367,11 +411,18 @@ useEffect(()=>{
     // };
 
 
-    const handleAddField = () => {
-        setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
+    // const handleAddField = () => {
+    //     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
 
-        dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
-    };
+    //     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
+    // };
+    const handleAddField = () => {
+  setFields([
+    ...fields,
+    { reason_name: "", amount: "", customReason: "", showInput: false, isNew: true }
+  ]);
+};
+
 
 
     const handleInputChange = (index, field, value) => {
@@ -531,22 +582,38 @@ const handleCheckedtrue = (e) => {
 
 
 
-
+  const inputRef = useRef(null);
+  const checkboxRef = useRef(null);
 
 const handleClickGenerate = () => {
   let hasError = false;
 
   // Validate current reading
-  if (!currentReading) {
-    setCurrenReadingError("Please enter current reading");
-    hasError = true;
-  }
+//   if (!currentReading) {
+//     setCurrenReadingError("Please enter current reading");
+//     hasError = true;
+//   }
 
-  // Validate checkbox
-  if (!isConfirmed) {
-    setCurrenReadingError("Please confirm current reading");
-    hasError = true;
-  }
+//   // Validate checkbox
+//   if (!isConfirmed) {
+//     setCurrenReadingError("Please confirm current reading");
+//     hasError = true;
+//   }
+  if (!currentReading) {
+      setCurrenReadingError("Please enter current reading");
+      hasError = true;
+      inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      inputRef.current?.focus();
+    }
+
+    // Validate checkbox
+    else if (!isConfirmed) {
+      setCurrenReadingError("Please confirm current reading");
+      hasError = true;
+      checkboxRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      checkboxRef.current?.focus();
+    }
+
 
   if (hasError) return;
 
@@ -605,7 +672,11 @@ const handleClickGenerate = () => {
 
     useEffect(()=>{
 if(state.UsersList.StatusCodeForFinalGenerate === 200){
-handleClose()
+handleCloseForm()
+  dispatch({
+        type: "USERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
             setTimeout(() => {
                 dispatch({ type: "CLEAR_CHECKOUT_FINAL_GENERATE" });
             }, 500);
@@ -745,7 +816,7 @@ handleClose()
     useEffect(() => {
         if (state.UsersList.statusCodeForDueCustomer === 200 || state.UsersList.statusCodeAddConfirmCheckout === 200) {
             setFormLoading(false)
-            handleClose()
+            handleCloseForm()
             dispatch({
                 type: "USERLIST",
                 payload: { hostel_id: state.login.selectedHostel_Id },
@@ -801,7 +872,7 @@ handleClose()
 
     return (
         <div>
-            <Modal show={show} onHide={handleClose} dialogClassName="checkout-modal" size="lg" centered>
+            <Modal show={show} onHide={handleCloseForm} dialogClassName="checkout-modal" size="lg" centered>
                 <Modal.Body className="p-0">
                     <div className="d-flex" style={{ height: "90vh" }}>
 
@@ -892,7 +963,7 @@ handleClose()
 
                         </div>
 
-                        {/* Right Section (Scrollable) */}
+                     
                         <div className="container-fluid p-4 overflow-auto">
 
                             <div
@@ -910,10 +981,28 @@ handleClose()
                                 <CloseCircle
                                     size="24"
                                     color="#000"
-                                    onClick={handleClose}
+                                    onClick={handleCloseForm}
                                     style={{ cursor: "pointer" }}
                                 />
                             </div>
+                              {billingError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError
+                                          style={{ fontSize: "13px", marginRight: "5px" }}
+                                        />
+                                        <label
+                                          className="mb-0"
+                                          style={{
+                                            color: "red",
+                                            fontSize: "12px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {billingError}
+                                        </label>
+                                      </div>
+                                    )}
                             <div style={{ maxHeight: "70vh", overflowY: "auto", padding: "15px" }}>
 
                                 {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1133,6 +1222,7 @@ handleClose()
       type="number"
       placeholder="471.55"
       value={currentReading}
+       ref={inputRef}
       onChange={handlecurrentReading}
       style={{ fontSize: 14, fontWeight: 600, padding: "12px 14px" }}
     />
@@ -1161,6 +1251,7 @@ handleClose()
   <Form.Check.Input
     type="checkbox"
     checked={isConfirmed}
+      ref={checkboxRef}
     onChange={handleCheckedtrue}
     style={{
       borderColor: !isConfirmed && currenReadingError ? "red" : "#ced4da",
@@ -1240,7 +1331,7 @@ handleClose()
                                     </div>
 
 
-                                    {fields.map((item, index) => {
+                                    {/* {fields.map((item, index) => {
                                         const filteredOptions = (() => {
                                             let options = [...reasonOptions];
 
@@ -1342,6 +1433,7 @@ handleClose()
                                                                 placeholder="Enter custom reason"
                                                                 value={item.customReason}
                                                                 onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                                                               
                                                                 style={{
                                                                     fontSize: 16,
                                                                     color: "#4B4B4B",
@@ -1429,7 +1521,479 @@ handleClose()
                                                 </div>
                                             </div>
                                         );
-                                    })}
+                                    })} */}
+{fields.map((item, index) => {
+  
+    const isNonRefundable = !!nonRefundable.find(
+        nf => nf.reason === item.reason_name && !item.isNew
+    );
+
+  
+    const disableField = isNonRefundable;
+
+   
+   const isMaintenanceSelected = fields.some(
+  (field, i) => field.reason_name === "maintenance" && field.isNew && i !== index
+);
+
+    const filteredOptions = (() => {
+        let options = [...reasonOptions];
+
+     
+        if (item.reason_name && !options.some(opt => opt.value === item.reason_name)) {
+            options.push({
+                value: item.reason_name,
+                label: item.reason_name.charAt(0).toUpperCase() + item.reason_name.slice(1),
+            });
+        }
+
+        return options.map(opt => ({
+            ...opt,
+            isDisabled:
+                opt.value === "maintenance" &&
+                isMaintenanceSelected &&
+                item.reason_name !== "maintenance",
+        }));
+    })();
+
+    return (
+        <div className="row px-4 mb-3" key={index}>
+          
+            <div className="col-md-6">
+                {!item.showInput ? (
+                    <Select
+                        options={filteredOptions}
+                        value={filteredOptions.find(opt => opt.value === item.reason_name) || null}
+                        onChange={(selectedOption) => {
+                            const selectedValue = selectedOption.value;
+                            if (selectedValue === "others") {
+                                handleInputChange(index, "reason_name", "others");
+                            } else {
+                                handleInputChange(index, "reason_name", selectedValue);
+                            }
+                        }}
+                        isDisabled={disableField || item.reason_name === "DueAmount"}
+                        menuPlacement="auto"
+                        styles={{
+                            control: (base) => ({
+                                ...base,
+                                height: "50px",
+                                border: "1px solid #D9D9D9",
+                                borderRadius: "8px",
+                                fontSize: "16px",
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                boxShadow: "none",
+                                backgroundColor: disableField ? "#f0f0f0" : "white",
+                            }),
+                            menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                border: "1px solid #ced4da",
+                                fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                                ...base,
+                                backgroundColor: "#f8f9fa",
+                                maxHeight: "120px",
+                                padding: 0,
+                                overflowY: "auto",
+                                fontFamily: "Gilroy",
+                            }),
+                            placeholder: (base) => ({ ...base, color: "#555" }),
+                            dropdownIndicator: (base) => ({ ...base, color: "#555", cursor: "pointer" }),
+                            indicatorSeparator: () => ({ display: "none" }),
+                            option: (base, state) => ({
+                                ...base,
+                                cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                color: state.isDisabled ? "#aaa" : "#000",
+                            }),
+                        }}
+                    />
+                ) : (
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter custom reason"
+                        value={item.customReason}
+                        onChange={(e) => handleInputChange(index, "customReason", e.target.value)}
+                        disabled={disableField}
+                        style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                            border: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: 8,
+                            backgroundColor: disableField ? "#f0f0f0" : "white",
+                        }}
+                    />
+                )}
+            </div>
+
+            {/* Amount */}
+            <div className="col-md-5">
+                <input
+                    type="text"
+                    placeholder="Enter amount"
+                    value={item.amount}
+                    onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                    className="form-control"
+                    disabled={disableField}
+                    style={{
+                        fontSize: 16,
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                        height: 50,
+                        borderRadius: 8,
+                        backgroundColor: disableField ? "#f0f0f0" : "white",
+                    }}
+                />
+            </div>
+
+            {/* Trash Icon */}
+            <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+                {!disableField && (
+                    <Trash
+                        size="20"
+                        color="red"
+                        variant="Bold"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleRemoveField(index)}
+                    />
+                )}
+            </div>
+        </div>
+    );
+})}
+
+
+
+                                    {/* {fields.map((item, index) => {
+    const isNonRefundable = nonRefundable.some(
+        nf => nf.reason === item.reason_name
+    );
+
+    const filteredOptions = (() => {
+        let options = [...reasonOptions];
+
+        if (item.reason_name && !options.some(opt => opt.value === item.reason_name)) {
+            options.push({
+                value: item.reason_name,
+                label: item.reason_name.charAt(0).toUpperCase() + item.reason_name.slice(1),
+            });
+        }
+
+        const isMaintenanceSelected = fields.some(field => field.reason === "maintenance");
+        return options.map(opt => ({
+            ...opt,
+            isDisabled:
+                opt.value === "maintenance" &&
+                isMaintenanceSelected &&
+                item.reason !== "maintenance",
+        }));
+    })();
+
+ 
+    const disableField = isNonRefundable;
+
+    return (
+        <div className="row px-4 mb-3" key={index}>
+            <div className="col-md-6">
+                {!item.showInput ? (
+                    <Select
+                        options={filteredOptions}
+                        value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                        onChange={(selectedOption) => {
+                            const selectedValue = selectedOption.value;
+                            if (selectedValue === "others") {
+                                handleInputChange(index, "reason_name", "others");
+                            } else {
+                                handleInputChange(index, "reason_name", selectedValue);
+                            }
+                        }}
+                        isDisabled={disableField || item.reason_name === "DueAmount"}
+                        menuPlacement="auto"
+                        styles={{
+                                                                control: (base) => ({
+                                                                    ...base,
+                                                                    height: "50px",
+                                                                    border: "1px solid #D9D9D9",
+                                                                    borderRadius: "8px",
+                                                                    fontSize: "16px",
+                                                                    color: "#4B4B4B",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    boxShadow: "none",
+                                                                }),
+                                                                menu: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: "#f8f9fa",
+                                                                    border: "1px solid #ced4da",
+                                                                    fontFamily: "Gilroy",
+                                                                }),
+                                                                menuList: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: "#f8f9fa",
+                                                                    maxHeight: "120px",
+                                                                    padding: 0,
+                                                                    scrollbarWidth: "thin",
+                                                                    overflowY: "auto",
+                                                                    fontFamily: "Gilroy",
+                                                                }),
+                                                                placeholder: (base) => ({
+                                                                    ...base,
+                                                                    color: "#555",
+                                                                }),
+                                                                dropdownIndicator: (base) => ({
+                                                                    ...base,
+                                                                    color: "#555",
+                                                                    display: "inline-block",
+                                                                    fill: "currentColor",
+                                                                    lineHeight: 1,
+                                                                    stroke: "currentColor",
+                                                                    strokeWidth: 0,
+                                                                    cursor: "pointer",
+                                                                }),
+                                                                indicatorSeparator: () => ({
+                                                                    display: "none",
+                                                                }),
+                                                                option: (base, state) => ({
+                                                                    ...base,
+                                                                    cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                                                    backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                                                    color: state.isDisabled ? "#aaa" : "#000",
+                                                                }),
+                                                            }}
+                    />
+                ) : (
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter custom reason"
+                        value={item.customReason}
+                        onChange={(e) =>
+                            handleInputChange(index, "customReason", e.target.value)
+                        }
+                        disabled={disableField} 
+                        style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                            border: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: 8,
+                        }}
+                    />
+                )}
+            </div>
+
+            <div className="col-md-5">
+                <input
+                    type="text"
+                    placeholder="Enter amount"
+                    value={item.amount}
+                    onChange={(e) =>
+                        handleInputChange(index, "amount", e.target.value)
+                    }
+                    className="form-control"
+                    disabled={disableField}
+                    style={{
+                        fontSize: 16,
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                        height: 50,
+                        borderRadius: 8,
+                        backgroundColor: disableField ? "#f0f0f0" : "white",
+                    }}
+                />
+            </div>
+
+            <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+               
+                {!disableField && (
+                    <Trash
+                        size="20"
+                        color="red"
+                        variant="Bold"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleRemoveField(index)}
+                    />
+                )}
+            </div>
+        </div>
+    );
+})} */}
+
+                                    {/* {fields.map((item, index) => {
+   
+    const isNonRefundable = nonRefundable.some(
+        nf => nf.reason === item.reason_name
+    );
+
+    const filteredOptions = (() => {
+        let options = [...reasonOptions];
+
+        if (item.reason_name && !options.some(opt => opt.value === item.reason_name)) {
+            options.push({
+                value: item.reason_name,
+                label: item.reason_name.charAt(0).toUpperCase() + item.reason_name.slice(1),
+            });
+        }
+
+        const isMaintenanceSelected = fields.some(field => field.reason === "maintenance");
+        return options.map(opt => ({
+            ...opt,
+            isDisabled:
+                opt.value === "maintenance" &&
+                isMaintenanceSelected &&
+                item.reason !== "maintenance",
+        }));
+    })();
+
+    return (
+        <div className="row px-4 mb-3" key={index}>
+            <div className="col-md-6">
+                {!item.showInput ? (
+                    <Select
+                        options={filteredOptions}
+                        value={filteredOptions.find((opt) => opt.value === item.reason_name) || null}
+                        onChange={(selectedOption) => {
+                            const selectedValue = selectedOption.value;
+                            if (selectedValue === "others") {
+                                handleInputChange(index, "reason_name", "others");
+                            } else {
+                                handleInputChange(index, "reason_name", selectedValue);
+                            }
+                        }}
+                       
+                        isDisabled={isNonRefundable || item.reason_name === "DueAmount"}
+                        menuPlacement="auto"
+                        styles={{
+                                                                control: (base) => ({
+                                                                    ...base,
+                                                                    height: "50px",
+                                                                    border: "1px solid #D9D9D9",
+                                                                    borderRadius: "8px",
+                                                                    fontSize: "16px",
+                                                                    color: "#4B4B4B",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    boxShadow: "none",
+                                                                }),
+                                                                menu: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: "#f8f9fa",
+                                                                    border: "1px solid #ced4da",
+                                                                    fontFamily: "Gilroy",
+                                                                }),
+                                                                menuList: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: "#f8f9fa",
+                                                                    maxHeight: "120px",
+                                                                    padding: 0,
+                                                                    scrollbarWidth: "thin",
+                                                                    overflowY: "auto",
+                                                                    fontFamily: "Gilroy",
+                                                                }),
+                                                                placeholder: (base) => ({
+                                                                    ...base,
+                                                                    color: "#555",
+                                                                }),
+                                                                dropdownIndicator: (base) => ({
+                                                                    ...base,
+                                                                    color: "#555",
+                                                                    display: "inline-block",
+                                                                    fill: "currentColor",
+                                                                    lineHeight: 1,
+                                                                    stroke: "currentColor",
+                                                                    strokeWidth: 0,
+                                                                    cursor: "pointer",
+                                                                }),
+                                                                indicatorSeparator: () => ({
+                                                                    display: "none",
+                                                                }),
+                                                                option: (base, state) => ({
+                                                                    ...base,
+                                                                    cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                                                    backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                                                    color: state.isDisabled ? "#aaa" : "#000",
+                                                                }),
+                                                            }}
+                    />
+                ) : (
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter custom reason"
+                        value={item.customReason}
+                        onChange={(e) =>
+                            handleInputChange(index, "customReason", e.target.value)
+                        }
+                        disabled={isNonRefundable} 
+                        style={{
+                                                            fontSize: 16,
+                                                            color: "#4B4B4B",
+                                                            fontFamily: "Gilroy",
+                                                            fontWeight: 500,
+                                                            boxShadow: "none",
+                                                            border: "1px solid #D9D9D9",
+                                                            height: 50,
+                                                            borderRadius: 8,
+                                                        }}
+                    />
+                )}
+            </div>
+
+            <div className="col-md-5">
+                <input
+                    type="text"
+                    placeholder="Enter amount"
+                    value={item.amount}
+                    onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                    className="form-control"
+                    disabled={isNonRefundable} 
+                      style={{
+                                                            fontSize: 16,
+                                                            color: "#4B4B4B",
+                                                            fontFamily: "Gilroy",
+                                                            fontWeight: 500,
+                                                            boxShadow: "none",
+                                                            border: "1px solid #D9D9D9",
+                                                            height: 50,
+                                                            borderRadius: 8,
+                                                        }}
+                />
+            </div>
+
+            <div className="col-md-1 d-flex justify-content-center align-items-center p-0">
+              
+                {!isNonRefundable && (
+                    <Trash
+                        size="20"
+                        color="red"
+                        variant="Bold"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleRemoveField(index)}
+                    />
+                )}
+            </div>
+        </div>
+    );
+})} */}
+
                                 </div>
 
                                 <div className="mt-2 mb-2">
@@ -1630,11 +2194,13 @@ return(
                                     <div className="p-3  rounded mb-3">
                                         <div className="d-flex justify-content-between">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>Final settlement</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>₹  {refundableDetails.totalRefund}</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 600 }}>
+                                                {/* ₹  {refundableDetails.totalRefund} */}
+                                                </p>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Total Deductions</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400, color: "red" }}>- ₹ {detuction.DueAmount}</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400, color: "red" }}> ₹ {grandTotal}</p>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Rent</p>
@@ -1643,7 +2209,10 @@ return(
                                         </div>
                                         <div className="d-flex justify-content-between mb-1">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Advance</p>
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {refundableDetails.securityDepositRefund}</p>
+                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ 
+                                                {/* {refundableDetails.securityDepositRefund} */}
+                                                {balanceAmount}
+                                                </p>
                                         </div>
 
 
@@ -2070,7 +2639,7 @@ return(
 
 
                                 <div className="text-end mt-4">
-                                    <Button variant="" className="me-2" onClick={handleClose} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
+                                    <Button variant="" className="me-2" onClick={handleCloseForm} style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400 }}>
                                         Cancel
                                     </Button>
                                     <Button

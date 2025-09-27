@@ -2439,6 +2439,7 @@ const handleClosefinal = ()=>{
   setFinalSettlePage(false)
    dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE"})
    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
+    dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_ERROR" });
 }
   return (
     <div>

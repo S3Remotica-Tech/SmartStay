@@ -311,6 +311,10 @@ function* handleAddUser(datum) {
             style: toastStyle,
          });
       }
+       else if (response.statusCode === 201) {
+
+         yield put({ type: 'INTERNAL_ERROR', payload: response.message });
+      }
       else if (response.statusCode === 202) {
 
          yield put({ type: 'PHONE_ERROR', payload: response.message });
@@ -1033,6 +1037,9 @@ function* handlegetConfirmCheckOUtCustomer(action) {
    if (response.statusCode === 200 || response.status === 200) {
       yield put({ type: 'GET_CONFIRM_CHECK_OUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
    }
+     else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'GET_CONFIRM_CHECK_OUT_ERROR', payload: response.data.message })
+      }
    if (response) {
       refreshToken(response)
    }

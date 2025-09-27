@@ -19,7 +19,11 @@ function WriteOffForm(props){
 
 const [matchedDet,setMatchedDetails] = useState("")
 const [comments,setComments] = useState("")
+const [payableAmount, setPayableAmount] = useState("");
+ const [selectedDate, setSelectedDate] = useState(null);
 
+     const [modeOfPayment, setModeOfPayment] = useState("");
+console.log("payableAmount",payableAmount)
 const handleCommentsChange = (e)=>{
   setComments(e.target.value)
 }
@@ -35,6 +39,55 @@ console.log("matchedDetails",matchedDetails)
 
   }
 },[props.WriteoffForm ,props.payapleform])
+ const [balance, setBalance] = useState(0);
+  useEffect(() => {
+    
+   console.log("BANKINGLIST")
+        if (state.login.selectedHostel_Id &&props.payapleform) {
+            dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+        }
+    }, [state.login.selectedHostel_Id && props.payapleform]);
+
+  // const handleAmount = (e) => {
+  //   let value = e.target.value;
+
+    
+   
+
+  //   setPayableAmount(value);
+  
+  // };
+ const handleAmount = (e) => {
+  let value = e.target.value;
+  setPayableAmount(value);
+
+  let balanceDue = props.wraitofDetails.BalanceDue || 0;
+
+  
+  let newBalance = balanceDue + Number(value || 0);
+
+
+  setBalance(Math.abs(newBalance));
+};
+ const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+
+    setModeOfPayment(selectedOption);
+    // setPaymentError("")
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  };
+   // if (value !== "") {
+    //   let numValue = Number(value);
+    //   if (numValue > (props.wraitofDetails.BalanceDue || 0)) {
+    //     numValue = props.wraitofDetails.BalanceDue || 0;
+    //   }
+      
+    //   value = numValue;
+    //   setBalance((props.wraitofDetails.BalanceDue || 0) - numValue);
+    // } else {
+
+    //   setBalance(props.wraitofDetails.BalanceDue || 0);
+    // }
 
 
 const handleSaveWriteOff=()=>{
@@ -49,6 +102,23 @@ const payload ={
   dispatch({
       type: "CONFIRMCHECKOUTDUECUSTOMER",
       payload: payload
+    });
+}
+
+
+
+
+
+const handleSaveRefund=()=>{
+console.log("payableAmount",payableAmount)
+    dispatch({
+      type: "REFUNDABLEDETAILS",
+      ID: props.wraitofDetails.ID,                 
+  invoice_id:props.wraitofDetails.Invoices,  
+  amount:  Number(payableAmount),             
+  balance_due: balance,        
+  payment_by: modeOfPayment,            
+  payment_date: selectedDate
     });
 }
 
@@ -290,7 +360,7 @@ console.log("matchedDet",matchedDet)
                                             <p   style={{fontSize:14,fontFamily:"Gilroy",fontWeight:400,color:"#4B4B4B",padding:0 , margin:0}}>Refund Amount</p>
                                             <p style={{fontSize:16,fontFamily:"Gilroy",fontWeight:600,}}>
                                               {/* {checkOutDate} */} 
-                                              {/* {invoiceList.balanceDue} */}7
+                                              {props?.wraitofDetails?.BalanceDue}
                                               </p>
                                           </div>
                                         </div>
@@ -373,8 +443,8 @@ console.log("matchedDet",matchedDet)
                                           }}
                                           placeholder="Enter Amount"
                                           className="no-spinner"
-                                        //   value={payableAmount}
-                                        //   onChange={handleAmount}
+                                          value={payableAmount}
+                                          onChange={handleAmount}
                                        onKeyDown={(e) => {
         if (e.key === "-" || e.key === "e") {
           e.preventDefault();
@@ -457,7 +527,7 @@ console.log("matchedDet",matchedDet)
                                           }}
                                           placeholder="Enter Amount"
                                           className="no-spinner"
-                                        //   value={balance}
+                                          value={balance}
     
                                         />
     
@@ -506,12 +576,12 @@ console.log("matchedDet",matchedDet)
                                               }}
                                               format="DD/MM/YYYY"
                                               placeholder="DD/MM/YYYY"
-                                            //   value={selectedDate ? dayjs(selectedDate) : null}
-                                            //   onChange={(date) => {
-                                            //     setDateErrmsg("");
-                                            //     setAccountError("");
-                                            //     setSelectedDate(date ? date.toDate() : null);
-                                            //   }}
+                                              value={selectedDate ? dayjs(selectedDate) : null}
+                                              onChange={(date) => {
+                                                // setDateErrmsg("");
+                                                // setAccountError("");
+                                                setSelectedDate(date ? date.toDate() : null);
+                                              }}
                                               disabledDate={(current) => current && current > dayjs().endOf("day")}
                                               getPopupContainer={(triggerNode) =>
                                                 triggerNode.closest(".show-scroll") || document.body
@@ -556,120 +626,153 @@ console.log("matchedDet",matchedDet)
     
     
                                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                      <Form.Group
-                                        className=""
-                                        controlId="exampleForm.ControlInput2"
-                                      >
-                                        <Form.Label
-                                          style={{
-                                            fontSize: 14,
-                                            color: "#222222",
-                                            fontFamily: "'Gilroy', sans-serif",
-                                            fontWeight: 500,
-    
-                                          }}
-                                        >
-                                         Refund From {" "}
-                                          <span
-                                            style={{
-                                              color: "red",
-                                              fontSize: "20px",
-                                            }}
-                                          >
-                                            *
-                                          </span>
-                                        </Form.Label>
-    
-                                        <Select
-                                        //   options={combinedOptions}
-                                        //   onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
-                                        //   value={
-                                        //     invoiceList.transaction
-                                        //       ? combinedOptions.find(option => option.value === invoiceList.transaction)
-                                        //       : null
-                                        //   }
-                                          placeholder="Please Select"
-                                          classNamePrefix="custom"
-                                          menuPlacement="auto"
-                                          noOptionsMessage={() => "No options available"}
-                                          styles={{
-                                            control: (base) => ({
-                                              ...base,
-                                              height: "49px",
-                                              border: "1px solid #D9D9D9",
-                                              borderRadius: "8px",
-                                              fontSize: "16px",
-                                              color: "#4B4B4B",
-                                              fontFamily: "Gilroy, sans-serif",
-                                              fontWeight: 500,
-                                              boxShadow: "none",
-                                            }),
-                                            menu: (base) => ({
-                                              ...base,
-                                              backgroundColor: "#f8f9fa",
-                                              border: "1px solid #ced4da",
-                                              fontFamily: "Gilroy, sans-serif",
-                                            }),
-                                            menuList: (base) => ({
-                                              ...base,
-                                              backgroundColor: "#f8f9fa",
-                                              maxHeight: "120px",
-                                              padding: 0,
-                                              scrollbarWidth: "thin",
-                                              overflowY: "auto",
-                                              fontFamily: "Gilroy, sans-serif",
-                                            }),
-                                            placeholder: (base) => ({
-                                              ...base,
-                                              color: "#555",
-                                            }),
-                                            option: (base, state) => ({
-                                              ...base,
-                                              cursor: "pointer",
-                                              backgroundColor: state.isFocused ? "lightblue" : "white",
-                                              color: "#000",
-                                            }),
-                                            dropdownIndicator: (base) => ({
-                                              ...base,
-                                              color: "#555",
-                                              cursor: "pointer"
-                                            }),
-                                            indicatorSeparator: () => ({
-                                              display: "none",
-                                            }),
-                                          }}
-                                        />
-    
-    
-    
-                                        {/* {paymodeerrormsg.trim() !== "" && ( */}
-                                          <div>
-                                            <p
-                                              style={{
-                                                fontSize: "12px",
-                                                color: "red",
-                                                marginTop: "3px",
-                                                marginBottom: 0,
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                              }}
-                                            >
-                                              {/* {paymodeerrormsg !== " " && (
-                                                <MdError
-                                                  style={{
-                                                    fontSize: "14px",
-                                                    color: "red",
-                                                    marginBottom: "3px",
-                                                  }}
-                                                />
-                                              )}
-                                              {" "}
-                                              {paymodeerrormsg} */}
-                                            </p>
-                                          </div>
-                                        {/* // )} */}
-                                      </Form.Group>
-                                    </div>
+                             <Form.Group
+                               
+                               controlId="exampleForm.ControlInput1"
+                             >
+                               <Form.Label
+                                 style={{
+                                   fontSize: 14,
+                                   color: "#222222",
+                                   fontFamily: "Gilroy",
+                                   fontWeight: 500,
+                                   marginTop: "5px",
+                                 }}
+                               >
+                                 Mode Of Transaction {" "}
+                                 <span
+                                   style={{
+                                     color: "#FF0000",
+                                     fontSize: "20px",
+                                   }}
+                                 >
+                                   *
+                                 </span>
+                               </Form.Label>
+             
+             
+                               <Select
+                                 options={
+                                   Array.isArray(state.bankingDetails?.bankingList?.banks)
+                                     ? state.bankingDetails.bankingList.banks.map((item) => {
+                                       let label = "";
+                                       if (item.type === "bank") label = "Bank";
+                                       else if (item.type === "upi") label = "UPI";
+                                       else if (item.type === "card") label = "Card";
+                                       else if (item.type === "cash") label = "Cash";
+             
+                                       return {
+                                         value: item.id,
+                                         label: `${item.benificiary_name} - ${label}`,
+                                       };
+                                     })
+                                     : []
+                                 }
+                                 onChange={(selectedOption) =>
+                                   handleModeOfPaymentChange(selectedOption?.value)
+                                 }
+                                 value={
+                                   modeOfPayment
+                                     ? (() => {
+                                       const selected = state.bankingDetails?.bankingList?.banks.find(
+                                         (item) => item.id === modeOfPayment
+             
+                                       );
+                                       if (!selected) return null;
+             
+                                       const labelMap = {
+                                         bank: "Bank",
+                                         upi: "UPI",
+                                         card: "Card",
+                                         cash: "Cash",
+                                       };
+                                       return {
+                                         value: selected.id,
+                                         label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
+                                       };
+                                     })()
+                                     : null
+                                 }
+             
+                                 placeholder="Select Payment"
+                                 classNamePrefix="custom"
+                                //  isDisabled={currentItem}
+                                 styles={{
+                                   control: (base) => ({
+                                     ...base,
+                                     fontSize: 16,
+                                     color: "rgba(75, 75, 75, 1)",
+                                     fontFamily: "Gilroy",
+                                     fontWeight: modeOfPayment ? 600 : 500,
+                                     border: "1px solid #D9D9D9",
+                                     borderRadius: "8px",
+                                     boxShadow: "none",
+                                     height: 48,
+                                     cursor: "pointer",
+                                   }),
+                                   menu: (base) => ({
+                                     ...base,
+                                     backgroundColor: "#f8f9fa",
+                                     border: "1px solid #ced4da",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   menuList: (base) => ({
+                                     ...base,
+                                     backgroundColor: "#f8f9fa",
+                                     maxHeight: "120px",
+                                     padding: 0,
+                                     scrollbarWidth: "thin",
+                                     overflowY: "auto",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   placeholder: (base) => ({
+                                     ...base,
+                                     color: "#555",
+                                   }),
+                                   dropdownIndicator: (base) => ({
+                                     ...base,
+                                     color: "#555",
+                                     cursor: "pointer",
+                                   }),
+                                   option: (base, state) => ({
+                                     ...base,
+                                     cursor: "pointer",
+                                     backgroundColor: state.isFocused ? "lightblue" : "white",
+                                     color: "#000",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   indicatorSeparator: () => ({
+                                     display: "none",
+                                   }),
+                                 }}
+                                 noOptionsMessage={() => "No mode available"}
+                               />
+             
+                             </Form.Group>
+                           
+                              {/* {paymentError && (
+                <div style={{ color: "red" }}>
+
+                  <MdError
+                    style={{
+                      marginRight: "5px",
+                      fontSize: 14,
+                      marginBottom: "1px",
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {paymentError}
+                  </span>
+                </div>
+              )} */}
+                           </div>
     
     
                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -806,7 +909,7 @@ console.log("matchedDet",matchedDet)
                                                                       <Button
                                                                           // disabled={activeTab !== "writeoff" && ReturnAmount < 0}
                                                                           style={{ fontFamily: "Gilroy", fontSize: "1rem", fontWeight: 400, backgroundColor: "#1E45E1" }} 
-                                                                        //   onClick={handleSaveInvoiceList}
+                                                                          onClick={handleSaveRefund}
                                                                           >Record</Button>
                                                                   </div>
                                 </Modal.Footer>
