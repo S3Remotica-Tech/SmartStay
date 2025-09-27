@@ -1,3 +1,4 @@
+import { getRoomReading } from "../Action/UserListAction";
 
 export const initialState = {
     Users: [],
@@ -135,6 +136,9 @@ export const initialState = {
     bookedDetails: [],
     bedError: '',
     addRoomReadingStatusCode: 0,
+    getRoomReadingList: [],
+    getRoomReadingStatus: 0,
+    roomReadingError: ""
 
 }
 
@@ -150,18 +154,26 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, availableBedList: action.payload.response }
         case 'BOOKED_DETAILS':
             return { ...state, bookedDetails: action.payload.response }
-
-
         case 'ADD_ROOM_READING':
             return { ...state, addRoomReadingStatusCode: action.payload.statusCode }
 
         case 'REMOVE_ADD_ROOM_READING':
             return { ...state, addRoomReadingStatusCode: 0 }
+        case 'GET_ROOM_READING':
+            return { ...state, getRoomReadingList: action.payload.response, getRoomReadingStatus: action.payload.statusCode }
+        case 'REMOVE_GET_ROOM_READING':
+            return { ...state, getRoomReadingStatus: 0 }
 
         case 'BED_AVAILABLE_ERROR_BOOKED':
             return { ...state, bedError: action.payload }
         case 'REMOVE_BED_AVAILABLE_ERROR_BOOKED':
             return { ...state, bedError: '' }
+
+        case 'ROOM_READING_ERROR':
+            return { ...state, roomReadingError: action.payload }
+
+        case 'REMOVE_ROOM_READING_ERROR':
+            return { ...state, roomReadingError: '' }
 
         case 'DELETE_CUSTOMER':
             return { ...state, deleteCustomerSuccessStatusCode: action.payload.statusCode }

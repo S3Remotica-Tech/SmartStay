@@ -309,7 +309,7 @@ const MobileNumber = `${countryCode}${phone}`;
     stateName === initialState.state;
 
   if (noChanges) {
-    setFormError("No changes detected.");
+    setFormError("No changes detected");
     return;
   }
         const capitalizeFirstLetter = (str) => {

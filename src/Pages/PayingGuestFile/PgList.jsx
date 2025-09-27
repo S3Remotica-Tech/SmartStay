@@ -721,11 +721,11 @@ function PgList() {
 
 
   const handleCloseChangeBed = () => {
-    console.log("called")
+
     dispatch(triggerPG(false))
   }
 
-  console.log("state.login.isTrigger", state.login.isTrigger)
+
 
 
   return (

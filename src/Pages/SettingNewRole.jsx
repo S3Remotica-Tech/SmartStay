@@ -97,14 +97,14 @@ function SettingNewRole({ hostelid }) {
 
 
 
-  const calledRef = useRef(false);
+
 
   useEffect(() => {
-    if (!calledRef.current) {
-      dispatch({ type: 'SETTING_ROLE_LIST' });
-      calledRef.current = true;
-    }
-  }, [calledRef]);
+    if (state.login.selectedHostel_Id) {
+    dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
+    setLoading(true)
+         }
+  }, [state.login.selectedHostel_Id]);
 
 
 
@@ -178,7 +178,7 @@ function SettingNewRole({ hostelid }) {
     if (state.Settings.statusCodeForAddRole === 201)
 
       setShowRole(false)
-    dispatch({ type: 'SETTING_ROLE_LIST' });
+    dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
     setTimeout(() => {
       dispatch({ type: "CLEAR_ADD_SETTING_ROLE" });
     }, 1000);
@@ -189,7 +189,7 @@ function SettingNewRole({ hostelid }) {
   useEffect(() => {
     if (state.Settings.StatusForDeletePermission === 204) {
       setDeleteRole(false)
-      dispatch({ type: 'SETTING_ROLE_LIST' });
+    dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_SETTING_ROLE" });
       }, 1000);
@@ -200,7 +200,7 @@ function SettingNewRole({ hostelid }) {
   useEffect(() => {
     if (state.Settings.StatusForEditPermission === 200) {
       setShowRole(false)
-      dispatch({ type: 'SETTING_ROLE_LIST' });
+    dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDIT_SETTING_ROLE" });
         dispatch({ type: "CLEAR_EDIT_PERMISSION" });

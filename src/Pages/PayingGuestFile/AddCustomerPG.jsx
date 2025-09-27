@@ -25,9 +25,7 @@ function AddCustomer({  showMenu, handleClose   }) {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [Phone, setPhone] = useState("");
-    // const [hostel_Id, setHostel_Id] = useState("");
-    // const [HostelName, setHostelName] = useState("");
-
+       const [step, setStep] = useState(1);
     const [Email, setEmail] = useState("");
     const [house_no, setHouseNo] = useState("");
     const [street, setStreet] = useState("");
@@ -56,6 +54,7 @@ function AddCustomer({  showMenu, handleClose   }) {
     const pincodeRef = useRef(null);
     const stateRef = useRef(null);
   
+const emailRef = useRef(null);
   
     
   
@@ -136,9 +135,14 @@ function AddCustomer({  showMenu, handleClose   }) {
       setFirstnameError("");
     };
   
+
+
+
     useEffect(() => {
       if (state.UsersList.phoneError) {
-        
+
+        setStep(1)
+        phoneRef.current?.focus();
         setFormLoading(false)
       }
       
@@ -146,13 +150,20 @@ function AddCustomer({  showMenu, handleClose   }) {
   
     useEffect(() => {
       if (state.UsersList.emailError) {
-         setFormLoading(false)
-              }
+        setStep(1)
+              setFormLoading(false)
+                    }
       
     }, [state.UsersList.emailError]);
   
-  
-  
+
+
+  useEffect(() => {
+  if (step === 1 && state.UsersList.emailError) {
+    emailRef.current?.focus();
+  }
+}, [step, state.UsersList.emailError]);
+
   
     const handleLastName = (e) => {
       const value = e.target.value;
@@ -230,20 +241,49 @@ function AddCustomer({  showMenu, handleClose   }) {
       setLandmarkError("");
     };
   
-    const handlePinCodeChange = (e) => {
-      const value = e.target.value;
-      if (!/^\d{0,6}$/.test(value)) {
-        return;
-      }
   
-      setPincode(value);
-      if (value.length > 0 && value.length < 6) {
-        setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      } else {
-        setPincodeError("");
-      }
-    };
-  
+const handlePinCodeChange = (e) => {
+  const value = e.target.value;
+
+  if (!/^\d{0,6}$/.test(value)) {
+    return;
+  }
+
+  setPincode(value);
+
+  if (value.length === 0) {
+    setPincodeError("");
+    return;
+  }
+
+  if (value.length < 6) {
+    setPincodeError("Pin Code must be exactly 6 digits");
+    return;
+  }
+
+  if (value === "000000") {
+    setPincodeError("Pin Code cannot be all zeros");
+    return;
+  }
+
+  if (value[0] === "0") {
+    setPincodeError("Pin Code cannot start with 0");
+    return;
+  }
+
+  if (value.slice(-3) === "000") {
+    setPincodeError("Last 3 digits cannot be 000");
+    return;
+  }
+  setPincodeError("");
+};
+
+
+
+
+
+
+
     const handleCity = (e) => {
   
       const value = e.target.value;
@@ -318,14 +358,40 @@ function AddCustomer({  showMenu, handleClose   }) {
       setPhoneErrorMessage("");
     }
 
-    if (pincode && pincode.length !== 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focusedRef.current && pincodeRef?.current) {
-        pincodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
+    if (pincode) {
+  if (pincode.length !== 6) {
+    setPincodeError("Pin Code must be exactly 6 digits");
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
     }
+    hasError = true;
+  } else if (pincode === "000000") {
+    setPincodeError("Pin Code cannot be all zeros");
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
+    }
+    hasError = true;
+  } else if (pincode[0] === "0") {
+    setPincodeError("Pin Code cannot start with 0");
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
+    }
+    hasError = true;
+  } else if (pincode.slice(-3) === "000") {
+    setPincodeError("Last 3 digits cannot be 000");
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
+    }
+    hasError = true;
+  } else {
+    setPincodeError("");
+  }
+}
+
 
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
@@ -435,7 +501,7 @@ function AddCustomer({  showMenu, handleClose   }) {
  
   
   
-      const [step, setStep] = useState(1);
+   
    
    
   
@@ -935,6 +1001,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                          id="form-controls"
                                          placeholder="Enter Email ID"
                                          value={Email}
+                                         ref={emailRef} 
                                          onChange={(e) => handleEmail(e)}
                                          style={{
                                            fontSize: 16,
@@ -1456,7 +1523,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                  : null}
      
                              </div>
-                             {state.UsersList.phoneError && (
+                             {/* {state.UsersList.phoneError && (
                                <div style={{ color: "red" }}>
                                  <MdError
                                    style={{ fontSize: "13px", marginBottom: "2px" }}
@@ -1474,8 +1541,8 @@ function AddCustomer({  showMenu, handleClose   }) {
                                    {state.UsersList.phoneError}
                                  </span>
                                </div>
-                             )}
-                             {state.UsersList.emailError && (
+                             )} */}
+                             {/* {state.UsersList.emailError && (
                                <div style={{ color: "red" }}>
                                  <MdError />
                                  <span
@@ -1489,7 +1556,7 @@ function AddCustomer({  showMenu, handleClose   }) {
                                    {state.UsersList.emailError}
                                  </span>
                                </div>
-                             )}
+                             )} */}
                              <div className="d-flex justify-content-end mt-3">
                                <Button style={{
                                  fontFamily: "Gilroy",

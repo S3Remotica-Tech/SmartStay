@@ -176,7 +176,7 @@ function OccupiedBedStatus({
                                             >
 
                                                 <FiCalendar size={16} color="#1E45E1" />
-                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Re-Assign Bed</label>
+                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Change Bed</label>
                                             </div>
 
                                             <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
@@ -215,15 +215,15 @@ function OccupiedBedStatus({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
-                                            <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                                            <Image src={currentItem?.currentTenantProfilePic && currentItem?.currentTenantProfilePic !== "0" ? currentItem?.currentTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                                         </div>
                                         <div className="mt-2">
                                             <div>
-                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} > {currentItem.fullName || "N/A"}</label>
+                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} > {currentItem.currentTenantFullName || "N/A"}</label>
                                             </div>
                                             <div>
                                                 <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                                               {currentItem?.customerMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.customerMobile)}` : 'No phone'}
+                                                                               {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
 
                                                 </label>
 

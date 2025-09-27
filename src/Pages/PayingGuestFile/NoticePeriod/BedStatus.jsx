@@ -47,21 +47,20 @@ function NoticeBedStatusDetails({
   const popupRef = useRef(null);
 
 
-  console.log("currentItem", currentItem)
+  
 
-  const isNoticeAndBooked = currentItem?.isBooked && currentItem?.isOccupied && currentItem?.isOnNotice
+  const isNoticeAndBooked = currentItem?.newTenantCustomerId !== null
 
 
-  console.log("isNoticeAndBooked", isNoticeAndBooked)
 
   const handleShowDots = (type) => {
     setActiveMenu((prev) => (prev === type ? null : type));
   }
 
 
-const handleChangeBed = () =>{
-  handleOpenChangeBed(true)
-}
+  const handleChangeBed = () => {
+    handleOpenChangeBed(true)
+  }
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setActiveMenu(null);
@@ -281,7 +280,7 @@ const handleChangeBed = () =>{
 
 
                           {
-                            isNoticeAndBooked ?
+                            currentItem?.newTenantCustomerId ?
 
                               <div>
                                 <div
@@ -357,12 +356,29 @@ const handleChangeBed = () =>{
                                 >
 
                                   <img src={CalenderTick} alt="Re-Assign Bed" />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Re-Check-in Bed</label>
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Cancal Checkout</label>
                                 </div>
 
                                 <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
 
-
+                                <div
+                                  className="d-flex gap-2 align-items-center"
+                                  onClick={() => handleNewBooking()}
+                                  style={{
+                                    padding: "10px",
+                                    borderBottomLeftRadius: 10,
+                                    borderBottomRightRadius: 10,
+                                    cursor: "pointer",
+                                  }}
+                                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                >
+                                  <img src={TimerPause} alt="booking" />
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>
+                                    New Booking
+                                  </label>
+                                </div>
+                                <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
 
                                 <div
                                   className="d-flex gap-2 align-items-center"
@@ -379,7 +395,7 @@ const handleChangeBed = () =>{
                                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                 >
                                   <img src={logout} alt="Checkout" />
-                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Write off</label>
+                                  <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Generate</label>
                                 </div>
                               </div>
 
@@ -395,18 +411,18 @@ const handleChangeBed = () =>{
                   <div className="d-flex gap-3 align-items-center justify-content-between">
                     <div className="d-flex gap-3 align-items-center">
                       <div>
-                        <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                        <Image src={currentItem?.currentTenantProfilePic && currentItem?.currentTenantProfilePic !== "0" ? currentItem?.currentTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                       </div>
                       <div className="mt-2">
                         <div>
-                          <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
+                          <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.currentTenantFullName || "N/A"}</label>
                         </div>
                         <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
                           {/* {currentItem?.customerMobile
                           ? `+${String(currentItem?.customerMobile).slice(0, -10)} ${String(currentItem?.customerMobile).slice(-10)}`
                           : "No phone"} */}
 
-                          {currentItem?.customerMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.customerMobile)}` : 'No phone'}
+                          {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
 
 
                         </label></div>
@@ -589,15 +605,15 @@ const handleChangeBed = () =>{
                     <div className="d-flex gap-3 align-items-center justify-content-between">
                       <div className="d-flex gap-3 align-items-center">
                         <div>
-                          <Image src={currentItem?.profilePic && currentItem?.profilePic !== "0" ? currentItem?.profilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                          <Image src={currentItem?.currentTenantProfilePic && currentItem?.currentTenantProfilePic !== "0" ? currentItem?.currentTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                         </div>
                         <div className="mt-2">
                           <div>
-                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.fullName || "N/A"}</label>
+                            <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.currentTenantFullName || "N/A"}</label>
                           </div>
                           <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
 
-                            {currentItem?.customerMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.customerMobile)}` : 'No phone'}
+                            {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
 
 
                           </label></div>
@@ -651,25 +667,26 @@ const handleChangeBed = () =>{
                 >
                   Notice Period
                 </Button>
+                {
+                  isNoticeAndBooked &&
+                  <Button
 
-                <Button
+                    className="w-100 m-0"
+                    style={{
+                      color: "#1E45E1",
+                      border: "1px solid #1E45E1",
+                      fontWeight: 600,
+                      borderRadius: 60,
+                      fontSize: 16,
+                      fontFamily: "Gilroy",
+                      padding: 10,
+                      backgroundColor: "#fff"
 
-                  className="w-100 m-0"
-                  style={{
-                    color: "#1E45E1",
-                    border: "1px solid #1E45E1",
-                    fontWeight: 600,
-                    borderRadius: 60,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    padding: 10,
-                    backgroundColor: "#fff"
-
-                  }}
-                >
-                  Reserved
-                </Button>
-
+                    }}
+                  >
+                    Reserved
+                  </Button>
+                }
               </div>
             </Modal.Footer>
           </Modal.Dialog>

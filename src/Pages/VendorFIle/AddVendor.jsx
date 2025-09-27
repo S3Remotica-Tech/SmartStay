@@ -385,30 +385,58 @@ function AddVendor({ show, setShow, currentItem }) {
       isValid = false;
     }
 
-    if (!pinCode) {
-      setPinCodeError("Please Enter Pincode");
-      if (!focusedRef.current && pinCodeRef.current) {
-        pinCodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else if (!/^\d+$/.test(String(pinCode))) {
-      setPinCodeError("Pin Code Must Be Numeric");
-      if (!focusedRef.current && pinCodeRef.current) {
-        pinCodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else if (String(pinCode).length !== 6) {
-      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focusedRef.current && pinCodeRef.current) {
-        pinCodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else {
-      setPinCodeError("");
-    }
+  if (!pinCode) {
+  setPinCodeError("Please Enter Pincode");
+  if (!focusedRef.current && pinCodeRef.current) {
+    pinCodeRef.current.focus();
+    focusedRef.current = true;
+  }
+  isValid = false;
+} 
+else if (!/^\d+$/.test(String(pinCode))) {
+  setPinCodeError("Pin Code Must Be Numeric");
+  if (!focusedRef.current && pinCodeRef.current) {
+    pinCodeRef.current.focus();
+    focusedRef.current = true;
+  }
+  isValid = false;
+} 
+else if (String(pinCode).length !== 6) {
+  setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+  if (!focusedRef.current && pinCodeRef.current) {
+    pinCodeRef.current.focus();
+    focusedRef.current = true;
+  }
+  isValid = false;
+} 
+else if (pinCode === "000000") {
+  setPinCodeError("Pin Code cannot be all zeros");
+  if (!focusedRef.current && pinCodeRef.current) {
+    pinCodeRef.current.focus();
+    focusedRef.current = true;
+  }
+  isValid = false;
+} 
+else if (String(pinCode)[0] === "0") {
+  setPinCodeError("Pin Code cannot start with 0");
+  if (!focusedRef.current && pinCodeRef.current) {
+    pinCodeRef.current.focus();
+    focusedRef.current = true;
+  }
+  isValid = false;
+} 
+else if (String(pinCode).slice(-3) === "000") {
+  setPinCodeError("Last 3 digits cannot be 000");
+  if (!focusedRef.current && pinCodeRef.current) {
+    pinCodeRef.current.focus();
+    focusedRef.current = true;
+  }
+  isValid = false;
+} 
+else {
+  setPinCodeError("");
+}
+
 
 
     if (!state_name) {

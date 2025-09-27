@@ -1,11 +1,66 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal ,EditGeneral , EditStaffUser } from "../Action/SettingsAction"
+import { ChangeRoomHostelElectricity,getModules, RecurringRole, AddExpencesCategory, EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit, GetAllRoles, AddSettingRole, AddSettingPermission, editRolePermission, deleteRolePermission, addStaffUser, GetAllStaff, GetAllReport, AddGeneral, GetAllGeneral, passwordChangesinstaff, generalDelete, passwordCheck, Editcomplainttype, DeleteElectricity, newSubscription, SubscriptionList, SubscriptionPdfDownload, SettingsAddRecurring, GetBillsFrequncyTypes, GetBillsNotificationTypes, SettingsGetRecurring, AddInvoiceSettings, SettingsGetInvoice, AddBillTemplate, getTemplateList, AddGlobalSettingTemplate, SettingsGetGlobal ,EditGeneral , EditStaffUser } from "../Action/SettingsAction"
 
 
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+function* handleChangeRoomHostelElectricity(action) {
+   try {
+      const response = yield call(ChangeRoomHostelElectricity, action.payload);
+
+      if (response.status === 200) {
+         yield put({ type: 'ROOM_HOSTEL_EB_CHANGE', payload: { response: response.data, statusCode: response.status  } })
+
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+
+         toast.success(`${response.data}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle
+         })
+
+
+
+      }
+
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
+
 
 
 
@@ -601,7 +656,7 @@ function* handleEBBillingUnitAdd(params) {
 function* handleEBBillingUnitGet(action) {
    const response = yield call(GetEBBillingUnit, action.payload);
    if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data.eb_settings, statusCode: response.status || response.statusCode } })
+      yield put({ type: 'EB_BILLING_UNIT_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
    }
    else {
       yield put({ type: 'ERROR_EB_BILLING_UNIT_LIST', payload: { statusCode: response.status || response.statusCode } })
@@ -667,9 +722,9 @@ function* handleDeleteElectricity(action) {
 
 }
 
-function* handleGetAllRoles() {
+function* handleGetAllRoles(role) {
    try{
-  const response = yield call(GetAllRoles)
+  const response = yield call(GetAllRoles, role.payload)
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'ROLE_LIST', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -1713,6 +1768,7 @@ function refreshToken(response) {
 
 
 function* SettingsSaga() {
+ yield takeEvery('ROOMHOSTELEBCHANGE', handleChangeRoomHostelElectricity)
    yield takeEvery('GETMODULES', handleGetModules)
    yield takeEvery('EXPENCES-CATEGORY-LIST', handleCategorylist)
    yield takeEvery('EXPENCES-CATEGORY-ADD', handleCategoryAdd)

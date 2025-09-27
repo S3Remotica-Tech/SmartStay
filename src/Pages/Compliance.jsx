@@ -479,14 +479,13 @@ const Compliance = () => {
   };
 
 
-  console.log("selectedDateRange", selectedDateRange)
+
 
   useEffect(() => {
     if (selectedDateRange?.length === 2) {
       const newStartDate = dayjs(selectedDateRange[0]).startOf("day").format("DD-MM-YYYY");
       const newEndDate = dayjs(selectedDateRange[1]).endOf("day").format("DD-MM-YYYY");
 
-      console.log("****", newStartDate, "&&&&", newEndDate);
       if (newStartDate && newEndDate) {
         dispatch({
           type: "COMPLIANCE-LIST",

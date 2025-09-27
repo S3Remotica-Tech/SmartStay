@@ -294,29 +294,60 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
 
-    const pinString = String(pincode).trim();
-    if (!pinString) {
-      setPincodeError("Please Enter Pincode");
-      if (!focused) {
-        pincodeRef.current?.focus();
-        focused = true;
-      }
-      hasError = true;
-    } else if (!/^\d+$/.test(pinString)) {
-      setPincodeError("Pin Code Must Be Numeric");
-      if (!focused) {
-        pincodeRef.current?.focus();
-        focused = true;
-      }
-      hasError = true;
-    } else if (pinString.length !== 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focused) {
-        pincodeRef.current?.focus();
-        focused = true;
-      }
-      hasError = true;
-    }
+  const pinString = String(pincode).trim();
+
+if (!pinString) {
+  setPincodeError("Please Enter Pincode");
+  if (!focused) {
+    pincodeRef.current?.focus();
+    focused = true;
+  }
+  hasError = true;
+} 
+else if (!/^\d+$/.test(pinString)) {
+  setPincodeError("Pin Code Must Be Numeric");
+  if (!focused) {
+    pincodeRef.current?.focus();
+    focused = true;
+  }
+  hasError = true;
+} 
+else if (pinString.length !== 6) {
+  setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  if (!focused) {
+    pincodeRef.current?.focus();
+    focused = true;
+  }
+  hasError = true;
+} 
+else if (pinString === "000000") {
+  setPincodeError("Pin Code cannot be all zeros");
+  if (!focused) {
+    pincodeRef.current?.focus();
+    focused = true;
+  }
+  hasError = true;
+} 
+else if (pinString[0] === "0") {
+  setPincodeError("Pin Code cannot start with 0");
+  if (!focused) {
+    pincodeRef.current?.focus();
+    focused = true;
+  }
+  hasError = true;
+} 
+else if (pinString.slice(-3) === "000") {
+  setPincodeError("Last 3 digits cannot be 000");
+  if (!focused) {
+    pincodeRef.current?.focus();
+    focused = true;
+  }
+  hasError = true;
+} 
+else {
+  setPincodeError("");
+}
+
 
     if (!city) {
       setCityError("Please Enter City");

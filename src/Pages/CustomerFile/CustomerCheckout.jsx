@@ -151,7 +151,7 @@ const formattedrequestDate = dayjs(requestDate).isValid()
 
 
 
-    if (props.bedData?.customerId  && formattedDate && formattedrequestDate) {
+    if (props.bedData?.currentTenantCustomerId  && formattedDate && formattedrequestDate) {
 
 
       // dispatch({
@@ -169,7 +169,7 @@ const formattedrequestDate = dayjs(requestDate).isValid()
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER',
         payload: {
-          customerId: props.bedData?.customerId,
+          customerId: props.bedData?.currentTenantCustomerId,
           hostelId: props.bedData?.hostelId || state.login.selectedHostel_Id,
           requestDate: formattedrequestDate,
           checkoutDate: formattedDate,
@@ -301,10 +301,10 @@ const formattedrequestDate = dayjs(requestDate).isValid()
                             // }}
                             src={
                               props.bedData
-                                && props.bedData.profilePic && props.bedData.profilePic !== ""
-                                ? typeof props.bedData.profilePic === "string"
-                                  ? props.bedData.profilePic
-                                  : URL.createObjectURL(props.bedData.profilePic)
+                                && props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== ""
+                                ? typeof props.bedData.currentTenantProfilePic === "string"
+                                  ? props.bedData.currentTenantProfilePic
+                                  : URL.createObjectURL(props.bedData.currentTenantProfilePic)
                                 : Profiles
                             }
                             alt="Profile"
@@ -330,7 +330,7 @@ const formattedrequestDate = dayjs(requestDate).isValid()
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.firstName}
+                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.currentTenantFullName}
                               </label>
                             </div>
 
@@ -391,20 +391,7 @@ const formattedrequestDate = dayjs(requestDate).isValid()
                           </Form.Label>
 
                           <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                            {/* <DatePicker
-                              style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={requestDate ? dayjs(requestDate) : null}
-                              onChange={(date) => {
-                                setRequestDate(date);
-                                calculateDateDifference(selectedDate, date);
-                                setCheckOutRequestDateError('')
-                              }}
-                              disabledDate={(current) => current && current > dayjs().endOf("day")}
-                              getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                            /> */}
-
+                          
                             <DatePicker
                               style={{
                                 width: "100%",
@@ -416,8 +403,7 @@ const formattedrequestDate = dayjs(requestDate).isValid()
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
                               value={requestDate ? dayjs(requestDate) : null}
-                              // ref={selectedDateRef}
-                              onChange={(date) => {
+                                                           onChange={(date) => {
                                 setCheckOutRequestDateError("");
                                 dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
 
@@ -432,14 +418,13 @@ const formattedrequestDate = dayjs(requestDate).isValid()
 
                                 const today = dayjs().endOf("day");
 
-                                // 🔹 Parse joiningDate from state (DD-MM-YYYY)
                                 let joining = null;
                                 if (joiningdate && /^\d{2}-\d{2}-\d{4}$/.test(joiningdate)) {
                                   const [dd, mm, yyyy] = joiningdate.split("-");
                                   joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
                                 }
 
-                                // 🔹 Parse last bill date from state (DD-MM-YYYY)
+                        
                                 let lastBillDate = null;
                                 if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
                                   const [dd, mm, yyyy] = lastDate.split("-");
@@ -454,20 +439,16 @@ const formattedrequestDate = dayjs(requestDate).isValid()
                                     joining.year() === today.year();
 
                                   if (sameMonth) {
-                                    // ✅ Case 1: Joining date is in current month → allow from joining date onwards
                                     minAllowedDate = joining;
                                   } else if (lastBillDate) {
-                                    // ✅ Case 2: Joining date not in current month → allow from last bill date onwards
                                     minAllowedDate = lastBillDate;
                                   }
                                 }
 
-                                // ❌ Block future dates
                                 if (current.isAfter(today)) {
                                   return true;
                                 }
 
-                                // ❌ Block all dates before minAllowedDate
                                 if (minAllowedDate && current.isBefore(minAllowedDate)) {
                                   return true;
                                 }
@@ -503,22 +484,7 @@ const formattedrequestDate = dayjs(requestDate).isValid()
                           </Form.Label>
 
                           <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                            {/* <DatePicker
-                              style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
-                              format="DD/MM/YYYY"
-                              placeholder="DD/MM/YYYY"
-                              value={selectedDate ? dayjs(selectedDate) : null}
-                              onChange={(date) => {
-                                setSelectedDate(date);
-                                calculateDateDifference(date, requestDate);
-                                setCheckOutDateError('');
-                                setJoiningError('')
-                              }}
-
-                              getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                            /> */}
-
-                            <DatePicker
+                                                        <DatePicker
                               style={{
                                 width: "100%",
                                 height: 48,
@@ -537,11 +503,9 @@ const formattedrequestDate = dayjs(requestDate).isValid()
 
                               }}
                               disabledDate={(current) => {
-                                // if no requestDate → disable all dates
                                 if (!requestDate) {
                                   return true;
                                 }
-                                // disable dates before requestDate
                                 return current && current.isBefore(dayjs(requestDate), "day");
                               }}
                               getPopupContainer={(triggerNode) =>

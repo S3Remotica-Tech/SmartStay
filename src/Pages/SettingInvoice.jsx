@@ -502,7 +502,7 @@ const [resetCall, setResetCall] = useState(false)
     }
   };
 
-  console.log("hostel_logo",hostel_logo)
+ 
 
   const fileInputRef = useRef(null);
   const [sign, setSign] = useState(null);

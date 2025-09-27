@@ -16,7 +16,7 @@ import "./SettingElectricity.css";
 const SettingElectricity = ({ hostelid }) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const [isRecurring, setIsRecurring] = useState(false);
+  const [isProWrate, setProWrate] = useState(false);
   const [roomBasedCalculation, setRoomBasedCalculation] = useState(false);
   const [hostelBasedCalculation, setHostelBasedCalculation] = useState(false);
   const [showFormElectricity, setShowFormElectricity] = useState(false);
@@ -25,7 +25,7 @@ const SettingElectricity = ({ hostelid }) => {
   const [totalErr, setTotalErr] = useState("");
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
-  const [calculatedenddate, setCalculatedEnddate] = useState("");
+  const [calculatedenddate, setCalculatedEnddate] = useState("28");
   const [formLoading, setFormLoading] = useState(false)
   const [formRecurringLoading, setFormRecurringLoading] = useState(false)
 
@@ -43,12 +43,20 @@ const SettingElectricity = ({ hostelid }) => {
   const [EbList, setEbList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (hostelid) {
       setLoading(true)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: { hostel_id: hostelid },
+        payload: hostelid
       });
     }
   }, [hostelid]);
@@ -60,7 +68,7 @@ const SettingElectricity = ({ hostelid }) => {
     ) {
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: { hostel_id: hostelid },
+        payload: hostelid,
       });
       setFormLoading(false)
       handleClose();
@@ -105,13 +113,14 @@ const SettingElectricity = ({ hostelid }) => {
     }
     setEdit(true);
     setShowFormElectricity(true);
-    setAmount(item.amount);
+    setAmount(item.chargerPerUnit);
     setEditHostel({
-      id: item.hostel_id,
-      name: item.Name,
-      editamount: item.amount,
+      id: item.hostelId,
+      editamount: item.chargerPerUnit,
     });
   };
+
+
 
   const handleChangeAmount = (e) => {
     const newAmount = e.target.value;
@@ -139,7 +148,7 @@ const SettingElectricity = ({ hostelid }) => {
     if (
       edit &&
       editHostel &&
-      String(editHostel.editamount) === String(amount)
+      String(editHostel.chargerPerUnit) === String(amount)
     ) {
       setTotalErr("No Changes Deducted");
       return;
@@ -150,11 +159,8 @@ const SettingElectricity = ({ hostelid }) => {
         type: "EB-BILLING-UNIT-ADD",
 
         payload: {
-          hostel_id: editHostel.id,
-          unit: 1,
-          amount: Number(amount),
-          room_based: roomBasedCalculation ? 1 : 0,
-          hostel_based: hostelBasedCalculation ? 1 : 0,
+          hostelId: hostelid,
+          unitPrice: Number(amount),
         },
       });
       setFormLoading(true)
@@ -163,11 +169,8 @@ const SettingElectricity = ({ hostelid }) => {
         type: "EB-BILLING-UNIT-ADD",
 
         payload: {
-          hostel_id: hostelid,
-          unit: 1,
-          amount: Number(amount),
-          room_based: roomBasedCalculation ? 1 : 0,
-          hostel_based: hostelBasedCalculation ? 1 : 0,
+          hostelId: hostelid,
+          unitPrice: Number(amount),
         },
       });
       setFormLoading(true)
@@ -176,32 +179,36 @@ const SettingElectricity = ({ hostelid }) => {
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
-    setIsRecurring(false);
+    dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: hostelid,
+      });
     setCalculatedstartdateErrmsg("");
     setCalculatedEnddateErrMsg("");
     setCalculatedEnddate("");
     setCalculatedstartdate("");
   };
 
-  const handleRecurringFormShow = (item) => {
-    setIsRecurring(!isRecurring);
+  // const handleProRate = () => {
+  //   // dispatch({
+  //   //   type: "ROOMHOSTELEBCHANGE",
+  //   //   payload: {
+  //   //     hostelId: hostelid,
+  //   //     isHostelBased: hostelBasedCalculation,
+  //   //     isRoomBased: roomBasedCalculation,
+  //   //     isProRate: isProWrate
+  //   //   },
+  //   // });
+  // };
 
-    if (!isRecurring === false) {
-      setRecurringForm(false);
-      dispatch({
-        type: "SETTINGSADDRECURRING",
-        payload: {
-          type: "electricity",
-          recure: 0,
-          hostel_id: Number(item.hostel_id),
-          start_date: "0",
-          end_date: "0",
-        },
-      });
-    } else {
-      setRecurringForm(true);
-    }
+
+
+const handleProRate = (item) => {
+    setProWrate(!isProWrate);
+setRecurringForm(true);
+   
   };
+
 
   const handlechangeEvery = (e) => {
     setEvery_Recurr(e.target.value);
@@ -217,18 +224,30 @@ const SettingElectricity = ({ hostelid }) => {
       }
       return;
     } else {
-      dispatch({
-        type: "SETTINGSADDRECURRING",
-        payload: {
-          hostel_id: Number(hostelid),
-          type: "electricity",
-          recure: 1,
-          start_date: Number(calculatedstartdate),
-          end_date: Number(calculatedenddate),
-        },
-      });
+
+dispatch({
+      type: "ROOMHOSTELEBCHANGE",
+      payload: {
+        hostelId: hostelid,
+        // isHostelBased: true,
+        //  isRoomBased: false,
+        isProRate: true,
+        calculationStartingDate: calculatedstartdate,
+        frequent:every_recurr
+      },
+    });
+      // dispatch({
+      //   type: "SETTINGSADDRECURRING",
+      //   payload: {
+      //     hostel_id: Number(hostelid),
+      //     type: "electricity",
+      //     recure: 1,
+      //     start_date: Number(calculatedstartdate),
+      //     end_date: Number(calculatedenddate),
+      //   },
+      // });
       setFormRecurringLoading(true)
-      setIsRecurring(false);
+      setProWrate(false);
     }
   };
 
@@ -236,10 +255,10 @@ const SettingElectricity = ({ hostelid }) => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
       setCalculatedstartdate("");
       setCalculatedEnddate("");
-      setFormRecurringLoading(false)
+      
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
-        payload: { hostel_id: hostelid },
+        payload: hostelid,
       });
       setRecurringForm(false);
       setTimeout(() => {
@@ -248,48 +267,59 @@ const SettingElectricity = ({ hostelid }) => {
     }
   }, [state.InvoiceList.settingsaddRecurringStatusCode]);
 
-  const handleHostelBased = (v) => {
+
+
+
+  const handleHostelBased = () => {
     setHostelBasedCalculation(true);
     setRoomBasedCalculation(false);
     dispatch({
-      type: "EB-BILLING-UNIT-ADD",
+      type: "ROOMHOSTELEBCHANGE",
       payload: {
-        id: v.id,
-        hostel_id: hostelid,
-        unit: v.unit,
-        amount: v.amount,
-        room_based: 0,
-        hostel_based: 1,
+        hostelId: hostelid,
+        isHostelBased: true,
+         isRoomBased: false,
       },
     });
   };
 
-  const handleRoomBased = (v) => {
-    setRoomBasedCalculation(true);
+  const handleRoomBased = () => {
     setHostelBasedCalculation(false);
+    setRoomBasedCalculation(true);
     dispatch({
-      type: "EB-BILLING-UNIT-ADD",
+      type: "ROOMHOSTELEBCHANGE",
       payload: {
-        id: v.id,
-        hostel_id: hostelid,
-        unit: v.unit,
-        amount: v.amount,
-        room_based: 1,
-        hostel_based: 0,
+        hostelId: hostelid,
+        isHostelBased: false,
+        isRoomBased: true,
+
       },
     });
   };
 
   useEffect(() => {
-    if (state.Settings.EBBillingUnitlist.length > 0) {
-      let temp = state.Settings.EBBillingUnitlist;
-      setHostelBasedCalculation(temp[0].hostel_based === 1);
-      setRoomBasedCalculation(temp[0].room_based === 1);
-      setIsRecurring(temp[0].recuring);
+    if (state.Settings?.getebStatuscode === 200) {
+      setHostelBasedCalculation(state.Settings?.EBBillingUnitlist?.isHostelBased);
+      setRoomBasedCalculation(state.Settings?.EBBillingUnitlist?.isRoomBased);
+      setProWrate(state.Settings?.EBBillingUnitlist?.isProRate);
     }
-  }, [state.Settings.EBBillingUnitlist]);
+  }, [state.Settings?.getebStatuscode]);
 
+  useEffect(() => {
+    if (state.Settings?.ebSettingsChangesStatusCode === 200) {
+      setFormRecurringLoading(false)
+      setRecurringForm(false)
+      dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: hostelid,
+      });
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_ROOM_HOSTEL_EB_CHANGE" });
+      }, 100);
 
+    }
+
+  }, [state.Settings?.ebSettingsChangesStatusCode])
 
   useEffect(() => {
     if (state.Settings?.getebStatuscode === 200) {
@@ -402,35 +432,11 @@ const SettingElectricity = ({ hostelid }) => {
         >
 
 
-          {EbList.length > 0 ? (
-            EbList.map((v, i) => (
-              <Button
-                className="electricity-btn"
-                key={i}
-                onClick={() => handleEditElectricity(v)}
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  fontWeight: 600,
-                  borderRadius: 8,
+          {EbList ? (
 
-                  height: 45,
-                  width: 146,
-                }}
-              >
-                <span style={{ display: "inline-flex", alignItems: "center", gap: "7px" }}>
-                  <img src={editpic} alt="Edit" height={16} width={16} />
-                  Edit
-                </span>
-
-              </Button>
-            ))
-          ) : (
             <Button
               className="electricity-btn"
-              onClick={handleShowFormElectricity}
+              onClick={() => handleEditElectricity(EbList)}
               style={{
                 fontFamily: "Gilroy",
                 fontSize: 14,
@@ -438,14 +444,37 @@ const SettingElectricity = ({ hostelid }) => {
                 color: "white",
                 fontWeight: 600,
                 borderRadius: 8,
+
                 height: 45,
                 width: 146,
               }}
-              disabled={showPopup}
             >
-              + Electricity
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "7px" }}>
+                <img src={editpic} alt="Edit" height={16} width={16} />
+                Edit
+              </span>
+
             </Button>
-          )}
+          )
+            : (
+              <Button
+                className="electricity-btn"
+                onClick={handleShowFormElectricity}
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  fontWeight: 600,
+                  borderRadius: 8,
+                  height: 45,
+                  width: 146,
+                }}
+                disabled={showPopup}
+              >
+                + Electricity
+              </Button>
+            )}
         </div>
 
         {showPopup && (
@@ -461,231 +490,154 @@ const SettingElectricity = ({ hostelid }) => {
       </div>
 
       <>
-        {EbList && EbList.length > 0
-          ? EbList.map((v, index) => {
-            return (
-              <Row key={index} className="scroll-issue">
-                <Col lg={12} md={12} sm={12} style={{ maxWidth: '900px', width: '100%' }}>
-                  <Card
-                    className="p-2 border mb-4 mb-md-0"
-                    style={{ borderRadius: 16 }}
-                  >
-                    <Card.Body>
-                      <div className="d-flex justify-content-between align-items-center flex-wrap">
+        {EbList
+          ?
 
 
-                        <div className="d-flex justify-content-between align-items-center" style={{ width: "100%" }}>
-                          <div className="d-flex align-items-center">
-                            <span
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                background: "#E7F1FF",
-                                borderRadius: "50%",
-                                width: 32,
-                                height: 32,
-                                justifyContent: "center",
-                                marginRight: 10,
-                              }}
-                            >
-                              <img
-                                src={electricity}
-                                alt="electricity"
-                                style={{ width: 18, height: 18 }}
-                              />
-                            </span>
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 16,
-                                color: "#222",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Electricity Information
-                            </span>
-                          </div>
-
-                          {/* RIGHT SIDE */}
-                          <div>
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                fontSize: 16,
-                                color: "#222",
-                              }}
-                            >
-                              ₹ {v.amount}rs
-                            </span>
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontWeight: 400,
-                                fontSize: 13,
-                                color: "#939393",
-                                marginLeft: 4,
-                              }}
-                            >
-                              /Unit
-                            </span>
-                          </div>
-                        </div>
+          <Row className="scroll-issue">
+            <Col lg={12} md={12} sm={12} style={{ maxWidth: '900px', width: '100%' }}>
+              <Card
+                className="p-2 border mb-4 mb-md-0"
+                style={{ borderRadius: 16 }}
+              >
+                <Card.Body>
+                  <div className="d-flex justify-content-between align-items-center flex-wrap">
 
 
-
+                    <div className="d-flex justify-content-between align-items-center" style={{ width: "100%" }}>
+                      <div className="d-flex align-items-center">
+                        <span
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            background: "#E7F1FF",
+                            borderRadius: "50%",
+                            width: 32,
+                            height: 32,
+                            justifyContent: "center",
+                            marginRight: 10,
+                          }}
+                        >
+                          <img
+                            src={electricity}
+                            alt="electricity"
+                            style={{ width: 18, height: 18 }}
+                          />
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontSize: 16,
+                            color: "#222",
+                            fontWeight: 600,
+                          }}
+                        >
+                          Electricity Information
+                        </span>
                       </div>
-                      <hr />
 
-                      {/* <Form>
-                        <Row className="mb-3">
+                      {/* RIGHT SIDE */}
+                      <div>
+                        <span
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            fontSize: 16,
+                            color: "#222",
+                          }}
+                        >
+                          ₹ {EbList?.chargerPerUnit}rs
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontWeight: 400,
+                            fontSize: 13,
+                            color: "#939393",
+                            marginLeft: 4,
+                          }}
+                        >
+                          /Unit
+                        </span>
+                      </div>
+                    </div>
 
-                          <Col>
-                            <Form.Label
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                color: "#4B4B4B",
-                              }}
-                            >
-                              Room Based Calculation
-                            </Form.Label>
-                            <Form.Check
-                              type="switch"
-                              id="roomBased"
-                              label="Enabled"
-                              checked={roomBasedCalculation}
-                              onChange={() => {
-                                handleRoomBased(v);
-                              }}
-                              className="custom-switch-pointer"
-                            />
-                          </Col>
 
-                          <Col>
-                            <Form.Label
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                color: "#4B4B4B",
-                              }}
-                            >
-                              Hostel Based Calculation
-                            </Form.Label>
-                            <Form.Check
-                              type="switch"
-                              id="hostelBased"
-                              label="Enabled"
-                              className="custom-switch-pointer"
-                              checked={hostelBasedCalculation}
-                              onChange={() => {
-                                handleHostelBased(v);
-                              }}
-                            />
-                          </Col>
 
-                          <Col>
-                            <Form.Label
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                color: "#4B4B4B",
-                              }}
-                            >
-                              Pro-Write
-                            </Form.Label>
-                            <Form.Check
-                              type="switch"
-                              id={`custom-switch-${isRecurring}`}
-                              className="custom-switch-pointer"
-                              checked={isRecurring}
-                              onChange={() => handleRecurringFormShow(v)}
-                            />
-                          </Col>
+                  </div>
+                  <hr />
 
-                        </Row>
 
-                        <style>
-                          {`
-      .custom-switch-pointer input[type="checkbox"],
-      .custom-switch-pointer label {
-        cursor: pointer !important;
-      }
-    `}
-                        </style>
-                      </Form> */}
 
-                      <Form>
-                        <Row className="mb-3 text-center">
-                          <Col>
-                            <Form.Label
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                color: "#4B4B4B",
-                                display: "block",
-                              }}
-                            >
-                              Room Based Calculation
-                            </Form.Label>
-                            <Form.Check style={{ marginLeft: "-75px" }}
-                              type="switch"
-                              id="roomBased"
-                              checked={roomBasedCalculation}
-                              onChange={() => handleRoomBased(v)}
-                              className="custom-switch-pointer"
-                            />
-                          </Col>
+                  <Form>
+                    <Row className="mb-3 text-center">
+                      <Col>
+                        <Form.Label
+                          style={{
+                            fontSize: 12,
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            color: "#4B4B4B",
+                            display: "block",
+                          }}
+                        >
+                          Room Based Calculation
+                        </Form.Label>
+                        <Form.Check style={{ marginLeft: "-75px" }}
+                          type="switch"
+                          id="roomBased"
+                          checked={roomBasedCalculation}
+                          onChange={() => handleRoomBased(EbList)}
+                          className="custom-switch-pointer"
+                        />
+                      </Col>
 
-                          <Col>
-                            <Form.Label
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                color: "#4B4B4B",
-                                display: "block",
-                              }}
-                            >
-                              Hostel Based Calculation
-                            </Form.Label>
-                            <Form.Check style={{ marginLeft: "-100px" }}
-                              type="switch"
-                              id="hostelBased"
-                              checked={hostelBasedCalculation}
-                              onChange={() => handleHostelBased(v)}
-                              className="custom-switch-pointer"
-                            />
-                          </Col>
+                      <Col>
+                        <Form.Label
+                          style={{
+                            fontSize: 12,
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            color: "#4B4B4B",
+                            display: "block",
+                          }}
+                        >
+                          Hostel Based Calculation
+                        </Form.Label>
+                        <Form.Check style={{ marginLeft: "-100px" }}
+                          type="switch"
+                          id="hostelBased"
+                          checked={hostelBasedCalculation}
+                          onChange={() => handleHostelBased(EbList)}
+                          className="custom-switch-pointer"
+                        />
+                      </Col>
 
-                          <Col>
-                            <Form.Label
-                              style={{
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 600,
-                                color: "#4B4B4B",
-                                display: "block",
-                              }}
-                            >
-                              Pro-Write
-                            </Form.Label>
-                            <Form.Check style={{ marginLeft: "-17px" }}
-                              type="switch"
-                              id={`custom-switch-${isRecurring}`}
-                              checked={isRecurring}
-                              onChange={() => handleRecurringFormShow(v)}
-                              className="custom-switch-pointer"
-                            />
-                          </Col>
-                        </Row>
+                      <Col>
+                        <Form.Label
+                          style={{
+                            fontSize: 12,
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            color: "#4B4B4B",
+                            display: "block",
+                          }}
+                        >
+                          Pro-Wrate
+                        </Form.Label>
+                        <Form.Check
+                          style={{ marginLeft: "-17px" }}
+                          type="switch"
+                          id="proRate"
+                          checked={isProWrate}
+                          onChange={() => handleProRate()}
+                          className="custom-switch-pointer"
+                        />
+                      </Col>
+                    </Row>
 
-                        <style>
-                          {`
+                    <style>
+                      {`
       .custom-switch-pointer input[type="checkbox"],
       .custom-switch-pointer label {
         cursor: pointer !important;
@@ -695,16 +647,16 @@ const SettingElectricity = ({ hostelid }) => {
         justify-content: center;
       }
     `}
-                        </style>
-                      </Form>
+                    </style>
+                  </Form>
 
 
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            );
-          })
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+
+
           : !loading && (
 
 
@@ -1103,10 +1055,9 @@ const SettingElectricity = ({ hostelid }) => {
                     <div className="col-lg-4">
                       <Select
                         options={options}
+                        isDisabled
                         onChange={handleEndDateChange}
-                        value={options.find(
-                          (option) => option.value === calculatedenddate
-                        )}
+                        value={options.find(option => option.value === 28)}
                         placeholder="Select"
                         classNamePrefix="custom"
                         menuPlacement="auto"
