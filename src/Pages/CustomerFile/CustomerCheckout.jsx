@@ -111,7 +111,7 @@ function CustomerCheckout(props) {
     }
   };
 
-console.log("props.bedData",props.bedData)
+
   const handleCheckOutCustomer = () => {
 
 

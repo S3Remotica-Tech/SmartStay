@@ -43,12 +43,7 @@ const SettingElectricity = ({ hostelid }) => {
   const [EbList, setEbList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-console.log("recurringform",recurringform)
 
-
-
-
-  console.log("EbList", EbList)
 
 
 
@@ -125,7 +120,7 @@ console.log("recurringform",recurringform)
     });
   };
 
-  console.log("state", state)
+
 
   const handleChangeAmount = (e) => {
     const newAmount = e.target.value;
@@ -206,7 +201,7 @@ console.log("recurringform",recurringform)
   //   // });
   // };
 
-  console.log("isProWrate",isProWrate)
+
 
 const handleProRate = (item) => {
     setProWrate(!isProWrate);

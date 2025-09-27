@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 function AddRoomReading({ show, handleClose, selectedRowDetails }) {
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    console.log("selectedRowDetails", selectedRowDetails)
+
     const [readingError, setReadingError] = useState("");
     const [dateError, setDateError] = useState("");
     const [currentReading, setCurrentReading] = useState("");

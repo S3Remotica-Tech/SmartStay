@@ -244,7 +244,7 @@ const ComplianceList = (props) => {
     setShowAssignComplaint(false);
   };
 
-console.log("complaintId",complaintId)
+
 
 
   const ChangeStatusClose = () => {
@@ -302,7 +302,7 @@ console.log("complaintId",complaintId)
       setStatusErrorType("Please Select User");
     } else {
 
-console.log("complaintId",complaintId, "compliant",compliant)
+
 
       if(complaintId && compliant){
        dispatch({
@@ -351,8 +351,7 @@ console.log("complaintId",complaintId, "compliant",compliant)
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
   const handleAssignOpenClose = (item) => {
-    console.log("item",item)
-    // setAssignId(item?.ID);
+  
     dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_id } });
     setShowDots(false);
     setCompliant(item?.Assign ?? "");

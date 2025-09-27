@@ -91,8 +91,7 @@ function* handleParticularcompliant(action) {
 
 
 function* handlecompliancelist(action) {
-    console.log("Saga triggered:", action);
-   try{
+      try{
     
     const response = yield call(complianceList, action.payload)
 

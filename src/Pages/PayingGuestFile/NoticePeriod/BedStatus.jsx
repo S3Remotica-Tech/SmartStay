@@ -47,12 +47,11 @@ function NoticeBedStatusDetails({
   const popupRef = useRef(null);
 
 
-  console.log("currentItem", currentItem)
+  
 
   const isNoticeAndBooked = currentItem?.newTenantCustomerId !== null
 
 
-  console.log("isNoticeAndBooked", isNoticeAndBooked)
 
   const handleShowDots = (type) => {
     setActiveMenu((prev) => (prev === type ? null : type));

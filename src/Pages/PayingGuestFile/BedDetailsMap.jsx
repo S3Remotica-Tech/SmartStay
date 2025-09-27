@@ -37,7 +37,7 @@ import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 function BedDetailsMap({ room, propsValue }) {
 
 
-    console.log("room", room)
+ 
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
@@ -72,9 +72,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [changeBedClicked, setChangedBedClicked] = useState('')
 
 
-    console.log("First clickedBed",clickedBed)
-
-    console.log("Second changeBedClicked", changeBedClicked)
+   
 
     const handleshowfinalsettlement = (isvisible, customerId) => {
         setCustomerId(customerId)
@@ -221,7 +219,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
-        console.log("room", room)
+      
         setClickedBed(bed)
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
@@ -248,8 +246,7 @@ function BedDetailsMap({ room, propsValue }) {
     };
 
     const handleclickBedForChangeBed = (bed, room) => {
-        console.log("changeddddd", bed, room)
-        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+              dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
         setChangedBedClicked(bed)
 
     }
@@ -275,7 +272,7 @@ function BedDetailsMap({ room, propsValue }) {
         dispatch(triggerPG(true))
     }
 
-    console.log("state", state)
+  
 
 
     const handleCloseChangedBed = () => {
@@ -318,7 +315,7 @@ function BedDetailsMap({ room, propsValue }) {
     }, [room]);
 
 
-    console.log("clickedBed", clickedBed)
+
 
 
 

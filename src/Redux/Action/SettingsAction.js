@@ -113,7 +113,7 @@ export async function AddEBBillingUnit(type) {
 // }
 
 export async function GetEBBillingUnit(hostelId) {
-  console.log("hostelId",hostelId)
+  
   return await AxiosConfigV2.get(`/v2/hostel/electricity/${hostelId}`);
 }
 
@@ -148,7 +148,6 @@ export async function ChangeRoomHostelElectricity(change) {
 // v2 
 
 export async function GetAllRoles(hostelId) {
-  console.log("hostelId",hostelId)
   return await AxiosConfigV2.get(`/v2/role/hostel/${hostelId}`);
 }
 

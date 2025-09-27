@@ -10,7 +10,7 @@ import AxiosConfigV2 from "../../WebService/AxiosConfigV2";
 
 // v2
 export async function complianceList(compliance) {
-  console.log("compliance",compliance)
+
   return await AxiosConfigV2.get(`/v2/complaint/all-complaints/${compliance.hostelId}`, {
     headers: {
       "Content-Type": "application/json",

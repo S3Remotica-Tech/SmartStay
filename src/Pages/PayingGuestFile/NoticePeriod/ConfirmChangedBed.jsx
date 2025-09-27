@@ -18,9 +18,7 @@ ConfirmChangeBed.propTypes = {
 };
   const [date, setDate] = useState("2025-07-31");
 
-console.log("previousBed",previousBed)
 
-console.log("currentbed",currentBed)
 
 
   return (

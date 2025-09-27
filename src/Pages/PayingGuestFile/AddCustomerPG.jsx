@@ -156,7 +156,7 @@ const emailRef = useRef(null);
       
     }, [state.UsersList.emailError]);
   
-  console.log("emailRef:", emailRef.current);
+
 
   useEffect(() => {
   if (step === 1 && state.UsersList.emailError) {

@@ -167,7 +167,7 @@ const RoomReadingTable = () => {
  const [loading, setLoading] = useState(false);
   const [roomReadingList, setRoomReadingList] = useState([])
 
- console.log("loading",loading)
+
   // const [searchText, setSearchText] = useState("");
   const [filters, setFilters] = useState([]);
 
@@ -218,7 +218,7 @@ const RoomReadingTable = () => {
 
 
   const handleActionClick = (row) => {
-    console.log("roow", row)
+   
     setSelectedRow(row);
     setShowModal(true);
   };
@@ -261,7 +261,6 @@ const RoomReadingTable = () => {
 
 
 
-  console.log("state", state)
 
 
 
