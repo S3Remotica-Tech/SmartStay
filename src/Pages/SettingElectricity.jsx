@@ -579,7 +579,7 @@ dispatch({
                       <Col>
                         <Form.Label
                           style={{
-                            fontSize: 14,
+                            fontSize: 12,
                             fontFamily: "Gilroy",
                             fontWeight: 600,
                             color: "#4B4B4B",

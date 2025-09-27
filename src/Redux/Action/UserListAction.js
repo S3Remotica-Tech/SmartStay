@@ -683,3 +683,10 @@ export async function addRoomReading(reading) {
 }
 
 
+export async function getRoomReading(hostelId) {
+  return await AxiosConfigV2.get(`/v2/electricity/${hostelId}`)
+}
+
+
+
+
