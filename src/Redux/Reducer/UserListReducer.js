@@ -138,7 +138,8 @@ export const initialState = {
     addRoomReadingStatusCode: 0,
     getRoomReadingList: [],
     getRoomReadingStatus: 0,
-    roomReadingError: ""
+    roomReadingError: "",
+    bookingToCheckinStatusCode: 0
 
 }
 
@@ -156,9 +157,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, bookedDetails: action.payload.response }
         case 'ADD_ROOM_READING':
             return { ...state, addRoomReadingStatusCode: action.payload.statusCode }
-
         case 'REMOVE_ADD_ROOM_READING':
             return { ...state, addRoomReadingStatusCode: 0 }
+        case 'BOOKING_TO_CHECKIN':
+            return { ...state, bookingToCheckinStatusCode: action.payload.statusCode }
+        case 'REMOVE_BOOKING_TO_CHECKIN':
+            return { ...state, bookingToCheckinStatusCode: 0 }
         case 'GET_ROOM_READING':
             return { ...state, getRoomReadingList: action.payload.response, getRoomReadingStatus: action.payload.statusCode }
         case 'REMOVE_GET_ROOM_READING':

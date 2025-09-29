@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { addRoomReading, getRoomReading,
+import { bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
    getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail,
@@ -14,6 +14,81 @@ import { addRoomReading, getRoomReading,
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
+function* handleBookingToCheckIn(reading) {
+   try {
+      const response = yield call(bookingToCheckIn, reading.payload)
+
+      if (response.status === 201 || response.status === 200) {
+         yield put({ type: 'BOOKING_TO_CHECKIN', payload: { response: response.data, statusCode: response.status } })
+     
+      var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+
+         };
+
+         toast.success(response.data, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+     
+     
+     
+     
+     
+     
+      }
+      
+      if (response) {
+         refreshToken(response)
+      }
+   }
+  catch (error) {
+    
+
+      if (error.code === 'ERR_BAD_REQUEST') {
+         if (error.status === 400) {
+            yield put({ type: 'ROOM_READING_ERROR', payload: error.response.data });
+         }
+      } else if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2316,6 +2391,7 @@ function* handleCheckoutProfile(action) {
 function* UserListSaga() {
    
       yield takeEvery('GETROOMREADING', handleGetRoomReading)
+      yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)
 
    yield takeEvery('ADDROOMREADING', handleAddRoomReading)
   yield takeEvery('BOOKEDDETAILS', handleBookedDetails)

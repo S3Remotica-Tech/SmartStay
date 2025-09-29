@@ -37,7 +37,7 @@ import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
 function BedDetailsMap({ room, propsValue }) {
 
 
- 
+
 
     const dispatch = useDispatch();
     const state = useSelector((state) => state);
@@ -72,7 +72,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [changeBedClicked, setChangedBedClicked] = useState('')
 
 
-   
+
 
     const handleshowfinalsettlement = (isvisible, customerId) => {
         setCustomerId(customerId)
@@ -100,7 +100,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     const handleShowReAssignBedPopup = (isVisible, customer_id) => {
         setOccubiedBed(false)
-         dispatch(triggerPG(true))
+        dispatch(triggerPG(true))
         // setShowReAssignBedForm(isVisible)
         // setCustomerId(customer_id)
 
@@ -219,7 +219,7 @@ function BedDetailsMap({ room, propsValue }) {
 
     }
     const handleclickBed = (bed, room) => {
-      
+
         setClickedBed(bed)
         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
 
@@ -246,7 +246,7 @@ function BedDetailsMap({ room, propsValue }) {
     };
 
     const handleclickBedForChangeBed = (bed, room) => {
-              dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
+        dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { bedId: bed.id } })
         setChangedBedClicked(bed)
 
     }
@@ -272,7 +272,7 @@ function BedDetailsMap({ room, propsValue }) {
         dispatch(triggerPG(true))
     }
 
-  
+
 
 
     const handleCloseChangedBed = () => {
@@ -408,6 +408,31 @@ function BedDetailsMap({ room, propsValue }) {
 
         }
     }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
+
+
+
+    useEffect(() => {
+        if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+            setShowCheckIn(false)
+            dispatch({
+                type: "GETALLBEDSLIST",
+                payload: { roomId: room.id }
+            });
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
+            }, 100)
+        }
+
+    }, [state.UsersList?.bookingToCheckinStatusCode])
+
+
+
+
+
+
+
+
+
 
     return (
 
@@ -653,7 +678,7 @@ function BedDetailsMap({ room, propsValue }) {
                                         onClick={() => {
                                             if (!propsValue.addPermissionError && !state.login.isTrigger) {
                                                 handleclickBed(bed, bed.roomId);
-                                            } else if(state.login.isTrigger) {
+                                            } else if (state.login.isTrigger) {
                                                 handleclickBedForChangeBed(bed, bed.roomId);
                                             }
                                         }}

@@ -23,6 +23,8 @@ function CheckIn({
     currentItem
 }) {
 
+
+    console.log("currentItem", currentItem)
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const bookingDateRef = useRef("");
@@ -40,20 +42,38 @@ function CheckIn({
     const [roomrentError, setRoomRentError] = useState("");
     const [formLoading, setFormLoading] = useState(false);
 
-    // useEffect(() => {
-    //     const matchedBed = state.PgList.roomCount[0].bed_details.find(
-    //         (item) => item.id === currentItem?.bed?.id
-    //     );
 
-    //     if (matchedBed) {
-    //         setRoomRent(matchedBed.bed_amount);
-    //     }
-    // }, [state.PgList, currentItem]);
     useEffect(() => {
-        if (currentItem) {
-            setRoomRent(currentItem?.bed?.bed_amount)
+        if (currentItem.currentTenantCustomerId) {
+            dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: currentItem.currentTenantCustomerId } })
         }
-    }, [currentItem])
+
+    }, [currentItem.currentTenantCustomerId])
+
+
+    useEffect(() => {
+        if (state.UsersList?.bookedDetails) {
+            const bookedDateString = state.UsersList.bookedDetails?.bookedDate;
+
+            setBookingDate(bookedDateString ? dayjs(bookedDateString, "DD/MM/YYYY") : null);
+            setBookingAmount(state.UsersList.bookedDetails?.bookingAmount);
+            setRoomRent(state.UsersList.bookedDetails?.rent)
+        }
+    }, [state.UsersList?.bookedDetails]);
+
+    // useEffect(() => {
+    //     if (currentItem) {
+    //         setRoomRent(currentItem?.rentAmount)
+    //         const matchedUser = state.UsersList?.Users?.find(
+    //             (user) => user.customerId === currentItem.currentTenantCustomerId
+    //         );
+
+
+    //         setBookingDate(matchedUser?.bookedAt);
+
+
+    //     }
+    // }, [currentItem])
 
     const handleRoomRent = (e) => {
         const newAmount = e.target.value;
@@ -131,46 +151,44 @@ function CheckIn({
     const [customer, setCustomer] = useState([])
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        const Hostel_Id = currentItem?.room.Hostel_Id;
-        const Floor_Id = currentItem?.room.Floor_Id;
-        const Bed_Id = currentItem?.bed.id;
-        const Room_Id = currentItem?.room.Room_Id;
-
-
-        if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-            dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: Hostel_Id } });
-            dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-
-        }
-    }, [currentItem])
+    //     const Hostel_Id = currentItem?.room.Hostel_Id;
+    //     const Floor_Id = currentItem?.room.Floor_Id;
+    //     const Bed_Id = currentItem?.bed.id;
+    //     const Room_Id = currentItem?.room.Room_Id;
 
 
-    useEffect(() => {
-        if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-            setFormLoading(false)
-            setCustomer(state.PgList.OccupiedCustomer)
-            setTimeout(() => {
-                dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-            }, 2000)
-        }
+    //     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
+    //         dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: Hostel_Id } });
+    //         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+
+    //     }
+    // }, [currentItem])
 
 
-    }, [state.PgList.OccupiedCustomerGetStatusCode])
+    // useEffect(() => {
+    //     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+    //         setFormLoading(false)
+    //         setCustomer(state.PgList.OccupiedCustomer)
+    //         setTimeout(() => {
+    //             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
+    //         }, 2000)
+    //     }
 
 
-    const [customer_details, setCustomerDetails] = useState({})
+    // }, [state.PgList.OccupiedCustomerGetStatusCode])
+
+
     const [stay_typename, setStayTypeName] = useState("")
     const [stay_typenameErrmsg, setStayTypeNameErrMsg] = useState("")
 
     const stayTypes = [
-        { value: "short_stay", label: "Short Stay" },
-        { value: "long_stay", label: "Long Stay" },
-        { value: "day_stay", label: "Day Stay" },
+        { value: "SHORT", label: "Short Stay" },
+        { value: "LONG", label: "Long Stay" },
     ];
 
-    const longStayOnly = stayTypes.filter((s) => s.value === "long_stay");
+    const longStayOnly = stayTypes.filter((s) => s.value === "LONG");
 
 
     const handleStayTypeChange = (selectedOption) => {
@@ -182,57 +200,50 @@ function CheckIn({
         }
     };
 
-    useEffect(() => {
-        if (customer.length > 0) {
-            const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
-            setCustomerDetails(selectedUser)
-            setBookingAmount(Number(selectedUser?.booking_amount))
+    // useEffect(() => {
+    //     if (customer.length > 0) {
+    //         const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
+    //         setCustomerDetails(selectedUser)
+    //         setBookingAmount(Number(selectedUser?.booking_amount))
 
-            // if (selectedUser?.booking_booking_date) {
-            //     const dateObj = new Date(selectedUser?.booking_booking_date);
-            //     const day = String(dateObj.getDate()).padStart(2, '0');
-            //     const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            //     const year = dateObj.getFullYear();
-            //     const formattedBookingDate = `${day}/${month}/${year}`;
+    //         if (selectedUser?.booking_booking_date) {
+    //             const bookingDayjs = dayjs(selectedUser?.booking_booking_date);
 
-            //     bookingDateRef.current = formattedBookingDate;
-            //     setBookingDate(formattedBookingDate);
-            // }
-            if (selectedUser?.booking_booking_date) {
-                const bookingDayjs = dayjs(selectedUser?.booking_booking_date); // ✅ keep as dayjs
+    //             bookingDateRef.current = bookingDayjs;
+    //             setBookingDate(bookingDayjs);
+    //         }
+    //         setCustomerName(selectedUser?.ID)
+    //     }
+    // }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
 
-                bookingDateRef.current = bookingDayjs;
-                setBookingDate(bookingDayjs);  // ✅ store as dayjs
-            }
-            setCustomerName(selectedUser?.ID)
-        }
-    }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
 
-    const disabledJoiningDate = (current) => {
-        return current && current > dayjs().endOf("day");
-    };
 
-    useEffect(() => {
-        if (state.login.selectedHostel_Id) {
-            dispatch({
-                type: "USERLIST",
-                payload: { hostel_id: state.login.selectedHostel_Id },
-            });
-        }
-        setFormLoading(false)
-    }, [state.login.selectedHostel_Id]);
+    // useEffect(() => {
+    //     if (state.login.selectedHostel_Id) {
+    //         dispatch({
+    //             type: "USERLIST",
+    //             payload: { hostel_id: state.login.selectedHostel_Id },
+    //         });
+    //     }
+    //     setFormLoading(false)
+    // }, [state.login.selectedHostel_Id]);
 
 
     const formatOptions = () => {
-        return state.UsersList?.Users?.map((user) => ({
-            value: user.ID,
-            label: (
-                <div className="d-flex align-items-center">
-                    <span>{user.Name}</span>
-                </div>
-            ),
-        }));
+        return state.UsersList?.Users
+            ?.filter(user => user.customerId === currentItem.currentTenantCustomerId)
+            .map(user => ({
+                value: user.customerId,
+                label: (
+                    <div className="d-flex align-items-center">
+                        <span>{user.firstName}</span>
+                    </div>
+                ),
+            }));
     };
+
+
+
 
 
 
@@ -376,8 +387,12 @@ function CheckIn({
 
         const incrementDateAndFormat = (date) => {
             const newDate = new Date(date);
-            newDate.setDate(newDate.getDate() + 1);
-            return newDate.toISOString().split("T")[0];
+
+            const day = String(newDate.getDate()).padStart(2, "0");
+            const month = String(newDate.getMonth() + 1).padStart(2, "0");
+            const year = newDate.getFullYear();
+
+            return `${day}-${month}-${year}`;
         };
 
 
@@ -386,23 +401,7 @@ function CheckIn({
             : "";
 
 
-        const invoiceDateObj = new Date(formattedDate);
-        const dueDays = Number(state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth) || 0;
 
-        const dueDateObj = new Date(invoiceDateObj);
-        dueDateObj.setDate(dueDateObj.getDate() + dueDays);
-
-        const formattedAdvanceDueDate = dueDateObj.toLocaleDateString("en-CA");
-
-
-
-
-
-        const fullName = customer_details?.Name?.trim() || "";
-
-        const [FirstName, ...lastNameParts] = fullName.split(" ");
-
-        const LastName = lastNameParts.join(" ") || "";
 
 
         setErrors(newErrors)
@@ -430,62 +429,40 @@ function CheckIn({
 
             newErrors.push(error);
             return {
-                reason_name,
+                type: reason_name,
                 amount: item.amount || "",
-                showInput: !!item.showInput
             };
         });
 
-
         if (hasReasonAmountError) return;
+
+
+
         if (
-            customer_name && formattedDate && stay_typename &&
+            formattedDate && stay_typename &&
             Number(AdvanceAmount) > 0 &&
-            Number(RoomRent) > 0
+            Number(RoomRent) > 0 && state.UsersList?.bookedDetails?.canCheckIn
         ) {
-
             dispatch({
-                type: "ADDUSER",
+                type: 'BOOKINGTOCHECKIN',
                 payload: {
-                    profile: customer_details.profile,
-                    firstname: FirstName || "",
-                    LastName: LastName || "",
-                    Phone: customer_details.Phone,
-                    Email: customer_details.Email,
-                    Address: customer_details.Address,
-                    area: customer_details.area,
-                    landmark: customer_details.landmark,
-                    city: customer_details.city,
-                    pincode: customer_details.pincode,
-                    state: customer_details.state,
-                    AadharNo: customer_details.AadharNo,
-                    PancardNo: customer_details.PancardNo,
-                    licence: customer_details.licence,
-                    HostelName: customer_details.HostelName,
-
-                    hostel_Id: state.login.selectedHostel_Id,
-                    Floor: currentItem?.room?.Floor_Id,
-                    Rooms: currentItem?.room?.Room_Id,
-                    Bed: currentItem?.bed?.id,
-
-                    joining_date: formattedDate,
-                    AdvanceAmount: AdvanceAmount,
-                    RoomRent: RoomRent,
-                    isadvance: 1,
-                    invoice_date: formattedDate,
-                    due_date: formattedAdvanceDueDate,
-                    reasons: formattedReasons,
-                    stay_type: stay_typename,
-                    booking_id: customer_details.booking_id,
-                    booking_date: bookingDate,
-                    booking_amount: bookingAmount,
-                    ID: customer_name
-
-                },
+                    customerId: currentItem?.currentTenantCustomerId,
+                    bookingId: state.UsersList?.bookedDetails?.bookingId,
+                    joiningDate: formattedDate,
+                    advanceAmount: Number(AdvanceAmount),
+                    rentalAmount: Number(RoomRent),
+                    stayType: stay_typename,
+                    deductions: formattedReasons?.map(item => ({
+                        type: item.type,
+                        amount: Number(item.amount),
+                    })),
+                    isAdvanceIncludedInBooking: true
+                }
             });
+
         }
         setFormLoading(true)
-        dispatch({ type: "INVOICELIST" });
+
 
     };
 
@@ -501,6 +478,27 @@ function CheckIn({
         }
     }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
+useEffect(() => {
+        if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
+            }, 100)
+        }
+
+    }, [state.UsersList?.bookingToCheckinStatusCode])
+
+
+useEffect(()=>{
+    if(state.UsersList.bedError){
+        setFormLoading(false)
+
+         setTimeout(() => {
+                dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
+            }, 1000)
+    }
+
+},[state.UsersList.bedError])
 
 
     return (
@@ -517,7 +515,7 @@ function CheckIn({
                 }}
             >
                 <Modal show={show} onHide={handleClose} centered
-                    backdrop="static"
+                    backdrop="static" dialogClassName="custom-modals-style"
                 >
                     <Modal.Dialog
                         style={{ maxWidth: "100%", width: "100%", borderRadius: 16 }}
@@ -547,7 +545,7 @@ function CheckIn({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No {currentItem?.room.Room_Name} </label> <span style={{
+                                        }}>Room No {currentItem?.roomName} </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -557,7 +555,7 @@ function CheckIn({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed {currentItem?.bed.bed_no}</span>
+                                        }}> Bed {currentItem?.bedName}</span>
                                     </div>
                                 </div>
 
@@ -591,17 +589,12 @@ function CheckIn({
                                         </Form.Label>
                                         <Select
                                             styles={customStyles}
-                                            value={formatOptions().find(
-                                                (opt) => opt.value === customer_name
-                                            )}
+                                            value={formatOptions()?.[0] || null}
                                             isDisabled
-                                            //   onChange={handleCustomerChange}
                                             options={formatOptions()}
                                             placeholder="Select a Tenant"
                                             classNamePrefix="custom"
                                             menuPlacement="auto"
-
-
                                         />
                                     </Form.Group>
 
@@ -623,8 +616,8 @@ function CheckIn({
                                         </Form.Label>
 
                                         <Form.Control
-                                            // value={bookingDate}
-                                            value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
+                                           
+                                           value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
                                             type="text"
                                             placeholder="Booking Date"
                                             style={{
@@ -696,12 +689,62 @@ function CheckIn({
                                             <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Select
-                                            styles={customStyles}
                                             options={longStayOnly}
                                             onChange={handleStayTypeChange}
                                             placeholder="Select a Type"
                                             classNamePrefix="custom"
                                             menuPlacement="auto"
+                                            styles={{
+                                                control: (base) => ({
+                                                    ...base,
+                                                    height: "50px",
+                                                    border: "1px solid #D9D9D9",
+                                                    borderRadius: "8px",
+                                                    fontSize: "16px",
+                                                    color: "#4B4B4B",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                    boxShadow: "none",
+                                                }),
+                                                menu: (base) => ({
+                                                    ...base,
+                                                    backgroundColor: "#f8f9fa",
+                                                    border: "1px solid #ced4da",
+                                                    fontFamily: "Gilroy",
+                                                }),
+                                                menuList: (base) => ({
+                                                    ...base,
+                                                    backgroundColor: "#f8f9fa",
+                                                    maxHeight: "120px",
+                                                    padding: 0,
+                                                    scrollbarWidth: "thin",
+                                                    overflowY: "auto",
+                                                    fontFamily: "Gilroy",
+                                                }),
+                                                placeholder: (base) => ({
+                                                    ...base,
+                                                    color: "#555",
+                                                }),
+                                                dropdownIndicator: (base) => ({
+                                                    ...base,
+                                                    color: "#555",
+                                                    display: "inline-block",
+                                                    fill: "currentColor",
+                                                    lineHeight: 1,
+                                                    stroke: "currentColor",
+                                                    strokeWidth: 0,
+                                                    cursor: "pointer",
+                                                }),
+                                                indicatorSeparator: () => ({
+                                                    display: "none",
+                                                }),
+                                                option: (base, state) => ({
+                                                    ...base,
+                                                    cursor: state.isDisabled ? "not-allowed" : "pointer",
+                                                    backgroundColor: state.isDisabled ? "#f0f0f0" : "white",
+                                                    color: state.isDisabled ? "#aaa" : "#000",
+                                                }),
+                                            }}
                                         />
 
                                     </Form.Group>
@@ -789,7 +832,7 @@ function CheckIn({
                                             value={AdvanceAmount}
                                             onChange={handleAdvanceAmount}
                                             type="text"
-                                            placeholder="Enter   Advance Amount"
+                                            placeholder="Enter Advance Amount"
                                             style={{
                                                 fontSize: 16,
                                                 color: "#4B4B4B",
@@ -804,7 +847,7 @@ function CheckIn({
                                     </Form.Group>
 
                                     {advanceAmountError && (
-                                        <div style={{ color: "red" }}>
+                                        <div className="d-flex" style={{ color: "red" }}>
                                             <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                                             <label
                                                 className="mb-0"
@@ -846,15 +889,14 @@ function CheckIn({
                                                 placeholder="DD/MM/YYYY"
                                                 value={joiningDate ? dayjs(joiningDate) : null}
                                                 onChange={(date) => {
-                                                    setJoiningDate(date ? date.toDate() : null);
+                                                    setJoiningDate(date);
                                                     setJoingDateErrmsg("");
                                                 }}
                                                 getPopupContainer={() => document.body}
                                                 disabledDate={(current) =>
-            
-            (bookingDate && current < bookingDate.startOf("day")) ||
-            current > dayjs().endOf("day")
-          }
+                                                    bookingDate ? current.isBefore(bookingDate.startOf("day")) : false
+                                                }
+
                                             />
                                         </div>
                                     </Form.Group>
@@ -1126,7 +1168,12 @@ function CheckIn({
                         }
 
 
-
+                        {state.UsersList.bedError ?
+                            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.UsersList.bedError}</label>
+                            </div>
+                            : null}
 
 
                         <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
@@ -1151,7 +1198,7 @@ function CheckIn({
                                 </Button>
 
                                 <Button
-
+                                    disabled={state.UsersList.bedError}
                                     className="w-100 mt-1"
                                     style={{
                                         backgroundColor: "#1E45E1",
