@@ -326,6 +326,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
             setSelectedDate(parsedDate);
             setBookingAmount(state.UsersList.bookedDetails?.bookingAmount)
+            setRoomRent(state.UsersList.bookedDetails?.rent)
         }
 
     }, [state.UsersList?.bookedDetails, bookingDetails])
@@ -776,7 +777,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                     }}
                                                 />
                                             </Form.Group>
-                                            <div style={{ minHeight: "18px", display: "flex", alignItems: "center" }}>
+                                           
 
                                                 {roomrentError && (
                                                     <div style={{ color: "red" }}>
@@ -794,7 +795,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                         </label>
                                                     </div>
                                                 )}
-                                            </div>
+                            
 
                                         </div>
 

@@ -57,6 +57,7 @@ function CheckIn({
 
             setBookingDate(bookedDateString ? dayjs(bookedDateString, "DD/MM/YYYY") : null);
             setBookingAmount(state.UsersList.bookedDetails?.bookingAmount);
+            setRoomRent(state.UsersList.bookedDetails?.rent)
         }
     }, [state.UsersList?.bookedDetails]);
 
@@ -179,7 +180,6 @@ function CheckIn({
     // }, [state.PgList.OccupiedCustomerGetStatusCode])
 
 
-    const [customer_details, setCustomerDetails] = useState({})
     const [stay_typename, setStayTypeName] = useState("")
     const [stay_typenameErrmsg, setStayTypeNameErrMsg] = useState("")
 
