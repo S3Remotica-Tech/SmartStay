@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import CheckOutForm from "./UserListCheckoutForm";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import CustomerProfile from "./CheckoutProfile";
 import { checkoutCustomerProfile } from "../../Redux/Action/smartStayAction";
@@ -19,6 +19,7 @@ import PropTypes from "prop-types";
 import './UserlistCheckout.css';
 import PaginationList from "../../Components/PaginationList";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function CheckOut(props) {
 
