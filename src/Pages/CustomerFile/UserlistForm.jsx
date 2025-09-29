@@ -468,7 +468,7 @@ const [internalError,setInternalError]=useState("")
   // };
   const handleHouseNo = (e) => {
   const value = e.target.value;
-  // const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
   const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
 
   if (regex.test(value)) {
@@ -539,7 +539,7 @@ const handleStreetName = (e) => {
   const handleCity = (e) => {
 
     const value = e.target.value;
-     const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+    const regex = /^[a-zA-Z\s]*$/;
     if (regex.test(value)) {
       setCity(value);
       setCityError("");
@@ -1902,7 +1902,7 @@ if (Email) {
     }
     hasError = true;
   } else {
-    // Duplicate email check
+   
     const isDuplicateEmail = state?.UsersList?.Users?.some((u) => {
       const dbEmail = String(u.Email || "").trim().toLowerCase();
       const currentEmail = Email.trim().toLowerCase();

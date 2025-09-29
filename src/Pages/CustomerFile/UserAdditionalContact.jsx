@@ -151,25 +151,37 @@ function UserAdditionalContact(props) {
   };
  
 
-  const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
-    setHouse_NoError("")
+  // const handleHouseNo = (e) => {
+  //   setHouseNo(e.target.value);
+  //   setHouse_NoError("")
     
-  };
+  // };
+const handleHouseNo = (e) => {
+  const value = e.target.value;
+  const regex = /[^a-zA-Z0-9\s.,\-'/\\#()&:]/g; 
 
-  const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
+  const sanitizedValue = value.replace(regex, "");
+  setHouseNo(sanitizedValue);
+  setHouse_NoError("");
+};
 
-    
-    
-  }
+const handleStreetName = (e) => {
+  const value = e.target.value;
+  const regex = /[^a-zA-Z0-9\s.,\-'/\\#()&:]/g; 
+  const sanitizedValue = value.replace(regex, "");
+  setStreet(sanitizedValue);
+  setStreetError("");
+};
 
-  const handleLandmark = (e) => {
-    setLandmark(e.target.value);
-    setLandmarkError("");
-    
-  }
+
+ const handleLandmark = (e) => {
+  const value = e.target.value;
+  const regex = /[^a-zA-Z0-9\s.,\-'/\\#()&:]/g;
+  const sanitizedValue = value.replace(regex, "");
+  setLandmark(sanitizedValue);
+  setLandmarkError("");
+};
+
 
 
   const handlePinCodeChange = (e) => {
@@ -178,8 +190,10 @@ function UserAdditionalContact(props) {
   if (!/^\d{0,6}$/.test(value)) return; 
 
   setPincode(value);
-
-  if (value.length === 6) {
+  if(value.length === 0){
+        setPincodeError("");
+  }
+  else if (value.length === 6) {
     setPincodeError("");
   } else {
     setPincodeError("Pin Code Must Be Exactly 6 Digits");
