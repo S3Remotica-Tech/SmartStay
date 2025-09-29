@@ -575,7 +575,7 @@ function CheckOut(props) {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop: 90
+                    marginTop: 20
 
                   }}
                 >
@@ -588,18 +588,33 @@ function CheckOut(props) {
 
 
                   {checkOutPermissionError && (
-                    <div
-                      style={{
-                        color: "red",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        marginTop: "1rem",
-                      }}
-                    >
-                      <MdError />
-                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{checkOutPermissionError}</span>
-                    </div>
+                      <div style={{
+                                                                                   color: "red",
+                                                                                   backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                   marginTop: 4,
+                                                                                   display: "inline-flex", 
+                                                                                   alignItems: "center",
+                                                                                   padding: "4px 10px", 
+                                                                                   borderRadius: 4,
+                                                                                 }}> 
+                                                                                 <img
+                                                                                   src={Error_Icon}
+                                                                                   alt="ErrorIcon"
+                                                                                   style={{ marginRight: "4px", fontSize:15}}
+                                                                                 />
+                                                                                 <span
+                                                                                   style={{
+                                                                                     fontSize: "12px",
+                                                                                     color: "red",
+                                                                                     fontFamily: "Gilroy",
+                                                                                     fontWeight: 500,
+                                                                                     whiteSpace: "nowrap", 
+                                                                                   }}
+                                                            >
+                                                                {checkOutPermissionError}
+                                                            </span>
+                                                        </div>
+                    
                   )}
                 </div>
               </>
@@ -609,7 +624,7 @@ function CheckOut(props) {
                 <div>
                   {sortedData?.length > 0 ? (
                     <div
-                      className="p-0 booking-table-userlist  booking-table me-4"
+               className=" booking-table-userlist  booking-table  me-4"
                       style={{ paddingBottom: "20px", marginLeft: "-14px" }}
                     >
                       <div
@@ -1544,37 +1559,74 @@ function CheckOut(props) {
                     </div>
 
                   ) : (!checkoutLoader && currentCustomers?.length === 0 && (
-                    <div style={{ marginTop: 30, height: "60vh" }} className="animated-text">
-                      <div style={{ textAlign: "center" }}>
-                        {" "}
-                        <img src={Emptystate} alt="emptystate" />
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          fontSize: 18,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        No checkout List available{" "}
-                      </div>
-                      <div
-                        className="pb-1"
-                        style={{
-                          textAlign: "center",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
-                        }}
-                      >
-                        There are no checkout List added.{" "}
-                      </div>
+                    // <div style={{ marginTop: 30, height: "60vh" }} className="animated-text">
+                    //   <div style={{ textAlign: "center" }}>
+                    //     {" "}
+                    //     <img src={Emptystate} alt="emptystate" />
+                    //   </div>
+                    //   <div
+                    //     className="pb-1"
+                    //     style={{
+                    //       textAlign: "center",
+                    //       fontWeight: 600,
+                    //       fontFamily: "Gilroy",
+                    //       fontSize: 18,
+                    //       color: "rgba(75, 75, 75, 1)",
+                    //     }}
+                    //   >
+                    //     No checkout List available{" "}
+                    //   </div>
+                    //   <div
+                    //     className="pb-1"
+                    //     style={{
+                    //       textAlign: "center",
+                    //       fontWeight: 500,
+                    //       fontFamily: "Gilroy",
+                    //       fontSize: 14,
+                    //       color: "rgba(75, 75, 75, 1)",
+                    //     }}
+                    //   >
+                    //     There are no checkout List added.{" "}
+                    //   </div>
 
-                    </div>
+                    // </div>
+                     <div   style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "60vh",
+                  marginLeft:'32%' , position:'fixed',
+                }} className="animated-text">
+                                        <div style={{ textAlign: "center" }}>
+                                          <img src={Emptystate} alt="emptystate" />
+                                        </div>
+                                        <div
+                                          className="pb-1"
+                                          style={{
+                                            textAlign: "center",
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            fontSize: 18,
+                                            color: "rgba(75, 75, 75, 1)",
+                                          }}
+                                        >
+                                          No checkout List available{" "}
+                                        </div>
+                                        <div
+                                          className="pb-1"
+                                          style={{
+                                            textAlign: "center",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            fontSize: 14,
+                                            color: "rgba(75, 75, 75, 1)",
+                                          }}
+                                        >
+                                         There are no checkout List added.{" "}
+                                        </div>
+                                      </div>
+                    
                   ))}
                 </div>
               </div>

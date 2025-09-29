@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
 import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
@@ -2611,7 +2611,7 @@ const imageUrl = imagePreview
 
                   
 
-                      <div
+                      {/* <div
                      
                         style={{
                           cursor: props.customerEditPermission && !customerDetails[0]?.Bed
@@ -2640,7 +2640,7 @@ const imageUrl = imagePreview
                               : "#000",
                           }}
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
 

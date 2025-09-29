@@ -12,13 +12,14 @@ import { Image } from "react-bootstrap";
 import "flatpickr/dist/themes/material_blue.css";
 import { CloseCircle } from "iconsax-react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from "react-select";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function BookingModal(props) {
 
@@ -231,7 +232,7 @@ const handleTransactionId = (e) => {
     let isValid = true;
 
     if (!bookingDate) {
-      setDateError("Please select Booking Date");
+      setDateError("Please Select Booking Date");
       isValid = false;
     } else {
       setDateError("");
@@ -248,13 +249,13 @@ const handleTransactionId = (e) => {
     //   setAmountError("");
     // }
     if (!bookingAmount) {
-  setAmountError("Please enter Booking Amount");
+  setAmountError("Please Enter Booking Amount");
   isValid = false;
 } else if (isNaN(bookingAmount)) {
-  setAmountError("Booking Amount must be a number");
+  setAmountError("Booking Amount Must Be A Number");
   isValid = false;
 } else if (Number(bookingAmount) <= 0) {
-  setAmountError("Booking Amount must be greater than 0");
+  setAmountError("Booking Amount Must Be Greater Than 0");
   isValid = false;
 } else {
   setAmountError("");
@@ -270,21 +271,21 @@ const handleTransactionId = (e) => {
 
 
     if (!joiningDate) {
-      setJoiningDateError("Please select Joining Date");
+      setJoiningDateError("Please Select Joining Date");
       isValid = false;
     } else {
       setJoiningDateError("");
     }
 
     if (!floor) {
-      setFloorError("Please select Floor");
+      setFloorError("Please Select Floor");
       isValid = false;
     } else {
       setFloorError("");
     }
 
     if (!room) {
-      setRoomError("Please select Room");
+      setRoomError("Please Select Room");
       isValid = false;
     } else {
       setRoomError("");
@@ -292,7 +293,7 @@ const handleTransactionId = (e) => {
 
 
     if (!bed) {
-      setBedError("Please select Bed");
+      setBedError("Please Select Bed");
       isValid = false;
     } else {
       setBedError("");
@@ -394,15 +395,28 @@ const handleTransactionId = (e) => {
         </Modal.Header>
 
         {state.Booking?.ErrorAssignBooking && (
-          <div style={{ color: "red" }} className="ps-3 pt-3">
-            <MdError style={{ fontSize: 14, color: "red" }} />
-            <span
-              style={{
+                    <div style={{
                 color: "red",
-                fontSize: 12,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
+                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                marginTop: 4,
+                display: "inline-flex", 
+                alignItems: "center",
+                padding: "4px 10px", 
+                borderRadius: 4,
+              }}> 
+              <img
+                src={Error_Icon}
+                alt="ErrorIcon"
+                style={{ marginRight: "4px", fontSize:15}}
+              />
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "red",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  whiteSpace: "nowrap", 
+                }}
             >
               This email{" "}
               <span style={{ color: "#1E45E1" }}>
@@ -415,15 +429,28 @@ const handleTransactionId = (e) => {
 
 
         {state.Booking?.ErrorAssignBookingMobile && (
-          <div style={{ color: "red" }} className="ps-3 pt-3">
-            <MdError style={{ fontSize: 14, color: "red" }} />
-            <span
-              style={{
+                    <div style={{
                 color: "red",
-                fontSize: 12,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
+                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                marginTop: 4,
+                display: "inline-flex", 
+                alignItems: "center",
+                padding: "4px 10px", 
+                borderRadius: 4,
+              }}> 
+              <img
+                src={Error_Icon}
+                alt="ErrorIcon"
+                style={{ marginRight: "4px", fontSize:15}}
+              />
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "red",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  whiteSpace: "nowrap", 
+                }}
             >
               {state.Booking?.ErrorAssignBookingMobile}
             </span>
@@ -516,21 +543,28 @@ const handleTransactionId = (e) => {
                 </div>
               </Form.Group>
               {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
+                          <div style={{
                       color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
+                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                      marginTop: 4,
+                      display: "inline-flex", 
+                      alignItems: "center",
+                      padding: "4px 10px", 
+                      borderRadius: 4,
+                    }}> 
+                    <img
+                      src={Error_Icon}
+                      alt="ErrorIcon"
+                      style={{ marginRight: "4px", fontSize:15}}
+                    />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        whiteSpace: "nowrap", 
+                      }}
                   >
                     {dateError}
                   </span>
@@ -538,21 +572,28 @@ const handleTransactionId = (e) => {
               )}
 
               {state.Booking?.ErrorAssignBookingDate && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
+                          <div style={{
                       color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
+                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                      marginTop: 4,
+                      display: "inline-flex", 
+                      alignItems: "center",
+                      padding: "4px 10px", 
+                      borderRadius: 4,
+                    }}> 
+                    <img
+                      src={Error_Icon}
+                      alt="ErrorIcon"
+                      style={{ marginRight: "4px", fontSize:15}}
+                    />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        whiteSpace: "nowrap", 
+                      }}
                   >
                     {state.Booking?.ErrorAssignBookingDate}
                   </span>
@@ -599,34 +640,46 @@ const handleTransactionId = (e) => {
                 />
               </Form.Group>
 
-             {amountError && (
+ {amountError && (
   <div
     style={{
-      display: "flex",
-      // alignItems: "center", 
-      marginTop: "4px",     // input ku bottom space
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "flex",         
+      alignItems: "flex-start",
+      padding: "4px 10px",
+      borderRadius: 4,
+      maxWidth: "100%",       
+      wordWrap: "break-word", 
     }}
   >
-    <MdError
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
       style={{
-        marginRight: "5px",
-        fontSize: 15,
-        color: "red",
-        marginTop: "2px",        // icon ku red
+        marginRight: "6px",
+        marginTop: "2px",       
+        width: 14,
+        height: 14,
       }}
     />
     <span
       style={{
+        fontSize: "12px",
         color: "red",
-        fontSize: 12,
         fontFamily: "Gilroy",
         fontWeight: 500,
+        lineHeight: "16px",
+        whiteSpace: "normal",   
+        wordBreak: "break-word"
       }}
     >
       {amountError}
     </span>
   </div>
 )}
+
 
 
             </Col>
@@ -756,21 +809,27 @@ const handleTransactionId = (e) => {
                              </Form.Group>
                            
                               {paymentError && (
-                <div style={{ color: "red" }}>
-
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
+                        <div style={{
+                    color: "red",
+                    backgroundColor: "rgba(255, 243, 243, 0.64)",
+                    marginTop: 4,
+                    display: "inline-flex", 
+                    alignItems: "center",
+                    padding: "4px 10px", 
+                    borderRadius: 4,
+                  }}> 
+                  <img
+                    src={Error_Icon}
+                    alt="ErrorIcon"
+                    style={{ marginRight: "4px", fontSize:15}}
                   />
                   <span
                     style={{
+                      fontSize: "12px",
                       color: "red",
-                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      whiteSpace: "nowrap", 
                     }}
                   >
                     {paymentError}
@@ -870,20 +929,27 @@ const handleTransactionId = (e) => {
               </Form.Group>
 
               {joiningDateError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
+                        <div style={{
+                    color: "red",
+                    backgroundColor: "rgba(255, 243, 243, 0.64)",
+                    marginTop: 4,
+                    display: "inline-flex", 
+                    alignItems: "center",
+                    padding: "4px 10px", 
+                    borderRadius: 4,
+                  }}> 
+                  <img
+                    src={Error_Icon}
+                    alt="ErrorIcon"
+                    style={{ marginRight: "4px", fontSize:15}}
                   />
                   <span
                     style={{
+                      fontSize: "12px",
                       color: "red",
-                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      whiteSpace: "nowrap", 
                     }}
                   >
                     {joiningDateError}
@@ -892,20 +958,27 @@ const handleTransactionId = (e) => {
               )}
 
               {state.Booking?.ErrorAssignBookingDate && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
+                        <div style={{
+                    color: "red",
+                    backgroundColor: "rgba(255, 243, 243, 0.64)",
+                    marginTop: 4,
+                    display: "inline-flex", 
+                    alignItems: "center",
+                    padding: "4px 10px", 
+                    borderRadius: 4,
+                  }}> 
+                  <img
+                    src={Error_Icon}
+                    alt="ErrorIcon"
+                    style={{ marginRight: "4px", fontSize:15}}
                   />
                   <span
                     style={{
+                      fontSize: "12px",
                       color: "red",
-                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      whiteSpace: "nowrap", 
                     }}
                   >
                     {state.Booking?.ErrorAssignBookingDate}
@@ -1024,20 +1097,28 @@ const handleTransactionId = (e) => {
               </Form.Group>
 
               {floorError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "2px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
+                         <div style={{
+                     color: "red",
+                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                     marginTop: 4,
+                     display: "inline-flex", 
+                     alignItems: "center",
+                     padding: "4px 10px", 
+                     borderRadius: 4,
+                   }}> 
+                   <img
+                     src={Error_Icon}
+                     alt="ErrorIcon"
+                     style={{ marginRight: "4px", fontSize:15}}
+                   />
+                   <span
+                     style={{
+                       fontSize: "12px",
+                       color: "red",
+                       fontFamily: "Gilroy",
+                       fontWeight: 500,
+                       whiteSpace: "nowrap", 
+                     }}
                   >
                     {floorError}
                   </span>
@@ -1170,21 +1251,28 @@ const handleTransactionId = (e) => {
                 />
               </Form.Group>
               {roomError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "2px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
+                         <div style={{
+                     color: "red",
+                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                     marginTop: 4,
+                     display: "inline-flex", 
+                     alignItems: "center",
+                     padding: "4px 10px", 
+                     borderRadius: 4,
+                   }}> 
+                   <img
+                     src={Error_Icon}
+                     alt="ErrorIcon"
+                     style={{ marginRight: "4px", fontSize:15}}
+                   />
+                   <span
+                     style={{
+                       fontSize: "12px",
+                       color: "red",
+                       fontFamily: "Gilroy",
+                       fontWeight: 500,
+                       whiteSpace: "nowrap", 
+                     }}
                   >
                     {roomError}
                   </span>
@@ -1279,27 +1367,31 @@ const handleTransactionId = (e) => {
               />
 
               {bedError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
+                          <div style={{
                       color: "red",
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      marginRight: "5px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
+                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                      marginTop: 4,
+                      display: "inline-flex", 
+                      alignItems: "center",
+                      padding: "4px 10px", 
+                      borderRadius: 4,
+                    }}> 
+                    <img
+                      src={Error_Icon}
+                      alt="ErrorIcon"
+                      style={{ marginRight: "4px", fontSize:15}}
+                    />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        whiteSpace: "nowrap", 
+                      }}
                   >
                     {bedError}
-                  </label>
+                  </span>
                 </div>
               )}
             </div>
@@ -1311,9 +1403,28 @@ const handleTransactionId = (e) => {
         </Modal.Body>
 
         {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                <div style={{
+                      color: "red",
+                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                      marginTop: 4,
+                      display: "inline-flex", 
+                      alignItems: "center",
+                      padding: "4px 10px", 
+                      borderRadius: 4,
+                    }}> 
+                    <img
+                      src={Error_Icon}
+                      alt="ErrorIcon"
+                      style={{ marginRight: "4px", fontSize:15}}
+                    />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        whiteSpace: "nowrap", 
+                      }}>{state.createAccount?.networkError}</span>
           </div>
           : null}
 

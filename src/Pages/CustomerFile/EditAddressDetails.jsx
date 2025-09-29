@@ -9,9 +9,10 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function EditAddressDetails({ show, handleClose,addressDetails }) {
 
@@ -542,7 +543,7 @@ const focusedRef = { current: false };
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                                 <Form.Group
-                                    className="mb-3"
+                                    className=""
                                     controlId="exampleForm.ControlInput1"
                                 >
                                     <Form.Label
@@ -578,27 +579,28 @@ const focusedRef = { current: false };
 
                                 </Form.Group>
                                  {pincodeError && (
-                                                                        <div
-                                                                          style={{
-                                                                            marginTop: "",
-                                                                            color: "red",
-                                                                          }}
-                                                                        >
-                                                                          {" "}
-                                                                          <MdError
-                                                                            style={{
-                                                                              fontSize: "12px",
-                                                                              fontFamily: "Gilroy",
-                                                                              fontWeight: 500,
-                                                                              marginRight: "5px",
-                                                                            }}
-                                                                          />
-                                                                          <span
-                                                                            style={{
-                                                                              fontSize: "13px",
-                                                                              fontFamily: "Gilroy",
-                                                                              fontWeight: 500,
-                                                                            }}
+                                         <div style={{
+                                              color: "red",
+                                             backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                          marginTop: 4,
+                                                                                                          display: "inline-flex", 
+                                                                                                          alignItems: "center",
+                                                                                                          padding: "4px 10px", 
+                                                                                                          borderRadius: 4,
+                                                                                                        }}> 
+                                                                                                        <img
+                                                                                                          src={Error_Icon}
+                                                                                                          alt="ErrorIcon"
+                                                                                                          style={{ marginRight: "4px", fontSize:15}}
+                                                                                                        />
+                                                                                                        <span
+                                                                                                          style={{
+                                                                                                            fontSize: "12px",
+                                                                                                            color: "red",
+                                                                                                            fontFamily: "Gilroy",
+                                                                                                            fontWeight: 500,
+                                                                                                            whiteSpace: "nowrap", 
+                                                                                                          }}
                                                                           >
                                                                             {pincodeError}
                                                                           </span>
@@ -739,18 +741,28 @@ const focusedRef = { current: false };
 
                     </Modal.Body>
   {formError && (
-                                     <div
-                                       className="d-flex align-items-center justify-content-center"
-                                       style={{ color: "red" }}
-                                     >
-                                       <MdError style={{ marginRight: "5px" }} />
-                                       <span
-                                         style={{
-                                           fontSize: "12px",
-                                           color: "red",
-                                           fontFamily: "Gilroy",
-                                           fontWeight: 500,
-                                         }}
+                      <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}
                                        >
                                          {formError}
                                        </span>
@@ -758,9 +770,28 @@ const focusedRef = { current: false };
                                    )}
 
                     {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                            <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+           <div style={{
+                                                                            color: "red",
+                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                            marginTop: 4,
+                                                                            display: "inline-flex", 
+                                                                            alignItems: "center",
+                                                                            padding: "4px 10px", 
+                                                                            borderRadius: 4,
+                                                                          }}> 
+                                                                          <img
+                                                                            src={Error_Icon}
+                                                                            alt="ErrorIcon"
+                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                          />
+                                                                          <span
+                                                                            style={{
+                                                                              fontSize: "12px",
+                                                                              color: "red",
+                                                                              fontFamily: "Gilroy",
+                                                                              fontWeight: 500,
+                                                                              whiteSpace: "nowrap", 
+                                                                            }}>{state.createAccount?.networkError}</span>
                         </div>
                         : null}
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>

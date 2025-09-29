@@ -9,6 +9,7 @@ import Plus from "../../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
@@ -479,18 +480,37 @@ if(state.UsersList.backtocheckinError){
     setLandmarkError("");
   };
 
+  const validatePincode = (pin) => {
+  const cleanedPin = String(pin || "").trim();
+
+  if (cleanedPin.length === 0) {
+    return ""; 
+  }
+
+  if (!/^\d{6}$/.test(cleanedPin)) {
+    return "Pin Code Must Be Exactly 6 Digits";
+  }
+
+  if (cleanedPin.startsWith("0")) {
+    return "Pin Code Cannot Start With 0";
+  }
+
+  if (cleanedPin.endsWith("000")) {
+    return "Last 3 digits cannot be 000";
+  }
+
+  return ""; 
+};
+
   const handlePinCodeChange = (e) => {
-    const value = e.target.value;
+        const value = e.target.value;
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
 
     setPincode(value);
-    if (value.length > 0 && value.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    } else {
-      setPincodeError("");
-    }
+  const err = validatePincode(value, pincodeRef);
+  setPincodeError(err);
   };
 
   const handleCity = (e) => {
@@ -2011,14 +2031,27 @@ if (Email) {
 
 
 
-    if (pincode && pincode.length !== 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focusedRef.current && pincodeRef?.current) {
-        pincodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      hasError = true;
+    // if (pincode && pincode.length !== 6) {
+    //   setPincodeError("Pin Code Must Be Exactly 6 Digits");
+    //   if (!focusedRef.current && pincodeRef?.current) {
+    //     pincodeRef.current.focus();
+    //     focusedRef.current = true;
+    //   }
+    //   hasError = true;
+    // }
+
+  const err = validatePincode(pincode, pincodeRef);
+
+  if (err) {
+    setPincodeError(err);
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
     }
+    return; 
+  } else {
+    setPincodeError("");
+  }
 
 
 
@@ -2608,21 +2641,31 @@ if (Email) {
                         />
 
                         {floorError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                            <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}
                             >
                               {floorError}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -2745,21 +2788,31 @@ if (Email) {
                         />
 
                         {roomError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                             <div style={{
+                                         color: "red",
+                                         backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                         marginTop: 4,
+                                         display: "inline-flex", 
+                                         alignItems: "center",
+                                         padding: "4px 10px", 
+                                         borderRadius: 4,
+                                       }}> 
+                                       <img
+                                         src={Error_Icon}
+                                         alt="ErrorIcon"
+                                         style={{ marginRight: "4px", fontSize:15}}
+                                       />
+                                       <span
+                                         style={{
+                                           fontSize: "12px",
+                                           color: "red",
+                                           fontFamily: "Gilroy",
+                                           fontWeight: 500,
+                                           whiteSpace: "nowrap", 
+                                         }}
                             >
                               {roomError}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -2895,21 +2948,31 @@ if (Email) {
                         />
 
                         {bedError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                              <div style={{
+                                          color: "red",
+                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                          marginTop: 4,
+                                          display: "inline-flex", 
+                                          alignItems: "center",
+                                          padding: "4px 10px", 
+                                          borderRadius: 4,
+                                        }}> 
+                                        <img
+                                          src={Error_Icon}
+                                          alt="ErrorIcon"
+                                          style={{ marginRight: "4px", fontSize:15}}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            whiteSpace: "nowrap", 
+                                          }}
                             >
                               {bedError}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -2962,30 +3025,59 @@ if (Email) {
                         </Form.Group>
 
                         {dateError && (
-                          <div style={{ color: "red", marginTop: "-px" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                             <div style={{
+                                         color: "red",
+                                         backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                         marginTop: 4,
+                                         display: "inline-flex", 
+                                         alignItems: "center",
+                                         padding: "4px 10px", 
+                                         borderRadius: 4,
+                                       }}> 
+                                       <img
+                                         src={Error_Icon}
+                                         alt="ErrorIcon"
+                                         style={{ marginRight: "4px", fontSize:15}}
+                                       />
+                                       <span
+                                         style={{
+                                           fontSize: "12px",
+                                           color: "red",
+                                           fontFamily: "Gilroy",
+                                           fontWeight: 500,
+                                           whiteSpace: "nowrap", 
+                                         }}
                             >
                               {dateError}
-                            </label>
+                            </span>
                           </div>
                         )}
 
                         {joiningDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+            <div style={{
+                        color: "red",
+                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                        marginTop: 4,
+                        display: "inline-flex", 
+                        alignItems: "center",
+                        padding: "4px 10px", 
+                        borderRadius: 4,
+                      }}> 
+                      <img
+                        src={Error_Icon}
+                        alt="ErrorIcon"
+                        style={{ marginRight: "4px", fontSize:15}}
+                      />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          whiteSpace: "nowrap", 
+                        }}>
                               {joiningDateErrmsg}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -3017,19 +3109,31 @@ if (Email) {
                           />
                         </Form.Group>
                         {advanceAmountError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                            <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}
                             >
                               {advanceAmountError}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -3062,19 +3166,31 @@ if (Email) {
                           />
                         </Form.Group>
                         {roomrentError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                              <div style={{
+                                          color: "red",
+                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                          marginTop: 4,
+                                          display: "inline-flex", 
+                                          alignItems: "center",
+                                          padding: "4px 10px", 
+                                          borderRadius: 4,
+                                        }}> 
+                                        <img
+                                          src={Error_Icon}
+                                          alt="ErrorIcon"
+                                          style={{ marginRight: "4px", fontSize:15}}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            whiteSpace: "nowrap", 
+                                          }}
                             >
                               {roomrentError}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -3231,19 +3347,31 @@ if (Email) {
                                 </>
                               )}
                               {errors[index]?.reason && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
+                                  <div style={{
+                                              color: "red",
+                                              backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                              marginTop: 4,
+                                              display: "inline-flex", 
+                                              alignItems: "center",
+                                              padding: "4px 10px", 
+                                              borderRadius: 4,
+                                            }}> 
+                                            <img
+                                              src={Error_Icon}
+                                              alt="ErrorIcon"
+                                              style={{ marginRight: "4px", fontSize:15}}
+                                            />
+                                            <span
+                                              style={{
+                                                fontSize: "12px",
+                                                color: "red",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                whiteSpace: "nowrap", 
+                                              }}
                                   >
                                     {errors[index]?.reason}
-                                  </label>
+                                  </span>
                                 </div>
                               )}
                             </div>
@@ -3270,21 +3398,34 @@ if (Email) {
 
                               />
                               {errors[index]?.amount && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
+                                  <div style={{
+                                              color: "red",
+                                              backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                              marginTop: 4,
+                                              display: "inline-flex", 
+                                              alignItems: "center",
+                                              padding: "4px 10px", 
+                                              borderRadius: 4,
+                                            }}> 
+                                            <img
+                                              src={Error_Icon}
+                                              alt="ErrorIcon"
+                                              style={{ marginRight: "4px", fontSize:15}}
+                                            />
+                                            <span
+                                              style={{
+                                                fontSize: "12px",
+                                                color: "red",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                whiteSpace: "nowrap", 
+                                              }}
                                   >
                                     {errors[index]?.amount}
-                                  </label>
+                                  </span>
                                 </div>
                               )}
+
                             </div>
 
 
@@ -3319,9 +3460,28 @@ if (Email) {
                   </div>
 
                   {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+    <div style={{
+                color: "red",
+                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                marginTop: 4,
+                display: "inline-flex", 
+                alignItems: "center",
+                padding: "4px 10px", 
+                borderRadius: 4,
+              }}> 
+              <img
+                src={Error_Icon}
+                alt="ErrorIcon"
+                style={{ marginRight: "4px", fontSize:15}}
+              />
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "red",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  whiteSpace: "nowrap", 
+                }}>{state.createAccount?.networkError}</span>
                     </div>
                     : null}
 
@@ -3685,7 +3845,7 @@ if (Email) {
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Booking Amount
-                            <span style={{ color: "red", fontSize: "20px" }}> *</span>
+                            
                           </Form.Label>
                           <FormControl
                             type="text"
@@ -3726,10 +3886,10 @@ if (Email) {
                       </div>
 
 
-                      {/* <div className="row"> */}
-                       <Row>
-                                  <Col md={6}>
-                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 "> */}
+                      <div className="row">
+                       
+                                  {/* <Col md={6}> */}
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Booking Date
@@ -3756,9 +3916,9 @@ if (Email) {
                         </Form.Group>
 
                       {/* </div> */}
-                      </Col>
+                      </div>
 
- <Col md={6}>
+ <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12"> */}
                         <Form.Group controlId="purchaseDate">
                           <Form.Label
@@ -3770,7 +3930,7 @@ if (Email) {
                             }}
                           >
                             Joining Date{" "}
-
+                           <span style={{ color: "red", fontSize: "20px" }}> *</span>
                           </Form.Label>
 
                           {/* <div
@@ -3863,43 +4023,73 @@ if (Email) {
 </div>
 
  {dateError && (
-                          <div style={{ color: "red",  }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                           <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}
                             >
                               {dateError}
-                            </label>
+                            </span>
                           </div>
                         )}
 
                         {joiningDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+          <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}>
                               {joiningDateErrmsg}
-                            </label>
+                            </span>
                           </div>
                         )}
                         </Form.Group>
 
                        
                       {/* </div> */}
-                      </Col>
+                      </div>
                         
-                      {/* </div> */}
+                      </div>
 
 
-               
+              
 
+<Row>
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
@@ -3923,19 +4113,31 @@ if (Email) {
                             }}
                           />
                            {advanceAmountError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                            <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}
                             >
                               {advanceAmountError}
-                            </label>
+                            </span>
                           </div>
                         )}
                         </Form.Group>
@@ -3965,27 +4167,40 @@ if (Email) {
                             }}
                           />
                            {roomrentError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                           <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}
                             >
                               {roomrentError}
-                            </label>
+                            </span>
                           </div>
                         )}
                         </Form.Group>
                        
                       </div>
+                      </Row>
                  
 
-</Row>
+
 
 
                      
@@ -4141,19 +4356,31 @@ if (Email) {
                                 </>
                               )}
                               {errors[index]?.reason && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
+                                 <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}
                                   >
                                     {errors[index]?.reason}
-                                  </label>
+                                  </span>
                                 </div>
                               )}
                             </div>
@@ -4180,19 +4407,31 @@ if (Email) {
 
                               />
                               {errors[index]?.amount && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
+                                 <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}
                                   >
                                     {errors[index]?.amount}
-                                  </label>
+                                  </span>
                                 </div>
                               )}
                             </div>
@@ -4230,9 +4469,28 @@ if (Email) {
                   </div>
 
                   {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+  <div style={{
+                                        color: "red",
+                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                        marginTop: 4,
+                                        display: "inline-flex", 
+                                        alignItems: "center",
+                                        padding: "4px 10px", 
+                                        borderRadius: 4,
+                                      }}> 
+                                      <img
+                                        src={Error_Icon}
+                                        alt="ErrorIcon"
+                                        style={{ marginRight: "4px", fontSize:15}}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          whiteSpace: "nowrap", 
+                                        }}>{state.createAccount?.networkError}</span>
                     </div>
                     : null}
 
@@ -4577,19 +4835,28 @@ if (Email) {
                                 />
                               </Form.Group>
                               {firstnameError && (
-                                <div style={{ color: "red", marginTop: "-5px" }}>
-                                  {" "}
-                                  <MdError
-                                    style={{ fontSize: "13px", marginBottom: "2px" }}
-                                  />
-                                  <span
-                                    style={{
-                                      fontSize: "12px",
-                                      color: "red",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      marginRight: "3px"
-                                    }}
+                                                              <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                   >
                                     {" "}
                                     {firstnameError}
@@ -4702,18 +4969,28 @@ if (Email) {
                                 }}
                               ></p>
                               {phoneError && (
-                                <div style={{ color: "red" }}>
-                                  <MdError
-                                    style={{ fontSize: "13px", marginBottom: "2px" }}
-                                  />
-                                  <span
-                                    style={{
-                                      fontSize: "12px",
-                                      color: "red",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      marginRight: "3px"
-                                    }}
+                                                            <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                   >
                                     {" "}
                                     {phoneError}
@@ -4721,17 +4998,28 @@ if (Email) {
                                 </div>
                               )}
                               {phonenumError && (
-                                <div style={{ color: "red" }}>
-                                  <MdError
-                                    style={{ marginRight: "4px", fontSize: "13px" }}
-                                  />
-                                  <span
-                                    style={{
-                                      fontSize: "12px",
-                                      color: "red",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
+                                                             <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                   >
                                     {" "}
                                     {phonenumError}
@@ -4739,17 +5027,28 @@ if (Email) {
                                 </div>
                               )}
                               {phoneErrorMessage && (
-                                <div style={{ color: "red" }}>
-                                  <MdError
-                                    style={{ marginRight: "4px", fontSize: "13px" }}
-                                  />
-                                  <span
-                                    style={{
-                                      fontSize: "12px",
-                                      color: "red",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
+                                                             <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                   >
                                     {" "}
                                     {phoneErrorMessage}
@@ -4788,46 +5087,86 @@ if (Email) {
                                   }}
                                 />
                                 {emailError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {" "}
-                                      {emailError}
-                                    </span>
-                                  </div>
-                                )}
+                               <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
+    >
+      {emailError}
+    </span>
+  </div>
+)}
+
                                 {emailIdError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
+                                      <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                     >
                                       {emailIdError}
                                     </span>
                                   </div>
                                 )}
+
                                 {emailErrorMessage && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
+                                            <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                     >
                                       {emailErrorMessage}
                                     </span>
@@ -4914,21 +5253,28 @@ if (Email) {
                               />
                             </Form.Group>
                             {house_noError && (
-                              <div style={{ color: "red" }}>
-                                <MdError
-                                  style={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: "13px",
-                                    marginRight: "5px",
-                                    marginBottom: "1px",
-                                  }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
+                                                          <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                 >
                                   {house_noError}
                                 </span>
@@ -4967,21 +5313,28 @@ if (Email) {
                               />
                             </Form.Group>
                             {streetError && (
-                              <div style={{ color: "red" }}>
-                                <MdError
-                                  style={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: "13px",
-                                    marginRight: "5px",
-                                    marginBottom: "1px",
-                                  }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
+                                                            <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                 >
                                   {streetError}
                                 </span>
@@ -5020,21 +5373,28 @@ if (Email) {
                               />
                             </Form.Group>
                             {landmarkError && (
-                              <div style={{ color: "red" }}>
-                                <MdError
-                                  style={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: "13px",
-                                    marginRight: "5px",
-                                    marginBottom: "1px",
-                                  }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
+                                                            <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                 >
                                   {landmarkError}
                                 </span>
@@ -5080,26 +5440,31 @@ if (Email) {
                               />
 
                               {pincodeError && (
-                                <div className="d-flex align-items-start gap-1 mb-2" style={{ marginTop: "5px" }}>
-                                  <MdError
-                                    style={{
-                                      color: "red",
-                                      fontSize: "13px",
-                                      marginTop: "1px",
-                                    }}
-                                  />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      lineHeight: "16px",
-                                    }}
+             <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                   >
                                     {pincodeError}
-                                  </label>
+                                  </span>
                                 </div>
                               )}
 
@@ -5139,17 +5504,28 @@ if (Email) {
                               />
                             </Form.Group>
                             {cityError && (
-                              <div style={{ color: "red" }}>
-                                <MdError
-                                  style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
+                                        <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                 >
                                   {cityError}{" "}
                                 </span>
@@ -5253,17 +5629,28 @@ if (Email) {
                             </Form.Group>
 
                             {!state_name && state_nameError && (
-                              <div style={{ color: "red", marginTop: "-16px" }}>
-                                <MdError
-                                  style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
+                                        <div style={{
+      color: "red",
+      backgroundColor: "rgba(255, 243, 243, 0.64)",
+      marginTop: 4,
+      display: "inline-flex", 
+      alignItems: "center",
+      padding: "4px 10px", 
+      borderRadius: 4,
+    }}> 
+    <img
+      src={Error_Icon}
+      alt="ErrorIcon"
+      style={{ marginRight: "4px", fontSize:15}}
+    />
+    <span
+      style={{
+        fontSize: "12px",
+        color: "red",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        whiteSpace: "nowrap", 
+      }}
                                 >
                                   {state_nameError}
                                 </span>
@@ -5838,21 +6225,31 @@ if (Email) {
                         />
 
                         {floorError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                        <div style={{
+                                                         color: "red",
+                                                         backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                         marginTop: 4,
+                                                         display: "inline-flex", 
+                                                         alignItems: "center",
+                                                         padding: "4px 10px", 
+                                                         borderRadius: 4,
+                                                       }}> 
+                                                       <img
+                                                         src={Error_Icon}
+                                                         alt="ErrorIcon"
+                                                         style={{ marginRight: "4px", fontSize:15}}
+                                                       />
+                                                       <span
+                                                         style={{
+                                                           fontSize: "12px",
+                                                           color: "red",
+                                                           fontFamily: "Gilroy",
+                                                           fontWeight: 500,
+                                                           whiteSpace: "nowrap", 
+                                                         }}
                             >
                               {floorError}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -5943,21 +6340,31 @@ if (Email) {
                         />
 
                         {roomError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                        <div style={{
+                                                         color: "red",
+                                                         backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                         marginTop: 4,
+                                                         display: "inline-flex", 
+                                                         alignItems: "center",
+                                                         padding: "4px 10px", 
+                                                         borderRadius: 4,
+                                                       }}> 
+                                                       <img
+                                                         src={Error_Icon}
+                                                         alt="ErrorIcon"
+                                                         style={{ marginRight: "4px", fontSize:15}}
+                                                       />
+                                                       <span
+                                                         style={{
+                                                           fontSize: "12px",
+                                                           color: "red",
+                                                           fontFamily: "Gilroy",
+                                                           fontWeight: 500,
+                                                           whiteSpace: "nowrap", 
+                                                         }}
                             >
                               {roomError}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -6206,30 +6613,59 @@ value={bookingAmount}
                         </Form.Group>
 
                         {dateError && (
-                          <div style={{ color: "red", marginTop: "-px" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                          <div style={{
+                                                           color: "red",
+                                                           backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                           marginTop: 4,
+                                                           display: "inline-flex", 
+                                                           alignItems: "center",
+                                                           padding: "4px 10px", 
+                                                           borderRadius: 4,
+                                                         }}> 
+                                                         <img
+                                                           src={Error_Icon}
+                                                           alt="ErrorIcon"
+                                                           style={{ marginRight: "4px", fontSize:15}}
+                                                         />
+                                                         <span
+                                                           style={{
+                                                             fontSize: "12px",
+                                                             color: "red",
+                                                             fontFamily: "Gilroy",
+                                                             fontWeight: 500,
+                                                             whiteSpace: "nowrap", 
+                                                           }}
                             >
                               {dateError}
-                            </label>
+                            </span>
                           </div>
                         )}
 
                         {joiningDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                       <div style={{
+                                                        color: "red",
+                                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                        marginTop: 4,
+                                                        display: "inline-flex", 
+                                                        alignItems: "center",
+                                                        padding: "4px 10px", 
+                                                        borderRadius: 4,
+                                                      }}> 
+                                                      <img
+                                                        src={Error_Icon}
+                                                        alt="ErrorIcon"
+                                                        style={{ marginRight: "4px", fontSize:15}}
+                                                      />
+                                                      <span
+                                                        style={{
+                                                          fontSize: "12px",
+                                                          color: "red",
+                                                          fontFamily: "Gilroy",
+                                                          fontWeight: 500,
+                                                          whiteSpace: "nowrap", 
+                                                        }}>
                               {joiningDateErrmsg}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -6262,19 +6698,31 @@ value={bookingAmount}
                             />
                           </Form.Group>
                           {advanceAmountError && (
-                            <div style={{ color: "red" }}>
-                              <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                          <div style={{
+                                                           color: "red",
+                                                           backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                           marginTop: 4,
+                                                           display: "inline-flex", 
+                                                           alignItems: "center",
+                                                           padding: "4px 10px", 
+                                                           borderRadius: 4,
+                                                         }}> 
+                                                         <img
+                                                           src={Error_Icon}
+                                                           alt="ErrorIcon"
+                                                           style={{ marginRight: "4px", fontSize:15}}
+                                                         />
+                                                         <span
+                                                           style={{
+                                                             fontSize: "12px",
+                                                             color: "red",
+                                                             fontFamily: "Gilroy",
+                                                             fontWeight: 500,
+                                                             whiteSpace: "nowrap", 
+                                                           }}
                               >
                                 {advanceAmountError}
-                              </label>
+                              </span>
                             </div>
                           )}
                         </div>
@@ -6305,19 +6753,31 @@ value={bookingAmount}
                             />
                           </Form.Group>
                           {roomrentError && (
-                            <div className="d-flex align-items-center justify-content-start" style={{ color: "red" }}>
-                              <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                           <div style={{
+                                                            color: "red",
+                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                            marginTop: 4,
+                                                            display: "inline-flex", 
+                                                            alignItems: "center",
+                                                            padding: "4px 10px", 
+                                                            borderRadius: 4,
+                                                          }}> 
+                                                          <img
+                                                            src={Error_Icon}
+                                                            alt="ErrorIcon"
+                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                          />
+                                                          <span
+                                                            style={{
+                                                              fontSize: "12px",
+                                                              color: "red",
+                                                              fontFamily: "Gilroy",
+                                                              fontWeight: 500,
+                                                              whiteSpace: "nowrap", 
+                                                            }}
                               >
                                 {roomrentError}
-                              </label>
+                              </span>
                             </div>
                           )}
                         </div>
@@ -6482,19 +6942,31 @@ value={bookingAmount}
                                 </>
                               )}
                               {errors[index]?.reason && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
+                              <div style={{
+                                                               color: "red",
+                                                               backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                               marginTop: 4,
+                                                               display: "inline-flex", 
+                                                               alignItems: "center",
+                                                               padding: "4px 10px", 
+                                                               borderRadius: 4,
+                                                             }}> 
+                                                             <img
+                                                               src={Error_Icon}
+                                                               alt="ErrorIcon"
+                                                               style={{ marginRight: "4px", fontSize:15}}
+                                                             />
+                                                             <span
+                                                               style={{
+                                                                 fontSize: "12px",
+                                                                 color: "red",
+                                                                 fontFamily: "Gilroy",
+                                                                 fontWeight: 500,
+                                                                 whiteSpace: "nowrap", 
+                                                               }}
                                   >
                                     {errors[index]?.reason}
-                                  </label>
+                                  </span>
                                 </div>
                               )}
                             </div>
@@ -6546,21 +7018,31 @@ value={bookingAmount}
 
 
                               {errors[index]?.amount && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError
-                                    style={{ color: "red", marginRight: "5px", fontSize: "14px" }}
-                                  />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
+                                <div style={{
+                                                                 color: "red",
+                                                                 backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                 marginTop: 4,
+                                                                 display: "inline-flex", 
+                                                                 alignItems: "center",
+                                                                 padding: "4px 10px", 
+                                                                 borderRadius: 4,
+                                                               }}> 
+                                                               <img
+                                                                 src={Error_Icon}
+                                                                 alt="ErrorIcon"
+                                                                 style={{ marginRight: "4px", fontSize:15}}
+                                                               />
+                                                               <span
+                                                                 style={{
+                                                                   fontSize: "12px",
+                                                                   color: "red",
+                                                                   fontFamily: "Gilroy",
+                                                                   fontWeight: 500,
+                                                                   whiteSpace: "nowrap", 
+                                                                 }}
                                   >
                                     {errors[index]?.amount}
-                                  </label>
+                                  </span>
                                 </div>
                               )}
                             </div>
@@ -6604,19 +7086,31 @@ value={bookingAmount}
                         />
                       </Form.Group>
                       {reasonError && (
-                        <div style={{ color: "red" }} >
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
+                       <div style={{
+                                                        color: "red",
+                                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                        marginTop: 4,
+                                                        display: "inline-flex", 
+                                                        alignItems: "center",
+                                                        padding: "4px 10px", 
+                                                        borderRadius: 4,
+                                                      }}> 
+                                                      <img
+                                                        src={Error_Icon}
+                                                        alt="ErrorIcon"
+                                                        style={{ marginRight: "4px", fontSize:15}}
+                                                      />
+                                                      <span
+                                                        style={{
+                                                          fontSize: "12px",
+                                                          color: "red",
+                                                          fontFamily: "Gilroy",
+                                                          fontWeight: 500,
+                                                          whiteSpace: "nowrap", 
+                                                        }}
                           >
                             {reasonError}
-                          </label>
+                          </span>
                         </div>
                       )}
                     </div>
@@ -6668,19 +7162,31 @@ value={bookingAmount}
 
 
                       {recheckinDateError && (
-                        <div style={{ color: "red" }}>
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
+                        <div style={{
+                                                         color: "red",
+                                                         backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                         marginTop: 4,
+                                                         display: "inline-flex", 
+                                                         alignItems: "center",
+                                                         padding: "4px 10px", 
+                                                         borderRadius: 4,
+                                                       }}> 
+                                                       <img
+                                                         src={Error_Icon}
+                                                         alt="ErrorIcon"
+                                                         style={{ marginRight: "4px", fontSize:15}}
+                                                       />
+                                                       <span
+                                                         style={{
+                                                           fontSize: "12px",
+                                                           color: "red",
+                                                           fontFamily: "Gilroy",
+                                                           fontWeight: 500,
+                                                           whiteSpace: "nowrap", 
+                                                         }}
                           >
                             {recheckinDateError}
-                          </label>
+                          </span>
                         </div>
                       )}
 
@@ -6713,9 +7219,28 @@ value={bookingAmount}
                   </div>
 
                   {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+           <div style={{
+                                            color: "red",
+                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                            marginTop: 4,
+                                            display: "inline-flex", 
+                                            alignItems: "center",
+                                            padding: "4px 10px", 
+                                            borderRadius: 4,
+                                          }}> 
+                                          <img
+                                            src={Error_Icon}
+                                            alt="ErrorIcon"
+                                            style={{ marginRight: "4px", fontSize:15}}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              whiteSpace: "nowrap", 
+                                            }}>{state.createAccount?.networkError}</span>
                     </div>
                     : null}
 
@@ -6748,19 +7273,31 @@ value={bookingAmount}
                   </div>}
 
   {backtoError && (
-                        <div style={{ color: "red" }} >
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
+             <div style={{
+                                              color: "red",
+                                              backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                              marginTop: 4,
+                                              display: "inline-flex", 
+                                              alignItems: "center",
+                                              padding: "4px 10px", 
+                                              borderRadius: 4,
+                                            }}> 
+                                            <img
+                                              src={Error_Icon}
+                                              alt="ErrorIcon"
+                                              style={{ marginRight: "4px", fontSize:15}}
+                                            />
+                                            <span
+                                              style={{
+                                                fontSize: "12px",
+                                                color: "red",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                whiteSpace: "nowrap", 
+                                              }}
                           >
                             {backtoError}
-                          </label>
+                          </span>
                         </div>
                       )}
                   <div style={{ display: "flex", gap: "16px", alignItems: "center", marginTop: 10, justifyContent: "flex-end" }}>
