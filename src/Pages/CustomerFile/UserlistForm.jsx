@@ -479,15 +479,48 @@ const [internalError,setInternalError]=useState("")
    dispatch({ type: "CLEAR_INTERNAL_ERROR" });
 };
 
-  const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
-  };
+  // const handleStreetName = (e) => {
+  //   setStreet(e.target.value);
+  //   setStreetError("");
+  // };
+//   const handleStreetName = (e) => {
+//   const value = e.target.value;
+//   const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
 
-  const handleLandmark = (e) => {
-    setLandmark(e.target.value);
-    setLandmarkError("");
-  };
+//   if (regex.test(value)) {
+//     setStreet(value);
+//     setStreetError("");
+//   } else {
+//     setStreetError("Invalid Characters Entered");
+//   }
+// };
+const handleStreetName = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
+  if (regex.test(value)) {
+    setStreet(value); 
+  }
+  setStreetError("")
+ 
+};
+
+
+
+  // const handleLandmark = (e) => {
+  //   setLandmark(e.target.value);
+  //   setLandmarkError("");
+  // };
+ const handleLandmark = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
+  if (regex.test(value)) {
+    setLandmark(value); 
+  }
+  setLandmarkError("");
+  
+};
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -506,7 +539,7 @@ const [internalError,setInternalError]=useState("")
   const handleCity = (e) => {
 
     const value = e.target.value;
-    const regex = /^[a-zA-Z\s]*$/;
+     const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
     if (regex.test(value)) {
       setCity(value);
       setCityError("");

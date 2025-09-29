@@ -1192,7 +1192,7 @@ function AddCustomer({  show, handleClose   }) {
       value={house_no}
       onChange={(e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z0-9\s,.-]*$/; // allow letters, numbers, space, comma, dot, dash
+        const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
         if (regex.test(value)) {
           handleHouseNo(e);
         }
@@ -1251,7 +1251,7 @@ function AddCustomer({  show, handleClose   }) {
       value={street}
       onChange={(e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z\s,.-]*$/; // allow only letters, space, comma, dot, dash
+       const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/; 
         if (regex.test(value)) {
           handleStreetName(e);
         }
@@ -1310,7 +1310,7 @@ function AddCustomer({  show, handleClose   }) {
       value={landmark}
       onChange={(e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z\s,.]*$/;  
+       const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
         if (regex.test(value)) {
           handleLandmark(e);
         }
