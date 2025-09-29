@@ -438,7 +438,7 @@ const Compliance = () => {
   if (value === "null") {
     statusValue = null; 
   }
-
+console.log("statusValue",statusValue)
   if (value === "All") {
     dispatch({ type: 'COMPLIANCE-LIST', payload: { hostelId: state.login.selectedHostel_Id } })
   } else {
@@ -1187,7 +1187,7 @@ const Compliance = () => {
                             style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy", cursor: "pointer" }}
                           >
                             <option value="All">All</option>
-                            <option value="null">Open</option>
+                            <option value="open">Open</option>
                             <option value="in-progress">In Progress</option>
                             <option value="resolved">Resolved</option>
                             <option value="date">Date</option>
@@ -1446,7 +1446,7 @@ const Compliance = () => {
                           <div className="d-flex align-items-center mb-3" style={{ marginTop: "5px" }}>
                             <MdError style={{ color: "red", marginRight: "6px", fontSize: "16px", marginBottom: "22px" }} />
                             <span style={{ color: "red", fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              Please Create Complaint Type in Settings Electricity before adding an complaint
+                              Please Create Complaint Type in Settings-Complaint  before adding an complaint
                             </span>
                           </div>
                         )}

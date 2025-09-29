@@ -2267,6 +2267,24 @@ function UserList(props) {
 
   }, [state.Booking.StatusCodeInactiveCode])
 
+
+
+useEffect(() => {
+        if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+          setBookingAssignForm(false)
+                dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
+            }, 100)
+        }
+
+    }, [state.UsersList?.bookingToCheckinStatusCode])
+
+
+
+
+
   const [BookingAssignForm, setBookingAssignForm] = useState(false)
 
 

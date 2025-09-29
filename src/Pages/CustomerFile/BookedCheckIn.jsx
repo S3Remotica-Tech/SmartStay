@@ -22,7 +22,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
 
 
-
+    console.log("bookingDetails", bookingDetails)
 
 
     //  valdation => joing date enale, before booking darte not allowed
@@ -145,39 +145,39 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
     //     setErrors(updatedErrors);
     // };
 
-const handleInputChange = (index, field, value) => {
-    const updatedFields = [...fields];
-    const updatedErrors = [...errors];
+    const handleInputChange = (index, field, value) => {
+        const updatedFields = [...fields];
+        const updatedErrors = [...errors];
 
-    if (field === "reason" || field === "customReason") {
-        // allow only letters and spaces
-        const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
-        
-        if (field === "reason") {
-            if (cleanedValue.toLowerCase() === "others") {
-                updatedFields[index].showInput = true;
-                updatedFields[index].reason_name = "others";
-                updatedFields[index].customReason = "";
-            } else {
-                updatedFields[index].showInput = false;
-                updatedFields[index].reason = cleanedValue;
-                updatedFields[index].reason_name = cleanedValue;
-                updatedFields[index].customReason = "";
+        if (field === "reason" || field === "customReason") {
+            // allow only letters and spaces
+            const cleanedValue = value.replace(/[^A-Za-z ]/g, "");
+
+            if (field === "reason") {
+                if (cleanedValue.toLowerCase() === "others") {
+                    updatedFields[index].showInput = true;
+                    updatedFields[index].reason_name = "others";
+                    updatedFields[index].customReason = "";
+                } else {
+                    updatedFields[index].showInput = false;
+                    updatedFields[index].reason = cleanedValue;
+                    updatedFields[index].reason_name = cleanedValue;
+                    updatedFields[index].customReason = "";
+                }
+            } else if (field === "customReason") {
+                updatedFields[index].customReason = cleanedValue;
             }
-        } else if (field === "customReason") {
-            updatedFields[index].customReason = cleanedValue;
+
+            if (updatedErrors[index]) updatedErrors[index].reason = "";
+        } else if (field === "amount") {
+            const numericValue = value.replace(/[^0-9]/g, "");
+            updatedFields[index].amount = numericValue;
+            if (updatedErrors[index]) updatedErrors[index].amount = "";
         }
 
-        if (updatedErrors[index]) updatedErrors[index].reason = "";
-    } else if (field === "amount") {
-        const numericValue = value.replace(/[^0-9]/g, "");
-        updatedFields[index].amount = numericValue;
-        if (updatedErrors[index]) updatedErrors[index].amount = "";
-    }
-
-    setFields(updatedFields);
-    setErrors(updatedErrors);
-};
+        setFields(updatedFields);
+        setErrors(updatedErrors);
+    };
 
 
 
@@ -196,7 +196,7 @@ const handleInputChange = (index, field, value) => {
         setRoomRentError("");
         setAdvanceAmountError("");
         let newErrors = [];
-
+        let hasReasonAmountError = false;
 
         if (!selectedDate) {
             setJoingDateErrmsg("Please Select Joining Date");
@@ -225,69 +225,54 @@ const handleInputChange = (index, field, value) => {
 
         if (hasError) return;
 
-
-
-
         const incrementDateAndFormat = (date) => {
             const newDate = new Date(date);
-            newDate.setDate(newDate.getDate());
-            return newDate.toISOString().split("T")[0];
+
+            const day = String(newDate.getDate()).padStart(2, "0");
+            const month = String(newDate.getMonth() + 1).padStart(2, "0");
+            const year = newDate.getFullYear();
+
+            return `${day}-${month}-${year}`;
         };
 
-
-        // const formattedDate = selectedDate
-        //   ? incrementDateAndFormat(selectedDate)
-        //   : "";
-        // const invoiceDateObj = new Date(formattedDate);
         const formattedDate = selectedDate
             ? incrementDateAndFormat(selectedDate)
             : "";
-        const invoiceDateObj = new Date(formattedDate);
-        const dueDateObj = new Date(invoiceDateObj);
-        dueDateObj.setDate(dueDateObj.getDate() + (state?.Settings?.SettingsBillsGetRecurring?.dueDateOfMonth || 0));
 
-        // const formattedAdvanceDueDate = dueDateObj.toISOString().split("T")[0];
 
-        // const capitalizeFirstLetter = (str) => {
-        //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        // };
+        console.log("formattedDate", formattedDate)
 
-        // const capitalizedFirstname = capitalizeFirstLetter(firstname);
-
-        // const capitalizedLastname = capitalizeFirstLetter(lastname);
 
 
         setErrors(newErrors)
 
-        // const formattedReasons = fields.map((item) => {
-        //     let reason_name = "";
+        const formattedReasons = fields.map((item) => {
+            let reason_name = "";
 
-        //     if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
-        //         reason_name = item.customReason || item["custom Reason"] || "";
-        //     } else {
-        //         reason_name = item.reason || item.reason_name || "";
-        //     }
+            if (item.reason?.toLowerCase() === "others" || item.reason_name?.toLowerCase() === "others") {
+                reason_name = item.customReason || item["custom Reason"] || "";
+            } else {
+                reason_name = item.reason || item.reason_name || "";
+            }
 
-        //     const error = { reason: "", amount: "" };
-        //     if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
-        //         error.amount = "Please enter amount";
-        //         hasReasonAmountError = true;
-        //     }
+            const error = { reason: "", amount: "" };
+            if (reason_name && (!item.amount || item.amount.toString().trim() === "")) {
+                error.amount = "Please enter amount";
+                hasReasonAmountError = true;
+            }
 
 
-        //     if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
-        //         error.reason = "Please enter reason";
-        //         hasReasonAmountError = true;
-        //     }
+            if ((!reason_name || reason_name.toString().trim() === "") && item.amount) {
+                error.reason = "Please enter reason";
+                hasReasonAmountError = true;
+            }
 
-        //     newErrors.push(error);
-        //     return {
-        //         reason_name,
-        //         amount: item.amount || "",
-        //         showInput: !!item.showInput
-        //     };
-        // });
-
+            newErrors.push(error);
+            return {
+                type: reason_name,
+                amount: item.amount || "",
+            };
+        });
 
         if (hasReasonAmountError) return;
 
@@ -297,50 +282,26 @@ const handleInputChange = (index, field, value) => {
             Number(RoomRent) > 0 && state.UsersList?.bookedDetails?.canCheckIn
         ) {
 
+            dispatch({
+                type: 'BOOKINGTOCHECKIN',
+                payload: {
+                    customerId: bookingDetails?.customerId,
+                    bookingId: state.UsersList?.bookedDetails?.bookingId,
+                    joiningDate: formattedDate,
+                    advanceAmount: Number(AdvanceAmount),
+                    rentalAmount: Number(RoomRent),
+                    stayType: activeTab,
+                    deductions: formattedReasons?.map(item => ({
+                        type: item.type,
+                        amount: Number(item.amount),
+                    })),
+                    isAdvanceIncludedInBooking: true
+                }
+            });
 
 
-            // dispatch({
-            //     type: "ADDUSER",
-            //     payload: {
-            //         profile: file,
-            //         firstname: capitalizedFirstname,
-            //         LastName: capitalizedLastname,
-            //         Phone: Phone,
-            //         Email: Email,
-            //         Address: house_no,
-            //         area: street,
-            //         landmark: landmark,
-            //         city: city,
-            //         pincode: pincode,
-            //         state: state_name,
-            //         AadharNo: AadharNo,
-            //         PancardNo: PancardNo,
-            //         licence: licence,
-            //         HostelName: HostelName,
-            //         hostel_Id: hostel_Id,
-            //         Floor: Floor,
-            //         Rooms: props.EditObj.booking_room_id,
-            //         Bed: props.EditObj.booking_bed_id,
-            //         joining_date: formattedDate,
-            //         AdvanceAmount: AdvanceAmount,
-            //         RoomRent: RoomRent,
-            //         BalanceDue: BalanceDue,
-            //         PaymentType: PaymentType,
-            //         paid_advance: paid_advance,
-            //         paid_rent: paid_rent,
-            //         payable_rent: payableamount,
-            //         isadvance: 1,
-            //         invoice_date: formattedDate,
-            //         due_date: formattedAdvanceDueDate,
-            //         ID: props.EditObj.ID,
-            //         reasons: formattedReasons,
-            //         stay_type: activeTab === "LONG" ? "LONG" : "SHORT",
-            //         booking_id: props.EditObj.booking_id,
-            //         booking_date: bookingDate,
-            //         booking_amount: props.EditObj.booking_amount
 
-            //     },
-            // });
+
         }
         setFormLoading(true)
 
@@ -368,6 +329,28 @@ const handleInputChange = (index, field, value) => {
         }
 
     }, [state.UsersList?.bookedDetails, bookingDetails])
+
+    useEffect(() => {
+        if (state.UsersList?.bookingToCheckinStatusCode === 200) {
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_BOOKING_TO_CHECKIN' })
+            }, 100)
+        }
+
+    }, [state.UsersList?.bookingToCheckinStatusCode])
+
+
+    useEffect(() => {
+        if (state.UsersList.bedError) {
+            setFormLoading(false)
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
+            }, 1000)
+
+        }
+
+    }, [state.UsersList.bedError])
 
 
     return (
@@ -690,36 +673,36 @@ const handleInputChange = (index, field, value) => {
                                                     />
                                                 </div>
                                             </Form.Group>
-                                           
-                                                {dateError && (
-                                                    <div style={{ color: "red", marginTop: "" }}>
-                                                        <MdError
-                                                            style={{ fontSize: "13px", marginRight: "5px" }}
-                                                        />
-                                                        <label
-                                                            className="mb-0"
-                                                            style={{
-                                                                color: "red",
-                                                                fontSize: "12px",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                            }}
-                                                        >
-                                                            {dateError}
-                                                        </label>
-                                                    </div>
-                                                )}
 
-                                                {joiningDateErrmsg.trim() !== "" && (
-                                                    <div className="d-flex align-items-center">
-                                                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                            {joiningDateErrmsg}
-                                                        </label>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        
+                                            {dateError && (
+                                                <div style={{ color: "red", marginTop: "" }}>
+                                                    <MdError
+                                                        style={{ fontSize: "13px", marginRight: "5px" }}
+                                                    />
+                                                    <label
+                                                        className="mb-0"
+                                                        style={{
+                                                            color: "red",
+                                                            fontSize: "12px",
+                                                            fontFamily: "Gilroy",
+                                                            fontWeight: 500,
+                                                        }}
+                                                    >
+                                                        {dateError}
+                                                    </label>
+                                                </div>
+                                            )}
+
+                                            {joiningDateErrmsg.trim() !== "" && (
+                                                <div className="d-flex align-items-center">
+                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                        {joiningDateErrmsg}
+                                                    </label>
+                                                </div>
+                                            )}
+                                        </div>
+
 
 
 
@@ -746,24 +729,24 @@ const handleInputChange = (index, field, value) => {
                                                     }}
                                                 />
                                             </Form.Group>
-                                         
-                                                {advanceAmountError && (
-                                                    <div style={{ color: "red" }}>
-                                                        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                        <label
-                                                            className="mb-0"
-                                                            style={{
-                                                                color: "red",
-                                                                fontSize: "12px",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                            }}
-                                                        >
-                                                            {advanceAmountError}
-                                                        </label>
-                                                    </div>
-                                                )}
-                                        
+
+                                            {advanceAmountError && (
+                                                <div style={{ color: "red" }}>
+                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                                                    <label
+                                                        className="mb-0"
+                                                        style={{
+                                                            color: "red",
+                                                            fontSize: "12px",
+                                                            fontFamily: "Gilroy",
+                                                            fontWeight: 500,
+                                                        }}
+                                                    >
+                                                        {advanceAmountError}
+                                                    </label>
+                                                </div>
+                                            )}
+
                                         </div>
 
 

@@ -180,9 +180,9 @@ const SettingElectricity = ({ hostelid }) => {
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
     dispatch({
-        type: "EB-BILLING-UNIT-LIST",
-        payload: hostelid,
-      });
+      type: "EB-BILLING-UNIT-LIST",
+      payload: hostelid,
+    });
     setCalculatedstartdateErrmsg("");
     setCalculatedEnddateErrMsg("");
     setCalculatedEnddate("");
@@ -203,11 +203,24 @@ const SettingElectricity = ({ hostelid }) => {
 
 
 
-const handleProRate = (item) => {
-    setProWrate(!isProWrate);
-setRecurringForm(true);
-   
-  };
+  
+const handleProRate = () => {
+  const newValue = !isProWrate;   // toggle
+  setProWrate(newValue);
+  console.log("isProWrate", newValue);
+
+  if (newValue) {
+    setRecurringForm(true);
+  } else {
+    dispatch({
+      type: "ROOMHOSTELEBCHANGE",
+      payload: {
+        hostelId: hostelid,
+        isProRate: false,
+      },
+    });
+  }
+};
 
 
   const handlechangeEvery = (e) => {
@@ -225,17 +238,17 @@ setRecurringForm(true);
       return;
     } else {
 
-dispatch({
-      type: "ROOMHOSTELEBCHANGE",
-      payload: {
-        hostelId: hostelid,
-        // isHostelBased: true,
-        //  isRoomBased: false,
-        isProRate: true,
-        calculationStartingDate: calculatedstartdate,
-        frequent:every_recurr
-      },
-    });
+      dispatch({
+        type: "ROOMHOSTELEBCHANGE",
+        payload: {
+          hostelId: hostelid,
+          // isHostelBased: true,
+          //  isRoomBased: false,
+          isProRate: true,
+          calculationStartingDate: calculatedstartdate,
+          frequent: every_recurr
+        },
+      });
       // dispatch({
       //   type: "SETTINGSADDRECURRING",
       //   payload: {
@@ -255,7 +268,7 @@ dispatch({
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
       setCalculatedstartdate("");
       setCalculatedEnddate("");
-      
+
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: hostelid,
@@ -278,7 +291,7 @@ dispatch({
       payload: {
         hostelId: hostelid,
         isHostelBased: true,
-         isRoomBased: false,
+        isRoomBased: false,
       },
     });
   };

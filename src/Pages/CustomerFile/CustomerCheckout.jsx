@@ -111,6 +111,7 @@ function CustomerCheckout(props) {
     }
   };
 
+  console.log("props",props)
 
   const handleCheckOutCustomer = () => {
 
@@ -118,58 +119,36 @@ function CustomerCheckout(props) {
 
     dispatch({ type: 'CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR' });
 
-  if (!selectedDate || !requestDate) {
-  if (!selectedDate) {
-    setCheckOutDateError('Please Select Check-Out Date');
-  }
-  if (!requestDate) {
-    setCheckOutRequestDateError('Please Select Request Date');
-  }
-  return;
-}
+    if (!selectedDate || !requestDate) {
+      if (!selectedDate) {
+        setCheckOutDateError('Please Select Check-Out Date');
+      }
+      if (!requestDate) {
+        setCheckOutRequestDateError('Please Select Request Date');
+      }
+      return;
+    }
 
 
-if (dayjs(selectedDate).isBefore(dayjs(requestDate))) {
-  setCheckOutDateError('Before Request Date not allowed');
-  return;
-}
+    if (dayjs(selectedDate).isBefore(dayjs(requestDate))) {
+      setCheckOutDateError('Before Request Date not allowed');
+      return;
+    }
 
-const formattedDate = dayjs(selectedDate).isValid()
-  ? dayjs(selectedDate).format("DD-MM-YYYY")
-  : null;
+    const formattedDate = dayjs(selectedDate).isValid()
+      ? dayjs(selectedDate).format("DD-MM-YYYY")
+      : null;
 
-const formattedrequestDate = dayjs(requestDate).isValid()
-  ? dayjs(requestDate).format("DD-MM-YYYY")
-  : null;
-
-
-
-   
-    // const userId = props.data?.ID || props.data || null;
-    // const hostelId = props.uniqueostel_Id || props.bedData?.room?.Hostel_Id || null;
-
-
-
-
-    if (props.bedData?.currentTenantCustomerId  && formattedDate && formattedrequestDate) {
-
-
-      // dispatch({
-      //   type: 'ADDCHECKOUTCUSTOMER',
-      //   payload: {
-      //     checkout_date: formattedDate,
-      //     user_id: userId,
-      //     hostel_id: hostelId,
-      //     comments: comments,
-      //     action: 1,
-      //     req_date: formattedrequestDate
-      //   }
-      // });
+    const formattedrequestDate = dayjs(requestDate).isValid()
+      ? dayjs(requestDate).format("DD-MM-YYYY")
+      : null;
+const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.customerId;
+ if (customerId && formattedDate && formattedrequestDate) {
 
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER',
         payload: {
-          customerId: props.bedData?.currentTenantCustomerId,
+          customerId: customerId,
           hostelId: props.bedData?.hostelId || state.login.selectedHostel_Id,
           requestDate: formattedrequestDate,
           checkoutDate: formattedDate,

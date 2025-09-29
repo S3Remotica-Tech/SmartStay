@@ -690,3 +690,9 @@ export async function getRoomReading(hostelId) {
 
 
 
+export async function bookingToCheckIn(customer) {
+
+  return await AxiosConfigV2.post(`/v2/customers/booked/check-in/${customer.customerId}`, customer, {
+    data: customer
+  })
+}
