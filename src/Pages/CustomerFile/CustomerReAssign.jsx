@@ -4,13 +4,14 @@ import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 import { CloseCircle } from "iconsax-react";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 dayjs.extend(customParseFormat);
@@ -274,7 +275,7 @@ function CustomerReAssign(props) {
 
  
     if (!newBed || newBed === "") {
-      setBedError("Please select a bed");
+      setBedError("Please Select New Bed");
       return;
     }
 
@@ -566,7 +567,7 @@ const getImageSrc = () => {
 
                   <div  className="show-scroll p-2 mt-0 me-0">
 
-                    <div className="row  d-flex align-items-center">
+                    <div className="row  ">
                       {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-3">
                           <Form.Label
@@ -715,6 +716,8 @@ const getImageSrc = () => {
                         </Form.Group>
 
                       </div> */}
+
+                      <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Label
                           style={{
@@ -808,18 +811,28 @@ const getImageSrc = () => {
 
 
                         {floorError && (
-                          <div style={{ color: "red", marginTop: "1px" }}>
-                            {" "}
-                            <MdError
-                              style={{ fontSize: "14px", marginRight: "4px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                                               <div style={{
+                                                                  color: "red",
+                                                                  backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                  marginTop: 4,
+                                                                  display: "inline-flex", 
+                                                                  alignItems: "center",
+                                                                  padding: "4px 10px", 
+                                                                  borderRadius: 4,
+                                                                }}> 
+                                                                <img
+                                                                  src={Error_Icon}
+                                                                  alt="ErrorIcon"
+                                                                  style={{ marginRight: "4px", fontSize:15}}
+                                                                />
+                                                                <span
+                                                                  style={{
+                                                                    fontSize: "12px",
+                                                                    color: "red",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap", 
+                                                                  }}
                             >
                               {" "}
                               {floorError}
@@ -921,18 +934,28 @@ const getImageSrc = () => {
                         />
 
                         {roomError && (
-                          <div style={{ color: "red", marginTop: "1px" }}>
-                            {" "}
-                            <MdError
-                              style={{ fontSize: "14px", marginRight: "4px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                                               <div style={{
+                                                                  color: "red",
+                                                                  backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                  marginTop: 4,
+                                                                  display: "inline-flex", 
+                                                                  alignItems: "center",
+                                                                  padding: "4px 10px", 
+                                                                  borderRadius: 4,
+                                                                }}> 
+                                                                <img
+                                                                  src={Error_Icon}
+                                                                  alt="ErrorIcon"
+                                                                  style={{ marginRight: "4px", fontSize:15}}
+                                                                />
+                                                                <span
+                                                                  style={{
+                                                                    fontSize: "12px",
+                                                                    color: "red",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap", 
+                                                                  }}
                             >
                               {" "}
                               {roomError}
@@ -940,7 +963,9 @@ const getImageSrc = () => {
                           </div>
                         )}
                       </div>
-
+                      </div>
+                      
+                       <div className="row">
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Label
                           style={{
@@ -1123,18 +1148,28 @@ const getImageSrc = () => {
 
 
                         {bedError && (
-                          <div style={{ color: "red", marginTop: "1px" }}>
-                            {" "}
-                            <MdError
-                              style={{ fontSize: "14px", marginRight: "4px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
+                                   <div style={{
+                                                      color: "red",
+                                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                      marginTop: 4,
+                                                      display: "inline-flex", 
+                                                      alignItems: "center",
+                                                      padding: "4px 10px", 
+                                                      borderRadius: 4,
+                                                    }}> 
+                                                    <img
+                                                      src={Error_Icon}
+                                                      alt="ErrorIcon"
+                                                      style={{ marginRight: "4px", fontSize:15}}
+                                                    />
+                                                    <span
+                                                      style={{
+                                                        fontSize: "12px",
+                                                        color: "red",
+                                                        fontFamily: "Gilroy",
+                                                        fontWeight: 500,
+                                                        whiteSpace: "nowrap", 
+                                                      }}
                             >
                               {" "}
                               {bedError}
@@ -1264,18 +1299,28 @@ const getImageSrc = () => {
 
                           </div>
                           {dateError && (
-                            <div style={{ color: "red", marginTop: "1px" }}>
-                              {" "}
-                              <MdError
-                                style={{ fontSize: "14px", marginRight: "4px" }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: "12px",
-                                  color: "red",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                                     <div style={{
+                                                        color: "red",
+                                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                        marginTop: 4,
+                                                        display: "inline-flex", 
+                                                        alignItems: "center",
+                                                        padding: "4px 10px", 
+                                                        borderRadius: 4,
+                                                      }}> 
+                                                      <img
+                                                        src={Error_Icon}
+                                                        alt="ErrorIcon"
+                                                        style={{ marginRight: "4px", fontSize:15}}
+                                                      />
+                                                      <span
+                                                        style={{
+                                                          fontSize: "12px",
+                                                          color: "red",
+                                                          fontFamily: "Gilroy",
+                                                          fontWeight: 500,
+                                                          whiteSpace: "nowrap", 
+                                                        }}
                               >
                                 {" "}
                                 {dateError}
@@ -1286,6 +1331,7 @@ const getImageSrc = () => {
 
 
 
+                      </div>
                       </div>
 
 
@@ -1353,18 +1399,28 @@ const getImageSrc = () => {
                             }}
                           />
                           {rentError && (
-                            <div style={{ color: "red", marginTop: "0px" }}>
-                              {" "}
-                              <MdError
-                                style={{ fontSize: "14px", marginRight: "4px" }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: "12px",
-                                  color: "red",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
+                                               <div style={{
+                                                                  color: "red",
+                                                                  backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                  marginTop: 4,
+                                                                  display: "inline-flex", 
+                                                                  alignItems: "center",
+                                                                  padding: "4px 10px", 
+                                                                  borderRadius: 4,
+                                                                }}> 
+                                                                <img
+                                                                  src={Error_Icon}
+                                                                  alt="ErrorIcon"
+                                                                  style={{ marginRight: "4px", fontSize:15}}
+                                                                />
+                                                                <span
+                                                                  style={{
+                                                                    fontSize: "12px",
+                                                                    color: "red",
+                                                                    fontFamily: "Gilroy",
+                                                                    fontWeight: 500,
+                                                                    whiteSpace: "nowrap", 
+                                                                  }}
                               >
                                 {" "}
                                 {rentError}
@@ -1410,9 +1466,28 @@ const getImageSrc = () => {
               ></div>
             </div>}
             {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                           <div style={{
+                                              color: "red",
+                                              backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                              marginTop: 4,
+                                              display: "inline-flex", 
+                                              alignItems: "center",
+                                              padding: "4px 10px", 
+                                              borderRadius: 4,
+                                            }}> 
+                                            <img
+                                              src={Error_Icon}
+                                              alt="ErrorIcon"
+                                              style={{ marginRight: "4px", fontSize:15}}
+                                            />
+                                            <span
+                                              style={{
+                                                fontSize: "12px",
+                                                color: "red",
+                                                fontFamily: "Gilroy",
+                                                fontWeight: 500,
+                                                whiteSpace: "nowrap", 
+                                              }}>{state.createAccount?.networkError}</span>
               </div>
               : null}
             <Modal.Footer className="pt-1" style={{ border: "none" }}>

@@ -7,7 +7,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Edit, Trash } from "iconsax-react";
 import CustomerForm from "./UserlistWalkinForm";
 // import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";;
 import PropTypes from "prop-types";
@@ -15,7 +15,7 @@ import moment from "moment";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
-
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
@@ -348,27 +348,33 @@ function UserlistWalkin(props) {
             />
 
             {walkInPermissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {walkInPermissionError}
-                </span>
-              </div>
+               <div style={{
+                                                                      color: "red",
+                                                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                      marginTop: 4,
+                                                                      display: "inline-flex", 
+                                                                      alignItems: "center",
+                                                                      padding: "4px 10px", 
+                                                                      borderRadius: 4,
+                                                                    }}> 
+                                                                    <img
+                                                                      src={Error_Icon}
+                                                                      alt="ErrorIcon"
+                                                                      style={{ marginRight: "4px", fontSize:15}}
+                                                                    />
+                                                                    <span
+                                                                      style={{
+                                                                        fontSize: "12px",
+                                                                        color: "red",
+                                                                        fontFamily: "Gilroy",
+                                                                        fontWeight: 500,
+                                                                        whiteSpace: "nowrap", 
+                                                                      }}
+                                        >
+                                          {walkInPermissionError}
+                                        </span>
+                                      </div>
+              
             )}
           </div>
         </>
@@ -405,8 +411,8 @@ function UserlistWalkin(props) {
             ) : (
               sortedData.length > 0 && (
                 <div
-                  className="p-10 booking-table-userlist  booking-table me-4"
-                  style={{ paddingBottom: "20px", marginLeft: "0px" }}
+                 className=" booking-table-userlist  booking-table  me-4"
+                      style={{ paddingBottom: "20px", marginLeft: "-14px" }}
                 >
                   <div
                     className="show-scrolls"
@@ -1173,35 +1179,72 @@ function UserlistWalkin(props) {
             )}
 
             {!walkinLoader && currentCustomers?.length === 0 && (
-              <div style={{ marginTop: 30 }} className="animated-text">
-                <div style={{ textAlign: "center" }}>
-                  <img src={Emptystate} alt="emptystate" />
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 18,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Walk-in available
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no Walk-in added.
-                </div>
-              </div>
+              // <div style={{ marginTop: 30 }} className="animated-text">
+              //   <div style={{ textAlign: "center" }}>
+              //     <img src={Emptystate} alt="emptystate" />
+              //   </div>
+              //   <div
+              //     className="pb-1"
+              //     style={{
+              //       textAlign: "center",
+              //       fontWeight: 600,
+              //       fontFamily: "Gilroy",
+              //       fontSize: 18,
+              //       color: "rgba(75, 75, 75, 1)",
+              //     }}
+              //   >
+              //     No Walk-in available
+              //   </div>
+              //   <div
+              //     className="pb-1"
+              //     style={{
+              //       textAlign: "center",
+              //       fontWeight: 500,
+              //       fontFamily: "Gilroy",
+              //       fontSize: 14,
+              //       color: "rgba(75, 75, 75, 1)",
+              //     }}
+              //   >
+              //     There are no Walk-in added.
+              //   </div>
+              // </div>
+               <div   style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  position:'fixed',
+                  height: "60vh",
+                  marginLeft:'32%'
+                }} className="animated-text">
+                                                      <div style={{ textAlign: "center" }}>
+                                                        <img src={Emptystate} alt="emptystate" />
+                                                      </div>
+                                                      <div
+                                                        className="pb-1"
+                                                        style={{
+                                                          textAlign: "center",
+                                                          fontWeight: 600,
+                                                          fontFamily: "Gilroy",
+                                                          fontSize: 18,
+                                                          color: "rgba(75, 75, 75, 1)",
+                                                        }}
+                                                      >
+                                                         No Walk-in available{" "}
+                                                      </div>
+                                                      <div
+                                                        className="pb-1"
+                                                        style={{
+                                                          textAlign: "center",
+                                                          fontWeight: 500,
+                                                          fontFamily: "Gilroy",
+                                                          fontSize: 14,
+                                                          color: "rgba(75, 75, 75, 1)",
+                                                        }}
+                                                      >
+                                                       There are no Walk-in added.{" "}
+                                                      </div>
+                                                    </div>
             )}
           </div>
           {/* {(props.search || props.filterStatus

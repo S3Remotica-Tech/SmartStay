@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux"
 import { Button, Form, ModalBody } from "react-bootstrap";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function CustomerCheckout(props) {
 
@@ -559,11 +560,30 @@ disabledDate={(current) => {
                           </div>
                         </Form.Group>
                         {checkoUtrequestDateError && (
-                          <div className="d-flex align-items-center  mb-1">
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                              <div style={{
+                                          color: "red",
+                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                          marginTop: 4,
+                                          display: "inline-flex", 
+                                          alignItems: "center",
+                                          padding: "4px 10px", 
+                                          borderRadius: 4,
+                                        }}> 
+                                        <img
+                                          src={Error_Icon}
+                                          alt="ErrorIcon"
+                                          style={{ marginRight: "4px", fontSize:15}}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            whiteSpace: "nowrap", 
+                                          }}>
                               {checkoUtrequestDateError}
-                            </label>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -633,31 +653,60 @@ disabledDate={(current) => {
 
                         </Form.Group>
                         {checkoUtDateError && (
-                          <div className="d-flex align-items-center  mb-1">
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500, whiteSpace: "nowrap" }}>
+                                   <div style={{
+                               color: "red",
+                               backgroundColor: "rgba(255, 243, 243, 0.64)",
+                               marginTop: 4,
+                               display: "inline-flex", 
+                               alignItems: "center",
+                               padding: "4px 10px", 
+                               borderRadius: 4,
+                             }}> 
+                             <img
+                               src={Error_Icon}
+                               alt="ErrorIcon"
+                               style={{ marginRight: "4px", fontSize:15}}
+                             />
+                             <span
+                               style={{
+                                 fontSize: "12px",
+                                 color: "red",
+                                 fontFamily: "Gilroy",
+                                 fontWeight: 500,
+                                 whiteSpace: "nowrap", 
+                               }}>
                               {checkoUtDateError}
-                            </label>
+                            </span>
                           </div>
                         )}
 
 
                         {joiningError && (
-                          <div className="d-flex align-items-center  mb-2">
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                whiteSpace: "normal",
-                                lineHeight: "1.2"
-                              }}
+                                              <div style={{
+                                          color: "red",
+                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                          marginTop: 4,
+                                          display: "inline-flex", 
+                                          alignItems: "center",
+                                          padding: "4px 10px", 
+                                          borderRadius: 4,
+                                        }}> 
+                                        <img
+                                          src={Error_Icon}
+                                          alt="ErrorIcon"
+                                          style={{ marginRight: "4px", fontSize:15}}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            whiteSpace: "nowrap", 
+                                          }}
                             >
                               {joiningError}
-                            </label>
+                            </span>
                           </div>
                         )}
 
@@ -690,9 +739,28 @@ disabledDate={(current) => {
 
 
                   {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                          <div style={{
+                      color: "red",
+                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                      marginTop: 4,
+                      display: "inline-flex", 
+                      alignItems: "center",
+                      padding: "4px 10px", 
+                      borderRadius: 4,
+                    }}> 
+                    <img
+                      src={Error_Icon}
+                      alt="ErrorIcon"
+                      style={{ marginRight: "4px", fontSize:15}}
+                    />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        whiteSpace: "nowrap", 
+                      }}>{state.createAccount?.networkError}</span>
                     </div>
                     : null}
 
@@ -730,11 +798,30 @@ disabledDate={(current) => {
 
 
                   {state.UsersList.errorMessageAddCheckOut && (
-                    <div className="d-flex align-items-center mb-3" style={{ paddingBottom: 5 }}>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    <div style={{
+                color: "red",
+                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                marginTop: 4,
+                display: "inline-flex", 
+                alignItems: "center",
+                padding: "4px 10px", 
+                borderRadius: 4,
+              }}> 
+              <img
+                src={Error_Icon}
+                alt="ErrorIcon"
+                style={{ marginRight: "4px", fontSize:15}}
+              />
+              <span
+                style={{
+                  fontSize: "12px",
+                  color: "red",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  whiteSpace: "nowrap", 
+                }}>
                         {state.UsersList.errorMessageAddCheckOut}
-                      </label>
+                      </span>
                     </div>
                   )}
 

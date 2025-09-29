@@ -54,6 +54,7 @@ import logout from "../../Assets/Images/New_images/logout.png";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
 import PaginationList from "../../Components/PaginationList";
 import FinalSettlement from "./FinalSettlement";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 function UserList(props) {
   const state = useSelector((state) => state);
 
@@ -2868,7 +2869,7 @@ const handleClosefinal = ()=>{
               textAlign: "left",
             }}
           >
-            <TabContext value={value} style={{ marginLeft: "-10px" }}>
+            <TabContext value={value} style={{ marginLeft: "-10px" , overflowY:'hidden'}}>
               {
                 state.login.checkoutProfileStatus   &&
               
@@ -2994,7 +2995,13 @@ const handleClosefinal = ()=>{
                     </div>
                   </div>
                 ) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
-                  <div style={{ marginTop: 30 }} className="animated-text">
+                  <div   style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "60vh", marginLeft:'32%' , position:'fixed',
+                }} className="animated-text">
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
                     </div>
@@ -4130,7 +4137,7 @@ const handleClosefinal = ()=>{
 
           {/* 🔹 bed_status */}
           <td
-            className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+            className="ps-0 ps-sm-0 ps-md-4 ps-lg-4"
             style={{
               paddingTop: 15,
               border: "none",
@@ -4147,6 +4154,7 @@ const handleClosefinal = ()=>{
                 backgroundColor: "#EDD3D8",
                 padding: 6,
                 borderRadius: 10,
+                marginLeft:4
               }}
             >
               {user.bed_status}
@@ -4155,7 +4163,7 @@ const handleClosefinal = ()=>{
 
           {/* 🔹 join date */}
           <td
-            className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+            className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
             style={{
               paddingTop: 15,
               border: "none",
@@ -5423,21 +5431,31 @@ const handleClosefinal = ()=>{
               </div>
             </Form.Group>
             {isActiveDateError && (
-              <div style={{ color: "red", marginTop: "-5px" }}>
-                <MdError
-                  style={{ fontSize: "13px", marginRight: "5px" }}
-                />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                          <div style={{
+                                 color: "red",
+                                 backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                 marginTop: 4,
+                                 display: "inline-flex", 
+                                 alignItems: "center",
+                                 padding: "4px 10px", 
+                                 borderRadius: 4,
+                               }}> 
+                               <img
+                                 src={Error_Icon}
+                                 alt="ErrorIcon"
+                                 style={{ marginRight: "4px", fontSize:15}}
+                               />
+                               <span
+                                 style={{
+                                   fontSize: "12px",
+                                   color: "red",
+                                   fontFamily: "Gilroy",
+                                   fontWeight: 500,
+                                   whiteSpace: "nowrap", 
+                                 }}
                 >
                   {isActiveDateError}
-                </label>
+                </span>
               </div>
             )}
           </div>
@@ -5684,15 +5702,28 @@ const handleClosefinal = ()=>{
                       ))}
                   </Form.Select>
                   {floorError && (
-                    <div style={{ color: "red" }}>
-                      <MdError />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
+                            <div style={{
+                                                                                  color: "red",
+                                                                                  backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                  marginTop: 4,
+                                                                                  display: "inline-flex", 
+                                                                                  alignItems: "center",
+                                                                                  padding: "4px 10px", 
+                                                                                  borderRadius: 4,
+                                                                                }}> 
+                                                                                <img
+                                                                                  src={Error_Icon}
+                                                                                  alt="ErrorIcon"
+                                                                                  style={{ marginRight: "4px", fontSize:15}}
+                                                                                />
+                                                                                <span
+                                                                                  style={{
+                                                                                    fontSize: "12px",
+                                                                                    color: "red",
+                                                                                    fontFamily: "Gilroy",
+                                                                                    fontWeight: 500,
+                                                                                    whiteSpace: "nowrap", 
+                                                                                  }}
                       >
                         {floorError}
                       </span>
