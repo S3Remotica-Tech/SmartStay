@@ -15,6 +15,7 @@ import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import { Row, Col, } from "react-bootstrap";
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
+import ErrorMessage from '../../Components/ErrorMessage'
 
 const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
@@ -824,28 +825,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
                             {booking_customererrmsg.trim() !== "" && (
-                              <div>
-                                <p
-                                  style={{
-                                    fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {booking_customererrmsg !== " " && (
-                                    <MdError
-                                      style={{
-                                        fontSize: "14px",
-                                        color: "red",
-                                        marginRight: "3px",
-                                        marginBottom: "3px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    />
-                                  )}{" "}
-                                  {booking_customererrmsg}
-                                </p>
-                              </div>
+                             <ErrorMessage message={booking_customererrmsg} type="error" />
                             )}
                           </Form.Group>
                         </div>
@@ -893,28 +873,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           </div>
                         </Form.Group>
                         {dateError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
-                            <span
-                              style={{
-                                color: "red",
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {dateError}
-                            </span>
-                          </div>
+                           <ErrorMessage message={dateError} type="error" />
                         )}
 
                         {bookingDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              {bookingDateErrmsg}
-                            </label>
-                          </div>
+                           <ErrorMessage message={bookingDateErrmsg} type="error" />
                         )}
                       </Col>
 
@@ -954,19 +917,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           />
                         </Form.Group>
                         {amountError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
-                            <span
-                              style={{
-                                color: "red",
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {amountError}
-                            </span>
-                          </div>
+                          <ErrorMessage message={amountError} type="error" />
                         )}
                       </Col>
 
@@ -1064,21 +1015,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                         </Form.Group>
                         {paymentError && (
-                          <div className="d-flex align-items-center p-1 ">
-                            <MdError style={{ color: "red", fontSize: "14px", }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                whiteSpace: "nowrap"
-                              }}
-                            >
-                              {paymentError}
-                            </label>
-                          </div>
+                           <ErrorMessage message={paymentError} type="error" />
                         )}
                       </Col>
 
@@ -1172,34 +1109,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                           </div>
                         </Form.Group>
                         {dateError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{
-                                marginRight: "5px",
-                                fontSize: 14,
-                                marginBottom: "1px",
-                              }}
-                            />
-                            <span
-                              style={{
-                                color: "red",
-                                fontSize: 12,
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {dateError}
-                            </span>
-                          </div>
+                           <ErrorMessage message={dateError} type="error" />
                         )}
 
                         {joiningDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              {joiningDateErrmsg}
-                            </label>
-                          </div>
+                           <ErrorMessage message={joiningDateErrmsg} type="error" />
                         )}
 
 
@@ -1240,13 +1154,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                       ></div>
                     </div>
                   }
-                  {/*         
-                            {state.createAccount?.networkError ?
-                              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                              </div>
-                              : null} */}
+               
                   <div className="d-flex justify-content-end">
                     <Button
                       style={{
@@ -1379,28 +1287,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
                                   {checkin_customererrmsg.trim() !== "" && (
-                                    <div>
-                                      <p
-                                        style={{
-                                          fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {checkin_customererrmsg !== " " && (
-                                          <MdError
-                                            style={{
-                                              fontSize: "14px",
-                                              color: "red",
-                                              marginRight: "3px",
-                                              marginBottom: "3px",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          />
-                                        )}{" "}
-                                        {checkin_customererrmsg}
-                                      </p>
-                                    </div>
+                                    <ErrorMessage message={checkin_customererrmsg} type="error" />
                                   )}
                                 </Form.Group>
                               </div>
@@ -1492,16 +1379,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                             </div>
                             {stay_typenameErrmsg.trim() !== "" && (
-                              <div>
-                                <p style={{ fontSize: '15px', color: 'red' }}>
-                                  {stay_typenameErrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{stay_typenameErrmsg}</span>
-                                </p>
-                              </div>
+                               <ErrorMessage message={stay_typenameErrmsg} type="error" />
                             )}
                           </Row>
 
                           <Row>
-                            {/* <div className="row align-items-end ms-1 me-1" style={{ paddingRight: 5, paddingLeft: 0 }}> */}
 
 
                               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
@@ -1528,20 +1410,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                   />
                                 </Form.Group>
                                 {roomrentError && (
-                                  <div className="d-flex align-items-center justify-content-start" style={{ color: "red" }}>
-                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                    <label
-                                      className="mb-0"
-                                      style={{
-                                        color: "red",
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {roomrentError}
-                                    </label>
-                                  </div>
+                                <ErrorMessage message={roomrentError} type="error" />
                                 )}
                               </div>
 
@@ -1570,20 +1439,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                   />
                                 </Form.Group>
                                 {advanceAmountError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                    <label
-                                      className="mb-0"
-                                      style={{
-                                        color: "red",
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {advanceAmountError}
-                                    </label>
-                                  </div>
+                                  <ErrorMessage message={advanceAmountError} type="error" />
                                 )}
                               </div>
 
@@ -1593,7 +1449,6 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
 
-                            {/* </div> */}
                           </Row>
 
 
@@ -1634,47 +1489,9 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                 </div>
                               </Form.Group>
                               {Checkin_joiningDateErrmsg && (
-                                <div style={{ color: "red" }}>
-                                  <MdError
-                                    style={{
-                                      marginRight: "5px",
-                                      fontSize: 14,
-                                      marginBottom: "1px",
-                                    }}
-                                  />
-                                  <span
-                                    style={{
-                                      color: "red",
-                                      fontSize: 12,
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {Checkin_joiningDateErrmsg}
-                                  </span>
-                                </div>
+                              <ErrorMessage message={Checkin_joiningDateErrmsg} type="error" />
                               )}
-                              {/* {state.Booking?.ErrorAssignBookingDate && (
-                                                   <div style={{ color: "red" }}>
-                                                     <MdError
-                                                       style={{
-                                                         marginRight: "5px",
-                                                         fontSize: 14,
-                                                         marginBottom: "1px",
-                                                       }}
-                                                     />
-                                                     <span
-                                                       style={{
-                                                         color: "red",
-                                                         fontSize: 12,
-                                                         fontFamily: "Gilroy",
-                                                         fontWeight: 500,
-                                                       }}
-                                                     >
-                                                       {state.Booking?.ErrorAssignBookingDate}
-                                                     </span>
-                                                   </div>
-                                                 )} */}
+                             
 
 
 
@@ -1857,20 +1674,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
                                     </>
                                   )}
                                   {errors[index]?.reason && (
-                                    <div className="d-flex align-items-center mt-1">
-                                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                      <label
-                                        className="mb-0"
-                                        style={{
-                                          color: "red",
-                                          fontSize: "12px",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {errors[index]?.reason}
-                                      </label>
-                                    </div>
+                                    <ErrorMessage message={errors[index]?.reason} type="error" />
                                   )}
                                 </div>
 
@@ -1896,20 +1700,7 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
                                   />
                                   {errors[index]?.amount && (
-                                    <div className="d-flex align-items-center mt-1">
-                                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                      <label
-                                        className="mb-0"
-                                        style={{
-                                          color: "red",
-                                          fontSize: "12px",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {errors[index]?.amount}
-                                      </label>
-                                    </div>
+                                    <ErrorMessage message={errors[index]?.amount} type="error" />
                                   )}
                                 </div>
 

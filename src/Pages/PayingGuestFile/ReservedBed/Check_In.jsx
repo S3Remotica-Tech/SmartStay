@@ -15,7 +15,7 @@ import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import addcircle from "../../../Assets/Images/New_images/add-circle.png";
-// import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
+import ErrorMessage from '../../../Components/ErrorMessage'
 
 function CheckIn({
     show,
@@ -478,7 +478,7 @@ function CheckIn({
         }
     }, [state.UsersList?.statusCodeForAddUser, state.UsersList?.statusCodeForAddCustomerSaveInfo]);
 
-useEffect(() => {
+    useEffect(() => {
         if (state.UsersList?.bookingToCheckinStatusCode === 200) {
             setFormLoading(false)
             setTimeout(() => {
@@ -489,16 +489,16 @@ useEffect(() => {
     }, [state.UsersList?.bookingToCheckinStatusCode])
 
 
-useEffect(()=>{
-    if(state.UsersList.bedError){
-        setFormLoading(false)
+    useEffect(() => {
+        if (state.UsersList.bedError) {
+            setFormLoading(false)
 
-         setTimeout(() => {
+            setTimeout(() => {
                 dispatch({ type: 'REMOVE_BED_AVAILABLE_ERROR_BOOKED' })
             }, 1000)
-    }
+        }
 
-},[state.UsersList.bedError])
+    }, [state.UsersList.bedError])
 
 
     return (
@@ -616,8 +616,8 @@ useEffect(()=>{
                                         </Form.Label>
 
                                         <Form.Control
-                                           
-                                           value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
+
+                                            value={bookingDate ? bookingDate.format("DD/MM/YYYY") : ""}
                                             type="text"
                                             placeholder="Booking Date"
                                             style={{
@@ -750,11 +750,7 @@ useEffect(()=>{
                                     </Form.Group>
 
                                     {stay_typenameErrmsg.trim() !== "" && (
-                                        <div>
-                                            <p style={{ fontSize: '15px', color: 'red' }}>
-                                                {stay_typenameErrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{stay_typenameErrmsg}</span>
-                                            </p>
-                                        </div>
+                                        <ErrorMessage message={stay_typenameErrmsg} type="error" />
                                     )}
 
                                 </div>
@@ -793,20 +789,7 @@ useEffect(()=>{
                                         />
                                     </Form.Group>
                                     {roomrentError && (
-                                        <div style={{ color: "red" }}>
-                                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                            <label
-                                                className="mb-0"
-                                                style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                }}
-                                            >
-                                                {roomrentError}
-                                            </label>
-                                        </div>
+                                        <ErrorMessage message={roomrentError} type="error" />
                                     )}
                                 </div>
 
@@ -847,20 +830,7 @@ useEffect(()=>{
                                     </Form.Group>
 
                                     {advanceAmountError && (
-                                        <div className="d-flex" style={{ color: "red" }}>
-                                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                            <label
-                                                className="mb-0"
-                                                style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                }}
-                                            >
-                                                {advanceAmountError}
-                                            </label>
-                                        </div>
+                                        <ErrorMessage message={advanceAmountError} type="error" />
                                     )}
                                 </div>
 
@@ -901,12 +871,7 @@ useEffect(()=>{
                                         </div>
                                     </Form.Group>
                                     {joiningDateErrmsg.trim() !== "" && (
-                                        <div className="d-flex align-items-center">
-                                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                {joiningDateErrmsg}
-                                            </label>
-                                        </div>
+                                        <ErrorMessage message={joiningDateErrmsg} type="error" />
                                     )}
                                 </div>
 
@@ -1058,20 +1023,7 @@ useEffect(()=>{
                                                             </>
                                                         )}
                                                         {errors[index]?.reason && (
-                                                            <div className="d-flex align-items-center mt-1">
-                                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                                                <label
-                                                                    className="mb-0"
-                                                                    style={{
-                                                                        color: "red",
-                                                                        fontSize: "12px",
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 500,
-                                                                    }}
-                                                                >
-                                                                    {errors[index]?.reason}
-                                                                </label>
-                                                            </div>
+                                                            <ErrorMessage message={errors[index]?.reason} type="error" />
                                                         )}
                                                     </div>
 
@@ -1097,20 +1049,7 @@ useEffect(()=>{
 
                                                         />
                                                         {errors[index]?.amount && (
-                                                            <div className="d-flex align-items-center mt-1">
-                                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                                                <label
-                                                                    className="mb-0"
-                                                                    style={{
-                                                                        color: "red",
-                                                                        fontSize: "12px",
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 500,
-                                                                    }}
-                                                                >
-                                                                    {errors[index]?.amount}
-                                                                </label>
-                                                            </div>
+                                                            <ErrorMessage message={errors[index]?.amount} type="error" />
                                                         )}
                                                     </div>
 
@@ -1169,10 +1108,8 @@ useEffect(()=>{
 
 
                         {state.UsersList.bedError ?
-                            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.UsersList.bedError}</label>
-                            </div>
+                            <ErrorMessage message={state.UsersList.bedError} type="error" />
+
                             : null}
 
 

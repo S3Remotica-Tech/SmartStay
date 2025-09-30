@@ -8,7 +8,6 @@ import "./UserList.css";
 import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
 import Group from "../../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
-
 import Carousel from "react-bootstrap/Carousel";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
@@ -60,7 +59,7 @@ import EditStayDetails from "./EditStayDetails";
 import StayHistory from "./StayHistory";
 import Retry from "../../Assets/Images/New_images/reload.png";
 import FileAdd from '../../Assets/Images/New_images/file_add.svg'
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
@@ -3383,70 +3382,13 @@ function UserListRoomDetail(props) {
 
 
                                       {uploadError && (
-                                        <div style={{ color: "red" }}>
-                                          <MdError />
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {uploadError}
-                                          </span>
-                                        </div>
+                                        <ErrorMessage message={uploadError} type="error"/>
                                       )}
                                     </div>
 
                                   </div>
                                 </div>
-                                {/* <Modal
-  show={showDocModal}
-  onHide={() => setShowDocModal(false)}
-  size="lg"
-  centered
-  backdrop="static"
->
-  <Modal.Body
-    style={{
-      padding: "20px",
-      position: "relative",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "300px", 
-    }}
-  >
-    <Button
-      variant="light"
-      onClick={() => setShowDocModal(false)}
-      style={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        border: "none",
-        fontSize: "20px",
-        zIndex: 1,
-      }}
-    >
-      &times;
-    </Button>
-
-    <img
-      src={advanceDetail[0]?.doc1}
-      alt="Document Preview"
-      style={{
-        maxWidth: "100%",
-        maxHeight: "70vh",
-        height: "auto",
-        width: "auto",
-        borderRadius: "10px",
-        objectFit: "contain",
-      }}
-    />
-  </Modal.Body>
-</Modal> */}
+                               
 
                                 <Modal
                                   show={showDocModal}
@@ -4760,31 +4702,7 @@ function UserListRoomDetail(props) {
                                   />
                                 </Form.Group>
                                 {firstnameError && (
-                                  <div
-                                    style={{
-                                      marginTop: "",
-                                      color: "red",
-                                    }}
-                                  >
-                                    {" "}
-                                    <MdError
-                                      style={{
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        marginRight: "5px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "13px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {firstnameError}
-                                    </span>
-                                  </div>
+                                  <ErrorMessage message={firstnameError} type="error"/>
                                 )}
                               </div>
                               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
@@ -4893,59 +4811,11 @@ function UserListRoomDetail(props) {
                                     }}
                                   ></p>
                                   {phoneError && (
-                                    <div
-                                      style={{
-                                        marginTop: "-15px",
-                                        color: "red",
-                                      }}
-                                    >
-                                      <MdError
-                                        style={{
-                                          fontSize: "12px",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          marginRight: "5px",
-                                        }}
-                                      />
-                                      <span
-                                        style={{
-                                          fontSize: "13px",
-                                          color: "red",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {phoneError}
-                                      </span>
-                                    </div>
+                                    <ErrorMessage message={phoneError} type="error"/>
                                   )}
 
                                   {phoneErrorMessage && (
-                                    <div
-                                      style={{
-                                        marginTop: "-15px",
-                                        color: "red",
-                                      }}
-                                    >
-                                      <MdError
-                                        style={{
-                                          fontSize: "12px",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                          marginRight: "5px",
-                                        }}
-                                      />
-                                      <span
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "red",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {phoneErrorMessage}
-                                      </span>
-                                    </div>
+                                   <ErrorMessage message={phoneErrorMessage} type="error"/>
                                   )}
                                 </Form.Group>
                               </div>
@@ -4982,45 +4852,11 @@ function UserListRoomDetail(props) {
                                   />
 
                                   {emailError && (
-                                    <div style={{ color: "red" }}>
-                                      <MdError
-                                        style={{
-                                          marginRight: "5px",
-                                          fontSize: "12px",
-                                        }}
-                                      />
-                                      <span
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "red",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {emailError}
-                                      </span>
-                                    </div>
+                                   <ErrorMessage message={emailError} type="error"/>
                                   )}
 
                                   {emailErrorMessage && (
-                                    <div style={{ color: "red" }}>
-                                      <MdError
-                                        style={{
-                                          marginRight: "5px",
-                                          fontSize: "12px",
-                                        }}
-                                      />
-                                      <span
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "red",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {emailErrorMessage}
-                                      </span>
-                                    </div>
+                                     <ErrorMessage message={emailErrorMessage} type="error"/>
                                   )}
                                 </Form.Group>
                               </div>
@@ -5057,25 +4893,7 @@ function UserListRoomDetail(props) {
                                   />
                                 </Form.Group>
                                 {house_noError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError
-                                      style={{
-                                        fontFamily: "Gilroy",
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "1px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {house_noError}
-                                    </span>
-                                  </div>
+                                 <ErrorMessage message={house_noError} type="error"/>
                                 )}
                               </div>
 
@@ -5110,25 +4928,7 @@ function UserListRoomDetail(props) {
                                   />
                                 </Form.Group>
                                 {streetError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError
-                                      style={{
-                                        fontFamily: "Gilroy",
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "1px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {streetError}
-                                    </span>
-                                  </div>
+                                 <ErrorMessage message={streetError} type="error"/>
                                 )}
                               </div>
 
@@ -5163,25 +4963,7 @@ function UserListRoomDetail(props) {
                                   />
                                 </Form.Group>
                                 {landmarkError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError
-                                      style={{
-                                        fontFamily: "Gilroy",
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "1px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {landmarkError}
-                                    </span>
-                                  </div>
+                                <ErrorMessage message={landmarkError} type="error"/>
                                 )}
                               </div>
 
@@ -5222,27 +5004,7 @@ function UserListRoomDetail(props) {
                                     }}
                                   />
                                   {pincodeError && (
-                                    <div className="d-flex align-items-center p-1 mb-2">
-                                      <MdError
-                                        style={{
-                                          color: "red",
-                                          marginRight: "5px",
-                                          fontSize: "13px",
-                                          marginBottom: "2px",
-                                        }}
-                                      />
-                                      <label
-                                        className="mb-0"
-                                        style={{
-                                          color: "red",
-                                          fontSize: "12px",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {pincodeError}
-                                      </label>
-                                    </div>
+                                     <ErrorMessage message={pincodeError} type="error"/>
                                   )}
                                 </Form.Group>
                               </div>
@@ -5280,24 +5042,7 @@ function UserListRoomDetail(props) {
                                   />
                                 </Form.Group>
                                 {cityError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError
-                                      style={{
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {cityError}{" "}
-                                    </span>
-                                  </div>
+                                   <ErrorMessage message={cityError} type="error"/>
                                 )}
                               </div>
 
@@ -5403,31 +5148,11 @@ function UserListRoomDetail(props) {
                               </div>
                             </div>
                             {formError && (
-                              <div
-                                className="d-flex align-items-center justify-content-center"
-                                ref={nochangeRef} style={{ color: "red" }}
-                              >
-                                <MdError style={{ marginRight: "5px" }} />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {formError}
-                                </span>
-                              </div>
+                              <ErrorMessage message={formError} type="error"/>
                             )}
                           </div>
 
-                          {state?.createAccount?.networkError ?
-                            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                              <MdError style={{ color: "red", marginRight: '5px' }} />
-                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                            </div>
-                            : null}
+                          
 
                           {formLoading && <div
                             style={{
@@ -5605,25 +5330,7 @@ function UserListRoomDetail(props) {
                                 />
 
                                 {floorError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError
-                                      style={{
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "2px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {floorError}
-                                    </span>
-                                  </div>
+                                 <ErrorMessage message={floorError} type="error"/>
                                 )}
                               </div>
 
@@ -5730,25 +5437,7 @@ function UserListRoomDetail(props) {
                                   />
 
                                   {roomError && (
-                                    <div style={{ color: "red" }}>
-                                      <MdError
-                                        style={{
-                                          fontSize: "13px",
-                                          marginRight: "5px",
-                                          marginBottom: "2px",
-                                        }}
-                                      />
-                                      <span
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "red",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {roomError}
-                                      </span>
-                                    </div>
+                                    <ErrorMessage message={roomError} type="error"/>
                                   )}
                                 </div>
                               </div>
@@ -5843,25 +5532,7 @@ function UserListRoomDetail(props) {
                                 />
 
                                 {bedError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError
-                                      style={{
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "2px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {bedError}
-                                    </span>
-                                  </div>
+                                   <ErrorMessage message={bedError} type="error"/>
                                 )}
                               </div>
 
@@ -5925,40 +5596,12 @@ function UserListRoomDetail(props) {
                                 </Form.Group>
 
                                 {dateError && (
-                                  <div
-                                    style={{
-                                      color: "red",
-                                      marginTop: "-7px",
-                                    }}
-                                  >
-                                    <MdError
-                                      style={{
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "2px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {dateError}
-                                    </span>
-                                  </div>
+                                   <ErrorMessage message={dateError} type="error"/>
                                 )}
 
 
                                 {joiningDateErrmsg.trim() !== "" && (
-                                  <div className="d-flex align-items-center">
-                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                      {joiningDateErrmsg}
-                                    </label>
-                                  </div>
+                                   <ErrorMessage message={joiningDateErrmsg} type="error"/>
                                 )}
                               </div>
 
@@ -6002,25 +5645,7 @@ function UserListRoomDetail(props) {
                                   />
                                 </Form.Group>
                                 {advanceAmountError && (
-                                  <div style={{ color: "red" }}>
-                                    <MdError
-                                      style={{
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "2px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {advanceAmountError}
-                                    </span>
-                                  </div>
+                                  <ErrorMessage message={advanceAmountError} type="error"/>
                                 )}
                               </div>
                               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -6062,30 +5687,7 @@ function UserListRoomDetail(props) {
                                   />
                                 </Form.Group>
                                 {roomrentError && (
-                                  <div
-                                    style={{
-                                      color: "red",
-                                      marginTop: "-15px",
-                                    }}
-                                  >
-                                    <MdError
-                                      style={{
-                                        fontSize: "13px",
-                                        marginRight: "5px",
-                                        marginBottom: "2px",
-                                      }}
-                                    />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {roomrentError}
-                                    </span>
-                                  </div>
+                                   <ErrorMessage message={roomrentError} type="error"/>
                                 )}
                               </div>
                             </div>
@@ -6240,20 +5842,7 @@ function UserListRoomDetail(props) {
                                       )}
 
                                       {errors[index]?.reason && (
-                                        <div className="d-flex align-items-center mt-1">
-                                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                          <label
-                                            className="mb-0"
-                                            style={{
-                                              color: "red",
-                                              fontSize: "12px",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {errors[index]?.reason}
-                                          </label>
-                                        </div>
+                                        <ErrorMessage message={errors[index]?.reason} type="error"/>
                                       )}
 
 
@@ -6283,20 +5872,7 @@ function UserListRoomDetail(props) {
 
                                       />
                                       {errors[index]?.amount && (
-                                        <div className="d-flex align-items-center mt-1">
-                                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                          <label
-                                            className="mb-0"
-                                            style={{
-                                              color: "red",
-                                              fontSize: "12px",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {errors[index]?.amount}
-                                          </label>
-                                        </div>
+                                       <ErrorMessage message={errors[index]?.amount} type="error"/>
                                       )}
                                     </div>
 
@@ -6329,38 +5905,9 @@ function UserListRoomDetail(props) {
 
 
 
-                          {state.createAccount?.networkError ?
-                            <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
-                              <MdError style={{ color: "red", marginRight: '5px' }} />
-                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                            </div>
-                            : null}
-
+                         
                           {formError && (
-                            <div
-                              className=""
-                              style={{
-                                color: "red",
-                                paddingBottom: "8px",
-                                textAlign: "center",
-                              }}
-                            >
-                              <MdError
-                                style={{
-                                  fontSize: "14px",
-                                  marginRight: "6px",
-                                }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {formError}
-                              </span>
-                            </div>
+                            <ErrorMessage message={formError} type="error"/>
                           )}
                           <Button
                             className="w-100"
@@ -6602,29 +6149,7 @@ function UserListRoomDetail(props) {
                               </div>
                             </Form.Group>
                             {advanceDateError && (
-                              <div
-                                style={{
-                                  color: "red",
-                                  marginTop: "-7px",
-                                }}
-                              >
-                                <MdError
-                                  style={{
-                                    fontSize: "13px",
-                                    marginRight: "5px",
-                                  }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {advanceDateError}
-                                </span>
-                              </div>
+                               <ErrorMessage message={advanceDateError} type="error"/>
                             )}
                           </div>
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -6687,29 +6212,7 @@ function UserListRoomDetail(props) {
                               </div>
                             </Form.Group>
                             {advanceDueDateError && (
-                              <div
-                                style={{
-                                  color: "red",
-                                  marginTop: "-7px",
-                                }}
-                              >
-                                <MdError
-                                  style={{
-                                    fontSize: "13px",
-                                    marginRight: "5px",
-                                  }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {advanceDueDateError}
-                                </span>
-                              </div>
+                             <ErrorMessage message={advanceDueDateError} type="error"/>
                             )}
                           </div>
                         </div>
@@ -6840,29 +6343,7 @@ function UserListRoomDetail(props) {
                               </div>
                             </Form.Group>
                             {advanceDateError && (
-                              <div
-                                style={{
-                                  color: "red",
-                                  marginTop: "-7px",
-                                }}
-                              >
-                                <MdError
-                                  style={{
-                                    fontSize: "13px",
-                                    marginRight: "5px",
-                                  }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {advanceDateError}
-                                </span>
-                              </div>
+                             <ErrorMessage message={advanceDateError} type="error"/>
                             )}
                           </div>
                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -6925,29 +6406,7 @@ function UserListRoomDetail(props) {
                               </div>
                             </Form.Group>
                             {advanceDueDateError && (
-                              <div
-                                style={{
-                                  color: "red",
-                                  marginTop: "-7px",
-                                }}
-                              >
-                                <MdError
-                                  style={{
-                                    fontSize: "13px",
-                                    marginRight: "5px",
-                                  }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {advanceDueDateError}
-                                </span>
-                              </div>
+                             <ErrorMessage message={advanceDueDateError} type="error"/>
                             )}
                           </div>
                         </div>

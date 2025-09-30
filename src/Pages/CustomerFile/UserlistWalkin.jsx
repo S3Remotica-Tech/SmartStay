@@ -15,7 +15,7 @@ import moment from "moment";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import { ArrowUp2, ArrowDown2, } from "iconsax-react";
 import PaginationList from "../../Components/PaginationList";
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
@@ -348,27 +348,7 @@ function UserlistWalkin(props) {
             />
 
             {walkInPermissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {walkInPermissionError}
-                </span>
-              </div>
+             <ErrorMessage message={walkInPermissionError} type="error"/>
             )}
           </div>
         </>

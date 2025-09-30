@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
@@ -67,21 +67,7 @@ function DeleteFloor({ show, handleClose, currentItem }) {
           {`Are you sure you want to delete the ${currentItem.floor_Name}?`}
         </Modal.Body>
         {deleteFloorForm && (
-          <div className="d-flex justify-content-center align-items-center gap-2 ">
-            <MdError style={{ color: "red" }} />
-            <label
-              className="mb-0"
-              style={{
-                color: "red",
-                fontSize: "12px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                textAlign: "center",
-              }}
-            >
-              {deleteFloorForm}
-            </label>
-          </div>
+         <ErrorMessage message={deleteFloorForm} type="error" />
         )}
         <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
           <Button onClick={handleCloseFormFloor} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>

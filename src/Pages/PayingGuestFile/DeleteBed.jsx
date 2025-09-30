@@ -12,7 +12,7 @@ import { DatePicker } from "antd";
 import { Form } from "react-bootstrap";
 import dayjs from "dayjs";
 import moment from "moment";
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function DeleteBed({ show, handleClose, deleteBedDetails }) {
@@ -263,12 +263,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
         {state.PgList?.deleteBedError && (
-          <div className="d-flex align-items-center p-1 mb-2">
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-              {state.PgList?.deleteBedError}
-            </label>
-          </div>
+          <ErrorMessage message={state.PgList?.deleteBedError} type="error"/>
         )}
 
 
@@ -421,21 +416,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                       </div>
                     </Form.Group>
                     {advanceDateError && (
-                      <div style={{ color: "red", marginTop: "-7px" }}>
-                        <MdError
-                          style={{ fontSize: "13px", marginRight: "5px" }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {advanceDateError}
-                        </span>
-                      </div>
+                     <ErrorMessage message={advanceDateError} type="error"/>
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -480,21 +461,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                       </div>
                     </Form.Group>
                     {advanceDueDateError && (
-                      <div style={{ color: "red", marginTop: "-7px" }}>
-                        <MdError
-                          style={{ fontSize: "13px", marginRight: "5px" }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {advanceDueDateError}
-                        </span>
-                      </div>
+                      <ErrorMessage message={advanceDueDateError} type="error"/>
                     )}
                   </div>
                 </div>
