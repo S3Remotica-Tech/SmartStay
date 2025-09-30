@@ -301,10 +301,10 @@ function BedDetailsMap({ room, propsValue }) {
 
     }, [state.PgList.OccupiedCustomerGetStatusCode])
 
-
+console.log("room*******************************",room)
 
     useEffect(() => {
-        if (room) {
+        if (room.id) {
 
             dispatch({
                 type: "GETALLBEDSLIST",

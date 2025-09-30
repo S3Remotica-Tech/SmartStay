@@ -19,7 +19,8 @@ import { MdError } from "react-icons/md";
 import PropTypes from "prop-types"
 import Select from "react-select";
 import "./ComplianceList.css";
-import { CloseCircle ,Edit, Trash} from "iconsax-react";
+import { CloseCircle, Edit, Trash } from "iconsax-react";
+import ErrorMessage from '../Components/ErrorMessage'
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -52,8 +53,8 @@ const ComplianceList = (props) => {
 
 
   const handleDeleteFormShow = (item) => {
-   
-    
+
+
     setDeleteForm(true);
     setDeleteId(item.complaintId);
   };
@@ -70,7 +71,7 @@ const ComplianceList = (props) => {
 
   const handleComplianceDelete = () => {
     if (deleteId) {
-      dispatch({ type: "DELETECOMPLIANCE", payload:  deleteId  });
+      dispatch({ type: "DELETECOMPLIANCE", payload: deleteId });
     }
   };
 
@@ -100,7 +101,7 @@ const ComplianceList = (props) => {
   const [profile, setProfile] = useState("");
 
   const handleIconClick = (item) => {
-    
+
     setCustomer_Id(item.complaintId);
     setShowCard(true);
     // setName(item.Name);
@@ -156,12 +157,12 @@ const ComplianceList = (props) => {
       setComments("");
       setShowCard(false);
       setCommentsLoading(false)
-        dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
+      dispatch({ type: "CLEAR_COMPLIANCE_ADD_COMMENT" });
     }
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
 
- 
+
 
 
 
@@ -209,10 +210,10 @@ const ComplianceList = (props) => {
     if (comments && customer_Id) {
       dispatch({
         type: "Add_COMPLIANCE_COMMENT",
-         payload: { 
-       complaintId: customer_Id, 
-        data: { message: comments } 
-      },
+        payload: {
+          complaintId: customer_Id,
+          data: { message: comments }
+        },
       });
       setCommentsLoading(true)
     }
@@ -226,19 +227,19 @@ const ComplianceList = (props) => {
 
 
   const [selectedStatus, setSelectedStatus] = useState("");
-  const [complaintId , setComplaintId] = useState('')
+  const [complaintId, setComplaintId] = useState('')
 
 
 
   const [statusErrorType, setStatusErrorType] = useState('')
 
   const handleChangeStatusOpenClose = (item) => {
-    
-    
+
+
     // setAssignId(item?.ID);
     setShowDots(false);
-    setStatus(item?.status  === null ?  "Open"  : item?.status);
-    setSelectedStatus(item?.status  === null ?  "Open"  : item?.status)
+    setStatus(item?.status === null ? "Open" : item?.status);
+    setSelectedStatus(item?.status === null ? "Open" : item?.status)
     setComplaintId(item?.complaintId)
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
@@ -275,14 +276,14 @@ const ComplianceList = (props) => {
 
     setStatusError("");
 
-    if(complaintId && status){
-       dispatch({
-      type: "COMPLIANCECHANGESTATUS",
-      payload: {
-        complaintId,
-        status: status
-      }
-    });
+    if (complaintId && status) {
+      dispatch({
+        type: "COMPLIANCECHANGESTATUS",
+        payload: {
+          complaintId,
+          status: status
+        }
+      });
     }
 
 
@@ -304,15 +305,15 @@ const ComplianceList = (props) => {
 
 
 
-      if(complaintId && compliant){
-       dispatch({
-      type: "COMPLIANCEASSIGN",
-      payload: {
-        complaintId,
-        userId: compliant
+      if (complaintId && compliant) {
+        dispatch({
+          type: "COMPLIANCEASSIGN",
+          payload: {
+            complaintId,
+            userId: compliant
+          }
+        });
       }
-    });
-    }
       setFormAssignCompliantLoading(true)
     }
   };
@@ -338,7 +339,7 @@ const ComplianceList = (props) => {
 
   useEffect(() => {
     if (state.ComplianceList.complianceChangeStatus === 200 && showChangeStatus) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: {hostelId: hostel_id } });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostelId: hostel_id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
       setShowChangeStatus(false);
       setFormLoading(false)
@@ -351,8 +352,8 @@ const ComplianceList = (props) => {
   const [alreadyAssigned, setAlreadyAssigned] = useState('')
 
   const handleAssignOpenClose = (item) => {
-  
-    dispatch({type: "GETUSERSTAFF" ,   payload: { hostelId: hostel_id } });
+
+    dispatch({ type: "GETUSERSTAFF", payload: { hostelId: hostel_id } });
     setShowDots(false);
     setCompliant(item?.Assign ?? "");
     setAlreadyAssigned(item?.Assign ?? "");
@@ -647,7 +648,7 @@ const ComplianceList = (props) => {
                                   fontFamily: "Gilroy, sans-serif",
                                   cursor: props.disableActions ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
-                                   color:props.disableActions ? "#A9A9A9" : "#222222"
+                                  color: props.disableActions ? "#A9A9A9" : "#222222"
                                 }}
                               >
                                 Change Status
@@ -683,8 +684,8 @@ const ComplianceList = (props) => {
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  color:props.disableActions ? "#A9A9A9" : "#222222",
-                                   cursor: props.disableActions ? "not-allowed" : "pointer",
+                                  color: props.disableActions ? "#A9A9A9" : "#222222",
+                                  cursor: props.disableActions ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
                               >
@@ -713,10 +714,10 @@ const ComplianceList = (props) => {
                                 (e.currentTarget.style.backgroundColor = "transparent")
                               }
                             >
-                               <Edit
-                                                  size="16"
-                                                  color={ props.complianceEditPermission ? "#A9A9A9" : "#1E45E1"}
-                                                />
+                              <Edit
+                                size="16"
+                                color={props.complianceEditPermission ? "#A9A9A9" : "#1E45E1"}
+                              />
                               <label
                                 style={{
                                   fontSize: 14,
@@ -733,10 +734,11 @@ const ComplianceList = (props) => {
 
                             <div
                               className="d-flex align-items-center"
-                              onClick={() =>{ if(!props.complianceDeletePermission){
-                                handleDeleteFormShow(props.complaints?.complaintResponseDto)
+                              onClick={() => {
+                                if (!props.complianceDeletePermission) {
+                                  handleDeleteFormShow(props.complaints?.complaintResponseDto)
+                                }
                               }
-                            }
                               }
                               style={{
                                 cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
@@ -754,10 +756,10 @@ const ComplianceList = (props) => {
                                 (e.currentTarget.style.backgroundColor = "transparent")
                               }
                             >
-                                <Trash
-                                                  size="16"
-                                                  color={props.complianceDeletePermission ? "#A9A9A9" : "red"}
-                                                />
+                              <Trash
+                                size="16"
+                                color={props.complianceDeletePermission ? "#A9A9A9" : "red"}
+                              />
                               <label
                                 style={{
                                   fontSize: 14,
@@ -980,7 +982,7 @@ const ComplianceList = (props) => {
                           : { color: "#FF9E00" }
                       }
                     >
-                      {props.complaints && props.complaints?.complaintResponseDto?.status  === null ?  "Open" : props?.complaints?.complaintResponseDto?.status}
+                      {props.complaints && props.complaints?.complaintResponseDto?.status === null ? "Open" : props?.complaints?.complaintResponseDto?.status}
                     </label>
                   </div>
                 </div>
@@ -1033,7 +1035,7 @@ const ComplianceList = (props) => {
                       >
                         successfully attended on{" "}
                         {
-                        props.complaints.complaintResponseDto?.complaintDate
+                          props.complaints.complaintResponseDto?.complaintDate
                         }
                         {/* {moment(props.complaints.complaintResponseDto?.complaintDate).format("DD-MM-YYYY")} */}
                       </span>
@@ -1112,12 +1114,12 @@ const ComplianceList = (props) => {
                       >
                         <img
                           src={
-                        props.complaints?.complaintResponseDto?.customerProfile === "0" ||
-                          props.complaints?.complaintResponseDto?.customerProfile === "null" ||
-                          props.complaints?.complaintResponseDto?.customerProfile === null
-                          ? User
-                          : props?.complaints?.complaintResponseDto?.customerProfile
-                      }
+                            props.complaints?.complaintResponseDto?.customerProfile === "0" ||
+                              props.complaints?.complaintResponseDto?.customerProfile === "null" ||
+                              props.complaints?.complaintResponseDto?.customerProfile === null
+                              ? User
+                              : props?.complaints?.complaintResponseDto?.customerProfile
+                          }
                           alt="Profile"
                           style={{
                             cursor: "pointer",
@@ -1211,13 +1213,13 @@ const ComplianceList = (props) => {
                                   }}
                                 >
                                   <img
-                                   src={
-                        props.complaints?.complaintResponseDto?.customerProfile === "0" ||
-                          props.complaints?.complaintResponseDto?.customerProfile === "null" ||
-                          props.complaints?.complaintResponseDto?.customerProfile === null
-                          ? User
-                          : props?.complaints?.complaintResponseDto?.customerProfile
-                      }
+                                    src={
+                                      props.complaints?.complaintResponseDto?.customerProfile === "0" ||
+                                        props.complaints?.complaintResponseDto?.customerProfile === "null" ||
+                                        props.complaints?.complaintResponseDto?.customerProfile === null
+                                        ? User
+                                        : props?.complaints?.complaintResponseDto?.customerProfile
+                                    }
                                     alt="User"
                                     style={{
                                       width: "40px",
@@ -1317,10 +1319,7 @@ const ComplianceList = (props) => {
 
 
                       {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px' }} />
-                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
+                        <ErrorMessage message={state.createAccount?.networkError} type="error" />
                         : null}
 
                       <Modal.Footer style={{ border: "none" }} className="p-0">
@@ -1383,19 +1382,8 @@ const ComplianceList = (props) => {
 
                       </Modal.Footer>
                       {commentError && (
-                        <div className="ms-3 mt-0 mb-3" style={{ color: "red", textAlign: "start" }}>
-                          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                          <span
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {commentError}
-                          </span>
-                        </div>
+                        <ErrorMessage message={commentError} type="error" />
+
                       )}
                     </Modal.Body>
                   </Modal.Dialog>
@@ -1530,19 +1518,15 @@ const ComplianceList = (props) => {
                           </Form.Group>
 
                           {statusError.trim() !== "" && (
-                            <div style={{ marginTop: "10px" }}>
-                              <p className='text-center' style={{ fontSize: '12px', color: 'red' }}>
-                                {statusError !== " " && <MdError style={{ color: 'red', marginBottom: "2px", fontSize: '14px' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusError}</span>
-                              </p>
+                            <div className="d-flex justify-content-center mb-1">
+
+                            <ErrorMessage message={statusError} type="error" />
                             </div>
                           )}
                         </div>
                       </div>
                       {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px' }} />
-                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
+                        <ErrorMessage message={state.createAccount?.networkError} type="error" />
                         : null}
                     </Modal.Body>
 
@@ -1730,30 +1714,30 @@ const ComplianceList = (props) => {
                             /> */}
 
                             <Select
-  options={
-    state.Settings.addSettingStaffList
-      ? state.Settings.addSettingStaffList.map((v) => ({
-          value: v.userId,        
-          label: v.firstName,    
-        }))
-      : []
-  }
-  onChange={handleCompliant}
-  value={
-    compliant
-      ? (() => {
-          const selected = state.Settings.addSettingStaffList.find(
-            (v) => String(v.userId) === String(compliant)
-          );
-          return selected
-            ? { value: selected.userId, label: selected.firstName }
-            : null;
-        })()
-      : null
-  }
-  placeholder="Select a User"
-  classNamePrefix="custom"
- styles={{
+                              options={
+                                state.Settings.addSettingStaffList
+                                  ? state.Settings.addSettingStaffList.map((v) => ({
+                                    value: v.userId,
+                                    label: v.firstName,
+                                  }))
+                                  : []
+                              }
+                              onChange={handleCompliant}
+                              value={
+                                compliant
+                                  ? (() => {
+                                    const selected = state.Settings.addSettingStaffList.find(
+                                      (v) => String(v.userId) === String(compliant)
+                                    );
+                                    return selected
+                                      ? { value: selected.userId, label: selected.firstName }
+                                      : null;
+                                  })()
+                                  : null
+                              }
+                              placeholder="Select a User"
+                              classNamePrefix="custom"
+                              styles={{
                                 control: (base) => ({
                                   ...base,
                                   height: "50px",
@@ -1799,19 +1783,14 @@ const ComplianceList = (props) => {
                                   display: "none",
                                 }),
                               }}
-/>
+                            />
 
 
 
 
                             {statusErrorType.trim() !== "" && (
-                              <div >
+                              <ErrorMessage message={statusErrorType} type="error" />
 
-                                <p className='text-start' style={{ fontSize: '12px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                                  {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom: 1, fontSize: 14 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
-
-                                </p>
-                              </div>
                             )}
 
                           </Form.Group>
@@ -1820,10 +1799,8 @@ const ComplianceList = (props) => {
                       </div>
 
                       {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px' }} />
-                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
+                        <ErrorMessage message={state.createAccount?.networkError} type="error" />
+
                         : null}
                     </Modal.Body>
                     {formAssignCompliantLoading && <div

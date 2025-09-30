@@ -15,7 +15,7 @@ import Loginimage from '../Assets/Images/new_login.png';
 import Logo from '../Assets/Images/New_images/Group.png';
 import { Eye, EyeSlash } from 'iconsax-react';
 import { MdError } from "react-icons/md";
-
+import ErrorMessage from '../Components/ErrorMessage'
 
 const MyComponent = () => {
 
@@ -232,16 +232,13 @@ const MyComponent = () => {
             <p className='p_font'>Enter your details below to get onto your SmartStay account.</p>
           </div>
 
-          {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
+          {state.createAccount?.networkError ? 
+
+          <ErrorMessage message={state.createAccount?.networkError} type="error" />
             : null}
 
-          {state.login.invalidCredential ? <div className='d-flex align-items-center p-1'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login?.invalidCredential}</label>
-          </div>
+          {state.login.invalidCredential ? 
+         <ErrorMessage message={state.login.invalidCredential} type="error" />
             : null}
 
           <div className='mt-4'>
@@ -260,17 +257,18 @@ const MyComponent = () => {
 
               />
 
-              {emailError && <div className='d-flex p-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <div style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</div>
-              </div>
+              {emailError && 
+               <ErrorMessage message={emailError} type="error" />
               }
 
 
               <div className="mb-1 p-1" >{state.login.errorEmail ?
-                <div className='d-flex p-1 '>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorEmail}</label> </div> : null}</div>
+
+               <ErrorMessage message={state.login.errorEmail} type="error" />
+                                
+                  
+                  : null}
+                  </div>
 
 
 
@@ -308,19 +306,12 @@ const MyComponent = () => {
 
 
               {passwordError && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {passwordError}
-                  </label>
-                </div>
+                  <ErrorMessage message={passwordError} type="error" />
               )}
 
-              <div className="mb-1 p-1"> {state.login.errorPassword ? <div className='d-flex align-items-center p-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorPassword}</label>
-              </div>
-                : null}</div>
+             {state.login.errorPassword ? 
+              <ErrorMessage message={state.login.errorPassword} type="error" />
+                : null}
 
 
               <div className="mb-3 d-flex justify-content-between mt-3" >

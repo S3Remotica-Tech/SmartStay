@@ -12,7 +12,7 @@ import Form from 'react-bootstrap/Form';
 import { InputGroup } from 'react-bootstrap';
 import { Eye, EyeSlash } from 'iconsax-react';
 import { MdError } from "react-icons/md";
-
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 
@@ -407,12 +407,7 @@ function CreateAccountPage() {
                   </Form.Group>
 
                   {firstNameError && (
-                    <div className="d-flex align-items-center p-1" data-testid='first-name-error'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {firstNameError}
-                      </label>
-                    </div>
+                   <ErrorMessage message={firstNameError}  type="error"/>
                   )}
 
 
@@ -442,19 +437,12 @@ function CreateAccountPage() {
                   </Form.Group>
 
                   {emailError && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {emailError}
-                      </label>
-                    </div>
+                   <ErrorMessage message={emailError}  type="error"/>
                   )}
 
 
-                  {state.createAccount?.emailError ? <div className='d-flex align-items-center p-1'>
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.emailError}</label>
-                  </div>
+                  {state.createAccount?.emailError ? 
+                   <ErrorMessage message={state.createAccount?.emailError} type="error" />
                     : null}
                 </div>
 
@@ -514,31 +502,20 @@ function CreateAccountPage() {
                   </Form.Group>
 
                   {phoneError && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {phoneError}
-                      </label>
-                    </div>
+                     <ErrorMessage message={phoneError}  type="error"/>
                   )}
 
 
 
                   {countryCodeError && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {countryCodeError}
-                      </label>
-                    </div>
+                     <ErrorMessage message={countryCodeError} type="error" />
+                    
                   )}
 
 
-                  {state.createAccount?.mobileError ? <div className='d-flex align-items-center p-1'>
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.mobileError}</label>
-                  </div>
-                    : null}
+                  {state.createAccount?.mobileError && 
+                   <ErrorMessage message={state.createAccount?.mobileError}  type="error"/>
+                   }
 
 
 
@@ -580,12 +557,8 @@ function CreateAccountPage() {
 
 
                   {passwordErrors && (
-                    <div data-testid='password-error' className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {passwordErrors}
-                      </label>
-                    </div>
+                                       <ErrorMessage message={passwordErrors}  type="error"/>
+
                   )}
 
 
@@ -596,30 +569,8 @@ function CreateAccountPage() {
 
 
                   {passwordError && passwordError.length > 0 && (
-                    <div data-testid='password-error-container' className="d-flex flex-column  pt-2">
-                      {passwordError.map((error, index) => (
-                        <div key={index} className="d-flex align-items-center gap-2">
-                          <div>
+                     <ErrorMessage message={passwordError}  type="error"/>
 
-                            <MdError style={{ color: "red", }} />
-                          </div>
-                          <div>
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                listStyleType: "none"
-                              }}
-                            >
-                              {error}
-                            </label>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
                   )}
 
 
@@ -662,12 +613,7 @@ function CreateAccountPage() {
                   </InputGroup>
 
                   {confirmPasswordError && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {confirmPasswordError}
-                      </label>
-                    </div>
+                     <ErrorMessage message={confirmPasswordError}  type="error"/>
                   )}
 
                 </div>
@@ -676,23 +622,13 @@ function CreateAccountPage() {
 
 
                 {allError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {allError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={allError}  type="error"/>
                 )}
 
 
 
                 {bothPasswordError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {bothPasswordError}
-                    </label>
-                  </div>
+                 <ErrorMessage message={bothPasswordError}  type="error"/>
                 )}
 
 
@@ -700,25 +636,19 @@ function CreateAccountPage() {
 
 
 
-                {state.createAccount?.passwordDoesnotMatchError ? <div className='d-flex align-items-center p-1'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.passwordDoesnotMatchError}</label>
-                </div>
+                {state.createAccount?.passwordDoesnotMatchError ? 
+                <ErrorMessage message={state.createAccount?.passwordDoesnotMatchError}  type="error"/>
                   : null}
 
 
-                {state.createAccount?.email_mobile_Error ? <div className='d-flex align-items-center p-1'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.email_mobile_Error}</label>
-                </div>
+                {state.createAccount?.email_mobile_Error ? 
+                                  <ErrorMessage message={state.createAccount?.email_mobile_Error}  type="error"/>
                   : null}
 
 
 
-                {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                </div>
+                {state.createAccount?.networkError ? 
+                  <ErrorMessage message={state.createAccount?.networkError}  type="error"/>
                   : null}
 
 

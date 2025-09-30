@@ -13,6 +13,7 @@ import { MdError } from "react-icons/md";
 import { CloseCircle, Trash, AddCircle, Gallery } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function AddPg({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
@@ -197,7 +198,7 @@ function AddPg({ show, handleClose, currentItem }) {
     setPincode(value);
 
     if (value.length > 0 && value.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      setPincodeError("Pin Code Must Be 6 Digits");
     } else {
       setPincodeError("");
     }
@@ -686,22 +687,7 @@ useEffect(() => {
           />
         </Modal.Header>
         {generalError && (
-          <div className="d-flex align-items-center p-1 mt-2 mb-2">
-            <MdError
-              style={{ fontSize: "14px", color: "red", marginRight: "5px" }}
-            />
-            <label
-              className="mb-0"
-              style={{
-                color: "red",
-                fontSize: "12px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              {generalError}
-            </label>
-          </div>
+           <ErrorMessage message={generalError} type="error"/>
         )}
 
 
@@ -813,26 +799,7 @@ useEffect(() => {
               </Form.Group>
 
               {pgNameError && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError
-                    style={{
-                      fontSize: "14px",
-                      color: "red",
-                      marginRight: "5px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {pgNameError}
-                  </label>
-                </div>
+               <ErrorMessage message={pgNameError} type="error"/>
               )}
             </div>
 
@@ -895,50 +862,12 @@ useEffect(() => {
               </Form.Group>
 
               {countryCodeError && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError
-                    style={{
-                      fontSize: "14px",
-                      color: "red",
-                      marginRight: "5px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {countryCodeError}
-                  </label>
-                </div>
+               <ErrorMessage message={countryCodeError} type="error"/>
               )}
 
               {mobileError && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError
-                    style={{
-                      fontSize: "14px",
-                      color: "red",
-                      marginRight: "5px",
-                      marginBoTop: "1px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {mobileError}
-                  </label>
-                </div>
+         <ErrorMessage message={mobileError} type="error"/>
+
               )}
             </div>
 
@@ -976,26 +905,8 @@ useEffect(() => {
               </Form.Group>
 
               {emailError && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError
-                    style={{
-                      fontSize: "14px",
-                      color: "red",
-                      marginRight: "5px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {emailError}
-                  </label>
-                </div>
+         <ErrorMessage message={emailError} type="error"/>
+               
               )}
             </div>
 
@@ -1030,25 +941,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {house_noError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "13px",
-                      marginRight: "5px",
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {house_noError}
-                  </span>
-                </div>
+               <ErrorMessage message={house_noError} type="error"/>
               )}
             </div>
 
@@ -1083,25 +976,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {streetError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "13px",
-                      marginRight: "5px",
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {streetError}
-                  </span>
-                </div>
+                 <ErrorMessage message={streetError} type="error"/>
               )}
             </div>
 
@@ -1136,25 +1011,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {landmarkError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "13px",
-                      marginRight: "5px",
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {landmarkError}
-                  </span>
-                </div>
+                <ErrorMessage message={landmarkError} type="error"/>
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1194,27 +1051,8 @@ useEffect(() => {
                   }}
                 />
                 {pincodeError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "13px",
-                        marginBottom: "2px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {pincodeError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={pincodeError} type="error"/>
+                  
                 )}
               </Form.Group>
             </div>
@@ -1252,19 +1090,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {cityError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {cityError}{" "}
-                  </span>
-                </div>
+               <ErrorMessage message={cityError} type="error"/>
               )}
             </div>
 
@@ -1358,19 +1184,7 @@ useEffect(() => {
                   }}
                 />
                 {state_nameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {state_nameError}
-                    </span>
-                  </div>
+                  <ErrorMessage message={state_nameError} type="error"/>
                 )}
               </Form.Group>
             </div>
@@ -1565,30 +1379,13 @@ useEffect(() => {
           style={{ border: "none" }}
         >
           {isChangedError && (
-            <div ref={nochangeRef} className="d-flex align-items-center justify-content-center p-1 mt-2 mb-2">
-              <MdError
-                style={{ fontSize: "14px", color: "red", marginRight: "5px" }}
-              />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {isChangedError}
-              </label>
+            <div ref={nochangeRef} className="d-flex align-items-center justify-content-center">
+               <ErrorMessage message={isChangedError} type="error"/>
             </div>
           )}
 
 
-        {/* {state.createAccount?.networkError ? <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                              </div>
-                                : null} */}
+      
 
 
           <Button

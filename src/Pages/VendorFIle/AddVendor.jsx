@@ -12,6 +12,7 @@ import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function AddVendor({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -851,20 +852,7 @@ else {
                   />
                 </Form.Group>
                 {firstNameError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {firstNameError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={firstNameError}  type="error"/>
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -965,57 +953,18 @@ else {
                   </InputGroup>
 
                   {mobileError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {mobileError}
-                      </label>
-                    </div>
+                  <ErrorMessage message={mobileError} type="error" />
                   )}
 
                   {countryCodeError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {countryCodeError}
-                      </label>
-                    </div>
+                    <ErrorMessage message={countryCodeError} type="error" />
                   )}
 
 
                 </Form.Group>
 
                 {vendorPhoneError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {vendorPhoneError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={vendorPhoneError}  type="error"/>
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1053,38 +1002,12 @@ else {
                     }}
                   />
                   {emailError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {emailError}
-                      </label>
-                    </div>
+                 <ErrorMessage message={emailError}  type="error"/>
                   )}
                 </Form.Group>
 
                 {vendorEmailError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {vendorEmailError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={vendorEmailError} type="error" />
                 )}
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1123,20 +1046,7 @@ else {
                     }}
                   />
                   {businessNameError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {businessNameError}
-                      </label>
-                    </div>
+                    <ErrorMessage message={businessNameError}  type="error"/>
                   )}
                 </Form.Group>
               </div>
@@ -1176,10 +1086,7 @@ else {
                   />
                 </Form.Group>
                 {house_noError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                  </div>
+                 <ErrorMessage message={house_noError}  type="error"/>
                 )}
               </div>
 
@@ -1215,10 +1122,7 @@ else {
                   />
                 </Form.Group>
                 {streetError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                  </div>
+                  <ErrorMessage message={streetError} type="error" />
                 )}
               </div>
 
@@ -1253,10 +1157,7 @@ else {
                   />
                 </Form.Group>
                 {landmarkError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                  </div>
+                  <ErrorMessage message={landmarkError}  type="error"/>
                 )}
               </div>
 
@@ -1295,10 +1196,7 @@ else {
                   />
                 </Form.Group>
                 {cityError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                  </div>
+                   <ErrorMessage message={cityError} type="error" />
                 )}
               </div>
 
@@ -1339,20 +1237,7 @@ else {
                     }}
                   />
                   {pinCodeError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {pinCodeError}
-                      </label>
-                    </div>
+                   <ErrorMessage message={pinCodeError} type="error" />
                   )}
 
 
@@ -1447,12 +1332,7 @@ else {
                 </Form.Group>
 
                 {!state_name && state_nameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {state_nameError}
-                    </span>
-                  </div>
+                   <ErrorMessage message={state_nameError} type="error" />
                 )}
 
               </div>
@@ -1546,20 +1426,7 @@ else {
                   />
 
                   {countryError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {countryError}
-                      </label>
-                    </div>
+                  <ErrorMessage message={countryError}  type="error"/>
                   )}
 
 
@@ -1595,34 +1462,15 @@ else {
             ></div>
           </div>}
           {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {generalError}
-              </label>
-            </div>
+             <ErrorMessage message={generalError}  type="error"/>
           )}
 
           {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
+            <ErrorMessage message={state.createAccount?.networkError}  type="error"/>
             : null}
           {isChangedError && (
-            <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
-              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <span style={{ fontSize: "13px", fontFamily: "Gilroy" }}>
-                {isChangedError}
-              </span>
+            <div className="d-flex align-items-center justify-content-center" >
+              <ErrorMessage message={isChangedError} />
             </div>
           )}
 

@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { CloseCircle } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import PropTypes from "prop-types";
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
@@ -401,7 +401,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <Form.Group className="mb-3">
+                            <Form.Group className="">
                                 <Form.Label
                                     style={{
                                         fontSize: 14,
@@ -436,31 +436,16 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                             </Form.Group>
 
                             {roleError && (
-                                <div className="d-flex align-items-center mb-2" style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                        {roleError}
-                                    </label>
-                                </div>
+                                  <ErrorMessage message={roleError} type="error"/>
                             )}
                             {editRoleError && (
-                                <div className="d-flex align-items-center  " style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                        {editRoleError}
-                                    </label>
-                                </div>
+                                 <ErrorMessage message={editRoleError} type="error"/>
                             )}
 
 
 
                             {errorForm && (
-                                <div className="d-flex align-items-center" style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                        {errorForm}
-                                    </label>
-                                </div>
+                                 <ErrorMessage message={errorForm} type="error"/>
                             )}
                         </div>
 
@@ -522,12 +507,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
                     </Modal.Body>
 
-                    {/* {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-3 mb-1'>
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
-                        : null} */}
+                   
                     {formLoading &&
                         <div
                             style={{
@@ -556,22 +536,16 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                         </div>
                     }
                     {errorIsChanged && (
-                        <div className="mb-0 mt-2" style={{ textAlign: "center" }}>
-                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                {errorIsChanged}
-                            </label>
+                        <div className="d-flex justify-content-center" style={{ textAlign: "center" }}>
+                           <ErrorMessage message={errorIsChanged} type="error"/>
                         </div>
                     )}
 
 
 
                     {errorPermission && (
-                        <div className="d-flex align-items-center ms-3 mb-1 mt-3">
-                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                {errorPermission}
-                            </label>
+                        <div className="d-flex justify-content-start ms-3" >
+                        <ErrorMessage message={errorPermission} type="error"/>
                         </div>
                     )}
                     <Modal.Footer style={{ border: "none" }}>

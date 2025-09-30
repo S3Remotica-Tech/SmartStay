@@ -193,20 +193,7 @@ function ContactUs() {
                                         placeholder="Your name"
                                     />
                                        {errors.user_name && (
-                    <div className="d-flex align-items-center  mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {errors.user_name}
-                      </label>
-                    </div>
+                   <ErrorMessage message={errors.user_name} type="error" />
                   )}
                                   
                                 </div>
@@ -220,20 +207,7 @@ function ContactUs() {
                                         placeholder="Your phone"
                                     />
                                        {errors.user_phone && (
-                    <div className="d-flex align-items-center  mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {errors.user_phone}
-                      </label>
-                    </div>
+                  <ErrorMessage message={errors.user_phone} type="error" />
                   )}
                                    
                                 </div>
@@ -252,20 +226,7 @@ function ContactUs() {
                                         placeholder="Your city"
                                     />
                                        {errors.user_city && (
-                    <div className="d-flex align-items-center  mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {errors.user_city}
-                      </label>
-                    </div>
+                   <ErrorMessage message={errors.user_city} type="error" />
                   )}
                                 </div>
 
@@ -300,20 +261,7 @@ function ContactUs() {
      
   </Form.Select>
    {errors.message && (
-                    <div className="d-flex align-items-center  mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {errors.message}
-                      </label>
-                    </div>
+                    <ErrorMessage message={errors.message} type="error" />
                   )}
   
   </Form.Group>

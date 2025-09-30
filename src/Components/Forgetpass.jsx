@@ -14,7 +14,7 @@ import ForgotOtp from '../Pages/ForgotOtp'
 import { IoIosCheckmark } from "react-icons/io";
 import { MdError } from "react-icons/md";
 import LoaderComponent from '../Pages/LoaderComponent'
-
+import ErrorMessage from '../Components/ErrorMessage'
 
 function ForgetPasswordPage() {
 
@@ -186,7 +186,7 @@ function ForgetPasswordPage() {
 
   const handleCloseModal = () => {
     dispatch({ type: 'CLEAR_ERROR_OTP_CODE' })
-     dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' })
+    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' })
     setShowOtpVerification(false);
   };
   const hanldeBackToLogin = () => {
@@ -341,28 +341,25 @@ function ForgetPasswordPage() {
                         type="email" placeholder="Enter Email ID" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
 
-                    
 
 
-                    <div> {generalError ? <div className='d-flex align-items-center mt-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{generalError}</label>
-                    </div>
-                      : null}</div>
 
-                    <div className="mb-1 p-1"> {emailError ? <div className='d-flex align-items-center p-1  mt-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</label>
-                    </div>
-                      : null}</div>
+                      {generalError &&
+                        <ErrorMessage message={generalError} type="error" />}
 
 
-                    <div className="mb-1 p-1"> {sendEmailError ? <div className='d-flex align-items-center p-1 mt-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{sendEmailError}</label>
-                    </div>
-                      : null}</div>
-                      </Form.Group>
+                      <div className="mb-1 p-1"> {emailError ?
+                        <ErrorMessage message={emailError} type="error" />
+
+                        : null}
+                      </div>
+
+
+                      <div className="mb-1 p-1"> {sendEmailError ?
+                        <ErrorMessage message={sendEmailError} type="error" />
+
+                        : null}</div>
+                    </Form.Group>
 
                   </div>
 
@@ -501,101 +498,27 @@ function ForgetPasswordPage() {
                   <div>
 
                     {isPasswordLongEnough ? (
-                      <div className="d-flex align-items-center gap-2">
-                        <IoIosCheckmark
-                          style={{ color: "rgba(3, 160, 0, 1)", height: 30, width: 30 }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "rgba(34, 34, 34, 1)"
-                          }}
-                        >
-                          8 characters minimum
-                        </label>
-                      </div>
+                      <ErrorMessage message={["8 characters minimum"]} type="success" />
+
                     ) : (
-                      <div className="d-flex align-items-center gap-2">
-                        <MdError style={{ color: "red" }} />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "red"
-                          }}
-                        >
-                          8 characters minimum
-                        </label>
-                      </div>
+                      <ErrorMessage message={["8 characters minimum"]} type="error" />
+
                     )}
 
 
                     {isLowerCaseEnough ? (
-                      <div className="d-flex align-items-center gap-2">
-                        <IoIosCheckmark
-                          style={{ color: "rgba(3, 160, 0, 1)", height: 30, width: 30 }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "rgba(34, 34, 34, 1)"
-                          }}
-                        >
-                          One uppercase and lowercase
-                        </label>
-                      </div>
+                        <ErrorMessage message={["One uppercase and lowercase"]} type="success" />
                     ) : (
-                      <div className="d-flex align-items-center gap-2">
-                        <MdError style={{ color: "red", }} />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "red"
-                          }}
-                        >
-                          One uppercase and lowercase
-                        </label>
-                      </div>
+                    <ErrorMessage message={["One uppercase and lowercase"]} type="error" />
                     )}
 
 
                     {isNumericEnough ? (
-                      <div className="d-flex align-items-center gap-2">
-                        <IoIosCheckmark
-                          style={{ color: "rgba(3, 160, 0, 1)", height: 30, width: 30 }}
-                        />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "rgba(34, 34, 34, 1)"
-                          }}
-                        >
-                          Numeric and Special symbols
-                        </label>
-                      </div>
+
+                      <ErrorMessage message={["Numeric and Special symbols"]} type="success" />
+                     
                     ) : (
-                      <div className="d-flex align-items-center gap-2">
-                        <MdError style={{ color: "red" }} />
-                        <label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            color: "red"
-                          }}
-                        >
-                          Numeric and Special symbols
-                        </label>
-                      </div>
+                      <ErrorMessage message={["Numeric and Special symbols"]} type="error" />
                     )}
                   </div>
 
@@ -636,18 +559,12 @@ function ForgetPasswordPage() {
 
 
                 {allError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {allError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={allError} type="error" />
+                 
                 )}
 
-                {confirmationError ? <div className='d-flex align-items-center p-1'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{confirmationError}</label>
-                </div>
+                {confirmationError ? 
+                 <ErrorMessage message={confirmationError} type="error" />
                   : null}
 
                 <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-2 mb-1" >

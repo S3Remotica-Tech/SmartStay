@@ -10,6 +10,7 @@ import "./BankingAddForm.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
+import ErrorMessage from '../Components/ErrorMessage'
 
 function BankingAddForm(props) {
   const state = useSelector((state) => state);
@@ -37,7 +38,7 @@ function BankingAddForm(props) {
 
   const handleAccountName = (e) => {
     const value = e.target.value
-    const pattern = /^[a-zA-Z\s]*$/; 
+    const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
       return;
     }
@@ -47,26 +48,26 @@ function BankingAddForm(props) {
     setaccountnameError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
-const handleAccountNo = (e) => {
-  const value = e.target.value;
+  const handleAccountNo = (e) => {
+    const value = e.target.value;
 
 
-  if (!/^\d*$/.test(value)) {
-    return;
-  }
+    if (!/^\d*$/.test(value)) {
+      return;
+    }
 
-  setAccountNo(value);
-  setError("");
-  setIsChangedError("");
-  dispatch({ type: "REMOVE_ERROR_BOOKING" });
+    setAccountNo(value);
+    setError("");
+    setIsChangedError("");
+    dispatch({ type: "REMOVE_ERROR_BOOKING" });
 
 
-  if (value.length > 0 && (value.length < 9 || value.length > 18)) {
-    setaccountNumberError("Account Number Must Be 9–18 Digits");
-  } else {
-    setaccountNumberError("");
-  }
-};
+    if (value.length > 0 && (value.length < 9 || value.length > 18)) {
+      setaccountNumberError("Account Number Must Be 9–18 Digits");
+    } else {
+      setaccountNumberError("");
+    }
+  };
 
   const handleBankName = (e) => {
     const value = e.target.value
@@ -183,95 +184,95 @@ const handleAccountNo = (e) => {
 
 
   const handleSubmitBank = () => {
-  if (props.edit) {
-    const isChanged =
-      accountName !== initialStateAssign.accountName ||
-      Number(accountNo) !== Number(initialStateAssign.accountNo) ||
-      bankName !== initialStateAssign.bankName ||
-      ifscCode !== initialStateAssign.ifscCode ||
-      description !== initialStateAssign.description;
+    if (props.edit) {
+      const isChanged =
+        accountName !== initialStateAssign.accountName ||
+        Number(accountNo) !== Number(initialStateAssign.accountNo) ||
+        bankName !== initialStateAssign.bankName ||
+        ifscCode !== initialStateAssign.ifscCode ||
+        description !== initialStateAssign.description;
 
-    if (!isChanged) {
-      setIsChangedError("No Changes Detected");
-      return;
-    } else {
-      setIsChangedError("");
+      if (!isChanged) {
+        setIsChangedError("No Changes Detected");
+        return;
+      } else {
+        setIsChangedError("");
+      }
     }
-  }
 
-  if (!accountName) {
-    setError("Please Enter Beneficiary Name");
-    return;
-  }
+    if (!accountName) {
+      setError("Please Enter Beneficiary Name");
+      return;
+    }
 
-  if (accountNo && (accountNo.length < 9 || accountNo.length > 18)) {
-    setaccountNumberError("Account Number Must Be 9–18 Digits");
-    return;
-  }
+    if (accountNo && (accountNo.length < 9 || accountNo.length > 18)) {
+      setaccountNumberError("Account Number Must Be 9–18 Digits");
+      return;
+    }
 
-  setError("");
+    setError("");
 
-  if (props.edit) {
-    // EDIT API
-    dispatch({
-      type: "EDIT_BANKING",
-      payload: {
-        hostelId: hostel_id,
-        bankId: bankId,
-        data: {
-          accountType: "BANK",
-          holderName: accountName,
-          accountNo: Number(accountNo),
-          bankName: bankName,
-          ifscCode: ifscCode,
-          description: description,
-          branchName: "",
-          branchCode: "",
-          isDefault: true,
-          upiId: "",
-          cardType: "",
-          cardNumber: "",
-          isActive: true,
-          // isDeleted: true,
+    if (props.edit) {
+      // EDIT API
+      dispatch({
+        type: "EDIT_BANKING",
+        payload: {
+          hostelId: hostel_id,
+          bankId: bankId,
+          data: {
+            accountType: "BANK",
+            holderName: accountName,
+            accountNo: Number(accountNo),
+            bankName: bankName,
+            ifscCode: ifscCode,
+            description: description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: "",
+            cardType: "",
+            cardNumber: "",
+            isActive: true,
+            // isDeleted: true,
+          },
         },
-      },
-    });
-  } else {
-    // ADD API
-    dispatch({
-      type: "ADD_BANKING",
-      payload: {
-        hostelId: hostel_id,
-        data: {
-          accountType: "BANK",
-          holderName: accountName,
-          accountNo: Number(accountNo),
-          bankName: bankName,
-          ifscCode: ifscCode,
-          description: description,
-          branchName: "",
-          branchCode: "",
-          isDefault: true,
-          upiId: "",
-          cardType: "",
-          cardNumber: "",
+      });
+    } else {
+      // ADD API
+      dispatch({
+        type: "ADD_BANKING",
+        payload: {
+          hostelId: hostel_id,
+          data: {
+            accountType: "BANK",
+            holderName: accountName,
+            accountNo: Number(accountNo),
+            bankName: bankName,
+            ifscCode: ifscCode,
+            description: description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: "",
+            cardType: "",
+            cardNumber: "",
+          },
         },
-      },
-    });
-  }
+      });
+    }
 
-  setFormLoading(true);
-};
+    setFormLoading(true);
+  };
 
   const handleSubmitUpi = () => {
-    if(!accountName || !upiId) {
+    if (!accountName || !upiId) {
       if (!accountName) {
-      setError("Please Enter Benificiary Name");   
-       }
-      if(!upiId){
-      setUpiIdError("Please Enter Upi Id");
-       }
-    return;
+        setError("Please Enter Benificiary Name");
+      }
+      if (!upiId) {
+        setUpiIdError("Please Enter Upi Id");
+      }
+      return;
     }
 
 
@@ -286,67 +287,67 @@ const handleAccountNo = (e) => {
         return;
       }
       else {
-         setIsChangedError("");
+        setIsChangedError("");
       }
 
     }
 
 
-     if (props.edit) {
-    // EDIT API
-    dispatch({
-      type: "EDIT_BANKING",
-      payload: {
-        hostelId: hostel_id,
-        bankId: bankId,
-      data: { 
-        accountType: "UPI",
-        holderName: accountName,
-        accountNo: "",
-        bankName: bankName,
-        ifscCode: ifscCode,
-        description: description,
-        branchName: "" ,
-        branchCode : "" ,
-        isDefault : true ,
-        upiId : upiId ,
-        cardType : "",
-        cardNumber : ""
-      }
-      },
-    });
-  } else {
+    if (props.edit) {
+      // EDIT API
+      dispatch({
+        type: "EDIT_BANKING",
+        payload: {
+          hostelId: hostel_id,
+          bankId: bankId,
+          data: {
+            accountType: "UPI",
+            holderName: accountName,
+            accountNo: "",
+            bankName: bankName,
+            ifscCode: ifscCode,
+            description: description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: upiId,
+            cardType: "",
+            cardNumber: ""
+          }
+        },
+      });
+    } else {
 
-    dispatch({
-      type: "ADD_BANKING",
+      dispatch({
+        type: "ADD_BANKING",
 
-        payload: { 
-        hostelId: hostel_id, 
-        data: { 
-        accountType: "UPI",
-        holderName: accountName,
-        accountNo: "",
-        bankName: bankName,
-        ifscCode: ifscCode,
-        description: description,
-        branchName: "" ,
-        branchCode : "" ,
-        isDefault : true ,
-        upiId : upiId ,
-        cardType : "",
-        cardNumber : ""
-      } 
-      }
-    })
+        payload: {
+          hostelId: hostel_id,
+          data: {
+            accountType: "UPI",
+            holderName: accountName,
+            accountNo: "",
+            bankName: bankName,
+            ifscCode: ifscCode,
+            description: description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: upiId,
+            cardType: "",
+            cardNumber: ""
+          }
+        }
+      })
 
-  }
+    }
 
     setFormLoading(true)
   }
   const [cardNo, setCardNo] = useState("")
 
   const handleCardNo = (e) => {
-     const value = e.target.value;
+    const value = e.target.value;
     if (!/^\d*$/.test(value)) {
       return;
     }
@@ -365,16 +366,16 @@ const handleAccountNo = (e) => {
   // };
 
   const handleSubmitCard = () => {
-    if(!accountName || !cardType){
+    if (!accountName || !cardType) {
       if (!accountName) {
-      setError("Please Enter Benificiary Name");
+        setError("Please Enter Benificiary Name");
       }
-     if (!cardType) {
-      setCardTypeError("Please Select Card Type");
+      if (!cardType) {
+        setCardTypeError("Please Select Card Type");
+      }
+      return
     }
-   return
-    }
-  
+
 
 
     if (props.edit) {
@@ -385,66 +386,66 @@ const handleAccountNo = (e) => {
         description !== initialStateAssign.description;
 
       if (!isChanged) {
-         setIsChangedError("No Changes Detected");
+        setIsChangedError("No Changes Detected");
         return;
       }
       else {
-         setIsChangedError("");
+        setIsChangedError("");
       }
 
     }
- 
-      if (props.edit) {
-    // EDIT API
-    dispatch({
-      type: "EDIT_BANKING",
-      payload: {
-        hostelId: hostel_id,
-        bankId: bankId,
-        data: { 
-        accountType: "CARD",
-        holderName: accountName,
-        accountNo: "",
-        bankName: "",
-        ifscCode: "",
-        description: description,
-        branchName: "" ,
-        branchCode : "" ,
-        isDefault : true ,
-        upiId : "" ,
-        cardType : cardType,
-        cardNumber : cardNo
-      } 
-      },
-    });
-  } else {
 
-        dispatch({
-      type: "ADD_BANKING",
+    if (props.edit) {
+      // EDIT API
+      dispatch({
+        type: "EDIT_BANKING",
+        payload: {
+          hostelId: hostel_id,
+          bankId: bankId,
+          data: {
+            accountType: "CARD",
+            holderName: accountName,
+            accountNo: "",
+            bankName: "",
+            ifscCode: "",
+            description: description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: "",
+            cardType: cardType,
+            cardNumber: cardNo
+          }
+        },
+      });
+    } else {
 
-        payload: { 
-       hostelId: hostel_id, 
-        data: { 
-        accountType: "CARD",
-        holderName: accountName,
-        accountNo: "",
-        bankName: "",
-        ifscCode: "",
-        description: description,
-        branchName: "" ,
-        branchCode : "" ,
-        isDefault : true ,
-        upiId : "" ,
-        cardType : cardType,
-        cardNumber : cardNo
-      } 
-      },
-})
+      dispatch({
+        type: "ADD_BANKING",
 
-  }
-    
+        payload: {
+          hostelId: hostel_id,
+          data: {
+            accountType: "CARD",
+            holderName: accountName,
+            accountNo: "",
+            bankName: "",
+            ifscCode: "",
+            description: description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: "",
+            cardType: cardType,
+            cardNumber: cardNo
+          }
+        },
+      })
 
-    
+    }
+
+
+
     setFormLoading(true)
   }
   const handleSubmitCash = () => {
@@ -458,63 +459,63 @@ const handleAccountNo = (e) => {
         description !== initialStateAssign.description;
 
       if (!isChanged) {
-         setIsChangedError("No Changes Detected");
+        setIsChangedError("No Changes Detected");
         return;
       }
       else {
-         setIsChangedError("");
+        setIsChangedError("");
       }
 
     }
 
     if (props.edit) {
-    // EDIT API
-    dispatch({
-      type: "EDIT_BANKING",
-      payload: {
-        hostelId: hostel_id,
-        bankId: bankId,
-        data: { 
-        accountType: "CASH",
-        holderName: accountName,
-        accountNo: "",
-        bankName: "",
-        ifscCode: "",
-        description: description,
-        branchName: "" ,
-        branchCode : "" ,
-        isDefault : true ,
-        upiId : "" ,
-        cardType : "",
-        cardNumber : ""
-      } 
-      },
-    });
-  } else {
+      // EDIT API
+      dispatch({
+        type: "EDIT_BANKING",
+        payload: {
+          hostelId: hostel_id,
+          bankId: bankId,
+          data: {
+            accountType: "CASH",
+            holderName: accountName,
+            accountNo: "",
+            bankName: "",
+            ifscCode: "",
+            description: description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: "",
+            cardType: "",
+            cardNumber: ""
+          }
+        },
+      });
+    } else {
 
-        dispatch({
-      type: "ADD_BANKING",
+      dispatch({
+        type: "ADD_BANKING",
 
-        payload: { 
-       hostelId: hostel_id, 
-        data: { 
-        accountType: "CASH",
-        holderName: accountName,
-        accountNo: "",
-        bankName: "",
-        ifscCode: "",
-        description: description,
-        branchName: "" ,
-        branchCode : "" ,
-        isDefault : true ,
-        upiId : "" ,
-        cardType : "",
-        cardNumber : ""
-      } 
-      },
-})
+        payload: {
+          hostelId: hostel_id,
+          data: {
+            accountType: "CASH",
+            holderName: accountName,
+            accountNo: "",
+            bankName: "",
+            ifscCode: "",
+            description: description,
+            branchName: "",
+            branchCode: "",
+            isDefault: true,
+            upiId: "",
+            cardType: "",
+            cardNumber: ""
+          }
+        },
+      })
 
-  }
+    }
     setFormLoading(true)
   }
 
@@ -526,20 +527,20 @@ const handleAccountNo = (e) => {
       setFormLoading(false)
       handleClose();
 
-      dispatch({ type: "BANKINGLIST", payload:  hostel_id  });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
       }, 1000);
     }
   }, [state.bankingDetails.statusCodeForAddBanking]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (state.bankingDetails.statusCodeForEditBanking === 200) {
       setAccountName("")
       setFormLoading(false)
       handleClose();
 
-      dispatch({ type: "BANKINGLIST", payload:  hostel_id  });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_EDITBANKING" });
       }, 1000);
@@ -696,16 +697,10 @@ const handleAccountNo = (e) => {
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                  </div>
+                  <ErrorMessage message={accountNameError} type="error" />
                 )}
                 {error && (
-                  <div style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
+                  <ErrorMessage message={error} type="error" />
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -740,10 +735,7 @@ const handleAccountNo = (e) => {
                   />
                 </Form.Group>
                 {bankNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
-                  </div>
+                  <ErrorMessage message={bankNameError} type="error" />
                 )}
 
               </div>
@@ -767,7 +759,7 @@ const handleAccountNo = (e) => {
                     placeholder="Enter Account No"
                     value={accountNo}
                     onChange={(e) => handleAccountNo(e)}
-                     maxLength={18}
+                    maxLength={18}
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -781,10 +773,7 @@ const handleAccountNo = (e) => {
                   />
                 </Form.Group>
                 {accountNumberError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
-                  </div>
+                  <ErrorMessage message={accountNumberError} type="error" />
                 )}
               </div>
 
@@ -821,10 +810,7 @@ const handleAccountNo = (e) => {
                   />
                 </Form.Group>
                 {ifcsCodeError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span>
-                  </div>
+                  <ErrorMessage message={ifcsCodeError} type="error" />
                 )}
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -861,19 +847,13 @@ const handleAccountNo = (e) => {
 
               </div>
 
-   {isChangedError && (
-                  <div className='d-flex  align-items-center justify-content-center mt-4 mb-2' style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
-                  </div>
-                )}
-{/* 
-              {state.createAccount?.networkError ?
-                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              {isChangedError && (
+                <div className="d-flex justify-content-center mt-1">
+
+                  <ErrorMessage message={isChangedError} type="error" />
                 </div>
-                : null} */}
+              )}
+             
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
@@ -938,16 +918,10 @@ const handleAccountNo = (e) => {
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                  </div>
+                   <ErrorMessage message={accountNameError} type="error" />
                 )}
                 {error && (
-                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
+                    <ErrorMessage message={error} type="error" />
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -961,7 +935,7 @@ const handleAccountNo = (e) => {
                     }}
                   >
                     UPI ID{" "}
-                     <span
+                    <span
                       style={{
                         color: "red",
                         fontSize: "20px",
@@ -990,11 +964,8 @@ const handleAccountNo = (e) => {
                     }}
                   />
                 </Form.Group>
- {upiIdError && (
-                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{upiIdError}</span>
-                  </div>
+                {upiIdError && (
+                   <ErrorMessage message={upiIdError} type="error" />
                 )}
               </div>
 
@@ -1031,19 +1002,13 @@ const handleAccountNo = (e) => {
                 </Form.Group>
 
               </div>
-{isChangedError && (
-                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
-                  </div>
-                )}
-
-              {/* {state.createAccount?.networkError ?
-                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              {isChangedError && (
+                <div className="d-flex justify-content-center">
+                  <ErrorMessage message={isChangedError} type="error" />
                 </div>
-                : null} */}
+              )}
+
+           
 
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
@@ -1110,16 +1075,10 @@ const handleAccountNo = (e) => {
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                  </div>
+                   <ErrorMessage message={accountNameError} type="error" />
                 )}
                 {error && (
-                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
+                  <ErrorMessage message={error} type="error" />
                 )}
               </div>
 
@@ -1135,7 +1094,7 @@ const handleAccountNo = (e) => {
                     }}
                   >
                     Card Type
-                      <span
+                    <span
                       style={{
                         color: "red",
                         fontSize: "20px",
@@ -1193,20 +1152,17 @@ const handleAccountNo = (e) => {
                         cursor: "pointer",
                         backgroundColor: state.isFocused ? "#f0f0f0" : "white",
                         color: "#000",
-                         fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",
                       }),
                     }}
 
                   />
 
-                    {cardTypeError && (
-                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{cardTypeError}</span>
-                  </div>
-                )}
+                  {cardTypeError && (
+                     <ErrorMessage message={cardTypeError} type="error" />
+                  )}
                 </Form.Group>
-                
+
               </div>
 
 
@@ -1278,19 +1234,13 @@ const handleAccountNo = (e) => {
                 </Form.Group>
 
               </div>
-{isChangedError && (
-                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
-                  </div>
-                )}
-
-              {/* {state.createAccount?.networkError ?
-                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              {isChangedError && (
+                <div className="d-flex justify-content-center">
+                  <ErrorMessage message={isChangedError} type="error" />
                 </div>
-                : null} */}
+              )}
+
+             
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
@@ -1355,16 +1305,10 @@ const handleAccountNo = (e) => {
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                  </div>
+                  <ErrorMessage message={accountNameError} type="error" />
                 )}
                 {error && (
-                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
+                   <ErrorMessage message={error} type="error" />
                 )}
               </div>
 
@@ -1402,18 +1346,12 @@ const handleAccountNo = (e) => {
                 </Form.Group>
 
               </div>
-{isChangedError && (
-                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
-                  </div>
-                )}
-              {/* {state.createAccount?.networkError ?
-                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              {isChangedError && (
+                <div className="d-flex justify-content-center">
+                  <ErrorMessage message={isChangedError} type="error" />
                 </div>
-                : null} */}
+              )}
+            
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button

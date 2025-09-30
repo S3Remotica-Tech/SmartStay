@@ -205,7 +205,7 @@ const SettingElectricity = ({ hostelid }) => {
 
   
 const handleProRate = () => {
-  const newValue = !isProWrate;   // toggle
+  const newValue = !isProWrate;   
   setProWrate(newValue);
   console.log("isProWrate", newValue);
 

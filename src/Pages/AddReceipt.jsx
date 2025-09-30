@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import ErrorMessage from '../Components/ErrorMessage'
 
 const AddReceiptForm = (props) => {
 
@@ -565,20 +566,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
             {customererrmsg && (
-              <div className="d-flex align-items-center mt-1  mb-2">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {customererrmsg}
-                </label>
-              </div>
+              <ErrorMessage message={customererrmsg} type="error" />
             )}
 
 
@@ -694,20 +682,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 )}
 
                 {invoicenumbererrmsg && (
-                  <div className="d-flex align-items-center mb-2 mt-1">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {invoicenumbererrmsg}
-                    </label>
-                  </div>
+                <ErrorMessage message={invoicenumbererrmsg} type="error" />
                 )}
               </Form.Group>
             </div>
@@ -778,20 +753,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 }}
               />
               {receivedamounterrmsg && (
-                <div className="d-flex align-items-center mt-1 mb-2">
-                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {receivedamounterrmsg}
-                  </label>
-                </div>
+                <ErrorMessage message={receivedamounterrmsg} type="error" />
               )}
 
             </Form.Group>
@@ -823,20 +785,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
               </div>
             </Form.Group>
             {payment_dateerrmsg && (
-              <div className="d-flex align-items-center  mb-2">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {payment_dateerrmsg}
-                </label>
-              </div>
+             <ErrorMessage message={payment_dateerrmsg} type="error" />
             )}
           </div>
 
@@ -924,20 +873,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
             </Form.Group>
             {paymentError && (
-              <div className="d-flex align-items-center  mb-2" style={{marginTop: isSelectOpen ? 25 : 0,}}>
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {paymentError}
-                </label>
-              </div>
+              <ErrorMessage message={paymentError} type="error" />
             )}
           </div>
 
@@ -962,11 +898,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 onChange={handleNotes}
               />
               {notes_errmsg.trim() !== "" && (
-                <div>
-                  <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy"  }}>
-                    {notes_errmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', fontFamily:"Gilroy" }} />} {notes_errmsg}
-                  </p>
-                </div>
+                <ErrorMessage message={notes_errmsg} type="error" />
               )}
 
             </Form.Group>
@@ -991,10 +923,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
   {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
+            <ErrorMessage message={state.createAccount?.networkError} type="error" />
             : null}
 
 
@@ -1038,11 +967,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
         <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
 
  {allfielderrmsg.trim() !== "" && (
-          <div>
-            <p style={{ fontSize: '12px', color: 'red', marginTop: '4px', textAlign: "start", fontFamily: "Gilroy" }}>
-              {allfielderrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: 2 }} />} {allfielderrmsg}
-            </p>
-          </div>
+           <ErrorMessage message={allfielderrmsg} type="error" />
         )}
 
         

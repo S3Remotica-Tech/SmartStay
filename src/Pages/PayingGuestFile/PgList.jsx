@@ -111,18 +111,15 @@ function PgList() {
   }, [hostel_Id]);
 
 
-
-
-  useEffect(() => {
-    setFloorClick(floorList?.[0]?.id);
-  }, [selectedHostel, hostel_Id]);
-
-  useEffect(() => {
-    if (floorList?.length > 0) {
-      setFloorClick(floorList?.[0]?.id);
-    }
-  }, [floorList]);
-
+console.log("floorList",floorList)
+  
+   useEffect(() => {
+  if (floorList?.length > 0) {
+    setFloorClick(floorList[0]?.id);
+  } else {
+    setFloorClick(null); 
+  }
+}, [floorList]);
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
@@ -158,11 +155,8 @@ function PgList() {
   //   }
   // }, [state.UsersList?.noAllHosteListStatusCode]);
 
-  useEffect(() => {
-    if (floorList?.length === 1) {
-      setFloorClick(floorList?.[0]?.id);
-    }
-  }, [floorList[0]]);
+
+
 
 
 
@@ -222,16 +216,13 @@ function PgList() {
         const newEnd = lastIndex;
         setVisibleRange([newStart, newEnd]);
 
-
-
-
       } else {
         setFloorClick(null);
         setKey("");
         setFloorName("");
       }
     }
-  }, [state.UsersList.createFloorSuccessStatusCode, floorList])
+  }, [state.UsersList.createFloorSuccessStatusCode, floorList, floorClick])
 
 
 
@@ -354,7 +345,7 @@ function PgList() {
         setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
       }
     }
-  }, [state.UsersList.hotelDetailsinPg, floorClick, selectedHostel]);
+  }, [state.UsersList.hotelDetailsinPg, floorClick, selectedHostel, floorList]);
 
 
 
@@ -395,7 +386,7 @@ function PgList() {
 
   }, [state.UsersList.hosteListStatusCode])
 
-
+console.log("floorClick",floorClick)
 
 
   // useEffect(() => {

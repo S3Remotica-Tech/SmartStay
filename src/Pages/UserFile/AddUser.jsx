@@ -14,6 +14,7 @@ import eye from "../../Assets/Images/login-password.png";
 import eyeClosed from "../../Assets/Images/Show_password.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function User({ show, editDetails, setAddUserForm, edit }) {
   const state = useSelector((state) => state);
@@ -444,29 +445,7 @@ const handleSubmit = () => {
                   />
                 </Form.Group>
                 {nameError && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      display: "flex",
-                      alignItems: "center",
-                      margin: 0,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: 14,
-                        marginRight: "5px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <MdError style={{ marginBottom: "2px",fontSize: 14, }} />
-                    </span>
-                    {nameError}
-                  </p>
+                  <ErrorMessage message={nameError} type="error"/>
                 )}
               </div>
 
@@ -507,44 +486,11 @@ const handleSubmit = () => {
                 </Form.Group>
 
                 {emailError && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      display: "flex",
-                      alignItems: "center",
-                      margin: 0,
-                    }}
-                  >
-                    <span style={{ fontSize: "13px", marginRight: "5px" }}>
-                      <MdError style={{ marginBottom: "3px" }} />
-                    </span>
-                    {emailError}
-                  </p>
+                  <ErrorMessage message={emailError} type="error"/>
                 )}
 
                 {state.Settings.emailIdError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {state.Settings.emailIdError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={state.Settings.emailIdError} type="error"/>
                 )}
               </div>
 
@@ -612,64 +558,20 @@ const handleSubmit = () => {
                 </Form.Group>
 
                 {mobileError && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      display: "flex",
-                      alignItems: "center",
-                      margin: 0,
-                      marginTop: "11px",
-                    }}
-                  >
-                    <span style={{ fontSize: "13px", marginRight: "5px",marginTop:"2px" }}>
-                      <MdError style={{ marginBottom: "4px" }} />
-                    </span>
-                    {mobileError}
-                  </p>
+                 <ErrorMessage message={mobileError} type="error"/>
                 )}
 
                 {countryCodeError && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      display: "flex",
-                      alignItems: "center",
-                      margin: 0,
-                    }}
-                  >
-                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
-                      <MdError style={{ marginBottom: "4px" }} />
-                    </span>
-                    {countryCodeError}
-                  </p>
+                    <ErrorMessage message={countryCodeError} type="error"/>
                 )}
 
                 {state.Settings.phoneNumError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {state.Settings.phoneNumError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={state.Settings.phoneNumError} type="error"/>
                 )}
               </div>
               {!edit && (
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                  <Form.Group className="mb-2">
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <Form.Group className="">
                     <Form.Label
                       style={{
                         fontSize: 14,
@@ -740,24 +642,7 @@ const handleSubmit = () => {
                  
 
                   {passwordError && (
-                    <p
-                      style={{
-                        color: "red",
-                        fontSize: 12,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: "5px",
-                        margin: 0,
-                        marginTop: "6px",
-                      }}
-                    >
-                      <span>
-                        <MdError style={{ fontSize: "13px",marginBottom:"3px" }}/>
-                      </span>
-                      {passwordError}
-                    </p>
+                    <ErrorMessage message={passwordError} type="error" />
                   )}
 
                 </div>
@@ -859,23 +744,7 @@ const handleSubmit = () => {
                 </Form.Group>
 
                 {roleError && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      display: "flex",
-                      alignItems: "center",
-                      margin: 0,
-                     
-                    }}
-                  >
-                    <span>
-                      <MdError style={{ fontSize: "13px",marginBottom:"3px",marginRight:"5px" }} />
-                    </span>
-                    {roleError}
-                  </p>
+                  <ErrorMessage message={roleError} type="error"/>
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -916,28 +785,16 @@ const handleSubmit = () => {
               {error && (
                 <div
                   className="d-flex align-items-center justify-content-center"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    marginTop: "5px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
+                
                 >
-                  <MdError style={{ marginRight: "5px", fontSize:14 }} />
-                  {error}
+                 <ErrorMessage message={error} type="error"/>
                 </div>
               )}
             </div>
           </Modal.Body>
 
 
- {/* {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
-              : null} */}
+ 
 
 
 

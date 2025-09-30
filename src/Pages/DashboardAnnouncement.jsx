@@ -16,6 +16,7 @@ import { ArrowLeft2, ArrowRight2, CloseCircle, Edit,Trash } from 'iconsax-react'
 import LoaderComponent from "./LoaderComponent";
 import send from "../Assets/Images/send.svg";
 import PropTypes from "prop-types";
+import ErrorMessage from '../Components/ErrorMessage'
 
 function DashboardAnnouncement(props) {
 
@@ -1429,10 +1430,7 @@ const pageSizeOptions = [
             )}
           </Modal.Body>
           {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
+            <ErrorMessage message={state.createAccount?.networkError} />
             : null}
 
           {formCommentsLoading && <div
@@ -1530,10 +1528,7 @@ const pageSizeOptions = [
 
           </Modal.Footer>
           {displayError && (
-            <div className="ms-3 mb-3" style={{ color: "red", textAlign: "start" }}>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-              <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
-            </div>
+             <ErrorMessage message={displayError} />
           )}
 
         </Modal>
@@ -1710,12 +1705,7 @@ const pageSizeOptions = [
                 }}
               />
               {titleError && (
-                <div style={{ display: "flex", alignItems: "center", color: "red", marginTop: 4 }}>
-                  <MdError style={{ marginRight: 5, fontSize: 14 }} />
-                  <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {titleError}
-                  </span>
-                </div>
+               <ErrorMessage message={titleError} />
               )}
 
               {state.PgList.TitleAlready && (
@@ -1776,26 +1766,19 @@ const pageSizeOptions = [
                 }}
               />
               {descriptionError && (
-                <div style={{ display: "flex", alignItems: "center", color: "red", marginTop: 4 }}>
-                  <MdError style={{ marginRight: 5, fontSize: 14 }} />
-                  <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {descriptionError}</span>
-                </div>
+               <ErrorMessage message={descriptionError} />
               )}
             </div>
           </div>
           {errorMessage && (
-            <div style={{ color: "red", textAlign: "center", paddingTop: "8px" }}>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-              <span className="" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
+            <div className="d-flex justify-content-center">
+             <ErrorMessage message={errorMessage} />
+
             </div>
           )}
 
           {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
+              <ErrorMessage message={state.createAccount?.networkError} />
             : null}
 
           <Button

@@ -21,6 +21,7 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdWarningAmber } from "react-icons/md";
+import ErrorMessage from '../Components/ErrorMessage'
 
 import {
   LineChart,
@@ -681,27 +682,7 @@ useEffect(() => {
 
 
                   {permissionError && (
-                    <div
-                      style={{
-                        color: "red",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        marginTop: "1rem",
-                      }}
-                    >
-                      <MdError />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {permissionError}
-                      </span>
-                    </div>
+                    <ErrorMessage message={permissionError} type="error" />
                   )}
                 </div>
               ) : (
