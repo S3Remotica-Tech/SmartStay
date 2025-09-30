@@ -113,12 +113,13 @@ const handleSaveRefund=()=>{
 console.log("payableAmount",payableAmount)
     dispatch({
       type: "REFUNDABLEDETAILS",
-      ID: props.wraitofDetails.ID,                 
+      payload:{ id: props.wraitofDetails.ID,                 
   invoice_id:props.wraitofDetails.Invoices,  
   amount:  Number(payableAmount),             
   balance_due: balance,        
   payment_by: modeOfPayment,            
-  payment_date: selectedDate
+  payment_date: selectedDate}
+
     });
 }
 

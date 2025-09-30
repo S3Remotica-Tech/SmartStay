@@ -848,7 +848,7 @@ useEffect(() => {
 
   const handleHouseNo = (e) => {
      const value = e.target.value;
-     const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+      const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
 
   if (regex.test(value)) {
     setHouseNo(value);
@@ -857,18 +857,32 @@ useEffect(() => {
   }
   };
 
+ 
   const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
 
-    setFormError("");
-  };
+  if (regex.test(value)) {
+    setStreet(value);       
+    setStreetError("");      
+    setFormError("");       
+  }
+  
+};
 
+ 
   const handleLandmark = (e) => {
-    setLandmark(e.target.value);
-    setLandmarkError("");
-    setFormError("");
-  };
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
+  if (regex.test(value)) {
+    setLandmark(value);     
+    setLandmarkError("");   
+    setFormError("");      
+  }
+ 
+};
+
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -886,15 +900,19 @@ useEffect(() => {
   };
 
   const handleCity = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z\s]*$/; 
 
-    const value = e.target.value;
-    const regex = /^[a-zA-Z\s]*$/;
-    if (regex.test(value)) {
-      setCity(value);
-      setCityError("");
-      setFormError("");
-    }
-  };
+  if (regex.test(value)) {
+    setCity(value);      
+    setCityError("");     
+    setFormError("");    
+  }
+ 
+};
+
+
+  
 
   const aadharInputRef = useRef(null);
   const otherDocInputRef = useRef(null);

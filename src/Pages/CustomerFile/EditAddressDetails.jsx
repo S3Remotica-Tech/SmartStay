@@ -87,23 +87,32 @@ setStateName(
 }
 },[addressDetails])
 
-    const handleHouseNoChange = (e) => {
-        setHouseNo(e.target.value);
-        setFormError("")
-    }
+const handleHouseNoChange = (e) => {
+  const value = e.target.value;
+ 
+  const filteredValue = value.replace(/[^a-zA-Z0-9\s.,\-'/\\#()&:]/g, "");
+  setHouseNo(filteredValue);
+  setFormError("");
+};
 
 
-    const handleStreetChange = (e) => {
-        setStreet(e.target.value);
-        setFormError("")
-    }
 
-    const handleLandmarkChange = (e) => {
-        setLandmark(e.target.value);
-        setFormError("")
+  const handleStreetChange = (e) => {
+  const value = e.target.value;
 
-    };
-    
+  const filteredValue = value.replace(/[^a-zA-Z0-9\s.,\-'/\\#()&:]/g, "");
+  setStreet(filteredValue);
+  setFormError("");
+};
+
+const handleLandmarkChange = (e) => {
+  const value = e.target.value;
+
+  const filteredValue = value.replace(/[^a-zA-Z0-9\s.,\-'/\\#()&:]/g, "");
+  setLandmark(filteredValue);
+  setFormError("");
+};
+
 const validatePincode = (pin) => {
   const cleanedPin = String(pin || "").trim();
 
@@ -141,11 +150,13 @@ const validatePincode = (pin) => {
 
   };
 
-    const handleCityChange = (e) => {
-        setCity(e.target.value);
-        setFormError("")
+   const handleCityChange = (e) => {
+  const value = e.target.value;
+  const lettersOnly = value.replace(/[^a-zA-Z\s]/g, "");
+  setCity(lettersOnly);
+  setFormError("");
+};
 
-    };
 
     const handleStateChange = (selectedOption) => {
         setStateName(selectedOption?.value || "");
