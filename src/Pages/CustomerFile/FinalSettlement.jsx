@@ -2214,7 +2214,7 @@ return(
   <p
     style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}
   >
-    Refundable Amount
+   Refundable Rent
   </p>
 )}
 
