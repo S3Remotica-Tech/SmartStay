@@ -36,6 +36,7 @@ import Group from "../../Assets/Images/Group.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import { triggerPG } from '../../Redux/Action/smartStayAction';
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function PgList() {
@@ -741,23 +742,7 @@ console.log("floorClick",floorClick)
 
 
             {permissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError size={20} />
-                <span style={{
-                  fontSize: "12px",
-                  color: "red",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}>{permissionError}</span>
-              </div>
+              <ErrorMessage message={permissionError} type="error"/>
             )}
           </div>
         </>
