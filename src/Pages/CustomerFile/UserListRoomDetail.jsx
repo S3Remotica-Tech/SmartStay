@@ -586,10 +586,12 @@ useEffect(() => {
     dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id: props.id } })
 
   }
-
-  const handleAdditionalForm = () => {
+const [additionDetails,setAdditionalDetails] = useState("")
+  const handleAdditionalForm = (item) => {
+    console.log("handleAdditionalForm",item)
     setEditAdditional(false);
     setAdditionalForm(true);
+    setAdditionalDetails(item)
   };
 
 
@@ -5561,7 +5563,7 @@ const imageUrl = imagePreview
                                      type="button" className="btn btn-primary"
                                       disabled={props.customerAddPermission}
                                       style={{ fontSize: 14, fontFamily: "Gilroy" }}
-                                      onClick={handleAdditionalForm}
+                                      onClick={()=>handleAdditionalForm(item)}
                                     >
                                       + Add
                                     </button>
@@ -5592,6 +5594,7 @@ const imageUrl = imagePreview
                             contactEdit={contactEdit}
                             editAdditional={editAdditional}
                             setEditAdditional={setEditAdditional}
+                            additionDetails={additionDetails}
                           />
                         ) : null}
                       </>

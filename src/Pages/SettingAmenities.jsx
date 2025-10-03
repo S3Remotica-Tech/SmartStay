@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { Edit, Trash, ProfileAdd } from 'iconsax-react';
+import { Edit, Trash } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
@@ -583,6 +583,11 @@ function SettingAmenities({ hostelid }) {
       src={link2}
       alt="link2"
       style={{ width: 18, height: 18, cursor: "pointer" }}
+        onClick={() => {
+                                                                        if (amenity.setAsDefault !== 1) {
+                                                                            handleDisplayAssignAmenities(amenity);
+                                                                        }
+                                                                    }}
     />
 
     <div
@@ -624,7 +629,7 @@ function SettingAmenities({ hostelid }) {
                                                             }}
                                                         >
                                                             <div style={{ width: "100%" }}>
-                                                                <div
+                                                                {/* <div
                                                                     onClick={() => {
                                                                         if (amenity.setAsDefault !== 1) {
                                                                             handleDisplayAssignAmenities(amenity);
@@ -658,7 +663,7 @@ function SettingAmenities({ hostelid }) {
                                                                     >
                                                                         Assign Amenities
                                                                     </label>
-                                                                </div>
+                                                                </div> */}
                                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 

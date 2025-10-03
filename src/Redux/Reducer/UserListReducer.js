@@ -124,6 +124,7 @@ export const initialState = {
     StatusCodeBacktoCheckin:0,
     Refundable_details:[],
     Deduction:[],
+    ebAmount:[],
     checkoutprofileDetails:[],
     StatuscodeforCheckoutProfile:0,
     StatusCodeKycDocuments:0,
@@ -456,6 +457,8 @@ const UserListReducer = (state = initialState, action) => {
               Refundable_details:action.payload.response.Refundable_details,
               Deduction:action.payload.response.Deduction,
                 statusCodegetConfirmCheckout: action.payload.statusCode,
+                ebAmount:action.payload
+
             };
         case "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodegetConfirmCheckout: 0 };
