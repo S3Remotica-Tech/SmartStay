@@ -19,7 +19,7 @@ import { CloseCircle } from "iconsax-react";
 // import addcircle from "../../Assets/Images/New_images/add-circle.png";
 // import { Trash } from 'iconsax-react';
 // import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
-
+import ErrorMessage from '../../Components/ErrorMessage';
 
 const CheckOutForm = ({
   uniqueostel_Id,
@@ -1060,26 +1060,8 @@ const CheckOutForm = ({
                       />
 
                       {customerWError && (
-                        <div className="d-flex align-items-center p-1 mb-2">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {customerWError}
-                          </label>
-                        </div>
+                        
+<ErrorMessage message={customerWError} type="error" />
                       )}
                     </div>
                   </div>
@@ -1198,29 +1180,7 @@ const CheckOutForm = ({
                       </div>
                     </Form.Group>
                     {checkoUtrequestDateError && (
-                      <div
-                        className="d-flex align-items-center p-1 mb-2"
-                        style={{ marginTop: "-6px" }}
-                      >
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {checkoUtrequestDateError}
-                        </label>
-                      </div>
+                     <ErrorMessage message={checkoUtrequestDateError} type="error" />
                     )}
                   </div>
 
@@ -1264,44 +1224,11 @@ const CheckOutForm = ({
                       </div>
                     </Form.Group>
                     {checkoUtDateError && (
-                      <div
-                        className="d-flex align-items-center p-1"
-                        style={{ marginTop: "-6px" }}
-                      >
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          {checkoUtDateError}
-                        </label>
-                      </div>
+                      <ErrorMessage message={checkoUtDateError} type="error" />
                     )}
                   </div>
                   {state.UsersList.errorMessageAddCheckOut && (
-                    <div className="d-flex align-items-center mb-2">
-                      <MdError style={{
-                        fontSize: "13px",
-                        color: "red",
-                        marginRight: "5px",
-                        marginBottom: "2px",
-                      }} />
-                      <span style={{color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500}}>
-                        {state.UsersList.errorMessageAddCheckOut}
-                      </span>
-                    </div>
+                    <ErrorMessage message={state.UsersList.errorMessageAddCheckOut} type="error" />
                   )}
 
 
@@ -1364,18 +1291,8 @@ const CheckOutForm = ({
             {isChangedError && (
               <div
                 className="d-flex justify-content-center align-items-center"
-                style={{ color: "red", }}
-              >
-                <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {isChangedError}
-                </span>
+                            >
+                <ErrorMessage message={isChangedError} type="error" />
               </div>
             )}
 
@@ -1384,13 +1301,7 @@ const CheckOutForm = ({
           </Modal.Body>
 
 
-          {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
-
+        
           {formLoading &&
             <div
               style={{

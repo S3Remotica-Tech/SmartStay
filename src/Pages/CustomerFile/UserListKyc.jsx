@@ -7,6 +7,7 @@ import "./UserList.css";
 import PropTypes from "prop-types";
 import {CloseCircle} from "iconsax-react";
 import { MdError } from "react-icons/md";
+import ErrorMessage from '../../Components/ErrorMessage';
 function UserListKyc(props) {
 
   const dispatch = useDispatch()
@@ -141,21 +142,7 @@ const handleSubmit = () => {
                     </Form.Group>
                    
                      {aadhaarErr && (
-                                <div className="d-flex align-items-center p-1 mt-6">
-                                  <MdError style={{ color: "red", marginRight: "5px", }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                     
-                                    }}
-                                  >
-                                    {aadhaarErr}
-                                  </label>
-                                </div>
+                                 <ErrorMessage message={aadhaarErr} type="error" />
                               )}
                   </div>
 

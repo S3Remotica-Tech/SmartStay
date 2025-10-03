@@ -21,6 +21,7 @@ import dayjs from 'dayjs';
 import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { CloseCircle } from "iconsax-react";
 import './EB_RoomReading.css';
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function EBRoomReading(props) {
   const dispatch = useDispatch();
@@ -513,27 +514,8 @@ function EBRoomReading(props) {
 
 
 
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "16px",
-                }}
-              >
-                <MdError />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {props.ebpermissionError}
-                </span>
-              </div>
+             
+<ErrorMessage message={props.ebpermissionError} type="error" />
             )}
           </div>
         ) :
@@ -1268,10 +1250,7 @@ function EBRoomReading(props) {
 
 
               {floorError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '14px', marginRight: "5px", }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{floorError}</span>
-                </div>
+                <ErrorMessage message={floorError} type="error" />
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1364,10 +1343,7 @@ function EBRoomReading(props) {
 
 
               {roomError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '14px', marginRight: "5px", marginBottom: "2px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
-                </div>
+                <ErrorMessage message={roomError} type="error" />
               )}
             </div>
 
@@ -1403,10 +1379,7 @@ function EBRoomReading(props) {
                 />
               </Form.Group>
               {readingError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
-                </div>
+                <ErrorMessage message={readingError} type="error" />
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1444,32 +1417,22 @@ function EBRoomReading(props) {
                 </div>
               </Form.Group>
               {dateErrorMesg && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '14px', marginRight: "5px", marginBottom: "2px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{dateErrorMesg}</span>
-                </div>
+                <ErrorMessage message={dateErrorMesg} type="error" />
               )}
             </div>
           </div>
           {dateError && (
-            <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
-              <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-              <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
+            <div className="d-flex justify-content-center align-items-center">
+             <ErrorMessage message={dateError} type="error" />
             </div>
           )}
         </Modal.Body>
         {formError && (
-          <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
-            <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-            <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+          <div className="d-flex justify-content-center align-items-center" >
+           <ErrorMessage message={formError} type="error" />
           </div>
         )}
-        {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null}
+        
 
         {formLoading && <div
           style={{

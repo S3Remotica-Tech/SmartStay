@@ -17,6 +17,7 @@ import addcircle from "/src/Assets/Images/New_images/add-circle.png";
 import { Trash } from 'iconsax-react';
 import Profile2 from "../../../Assets/Images/New_images/profile-picture.png";
 import { FaCheck } from "react-icons/fa";
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function CheckoutTenant({ show, handleClose, data, customerID }) {
 
@@ -615,28 +616,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
                   </div>
                 </Form.Group>
                 {checkoUtDateError && (
-                  <div
-                    className="d-flex align-items-center p-1"
-                    style={{ marginTop: "-6px" }}>
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "12px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {checkoUtDateError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={checkoUtDateError} type="error" />
                 )}
               </div>
 
@@ -840,20 +820,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
                             </>
                           )}
                           {errors[index]?.reason && (
-                            <div className="d-flex align-items-center mt-1">
-                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {errors[index]?.reason}
-                              </label>
-                            </div>
+                            <ErrorMessage message={errors[index]?.reason} type="error" />
                           )}
                         </div>
 
@@ -879,20 +846,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
                           />
                           {errors[index]?.amount && (
-                            <div className="d-flex align-items-center mt-1">
-                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {errors[index]?.amount}
-                              </label>
-                            </div>
+                            <ErrorMessage message={errors[index]?.amount} type="error" />
                           )}
                         </div>
 
@@ -1027,21 +981,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
                   </Form.Group>
                   {modeOfPaymentError && (
-                    <div
-                      className="d-flex justify-content-start align-items-start"
-                      style={{ color: "red", marginTop: 5, }}
-                    >
-                      <MdError style={{ fontSize: "14px", marginRight: "6px", marginTop: "1px" }} />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {modeOfPaymentError}
-                      </span>
-                    </div>
+                    <ErrorMessage message={modeOfPaymentError} type="error" />
                   )}
 
                 </div>
@@ -1268,13 +1208,7 @@ function CheckoutTenant({ show, handleClose, data, customerID }) {
 
         </Modal.Body>
 
-        {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null}
-
+       
         {formLoading &&
           <div
             style={{
