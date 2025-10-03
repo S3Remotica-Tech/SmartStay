@@ -9,10 +9,11 @@ import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { InputGroup, FormControl } from "react-bootstrap";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function AddVendor({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -822,20 +823,32 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                 </Form.Group>
                 {firstNameError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                 <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {firstNameError}
-                    </label>
-                  </div>
+                 <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {firstNameError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -936,57 +949,93 @@ function AddVendor({ show, setShow, currentItem }) {
                   </InputGroup>
 
                   {mobileError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {mobileError}
-                      </label>
-                    </div>
+                     <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {mobileError}
+                                                   </span>
+                                                 </div>
                   )}
 
                   {countryCodeError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {countryCodeError}
-                      </label>
-                    </div>
+                        <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {countryCodeError}
+                                                   </span>
+                                                 </div>
                   )}
 
 
                 </Form.Group>
 
                 {vendorPhoneError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {vendorPhoneError}
-                    </label>
-                  </div>
+               <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {vendorPhoneError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1024,38 +1073,62 @@ function AddVendor({ show, setShow, currentItem }) {
                     }}
                   />
                   {emailError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {emailError}
-                      </label>
-                    </div>
+                   <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {emailError}
+                                                   </span>
+                                                 </div>
                   )}
                 </Form.Group>
 
                 {vendorEmailError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {vendorEmailError}
-                    </label>
-                  </div>
+                 <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {vendorEmailError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1094,20 +1167,32 @@ function AddVendor({ show, setShow, currentItem }) {
                     }}
                   />
                   {businessNameError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {businessNameError}
-                      </label>
-                    </div>
+                       <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {businessNameError}
+                                                   </span>
+                                                 </div>
                   )}
                 </Form.Group>
               </div>
@@ -1147,10 +1232,32 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                 </Form.Group>
                 {house_noError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                  </div>
+                  <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {house_noError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
 
@@ -1186,10 +1293,32 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                 </Form.Group>
                 {streetError && (
-                  <div style={{ color: "red" }}>
-                  <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                  </div>
+                      <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {streetError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
 
@@ -1224,10 +1353,32 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                 </Form.Group>
                 {landmarkError && (
-                  <div style={{ color: "red" }}>
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                  </div>
+                    <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {landmarkError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
 
@@ -1266,10 +1417,32 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                 </Form.Group>
                 {cityError && (
-                  <div style={{ color: "red" }}>
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                  </div>
+                     <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {cityError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
 
@@ -1310,20 +1483,32 @@ function AddVendor({ show, setShow, currentItem }) {
                     }}
                   />
                   {pinCodeError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {pinCodeError}
-                      </label>
-                    </div>
+                    <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {pinCodeError}
+                                                   </span>
+                                                 </div>
                   )}
 
 
@@ -1418,12 +1603,32 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
 
                 {!state_name && state_nameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {state_nameError}
-                    </span>
-                  </div>
+  <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {state_nameError}
+                                                   </span>
+                                                 </div>
                 )}
 
               </div>
@@ -1464,20 +1669,32 @@ function AddVendor({ show, setShow, currentItem }) {
                     }}
                   />
                   {countryError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {countryError}
-                      </label>
-                    </div>
+                    <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {countryError}
+                                                   </span>
+                                                 </div>
                   )}
 
 
@@ -1513,35 +1730,119 @@ function AddVendor({ show, setShow, currentItem }) {
             ></div>
           </div>}
           {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {generalError}
-              </label>
-            </div>
+              <div 
+                                           style={{
+                                             display: "flex",
+                                             justifyContent: "center",
+                                             marginTop: 8,
+                                           }}
+                                         >
+                                           <div
+                                             style={{
+                                               color: "red",
+                                               backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                               display: "flex",
+                                               alignItems: "center",
+                                               padding: "4px 10px",
+                                               borderRadius: 4,
+                                               maxWidth: "fit-content", 
+                                             }}
+                                           >
+                                             <img
+                                               src={Error_Icon}
+                                               alt="ErrorIcon"
+                                               style={{ marginRight: "6px", width: 14, height: 14 }}
+                                             />
+                                             <span
+                                               style={{
+                                                 fontSize: "12px",
+                                                 color: "red",
+                                                 fontFamily: "Gilroy",
+                                                 fontWeight: 500,
+                                                 whiteSpace: "normal",
+                                               }}
+                                             >
+                                               {generalError}
+                                             </span>
+                                           </div>
+                                         </div>
           )}
 
           {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-             <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
+            <div 
+                                           style={{
+                                             display: "flex",
+                                             justifyContent: "center",
+                                             marginTop: 8,
+                                           }}
+                                         >
+                                           <div
+                                             style={{
+                                               color: "red",
+                                               backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                               display: "flex",
+                                               alignItems: "center",
+                                               padding: "4px 10px",
+                                               borderRadius: 4,
+                                               maxWidth: "fit-content", 
+                                             }}
+                                           >
+                                             <img
+                                               src={Error_Icon}
+                                               alt="ErrorIcon"
+                                               style={{ marginRight: "6px", width: 14, height: 14 }}
+                                             />
+                                             <span
+                                               style={{
+                                                 fontSize: "12px",
+                                                 color: "red",
+                                                 fontFamily: "Gilroy",
+                                                 fontWeight: 500,
+                                                 whiteSpace: "normal",
+                                               }}
+                                             >
+                                               {state.createAccount?.networkError}
+                                             </span>
+                                           </div>
+                                         </div>
             : null}
           {isChangedError && (
-            <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
-             <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <span style={{ fontSize: "13px", fontFamily: "Gilroy"}}>
-                {isChangedError}
-              </span>
-            </div>
+                                        <div 
+                                           style={{
+                                             display: "flex",
+                                             justifyContent: "center",
+                                             marginTop: 8,
+                                           }}
+                                         >
+                                           <div
+                                             style={{
+                                               color: "red",
+                                               backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                               display: "flex",
+                                               alignItems: "center",
+                                               padding: "4px 10px",
+                                               borderRadius: 4,
+                                               maxWidth: "fit-content", 
+                                             }}
+                                           >
+                                             <img
+                                               src={Error_Icon}
+                                               alt="ErrorIcon"
+                                               style={{ marginRight: "6px", width: 14, height: 14 }}
+                                             />
+                                             <span
+                                               style={{
+                                                 fontSize: "12px",
+                                                 color: "red",
+                                                 fontFamily: "Gilroy",
+                                                 fontWeight: 500,
+                                                 whiteSpace: "normal",
+                                               }}
+                                             >
+                                               {isChangedError}
+                                             </span>
+                                           </div>
+                                         </div>
           )}
 
 

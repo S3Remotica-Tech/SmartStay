@@ -8,13 +8,14 @@ import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import "flatpickr/dist/themes/material_blue.css";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle, } from "iconsax-react";
 import "./addAsset.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -518,20 +519,33 @@ function StaticExample({ show, setShow, currentItem }) {
 
             {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
               state.bankingDetails.bankingList.banks.length === 0 && (
-                <div className="d-flex align-items-center pt-2 ps-2">
-                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Please Create Banking before adding an asset
-                  </label>
-                </div>
+                
+                          <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                   Please Create Banking before adding an asset
+                                  </span>
+                                </div>
               )}
 
 
@@ -574,38 +588,62 @@ function StaticExample({ show, setShow, currentItem }) {
                   </Form.Group>
 
                   {assetError && (
-                    <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {assetError}
-                      </label>
-                    </div>
+                       <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {assetError}
+                                  </span>
+                                </div>
                   )}
 
 
                    {state.AssetList?.alreadyAssetNameHere && (
-              <div className="d-flex align-items-center p-1 ms-1">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {state.AssetList?.alreadyAssetNameHere}
-                </label>
-              </div>
+             <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {state.AssetList?.alreadyAssetNameHere}
+                                  </span>
+                                </div>
             )}
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -642,20 +680,32 @@ function StaticExample({ show, setShow, currentItem }) {
                   </Form.Group>
 
                   {productNameError && (
-                    <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {productNameError}
-                      </label>
-                    </div>
+                        <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {productNameError}
+                                  </span>
+                                </div>
                   )}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -821,37 +871,61 @@ function StaticExample({ show, setShow, currentItem }) {
                   </Form.Group>
 
                   {serialNumberError && (
-                    <div className="d-flex align-items-center ">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {serialNumberError}
-                      </label>
-                    </div>
+                      <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {serialNumberError}
+                                  </span>
+                                </div>
                   )}
 
                   {serial_number_duplicate_Error && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {serial_number_duplicate_Error}
-                      </label>
-                    </div>
+                   <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {serial_number_duplicate_Error}
+                                  </span>
+                                </div>
                   )}
                 </div>
 
@@ -898,29 +972,61 @@ function StaticExample({ show, setShow, currentItem }) {
                     </div>
                   </Form.Group>
                   {selectedDateError && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {selectedDateError}
-                      </label>
-                    </div>
+                   <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {selectedDateError}
+                                  </span>
+                                </div>
                   )}
 
                   {joiningDateErrmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {joiningDateErrmsg}
-                      </label>
-                    </div>
+                            <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {joiningDateErrmsg}
+                                  </span>
+                                </div>
                   )}
                 </div>
 
@@ -958,20 +1064,32 @@ function StaticExample({ show, setShow, currentItem }) {
                     />
                   </Form.Group>
                   {priceError && (
-                    <div className="d-flex align-items-center ">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {priceError}
-                      </label>
-                    </div>
+                    <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {priceError}
+                                  </span>
+                                </div>
                   )}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
@@ -1068,37 +1186,63 @@ function StaticExample({ show, setShow, currentItem }) {
 
                   </Form.Group>
                   {paymentError && (
-                    <div className="d-flex align-items-center p-1 mb-2" style={{ marginTop: isSelectOpen ? 25 : 0, }}>
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {paymentError}
-                      </label>
-                    </div>
+                   
+                      <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop:isSelectOpen ? 25 : 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {paymentError}
+                                  </span>
+                                </div>
+                   
                   )}
 
                   {bankingError && (
-                    <div className="d-flex align-items-center p-1" >
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {bankingError}
-                      </label>
-                    </div>
+                     <div style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      marginTop: 4,
+                                      display: "inline-flex", 
+                                      alignItems: "center",
+                                      padding: "4px 10px", 
+                                      borderRadius: 4,
+                                    }}> 
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "4px", fontSize:15}}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "nowrap", 
+                                      }}
+                                  >
+                                  {bankingError}
+                                  </span>
+                                </div>
                   )}
                 </div>
 
@@ -1106,20 +1250,44 @@ function StaticExample({ show, setShow, currentItem }) {
               </div>
             </Modal.Body>
             {isChangedError && (
-              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center mt-3 mb-4">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {isChangedError}
-                </label>
-              </div>
+            
+                 <div ref={nochangeRef}
+                   style={{
+                     display: "flex",
+                     justifyContent: "center",
+                     marginTop: 8,
+                   }}
+                 >
+                   <div
+                     style={{
+                       color: "red",
+                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                       display: "flex",
+                       alignItems: "center",
+                       padding: "4px 10px",
+                       borderRadius: 4,
+                       maxWidth: "fit-content", 
+                     }}
+                   >
+                     <img
+                       src={Error_Icon}
+                       alt="ErrorIcon"
+                       style={{ marginRight: "6px", width: 14, height: 14 }}
+                     />
+                     <span
+                       style={{
+                         fontSize: "12px",
+                         color: "red",
+                         fontFamily: "Gilroy",
+                         fontWeight: 500,
+                         whiteSpace: "normal",
+                       }}
+                     >
+                       {isChangedError}
+                     </span>
+                   </div>
+                 </div>
+           
             )}
 
             {formLoading &&
@@ -1150,10 +1318,42 @@ function StaticExample({ show, setShow, currentItem }) {
               </div>
             }
             {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
+                <div 
+                   style={{
+                     display: "flex",
+                     justifyContent: "center",
+                     marginTop: 8,
+                   }}
+                 >
+                   <div
+                     style={{
+                       color: "red",
+                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                       display: "flex",
+                       alignItems: "center",
+                       padding: "4px 10px",
+                       borderRadius: 4,
+                       maxWidth: "fit-content", 
+                     }}
+                   >
+                     <img
+                       src={Error_Icon}
+                       alt="ErrorIcon"
+                       style={{ marginRight: "6px", width: 14, height: 14 }}
+                     />
+                     <span
+                       style={{
+                         fontSize: "12px",
+                         color: "red",
+                         fontFamily: "Gilroy",
+                         fontWeight: 500,
+                         whiteSpace: "normal",
+                       }}
+                     >
+                       {state.createAccount?.networkError}
+                     </span>
+                   </div>
+                 </div>
               : null}
 
 

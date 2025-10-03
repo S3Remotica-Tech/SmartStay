@@ -15,11 +15,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types"
 import Select from "react-select";
 import "./ComplianceList.css";
 import { CloseCircle ,Edit, Trash} from "iconsax-react";
+import Error_Icon from ".././Assets/Images/New_images/Error_warning.png";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -1296,10 +1297,42 @@ const ComplianceList = (props) => {
 
 
                       {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px' }} />
-                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
+                           <div 
+                                                                                 style={{
+                                                                                   display: "flex",
+                                                                                   justifyContent: "center",
+                                                                                   marginTop: 8,
+                                                                                 }}
+                                                                               >
+                                                                                 <div
+                                                                                   style={{
+                                                                                     color: "red",
+                                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                     display: "flex",
+                                                                                     alignItems: "center",
+                                                                                     padding: "4px 10px",
+                                                                                     borderRadius: 4,
+                                                                                     maxWidth: "fit-content", 
+                                                                                   }}
+                                                                                 >
+                                                                                   <img
+                                                                                     src={Error_Icon}
+                                                                                     alt="ErrorIcon"
+                                                                                     style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                                   />
+                                                                                   <span
+                                                                                     style={{
+                                                                                       fontSize: "12px",
+                                                                                       color: "red",
+                                                                                       fontFamily: "Gilroy",
+                                                                                       fontWeight: 500,
+                                                                                       whiteSpace: "normal",
+                                                                                     }}
+                                                                                   >
+                                                                                     {state.createAccount?.networkError}
+                                                                                   </span>
+                                                                                 </div>
+                                                                               </div>
                         : null}
 
                       <Modal.Footer style={{ border: "none" }} className="p-0">
@@ -1362,19 +1395,32 @@ const ComplianceList = (props) => {
 
                       </Modal.Footer>
                       {commentError && (
-                        <div className="ms-3 mt-0 mb-3" style={{ color: "red", textAlign: "start" }}>
-                          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                          <span
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {commentError}
-                          </span>
-                        </div>
+                         <div style={{
+                                                                                             color: "red",
+                                                                                             backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                             marginTop: 4,
+                                                                                             display: "inline-flex", 
+                                                                                             alignItems: "center",
+                                                                                             padding: "4px 10px", 
+                                                                                             borderRadius: 4,
+                                                                                           }}> 
+                                                                                           <img
+                                                                                             src={Error_Icon}
+                                                                                             alt="ErrorIcon"
+                                                                                             style={{ marginRight: "4px", fontSize:15}}
+                                                                                           />
+                                                                                           <span
+                                                                                             style={{
+                                                                                               fontSize: "12px",
+                                                                                               color: "red",
+                                                                                               fontFamily: "Gilroy",
+                                                                                               fontWeight: 500,
+                                                                                               whiteSpace: "nowrap", 
+                                                                                             }}
+                                                                                         >
+                                                                                         {commentError}
+                                                                                         </span>
+                                                                                       </div>
                       )}
                     </Modal.Body>
                   </Modal.Dialog>
@@ -1509,19 +1555,82 @@ const ComplianceList = (props) => {
                           </Form.Group>
 
                           {statusError.trim() !== "" && (
-                            <div style={{ marginTop: "10px" }}>
-                              <p className='text-center' style={{ fontSize: '12px', color: 'red' }}>
-                                {statusError !== " " && <MdError style={{ color: 'red', marginBottom: "2px", fontSize: '14px' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusError}</span>
-                              </p>
-                            </div>
+                                <div 
+                                                                                 style={{
+                                                                                   display: "flex",
+                                                                                   justifyContent: "center",
+                                                                                   marginTop: 8,
+                                                                                 }}
+                                                                               >
+                                                                                 <div
+                                                                                   style={{
+                                                                                     color: "red",
+                                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                     display: "flex",
+                                                                                     alignItems: "center",
+                                                                                     padding: "4px 10px",
+                                                                                     borderRadius: 4,
+                                                                                     maxWidth: "fit-content", 
+                                                                                   }}
+                                                                                 >
+                                                                                   <img
+                                                                                     src={Error_Icon}
+                                                                                     alt="ErrorIcon"
+                                                                                     style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                                   />
+                                                                                   <span
+                                                                                     style={{
+                                                                                       fontSize: "12px",
+                                                                                       color: "red",
+                                                                                       fontFamily: "Gilroy",
+                                                                                       fontWeight: 500,
+                                                                                       whiteSpace: "normal",
+                                                                                     }}
+                                                                                   >
+                                                                                     {statusError}
+                                                                                   </span>
+                                                                                 </div>
+                                                                               </div>
                           )}
                         </div>
                       </div>
                       {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px' }} />
-                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
+                             <div 
+                                                                                 style={{
+                                                                                   display: "flex",
+                                                                                   justifyContent: "center",
+                                                                                   marginTop: 8,
+                                                                                 }}
+                                                                               >
+                                                                                 <div
+                                                                                   style={{
+                                                                                     color: "red",
+                                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                     display: "flex",
+                                                                                     alignItems: "center",
+                                                                                     padding: "4px 10px",
+                                                                                     borderRadius: 4,
+                                                                                     maxWidth: "fit-content", 
+                                                                                   }}
+                                                                                 >
+                                                                                   <img
+                                                                                     src={Error_Icon}
+                                                                                     alt="ErrorIcon"
+                                                                                     style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                                   />
+                                                                                   <span
+                                                                                     style={{
+                                                                                       fontSize: "12px",
+                                                                                       color: "red",
+                                                                                       fontFamily: "Gilroy",
+                                                                                       fontWeight: 500,
+                                                                                       whiteSpace: "normal",
+                                                                                     }}
+                                                                                   >
+                                                                                     {state.createAccount?.networkError}
+                                                                                   </span>
+                                                                                 </div>
+                                                                               </div>
                         : null}
                     </Modal.Body>
 
@@ -1711,13 +1820,32 @@ const ComplianceList = (props) => {
 
 
                             {statusErrorType.trim() !== "" && (
-                              <div >
-
-                                <p className='text-start' style={{ fontSize: '12px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                                  {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom: 1, fontSize: 14 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
-
-                                </p>
-                              </div>
+                              <div style={{
+                                                                                                color: "red",
+                                                                                                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                marginTop: 4,
+                                                                                                display: "inline-flex", 
+                                                                                                alignItems: "center",
+                                                                                                padding: "4px 10px", 
+                                                                                                borderRadius: 4,
+                                                                                              }}> 
+                                                                                              <img
+                                                                                                src={Error_Icon}
+                                                                                                alt="ErrorIcon"
+                                                                                                style={{ marginRight: "4px", fontSize:15}}
+                                                                                              />
+                                                                                              <span
+                                                                                                style={{
+                                                                                                  fontSize: "12px",
+                                                                                                  color: "red",
+                                                                                                  fontFamily: "Gilroy",
+                                                                                                  fontWeight: 500,
+                                                                                                  whiteSpace: "nowrap", 
+                                                                                                }}
+                                                                                            >
+                                                                                            {statusErrorType}
+                                                                                            </span>
+                                                                                          </div>
                             )}
 
                           </Form.Group>
@@ -1726,10 +1854,42 @@ const ComplianceList = (props) => {
                       </div>
 
                       {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px' }} />
-                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
+                         <div 
+                                                                                 style={{
+                                                                                   display: "flex",
+                                                                                   justifyContent: "center",
+                                                                                   marginTop: 8,
+                                                                                 }}
+                                                                               >
+                                                                                 <div
+                                                                                   style={{
+                                                                                     color: "red",
+                                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                     display: "flex",
+                                                                                     alignItems: "center",
+                                                                                     padding: "4px 10px",
+                                                                                     borderRadius: 4,
+                                                                                     maxWidth: "fit-content", 
+                                                                                   }}
+                                                                                 >
+                                                                                   <img
+                                                                                     src={Error_Icon}
+                                                                                     alt="ErrorIcon"
+                                                                                     style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                                   />
+                                                                                   <span
+                                                                                     style={{
+                                                                                       fontSize: "12px",
+                                                                                       color: "red",
+                                                                                       fontFamily: "Gilroy",
+                                                                                       fontWeight: 500,
+                                                                                       whiteSpace: "normal",
+                                                                                     }}
+                                                                                   >
+                                                                                     {state.createAccount?.networkError}
+                                                                                   </span>
+                                                                                 </div>
+                                                                               </div>
                         : null}
                     </Modal.Body>
                     {formAssignCompliantLoading && <div
