@@ -1307,10 +1307,7 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
-  dispatch({
-    type: "GETCONFIRMCHECKOUTCUSTOMER",
-    payload: { id: id, hostel_id: state.login.selectedHostel_Id },
-  });
+  
 
   if (activeRow === id) {
     setActiveRow(null);
@@ -4625,8 +4622,7 @@ const handleClosefinal = ()=>{
 
 
                                                 {user?.bed_status === "Generated" &&
-  Array.isArray(billAmount) &&
-  billAmount.some(bill => bill.action === "checkout") && (
+ 
     <div
       className="d-flex align-items-center gap-2"
       onClick={() => {
@@ -4673,7 +4669,7 @@ const handleClosefinal = ()=>{
         Check-Out
       </label>
     </div>
-)}
+}
                                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
