@@ -26,6 +26,7 @@ import { toast } from 'react-toastify';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
+import Error_Icon from ".././Assets/Images/New_images/Error_warning.png";
 
 const Compliance = () => {
 
@@ -1302,12 +1303,50 @@ const Compliance = () => {
                       <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 mt-2 me-3">
 
                         {Array.isArray(complaintList) && complaintList.length === 0 && (
-                          <div className="d-flex align-items-center mb-3" style={{ marginTop: "5px" }}>
-                            <MdError style={{ color: "red", marginRight: "6px", fontSize: "16px", marginBottom: "22px" }} />
-                            <span style={{ color: "red", fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              Please Create Complaint Type in Settings Electricity before adding an complaint
-                            </span>
-                          </div>
+                          // <div className="d-flex align-items-center mb-3" style={{ marginTop: "5px" }}>
+                          //   <MdError style={{ color: "red", marginRight: "6px", fontSize: "16px", marginBottom: "22px" }} />
+                          //   <span style={{ color: "red", fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          //     Please Create Complaint Type in Settings Electricity before adding an complaint
+                          //   </span>
+                          // </div>
+                            <div
+                              style={{
+                                color: "red",
+                                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                marginTop: 4,
+                                display: "flex",         
+                                alignItems: "flex-start",
+                                padding: "4px 10px",
+                                borderRadius: 4,
+                                maxWidth: "100%",       
+                                wordWrap: "break-word", 
+                              }}
+                            >
+                              <img
+                                src={Error_Icon}
+                                alt="ErrorIcon"
+                                style={{
+                                  marginRight: "6px",
+                                  marginTop: "2px",       
+                                  width: 14,
+                                  height: 14,
+                                }}
+                              />
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  color: "red",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  lineHeight: "16px",
+                                  whiteSpace: "normal",   
+                                  wordBreak: "break-word"
+                                }}
+                              >
+                                 Please Create Complaint Type in Settings Electricity before adding an complaint
+                              </span>
+                            </div>
+                          
                         )}
 
                         <div className='row '>
@@ -1411,12 +1450,32 @@ const Compliance = () => {
 
 
                               {usererrmsg.trim() !== "" && (
-                                <div>
-                                  <p style={{ fontSize: '15px', color: 'red' }}>
-                                    {usererrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />}
-                                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
-                                  </p>
-                                </div>
+                                  <div style={{
+                                                                     color: "red",
+                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                     marginTop: 4,
+                                                                     display: "inline-flex", 
+                                                                     alignItems: "center",
+                                                                     padding: "4px 10px", 
+                                                                     borderRadius: 4,
+                                                                   }}> 
+                                                                   <img
+                                                                     src={Error_Icon}
+                                                                     alt="ErrorIcon"
+                                                                     style={{ marginRight: "4px", fontSize:15}}
+                                                                   />
+                                                                   <span
+                                                                     style={{
+                                                                       fontSize: "12px",
+                                                                       color: "red",
+                                                                       fontFamily: "Gilroy",
+                                                                       fontWeight: 500,
+                                                                       whiteSpace: "nowrap", 
+                                                                     }}
+                                                                 >
+                                                                 {usererrmsg}
+                                                                 </span>
+                                                               </div>
                               )}
                             </Form.Group>
 
@@ -1531,17 +1590,64 @@ const Compliance = () => {
 
                           </div>
                           {complaint_typeerrmsg.trim() !== "" && (
-                            <div>
-                              <p style={{ fontSize: '15px', color: 'red' }}>
-                                {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
-                              </p>
-                            </div>
+                           <div style={{
+                                                                     color: "red",
+                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                     marginTop: 4,
+                                                                     display: "inline-flex", 
+                                                                     alignItems: "center",
+                                                                     padding: "4px 10px", 
+                                                                     borderRadius: 4,
+                                                                   }}> 
+                                                                   <img
+                                                                     src={Error_Icon}
+                                                                     alt="ErrorIcon"
+                                                                     style={{ marginRight: "4px", fontSize:15}}
+                                                                   />
+                                                                   <span
+                                                                     style={{
+                                                                       fontSize: "12px",
+                                                                       color: "red",
+                                                                       fontFamily: "Gilroy",
+                                                                       fontWeight: 500,
+                                                                       whiteSpace: "nowrap", 
+                                                                     }}
+                                                                 >
+                                                                 {complaint_typeerrmsg}
+                                                                 </span>
+                                                               </div>
                           )}
 
 
-                          {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length === 0 && <>
-                            <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>*
-                              Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.</label></>}
+                          {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length === 0 && 
+        
+                               <div style={{
+                                                                     color: "red",
+                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                     marginTop: 4,
+                                                                     display: "inline-flex", 
+                                                                     alignItems: "center",
+                                                                     padding: "4px 10px", 
+                                                                     borderRadius: 4,
+                                                                   }}> 
+                                                                   <img
+                                                                     src={Error_Icon}
+                                                                     alt="ErrorIcon"
+                                                                     style={{ marginRight: "4px", fontSize:15}}
+                                                                   />
+                                                                   <span
+                                                                     style={{
+                                                                       fontSize: "12px",
+                                                                       color: "red",
+                                                                       fontFamily: "Gilroy",
+                                                                       fontWeight: 500,
+                                                                       whiteSpace: "nowrap", 
+                                                                     }}
+                                                                 >*
+                                                       Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.
+                                                                 </span>
+                                                               </div>
+                              }
 
 
 
@@ -1622,20 +1728,60 @@ const Compliance = () => {
                                 />
                               </div>
                               {dateerrmsg.trim() !== "" && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {dateerrmsg}
-                                  </label>
-                                </div>
+                                   <div style={{
+                                                                     color: "red",
+                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                     marginTop: 4,
+                                                                     display: "inline-flex", 
+                                                                     alignItems: "center",
+                                                                     padding: "4px 10px", 
+                                                                     borderRadius: 4,
+                                                                   }}> 
+                                                                   <img
+                                                                     src={Error_Icon}
+                                                                     alt="ErrorIcon"
+                                                                     style={{ marginRight: "4px", fontSize:15}}
+                                                                   />
+                                                                   <span
+                                                                     style={{
+                                                                       fontSize: "12px",
+                                                                       color: "red",
+                                                                       fontFamily: "Gilroy",
+                                                                       fontWeight: 500,
+                                                                       whiteSpace: "nowrap", 
+                                                                     }}
+                                                                 >
+                                                                 {dateerrmsg}
+                                                                 </span>
+                                                               </div>
                               )}
                               {joiningDateErrmsg.trim() !== "" && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {joiningDateErrmsg}
-                                  </label>
-                                </div>
+                                   <div style={{
+                                                                     color: "red",
+                                                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                     marginTop: 4,
+                                                                     display: "inline-flex", 
+                                                                     alignItems: "center",
+                                                                     padding: "4px 10px", 
+                                                                     borderRadius: 4,
+                                                                   }}> 
+                                                                   <img
+                                                                     src={Error_Icon}
+                                                                     alt="ErrorIcon"
+                                                                     style={{ marginRight: "4px", fontSize:15}}
+                                                                   />
+                                                                   <span
+                                                                     style={{
+                                                                       fontSize: "12px",
+                                                                       color: "red",
+                                                                       fontFamily: "Gilroy",
+                                                                       fontWeight: 500,
+                                                                       whiteSpace: "nowrap", 
+                                                                     }}
+                                                                 >
+                                                                 {joiningDateErrmsg}
+                                                                 </span>
+                                                               </div>
                               )}
 
                             </Form.Group>
@@ -1694,18 +1840,81 @@ const Compliance = () => {
 
 
                       {totalErrormsg.trim() !== "" && (
-                        <div>
-                          <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                            {totalErrormsg !== " " && <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
-                          </p>
-                        </div>
+                         <div 
+                                                         style={{
+                                                           display: "flex",
+                                                           justifyContent: "center",
+                                                           marginTop: 8,
+                                                         }}
+                                                       >
+                                                         <div
+                                                           style={{
+                                                             color: "red",
+                                                             backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                             display: "flex",
+                                                             alignItems: "center",
+                                                             padding: "4px 10px",
+                                                             borderRadius: 4,
+                                                             maxWidth: "fit-content", 
+                                                           }}
+                                                         >
+                                                           <img
+                                                             src={Error_Icon}
+                                                             alt="ErrorIcon"
+                                                             style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                           />
+                                                           <span
+                                                             style={{
+                                                               fontSize: "12px",
+                                                               color: "red",
+                                                               fontFamily: "Gilroy",
+                                                               fontWeight: 500,
+                                                               whiteSpace: "normal",
+                                                             }}
+                                                           >
+                                                             {totalErrormsg}
+                                                           </span>
+                                                         </div>
+                                                       </div>
                       )}
 
                       {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
+                         <div 
+                                                         style={{
+                                                           display: "flex",
+                                                           justifyContent: "center",
+                                                           marginTop: 8,
+                                                         }}
+                                                       >
+                                                         <div
+                                                           style={{
+                                                             color: "red",
+                                                             backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                             display: "flex",
+                                                             alignItems: "center",
+                                                             padding: "4px 10px",
+                                                             borderRadius: 4,
+                                                             maxWidth: "fit-content", 
+                                                           }}
+                                                         >
+                                                           <img
+                                                             src={Error_Icon}
+                                                             alt="ErrorIcon"
+                                                             style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                           />
+                                                           <span
+                                                             style={{
+                                                               fontSize: "12px",
+                                                               color: "red",
+                                                               fontFamily: "Gilroy",
+                                                               fontWeight: 500,
+                                                               whiteSpace: "normal",
+                                                             }}
+                                                           >
+                                                             {state.createAccount?.networkError}
+                                                           </span>
+                                                         </div>
+                                                       </div>
                         : null}
 
 

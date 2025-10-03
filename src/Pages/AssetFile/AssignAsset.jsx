@@ -7,13 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
 import "flatpickr/dist/themes/material_blue.css";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function StaticExample({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
@@ -308,30 +309,84 @@ if (currentItem?.purchase_date) {
           <Modal.Body style={{ padding: "10px 15px" }}>
 
             {generalError && (
-              <div className="d-flex align-items-center p-1 mb-2">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {generalError}
-                </label>
-              </div>
+              <div 
+                                 style={{
+                                   display: "flex",
+                                   justifyContent: "center",
+                                   marginTop: 8,
+                                 }}
+                               >
+                                 <div
+                                   style={{
+                                     color: "red",
+                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                     display: "flex",
+                                     alignItems: "center",
+                                     padding: "4px 10px",
+                                     borderRadius: 4,
+                                     maxWidth: "fit-content", 
+                                   }}
+                                 >
+                                   <img
+                                     src={Error_Icon}
+                                     alt="ErrorIcon"
+                                     style={{ marginRight: "6px", width: 14, height: 14 }}
+                                   />
+                                   <span
+                                     style={{
+                                       fontSize: "12px",
+                                       color: "red",
+                                       fontFamily: "Gilroy",
+                                       fontWeight: 500,
+                                       whiteSpace: "normal",
+                                     }}
+                                   >
+                                     {generalError}
+                                   </span>
+                                 </div>
+                               </div>
             )}
 
           
 
 
             {state.AssetList.assetError ?
-              <div className='d-flex align-items-center p-1 mb-1'>
-              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.AssetList.assetError}</label>
-              </div>
+               <div 
+                                 style={{
+                                   display: "flex",
+                                   justifyContent: "center",
+                                   marginTop: 8,
+                                 }}
+                               >
+                                 <div
+                                   style={{
+                                     color: "red",
+                                     backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                     display: "flex",
+                                     alignItems: "center",
+                                     padding: "4px 10px",
+                                     borderRadius: 4,
+                                     maxWidth: "fit-content", 
+                                   }}
+                                 >
+                                   <img
+                                     src={Error_Icon}
+                                     alt="ErrorIcon"
+                                     style={{ marginRight: "6px", width: 14, height: 14 }}
+                                   />
+                                   <span
+                                     style={{
+                                       fontSize: "12px",
+                                       color: "red",
+                                       fontFamily: "Gilroy",
+                                       fontWeight: 500,
+                                       whiteSpace: "normal",
+                                     }}
+                                   >
+                                     {state.AssetList.assetError}
+                                   </span>
+                                 </div>
+                               </div>
 
               : null}
 
@@ -425,20 +480,32 @@ if (currentItem?.purchase_date) {
                 />
 
                 {floorError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {floorError}
-                    </label>
-                  </div>
+                   <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {floorError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
 
@@ -528,20 +595,32 @@ if (currentItem?.purchase_date) {
                   />
                 </Form.Group>
                 {roomError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                  <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {roomError}
-                    </label>
-                  </div>
+                   <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {roomError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
 
@@ -583,20 +662,32 @@ if (currentItem?.purchase_date) {
                   </div>
                 </Form.Group>
                 {dateError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {dateError}
-                    </label>
-                  </div>
+                  <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                   {dateError}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
             </div>
@@ -628,30 +719,80 @@ if (currentItem?.purchase_date) {
               ></div>
             </div>}
             {state.createAccount?.networkError ? 
-                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                            <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-                                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                            </div>
+                      <div 
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          marginTop: 8,
+                                        }}
+                                      >
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "4px 10px",
+                                            borderRadius: 4,
+                                            maxWidth: "fit-content", 
+                                          }}
+                                        >
+                                          <img
+                                            src={Error_Icon}
+                                            alt="ErrorIcon"
+                                            style={{ marginRight: "6px", width: 14, height: 14 }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              whiteSpace: "normal",
+                                            }}
+                                          >
+                                            {state.createAccount?.networkError}
+                                          </span>
+                                        </div>
+                                      </div>
                                               : null}
           {noChangeError && (
-            <div
-              className="d-flex align-items-center p-1 mb-2 mt-2"
-              style={{ width: "100%", marginLeft: 170, textAlign: "center" }}
-            >
-              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  textAlign: "center",
-                }}
-              >
-                {noChangeError}
-              </label>
-            </div>
+             <div 
+                               style={{
+                                 display: "flex",
+                                 justifyContent: "center",
+                                 marginTop: 8,
+                               }}
+                             >
+                               <div
+                                 style={{
+                                   color: "red",
+                                   backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                   display: "flex",
+                                   alignItems: "center",
+                                   padding: "4px 10px",
+                                   borderRadius: 4,
+                                   maxWidth: "fit-content", 
+                                 }}
+                               >
+                                 <img
+                                   src={Error_Icon}
+                                   alt="ErrorIcon"
+                                   style={{ marginRight: "6px", width: 14, height: 14 }}
+                                 />
+                                 <span
+                                   style={{
+                                     fontSize: "12px",
+                                     color: "red",
+                                     fontFamily: "Gilroy",
+                                     fontWeight: 500,
+                                     whiteSpace: "normal",
+                                   }}
+                                 >
+                                   {noChangeError}
+                                 </span>
+                               </div>
+                             </div>
           )}
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button

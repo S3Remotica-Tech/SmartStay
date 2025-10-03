@@ -5,11 +5,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
+import Error_Icon from ".././Assets/Images/New_images/Error_warning.png";
 
 function BankingAddForm(props) {
   const state = useSelector((state) => state);
@@ -495,16 +496,60 @@ function BankingAddForm(props) {
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                  </div>
+                <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {accountNameError}
+                                                                   </span>
+                                                                 </div>
                 )}
                 {error && (
-                  <div style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
+                    <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {error}
+                                                                   </span>
+                                                                 </div>
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -539,10 +584,32 @@ function BankingAddForm(props) {
                   />
                 </Form.Group>
                 {bankNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
-                  </div>
+                  <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {bankNameError}
+                                                                   </span>
+                                                                 </div>
                 )}
 
               </div>
@@ -579,10 +646,32 @@ function BankingAddForm(props) {
                   />
                 </Form.Group>
                 {accountNumberError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
-                  </div>
+                   <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {accountNumberError}
+                                                                   </span>
+                                                                 </div>
                 )}
               </div>
 
@@ -619,10 +708,32 @@ function BankingAddForm(props) {
                   />
                 </Form.Group>
                 {ifcsCodeError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span>
-                  </div>
+                     <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {ifcsCodeError}
+                                                                   </span>
+                                                                 </div>
                 )}
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -660,17 +771,81 @@ function BankingAddForm(props) {
               </div>
 
    {isChangedError && (
-                  <div className='d-flex  align-items-center justify-content-center mt-4 mb-2' style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
-                  </div>
+                 <div 
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      padding: "4px 10px",
+                                      borderRadius: 4,
+                                      maxWidth: "fit-content", 
+                                    }}
+                                  >
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "normal",
+                                      }}
+                                    >
+                                      {isChangedError}
+                                    </span>
+                                  </div>
+                                </div>
                 )}
 
               {state.createAccount?.networkError ?
-                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                </div>
+                 <div 
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      padding: "4px 10px",
+                                      borderRadius: 4,
+                                      maxWidth: "fit-content", 
+                                    }}
+                                  >
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "normal",
+                                      }}
+                                    >
+                                      {state.createAccount?.networkError}
+                                    </span>
+                                  </div>
+                                </div>
                 : null}
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
@@ -736,16 +911,60 @@ function BankingAddForm(props) {
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                  </div>
+                   <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {accountNameError}
+                                                                   </span>
+                                                                 </div>
                 )}
                 {error && (
-                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
+                   <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {error}
+                                                                   </span>
+                                                                 </div>
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -816,17 +1035,81 @@ function BankingAddForm(props) {
 
               </div>
 {isChangedError && (
-                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
-                  </div>
+                   <div 
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      padding: "4px 10px",
+                                      borderRadius: 4,
+                                      maxWidth: "fit-content", 
+                                    }}
+                                  >
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "normal",
+                                      }}
+                                    >
+                                      {isChangedError}
+                                    </span>
+                                  </div>
+                                </div>
                 )}
 
               {state.createAccount?.networkError ?
-                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                </div>
+                 <div 
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      padding: "4px 10px",
+                                      borderRadius: 4,
+                                      maxWidth: "fit-content", 
+                                    }}
+                                  >
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "normal",
+                                      }}
+                                    >
+                                      {state.createAccount?.networkError}
+                                    </span>
+                                  </div>
+                                </div>
                 : null}
 
 
@@ -894,16 +1177,60 @@ function BankingAddForm(props) {
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                  </div>
+                    <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {accountNameError}
+                                                                   </span>
+                                                                 </div>
                 )}
                 {error && (
-                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
+                    <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {error}
+                                                                   </span>
+                                                                 </div>
                 )}
               </div>
 
@@ -1045,17 +1372,81 @@ function BankingAddForm(props) {
 
               </div>
 {isChangedError && (
-                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
-                  </div>
+                     <div 
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      padding: "4px 10px",
+                                      borderRadius: 4,
+                                      maxWidth: "fit-content", 
+                                    }}
+                                  >
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "normal",
+                                      }}
+                                    >
+                                      {isChangedError}
+                                    </span>
+                                  </div>
+                                </div>
                 )}
 
               {state.createAccount?.networkError ?
-                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                </div>
+                  <div 
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      padding: "4px 10px",
+                                      borderRadius: 4,
+                                      maxWidth: "fit-content", 
+                                    }}
+                                  >
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "normal",
+                                      }}
+                                    >
+                                      {state.createAccount?.networkError}
+                                    </span>
+                                  </div>
+                                </div>
                 : null}
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
@@ -1121,16 +1512,60 @@ function BankingAddForm(props) {
                   />
                 </Form.Group>
                 {accountNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                  </div>
+                 <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {accountNameError}
+                                                                   </span>
+                                                                 </div>
                 )}
                 {error && (
-                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                  </div>
+                      <div style={{
+                                                                       color: "red",
+                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                       marginTop: 4,
+                                                                       display: "inline-flex", 
+                                                                       alignItems: "center",
+                                                                       padding: "4px 10px", 
+                                                                       borderRadius: 4,
+                                                                     }}> 
+                                                                     <img
+                                                                       src={Error_Icon}
+                                                                       alt="ErrorIcon"
+                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                     />
+                                                                     <span
+                                                                       style={{
+                                                                         fontSize: "12px",
+                                                                         color: "red",
+                                                                         fontFamily: "Gilroy",
+                                                                         fontWeight: 500,
+                                                                         whiteSpace: "nowrap", 
+                                                                       }}
+                                                                   >
+                                                                   {error}
+                                                                   </span>
+                                                                 </div>
                 )}
               </div>
 
@@ -1169,16 +1604,80 @@ function BankingAddForm(props) {
 
               </div>
 {isChangedError && (
-                  <div className="mt-3" style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
-                  </div>
+                  <div 
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      padding: "4px 10px",
+                                      borderRadius: 4,
+                                      maxWidth: "fit-content", 
+                                    }}
+                                  >
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "normal",
+                                      }}
+                                    >
+                                      {isChangedError}
+                                    </span>
+                                  </div>
+                                </div>
                 )}
               {state.createAccount?.networkError ?
-                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                </div>
+               <div 
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    marginTop: 8,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      padding: "4px 10px",
+                                      borderRadius: 4,
+                                      maxWidth: "fit-content", 
+                                    }}
+                                  >
+                                    <img
+                                      src={Error_Icon}
+                                      alt="ErrorIcon"
+                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        whiteSpace: "normal",
+                                      }}
+                                    >
+                                      {state.createAccount?.networkError}
+                                    </span>
+                                  </div>
+                                </div>
                 : null}
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>

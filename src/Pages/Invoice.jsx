@@ -51,7 +51,7 @@ import './BillPdfModal.css';
 import AxiosConfig from "../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
 import PaginationList from "../Components/PaginationList";
-
+import Error_Icon from ".././Assets/Images/New_images/Error_warning.png";
 
 
 
@@ -3840,29 +3840,32 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
 
                                     {amounterrormsg.trim() !== "" && (
-                                      <div>
-                                        <p
-                                          style={{
-                                            marginBottom: 0,
-                                            fontSize: "12px",
-                                            color: "red",
-                                            marginTop: "3px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {amounterrormsg !== " " && (
-                                            <MdError
-                                              style={{
-                                                fontSize: "14px",
-                                                color: "red",
-                                                marginBottom: "3px",
-                                              }}
-                                            />
-                                          )}{" "}
-                                          {amounterrormsg}
-                                        </p>
-                                      </div>
+                                      <div style={{
+                                                                                                          color: "red",
+                                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                          marginTop: 4,
+                                                                                                          display: "inline-flex", 
+                                                                                                          alignItems: "center",
+                                                                                                          padding: "4px 10px", 
+                                                                                                          borderRadius: 4,
+                                                                                                        }}> 
+                                                                                                        <img
+                                                                                                          src={Error_Icon}
+                                                                                                          alt="ErrorIcon"
+                                                                                                          style={{ marginRight: "4px", fontSize:15}}
+                                                                                                        />
+                                                                                                        <span
+                                                                                                          style={{
+                                                                                                            fontSize: "12px",
+                                                                                                            color: "red",
+                                                                                                            fontFamily: "Gilroy",
+                                                                                                            fontWeight: 500,
+                                                                                                            whiteSpace: "nowrap", 
+                                                                                                          }}
+                                                                                                      >
+                                                                                                      {amounterrormsg}
+                                                                                                      </span>
+                                          </div>
                                     )}
                                   </Form.Group>
                                 </div>
@@ -3977,29 +3980,32 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                                       </div>
                                     </div>
                                     {dateerrmsg.trim() !== "" && (
-                                      <div>
-                                        <p
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            marginTop: "3px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            marginBottom: 0,
-                                          }}
-                                        >
-                                          {dateerrmsg !== "" && (
-                                            <MdError
-                                              style={{
-                                                fontSize: "14px",
-                                                color: "red",
-                                                marginBottom: "2px",
-                                              }}
-                                            />
-                                          )} {" "}
-                                          {dateerrmsg}
-                                        </p>
-                                      </div>
+                                     <div style={{
+                                                                                                          color: "red",
+                                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                          marginTop: 4,
+                                                                                                          display: "inline-flex", 
+                                                                                                          alignItems: "center",
+                                                                                                          padding: "4px 10px", 
+                                                                                                          borderRadius: 4,
+                                                                                                        }}> 
+                                                                                                        <img
+                                                                                                          src={Error_Icon}
+                                                                                                          alt="ErrorIcon"
+                                                                                                          style={{ marginRight: "4px", fontSize:15}}
+                                                                                                        />
+                                                                                                        <span
+                                                                                                          style={{
+                                                                                                            fontSize: "12px",
+                                                                                                            color: "red",
+                                                                                                            fontFamily: "Gilroy",
+                                                                                                            fontWeight: 500,
+                                                                                                            whiteSpace: "nowrap", 
+                                                                                                          }}
+                                                                                                      >
+                                                                                                      {dateerrmsg}
+                                                                                                      </span>
+                                          </div>
                                     )}
                                   </Form.Group>
 
@@ -4098,29 +4104,32 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
 
                                     {paymodeerrormsg.trim() !== "" && (
-                                      <div>
-                                        <p
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            marginTop: "3px",
-                                            marginBottom: 0,
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {paymodeerrormsg !== " " && (
-                                            <MdError
-                                              style={{
-                                                fontSize: "14px",
-                                                color: "red",
-                                                marginBottom: "3px",
-                                              }}
-                                            />
-                                          )}{" "}
-                                          {paymodeerrormsg}
-                                        </p>
-                                      </div>
+                                     <div style={{
+                                                                                                          color: "red",
+                                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                          marginTop: 4,
+                                                                                                          display: "inline-flex", 
+                                                                                                          alignItems: "center",
+                                                                                                          padding: "4px 10px", 
+                                                                                                          borderRadius: 4,
+                                                                                                        }}> 
+                                                                                                        <img
+                                                                                                          src={Error_Icon}
+                                                                                                          alt="ErrorIcon"
+                                                                                                          style={{ marginRight: "4px", fontSize:15}}
+                                                                                                        />
+                                                                                                        <span
+                                                                                                          style={{
+                                                                                                            fontSize: "12px",
+                                                                                                            color: "red",
+                                                                                                            fontFamily: "Gilroy",
+                                                                                                            fontWeight: 500,
+                                                                                                            whiteSpace: "nowrap", 
+                                                                                                          }}
+                                                                                                      >
+                                                                                                      {paymodeerrormsg}
+                                                                                                      </span>
+                                          </div>
                                     )}
                                   </Form.Group>
                                 </div>
@@ -4253,27 +4262,32 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                                     />
 
                                     {accountError.trim() !== "" && (
-                                      <div>
-                                        <p
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            marginTop: "3px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {accountError !== " " && (
-                                            <MdError
-                                              style={{
-                                                fontSize: "14px",
-                                                color: "red",
-                                              }}
-                                            />
-                                          )}{" "}
-                                          {accountError}
-                                        </p>
-                                      </div>
+                                    <div style={{
+                                                                                                          color: "red",
+                                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                          marginTop: 4,
+                                                                                                          display: "inline-flex", 
+                                                                                                          alignItems: "center",
+                                                                                                          padding: "4px 10px", 
+                                                                                                          borderRadius: 4,
+                                                                                                        }}> 
+                                                                                                        <img
+                                                                                                          src={Error_Icon}
+                                                                                                          alt="ErrorIcon"
+                                                                                                          style={{ marginRight: "4px", fontSize:15}}
+                                                                                                        />
+                                                                                                        <span
+                                                                                                          style={{
+                                                                                                            fontSize: "12px",
+                                                                                                            color: "red",
+                                                                                                            fontFamily: "Gilroy",
+                                                                                                            fontWeight: 500,
+                                                                                                            whiteSpace: "nowrap", 
+                                                                                                          }}
+                                                                                                      >
+                                                                                                      {accountError}
+                                                                                                      </span>
+                                          </div>
                                     )}
                                   </div>
                                 )}
@@ -4281,43 +4295,111 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                               </div>
                               </>
                               {totalErrormsg.trim() !== "" && (
-                                <div>
-                                  <p
-                                    style={{
-                                      fontSize: "12px",
-                                      color: "red",
-                                      marginTop: "3px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {totalErrormsg !== " " && (
-                                      <MdError
-                                        style={{
-                                          fontSize: "14px",
-                                          color: "red",
-
-                                        }}
-                                      />
-                                    )}{" "}
-                                    {totalErrormsg}
-                                  </p>
-                                </div>
+                                <div style={{
+                                                                                                          color: "red",
+                                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                          marginTop: 4,
+                                                                                                          display: "inline-flex", 
+                                                                                                          alignItems: "center",
+                                                                                                          padding: "4px 10px", 
+                                                                                                          borderRadius: 4,
+                                                                                                        }}> 
+                                                                                                        <img
+                                                                                                          src={Error_Icon}
+                                                                                                          alt="ErrorIcon"
+                                                                                                          style={{ marginRight: "4px", fontSize:15}}
+                                                                                                        />
+                                                                                                        <span
+                                                                                                          style={{
+                                                                                                            fontSize: "12px",
+                                                                                                            color: "red",
+                                                                                                            fontFamily: "Gilroy",
+                                                                                                            fontWeight: 500,
+                                                                                                            whiteSpace: "nowrap", 
+                                                                                                          }}
+                                                                                                      >
+                                                                                                      {totalErrormsg}
+                                                                                                      </span>
+                                          </div>
                                
                               )}
                             </Modal.Body>
 
                             {state.createAccount?.networkError ?
-                              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                              </div>
+                               <div 
+                                                               style={{
+                                                                 display: "flex",
+                                                                 justifyContent: "center",
+                                                                 marginTop: 8,
+                                                               }}
+                                                             >
+                                                               <div
+                                                                 style={{
+                                                                   color: "red",
+                                                                   backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                   display: "flex",
+                                                                   alignItems: "center",
+                                                                   padding: "4px 10px",
+                                                                   borderRadius: 4,
+                                                                   maxWidth: "fit-content", 
+                                                                 }}
+                                                               >
+                                                                 <img
+                                                                   src={Error_Icon}
+                                                                   alt="ErrorIcon"
+                                                                   style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                 />
+                                                                 <span
+                                                                   style={{
+                                                                     fontSize: "12px",
+                                                                     color: "red",
+                                                                     fontFamily: "Gilroy",
+                                                                     fontWeight: 500,
+                                                                     whiteSpace: "normal",
+                                                                   }}
+                                                                 >
+                                                                   {state.createAccount?.networkError}
+                                                                 </span>
+                                                               </div>
+                                                             </div>
                               : null}
                             {payableamountError ?
-                              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{payableamountError}</label>
-                              </div>
+                                <div 
+                                                                style={{
+                                                                  display: "flex",
+                                                                  justifyContent: "center",
+                                                                  marginTop: 8,
+                                                                }}
+                                                              >
+                                                                <div
+                                                                  style={{
+                                                                    color: "red",
+                                                                    backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                    display: "flex",
+                                                                    alignItems: "center",
+                                                                    padding: "4px 10px",
+                                                                    borderRadius: 4,
+                                                                    maxWidth: "fit-content", 
+                                                                  }}
+                                                                >
+                                                                  <img
+                                                                    src={Error_Icon}
+                                                                    alt="ErrorIcon"
+                                                                    style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                  />
+                                                                  <span
+                                                                    style={{
+                                                                      fontSize: "12px",
+                                                                      color: "red",
+                                                                      fontFamily: "Gilroy",
+                                                                      fontWeight: 500,
+                                                                      whiteSpace: "normal",
+                                                                    }}
+                                                                  >
+                                                                    {payableamountError}
+                                                                  </span>
+                                                                </div>
+                                                              </div>
                               : null}
 
 
@@ -6454,28 +6536,31 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
 
                 {customererrmsg.trim() !== "" && (
-                  <div>
-                    <p
-                      style={{
-                        fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {customererrmsg !== " " && (
-                        <MdError
-                          style={{
-                            fontSize: "14px",
-                            color: "red",
-                            marginRight: "3px",
-                            marginBottom: "3px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        />
-                      )}{" "}
-                      {customererrmsg}
-                    </p>
-                  </div>
+                 <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}>
+                                     {customererrmsg}
+                                   </span>
+                                 </div>
                 )}
               </Form.Group>
             </div>
@@ -6510,27 +6595,31 @@ console.log("invoiceList.transaction",invoiceList.transaction)
                   readOnly
                 />
                 {invoicenumbererrmsg.trim() !== "" && (
-                  <div>
-                    <p
-                      style={{
-                        fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {invoicenumbererrmsg !== " " && (
-                        <MdError
-                          style={{
-                            fontSize: "14px",
-                            color: "red",
-                            marginRight: "3px",
-                            marginBottom: "2px",
-
-                          }}
-                        />
-                      )}{" "}
-                      {invoicenumbererrmsg}
-                    </p>
-                  </div>
+                  <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}>
+                                     {invoicenumbererrmsg}
+                                   </span>
+                                 </div>
                 )}
 
               </Form.Group>
@@ -6585,27 +6674,31 @@ console.log("invoiceList.transaction",invoiceList.transaction)
               </div>
 
               {invoicedateerrmsg.trim() !== "" && (
-                <div>
-                  <p className="mt-1"
-                    style={{
-                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {invoicedateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "14px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-
-                        }}
-                      />
-                    )}{" "}
-                    {invoicedateerrmsg}
-                  </p>
-                </div>
+              <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}>
+                                     {invoicedateerrmsg}
+                                   </span>
+                                 </div>
               )}
             </div>
 
@@ -6645,27 +6738,31 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
 
               {invoiceduedateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{
-                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {invoiceduedateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "14px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-
-                        }}
-                      />
-                    )}{" "}
-                    {invoiceduedateerrmsg}
-                  </p>
-                </div>
+                    <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}>
+                                     {invoiceduedateerrmsg}
+                                   </span>
+                                 </div>
               )}
             </div>
           </div>
@@ -6696,27 +6793,31 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
 
             {tableErrmsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{
-                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "left", fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {tableErrmsg !== " " && (
-                    <MdError
-                      style={{
-                        fontSize: "14px",
-                        color: "red",
-                        marginRight: "3px",
-                        marginBottom: "3px",
-
-                      }}
-                    />
-                  )}{" "}
-                  {tableErrmsg}
-                </p>
-              </div>
+                 <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}>
+                                     {tableErrmsg}
+                                   </span>
+                                 </div>
             )}
           </div>
 
@@ -6864,40 +6965,61 @@ console.log("invoiceList.transaction",invoiceList.transaction)
 
           <div>
             {allfielderrmsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    marginTop: "10px",
-                    fontFamily: "Gilroy",
-                    textAlign: "center",
-                    fontWeight: 500,
-                  }}
-                >
-                  {allfielderrmsg !== " " && (
-                    <MdError
-                      style={{
-                        fontSize: "14px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        marginRight: "5px",
-                        marginBottom: "3px",
-                      }}
-                    />
-                  )}{" "}
-                  {allfielderrmsg}
-                </p>
-              </div>
+           <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}>
+                                     {allfielderrmsg}
+                                   </span>
+                                 </div>
             )}
           </div>
 
 
           {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
+           <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}>
+                                     {state.createAccount?.networkError}
+                                   </span>
+                                 </div>
             : null}
 
 
@@ -6961,18 +7083,34 @@ console.log("invoiceList.transaction",invoiceList.transaction)
         </div>
 
       )}
-      {/* {manualInvoiceNumberError ?
-        <div className='d-flex align-items-center justify-content-center  mb-2' style={{ marginTop: "30px", marginLeft: "30px" }}>
-          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{manualInvoiceNumberError}</label>
-        </div>
-        : null} */}
+    
 
       {unableAddInvoiceDetailsError ?
-        <div className='d-flex align-items-center justify-content-center mb-2' style={{ marginTop: "10px", marginLeft: "30px" }}>
-          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{unableAddInvoiceDetailsError}</label>
-        </div>
+         <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}>
+                                     {unableAddInvoiceDetailsError}
+                                   </span>
+                                 </div>
         : null}
 
       {showRecurringBillForm && (
