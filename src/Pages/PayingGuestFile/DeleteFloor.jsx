@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 
 
@@ -67,21 +67,44 @@ function DeleteFloor({ show, handleClose, currentItem }) {
           {`Are you sure you want to delete the ${currentItem.floor_Name}?`}
         </Modal.Body>
         {deleteFloorForm && (
-          <div className="d-flex justify-content-center align-items-center gap-2 ">
-            <MdError style={{ color: "red" }} />
-            <label
-              className="mb-0"
-              style={{
-                color: "red",
-                fontSize: "12px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                textAlign: "center",
-              }}
-            >
-              {deleteFloorForm}
-            </label>
-          </div>
+
+          <div 
+                                                                            style={{
+                                                                              display: "flex",
+                                                                              justifyContent: "center",
+                                                                              // marginTop: 8,
+                                                                            }}
+                                                                          >
+                                                                            <div
+                                                                              style={{
+                                                                                color: "red",
+                                                                                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                display: "flex",
+                                                                                alignItems: "center",
+                                                                                padding: "4px 10px",
+                                                                                borderRadius: 4,
+                                                                                maxWidth: "fit-content", 
+                                                                              }}
+                                                                            >
+                                                                              <img
+                                                                                src={Error_Icon}
+                                                                                alt="ErrorIcon"
+                                                                                style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                              />
+                                                                              <span
+                                                                                style={{
+                                                                                  fontSize: "12px",
+                                                                                  color: "red",
+                                                                                  fontFamily: "Gilroy",
+                                                                                  fontWeight: 500,
+                                                                                  whiteSpace: "normal",
+                                                                                }}
+                                                                          >
+                                                                           {deleteFloorForm}
+                                                                          </span>
+                                                                        </div>
+                                                                           </div>
+          
         )}
         <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
           <Button onClick={handleCloseFormFloor} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>

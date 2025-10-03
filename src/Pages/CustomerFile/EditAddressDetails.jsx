@@ -741,32 +741,43 @@ const focusedRef = { current: false };
 
                     </Modal.Body>
   {formError && (
-                      <div style={{
-                                                                                       color: "red",
-                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
-                                                                                       marginTop: 4,
-                                                                                       display: "inline-flex", 
-                                                                                       alignItems: "center",
-                                                                                       padding: "4px 10px", 
-                                                                                       borderRadius: 4,
-                                                                                     }}> 
-                                                                                     <img
-                                                                                       src={Error_Icon}
-                                                                                       alt="ErrorIcon"
-                                                                                       style={{ marginRight: "4px", fontSize:15}}
-                                                                                     />
-                                                                                     <span
-                                                                                       style={{
-                                                                                         fontSize: "12px",
-                                                                                         color: "red",
-                                                                                         fontFamily: "Gilroy",
-                                                                                         fontWeight: 500,
-                                                                                         whiteSpace: "nowrap", 
-                                                                                       }}
-                                       >
-                                         {formError}
-                                       </span>
-                                     </div>
+    <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 8,
+        }}
+      >
+        <div
+          style={{
+            color: "red",
+            backgroundColor: "rgba(255, 243, 243, 0.64)",
+            display: "flex",
+            alignItems: "center",
+            padding: "4px 10px",
+            borderRadius: 4,
+            maxWidth: "fit-content", 
+          }}
+        >
+          <img
+            src={Error_Icon}
+            alt="ErrorIcon"
+            style={{ marginRight: "6px", width: 14, height: 14 }}
+          />
+          <span
+            style={{
+              fontSize: "12px",
+              color: "red",
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+              whiteSpace: "normal",
+            }}
+          >
+            {formError}
+          </span>
+        </div>
+      </div>
+                      
                                    )}
 
                     {state.createAccount?.networkError ?
