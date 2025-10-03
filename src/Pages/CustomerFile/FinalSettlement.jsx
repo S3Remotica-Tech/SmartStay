@@ -49,7 +49,13 @@ const [checkOutDate] = useState(() => {
 const handleCloseForm = ()=>{
     handleClose()
     setBillingError("")
+    setCurrenReadingError("")
     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_ERROR" });
+    dispatch({ type: "CLEAR_EB_ERROR" });
+
+
+    
+    
 }
 
 

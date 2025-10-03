@@ -752,16 +752,17 @@ const focusedRef = { current: false };
 
                     </Modal.Body>
   {formError && (
-                      <div style={{
+                      <div  style={{
                                                                                        color: "red",
                                                                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
                                                                                        marginTop: 4,
-                                                                                       display: "inline-flex", 
+                                                                                    //    display: "inline-flex", 
                                                                                        alignItems: "center",
                                                                                        padding: "4px 10px", 
                                                                                        borderRadius: 4,
+                                                                                       display: "flex", justifyContent: "center"
                                                                                      }}> 
-                                                                                     <img
+                                                                                      <img
                                                                                        src={Error_Icon}
                                                                                        alt="ErrorIcon"
                                                                                        style={{ marginRight: "4px", fontSize:15}}
