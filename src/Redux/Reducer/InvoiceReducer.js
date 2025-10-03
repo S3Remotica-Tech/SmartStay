@@ -76,7 +76,7 @@ export const initialState = {
     triggeredBy: '',
     CustomerRecurringEnableDisableStatusCode: 0,
     pdfErrorStatusCode: 0,
-    statusodeForPayableAmount: 0,
+    statusodeForPayableAmount: '',
     payapleAmountError: '',
     whatsappSettings:
         JSON.parse(localStorage.getItem('whatsappSettings')) || {
@@ -85,7 +85,7 @@ export const initialState = {
             2: false,
             3: false,
         },
-        statusCodeForPayapleAmount:0
+        statusCodeForRefundable:0
 
 }
 
@@ -381,11 +381,14 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, payapleAmountError: '' }
 
    case 'REFUND_AMOUNT':
-            return { ...state, statusodeForPayableAmount: action.payload.statusCode }
+            return { ...state, statusodeForPayableAmount: action.payload }
         case 'CLEAR_REFUND_AMOUNT':
-            return { ...state, statusodeForPayableAmount: 0 }
+            return { ...state, statusodeForPayableAmount: '' }
 
-
+case 'REFUNDABLE_DETAILS':
+            return { ...state, statusCodeForRefundable: action.payload.statusCode }
+        case 'CLEAR_REFUNDABLE_DETAILS':
+            return { ...state, statusCodeForRefundable: 0 }
 
 
         default:

@@ -1901,7 +1901,7 @@ const handleNext = () => {
     );
 
     if (isDuplicatePhone) {
-      setPhoneError("This phone number already exists");
+      setPhoneError("This Mobile Number Already Exists");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;
@@ -1934,7 +1934,7 @@ if (Email) {
     });
 
     if (isDuplicateEmail) {
-      setEmailError("This email ID already exists");
+      setEmailError("This Email ID Already Exists");
       if (!focusedRef.current) {
         focusedRef.current = true;
       }

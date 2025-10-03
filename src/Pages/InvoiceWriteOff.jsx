@@ -139,6 +139,21 @@ console.log("payableAmount",payableAmount)
     }, [state.UsersList.statusCodeForDueCustomer])
 
 
+     useEffect(() => {
+        if (state.InvoiceList.statusCodeForRefundable === 200 ) {
+          props.handleCloseRefundAmount()
+            dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_REFUNDABLE_DETAILS" });
+            }, 500);
+        }
+
+    }, [state.InvoiceList.statusCodeForRefundable])
+
+
 console.log("matchedDet",matchedDet)
 
     return(
