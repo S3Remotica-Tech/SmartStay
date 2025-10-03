@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function StaticExample({ show, currentItem, setShowModal }) {
   const state = useSelector((state) => state);
@@ -65,7 +66,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   useEffect(() => {
     dispatch({
       type: "ASSETLIST",
-      payload:  state.login.selectedHostel_Id ,
+      payload: state.login.selectedHostel_Id,
     });
   }, []);
   useEffect(() => {
@@ -75,7 +76,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   }, [state.ExpenseList.expenceNetBanking])
 
   useEffect(() => {
-       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+    dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
   }, []);
 
   useEffect(() => {
@@ -340,6 +341,28 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   }, [state.createAccount?.networkError])
 
+
+
+
+
+useEffect(() => {
+  if (
+    state.Settings.Expences.data &&
+    state.Settings.Expences.data.length === 0
+  ) {
+    toast.error(
+      "Please add a Category option in Settings, accessible after adding an expense",
+     
+    );
+  }
+}, [state.Settings.Expences.data]);
+
+
+
+
+
+
+
   return (
     <div
       className="modal show"
@@ -372,44 +395,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
           {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2 ms-2">
-              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {generalError}
-              </label>
-            </div>
+            <ErrorMessage message={generalError} type="error" />
           )}
 
           <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll", padding: 20 }} className="show-scroll pt-1 mt-2 me-1">
             <div className="row" style={{}}>
 
-              {state.Settings.Expences.data &&
-                state.Settings.Expences.data.length === 0 && (
-
-                  <div className="d-flex align-items-center mb-2">
-                    <MdError style={{ color: "red", marginRight: "6px", fontSize: "16px", }} />
-                    <label
-                      className=" mb-0"
-                      style={{
-                        fontSize: 14,
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Please add a Category option in Settings, accessible after adding an expenses
-                    </label>
-                  </div>
-
-                )}
+             
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
@@ -506,20 +498,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
                 </Form.Group>
                 {categoryError && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {categoryError}
-                    </label>
-                  </div>
+                 <ErrorMessage message={categoryError} type="error" />
                 )}
               </div>
 
@@ -554,36 +533,18 @@ function StaticExample({ show, currentItem, setShowModal }) {
                         setJoingDateErrmsg("")
                         setSelectedDate(date ? date.toDate() : null);
                       }}
-                       disabledDate={(current) => current && current > dayjs().endOf("day")}
+                      disabledDate={(current) => current && current > dayjs().endOf("day")}
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
 
                     />
                   </div>
                 </Form.Group>
                 {dateError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {dateError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={dateError} type="error" />
                 )}
 
                 {joiningDateErrmsg.trim() !== "" && (
-                  <div className="d-flex align-items-center">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {joiningDateErrmsg}
-                    </label>
-                  </div>
+                   <ErrorMessage message={joiningDateErrmsg} type="error" />
                 )}
               </div>
 
@@ -629,20 +590,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                   />
                 </Form.Group>
                 {countError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                     <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {countError}
-                    </label>
-                  </div>
+                   <ErrorMessage message={countError} type="error" />
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -686,20 +634,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
                   />
                 </Form.Group>
                 {priceError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                     <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {priceError}
-                    </label>
-                  </div>
+                   <ErrorMessage message={priceError} type="error" />
                 )}
               </div>
 
@@ -740,7 +675,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  
+
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -863,28 +798,14 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
                 </Form.Group>
                 {paymentError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        whiteSpace: "nowrap"
-                      }}
-                    >
-                      {paymentError}
-                    </label>
-                  </div>
+                 <ErrorMessage message={paymentError} type="error" />
                 )}
               </div>
 
 
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
                 <Form.Group
-                 
+
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -918,12 +839,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
             </div>
           </Modal.Body>
 
-          {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+         
 
           {formLoading &&
             <div
@@ -958,37 +874,15 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
           {currentItem && isChangedError && (
-            <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
-               <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"  }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {isChangedError}
-              </label>
+            <div className="d-flex align-items-center justify-content-center mb-2 mt-2">
+              <ErrorMessage message={isChangedError} type="error" />
             </div>
           )}
 
 
           {netPaymentError && (
-            <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
-                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"  }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {netPaymentError}
-              </label>
+            <div className="d-flex align-items-center justify-content-center  mb-2 mt-2">
+              <ErrorMessage message={netPaymentError} type="error" />
             </div>
           )}
 

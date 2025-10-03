@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     Modal,
     Form,
@@ -12,8 +12,9 @@ import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
+import ErrorMessage from '../../Components/ErrorMessage'
 
-function EditAddressDetails({ show, handleClose,addressDetails }) {
+function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -25,66 +26,66 @@ function EditAddressDetails({ show, handleClose,addressDetails }) {
     const [pincode, setPincode] = useState("");
     const [city, setCity] = useState("");
     const [stateName, setStateName] = useState("");
-    const[formError,setFormError] = useState("")
+    const [formError, setFormError] = useState("")
 
 
 
-const [firstName,setFirstname] = useState("")
-const [lastname,setLastname] = useState("")
-const [phone,setPhone] = useState("")
- const [countryCode, setCountryCode] = useState("91");
- const [initialState,setInitialstate] = useState("")
- const [pincodeError,setPincodeError] = useState("")
+    const [firstName, setFirstname] = useState("")
+    const [lastname, setLastname] = useState("")
+    const [phone, setPhone] = useState("")
+    const [countryCode, setCountryCode] = useState("91");
+    const [initialState, setInitialstate] = useState("")
+    const [pincodeError, setPincodeError] = useState("")
 
-useEffect(()=>{
-if(addressDetails){
-     const phoneNumber = String(addressDetails[0].Phone || "");
-      const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      const mobileNumber = phoneNumber.slice(-10);
-      if (addressDetails[0].Name) {
-        let value = addressDetails[0].Name.split(" ");
-        setFirstname(value[0]);
-        setLastname(value[1]);
-      } else {
-        setFirstname("");
-        setLastname("");
-      }
+    useEffect(() => {
+        if (addressDetails) {
+            const phoneNumber = String(addressDetails[0].Phone || "");
+            const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+            const mobileNumber = phoneNumber.slice(-10);
+            if (addressDetails[0].Name) {
+                let value = addressDetails[0].Name.split(" ");
+                setFirstname(value[0]);
+                setLastname(value[1]);
+            } else {
+                setFirstname("");
+                setLastname("");
+            }
 
-  setHouseNo(addressDetails[0].Address || "")
-  setStreet(addressDetails[0].area || "")
-  setLandmark(addressDetails[0].landmark || "")
-  setPincode(addressDetails[0].pincode || "")
-  setCity(
-  addressDetails[0].city && addressDetails[0].city !== "undefined"
-    ? addressDetails[0].city
-    : ""
-);
+            setHouseNo(addressDetails[0].Address || "")
+            setStreet(addressDetails[0].area || "")
+            setLandmark(addressDetails[0].landmark || "")
+            setPincode(addressDetails[0].pincode || "")
+            setCity(
+                addressDetails[0].city && addressDetails[0].city !== "undefined"
+                    ? addressDetails[0].city
+                    : ""
+            );
 
-setStateName(
-  addressDetails[0].state && addressDetails[0].state !== "undefined"
-    ? addressDetails[0].state
-    : ""
-);
-  setPhone(mobileNumber)
-  setCountryCode(countryCode)
+            setStateName(
+                addressDetails[0].state && addressDetails[0].state !== "undefined"
+                    ? addressDetails[0].state
+                    : ""
+            );
+            setPhone(mobileNumber)
+            setCountryCode(countryCode)
 
 
-  setInitialstate({
-      Address: addressDetails[0].Address || "",
-      area: addressDetails[0].area || "",
-      landmark: addressDetails[0].landmark || "",
-      city:
-        addressDetails[0].city && addressDetails[0].city !== "undefined"
-          ? addressDetails[0].city
-          : "",
-      pincode: addressDetails[0].pincode || "",
-      state:
-        addressDetails[0].state && addressDetails[0].state !== "undefined"
-          ? addressDetails[0].state
-          : "",
-    });
-}
-},[addressDetails])
+            setInitialstate({
+                Address: addressDetails[0].Address || "",
+                area: addressDetails[0].area || "",
+                landmark: addressDetails[0].landmark || "",
+                city:
+                    addressDetails[0].city && addressDetails[0].city !== "undefined"
+                        ? addressDetails[0].city
+                        : "",
+                pincode: addressDetails[0].pincode || "",
+                state:
+                    addressDetails[0].state && addressDetails[0].state !== "undefined"
+                        ? addressDetails[0].state
+                        : "",
+            });
+        }
+    }, [addressDetails])
 
     const handleHouseNoChange = (e) => {
         setHouseNo(e.target.value);
@@ -103,21 +104,21 @@ setStateName(
 
     };
 
-    
-    const handlePincodeChange = (e) => {
-    const value = e.target.value;
-    if (!/^\d{0,6}$/.test(value)) {
-      return;
-    }
 
-    setPincode(value);
-    if (value.length > 0 && value.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    } else {
-      setPincodeError("");
-    }
-    setFormError("")
-  };
+    const handlePincodeChange = (e) => {
+        const value = e.target.value;
+        if (!/^\d{0,6}$/.test(value)) {
+            return;
+        }
+
+        setPincode(value);
+        if (value.length > 0 && value.length < 6) {
+            setPincodeError("Pin Code Must Be Exactly 6 Digits");
+        } else {
+            setPincodeError("");
+        }
+        setFormError("")
+    };
 
     const handleCityChange = (e) => {
         setCity(e.target.value);
@@ -131,75 +132,75 @@ setStateName(
 
     };
     useEffect(() => {
-  const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+        const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
 
-  if (rawAddress) {
-    const parts = rawAddress.split(",").map((part) => part.trim());
+        if (rawAddress) {
+            const parts = rawAddress.split(",").map((part) => part.trim());
 
-    // remove the `S/O:` part
-    const addressParts = parts.slice(1);
+            // remove the `S/O:` part
+            const addressParts = parts.slice(1);
 
-    // pincode, state and city from the END
-    const pincodePart = addressParts[addressParts.length - 1];
-    const statePart   = addressParts[addressParts.length - 2];
-    const cityPart    = addressParts[addressParts.length - 3];
+            // pincode, state and city from the END
+            const pincodePart = addressParts[addressParts.length - 1];
+            const statePart = addressParts[addressParts.length - 2];
+            const cityPart = addressParts[addressParts.length - 3];
 
-    // remaining items are house/street/area/landmark
-    const others = addressParts.slice(0, addressParts.length - 3);
-    const [streetNumber, streetName, areaPart, landmarkPart] = others;
+            // remaining items are house/street/area/landmark
+            const others = addressParts.slice(0, addressParts.length - 3);
+            const [streetNumber, streetName, areaPart, landmarkPart] = others;
 
-    setHouseNo(`${streetNumber} ${streetName}`);
-    setStreet(areaPart);
-    setLandmark(landmarkPart);
-    setCity(cityPart);
-    setStateName(statePart);
-    setPincode(pincodePart);
-  }
-}, [state.UsersList.KycCustomerDetails?.address]);
+            setHouseNo(`${streetNumber} ${streetName}`);
+            setStreet(areaPart);
+            setLandmark(landmarkPart);
+            setCity(cityPart);
+            setStateName(statePart);
+            setPincode(pincodePart);
+        }
+    }, [state.UsersList.KycCustomerDetails?.address]);
 
 
 
-//     useEffect(() => {
-//   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+    //     useEffect(() => {
+    //   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
 
-//   if (rawAddress) {
-//     const parts = rawAddress.split(",").map((part) => part.trim());
+    //   if (rawAddress) {
+    //     const parts = rawAddress.split(",").map((part) => part.trim());
 
-//     // Remove "S/O..." and get the rest of the parts
-//     const addressParts = parts.slice(1);
+    //     // Remove "S/O..." and get the rest of the parts
+    //     const addressParts = parts.slice(1);
 
-//     // pincode is always the last element
-//     const pincodePart = addressParts[addressParts.length - 1];
+    //     // pincode is always the last element
+    //     const pincodePart = addressParts[addressParts.length - 1];
 
-//     // The rest of the address without pincode
-//     const withoutPincode = addressParts.slice(0, -1);
+    //     // The rest of the address without pincode
+    //     const withoutPincode = addressParts.slice(0, -1);
 
-//     const [
-//       streetNumber,
-//       streetName,
-//       areaPart,
-//       landmarkPart,
-//       _repeatedLandmark,
-//       cityPart,
-//       statePart,
-//     ] = withoutPincode;
+    //     const [
+    //       streetNumber,
+    //       streetName,
+    //       areaPart,
+    //       landmarkPart,
+    //       _repeatedLandmark,
+    //       cityPart,
+    //       statePart,
+    //     ] = withoutPincode;
 
-//     setHouseNo(`${streetNumber} ${streetName}`);
-//     setStreet(areaPart);
-//     setLandmark(landmarkPart);
-//     setCity(cityPart);
-//     setStateName(statePart);
-//     setPincode(pincodePart);
-//   }
-// }, [state.UsersList.KycCustomerDetails?.address]);
+    //     setHouseNo(`${streetNumber} ${streetName}`);
+    //     setStreet(areaPart);
+    //     setLandmark(landmarkPart);
+    //     setCity(cityPart);
+    //     setStateName(statePart);
+    //     setPincode(pincodePart);
+    //   }
+    // }, [state.UsersList.KycCustomerDetails?.address]);
 
 
     //  useEffect(() => {
     //     const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
-    
+
     //     if (rawAddress) {
     //       const parts = rawAddress.split(",").map((part) => part.trim());
-    
+
     //       const [
     //         streetNumber,
     //         streetName,
@@ -210,7 +211,7 @@ setStateName(
     //         statePart,
     //         pincodePart,
     //       ] = parts.slice(1); 
-     //       setHouseNo(`${streetNumber} ${streetName}`);
+    //       setHouseNo(`${streetNumber} ${streetName}`);
     //       setStreet(areaPart);
     //       setLandmark(landmarkPart);
     //       setCity(cityPart);
@@ -219,8 +220,8 @@ setStateName(
     //     }
     //   }, [state.UsersList.KycCustomerDetails?.address]);
 
-    
-     
+
+
 
 
     const indianStates = [
@@ -278,89 +279,89 @@ setStateName(
 
     }, [state.createAccount?.networkError])
 
-const MobileNumber = `${countryCode}${phone}`;
-  const pincodeRef = useRef(null);
+    const MobileNumber = `${countryCode}${phone}`;
+    const pincodeRef = useRef(null);
 
-    const handleSubmitAddress = ()=>{
-         const focusedRef = { current: false };
- const cleanedPincode = String(pincode || "").trim();
+    const handleSubmitAddress = () => {
+        const focusedRef = { current: false };
+        const cleanedPincode = String(pincode || "").trim();
 
-  if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
+        if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
+            setPincodeError("Pin Code Must Be Exactly 6 Digits");
 
-    if (!focusedRef.current && pincodeRef?.current) {
-      pincodeRef.current.focus();
-      focusedRef.current = true;
-    }
+            if (!focusedRef.current && pincodeRef?.current) {
+                pincodeRef.current.focus();
+                focusedRef.current = true;
+            }
 
-    return; 
-  } else {
-    setPincodeError("");
-  }
-
-          if (!initialState) return;
-
-  const noChanges =
-    houseNo === initialState.Address &&
-    street === initialState.area &&
-    landmark === initialState.landmark &&
-    city === initialState.city &&
-    pincode === initialState.pincode &&
-    stateName === initialState.state;
-
-  if (noChanges) {
-    setFormError("No changes detected");
-    return;
-  }
-        const capitalizeFirstLetter = (str) => {
-      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
-
-    const capitalizedFirstname = capitalizeFirstLetter(firstName);
-    const capitalizedLastname = capitalizeFirstLetter(lastname);
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-        
-         const payload = {
-      profile: addressDetails[0].profile,
-      firstname: capitalizedFirstname,
-      lastname: capitalizedLastname,
-      Phone: normalizedPhoneNumber,
-      Email: addressDetails[0].Email,
-      Address: houseNo,
-      area: street,
-      landmark: landmark,
-      city: city,
-      pincode: pincode,
-      state: stateName,
-      HostelName: addressDetails[0].HostelName,
-      hostel_Id: addressDetails[0].Hostel_Id,
-      Floor:  addressDetails[0].Floor,
-      Rooms:  addressDetails[0].hstl_Rooms,
-      Bed: addressDetails[0].hstl_Bed,
-      joining_date: addressDetails[0].Bed,
-      AdvanceAmount: addressDetails[0].AdvanceAmount,
-      RoomRent: addressDetails[0].RoomRent,
-      ID: addressDetails[0].ID,
-
-    };
-    dispatch({
-      type: "ADDUSER",
-      payload: payload,
-    });
-    }
-
-     useEffect(() => {
-        if (state.UsersList.statusCodeForAddUser === 201) {
-          dispatch({ type: "USERLIST", payload: { hostel_id: addressDetails[0].Hostel_Id } });
-          dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: addressDetails[0].ID } });
-        
-           handleClose()
-      
-          setTimeout(() => {
-            dispatch({ type: "CLEAR_STATUS_CODES" });
-          }, 100);
+            return;
+        } else {
+            setPincodeError("");
         }
-      }, [state.UsersList.statusCodeForAddUser]);
+
+        if (!initialState) return;
+
+        const noChanges =
+            houseNo === initialState.Address &&
+            street === initialState.area &&
+            landmark === initialState.landmark &&
+            city === initialState.city &&
+            pincode === initialState.pincode &&
+            stateName === initialState.state;
+
+        if (noChanges) {
+            setFormError("No changes detected");
+            return;
+        }
+        const capitalizeFirstLetter = (str) => {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        };
+
+        const capitalizedFirstname = capitalizeFirstLetter(firstName);
+        const capitalizedLastname = capitalizeFirstLetter(lastname);
+        const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+
+        const payload = {
+            profile: addressDetails[0].profile,
+            firstname: capitalizedFirstname,
+            lastname: capitalizedLastname,
+            Phone: normalizedPhoneNumber,
+            Email: addressDetails[0].Email,
+            Address: houseNo,
+            area: street,
+            landmark: landmark,
+            city: city,
+            pincode: pincode,
+            state: stateName,
+            HostelName: addressDetails[0].HostelName,
+            hostel_Id: addressDetails[0].Hostel_Id,
+            Floor: addressDetails[0].Floor,
+            Rooms: addressDetails[0].hstl_Rooms,
+            Bed: addressDetails[0].hstl_Bed,
+            joining_date: addressDetails[0].Bed,
+            AdvanceAmount: addressDetails[0].AdvanceAmount,
+            RoomRent: addressDetails[0].RoomRent,
+            ID: addressDetails[0].ID,
+
+        };
+        dispatch({
+            type: "ADDUSER",
+            payload: payload,
+        });
+    }
+
+    useEffect(() => {
+        if (state.UsersList.statusCodeForAddUser === 201) {
+            dispatch({ type: "USERLIST", payload: { hostel_id: addressDetails[0].Hostel_Id } });
+            dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: addressDetails[0].ID } });
+
+            handleClose()
+
+            setTimeout(() => {
+                dispatch({ type: "CLEAR_STATUS_CODES" });
+            }, 100);
+        }
+    }, [state.UsersList.statusCodeForAddUser]);
 
 
     return (
@@ -540,33 +541,9 @@ const MobileNumber = `${countryCode}${phone}`;
                                     />
 
                                 </Form.Group>
-                                 {pincodeError && (
-                                                                        <div
-                                                                          style={{
-                                                                            marginTop: "",
-                                                                            color: "red",
-                                                                          }}
-                                                                        >
-                                                                          {" "}
-                                                                          <MdError
-                                                                            style={{
-                                                                              fontSize: "12px",
-                                                                              fontFamily: "Gilroy",
-                                                                              fontWeight: 500,
-                                                                              marginRight: "5px",
-                                                                            }}
-                                                                          />
-                                                                          <span
-                                                                            style={{
-                                                                              fontSize: "13px",
-                                                                              fontFamily: "Gilroy",
-                                                                              fontWeight: 500,
-                                                                            }}
-                                                                          >
-                                                                            {pincodeError}
-                                                                          </span>
-                                                                        </div>
-                                                                      )}
+                                {pincodeError && (
+                                    <ErrorMessage message={pincodeError} type="error" />
+                                )}
                             </div>
 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
@@ -701,31 +678,11 @@ const MobileNumber = `${countryCode}${phone}`;
 
 
                     </Modal.Body>
-  {formError && (
-                                     <div
-                                       className="d-flex align-items-center justify-content-center"
-                                       style={{ color: "red" }}
-                                     >
-                                       <MdError style={{ marginRight: "5px" }} />
-                                       <span
-                                         style={{
-                                           fontSize: "12px",
-                                           color: "red",
-                                           fontFamily: "Gilroy",
-                                           fontWeight: 500,
-                                         }}
-                                       >
-                                         {formError}
-                                       </span>
-                                     </div>
-                                   )}
+                    {formError && (
+                      <ErrorMessage message={formError} type="error" />
+                    )}
 
-                    {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                            <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
-                        : null}
+                    
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
                         <div className="d-flex justify-content-end gap-3">
 
@@ -748,7 +705,7 @@ const MobileNumber = `${countryCode}${phone}`;
                             </Button>
 
                             <Button
-                                  onClick={handleSubmitAddress}
+                                onClick={handleSubmitAddress}
                                 className="w-100 mt-1"
                                 style={{
                                     backgroundColor: "#1E45E1",
@@ -769,10 +726,10 @@ const MobileNumber = `${countryCode}${phone}`;
     )
 }
 EditAddressDetails.propTypes = {
-  show: PropTypes.func.isRequired,
- handleClose: PropTypes.func.isRequired,
- 
- addressDetails: PropTypes.func.isRequired,
-  
+    show: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
+
+    addressDetails: PropTypes.func.isRequired,
+
 };
 export default EditAddressDetails

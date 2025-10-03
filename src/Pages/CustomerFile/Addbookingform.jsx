@@ -152,7 +152,7 @@ function BookingModal(props) {
 
   const paymentOptions = Array.isArray(state.UsersList?.availableBedList.bankDetails)
     ? state.UsersList?.availableBedList?.bankDetails.map((item) => ({
-      value: String(item.bankingId),
+      value: String(item.bankId),
       label: `${item.holderName} - ${labelMap[item.type] || ""}`,
     }))
     : [];

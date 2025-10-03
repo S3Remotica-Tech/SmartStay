@@ -19,6 +19,7 @@ import PropTypes from "prop-types";
 import './UserlistCheckout.css';
 import PaginationList from "../../Components/PaginationList";
 import DueCustomerConfirmCheckout from "./DueCustomerConfirmCheckout";
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function CheckOut(props) {
 
@@ -586,18 +587,7 @@ function CheckOut(props) {
 
 
                   {checkOutPermissionError && (
-                    <div
-                      style={{
-                        color: "red",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        marginTop: "1rem",
-                      }}
-                    >
-                      <MdError />
-                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{checkOutPermissionError}</span>
-                    </div>
+                    <ErrorMessage message={checkOutPermissionError} type="error" />
                   )}
                 </div>
               </>

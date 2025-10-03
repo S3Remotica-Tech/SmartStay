@@ -35,6 +35,7 @@ import dayjs from 'dayjs';
 import { Edit, Trash } from "iconsax-react";
 import { CloseCircle, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Select from "react-select";
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function Booking(props) {
   const state = useSelector((state) => state);
@@ -959,27 +960,7 @@ const EmailInputRef = useRef(null);
 
 
             {bookingPermissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {bookingPermissionError}
-                </span>
-              </div>
+             <ErrorMessage message={bookingPermissionError} type="error" />
             )}
           </div>
         </>
@@ -1914,10 +1895,7 @@ const EmailInputRef = useRef(null);
                   />
                   {firstNameError && (
 
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                      <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError}</span>
-                    </div>
+                   <ErrorMessage message={firstNameError} type="error" />
                   )}
                 </Form.Group>
 
@@ -2017,33 +1995,14 @@ const EmailInputRef = useRef(null);
                   ></p>
                   {phoneError && (
 
-                    <div style={{ color: "red", marginTop: "-15px" }}>
-                      <MdError style={{ marginRight: "5px", fontSize: 13 }} />
-                      <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
-                    </div>
-
+                   <ErrorMessage message={phoneError} type="error" />
                   )}
 
                   {phoneErrorMessage && (
-                    <div style={{ color: "red", marginTop: "-10px" }}>
-                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                      <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
-                    </div>
+                    <ErrorMessage message={phoneErrorMessage} type="error" />
                   )}
                   {state?.Booking?.bookingPhoneError && (
-                    <div style={{ color: "red" ,marginTop:"-18px"}} ref={phoneInputRef}>
-                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {state?.Booking?.bookingPhoneError}
-                      </span>
-                    </div>
+                    <ErrorMessage message={state?.Booking?.bookingPhoneError} type="error" />
                   )}
                 </Form.Group>
               </Col>
@@ -2074,50 +2033,15 @@ const EmailInputRef = useRef(null);
                     onChange={(e) => handleEmail(e)}
                   />
                   {emailError && (
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {emailError}
-                      </span>
-                    </div>
+                    <ErrorMessage message={emailError} type="error" />
                   )}
 
                   {emailErrorMessage && (
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {" "}
-                        {emailErrorMessage}
-                      </span>
-                    </div>
+                   <ErrorMessage message={emailErrorMessage} type="error" />
                   )}
                    {state?.Booking?.bookingEmailError && (
-                                 <div className="mb-4" style={{ color: "red"}} ref={EmailInputRef}>
-                                   <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
-                                   <span
-                                     style={{
-                                       color: "red",
-                                       fontSize: 12,
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                     }}
-                                   >
-                                     {state?.Booking?.bookingEmailError}
-                                   </span>
+                                 <div ref={EmailInputRef}>
+                                   <ErrorMessage message={state?.Booking?.bookingEmailError} type="error" />
                                  </div>
                                )}
                 </Form.Group>
@@ -2155,10 +2079,7 @@ const EmailInputRef = useRef(null);
                   }}
                 />
                 {house_noError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                  </div>
+                   <ErrorMessage message={house_noError} type="error" />
                 )}
               </Form.Group>
 
@@ -2196,10 +2117,7 @@ const EmailInputRef = useRef(null);
                     }}
                   />
                   {streetError && (
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                      <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                    </div>
+                   <ErrorMessage message={streetError} type="error" />
                   )}
                 </Form.Group>
 
@@ -2235,10 +2153,7 @@ const EmailInputRef = useRef(null);
                     }}
                   />
                   {landmarkError && (
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                      <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                    </div>
+                    <ErrorMessage message={landmarkError} type="error" />
                   )}
                 </Form.Group>
 
@@ -2284,20 +2199,7 @@ const EmailInputRef = useRef(null);
                     }}
                   />
                   {pincodeError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {pincodeError}
-                      </label>
-                    </div>
+                    <ErrorMessage message={pincodeError} type="error" />
                   )}
 
 
@@ -2336,10 +2238,7 @@ const EmailInputRef = useRef(null);
                     }}
                   />
                   {cityError && (
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
-                      <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                    </div>
+                    <ErrorMessage message={cityError} type="error" />
                   )}
                 </Form.Group>
 
@@ -2441,12 +2340,7 @@ const EmailInputRef = useRef(null);
 
 
                 {!state_name && state_nameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {state_nameError}
-                    </span>
-                  </div>
+                  <ErrorMessage message={state_nameError} type="error" />
                 )}
 
               </Form.Group>
@@ -2494,29 +2388,12 @@ const EmailInputRef = useRef(null);
                     />
                   </div>
                   {dateError && (
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {dateError}
-                      </span>
-                    </div>
+                   <ErrorMessage message={dateError} type="error" />
                   )}
 
 
                   {joiningDateErrmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center mt-1">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {joiningDateErrmsg}
-                      </label>
-                    </div>
+                    <ErrorMessage message={joiningDateErrmsg} type="error" />
                   )}
                 </Form.Group>
 
@@ -2562,28 +2439,11 @@ const EmailInputRef = useRef(null);
                   </div>
                 </Form.Group>
                 {dateError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: 12,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {dateError}
-                    </span>
-                  </div>
+                  <ErrorMessage message={dateError} type="error" />
                 )}
 
                 {bookingDateErrmsg.trim() !== "" && (
-                  <div className="d-flex align-items-center mt-1">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                      {bookingDateErrmsg}
-                    </label>
-                  </div>
+                 <ErrorMessage message={bookingDateErrmsg} type="error" />
                 )}
               </Col>
 
@@ -2626,10 +2486,7 @@ const EmailInputRef = useRef(null);
                     }}
                   />
                   {amountError && (
-                    <div style={{ color: "red" }}>
-                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                      <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
-                    </div>
+                    <ErrorMessage message={amountError} type="error" />
                   )}
                 </Form.Group>
 
@@ -2644,12 +2501,7 @@ const EmailInputRef = useRef(null);
 
         </Modal.Body>
 
-        {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-4'>
-            <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null}
+        
         {bookingLoading &&
           <div
             style={{
@@ -2685,9 +2537,8 @@ const EmailInputRef = useRef(null);
         >
 
           {formError && (
-            <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red", fontFamily: "Gilroy" }}>
-              <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-              <span style={{ fontSize: "12px" }}>{formError}</span>
+            <div ref={nochangeRef} className="d-flex align-items-center justify-content-center">
+             <ErrorMessage message={formError} type="error" />
             </div>
           )}
           <Button

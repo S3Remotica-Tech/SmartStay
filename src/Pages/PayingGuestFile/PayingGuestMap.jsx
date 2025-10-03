@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage';
+
 
 function PayingGuestMap(props) {
 
@@ -647,19 +649,7 @@ function PayingGuestMap(props) {
           </Modal.Body>
           {pgDeleteError && (
             <div className="d-flex justify-content-center align-items-center gap-2 ">
-              <MdError style={{ color: "red" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  textAlign: "center",
-                }}
-              >
-                {pgDeleteError}
-              </label>
+             <ErrorMessage message={pgDeleteError} type="error" />
             </div>
           )}
           <Modal.Footer

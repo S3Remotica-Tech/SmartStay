@@ -11,6 +11,8 @@ import { MdError } from "react-icons/md";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import "./PayingHostel.css";
+import ErrorMessage from '../../Components/ErrorMessage';
+
 
 function PayingHostel(props) {
   const state = useSelector((state) => state);
@@ -612,20 +614,9 @@ function PayingHostel(props) {
             Are you sure you want to delete this paying guest?
           </Modal.Body>
           {pgDeleteError && (
-            <div className="d-flex justify-content-center align-items-center gap-2">
-              <MdError style={{ color: "red" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  textAlign: "center",
-                }}
-              >
-                {pgDeleteError}
-              </label>
+            <div className="d-flex justify-content-center align-items-center">
+              
+<ErrorMessage message={pgDeleteError} type="error" />
             </div>
           )}
           <Modal.Footer

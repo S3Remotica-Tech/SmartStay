@@ -11,6 +11,7 @@ import Forward from '../../Assets/Images/New_images/Forward.svg'
 import BackWard from '../../Assets/Images/New_images/Backward.svg'
 import Image from 'react-bootstrap/Image';
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
@@ -181,35 +182,11 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
           </Modal.Header>
           <Modal.Body style={{ border: "none" }}>
             {errorAssign && (
-              <div className="d-flex align-items-center gap-1 mb-3 ms-5">
-                <MdError style={{ color: 'red', fontSize: '14px', marginBottom: '2px' }} />
-                <span
-                  style={{
-                    color: 'red',
-                    fontSize: '12px',
-                    fontFamily: 'Gilroy',
-                    fontWeight: 500,
-                  }}
-                >
-                  {errorAssign}
-                </span>
-              </div>
+               <ErrorMessage message={errorAssign} type="error" />
             )}
 
             {errorUnAssign && (
-              <div className="d-flex align-items-center gap-1 mb-3 ms-5">
-                <MdError style={{ color: 'red', fontSize: '14px', marginBottom: '2px' }} />
-                <span
-                  style={{
-                    color: 'red',
-                    fontSize: '12px',
-                    fontFamily: 'Gilroy',
-                    fontWeight: 500,
-                  }}
-                >
-                  {errorUnAssign}
-                </span>
-              </div>
+               <ErrorMessage message={errorUnAssign} type="error" />
             )}
 
             <div className="row">
@@ -325,12 +302,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
           </Modal.Body>
 
-          {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+         
 
           {formLoading &&
             <div

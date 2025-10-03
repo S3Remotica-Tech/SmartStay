@@ -49,6 +49,7 @@ import isBetween from "dayjs/plugin/isBetween";
 // import leftarrow from "../../Assets/Images/arrow-left.png";
 // import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
@@ -198,22 +199,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                         </div>
                     </Form.Group>
                     {isActiveDateError && (
-                        <div style={{ color: "red", marginTop: "-5px" }}>
-                            <MdError
-                                style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                                className="mb-0"
-                                style={{
-                                    color: "red",
-                                    fontSize: "12px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                }}
-                            >
-                                {isActiveDateError}
-                            </label>
-                        </div>
+                        <ErrorMessage message={isActiveDateError} type="error" />
                     )}
                 </div>
 

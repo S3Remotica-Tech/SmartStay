@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
 import { CloseCircle } from "iconsax-react";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -362,20 +363,7 @@ useEffect(() => {
           }}
         />
         {amnityError && (
-          <div style={{ color: "red" }}>
-            {" "}
-            <MdError style={{}} />
-            <span
-              style={{
-                fontSize: "12px",
-                color: "red",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              {amnityError}
-            </span>
-          </div>
+          <ErrorMessage message={amnityError} type="error" />
         )}
       </div>
 
@@ -433,20 +421,7 @@ useEffect(() => {
             />
           </div>
           {amnityError && (
-            <div style={{ color: "red" }}>
-              {" "}
-              <MdError />
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "red",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {amnityError}
-              </span>
-            </div>
+           <ErrorMessage message={amnityError} type="error" />
           )}
           <div className="mb-3 ps-2 pe-2">
             <label
@@ -560,30 +535,12 @@ useEffect(() => {
                   }}>In Active</option>
               </Form.Select>
               {selectError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {selectError}
-                  </label>
-                </div>
+                <ErrorMessage message={selectError} type="error" />
               )}
             </div>
           )}
         </Modal.Body>
- {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center  mb-4'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+ 
 
   {formLoading &&
                     <div

@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Select from "react-select";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
@@ -191,19 +192,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
 
                                     {errorStartDate && (
-                                        <div className="d-flex align-items-center">
-                                            <MdError style={{ color: "red", marginRight: "5px", fontSize:14 }} />
-                                            <span
-                                                style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                }}
-                                            >
-                                                {errorStartDate}
-                                            </span>
-                                        </div>
+                                       <ErrorMessage message={errorStartDate} type="error" />
                                     )}
                                 </Form.Group>
 
@@ -229,19 +218,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
 
                                     {errorEndDate && (
-                                        <div className="d-flex align-items-center">
-                                            <MdError style={{ color: "red", marginRight: "5px", fontSize:14  }} />
-                                            <span
-                                                style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                }}
-                                            >
-                                                {errorEndDate}
-                                            </span>
-                                        </div>
+                                         <ErrorMessage message={errorEndDate} type="error" />
                                     )}
                                 </Form.Group>
 

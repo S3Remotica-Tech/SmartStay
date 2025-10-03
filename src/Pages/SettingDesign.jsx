@@ -11,6 +11,7 @@ import Delete from "../Assets/Images/Delete_red.png";
 import { MdError } from "react-icons/md";
 import Modal from "react-bootstrap/Modal";
 import PropTypes from "prop-types";
+import ErrorMessage from '../Components/ErrorMessage'
 
 function RolesDesign(props){
 
@@ -430,13 +431,7 @@ useEffect(()=>{
     
             <div className="col-md-6" style={{marginTop:"-5px"}}>
             {errorForm && (
-                                      <div style={{ color: "red" }}>
-                                        {" "}
-                                        <MdError
-                                          style={{ width: 20, height: 20 }}
-                                        />
-                                        {errorForm}
-                                      </div>
+                                      <ErrorMessage message={errorForm} type="error" />
                                     )}
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
@@ -478,13 +473,7 @@ useEffect(()=>{
                     
                        
                     {errorPermission && (
-                                      <div style={{ color: "red" }}>
-                                        {" "}
-                                        <MdError
-                                          style={{ width: 20, height: 20 }}
-                                        />
-                                        {errorPermission}
-                                      </div>
+                                       <ErrorMessage message={errorPermission} type="error" />
                                     )}
                         <div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto', border: "1px solid #DCDCDC", borderRadius: "16px" }}>
                         <table className="table mb-0">

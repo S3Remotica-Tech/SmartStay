@@ -8,7 +8,8 @@ import TagAsset from '../../Assets/Images/TagAsset.svg';
 import closeicon from '../../Assets/Images/close.svg';
 import { Modal, Button } from "react-bootstrap";
 import { MdError } from "react-icons/md";
-import './Expenses.css'
+import './Expenses.css';
+import ErrorMessage from '../../Components/ErrorMessage';
 
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -36,16 +37,16 @@ function ExpensesListTable(props) {
   }
   const [showAbove, setShowAbove] = useState(false);
 
-useEffect(() => {
-  if (popupRef.current) {
-    const popupHeight = popupRef.current.offsetHeight;
-    const windowHeight = window.innerHeight;
-    const spaceBelow = windowHeight - popupPosition.top;
-    
-   
-    setShowAbove(spaceBelow < popupHeight + 20);
-  }
-}, [popupPosition]);
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
   const handleEditExpense = (item) => {
     props.OnEditExpense(item)
@@ -100,9 +101,9 @@ useEffect(() => {
 
 
   const handleAssetname = (selectedValue) => {
-  setAssetName(selectedValue);
-  setAssetNameError(selectedValue ? '' : 'Please select an asset');
-};
+    setAssetName(selectedValue);
+    setAssetNameError(selectedValue ? '' : 'Please select an asset');
+  };
 
 
 
@@ -164,10 +165,10 @@ useEffect(() => {
 
 
 
-const options = state.AssetList.assetList.map((view) => ({
-  value: view.asset_name,
-  label: view.asset_name,
-}));
+  const options = state.AssetList.assetList.map((view) => ({
+    value: view.asset_name,
+    label: view.asset_name,
+  }));
 
 
 
@@ -218,9 +219,9 @@ const options = state.AssetList.assetList.map((view) => ({
                   cursor: "pointer",
                   backgroundColor: "#F9F9F9",
                   position: "fixed",
-                   top: showAbove
-    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
-    : popupPosition.top - 35,
+                  top: showAbove
+                    ? popupPosition.top - (popupRef.current?.offsetHeight || 100) - 20
+                    : popupPosition.top - 35,
                   left: popupPosition.left,
                   width: 160,
                   height: "auto",
@@ -253,7 +254,7 @@ const options = state.AssetList.assetList.map((view) => ({
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
                     cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                                        opacity: props.expenceDeletePermission ? 0.5 : 1,
+                    opacity: props.expenceDeletePermission ? 0.5 : 1,
                   }}
                 >
                   <img src={TagAsset} alt="tag" />
@@ -289,7 +290,7 @@ const options = state.AssetList.assetList.map((view) => ({
                     width: "100%",
                     padding: "8px 10px",
                     cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
-                                       opacity: props.expenceEditPermission ? 0.5 : 1,
+                    opacity: props.expenceEditPermission ? 0.5 : 1,
                   }}
                 >
                   <Edit
@@ -301,7 +302,7 @@ const options = state.AssetList.assetList.map((view) => ({
                       fontSize: 14,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      color:"#222222",
+                      color: "#222222",
                       cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
                     }}
                   >
@@ -331,7 +332,7 @@ const options = state.AssetList.assetList.map((view) => ({
                     borderBottomLeftRadius: 10,
                     borderBottomRightRadius: 10,
                     cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                                      opacity: props.expenceDeletePermission ? 0.5 : 1,
+                    opacity: props.expenceDeletePermission ? 0.5 : 1,
                   }}
                 >
                   <Trash
@@ -408,86 +409,86 @@ const options = state.AssetList.assetList.map((view) => ({
           <div style={{ marginTop: 10, width: "100%" }}>
 
 
-           
 
 
-<Select
-  options={options}
-  placeholder="Select Asset"
-  value={options.find((opt) => opt.value === assetname) || null}
-  onChange={(selectedOption) => handleAssetname(selectedOption?.value)}
-  styles={{
-    control: (base, state) => ({
-      ...base,
-      fontSize: "16px",
-      color: "rgba(75, 75, 75, 1)",
-      fontFamily: "Gilroy",
-      fontWeight: assetname ? 600 : 500,
-      border: state.isFocused ? "1px solid #40a9ff" : "2px solid #D9D9D9",
-      borderRadius: "8px",
-      boxShadow: "none",
-      borderBottomLeftRadius:8,
-      height: "50px",
-      "&:hover": {
-        borderColor: "lightgrey",
-      },
-      
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#BDBDBD",
-      fontFamily: "Gilroy",
-    }),
-    singleValue: (base) => ({
-      ...base,
-      color: "#000",
-      fontFamily: "Gilroy",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      marginTop: 4,
-      fontFamily: "Gilroy",
-      fontSize: 16,
-    }),
-     menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                      }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isSelected
-        ? "#D9E6FC"
-        : state.isFocused
-        ? "#D9E6FC"
-        : "#fff",
-      color: state.isSelected
-        ? "#000"
-        : state.isFocused
-        ? "#000000"
-        : "#000",
-      fontFamily: "Gilroy",
-      padding: "8px 12px",
-    }),
-  }}
-  isClearable={false}
-/>
+
+            <Select
+              options={options}
+              placeholder="Select Asset"
+              value={options.find((opt) => opt.value === assetname) || null}
+              onChange={(selectedOption) => handleAssetname(selectedOption?.value)}
+              styles={{
+                control: (base, state) => ({
+                  ...base,
+                  fontSize: "16px",
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  fontWeight: assetname ? 600 : 500,
+                  border: state.isFocused ? "1px solid #40a9ff" : "2px solid #D9D9D9",
+                  borderRadius: "8px",
+                  boxShadow: "none",
+                  borderBottomLeftRadius: 8,
+                  height: "50px",
+                  "&:hover": {
+                    borderColor: "lightgrey",
+                  },
+
+                }),
+                placeholder: (base) => ({
+                  ...base,
+                  color: "#BDBDBD",
+                  fontFamily: "Gilroy",
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  color: "#000",
+                  fontFamily: "Gilroy",
+                }),
+                dropdownIndicator: (base) => ({
+                  ...base,
+                  color: "#555",
+                  cursor: "pointer",
+                }),
+                indicatorSeparator: () => ({
+                  display: "none",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px",
+                  marginTop: 4,
+                  fontFamily: "Gilroy",
+                  fontSize: 16,
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  maxHeight: "120px",
+                  padding: 0,
+                  scrollbarWidth: "thin",
+                  overflowY: "auto",
+                  fontFamily: "Gilroy",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  cursor: "pointer",
+                  backgroundColor: state.isSelected
+                    ? "#D9E6FC"
+                    : state.isFocused
+                      ? "#D9E6FC"
+                      : "#fff",
+                  color: state.isSelected
+                    ? "#000"
+                    : state.isFocused
+                      ? "#000000"
+                      : "#000",
+                  fontFamily: "Gilroy",
+                  padding: "8px 12px",
+                }),
+              }}
+              isClearable={false}
+            />
 
 
 
@@ -512,28 +513,12 @@ const options = state.AssetList.assetList.map((view) => ({
               assetnameerror &&
 
 
-              <div className="d-flex align-items-center justify-content-center p-2">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {assetnameerror}
-                </label>
+              <div className="d-flex align-items-center justify-content-center mt-1 mb-1">
+                <ErrorMessage message={assetnameerror} type="error" />
               </div>
             }
 
-            {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
-              : null}
+
 
             <Button
               style={{

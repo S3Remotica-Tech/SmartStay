@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
+mport ErrorMessage from '../../Components/ErrorMessage'
 
 
 function EditBasicDetails({ show, handleClose, basicDetails }) {
@@ -327,31 +328,7 @@ setIsChanged("")
                                     />
                                 </Form.Group>
                                 {firstNameError && (
-                                    <div
-                                        style={{
-                                            marginTop: "",
-                                            color: "red",
-                                        }}
-                                    >
-                                        {" "}
-                                        <MdError
-                                            style={{
-                                                fontSize: "12px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                                marginRight: "5px",
-                                            }}
-                                        />
-                                        <span
-                                            style={{
-                                                fontSize: "13px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            {firstNameError}
-                                        </span>
-                                    </div>
+                                  <ErrorMessage message={firstNameError} type="error" />
                                 )}
 
                             </div>
@@ -425,31 +402,7 @@ setIsChanged("")
                                     />
                                 </Form.Group>
                                 {emailError && (
-                                    <div
-                                        style={{
-                                            marginTop: "",
-                                            color: "red",
-                                        }}
-                                    >
-                                        {" "}
-                                        <MdError
-                                            style={{
-                                                fontSize: "12px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                                marginRight: "5px",
-                                            }}
-                                        />
-                                        <span
-                                            style={{
-                                                fontSize: "13px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            {emailError}
-                                        </span>
-                                    </div>
+                                  <ErrorMessage message={emailError} type="error" />
                                 )}
 
                             </div>
@@ -522,31 +475,7 @@ setIsChanged("")
                                     ></p>
                                 </Form.Group>
                                 {phoneError && (
-                                    <div
-                                        style={{
-                                            marginTop: "",
-                                            color: "red",
-                                        }}
-                                    >
-                                        {" "}
-                                        <MdError
-                                            style={{
-                                                fontSize: "12px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                                marginRight: "5px",
-                                            }}
-                                        />
-                                        <span
-                                            style={{
-                                                fontSize: "13px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                            }}
-                                        >
-                                            {phoneError}
-                                        </span>
-                                    </div>
+                                    <ErrorMessage message={phoneError} type="error" />
                                 )}
                             </div>
                         </div>
@@ -557,17 +486,11 @@ setIsChanged("")
                     </Modal.Body>
 
 
-                    {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                            <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
-                        : null}
+                   
 
                     {isChanged ?
                         <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                            <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChanged}</label>
+                           <ErrorMessage message={isChanged} type="error" />
                         </div>
                         : null}
 

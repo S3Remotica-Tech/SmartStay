@@ -9,6 +9,8 @@ import Select from "react-select";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import ErrorMessage from '../../Components/ErrorMessage'
+
 function AssignBooking(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -368,40 +370,14 @@ function AssignBooking(props) {
         </Modal.Header>
 
         {state.Booking?.ErrorAssignBooking && (
-          <div style={{ color: "red" }} className="ps-3 pt-3">
-            <MdError style={{ fontSize: 14, color: "red" }} />
-            <span
-              style={{
-                color: "red",
-                fontSize: 12,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              This email{" "}
-              <span style={{ color: "#1E45E1" }}>
-                {props?.assignBooking.email_id}
-              </span>{" "}
-              already exists. Please change email ID and move to check in
-            </span>
-          </div>
+
+           <ErrorMessage message={['This email already exists. Please change email ID and move to check in']} type="error" />
+          
         )}
 
 
         {state.Booking?.ErrorAssignBookingMobile && (
-          <div style={{ color: "red" }} className="ps-3 pt-3">
-            <MdError style={{ fontSize: 14, color: "red" }} />
-            <span
-              style={{
-                color: "red",
-                fontSize: 12,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              {state.Booking?.ErrorAssignBookingMobile}
-            </span>
-          </div>
+        <ErrorMessage message={state.Booking?.ErrorAssignBookingMobile} type="error" />
         )}
 
         <Modal.Body className="pt-2">
@@ -508,24 +484,7 @@ function AssignBooking(props) {
               </Form.Group>
 
               {floorError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "2px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {floorError}
-                  </span>
-                </div>
+                <ErrorMessage message={floorError} type="error" />
               )}
             </Col>
 
@@ -626,25 +585,7 @@ function AssignBooking(props) {
                 />
               </Form.Group>
               {roomError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "2px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {roomError}
-                  </span>
-                </div>
+                 <ErrorMessage message={roomError} type="error" />
               )}
             </Col>
           </Row>
@@ -737,28 +678,7 @@ function AssignBooking(props) {
               />
 
               {bedError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      color: "red",
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      marginRight: "5px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {bedError}
-                  </label>
-                </div>
+                <ErrorMessage message={bedError} type="error" />
               )}
             </div>
 
@@ -798,46 +718,10 @@ function AssignBooking(props) {
                 </div>
               </Form.Group>
               {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {dateError}
-                  </span>
-                </div>
+                <ErrorMessage message={dateError} type="error" />
               )}
               {state.Booking?.ErrorAssignBookingDate && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {state.Booking?.ErrorAssignBookingDate}
-                  </span>
-                </div>
+                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error" />
               )}
 
 
@@ -877,19 +761,7 @@ function AssignBooking(props) {
                 />
               </Form.Group>
               {advanceError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ marginBottom: "3px", fontSize: 14 }} />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {advanceError}
-                  </span>
-                </div>
+                 <ErrorMessage message={advanceError} type="error" />
               )}
             </Col>
             <Col md={6}>
@@ -936,19 +808,7 @@ function AssignBooking(props) {
                 />
               </Form.Group>
               {rentError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: 14 }} />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {rentError}
-                  </span>
-                </div>
+               <ErrorMessage message={rentError} type="error" />
               )}
             </Col>
           </Row>
@@ -956,12 +816,7 @@ function AssignBooking(props) {
           <Row></Row>
         </Modal.Body>
 
-        {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null}
+       
 
         {formLoading &&
           <div
