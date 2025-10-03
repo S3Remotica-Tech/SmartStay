@@ -2179,6 +2179,7 @@ if (Email) {
 
   const [recheckinbedname, setRecheckinbedName] = useState("")
   const [RequestDate, setRequestDate] = useState(null)
+  console.log("recheckinbedname",recheckinbedname)
 
   useEffect(() => {
     if (props?.bactocheckinForm) {
@@ -2305,7 +2306,7 @@ if (Email) {
     return null;
   }, [Floor, props.EditObj?.floor_name, state.UsersList?.hosteldetailslist, props?.customer_details]);
 
-
+console.log("selectedFloor",selectedFloor)
 
 
   // const selectedRoom = React.useMemo(() => {
@@ -2359,6 +2360,7 @@ if (Email) {
     props.customer_details?.Rooms,
     state.UsersList?.roomdetails
   ]);
+  console.log("selectedRoom",selectedRoom)
 
 
   // let bedOptions =
@@ -6083,7 +6085,7 @@ if (Email) {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    Back to Check-In
+                    Cancel Check-Out
                   </div>
 
                   <CloseCircle
@@ -6201,9 +6203,9 @@ if (Email) {
                 </div>
 
                 {activeTab === "long" ? <>
-                  <div style={{ maxHeight: "320px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
+                  <div  className=" p-2 mt-2 me-1">
                     <div className="row d-flex align-items-center">
-                      <div className="col-12">
+                      {/* <div className="col-12">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -6316,9 +6318,9 @@ if (Email) {
                             </span>
                           </div>
                         )}
-                      </div>
+                      </div> */}
 
-                      <div className="col-12 mb-1">
+                      {/* <div className="col-12 mb-1">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -6431,7 +6433,7 @@ if (Email) {
                             </span>
                           </div>
                         )}
-                      </div>
+                      </div> */}
 
                       {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Group>
@@ -6459,7 +6461,7 @@ value={bookingAmount}
                       </div> */}
 
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -6492,76 +6494,10 @@ value={bookingAmount}
                           }}
                         />
 
-                        {/* <Select
-   isDisabled={true}
-  options={bedOptions.map((item) => ({
-    value: item.id,
-    label: item.bed_no
-  }))}
-  onChange={handleBed}
-  value={
-    bedId
-      ? { value: bedId, label: selectedBedName }
-      : null
-  }
-                          placeholder="Select a Bed"
-                          classNamePrefix="custom"
-                          menuPlacement="auto"
-                          styles={{
-                            control: (base) => ({
-                              ...base,
-                              height: "50px",
-                              border: "1px solid #D9D9D9",
-                              borderRadius: "8px",
-                              fontSize: "16px",
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              border: "1px solid #ced4da",
-                              fontFamily: "Gilroy",
-                            }),
-                            menuList: (base) => ({
-                              ...base,
-                              backgroundColor: "#f8f9fa",
-                              maxHeight: "120px",
-                              padding: 0,
-                              scrollbarWidth: "thin",
-                              overflowY: "auto",
-                              fontFamily: "Gilroy",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              color: "#555",
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              display: "inline-block",
-                              fill: "currentColor",
-                              lineHeight: 1,
-                              stroke: "currentColor",
-                              strokeWidth: 0,
-                              cursor: "pointer",
-                            }),
-                            indicatorSeparator: () => ({
-                              display: "none",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              cursor: "pointer",
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                              color: "#000",
-                            }),
-                          }}
-                        /> */}
+                  
 
 
-                      </div>
+                      </div> */}
 
                       {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Group controlId="bookingDate">
@@ -6629,7 +6565,7 @@ value={bookingAmount}
 
 
 
-
+{/* 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Group controlId="purchaseDate">
                           <Form.Label
@@ -6849,12 +6785,12 @@ value={bookingAmount}
 
 
 
-                      </div>
+                      </div> */}
 
 
                     </div>
 
-                    <div style={{
+                    {/* <div style={{
                       backgroundColor: "#F7F9FF",
                       borderRadius: 10,
                       paddingBottom: 5,
@@ -7121,7 +7057,7 @@ value={bookingAmount}
 
 
 
-                    </div>
+                    </div> */}
 
 
 

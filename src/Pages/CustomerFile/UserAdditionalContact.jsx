@@ -12,6 +12,7 @@ import Select from "react-select";
 
 
 function UserAdditionalContact(props) {
+  console.log("props.additionDetails",props.additionDetails)
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -719,7 +720,7 @@ useEffect(() => {
                     </Form.Group>
                   </div>
 
-                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                     <Form.Group className="">
                       <Form.Label
                         style={{
@@ -729,7 +730,34 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        Flat , House no , Building , Company , Apartment {" "}
+                        Address {" "}
+                        <Form.Check
+                                                      type="checkbox"
+                                                      label={
+                                                        <span
+                                                          style={{
+                                                            color: "#1E45E1",
+                                                            fontWeight: 500,
+                                                            whiteSpace: "nowrap",
+                                                            fontSize: 11,
+                                                            fontFamily: "Gilroy",
+                                                          }}
+                                                        >
+                                                          Same as Current
+                                                        </span>
+                                                      }
+                                                      className="ms-3"
+                                                      // ref={rentRef}
+                                                      // onChange={(e) => {
+                                                      //   if (e.target.checked) {
+                                                      //     setNewRoomRent(currentRoomRent);
+                                                      //     setRentError("");
+                                                      //   } else {
+                                                      //     setNewRoomRent("");
+                                                      //     setRentError("");
+                                                      //   }
+                                                      // }}
+                                                    />
                       </Form.Label>
                       <FormControl
                         type="text"
@@ -755,8 +783,70 @@ useEffect(() => {
                         <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
                       </div>
                     )}
-                  </div>
+                  </div> */}
+  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <Form.Group className="mb-3">
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              display: "flex",
+                              alignItems: "center",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            Address {" "} {" "} 
+                            <span style={{ color: "red", fontSize: "20px" , marginLeft:'4px'}}>
+                              *
+                            </span>
+                            <Form.Check
+                              type="checkbox"
+                              label={
+                                <span
+                                  style={{
+                                    color: "#1E45E1",
+                                    fontWeight: 500,
+                                    whiteSpace: "nowrap",
+                                    fontSize: 11,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Same as tenant address
+                                </span>
+                              }
+                              className="ms-3"
+                             
+                            />
+                          </Form.Label>
+                          <FormControl
+                           value={house_no}
+                        onChange={(e) => handleHouseNo(e)}
+                            type="text"
+                            id="form-controls"
+                            placeholder="Enter Amount"
+                            style={{
+                              fontSize: 16,
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                              border: "1px solid #D9D9D9",
+                              height: 50,
+                              borderRadius: 8,
+                              marginTop: 8,
+                            }}
+                          />
+                         {house_noError && (
+                      <div style={{ color: "red" }}>
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '12px', marginRight: "5px", marginBottom: "1px" }} />
+                        <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
+                      </div>
+                    )}
+                        </Form.Group>
 
+
+                      </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                     <Form.Group className="">
                       <Form.Label
@@ -1115,6 +1205,7 @@ UserAdditionalContact.propTypes = {
   setAdditionalForm: PropTypes.func.isRequired,
   additionalForm: PropTypes.func.isRequired,
   editAdditional: PropTypes.func.isRequired,
+  additionDetails:PropTypes.func.isRequired
 };
 
 export default UserAdditionalContact;

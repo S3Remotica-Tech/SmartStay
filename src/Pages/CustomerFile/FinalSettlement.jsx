@@ -87,9 +87,10 @@ console.log("billngError",billingError)
      const [billAmount,setBillAmount] = useState("")
      const [nonRefundable,setnonRefundable] = useState("")
      const [amnitiesDetails,setAmnitiesDetails] = useState("")
+     const [ebAmountData,setEbAmountData] = useState("")
 
      
-    console.log("nonRefundable",billAmount)
+    console.log("ebAmountData",ebAmountData)
      useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
@@ -126,6 +127,7 @@ console.log("billngError",billingError)
         setHostelData(state?.UsersList?.hostelData);
         setnonRefundable(state?.UsersList?.nonRefundable_details)
         setAmnitiesDetails(state.UsersList?.finalsettleLastrent.amenities_list)
+        setEbAmountData(state.UsersList.ebAmount.response.EbData[0].eb_amount)
     }
 
     setTimeout(() => {
@@ -563,26 +565,57 @@ useEffect(()=>{
 //     },
 //   });
 //     }
+// const handleCheckedtrue = (e) => {
+//   const checked = e.target.checked;
+//   setIsConfirmed(checked);
+//   setCurrenReadingError("");
+  
+
+ 
+//   if (checked && currentReading) {
+//     dispatch({
+//       type: "CREATEEB",
+//       payload: {
+//         hostel_id: data.Hostel_Id,
+//         floor_id: data.Floor,
+//         room_id: data.hstl_Rooms,
+//         date: checkOutDate,
+//         reading: currentReading,
+//       },
+//     });
+//   } else if (!currentReading) {
+//     setCurrenReadingError("Please enter current reading");
+//   }
+// };
 const handleCheckedtrue = (e) => {
   const checked = e.target.checked;
   setIsConfirmed(checked);
   setCurrenReadingError("");
-  
 
- 
-  if (checked && currentReading) {
-    dispatch({
-      type: "CREATEEB",
-      payload: {
-        hostel_id: data.Hostel_Id,
-        floor_id: data.Floor,
-        room_id: data.hstl_Rooms,
-        date: checkOutDate,
-        reading: currentReading,
-      },
-    });
-  } else if (!currentReading) {
-    setCurrenReadingError("Please enter current reading");
+  const today = new Date().toISOString().split("T")[0]; // format YYYY-MM-DD
+  const lastReadingDate = state.UsersList?.finalsettleLastrent?.LastReadingDate;
+
+  if (checked) {
+    if (!currentReading) {
+      setCurrenReadingError("Please enter current reading");
+      return;
+    }
+
+    // only call API if lastReadingDate is today
+    if (lastReadingDate === today) {
+      dispatch({
+        type: "CREATEEB",
+        payload: {
+          hostel_id: data.Hostel_Id,
+          floor_id: data.Floor,
+          room_id: data.hstl_Rooms,
+          date: checkOutDate,
+          reading: currentReading,
+        },
+      });
+    } else {
+      setCurrenReadingError("Last reading date is not today");
+    }
   }
 };
 
@@ -591,39 +624,32 @@ const handleCheckedtrue = (e) => {
   const inputRef = useRef(null);
   const checkboxRef = useRef(null);
 
+
+
 const handleClickGenerate = () => {
   let hasError = false;
 
-  // Validate current reading
-//   if (!currentReading) {
-//     setCurrenReadingError("Please enter current reading");
-//     hasError = true;
-//   }
+  const today = new Date().toISOString().split("T")[0];
+  const lastReadingDate = state.UsersList?.finalsettleLastrent?.LastReadingDate;
 
-//   // Validate checkbox
-//   if (!isConfirmed) {
-//     setCurrenReadingError("Please confirm current reading");
-//     hasError = true;
-//   }
-  if (!currentReading) {
+  if (lastReadingDate === today) {
+  
+    if (!currentReading) {
       setCurrenReadingError("Please enter current reading");
       hasError = true;
       inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       inputRef.current?.focus();
-    }
-
-    // Validate checkbox
-    else if (!isConfirmed) {
+    } else if (!isConfirmed) {
       setCurrenReadingError("Please confirm current reading");
       hasError = true;
       checkboxRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       checkboxRef.current?.focus();
     }
-
+  }
+ 
 
   if (hasError) return;
 
-  // Prepare payload
   const refundableAmenities = refundableDetails
     ? [
         { key: "Refundable Rent", amount: refundableDetails.remainingRentRefund },
@@ -642,11 +668,56 @@ const handleClickGenerate = () => {
       user_id: data.ID || customerID,
       hostel_id: state.login?.selectedHostel_Id,
       amenities: [...reasons, ...refundableAmenities],
-    //   currentReading: currentReading, // add reading to payload if needed
-    //   isConfirmed: isConfirmed,       // add checkbox status
     },
   });
 };
+
+
+
+// const handleClickGenerate = () => {
+//   let hasError = false;
+
+//   if (!currentReading) {
+//       setCurrenReadingError("Please enter current reading");
+//       hasError = true;
+//       inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+//       inputRef.current?.focus();
+//     }
+
+//     // Validate checkbox
+//     else if (!isConfirmed) {
+//       setCurrenReadingError("Please confirm current reading");
+//       hasError = true;
+//       checkboxRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+//       checkboxRef.current?.focus();
+//     }
+
+
+//   if (hasError) return;
+
+ 
+//   const refundableAmenities = refundableDetails
+//     ? [
+//         { key: "Refundable Rent", amount: refundableDetails.remainingRentRefund },
+//         { key: "Refundable Advance", amount: refundableDetails.securityDepositRefund },
+//       ]
+//     : [];
+
+//   const reasons = nonRefundable.map((item) => ({
+//     key: item.reason,
+//     amount: item.amount,
+//   }));
+
+//   dispatch({
+//     type: "FINALGENERATE",
+//     payload: {
+//       user_id: data.ID || customerID,
+//       hostel_id: state.login?.selectedHostel_Id,
+//       amenities: [...reasons, ...refundableAmenities],
+   
+//     },
+//   });
+// };
 //     const handleClickGenerate = ()=>{
 
 // const refundableAmenities = refundableDetails
@@ -2146,7 +2217,7 @@ return(
                                                         </tr>
                                                         <tr>
                                                             <td className="fw-normal" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black", paddingTop: "1rem" }}>EB Amount</td>
-                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹0</td>
+                                                            <td className="text-end" style={{ fontFamily: "Gilroy", fontSize: "14px", color: "black" }}>₹{ebAmountData}</td>
                                                         </tr>
 
   {rows.map((item, index) => (
