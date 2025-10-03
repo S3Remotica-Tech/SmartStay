@@ -54,9 +54,9 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
     //    const [activeTab, setActiveTab] = useState("record");
        const [hostelData,setHostelData] = useState("")
     //    const [refundableDetails,setReFundableDetails] = useState("")
-    //    const [detuction,setDetuction] = useState("")
+       const [detuction,setDetuction] = useState("")
 
-console.log("ReturnAmount",ReturnAmount)
+console.log("detuction",detuction)
 console.log("formLoading",formLoading)
 
     useEffect(() => {
@@ -70,7 +70,7 @@ console.log("formLoading",formLoading)
       
       setDataBed(userData)
     }, [customerID]);
-    console.log("userData", dataBed); 
+    console.log("userData", ReturnAmount); 
 
     // const reasonOptions = [
     //     { value: "DueAmount", label: "Due Amount" },
@@ -207,7 +207,7 @@ console.log("invoiceTotal",invoiceTotal)
 //     (item) => String(item.action).toLowerCase() === "rent"
 //   )?.balance ?? 0;
 // setRentalBalance(rentBalance)
-// setDetuction(state?.UsersList?.Deduction)
+setDetuction(state?.UsersList?.Deduction)
 // setReFundableDetails(state?.UsersList?.Refundable_details)
 
 
@@ -1808,7 +1808,7 @@ console.log(formattedCheckOutDate);
         <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} className="btn btn-light" onClick={handleClosePopup}>
           Cancel
         </Button>
-        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary" onClick={handleConfirmCheckout}>Check-Out</Button>
+        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary" onClick={handleConfirmCheckout} disabled={detuction?.DueAmount > 0}>Check-Out</Button>
       </Modal.Footer>
     </Modal>
         </div>

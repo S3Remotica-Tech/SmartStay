@@ -49,7 +49,13 @@ const [checkOutDate] = useState(() => {
 const handleCloseForm = ()=>{
     handleClose()
     setBillingError("")
+    setCurrenReadingError("")
     dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_ERROR" });
+    dispatch({ type: "CLEAR_EB_ERROR" });
+
+
+    
+    
 }
 
 
@@ -83,7 +89,7 @@ console.log("billngError",billingError)
      const [amnitiesDetails,setAmnitiesDetails] = useState("")
 
      
-    console.log("nonRefundable",nonRefundable)
+    console.log("nonRefundable",billAmount)
      useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout) {
         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
@@ -868,7 +874,7 @@ handleCloseForm()
         document.head.appendChild(style);
     }, []);
 
-   
+  const hasRent = Array.isArray(billAmount) && billAmount.some(item => item.action === "Rent");
 
     return (
         <div>
@@ -2203,15 +2209,30 @@ return(
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400, color: "red" }}> ₹ {grandTotal}</p>
                                         </div>
                                         <div className="d-flex justify-content-between">
-                                            <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Rent</p>
+                                            {/* <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Rent</p> */}
+                                        {hasRent ? (
+  <p
+    style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}
+  >
+    Payable Rent
+  </p>
+) : (
+  <p
+    style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}
+  >
+   Refundable Rent
+  </p>
+)}
+
+
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ {refundableDetails.remainingRentRefund}
                                                </p>
                                         </div>
                                         <div className="d-flex justify-content-between mb-1">
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>Refundable Advance</p>
                                             <p style={{ fontFamily: "Gilroy", fontSize: "0.875rem", fontWeight: 400 }}>₹ 
-                                                {/* {refundableDetails.securityDepositRefund} */}
-                                                {balanceAmount}
+                                                {refundableDetails.securityDepositRefund}
+                                                {/* {balanceAmount} */}
                                                 </p>
                                         </div>
 
