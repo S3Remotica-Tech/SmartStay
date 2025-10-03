@@ -469,7 +469,7 @@ const [internalError,setInternalError]=useState("")
   // };
   const handleHouseNo = (e) => {
   const value = e.target.value;
-  // const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
   const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
 
   if (regex.test(value)) {
@@ -480,15 +480,48 @@ const [internalError,setInternalError]=useState("")
    dispatch({ type: "CLEAR_INTERNAL_ERROR" });
 };
 
-  const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
-  };
+  // const handleStreetName = (e) => {
+  //   setStreet(e.target.value);
+  //   setStreetError("");
+  // };
+//   const handleStreetName = (e) => {
+//   const value = e.target.value;
+//   const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
 
-  const handleLandmark = (e) => {
-    setLandmark(e.target.value);
-    setLandmarkError("");
-  };
+//   if (regex.test(value)) {
+//     setStreet(value);
+//     setStreetError("");
+//   } else {
+//     setStreetError("Invalid Characters Entered");
+//   }
+// };
+const handleStreetName = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
+  if (regex.test(value)) {
+    setStreet(value); 
+  }
+  setStreetError("")
+ 
+};
+
+
+
+  // const handleLandmark = (e) => {
+  //   setLandmark(e.target.value);
+  //   setLandmarkError("");
+  // };
+ const handleLandmark = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
+  if (regex.test(value)) {
+    setLandmark(value); 
+  }
+  setLandmarkError("");
+  
+};
 
   const validatePincode = (pin) => {
   const cleanedPin = String(pin || "").trim();
@@ -1868,7 +1901,7 @@ const handleNext = () => {
     );
 
     if (isDuplicatePhone) {
-      setPhoneError("This phone number already exists");
+      setPhoneError("This Mobile Number Already Exists");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;
@@ -1889,7 +1922,7 @@ if (Email) {
     }
     hasError = true;
   } else {
-    // Duplicate email check
+   
     const isDuplicateEmail = state?.UsersList?.Users?.some((u) => {
       const dbEmail = String(u.Email || "").trim().toLowerCase();
       const currentEmail = Email.trim().toLowerCase();
@@ -1901,7 +1934,7 @@ if (Email) {
     });
 
     if (isDuplicateEmail) {
-      setEmailError("This email ID already exists");
+      setEmailError("This Email ID Already Exists");
       if (!focusedRef.current) {
         focusedRef.current = true;
       }

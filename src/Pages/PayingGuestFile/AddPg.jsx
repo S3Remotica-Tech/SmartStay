@@ -172,28 +172,51 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   };
 
+  // const handleHouseNo = (e) => {
+  //   setHouseNo(e.target.value);
+  //   setHouse_NoError("");
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  // };
   const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
-    setHouse_NoError("");
-    setGeneralError("");
-    setIsChangedError("");
-  };
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
 
-  const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
-    setGeneralError("");
-    setIsChangedError("");
-  };
+ 
+  const filteredValue = value.split('').filter(char => regex.test(char)).join('');
+
+  setHouseNo(filteredValue);
+  setHouse_NoError("");  
+  setGeneralError("");
+  setIsChangedError("");
+};
+
+
+ const handleStreetName = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
+
+
+  const filteredValue = value.split('').filter(char => regex.test(char)).join('');
+
+  setStreet(filteredValue);
+  setStreetError("");  
+  setGeneralError("");
+  setIsChangedError("");
+};
+
 
   const handleLandmark = (e) => {
-    const inputValue = e.target.value;
-    const lettersOnly = inputValue.replace(/[^a-zA-Z\s]/g, "");
-    setLandmark(lettersOnly);
-    setLandmarkError("");
-    setGeneralError("");
-    setIsChangedError("");
-  };
+  const inputValue = e.target.value;
+  const regex = /[a-zA-Z0-9\s.,\-'/\\#()&:]/g;
+  const filteredValue = inputValue.match(regex)?.join('') || '';
+
+  setLandmark(filteredValue);
+  setLandmarkError("");
+  setGeneralError("");
+  setIsChangedError("");
+};
+
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;

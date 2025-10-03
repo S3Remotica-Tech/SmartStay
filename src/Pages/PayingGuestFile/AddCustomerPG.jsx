@@ -60,7 +60,10 @@ function AddCustomer({  show, handleClose   }) {
   
     
   
-  
+  const handleCloseForm=()=>{
+    handleClose()
+     dispatch({ type: "CLEAR_INTERNAL_ERROR" });
+  }
   
   
     const indianStates = [
@@ -220,23 +223,35 @@ function AddCustomer({  show, handleClose   }) {
     }, []);
   
   
+  const [internalError,setInternalError]=useState("")
   
-  
-
+  useEffect(() => {
+    if (state.UsersList.internalError) {
+      setFormLoading(false)
+     
+      setInternalError(state.UsersList.internalError);
+    }
+  }, [state.UsersList.internalError]);
   
     const handleHouseNo = (e) => {
       setHouseNo(e.target.value);
       setHouse_NoError("");
+      setInternalError("")
+       dispatch({ type: "CLEAR_INTERNAL_ERROR" });
     };
   
     const handleStreetName = (e) => {
       setStreet(e.target.value);
       setStreetError("");
+      setInternalError("")
+       dispatch({ type: "CLEAR_INTERNAL_ERROR" });
     };
   
     const handleLandmark = (e) => {
       setLandmark(e.target.value);
       setLandmarkError("");
+      setInternalError("")
+       dispatch({ type: "CLEAR_INTERNAL_ERROR" });
     };
   
     const handlePinCodeChange = (e) => {
@@ -256,11 +271,14 @@ function AddCustomer({  show, handleClose   }) {
     const handleCity = (e) => {
   
       const value = e.target.value;
-      const regex = /^[a-zA-Z\s]*$/;
+     const regex = /^[a-zA-Z\s]*$/;
       if (regex.test(value)) {
         setCity(value);
         setCityError("");
+
       }
+      setInternalError("")
+       dispatch({ type: "CLEAR_INTERNAL_ERROR" });
     };
   
  
@@ -393,7 +411,7 @@ function AddCustomer({  show, handleClose   }) {
     useEffect(() => {
       if (state.UsersList?.statusCodeForAddUser === 200 || state.UsersList?.phoneError === 202) {
         setFormLoading(false)
-        handleClose(); 
+        handleCloseForm(); 
       }
     }, [state.UsersList?.statusCodeForAddUser,state.UsersList?.phoneError]);
   
@@ -432,23 +450,75 @@ function AddCustomer({  show, handleClose   }) {
         setPhoneError("");
         setPhoneErrorMessage("");
       }
-  
-      if (Email) {
-        const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-        const isValidEmail = emailRegex.test(Email.toLowerCase());
-        if (!isValidEmail) {
-          setEmailError("Please Enter Valid Email ID");
-          if (!focusedRef.current) {
-            focusedRef.current = true;
-          }
-          hasError = true;
-        }
-        else {
-          setEmailError("");
-        }
-      } else {
-        setEmailError("");
+
+        if (Phone) {
+    const fullPhone = "91" + Phone;
+    const isDuplicatePhone = state?.UsersList?.Users?.some(
+      (u) => String(u.Phone) === String(fullPhone)
+    );
+
+    if (isDuplicatePhone) {
+      setPhoneError("This phone Number Already Exists");
+      if (!focusedRef.current && phoneRef?.current) {
+        phoneRef.current.focus();
+        focusedRef.current = true;
       }
+      hasError = true;
+    }
+  }
+
+
+  if (Email) {
+  const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  const isValidEmail = emailRegex.test(Email.toLowerCase().trim());
+
+  if (!isValidEmail) {
+    setEmailError("Please Enter Valid Email ID");
+    if (!focusedRef.current) {
+      focusedRef.current = true;
+    }
+    hasError = true;
+  } else {
+   
+    const isDuplicateEmail = state?.UsersList?.Users?.some((u) => {
+      const dbEmail = String(u.Email || "").trim().toLowerCase();
+      const currentEmail = Email.trim().toLowerCase();
+
+      if (!dbEmail || dbEmail === "n/a") return false;
+
+      return dbEmail === currentEmail;
+    });
+
+    if (isDuplicateEmail) {
+      setEmailError("This Email ID Already Exists");
+      if (!focusedRef.current) {
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else {
+      setEmailError("");
+    }
+  }
+} else {
+  setEmailError("");
+}
+  
+      // if (Email) {
+      //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      //   const isValidEmail = emailRegex.test(Email.toLowerCase());
+      //   if (!isValidEmail) {
+      //     setEmailError("Please Enter Valid Email ID");
+      //     if (!focusedRef.current) {
+      //       focusedRef.current = true;
+      //     }
+      //     hasError = true;
+      //   }
+      //   else {
+      //     setEmailError("");
+      //   }
+      // } else {
+      //   setEmailError("");
+      // }
         if(hasError){
        return
         }
@@ -521,7 +591,7 @@ function AddCustomer({  show, handleClose   }) {
     <>
       <Modal
       show={show}
-      onHide={handleClose}
+      onHide={handleCloseForm}
       backdrop="static"
       dialogClassName="custom-modal custom-modal-width"
     >
@@ -598,7 +668,7 @@ function AddCustomer({  show, handleClose   }) {
             <h5 style={{ fontFamily: 'Gilroy', fontWeight: 600 }}>
               {step === 1 ? "Basic Details" : "Address Details"}
             </h5>
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: 'pointer' }} />
+            <CloseCircle size="24" color="#000" onClick={handleCloseForm} style={{ cursor: 'pointer' }} />
           </div>
                   <div className="" style={{overflowY:'auto' , maxHeight: "440px",overflowX:'hidden'}}>
                   {step === 1 && (
@@ -1134,6 +1204,7 @@ function AddCustomer({  show, handleClose   }) {
     
                   {step === 2 && (
                     <>
+                    
                       <div className="row mt-2">
                                     {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                             <Form.Group className="">
@@ -1313,7 +1384,7 @@ function AddCustomer({  show, handleClose   }) {
       value={house_no}
       onChange={(e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z0-9\s,.-]*$/; // allow letters, numbers, space, comma, dot, dash
+        const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
         if (regex.test(value)) {
           handleHouseNo(e);
         }
@@ -1372,7 +1443,7 @@ function AddCustomer({  show, handleClose   }) {
       value={street}
       onChange={(e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z\s,.-]*$/; // allow only letters, space, comma, dot, dash
+       const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/; 
         if (regex.test(value)) {
           handleStreetName(e);
         }
@@ -1431,7 +1502,7 @@ function AddCustomer({  show, handleClose   }) {
       value={landmark}
       onChange={(e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-Z\s,.]*$/;  
+       const regex = /^[a-zA-Z0-9\s.,\-'/\\#()&:]*$/;
         if (regex.test(value)) {
           handleLandmark(e);
         }
@@ -1712,6 +1783,25 @@ function AddCustomer({  show, handleClose   }) {
                         : null}
     
                       </div>
+                       {internalError && (
+                                                      <div style={{ color: "red" }}>
+                                                        <MdError
+                                                          style={{ fontSize: "13px", marginBottom: "2px" }}
+                                                        />
+                                                        <span
+                                                          style={{
+                                                            fontSize: "12px",
+                                                            color: "red",
+                                                            fontFamily: "Gilroy",
+                                                            fontWeight: 500,
+                                                            marginRight: "3px"
+                                                          }}
+                                                        >
+                                                          {" "}
+                                                          {internalError}
+                                                        </span>
+                                                      </div>
+                                                    )}
                       <div className="d-flex justify-content-end mt-3">
                         <Button style={{  fontFamily: "Gilroy",
         fontSize: "14px",
