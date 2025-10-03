@@ -70,7 +70,7 @@ console.log("formLoading",formLoading)
       
       setDataBed(userData)
     }, [customerID]);
-    console.log("userData", dataBed); 
+    console.log("userData", ReturnAmount); 
 
     // const reasonOptions = [
     //     { value: "DueAmount", label: "Due Amount" },
