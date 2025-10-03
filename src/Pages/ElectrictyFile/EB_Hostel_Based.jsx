@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { CloseCircle ,Edit, Trash } from "iconsax-react";
 import Select from "react-select";
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
@@ -492,27 +493,7 @@ function EBHostelReading(props) {
 
 
 
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "16px",
-                }}
-              >
-                <MdError />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {props.ebpermissionError}
-                </span>
-              </div>
+              <ErrorMessage message={props.ebpermissionError} type="error" />
             )}
           </div>
         ) : <>
@@ -1139,19 +1120,7 @@ function EBHostelReading(props) {
                 />
               </Form.Group>
               {hostelIdError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {hostelIdError}
-                  </span>
-                </div>
+                 <ErrorMessage message={hostelIdError} type="error" />
               )}
 
 
@@ -1189,21 +1158,7 @@ function EBHostelReading(props) {
                 />
               </Form.Group>
               {readingError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px", marginBottom: "2px" }} />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      marginLeft: 2
-                    }}
-                  >
-                    {" "}
-                    {readingError}
-                  </span>
-                </div>
+               <ErrorMessage message={readingError} type="error" />
               )}
 
             </div>
@@ -1244,45 +1199,24 @@ function EBHostelReading(props) {
                 </div>
               </Form.Group>
               {dateErrorMesg && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px", marginBottom: "2px" }} />
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      marginLeft: 2
-                    }}
-                  >
-                    {" "}
-                    {dateErrorMesg}
-                  </span>
-                </div>
+                <ErrorMessage message={dateErrorMesg} type="error" />
               )}
             </div>
           </div>
 
           {dateError && (
-            <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
-              <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-              <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
+            <div className="d-flex justify-content-center align-items-center mt-2">
+             <ErrorMessage message={dateError} type="error" />
             </div>
           )}
         </Modal.Body>
         {formError && (
-          <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
-            <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-            <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+          <div className="d-flex justify-content-center align-items-center">
+             <ErrorMessage message={formError} type="error" />
           </div>
         )}
 
-        {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px', fontSize: '14px', }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null}
+       
 
         {formLoading && <div
           style={{

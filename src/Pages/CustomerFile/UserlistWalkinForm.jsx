@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from "react-select";
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function CustomerForm({ show, handleClose, initialData }) {
   const [name, setName] = useState('');
@@ -91,7 +92,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       const mobileNumber = phoneNumber.slice(-10);
 
 
-      setCountryCode(countryCode || 91 );
+      setCountryCode(countryCode || 91);
       setMobile(mobileNumber);
       setHouseNo(initialData.comments || '');
       setStreet(initialData.area || '');
@@ -136,27 +137,27 @@ function CustomerForm({ show, handleClose, initialData }) {
 
   const noChangesRef = useRef(null)
 
-  
+
 
   const handleSubmitWalkIn = () => {
- dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
+    dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
 
-    if (!name && !mobile && !countryCode && !walkInDate   ) {
+    if (!name && !mobile && !countryCode && !walkInDate) {
       setGeneralError('Please Fill in All The Required Fields');
       return;
     }
 
-    
+
 
     const normalize = (val) => {
       if (val === null || val === undefined || val === 'null') return '';
       return String(val).trim();
     };
 
-   
 
 
-   const focusedRef = { current: false };
+
+    const focusedRef = { current: false };
 
     if (!name) {
       setNameError('Please Enter First Name');
@@ -182,21 +183,21 @@ function CustomerForm({ show, handleClose, initialData }) {
       setMobileError('');
     }
 
-   if (pincode.length > 0 && pincode.length !== 6) {
-  setPincodeError("Pin Code Must Be Exactly 6 Digits");
-  return
-}
+    if (pincode.length > 0 && pincode.length !== 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      return
+    }
 
 
 
     if (!countryCode) {
       setCountryCodeError('Please select Country Code');
-      
+
       if (!focusedRef.current && countryCodeRef.current) {
         countryCodeRef.current.focus();
         focusedRef.current = true;
       }
-       return
+      return
     }
 
     if (!walkInDate) {
@@ -205,7 +206,7 @@ function CustomerForm({ show, handleClose, initialData }) {
         walkInDateRef.current.focus();
         focusedRef.current = true;
       }
-       return
+      return
     }
     //  if (walkInDate ) {
     //   const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
@@ -233,7 +234,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       return;
     }
 
-     const isChanged = initialData && (
+    const isChanged = initialData && (
       name.trim() !== (initialData.first_name || '').trim() ||
       lastname.trim() !== (initialData.last_name || '').trim() ||
       email.trim() !== (initialData.email_Id || '').trim() ||
@@ -268,7 +269,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
 
- 
+
 
 
     const Mobile_Number = `${countryCode}${mobile}`
@@ -302,7 +303,7 @@ function CustomerForm({ show, handleClose, initialData }) {
   };
 
 
-  
+
 
   const handleNameChange = (e) => {
     const value = e.target.value;
@@ -422,7 +423,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
-      
+
     }
     setIsChangedError("")
 
@@ -462,43 +463,43 @@ function CustomerForm({ show, handleClose, initialData }) {
 
   const hasFetchedRef = useRef(false);
 
-useEffect(() => {
-  if (
-    state.UsersList.addWalkInCustomerStatusCode === 200 &&
-    !hasFetchedRef.current
-  ) {
-    hasFetchedRef.current = true;
-
-   
-
-    setFormLoading(false);
-    handleFormClose();
-    setJoingDateErrmsg("");
-    setPincodeError("");
-
-    setTimeout(() => {
-      dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
-      hasFetchedRef.current = false; 
-    }, 1000);
-  }
-}, [state.UsersList.addWalkInCustomerStatusCode]);
+  useEffect(() => {
+    if (
+      state.UsersList.addWalkInCustomerStatusCode === 200 &&
+      !hasFetchedRef.current
+    ) {
+      hasFetchedRef.current = true;
 
 
-useEffect(()=>{
-  if(!show){
-dispatch({
-      type: "WALKINCUSTOMERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }
-  
-},[])
+
+      setFormLoading(false);
+      handleFormClose();
+      setJoingDateErrmsg("");
+      setPincodeError("");
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
+        hasFetchedRef.current = false;
+      }, 1000);
+    }
+  }, [state.UsersList.addWalkInCustomerStatusCode]);
+
+
+  useEffect(() => {
+    if (!show) {
+      dispatch({
+        type: "WALKINCUSTOMERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+
+  }, [])
 
 
 
 
   const handleFormClose = () => {
-     setFormLoading(false)
+    setFormLoading(false)
     setEmailError("")
     setNameError("")
     setMobileError("")
@@ -520,13 +521,13 @@ dispatch({
   }
 
 
-  useEffect(()=>{
-    if(state.UsersList.alreadyHere){
-setFormLoading(false)
+  useEffect(() => {
+    if (state.UsersList.alreadyHere) {
+      setFormLoading(false)
     }
-  },[state.UsersList.alreadyHere])
+  }, [state.UsersList.alreadyHere])
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -561,7 +562,7 @@ useEffect(() => {
                 roundedCircle style={{ height: 100, width: 100, cursor: "pointer" }} />
 
               <label htmlFor="imageInput" className='' >
-                <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)',cursor: "pointer" }} />
+                <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)', cursor: "pointer" }} />
                 <input
                   type="file"
                   accept="image/*"
@@ -609,12 +610,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {nameError && (
-                <div className="d-flex align-items-center p-1" style={{ marginTop: "-16px" }}>
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px", marginBottom: "1px" }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {nameError}
-                  </label>
-                </div>
+                <ErrorMessage message={nameError} type="error" />
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -704,28 +700,14 @@ useEffect(() => {
               </Form.Group>
 
               {mobileError && (
-                <div className="d-flex align-items-center p-1" style={{ marginTop: "-16px" }}>
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {mobileError}
-                  </label>
-                </div>
+                <ErrorMessage message={mobileError} type="error" />
+
               )}
               {countryCodeError && (
-                <div className="d-flex align-items-center mb-2">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {countryCodeError}
-                  </label>
-                </div>
+                <ErrorMessage message={countryCodeError} type="error" />
               )}
               {state.UsersList.alreadyHere && (
-                <div className="d-flex align-items-center" style={{ marginTop: "-12px" }}>
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {state.UsersList.alreadyHere}
-                  </label>
-                </div>
+                <ErrorMessage message={state.UsersList.alreadyHere} type="error" />
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -751,16 +733,11 @@ useEffect(() => {
                   }}
                 />
                 {emailError && (
-                <div className="d-flex align-items-center p-1 mb-2">
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {emailError}
-                  </label>
-                </div>
-              )}
+                  <ErrorMessage message={emailError} type="error" />
+                )}
               </Form.Group>
 
-              
+
 
 
             </div>
@@ -799,10 +776,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {house_noError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                </div>
+                <ErrorMessage message={house_noError} type="error" />
               )}
             </div>
 
@@ -838,10 +812,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {streetError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                </div>
+                <ErrorMessage message={streetError} type="error" />
               )}
             </div>
 
@@ -877,10 +848,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {landmarkError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                </div>
+                <ErrorMessage message={landmarkError} type="error" />
               )}
             </div>
 
@@ -919,20 +887,7 @@ useEffect(() => {
                   }}
                 />
                 {pincodeError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {pincodeError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={pincodeError} type="error" />
                 )}
 
 
@@ -971,10 +926,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {cityError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                </div>
+                <ErrorMessage message={cityError} type="error" />
               )}
             </div>
 
@@ -1066,24 +1018,19 @@ useEffect(() => {
               </Form.Group>
 
               {state_nameError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {state_nameError}
-                  </span>
-                </div>
+                <ErrorMessage message={state_nameError} type="error" />
               )}
             </div>
 
-            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{marginTop:"-5px"}}>
+            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{ marginTop: "-5px" }}>
               <Form.Group controlId="purchaseDate">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                   Walk-In Date
-                  <span style={{ color: 'red', fontSize: '20px',  }}>*</span>
+                  <span style={{ color: 'red', fontSize: '20px', }}>*</span>
                 </Form.Label>
 
 
-                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%",marginTop:"-2px" }}>
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", marginTop: "-2px" }}>
                   <DatePicker
                     ref={walkInDateRef}
                     style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
@@ -1098,47 +1045,29 @@ useEffect(() => {
                       setWalkInDate(date ? date.toDate() : null);
                     }}
 
-                     disabledDate={(current) => current && current > dayjs().endOf("day")}
+                    disabledDate={(current) => current && current > dayjs().endOf("day")}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                   />
                 </div>
               </Form.Group>
               {walkInDateError && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {walkInDateError}
-                  </label>
-                </div>
+                <ErrorMessage message={walkInDateError} type="error" />
               )}
-                   {joiningDateErrmsg.trim() !== "" && (
-                                                  <div className="d-flex align-items-center">
-                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
-                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                      {joiningDateErrmsg}
-                                                    </label>
-                                                  </div>
-                                                )}
+              {joiningDateErrmsg.trim() !== "" && (
+                <ErrorMessage message={joiningDateErrmsg} type="error" />
+              )}
 
             </div>
 
             {isChangedError && (
               <div ref={noChangesRef} className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
-                <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                  {isChangedError}
-                </label>
+               <ErrorMessage message={isChangedError} type="error" />
               </div>
             )}
           </div>
 
         </Modal.Body>
-  {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+       
 
         {formLoading &&
           <div
@@ -1169,17 +1098,12 @@ useEffect(() => {
         }
         <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='pt-1' >
           {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
-              <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                {generalError}
-              </label>
-            </div>
+             <ErrorMessage message={generalError} type="error" />
           )}
 
 
 
-          <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12, marginBottom:"10px" }} >
+          <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12, marginBottom: "10px" }} >
             {initialData ? 'Save Changes' : 'Add Walk-In'}
           </Button>
         </Modal.Footer>

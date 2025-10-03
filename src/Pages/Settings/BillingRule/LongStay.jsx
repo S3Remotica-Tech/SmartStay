@@ -7,6 +7,7 @@ import Select from "react-select";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function LongStayRecurringModal({ handleClose, show }) {
 
@@ -192,20 +193,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                         />
 
                         {errors.billingDate && (
-                            <div className="d-flex align-items-center mt-1">
-                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                <label
-                                    className="mb-0"
-                                    style={{
-                                        color: "red",
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                    }}
-                                >
-                                    {errors.billingDate}
-                                </label>
-                            </div>
+                             <ErrorMessage message={errors.billingDate} type="error" />
                         )}
 
                     </Form.Group>
@@ -225,20 +213,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                                 setErrors((prev) => ({ ...prev, dueDate: "" }));
                             }} />
                         {errors.dueDate && (
-                            <div className="d-flex align-items-center mt-1">
-                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                <label
-                                    className="mb-0"
-                                    style={{
-                                        color: "red",
-                                        fontSize: "12px",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                    }}
-                                >
-                                    {errors.dueDate}
-                                </label>
-                            </div>
+                           <ErrorMessage message={errors.dueDate} type="error" />
                         )}
                     </Form.Group>
 
@@ -324,13 +299,7 @@ function LongStayRecurringModal({ handleClose, show }) {
                             ></div>
                         </div>
                     }
-                    {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
-                        : null}
-
+                   
 
                 </Modal.Body>
             </Modal>

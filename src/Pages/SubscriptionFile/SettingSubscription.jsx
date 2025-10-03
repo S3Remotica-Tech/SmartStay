@@ -16,6 +16,7 @@ import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 import PaginationList from '../../Components/PaginationList';
+import ErrorMessage from '../../Components/ErrorMessage';
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -1491,26 +1492,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                     </Form.Group>
 
                     {hostelError && (
-                      <div style={{ color: "red" }}>
-                        {" "}
-                        <MdError
-                          style={{
-                            fontSize: "11px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginRight: "5px",
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "13px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {hostelError}
-                        </span>
-                      </div>
+                      <ErrorMessage message={hostelError} type="error" />
                     )}
                   </div>
 
@@ -1555,26 +1537,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                       />
                     </Form.Group>
                     {hostelCountError && (
-                      <div style={{ color: "red" }}>
-                        {" "}
-                        <MdError
-                          style={{
-                            fontSize: "11px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginRight: "5px",
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "13px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {hostelCountError}
-                        </span>
-                      </div>
+                      <ErrorMessage message={hostelCountError} type="error" />
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1616,26 +1579,7 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                       />
                     </Form.Group>
                     {selectedPlanError && (
-                      <div style={{ color: "red" }}>
-                        {" "}
-                        <MdError
-                          style={{
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginRight: "5px",
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "13px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {selectedPlanError}
-                        </span>
-                      </div>
+                       <ErrorMessage message={selectedPlanError} type="error" />
                     )}
                   </div>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 cmt">
