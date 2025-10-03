@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import Select from "react-select";
 import { toast } from 'react-toastify';
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function BookingModal(props) {
 
@@ -151,7 +152,7 @@ function BookingModal(props) {
 
   const paymentOptions = Array.isArray(state.UsersList?.availableBedList.bankDetails)
     ? state.UsersList?.availableBedList?.bankDetails.map((item) => ({
-      value: String(item.bankingId),
+      value: String(item.bankId),
       label: `${item.holderName} - ${labelMap[item.type] || ""}`,
     }))
     : [];
@@ -488,25 +489,7 @@ useEffect(() => {
           />
         </Modal.Header>
 
-        {state.Booking?.ErrorAssignBooking && (
-          <div style={{ color: "red" }} className="ps-3 pt-3">
-            <MdError style={{ fontSize: 14, color: "red" }} />
-            <span
-              style={{
-                color: "red",
-                fontSize: 12,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              This email{" "}
-              <span style={{ color: "#1E45E1" }}>
-                {props?.assignBooking.email_id}
-              </span>{" "}
-              already exists. Please change email ID and move to check in
-            </span>
-          </div>
-        )}
+       
 
 
 
@@ -514,19 +497,7 @@ useEffect(() => {
 
 
         {state.Booking?.ErrorAssignBookingMobile && (
-          <div style={{ color: "red" }} className="ps-3 pt-3">
-            <MdError style={{ fontSize: 14, color: "red" }} />
-            <span
-              style={{
-                color: "red",
-                fontSize: 12,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              {state.Booking?.ErrorAssignBookingMobile}
-            </span>
-          </div>
+          <ErrorMessage message={state.Booking?.ErrorAssignBookingMobile} type="error"/>
         )}
 
         <Modal.Body className="pt-2 show-scroll" style={{ maxHeight: 440, overflowY: 'auto' }} >
@@ -615,47 +586,11 @@ useEffect(() => {
                 </div>
               </Form.Group>
               {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {dateError}
-                  </span>
-                </div>
+               <ErrorMessage message={dateError} type="error"/>
               )}
 
               {state.Booking?.ErrorAssignBookingDate && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {state.Booking?.ErrorAssignBookingDate}
-                  </span>
-                </div>
+                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error"/>
               )}
 
 
@@ -699,26 +634,7 @@ useEffect(() => {
               </Form.Group>
 
               {amountError && (
-                <div style={{ color: "red" }}>
-
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {amountError}
-                  </span>
-                </div>
+                <ErrorMessage message={amountError} type="error"/>
               )}
 
             </Col>
@@ -774,47 +690,11 @@ useEffect(() => {
               </Form.Group>
 
               {joiningDateError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {joiningDateError}
-                  </span>
-                </div>
+               <ErrorMessage message={joiningDateError} type="error"/>
               )}
 
               {state.Booking?.ErrorAssignBookingDate && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "1px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {state.Booking?.ErrorAssignBookingDate}
-                  </span>
-                </div>
+                <ErrorMessage message={state.Booking?.ErrorAssignBookingDate} type="error"/>
               )}
 
 
@@ -912,21 +792,8 @@ useEffect(() => {
 
               </Form.Group>
               {paymentError && (
-                <div className="d-flex align-items-center p-1 mb-2">
-                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", }} />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      whiteSpace: "nowrap"
-                    }}
-                  >
-                    {paymentError}
-                  </label>
-                </div>
+                               <ErrorMessage message={paymentError} type="error"/>
+
               )}
             </Col>
 
@@ -1075,24 +942,7 @@ useEffect(() => {
               </Form.Group>
 
               {floorError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "2px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {floorError}
-                  </span>
-                </div>
+                  <ErrorMessage message={floorError} type="error"/>
               )}
             </Col>
           </Row>
@@ -1202,25 +1052,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {roomError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      marginRight: "5px",
-                      fontSize: 14,
-                      marginBottom: "2px",
-                    }}
-                  />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {roomError}
-                  </span>
-                </div>
+                <ErrorMessage message={roomError} type="error"/>
               )}
             </Col>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1323,41 +1155,15 @@ useEffect(() => {
               />
 
               {bedWarning ?
-                <div className='d-flex  align-items-center  mt-1 mb-1'>
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bedWarning}</label>
-                </div>
+                <ErrorMessage message={bedWarning} type="error"/>
                 : null}
+
               {state.Booking?.bookingBedError ?
-                <div className='d-flex  align-items-center  mt-1 mb-1'>
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.Booking?.bookingBedError}</label>
-                </div>
+                 <ErrorMessage message={state.Booking?.bookingBedError} type="error"/>
                 : null}
 
               {bedError && (
-                <div style={{ color: "red" }}>
-                  <MdError
-                    style={{
-                      color: "red",
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      marginRight: "5px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {bedError}
-                  </label>
-                </div>
+                <ErrorMessage message={bedError} type="error"/>
               )}
             </div>
 

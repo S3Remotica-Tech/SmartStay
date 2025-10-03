@@ -184,18 +184,14 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
       </div>}
 
 
-      {otpErrors ? <div className='d-flex align-items-center p-1'>
-        <MdError style={{ color: "red", marginRight: '5px' }} />
-        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{otpErrors}</label>
-      </div>
+      {otpErrors ? 
+       <ErrorMessage message={otpErrors} type="error" />
         : null}
 
 
 
-      {state.NewPass?.otpInvalidError ? <div className='d-flex align-items-center p-1'>
-        <MdError style={{ color: "red", marginRight: '5px' }} />
-        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.NewPass?.otpInvalidError}</label>
-      </div>
+      {state.NewPass?.otpInvalidError ? 
+           <ErrorMessage message={state.NewPass?.otpInvalidError} type="error" />
         : null}
 
 

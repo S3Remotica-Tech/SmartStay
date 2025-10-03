@@ -330,12 +330,7 @@ function Contact() {
                       style={{ padding: '20px', backgroundColor: 'rgba(238, 241, 252, 1)', borderRadius: 12, color: 'rgba(128, 128, 146, 1)', fontFamily: 'Montserrat' }}
                     />
                     {errors.user_name && (
-                      <div className="d-flex align-items-center mb-2">
-                        <MdError style={{ color: 'red', marginRight: '5px', fontSize: '14px' }} />
-                        <label className="mb-0" style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                          {errors.user_name}
-                        </label>
-                      </div>
+                      <ErrorMessage message={errors.user_name} type="error" />
                     )}
                   </div>
                   <div className="col-md-12 col-lg-12 col-sm-12 mb-3">
@@ -349,12 +344,7 @@ function Contact() {
                       style={{ padding: '20px', backgroundColor: 'rgba(238, 241, 252, 1)', borderRadius: 12, color: 'rgba(128, 128, 146, 1)', fontFamily: 'Montserrat' }}
                     />
                     {errors.user_phone && (
-                      <div className="d-flex align-items-center mb-2">
-                        <MdError style={{ color: 'red', marginRight: '5px', fontSize: '14px' }} />
-                        <label className="mb-0" style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
-                          {errors.user_phone}
-                        </label>
-                      </div>
+                      <ErrorMessage message={errors.user_phone} type="error" />
                     )}
                   </div>
                 </div>

@@ -21,6 +21,10 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import ErrorMessage from '../../Components/ErrorMessage'
+
+
+
 
 function AddRoomReading({ show, handleClose, selectedRowDetails }) {
     const state = useSelector((state) => state);
@@ -174,25 +178,7 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
 {state.UsersList?.roomReadingError && (
-                        <div style={{ color: "red" }} className="mt-1">
-                            <MdError
-                                style={{
-                                    marginRight: "5px",
-                                    fontSize: 14,
-                                    marginBottom: "1px",
-                                }}
-                            />
-                            <span
-                                style={{
-                                    color: "red",
-                                    fontSize: 12,
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                }}
-                            >
-                                {state.UsersList?.roomReadingError}
-                            </span>
-                        </div>
+                       <ErrorMessage message={state.UsersList?.roomReadingError} type="error"/>
                     )}
                 <Form.Group className="mt-4">
                     <div
@@ -245,25 +231,8 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
 
 
                     {readingError && (
-                        <div style={{ color: "red" }}>
-                            <MdError
-                                style={{
-                                    marginRight: "5px",
-                                    fontSize: 14,
-                                    marginBottom: "1px",
-                                }}
-                            />
-                            <span
-                                style={{
-                                    color: "red",
-                                    fontSize: 12,
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                }}
-                            >
-                                {readingError}
-                            </span>
-                        </div>
+                                              <ErrorMessage message={readingError} type="error"/>
+
                     )}
 
 
@@ -315,25 +284,8 @@ function AddRoomReading({ show, handleClose, selectedRowDetails }) {
                     </div>
 
                     {dateError && (
-                        <div style={{ color: "red" }}>
-                            <MdError
-                                style={{
-                                    marginRight: "5px",
-                                    fontSize: 14,
-                                    marginBottom: "1px",
-                                }}
-                            />
-                            <span
-                                style={{
-                                    color: "red",
-                                    fontSize: 12,
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                }}
-                            >
-                                {dateError}
-                            </span>
-                        </div>
+                          <ErrorMessage message={dateError} type="error"/>
+
                     )}
 
 

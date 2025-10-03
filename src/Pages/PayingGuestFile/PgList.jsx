@@ -36,6 +36,7 @@ import Group from "../../Assets/Images/Group.png";
 import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import { triggerPG } from '../../Redux/Action/smartStayAction';
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function PgList() {
@@ -111,18 +112,15 @@ function PgList() {
   }, [hostel_Id]);
 
 
-
-
-  useEffect(() => {
-    setFloorClick(floorList?.[0]?.id);
-  }, [selectedHostel, hostel_Id]);
-
-  useEffect(() => {
-    if (floorList?.length > 0) {
-      setFloorClick(floorList?.[0]?.id);
-    }
-  }, [floorList]);
-
+console.log("floorList",floorList)
+  
+   useEffect(() => {
+  if (floorList?.length > 0) {
+    setFloorClick(floorList[0]?.id);
+  } else {
+    setFloorClick(null); 
+  }
+}, [floorList]);
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
@@ -158,11 +156,8 @@ function PgList() {
   //   }
   // }, [state.UsersList?.noAllHosteListStatusCode]);
 
-  useEffect(() => {
-    if (floorList?.length === 1) {
-      setFloorClick(floorList?.[0]?.id);
-    }
-  }, [floorList[0]]);
+
+
 
 
 
@@ -222,16 +217,13 @@ function PgList() {
         const newEnd = lastIndex;
         setVisibleRange([newStart, newEnd]);
 
-
-
-
       } else {
         setFloorClick(null);
         setKey("");
         setFloorName("");
       }
     }
-  }, [state.UsersList.createFloorSuccessStatusCode, floorList])
+  }, [state.UsersList.createFloorSuccessStatusCode, floorList, floorClick])
 
 
 
@@ -354,7 +346,7 @@ function PgList() {
         setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.name : "");
       }
     }
-  }, [state.UsersList.hotelDetailsinPg, floorClick, selectedHostel]);
+  }, [state.UsersList.hotelDetailsinPg, floorClick, selectedHostel, floorList]);
 
 
 
@@ -395,7 +387,7 @@ function PgList() {
 
   }, [state.UsersList.hosteListStatusCode])
 
-
+console.log("floorClick",floorClick)
 
 
   // useEffect(() => {
@@ -750,23 +742,7 @@ function PgList() {
 
 
             {permissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError size={20} />
-                <span style={{
-                  fontSize: "12px",
-                  color: "red",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}>{permissionError}</span>
-              </div>
+              <ErrorMessage message={permissionError} type="error"/>
             )}
           </div>
         </>

@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
 import Profiles from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function CustomerCheckout(props) {
 
@@ -439,12 +440,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                           </div>
                         </Form.Group>
                         {checkoUtrequestDateError && (
-                          <div className="d-flex align-items-center  mb-1">
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              {checkoUtrequestDateError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={checkoUtrequestDateError} type="error" />
                         )}
                       </div>
 
@@ -496,32 +492,12 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
 
                         </Form.Group>
                         {checkoUtDateError && (
-                          <div className="d-flex align-items-center  mb-1">
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500, whiteSpace: "nowrap" }}>
-                              {checkoUtDateError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={checkoUtDateError} type="error" />
                         )}
 
 
                         {joiningError && (
-                          <div className="d-flex align-items-center  mb-2">
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                whiteSpace: "normal",
-                                lineHeight: "1.2"
-                              }}
-                            >
-                              {joiningError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={joiningError} type="error" />
                         )}
 
 
@@ -552,12 +528,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                   </ModalBody>
 
 
-                  {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                    </div>
-                    : null}
+                 
 
 
                   {formLoading &&
@@ -593,12 +564,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
 
 
                   {state.UsersList.errorMessageAddCheckOut && (
-                    <div className="d-flex align-items-center mb-3" style={{ paddingBottom: 5 }}>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {state.UsersList.errorMessageAddCheckOut}
-                      </label>
-                    </div>
+                    <ErrorMessage message={state.UsersList.errorMessageAddCheckOut} type="error" />
                   )}
 
 

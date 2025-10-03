@@ -19,6 +19,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./SettingInvoice.css";
 import "./SettingsBills.css";
+import ErrorMessage from '../../Components/ErrorMessage'
+
 
 function SettingsBills() {
   const dispatch = useDispatch();
@@ -744,19 +746,7 @@ function SettingsBills() {
 
 
                       {recurr_nameerrormsg?.trim() !== "" && (
-                        <div className="d-flex align-items-center gap-1 mt-1">
-                          <MdError style={{ fontSize: "14px", color: "red", marginBottom: "2px" }} />
-                          <span
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {recurr_nameerrormsg}
-                          </span>
-                        </div>
+                        <ErrorMessage message={recurr_nameerrormsg} type="error" />
                       )}
 
                     </Form.Group>
@@ -857,19 +847,7 @@ function SettingsBills() {
                       />
 
                       {billingfreuencyerrormsg.trim() !== "" && (
-                        <div className="d-flex align-items-center gap-1 mt-1">
-                          <MdError style={{ fontSize: "14px", color: "red", marginBottom: "2px" }} />
-                          <span
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {billingfreuencyerrormsg}
-                          </span>
-                        </div>
+                         <ErrorMessage message={billingfreuencyerrormsg} type="error" />
                       )}
 
                     </Form.Group>
@@ -941,26 +919,7 @@ function SettingsBills() {
                         </div>
                       )}
                       {!selectedFrom && selectedFromerrmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {selectedFromerrmsg}
-                          </label>
-                        </div>
+                        <ErrorMessage message={selectedFromerrmsg} type="error" />
                       )}
                     </div>
 
@@ -1045,26 +1004,7 @@ function SettingsBills() {
 
                       />
                       {invoicedateerrmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {invoicedateerrmsg}
-                          </label>
-                        </div>
+                      <ErrorMessage message={invoicedateerrmsg} type="error" />
                       )}
                     </div>
 
@@ -1145,26 +1085,7 @@ function SettingsBills() {
 
                       />
                       {duedateerrmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {duedateerrmsg}
-                          </label>
-                        </div>
+                        <ErrorMessage message={duedateerrmsg} type="error" />
                       )}
                     </div>
                   </div>
@@ -1306,19 +1227,7 @@ function SettingsBills() {
                     )}
 
                     {selectedremainderdayserrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center gap-1 mt-2 text-left">
-                        <MdError style={{ fontSize: 14, color: "red", marginBottom: "2px" }} />
-                        <span
-                          style={{
-                            fontSize: 12,
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {selectedremainderdayserrmsg}
-                        </span>
-                      </div>
+                       <ErrorMessage message={selectedremainderdayserrmsg} type="error" />
                     )}
 
                   </div>
@@ -1377,36 +1286,10 @@ function SettingsBills() {
                 
 
                   {editErrmsg.trim() !== "" && (
-                    <div className="text-lef">
-                      <p
-                        style={{
-                          fontSize: 12,
-                          color: "red",
-                          marginTop: "13px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        <span style={{ display: "inline-flex", alignItems: "center" }}>
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginBottom: "2px",
-                              marginRight: "5px",
-                            }}
-                          />
-                          {editErrmsg}
-                        </span>
-                      </p>
-                    </div>
+                    <ErrorMessage message={editErrmsg} type="error" />
                   )}
 
-                  {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                    </div>
-                    : null}
+                  
 
                   <div className="d-flex justify-content-end flex-wrap mt-3 ">
                     <button

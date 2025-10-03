@@ -16,7 +16,7 @@ import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
@@ -676,31 +676,11 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             </Form.Group>
 
                                             {dateError && (
-                                                <div style={{ color: "red", marginTop: "" }}>
-                                                    <MdError
-                                                        style={{ fontSize: "13px", marginRight: "5px" }}
-                                                    />
-                                                    <label
-                                                        className="mb-0"
-                                                        style={{
-                                                            color: "red",
-                                                            fontSize: "12px",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 500,
-                                                        }}
-                                                    >
-                                                        {dateError}
-                                                    </label>
-                                                </div>
+                                               <ErrorMessage message={dateError} type="error" />
                                             )}
 
                                             {joiningDateErrmsg.trim() !== "" && (
-                                                <div className="d-flex align-items-center">
-                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                        {joiningDateErrmsg}
-                                                    </label>
-                                                </div>
+                                                <ErrorMessage message={joiningDateErrmsg} type="error" />
                                             )}
                                         </div>
 
@@ -732,20 +712,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                             </Form.Group>
 
                                             {advanceAmountError && (
-                                                <div style={{ color: "red" }}>
-                                                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                    <label
-                                                        className="mb-0"
-                                                        style={{
-                                                            color: "red",
-                                                            fontSize: "12px",
-                                                            fontFamily: "Gilroy",
-                                                            fontWeight: 500,
-                                                        }}
-                                                    >
-                                                        {advanceAmountError}
-                                                    </label>
-                                                </div>
+                                               <ErrorMessage message={advanceAmountError} type="error" />
                                             )}
 
                                         </div>
@@ -780,20 +747,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                            
 
                                                 {roomrentError && (
-                                                    <div style={{ color: "red" }}>
-                                                        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                        <label
-                                                            className="mb-0"
-                                                            style={{
-                                                                color: "red",
-                                                                fontSize: "12px",
-                                                                fontFamily: "Gilroy",
-                                                                fontWeight: 500,
-                                                            }}
-                                                        >
-                                                            {roomrentError}
-                                                        </label>
-                                                    </div>
+                                                    <ErrorMessage message={roomrentError} type="error" />
                                                 )}
                             
 
@@ -949,20 +903,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                                             </>
                                                         )}
                                                         {errors[index]?.reason && (
-                                                            <div className="d-flex align-items-center mt-1">
-                                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                                                <label
-                                                                    className="mb-0"
-                                                                    style={{
-                                                                        color: "red",
-                                                                        fontSize: "12px",
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 500,
-                                                                    }}
-                                                                >
-                                                                    {errors[index]?.reason}
-                                                                </label>
-                                                            </div>
+                                                            <ErrorMessage message={errors[index]?.reason} type="error" />
                                                         )}
                                                     </div>
 
@@ -988,20 +929,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
 
                                                         />
                                                         {errors[index]?.amount && (
-                                                            <div className="d-flex align-items-center mt-1">
-                                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                                                <label
-                                                                    className="mb-0"
-                                                                    style={{
-                                                                        color: "red",
-                                                                        fontSize: "12px",
-                                                                        fontFamily: "Gilroy",
-                                                                        fontWeight: 500,
-                                                                    }}
-                                                                >
-                                                                    {errors[index]?.amount}
-                                                                </label>
-                                                            </div>
+                                                             <ErrorMessage message={errors[index]?.amount} type="error" />
                                                         )}
                                                     </div>
 
@@ -1038,10 +966,7 @@ function BookedCheckIn({ BookingAssignForm, handleClose, bookingDetails }) {
                                 </div>
 
                                 {state.UsersList.bedError ?
-                                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.UsersList.bedError}</label>
-                                    </div>
+                                     <ErrorMessage message={state.UsersList.bedError} type="error" />
                                     : null}
 
                                 <Button

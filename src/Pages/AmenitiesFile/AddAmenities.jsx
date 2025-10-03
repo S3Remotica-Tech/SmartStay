@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle, } from "iconsax-react";
 import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   const state = useSelector((state) => state);
@@ -184,19 +185,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
 
 
               {hostelError && (
-                <div className="d-flex align-items-center mt-1">
-                  <MdError style={{ color: "red", marginRight: "5px" }} />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {hostelError}
-                  </span>
-                </div>
+                <ErrorMessage message={hostelError} type="error" />
               )}
 
               <div className="row mt-2">
@@ -234,19 +223,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                     />
                   </Form.Group>
                   {errorAmenity && (
-                    <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {errorAmenity}
-                      </span>
-                    </div>
+                   <ErrorMessage message={errorAmenity} type="error" />
                   )}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -284,19 +261,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                   </Form.Group>
 
                   {errorAmount && (
-                    <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {errorAmount}
-                      </span>
-                    </div>
+                   <ErrorMessage message={errorAmount} type="error" />
                   )}
                 </div>
 
@@ -304,12 +269,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
               </div>
             </Modal.Body>
 
-            {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
-              : null}
+           
             {formLoading &&
               <div
                 style={{
@@ -339,38 +299,14 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             }
 
             {amnitiesError && (
-              <div className="d-flex justify-content-center align-items-center gap-2 ">
-                <MdError style={{ color: "red" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    textAlign: "center"
-                  }}
-                >
-                  {amnitiesError}
-                </label>
+              <div className="d-flex justify-content-center align-items-center">
+                <ErrorMessage message={amnitiesError} type="error" />
+              
               </div>
             )}
             {isChangedError && (
               <div className="d-flex justify-content-center align-items-center mt-1 mb-2">
-                <MdError style={{ color: "red", fontSize: "13px", marginBottom: '2px' }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    textAlign: "center",
-                    marginLeft: '5px'
-                  }}
-                >
-                  {isChangedError}
-                </label>
+                 <ErrorMessage message={isChangedError} type="error" />
               </div>
             )}
 

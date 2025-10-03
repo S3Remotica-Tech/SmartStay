@@ -12,6 +12,7 @@ import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
+import ErrorMessage from '../Components/ErrorMessage'
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -359,19 +360,7 @@ function BankingEditTransaction(props) {
 
 
               {accountError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {accountError}
-                  </span>
-                </div>
+                <ErrorMessage message={accountError} type="error" />
               )}
             </div>
 
@@ -416,19 +405,7 @@ function BankingEditTransaction(props) {
               </Form.Group>
 
               {dateError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {dateError}
-                  </span>
-                </div>
+                <ErrorMessage message={dateError} type="error" />
               )}
             </div>
 
@@ -464,18 +441,7 @@ function BankingEditTransaction(props) {
                 />
               </Form.Group>
               {amountError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {amountError}
-                  </span>
-                </div>
+               <ErrorMessage message={amountError} type="error" />
               )}
             </div>
 
@@ -523,18 +489,7 @@ function BankingEditTransaction(props) {
                 <option value={2}>Debit</option>
               </Form.Select>
               {transError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {transError}
-                  </span>
-                </div>
+               <ErrorMessage message={transError} type="error" />
               )}
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -599,22 +554,7 @@ function BankingEditTransaction(props) {
           ></div>
         </div>}
         {error && (
-          <div
-            className=""
-            style={{ color: "red", textAlign: "center", paddingBottom: "8px" }}
-          >
-            <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-            <span
-              style={{
-                color: "red",
-                fontSize: 12,
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-              }}
-            >
-              {error}
-            </span>
-          </div>
+            <ErrorMessage message={error} type="error" />
         )}
         <Modal.Footer
           className="d-flex justify-content-center"

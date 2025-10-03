@@ -14,6 +14,8 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { CloseCircle } from "iconsax-react";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
 dayjs.extend(customParseFormat);
+import ErrorMessage from '../../Components/ErrorMessage'
+
 
 function CustomerReAssign(props) {
 
@@ -647,23 +649,7 @@ const getImageSrc = () => {
 
 
                         {floorError && (
-                          <div style={{ color: "red", marginTop: "1px" }}>
-                            {" "}
-                            <MdError
-                              style={{ fontSize: "14px", marginRight: "4px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {" "}
-                              {floorError}
-                            </span>
-                          </div>
+                          <ErrorMessage message={floorError} type="error" />
                         )}
                         </Form.Group>
                       </div>
@@ -762,23 +748,7 @@ const getImageSrc = () => {
                         />
 
                         {roomError && (
-                          <div style={{ color: "red", marginTop: "1px" }}>
-                            {" "}
-                            <MdError
-                              style={{ fontSize: "14px", marginRight: "4px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {" "}
-                              {roomError}
-                            </span>
-                          </div>
+                         <ErrorMessage message={roomError} type="error" />
                         )}
                         </Form.Group>
                       </div>
@@ -884,23 +854,7 @@ const getImageSrc = () => {
                      
 
                         {bedError && (
-                          <div style={{ color: "red", marginTop: "1px" }}>
-                            {" "}
-                            <MdError
-                              style={{ fontSize: "14px", marginRight: "4px" }}
-                            />
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {" "}
-                              {bedError}
-                            </span>
-                          </div>
+                          <ErrorMessage message={bedError} type="error" />
                         )}
                         </Form.Group>
                       </div>
@@ -1026,23 +980,7 @@ const getImageSrc = () => {
 
                           </div>
                           {dateError && (
-                            <div style={{ color: "red", marginTop: "1px" }}>
-                              {" "}
-                              <MdError
-                                style={{ fontSize: "14px", marginRight: "4px" }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: "12px",
-                                  color: "red",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {" "}
-                                {dateError}
-                              </span>
-                            </div>
+                           <ErrorMessage message={dateError} type="error" />
                           )}
                         </Form.Group>
 
@@ -1115,23 +1053,7 @@ const getImageSrc = () => {
                             }}
                           />
                           {rentError && (
-                            <div style={{ color: "red", marginTop: "0px" }}>
-                              {" "}
-                              <MdError
-                                style={{ fontSize: "14px", marginRight: "4px" }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: "12px",
-                                  color: "red",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {" "}
-                                {rentError}
-                              </span>
-                            </div>
+                            <ErrorMessage message={rentError} type="error" />
                           )}
                         </Form.Group>
 
@@ -1171,12 +1093,7 @@ const getImageSrc = () => {
                 }}
               ></div>
             </div>}
-            {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
-              : null}
+            
             <Modal.Footer className="pt-1" style={{ border: "none" }}>
               <Button
                 className="w-100"

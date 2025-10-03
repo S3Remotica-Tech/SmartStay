@@ -16,7 +16,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import Select from "react-select";
 import PaginationList from '../../Components/PaginationList';
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function Asset() {
@@ -607,18 +607,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError size={20} />
-                <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
-              </div>
+              <ErrorMessage message={assetpermissionError} type="error"/>
 
             </div>
           </>

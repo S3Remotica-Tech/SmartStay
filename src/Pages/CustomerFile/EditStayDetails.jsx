@@ -14,6 +14,7 @@ import { CloseCircle } from "iconsax-react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function EditStayDetails({ show, handleClose,stayDetais }) {
 
@@ -435,12 +436,7 @@ function EditStayDetails({ show, handleClose,stayDetais }) {
                     </Modal.Body>
 
 
-                    {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                            <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
-                        : null}
+                   
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
                         <div className="d-flex justify-content-end gap-3">
 

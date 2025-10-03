@@ -7,6 +7,7 @@ import Closebtn from '../Assets/Images/Delete_red.png';
 import { MdError } from "react-icons/md"; 
 import Modal from 'react-bootstrap/Modal';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import ErrorMessage from '../../Components/ErrorMessage'
 
 const ExpencesSettings = () => {
 
@@ -265,18 +266,7 @@ const ExpencesSettings = () => {
 
     {/* Permission Error */}
     {expencepermissionError && (
-      <div
-        style={{
-          color: "red",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          marginTop: "1rem",
-        }}
-      >
-        <MdError  />
-        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{expencepermissionError}</span>
-      </div>
+      <ErrorMessage message={expencepermissionError} type="error" />
     )}
   </div>
             ):
@@ -311,11 +301,7 @@ const ExpencesSettings = () => {
       
 
 {cateogoryerrmsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {cateogoryerrmsg !== " " && <MdError style={{  color: 'red' }} />} {cateogoryerrmsg}
-    </p>
-  </div>
+    <ErrorMessage message={cateogoryerrmsg} type="error" />
 )}
                     </Form.Group>
                 </div>
@@ -337,11 +323,7 @@ const ExpencesSettings = () => {
        
 
 {subcateogoryerrmsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {subcateogoryerrmsg !== " " && <MdError style={{  color: 'red' }} />} {subcateogoryerrmsg}
-    </p>
-  </div>
+  <ErrorMessage message={subcateogoryerrmsg} type="error" />
 )}
                     </Form.Group>
                 </div>
@@ -359,20 +341,11 @@ const ExpencesSettings = () => {
             </div>
 
             {totalErrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {totalErrormsg !== " " && <MdError style={{  color: 'red' }} />} {totalErrormsg}
-    </p>
-  </div>
+              <ErrorMessage message={totalErrormsg} type="error" />
 )}
 
 {state.Settings?.alreadycategoryerror && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {state.Settings?.alreadycategoryerror}
-                        </label>
-                    </div>
+                   <ErrorMessage message={state.Settings?.alreadycategoryerror} type="error" />
                 )}
             <div style={{ marginTop: '20px', fontSize: 14, fontWeight: 600 }}>
                 <Button

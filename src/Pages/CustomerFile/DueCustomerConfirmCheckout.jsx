@@ -25,6 +25,9 @@ import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 // import addcircleblack from "../../Assets/Images/New_images/add-circle-black.png";
 import { Tooltip } from "bootstrap";
 // import { useFormState } from "react-dom";
+
+
+
 function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
 
 

@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import { CloseCircle } from 'iconsax-react';
 import PropTypes from "prop-types";
-
-
+import ErrorMessage from '../Components/ErrorMessage'
 import Cookies from 'universal-cookie';
 
 
@@ -174,16 +173,12 @@ const OtpVerificationModal = ({ show, handleClose, Email_Id }) => {
           }}
         ></div>
       </div>}
-      {otpErrors ? <div className='d-flex align-items-center p-1'>
-        <MdError style={{ color: "red", marginRight: '5px' }} />
-        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{otpErrors}</label>
-      </div>
+      {otpErrors ?
+      <ErrorMessage message={otpErrors} type="error" />
         : null}
 
-      {state.login?.twoStepOtpError ? <div className='d-flex align-items-center p-1'>
-        <MdError style={{ color: "red", marginRight: '5px' }} />
-        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login?.twoStepOtpError}</label>
-      </div>
+      {state.login?.twoStepOtpError ?
+      <ErrorMessage message={state.login?.twoStepOtpError} type="error" />
         : null}
 
       <Modal.Footer>

@@ -7,6 +7,7 @@ import homearrow from "../Assets/Images/New_images/bank.png";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from "react-select";
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 function WriteOffForm(props){
@@ -316,30 +317,8 @@ src={Profile2}
     
     
     
-                                        {/* {amounterrormsg.trim() !== "" && ( */}
-                                          <div>
-                                            <p
-                                              style={{
-                                                marginBottom: 0,
-                                                fontSize: "12px",
-                                                color: "red",
-                                                marginTop: "3px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                              }}
-                                            >
-                                              {/* {amounterrormsg !== " " && (
-                                                <MdError
-                                                  style={{
-                                                    fontSize: "14px",
-                                                    color: "red",
-                                                    marginBottom: "3px",
-                                                  }}
-                                                />
-                                              )}{" "}
-                                              {amounterrormsg} */}
-                                            </p>
-                                          </div>
+                                        {/* {amounterrormsg.trim() !== "" && ( 
+                                          <ErrorMessage message={amounterrormsg} type="error" />
                                         {/* )} */}
                                       </Form.Group>
                                     </div>
@@ -453,30 +432,8 @@ src={Profile2}
     
                                           </div>
                                         </div>
-                                        {/* {dateerrmsg.trim() !== "" && ( */}
-                                          <div>
-                                            <p
-                                              style={{
-                                                fontSize: "12px",
-                                                color: "red",
-                                                marginTop: "3px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                                marginBottom: 0,
-                                              }}
-                                            >
-                                              {/* {dateerrmsg !== "" && (
-                                                <MdError
-                                                  style={{
-                                                    fontSize: "14px",
-                                                    color: "red",
-                                                    marginBottom: "2px",
-                                                  }}
-                                                />
-                                              )} {" "}
-                                              {dateerrmsg} */}
-                                            </p>
-                                          </div>
+                                        {/* {dateerrmsg.trim() !== "" && ( 
+                                          <ErrorMessage message={dateerrmsg} type="error" />
                                         {/* )} */}
                                       </Form.Group>
     
@@ -574,31 +531,8 @@ src={Profile2}
     
     
     
-                                        {/* {paymodeerrormsg.trim() !== "" && ( */}
-                                          <div>
-                                            <p
-                                              style={{
-                                                fontSize: "12px",
-                                                color: "red",
-                                                marginTop: "3px",
-                                                marginBottom: 0,
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                              }}
-                                            >
-                                              {/* {paymodeerrormsg !== " " && (
-                                                <MdError
-                                                  style={{
-                                                    fontSize: "14px",
-                                                    color: "red",
-                                                    marginBottom: "3px",
-                                                  }}
-                                                />
-                                              )}
-                                              {" "}
-                                              {paymodeerrormsg} */}
-                                            </p>
-                                          </div>
+                                        {/* {paymodeerrormsg.trim() !== "" && ( 
+                                         <ErrorMessage message={paymodeerrormsg} type="error" />
                                         {/* // )} */}
                                       </Form.Group>
                                     </div>
@@ -646,45 +580,12 @@ src={Profile2}
                                   </div>
                                   </>
                                   {/* {totalErrormsg.trim() !== "" && (
-                                    <div>
-                                      <p
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "red",
-                                          marginTop: "3px",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                        }}
-                                      >
-                                        {totalErrormsg !== " " && (
-                                          <MdError
-                                            style={{
-                                              fontSize: "14px",
-                                              color: "red",
-    
-                                            }}
-                                          />
-                                        )}{" "}
-                                        {totalErrormsg}
-                                      </p>
-                                    </div>
+                                    <ErrorMessage message={totalErrormsg} type="error" />
                                    
                                   )} */}
                                 </Modal.Body>
     
-                                {/* {state.createAccount?.networkError ?
-                                  <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                  </div>
-                                  : null}
-                                {payableamountError ?
-                                  <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{payableamountError}</label>
-                                  </div>
-                                  : null} */}
-    
+                                   
 {/*     
                                 {formRecordLoading && <div
                                   style={{

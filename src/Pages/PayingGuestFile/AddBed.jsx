@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function AddBed({ show, setShowBed, currentItem }) {
   const state = useSelector((state) => state);
@@ -219,20 +220,7 @@ const handleBedNoChange = (e) => {
                 </Form.Group>
                 {bedError && (
 
-                  <div className="d-flex align-items-center p-0">
-                    <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {bedError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={bedError} type="error"/>
                 )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -270,57 +258,18 @@ const handleBedNoChange = (e) => {
                 </Form.Group>
 
                 {amountError && (
-                  <div className="d-flex align-items-center p-0">
-                    <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {amountError}
-                    </label>
-                  </div>
+                <ErrorMessage message={amountError} type="error"/>
                 )}
               </div>
             </div>
 
 
             {generalError && (
-                           <div className="d-flex align-items-center p-0">
-                <MdError style={{ color: "red", marginRight: "5px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {generalError}
-                </label>
-              </div>
+                           <ErrorMessage message={generalError} type="error"/>
             )}
 
-            {bedAlreadyBooked && bedAlreadyBooked && (
-                           <div className="d-flex align-items-center p-0">
-                <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {bedAlreadyBooked}
-                </label>
-              </div>
+            { bedAlreadyBooked && (
+                           <ErrorMessage message={bedAlreadyBooked} type="error"/>
             )}
           </Modal.Body>
 
@@ -349,12 +298,7 @@ const handleBedNoChange = (e) => {
               }}
             ></div>
           </div>}
-          {/* {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null} */}
+         
           <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
             <Button
               onClick={() => { handleSubmit() }}
@@ -383,6 +327,6 @@ AddBed.propTypes = {
   currentItem: PropTypes.func.isRequired,
   setShowBed: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
-
+         
 };
 export default AddBed;

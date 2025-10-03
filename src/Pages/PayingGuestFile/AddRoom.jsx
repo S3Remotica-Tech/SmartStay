@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const state = useSelector((state) => state);
@@ -204,6 +205,16 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
                 </Form.Group>
               </div>
             </div>
+             {roomError && (
+            <ErrorMessage message={roomError} type="error"/>
+          )}
+          {floorError && (
+            <ErrorMessage message={floorError} type="error"/>
+          )}
+
+          {state.PgList && state.PgList?.alreadyRoomHere && (
+           <ErrorMessage message={state.PgList?.alreadyRoomHere} type="error"/>
+          )}
           </Modal.Body>
 
 
@@ -233,79 +244,15 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             ></div>
           </div>}
           {isChangedError && (
-            <div className="d-flex align-items- justify-content-center">
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "13px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {isChangedError}
-              </label>
+            <div className="d-flex  justify-content-center">
+              <ErrorMessage message={isChangedError} type="error"/>
             </div>
           )}
 
-          {roomError && (
-            <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {roomError}
-              </label>
-            </div>
-          )}
-          {floorError && (
-            <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {floorError}
-              </label>
-            </div>
-          )}
-
-          {state.PgList && state.PgList?.alreadyRoomHere && (
-            <div className="d-flex align-items-center justify-content-start">
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label
-                className="mb-1"
-                style={{
-                  color: "red",
-                  fontSize: "13px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {state.PgList?.alreadyRoomHere}
-              </label>
-            </div>
-          )}
+         
 
 
-          {/* {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null} */}
+        
 
           <Modal.Footer style={{ border: "none" }}>
             <Button

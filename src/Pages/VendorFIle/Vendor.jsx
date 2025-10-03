@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import "./vendor.css";
 import './VendorListMap.css';
 import { useMediaQuery, useTheme } from '@mui/material'
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function Vendor() {
 
@@ -342,18 +342,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
               {vendorpermissionError && (
-                <div
-                  style={{
-                    color: "red",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    marginTop: "1rem",
-                  }}
-                >
-                  <MdError size={20} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{vendorpermissionError}</span>
-                </div>
+              <ErrorMessage message={vendorpermissionError} type="error"/>
               )}
             </div></>
         ) :

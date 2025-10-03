@@ -25,7 +25,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import transArrow from "../Assets/Images/New_images/arrow-transfer.png";
 import banklogo from "../Assets/Images/New_images/bank_loga.png";
 import PaginationList from "../Components/PaginationList";
-
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 function Banking() {
@@ -648,27 +648,7 @@ const handleSort = (key, direction) => {
 
 
             {bankingpermissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError size={20} />
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: 12,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {bankingpermissionError}
-                </span>
-              </div>
+             <ErrorMessage message={bankingpermissionError} type="error" />
             )}
           </div>
         </>
@@ -2164,20 +2144,17 @@ const handleSort = (key, direction) => {
                     }}
                   />
                   {amountError && (
-                    <div style={{ color: "red", fontSize: "14px", marginTop: "5px", fontFamily: "Gilroy" }}>
-                      <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                      {amountError}</div>)}
+                     <ErrorMessage message={amountError} type="error" />
+                    
+                    )}
                 </Form.Group>
 
 
-
+                    
 
 
                 {state.createAccount?.networkError ?
-                  <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                  </div>
+                  <ErrorMessage message={state.createAccount?.networkError} type="error" />
                   : null}
 
 

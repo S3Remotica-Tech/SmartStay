@@ -8,6 +8,7 @@ import "../../Pages/AssetFile/addAsset.css";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function StaticExample({
   show,
@@ -212,13 +213,23 @@ useEffect(() => {
 
 
             </div>
+
+             {floorId && (
+           <ErrorMessage message={floorId} type="error"/>
+          )}
+
+          {floorError && (
+           <ErrorMessage message={floorError} type="error"/>
+          )}
+          {state.UsersList?.alreadyFloorHere && (
+               <ErrorMessage message={state.UsersList?.alreadyFloorHere} type="error"/>
+          )}
+          {state.PgList?.alreadyfloorNameHere && (
+             <ErrorMessage message={state.PgList?.alreadyfloorNameHere } type="error"/>
+          )}
+
           </Modal.Body>
-          {/* {state.createAccount?.networkError ? 
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                  <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
-                                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                </div>
-                                  : null} */}
+          
           {formLoading && <div
             style={{
               position: 'absolute',
@@ -244,81 +255,10 @@ useEffect(() => {
               }}
             ></div>
           </div>}
-          {floorId && (
-            <div className="d-flex align-items-center g-2">
-           <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {floorId}
-              </label>
-            </div>
-          )}
-
-          {floorError && (
-            <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {floorError}
-              </label>
-            </div>
-          )}
-          {state.UsersList?.alreadyFloorHere && (
-            <div className="d-flex align-items-center">
-           <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {state.UsersList.alreadyFloorHere}
-              </label>
-            </div>
-          )}
-          {state.PgList?.alreadyfloorNameHere && (
-            <div className="d-flex align-items-center">
-               <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {state.PgList?.alreadyfloorNameHere}
-              </label>
-            </div>
-          )}
-
+         
           {isChangedError && (
             <div className="d-flex align-items-center  justify-content-center">
-              <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
-              <label
-                className="mb-0"
-                style={{ color: "red", fontSize: "12px", fontWeight: 500, fontFamily: "Gilroy" }}
-              >
-                {isChangedError}
-              </label>
+              <ErrorMessage message={isChangedError} type="error"/>
             </div>
           )}
 

@@ -13,7 +13,7 @@ import CreatableSelect from "react-select/creatable";
 import './Settingexpense.css';
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
-
+import ErrorMessage from '../Components/ErrorMessage'
 
 function SettingExpenses({ hostelid }) {
 
@@ -990,11 +990,7 @@ function SettingExpenses({ hostelid }) {
 
 
                           {cateogoryerrmsg.trim() !== "" && (
-                            <div>
-                              <p style={{ fontSize: '12px', color: 'red', marginTop: '5px', fontFamily: "Gilroy" }}>
-                                {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
-                              </p>
-                            </div>
+                            <ErrorMessage message={cateogoryerrmsg} type="error" />
                           )}
                         </Form.Group>
                       </div>
@@ -1028,19 +1024,7 @@ function SettingExpenses({ hostelid }) {
 
 
                           {subcateogoryerrmsg.trim() !== "" && (
-                            <div className="d-flex align-items-center gap-1 mt-1">
-                              <MdError style={{ fontSize: '14px', color: 'red' }} />
-                              <span
-                                style={{
-                                  fontSize: '12px',
-                                  color: 'red',
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {subcateogoryerrmsg}
-                              </span>
-                            </div>
+                          <ErrorMessage message={subcateogoryerrmsg} type="error" />
                           )}
 
                         </Form.Group>
@@ -1052,49 +1036,25 @@ function SettingExpenses({ hostelid }) {
 
 
                     {totalErrormsg.trim() !== "" && (
-                      <div>
-                        <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                          {totalErrormsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {totalErrormsg}
-                        </p>
-                      </div>
+                      <ErrorMessage message={totalErrormsg} type="error" />
                     )}
 
                     {state.Settings?.alreadycategoryerror && (
-                      <div className="d-flex align-items-center p-1 mb-2 ms-2">
-                        <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                          {state.Settings?.alreadycategoryerror}
-                        </label>
-                      </div>
+                      <ErrorMessage message={state.Settings?.alreadycategoryerror} type="error" />
                     )}
 
                     {formError && (
-                      <div className="" style={{ textAlign: "center" }}>
-                        <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px", }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                          {formError}
-                        </label>
-                      </div>
+                      <ErrorMessage message={formError} type="error" />
                     )}
 
 
 
                     {formCategoryError && (
-                      <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px", }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                          {formCategoryError}
-                        </label>
-                      </div>
+                     <ErrorMessage message={formCategoryError} type="error" />
                     )}
                   </div>
                 </Modal.Body>
-                {state.createAccount?.networkError ?
-                  <div className='d-flex  align-items-center justify-content-center mt-2 mb-4'>
-                    <MdError style={{ color: "red", marginRight: '5px' ,fontSize: "14px",}} />
-                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                  </div>
-                  : null}
+                
                 {formLoading &&
                   <div
                     style={{

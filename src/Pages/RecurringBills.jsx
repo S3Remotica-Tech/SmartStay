@@ -10,6 +10,7 @@ import { MdError } from "react-icons/md";
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
 import Select from "react-select";
+import ErrorMessage from '../Components/ErrorMessage'
 
 const RecurringBills = (props) => {
 
@@ -365,11 +366,7 @@ useEffect(() => {
 
 
             {customererrmsg.trim() !== "" && (
-              <div>
-                <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                  {customererrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: "4px" }} />} {customererrmsg}
-                </p>
-              </div>
+              <ErrorMessage message={customererrmsg} type="error" />
             )}
           </Form.Group>
         </div>
@@ -397,11 +394,7 @@ useEffect(() => {
 
 
         {allfielderrmsg.trim() !== "" && (
-          <div>
-            <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-              {allfielderrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: 2 }} />} {allfielderrmsg}
-            </p>
-          </div>
+         <ErrorMessage message={allfielderrmsg} type="error" />
         )}
 
 
@@ -516,36 +509,12 @@ useEffect(() => {
 )}
 
     {error_recurrmessage.trim() !== "" && (
-                      <div className="d-flex align-items-start p-1">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {error_recurrmessage}
-                        </label>
-                      </div>
+                      <ErrorMessage message={error_recurrmessage} type="error" />
                     )}
 
 
 
-{state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+
 
 
 

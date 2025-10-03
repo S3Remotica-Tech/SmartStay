@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
   const state = useSelector((state) => state);
@@ -92,21 +93,7 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
           Are you sure you want to delete the room?
         </Modal.Body>
         {deleteRoomError && (
-          <div className="d-flex justify-content-center align-items-center gap-2 ">
-            <MdError style={{ color: "red" }} />
-            <label
-              className="mb-0"
-              style={{
-                color: "red",
-                fontSize: "12px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                textAlign: "center",
-              }}
-            >
-              {deleteRoomError}
-            </label>
-          </div>
+          <ErrorMessage message={deleteRoomError} type="error" />
         )}
 
         <Modal.Footer

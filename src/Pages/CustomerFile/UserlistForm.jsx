@@ -16,7 +16,7 @@ import { JoininDatecustomer } from "../../Redux/Action/smartStayAction";
 import { Trash } from 'iconsax-react';
 import addcircle from "../../Assets/Images/New_images/add-circle.png";
 import Profileimage from "../../Assets/Images/New_images/profile-picture.png";
-
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 
@@ -1448,12 +1448,12 @@ function UserlistForm(props) {
   return (
     <div>
 
-      {/* Tenant Check-In  UNASSIGN -CHECKIN*/}
       <Modal
         show={props.showAssignMenu}
         onHide={handleCloseAssign}
         backdrop="static"
         centered
+        dialogClassName="custom-modals-style"
       >
         <Modal.Dialog
           style={{
@@ -1595,31 +1595,11 @@ function UserlistForm(props) {
                         </Form.Group>
 
                         {dateError && (
-                          <div style={{ color: "red", marginTop: "-px" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {dateError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={dateError} type="error"/>
                         )}
 
                         {joiningDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              {joiningDateErrmsg}
-                            </label>
-                          </div>
+                          <ErrorMessage message={joiningDateErrmsg} type="error"/>
                         )}
                       </div>
 
@@ -1717,22 +1697,7 @@ function UserlistForm(props) {
                         />
 
                         {floorError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {floorError}
-                            </label>
-                          </div>
+                         <ErrorMessage message={floorError} type="error"/>
                         )}
                       </div>
 
@@ -1831,22 +1796,7 @@ function UserlistForm(props) {
                         />
 
                         {roomError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {roomError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={roomError} type="error"/>
                         )}
                       </div>
 
@@ -1953,35 +1903,14 @@ function UserlistForm(props) {
                         />
 
                         {state.UsersList?.bedAvailableError ?
-                          <div className='d-flex  align-items-center  mt-1 mb-1'>
-                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.UsersList?.bedAvailableError}</label>
-                          </div>
+                           <ErrorMessage message={state.UsersList?.bedAvailableError} type="error"/>
                           : null}
                         {bedWarning ?
-                          <div className='d-flex  align-items-center  mt-1 mb-1'>
-                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bedWarning}</label>
-                          </div>
+                          <ErrorMessage message={bedWarning} type="error"/>
                           : null}
 
                         {bedError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {bedError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={bedError} type="error"/>
                         )}
                       </div>
 
@@ -2014,20 +1943,7 @@ function UserlistForm(props) {
                           />
                         </Form.Group>
                         {advanceAmountError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {advanceAmountError}
-                            </label>
-                          </div>
+                         <ErrorMessage message={advanceAmountError} type="error"/>
                         )}
                       </div>
 
@@ -2059,20 +1975,7 @@ function UserlistForm(props) {
                           />
                         </Form.Group>
                         {roomrentError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {roomrentError}
-                            </label>
-                          </div>
+                           <ErrorMessage message={roomrentError} type="error"/>
                         )}
                       </div>
 
@@ -2228,20 +2131,7 @@ function UserlistForm(props) {
                                 </>
                               )}
                               {errors[index]?.reason && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {errors[index]?.reason}
-                                  </label>
-                                </div>
+                                <ErrorMessage message={errors[index]?.reason} type="error"/>
                               )}
                             </div>
 
@@ -2267,20 +2157,7 @@ function UserlistForm(props) {
 
                               />
                               {errors[index]?.amount && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {errors[index]?.amount}
-                                  </label>
-                                </div>
+                               <ErrorMessage message={errors[index]?.amount} type="error"/>
                               )}
                             </div>
 
@@ -2315,12 +2192,7 @@ function UserlistForm(props) {
 
                   </div>
 
-                  {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                    </div>
-                    : null}
+                 
 
 
 
@@ -2549,21 +2421,7 @@ function UserlistForm(props) {
                       </div>
                     </Form.Group>
                     {advanceDateError && (
-                      <div style={{ color: "red", marginTop: "-7px" }}>
-                        <MdError
-                          style={{ fontSize: "13px", marginRight: "5px" }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {advanceDateError}
-                        </span>
-                      </div>
+                     <ErrorMessage message={advanceDateError} type="error"/>
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -2608,21 +2466,7 @@ function UserlistForm(props) {
                       </div>
                     </Form.Group>
                     {advanceDueDateError && (
-                      <div style={{ color: "red", marginTop: "-7px" }}>
-                        <MdError
-                          style={{ fontSize: "13px", marginRight: "5px" }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {advanceDueDateError}
-                        </span>
-                      </div>
+                      <ErrorMessage message={advanceDueDateError} type="error"/>
                     )}
                   </div>
                 </div>
@@ -2935,22 +2779,7 @@ function UserlistForm(props) {
                         />
 
                         {floorError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {floorError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={floorError} type="error"/>
                         )}
                       </div>
 
@@ -3040,49 +2869,11 @@ function UserlistForm(props) {
                         />
 
                         {roomError && (
-                          <div style={{ color: "red" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {roomError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={roomError} type="error"/>
                         )}
                       </div>
 
-                      {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                        <Form.Group>
-                          <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                            Booking Amount
-                            <span style={{ color: "red", fontSize: "20px" }}> *</span>
-                          </Form.Label>
-                          <FormControl
-                            type="text"
-                            placeholder="Enter Amount"
-value={bookingAmount}
-                            style={{
-                              fontSize: 16,
-                              color: "#4B4B4B",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              boxShadow: "none",
-                              border: "1px solid #D9D9D9",
-                              height: 50,
-                              borderRadius: 8,
-                            }}
-                          />
-                        </Form.Group>
-
-                      </div> */}
+                      
 
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
@@ -3171,31 +2962,11 @@ value={bookingAmount}
                         </Form.Group>
 
                         {dateError && (
-                          <div style={{ color: "red", marginTop: "-px" }}>
-                            <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
-                            />
-                            <label
-                              className="mb-0"
-                              style={{
-                                color: "red",
-                                fontSize: "12px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              {dateError}
-                            </label>
-                          </div>
+                          <ErrorMessage message={dateError} type="error"/>
                         )}
 
                         {joiningDateErrmsg.trim() !== "" && (
-                          <div className="d-flex align-items-center">
-                            <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                              {joiningDateErrmsg}
-                            </label>
-                          </div>
+                         <ErrorMessage message={joiningDateErrmsg} type="error"/>
                         )}
                       </div>
 
@@ -3227,20 +2998,7 @@ value={bookingAmount}
                             />
                           </Form.Group>
                           {advanceAmountError && (
-                            <div style={{ color: "red" }}>
-                              <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {advanceAmountError}
-                              </label>
-                            </div>
+                            <ErrorMessage message={advanceAmountError} type="error"/>
                           )}
                         </div>
 
@@ -3270,20 +3028,7 @@ value={bookingAmount}
                             />
                           </Form.Group>
                           {roomrentError && (
-                            <div className="d-flex align-items-center justify-content-start" style={{ color: "red" }}>
-                              <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {roomrentError}
-                              </label>
-                            </div>
+                          <ErrorMessage message={roomrentError} type="error"/>
                           )}
                         </div>
 
@@ -3447,20 +3192,7 @@ value={bookingAmount}
                                 </>
                               )}
                               {errors[index]?.reason && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {errors[index]?.reason}
-                                  </label>
-                                </div>
+                                 <ErrorMessage message={errors[index]?.reason} type="error"/>
                               )}
                             </div>
 
@@ -3511,22 +3243,7 @@ value={bookingAmount}
 
 
                               {errors[index]?.amount && (
-                                <div className="d-flex align-items-center mt-1">
-                                  <MdError
-                                    style={{ color: "red", marginRight: "5px", fontSize: "14px" }}
-                                  />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {errors[index]?.amount}
-                                  </label>
-                                </div>
+                               <ErrorMessage message={errors[index]?.amount} type="error"/>
                               )}
                             </div>
 
@@ -3569,20 +3286,7 @@ value={bookingAmount}
                         />
                       </Form.Group>
                       {reasonError && (
-                        <div style={{ color: "red" }} >
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {reasonError}
-                          </label>
-                        </div>
+                       <ErrorMessage message={reasonError} type="error"/>
                       )}
                     </div>
 
@@ -3655,20 +3359,7 @@ value={bookingAmount}
 
 
                       {recheckinDateError && (
-                        <div style={{ color: "red" }} >
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {recheckinDateError}
-                          </label>
-                        </div>
+                        <ErrorMessage message={recheckinDateError} type="error"/>
                       )}
                     </div>
 
@@ -3678,12 +3369,6 @@ value={bookingAmount}
 
                   </div>
 
-                  {state.createAccount?.networkError ?
-                    <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                    </div>
-                    : null}
 
 
                   {formLoading && <div
