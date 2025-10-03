@@ -123,41 +123,7 @@ import './SettingSecurityPage.css';
       const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-//       <>
-// {props.profilepermissionError ? (
-//   <div
-//   style={{
-//     display: "flex",
-//     flexDirection: "column",
-//     alignItems: "center",
-//     justifyContent: "center",
-   
-//   }}
-// >
-//   {/* Image */}
-//   <img
-//     src={Emptystate}
-//     alt="Empty State"
-//     style={{ maxWidth: "100%", height: "auto" }}
-//   />
 
-//   {/* Permission Error */}
-//   {props.profilepermissionError && (
-//     <div
-//       style={{
-//         color: "red",
-//         display: "flex",
-//         alignItems: "center",
-//         gap: "0.5rem",
-//         marginTop: "1rem",
-//       }}
-//     >
-//       <MdError size={20} />
-//       <span>{props.profilepermissionError}</span>
-//     </div>
-//   )}
-// </div>
-// ):
 <div className="container" 
 style={{
   marginTop:26,

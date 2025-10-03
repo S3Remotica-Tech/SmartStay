@@ -32,7 +32,7 @@ import recerverimg from "../Assets/Images/New_images/recervedimg.png";
 import overdueimg from "../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../Assets/Images/New_images/noticeperiodimg.png";
 import ParticularHostelDetails from "./PayingGuestFile/ParticularHostelDetails";
-
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 
@@ -678,23 +678,7 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
 
 
             {permissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError size={20} />
-                <span style={{
-                  fontSize: "12px",
-                  color: "red",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}>{permissionError}</span>
-              </div>
+             <ErrorMessage message={permissionError} type="error"/>
             )}
           </div>
         </>

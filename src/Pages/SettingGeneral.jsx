@@ -25,6 +25,7 @@ import './SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { CloseCircle } from "iconsax-react";
 import './SettingGeneral.css';
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 function SettingGeneral() {
@@ -1700,10 +1701,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {firstNameError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "2px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError} </span>
-                </div>
+                 <ErrorMessage message={firstNameError} type="error"/>
               )}
             </div>
 
@@ -1796,29 +1794,17 @@ function SettingGeneral() {
                     }}
                   />
                 </InputGroup>
-                <p
-                  id="MobileNumberError"
-                  style={{ color: "red" }}
-                ></p>
+                
 
               </Form.Group>
               {phoneError && (
-                <div style={{ color: "red", marginTop: "-12px", fontSize: "13px" }}>
-                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
-                </div>
+                 <ErrorMessage message={phoneError} type="error"/>
               )}
               {phoneErrorMessage && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
-                </div>
+                <ErrorMessage message={phoneErrorMessage} type="error"/>
               )}
               {state.Settings?.generalMobileError && (
-                <div style={{ color: "red", marginTop: "-14px" }}>
-                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{state.Settings?.generalMobileError} </span>
-                </div>
+                 <ErrorMessage message={state.Settings?.generalMobileError} type="error"/>
               )}
 
             </div>
@@ -1857,23 +1843,14 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {emailError && (
-                <div style={{ color: "red", fontSize: "13px", marginTop: "4px" }}>
-                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
-                </div>
+                <ErrorMessage message={emailError} type="error"/>
               )}
               {state.Settings?.generalEmailError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{state.Settings?.generalEmailError}</span>
-                </div>
+                <ErrorMessage message={state.Settings?.generalEmailError} type="error"/>
               )}
 
               {emailErrorMessage && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
-                </div>
+                <ErrorMessage message={state.Settings?.generalEmailError} type="error"/>
               )}
             </div>
 
@@ -1946,10 +1923,7 @@ function SettingGeneral() {
                   </InputGroup>
                 </Form.Group>
                 {!edit && passwordError && (
-                  <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
-                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
-                  </div>
+                  <ErrorMessage message={passwordError} type="error"/>
                 )}
               </div>
             )}
@@ -1985,10 +1959,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {house_noError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                </div>
+               <ErrorMessage message={house_noError} type="error"/>
               )}
             </div>
 
@@ -2023,10 +1994,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {streetError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                </div>
+                <ErrorMessage message={streetError} type="error"/>
               )}
             </div>
 
@@ -2061,10 +2029,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {landmarkError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                </div>
+                <ErrorMessage message={landmarkError} type="error"/>
               )}
             </div>
 
@@ -2104,20 +2069,7 @@ function SettingGeneral() {
                   }}
                 />
                 {pincodeError && (
-                  <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {pincodeError}
-                    </label>
-                  </div>
+                  <ErrorMessage message={pincodeError} type="error"/>
                 )}
 
 
@@ -2157,10 +2109,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {cityError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
-                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                </div>
+              <ErrorMessage message={cityError} type="error"/>
               )}
             </div>
 
@@ -2254,12 +2203,7 @@ function SettingGeneral() {
               </Form.Group>
 
               {!state_name && state_nameError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px", marginBottom: "2px" }} />
-                  <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {state_nameError}
-                  </span>
-                </div>
+                <ErrorMessage message={state_nameError} type="error"/>
               )}
             </div>
 
@@ -2269,13 +2213,7 @@ function SettingGeneral() {
           </div>
         </Modal.Body>
 
-        {/* {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null} */}
-
+       
 
         {formLoading && <div
           style={{
@@ -2307,10 +2245,7 @@ function SettingGeneral() {
 
         <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           {formError && (
-            <div style={{ color: "red" }}>
-              <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-              <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
-            </div>
+           <ErrorMessage message={formError} type="error"/>
           )}
 
           <Button
@@ -2370,20 +2305,8 @@ function SettingGeneral() {
           Are you sure you want to delete this General?
         </Modal.Body>
         {generalDeleteError && (
-          <div className="d-flex justify-content-center align-items-center gap-2 ">
-            <MdError style={{ color: "red" }} />
-            <label
-              className="mb-0"
-              style={{
-                color: "red",
-                fontSize: "12px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                textAlign: "center"
-              }}
-            >
-              {generalDeleteError}
-            </label>
+          <div className="d-flex justify-content-center align-items-center">
+           <ErrorMessage message={generalDeleteError} type="error"/>
           </div>
         )}
         <Modal.Footer
@@ -2522,11 +2445,7 @@ function SettingGeneral() {
             </InputGroup>
           </Form.Group>
           {passError && (
-            <div className="d-flex align-items-center mt-1" style={{ color: "red" }}>
-              <MdError style={{ marginRight: "5px", fontSize: '14px', marginBottom: "3px" }} />
-
-              <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
-            </div>
+           <ErrorMessage message={passError} type="error"/>
           )}
 
 
@@ -2661,20 +2580,7 @@ function SettingGeneral() {
                 </InputGroup.Text>
               </InputGroup>
               {newPassError && (
-                <div className="d-flex align-items-center pt-1">
-                  <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {newPassError}
-                  </label>
-                </div>
+               <ErrorMessage message={newPassError} type="error"/>
 
               )}
 
@@ -2744,20 +2650,7 @@ function SettingGeneral() {
                 </InputGroup.Text>
               </InputGroup>
               {conformPasswordError && (
-                <div className="d-flex align-items-center pt-1">
-                  <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {conformPasswordError}
-                  </label>
-                </div>
+                 <ErrorMessage message={conformPasswordError} type="error"/>
               )}
 
             </Form.Group>

@@ -51,7 +51,7 @@ import './BillPdfModal.css';
 import AxiosConfig from "../WebService/AxiosConfig";
 import Swal from 'sweetalert2';
 import PaginationList from "../Components/PaginationList";
-
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 
@@ -3466,21 +3466,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
                       {billpermissionError && (
-                        <div
-                          style={{
-                            color: "red",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "0.5rem",
-                            marginTop: "1rem",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            fontSize: 12
-                          }}
-                        >
-                          <MdError style={{ fontSize: 14 }} />
-                          <span>{billpermissionError}</span>
-                        </div>
+                        <ErrorMessage message={billpermissionError} type="error"/>
                       )}
                     </div>
                   </>
@@ -4411,29 +4397,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
                                     {amounterrormsg.trim() !== "" && (
-                                      <div>
-                                        <p
-                                          style={{
-                                            marginBottom: 0,
-                                            fontSize: "12px",
-                                            color: "red",
-                                            marginTop: "3px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {amounterrormsg !== " " && (
-                                            <MdError
-                                              style={{
-                                                fontSize: "14px",
-                                                color: "red",
-                                                marginBottom: "3px",
-                                              }}
-                                            />
-                                          )}{" "}
-                                          {amounterrormsg}
-                                        </p>
-                                      </div>
+                                       <ErrorMessage message={amounterrormsg} type="error"/>
                                     )}
                                   </Form.Group>
                                 </div>
@@ -4548,29 +4512,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                                       </div>
                                     </div>
                                     {dateerrmsg.trim() !== "" && (
-                                      <div>
-                                        <p
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            marginTop: "3px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            marginBottom: 0,
-                                          }}
-                                        >
-                                          {dateerrmsg !== "" && (
-                                            <MdError
-                                              style={{
-                                                fontSize: "14px",
-                                                color: "red",
-                                                marginBottom: "2px",
-                                              }}
-                                            />
-                                          )} {" "}
-                                          {dateerrmsg}
-                                        </p>
-                                      </div>
+                                      <ErrorMessage message={dateerrmsg} type="error"/>
                                     )}
                                   </Form.Group>
 
@@ -4669,29 +4611,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
                                     {paymodeerrormsg.trim() !== "" && (
-                                      <div>
-                                        <p
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            marginTop: "3px",
-                                            marginBottom: 0,
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {paymodeerrormsg !== " " && (
-                                            <MdError
-                                              style={{
-                                                fontSize: "14px",
-                                                color: "red",
-                                                marginBottom: "3px",
-                                              }}
-                                            />
-                                          )}{" "}
-                                          {paymodeerrormsg}
-                                        </p>
-                                      </div>
+                                       <ErrorMessage message={paymodeerrormsg} type="error"/>
                                     )}
                                   </Form.Group>
                                 </div>
@@ -4824,27 +4744,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                                     />
 
                                     {accountError.trim() !== "" && (
-                                      <div>
-                                        <p
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            marginTop: "3px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {accountError !== " " && (
-                                            <MdError
-                                              style={{
-                                                fontSize: "14px",
-                                                color: "red",
-                                              }}
-                                            />
-                                          )}{" "}
-                                          {accountError}
-                                        </p>
-                                      </div>
+                                     <ErrorMessage message={accountError} type="error"/>
                                     )}
                                   </div>
                                 )}
@@ -4852,43 +4752,14 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                               </div>
                               </>
                               {totalErrormsg.trim() !== "" && (
-                                <div>
-                                  <p
-                                    style={{
-                                      fontSize: "12px",
-                                      color: "red",
-                                      marginTop: "3px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {totalErrormsg !== " " && (
-                                      <MdError
-                                        style={{
-                                          fontSize: "14px",
-                                          color: "red",
-
-                                        }}
-                                      />
-                                    )}{" "}
-                                    {totalErrormsg}
-                                  </p>
-                                </div>
+                                <ErrorMessage message={totalErrormsg} type="error"/>
                                
                               )}
                             </Modal.Body>
 
-                            {state.createAccount?.networkError ?
-                              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                              </div>
-                              : null}
+                          
                             {payableamountError ?
-                              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{payableamountError}</label>
-                              </div>
+                               <ErrorMessage message={payableamountError} type="error"/>
                               : null}
 
 
@@ -5623,21 +5494,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
                     {recurringPermission && (
-                      <div
-                        style={{
-                          color: "red",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.5rem",
-                          marginTop: "1rem",
-                          fontSize: 12,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        <MdError style={{ fontSize: 14 }} />
-                        <span>{recurringPermission}</span>
-                      </div>
+                     <ErrorMessage message={recurringPermission} type="error"/>
                     )}
                   </div>
                 </>
@@ -6241,21 +6098,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
                     {receiptPermission && (
-                      <div
-                        style={{
-                          color: "red",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.5rem",
-                          marginTop: "1rem",
-                          fontSize: 12,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        <MdError style={{ fontSize: 14 }} />
-                        <span>{receiptPermission}</span>
-                      </div>
+                      <ErrorMessage message={receiptPermission} type="error"/>
                     )}
                   </div>
                 </>
@@ -7025,28 +6868,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
                 {customererrmsg.trim() !== "" && (
-                  <div>
-                    <p
-                      style={{
-                        fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {customererrmsg !== " " && (
-                        <MdError
-                          style={{
-                            fontSize: "14px",
-                            color: "red",
-                            marginRight: "3px",
-                            marginBottom: "3px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        />
-                      )}{" "}
-                      {customererrmsg}
-                    </p>
-                  </div>
+                 <ErrorMessage message={customererrmsg} type="error"/>
                 )}
               </Form.Group>
             </div>
@@ -7081,27 +6903,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
                   readOnly
                 />
                 {invoicenumbererrmsg.trim() !== "" && (
-                  <div>
-                    <p
-                      style={{
-                        fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {invoicenumbererrmsg !== " " && (
-                        <MdError
-                          style={{
-                            fontSize: "14px",
-                            color: "red",
-                            marginRight: "3px",
-                            marginBottom: "2px",
-
-                          }}
-                        />
-                      )}{" "}
-                      {invoicenumbererrmsg}
-                    </p>
-                  </div>
+                 <ErrorMessage message={invoicenumbererrmsg} type="error"/>
                 )}
 
               </Form.Group>
@@ -7156,27 +6958,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
               </div>
 
               {invoicedateerrmsg.trim() !== "" && (
-                <div>
-                  <p className="mt-1"
-                    style={{
-                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {invoicedateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "14px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-
-                        }}
-                      />
-                    )}{" "}
-                    {invoicedateerrmsg}
-                  </p>
-                </div>
+               <ErrorMessage message={invoicedateerrmsg} type="error"/>
               )}
             </div>
 
@@ -7216,32 +6998,12 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
               {invoiceduedateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{
-                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {invoiceduedateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "14px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-
-                        }}
-                      />
-                    )}{" "}
-                    {invoiceduedateerrmsg}
-                  </p>
-                </div>
+                  <ErrorMessage message={invoiceduedateerrmsg} type="error"/>
               )}
             </div>
           </div>
 
-          <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-3">
+          <div className="col-lg-5 col-md-3 col-sm-12 col-xs-12 mt-3">
             <Form.Select
               className="border"
               style={{
@@ -7267,27 +7029,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
 
             {tableErrmsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{
-                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "left", fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {tableErrmsg !== " " && (
-                    <MdError
-                      style={{
-                        fontSize: "14px",
-                        color: "red",
-                        marginRight: "3px",
-                        marginBottom: "3px",
-
-                      }}
-                    />
-                  )}{" "}
-                  {tableErrmsg}
-                </p>
-              </div>
+               <ErrorMessage message={tableErrmsg} type="error"/>
             )}
           </div>
 
@@ -7435,47 +7177,12 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
 
           <div>
             {allfielderrmsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    marginTop: "10px",
-                    fontFamily: "Gilroy",
-                    textAlign: "center",
-                    fontWeight: 500,
-                  }}
-                >
-                  {allfielderrmsg !== " " && (
-                    <MdError
-                      style={{
-                        fontSize: "14px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        marginRight: "5px",
-                        marginBottom: "3px",
-                      }}
-                    />
-                  )}{" "}
-                  {allfielderrmsg}
-                </p>
-              </div>
+              <ErrorMessage message={allfielderrmsg} type="error"/>
             )}
           </div>
 
 
-          {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
-
-
-
-
-
-
+         
           {formLoading && <div
             style={{
               position: 'absolute',
@@ -7532,18 +7239,10 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
         </div>
 
       )}
-      {/* {manualInvoiceNumberError ?
-        <div className='d-flex align-items-center justify-content-center  mb-2' style={{ marginTop: "30px", marginLeft: "30px" }}>
-          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{manualInvoiceNumberError}</label>
-        </div>
-        : null} */}
+    
 
       {unableAddInvoiceDetailsError ?
-        <div className='d-flex align-items-center justify-content-center mb-2' style={{ marginTop: "10px", marginLeft: "30px" }}>
-          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
-          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{unableAddInvoiceDetailsError}</label>
-        </div>
+        <ErrorMessage message={unableAddInvoiceDetailsError} type="error"/>
         : null}
 
       {showRecurringBillForm && (

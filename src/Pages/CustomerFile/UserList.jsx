@@ -58,6 +58,7 @@ import BookedCheckIn from "./BookedCheckIn";
 import MakeAsInactive from "./MakeAsInactive";
 import FinalSettlement from "./FinalSettlement";
 import PaginationList from '../../Components/PaginationList';
+import ErrorMessage from '../../Components/ErrorMessage'
 function UserList(props) {
   const state = useSelector((state) => state);
 
@@ -2913,23 +2914,7 @@ useEffect(() => {
                       alt="Empty State"
 
                     />
-                    <div
-                      style={{
-                        color: "red",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        marginTop: "1rem",
-                      }}
-                    >
-                      <MdError />
-                      <span style={{
-                        fontSize: "12px",
-                        color: "red",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}>{customerpermissionError}</span>
-                    </div>
+                    <ErrorMessage message={customerpermissionError} type="error" />
                   </div>
                 ) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
                   <div style={{ marginTop: 30 }} className="animated-text">
@@ -4588,19 +4573,7 @@ useEffect(() => {
                       ))}
                   </Form.Select>
                   {floorError && (
-                    <div style={{ color: "red" }}>
-                      <MdError />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {floorError}
-                      </span>
-                    </div>
+                   <ErrorMessage message={floorError} type="error" />
                   )}
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -4643,10 +4616,7 @@ useEffect(() => {
                       ))}
                   </Form.Select>
                   {roomError && (
-                    <div style={{ color: "red" }}>
-                      <MdError />
-                      {roomError}
-                    </div>
+                     <ErrorMessage message={roomError} type="error" />
                   )}
                 </div>
 
@@ -4685,21 +4655,9 @@ useEffect(() => {
                     />
                   </Form.Group>
                   {readingError && (
-                    <div style={{ color: "red" }}>
-                      <MdError />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {readingError}
-                      </span>
-                    </div>
+                     <ErrorMessage message={readingError} type="error" />
                   )}
-                </div>
+                </div>s
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-2" controlId="purchaseDate">
                     <Form.Label
@@ -4729,28 +4687,13 @@ useEffect(() => {
                     </div>
                   </Form.Group>
                   {dateError && (
-                    <div style={{ color: "red" }}>
-                      <MdError />
-                      {dateError}
-                    </div>
+                   <ErrorMessage message={dateError} type="error" />
                   )}
                 </div>
               </div>
             </Modal.Body>
             {formError && (
-              <div style={{ color: "red" }}>
-                <MdError />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {formError}
-                </span>
-              </div>
+            <ErrorMessage message={formError} type="error" />
             )}
             <Modal.Footer className="d-flex justify-content-center">
               <Button
@@ -4899,20 +4842,7 @@ useEffect(() => {
                     />
                   </Form.Group>
                   {readingError && (
-                    <div style={{ color: "red" }}>
-                      <MdError />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {" "}
-                        {readingError}
-                      </span>
-                    </div>
+                    <ErrorMessage message={readingError} type="error" />
                   )}
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -4944,37 +4874,13 @@ useEffect(() => {
                     </div>
                   </Form.Group>
                   {dateError && (
-                    <div style={{ color: "red" }}>
-                      <MdError />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {dateError}
-                      </span>
-                    </div>
+                     <ErrorMessage message={dateError} type="error" />
                   )}
                 </div>
               </div>
             </Modal.Body>
             {formError && (
-              <div style={{ color: "red" }}>
-                <MdError />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {formError}
-                </span>
-              </div>
+             <ErrorMessage message={formError} type="error" />
             )}
             <Modal.Footer className="d-flex justify-content-center">
               <Button
@@ -5258,22 +5164,7 @@ useEffect(() => {
                   ))}
               </Form.Select>
               {customererrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      marginTop: "3px",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {customererrmsg !== " " && (
-                      <MdError style={{ fontSize: "14px", color: "red" }} />
-                    )}{" "}
-                    {customererrmsg}
-                  </p>
-                </div>
+               <ErrorMessage message={customererrmsg} type="error" />
               )}
             </Form.Group>
           </div>
@@ -5308,22 +5199,7 @@ useEffect(() => {
                 readOnly
               />
               {invoicenumbererrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      marginTop: "3px",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {invoicenumbererrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
-                    )}{" "}
-                    {invoicenumbererrmsg}
-                  </p>
-                </div>
+              <ErrorMessage message={invoicenumbererrmsg} type="error" />
               )}
             </Form.Group>
           </div>
@@ -5379,29 +5255,7 @@ useEffect(() => {
               </Form.Group>
 
               {invoicedateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      marginTop: "3px",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {invoicedateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "15px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-                        }}
-                      />
-                    )}{" "}
-                    {invoicedateerrmsg}
-                  </p>
-                </div>
+              <ErrorMessage message={invoicedateerrmsg} type="error" />
               )}
             </div>
 
@@ -5451,59 +5305,13 @@ useEffect(() => {
               </Form.Group>
 
               {invoiceduedateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "red",
-                      marginTop: "3px",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    {invoiceduedateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "15px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-                        }}
-                      />
-                    )}{" "}
-                    {invoiceduedateerrmsg}
-                  </p>
-                </div>
+                <ErrorMessage message={invoiceduedateerrmsg} type="error" />
               )}
             </div>
           </div>
 
           {allfielderrmsg.trim() !== "" && (
-            <div>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "red",
-                  marginTop: "10px",
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  fontWeight: 500,
-                }}
-              >
-                {allfielderrmsg !== " " && (
-                  <MdError
-                    style={{
-                      fontSize: "15px",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      marginRight: "5px",
-                      marginBottom: "3px",
-                    }}
-                  />
-                )}{" "}
-                {allfielderrmsg}
-              </p>
-            </div>
+           <ErrorMessage message={allfielderrmsg} type="error" />
           )}
 
 
@@ -5614,41 +5422,11 @@ useEffect(() => {
             </Form.Select>
 
             {tableErrmsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    marginTop: "5px",
-                    textAlign: "start",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                  }}
-                >
-                  {tableErrmsg !== " " && (
-                    <MdError
-                      style={{
-                        fontSize: "15px",
-                        color: "red",
-                        marginRight: "3px",
-                        marginBottom: "3px",
-                      }}
-                    />
-                  )}{" "}
-                  {tableErrmsg}
-                </p>
-              </div>
+               <ErrorMessage message={tableErrmsg} type="error" />
             )}
           </div>
 
-          {/* {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null} */}
-
-
+         
 
 
           {billLoading && <div

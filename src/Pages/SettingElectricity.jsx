@@ -12,6 +12,7 @@ import "./SettingAll.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingElectricity.css";
+import ErrorMessage from '../Components/ErrorMessage'
 
 const SettingElectricity = ({ hostelid }) => {
   const dispatch = useDispatch();
@@ -805,52 +806,19 @@ const handleProRate = () => {
 
               <div className=" d-flex align-items-center">
                 {amountErr && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      textAlign: "start",
-                      margin: 0,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    <span style={{ fontSize: "20px" }}>
-                      <MdError style={{ fontSize: "14px", marginRight: 5 }} />
-                    </span>
-                    {amountErr}
-                  </p>
+                 <ErrorMessage message={amountErr} type="error"/>
                 )}
               </div>
               <div className="">
                 {totalErr && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      textAlign: "center",
-                      margin: 0,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    <span style={{ fontSize: "20px" }}>
-                      <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    </span>
-                    {totalErr}
-                  </p>
+                   <ErrorMessage message={totalErr} type="error"/>
                 )}
               </div>
             </div>
           </div>
         </Modal.Body>
 
-        {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null}
+       
 
         {formLoading && <div
           style={{
@@ -1031,26 +999,7 @@ const handleProRate = () => {
                     </div>
 
                     {calculatedstartdateerrmsg && (
-                      <div className="d-flex align-items-center  mb-2">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {calculatedstartdateerrmsg}
-                        </label>
-                      </div>
+                       <ErrorMessage message={calculatedstartdateerrmsg} type="error"/>
                     )}
                   </div>
 
@@ -1137,26 +1086,7 @@ const handleProRate = () => {
                       />
                     </div>
                     {calculatedenddateerrmsg && (
-                      <div className="d-flex align-items-center  mb-2">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {calculatedenddateerrmsg}
-                        </label>
-                      </div>
+                      <ErrorMessage message={calculatedenddateerrmsg} type="error"/>
                     )}
                   </div>
 

@@ -38,7 +38,7 @@ import RentalReceiptPdfTemplate from "./RentalReceiptPdfTempate";
 import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
 import SecurityReceiptPdfTemplate from "./SecurityDepositReceipt";
 import BankingAddForm from "./BankingAddForm";
-
+import ErrorMessage from '../Components/ErrorMessage'
 
 function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
@@ -1639,24 +1639,7 @@ const [resetCall, setResetCall] = useState(false)
 
                                       </div>
                                       {paymentMobileError && (
-                                        <div style={{ color: "red", }}>
-                                          {" "}
-                                          <MdError
-                                            style={{ fontSize: "13px", marginBottom: "2px" }}
-                                          />
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              marginRight: "3px"
-                                            }}
-                                          >
-                                            {" "}
-                                            {paymentMobileError}
-                                          </span>
-                                        </div>
+                                        <ErrorMessage message={paymentMobileError} type="error"/>
                                       )}
                                     </div>
 
@@ -1712,24 +1695,7 @@ const [resetCall, setResetCall] = useState(false)
 
                                       </div>
                                       {paymentinvoiceemailError && (
-                                        <div style={{ color: "red", }}>
-                                          {" "}
-                                          <MdError
-                                            style={{ fontSize: "13px", marginBottom: "2px" }}
-                                          />
-                                          <span
-                                            style={{
-                                              fontSize: "12px",
-                                              color: "red",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                              marginRight: "3px"
-                                            }}
-                                          >
-                                            {" "}
-                                            {paymentinvoiceemailError}
-                                          </span>
-                                        </div>
+                                      <ErrorMessage message={paymentinvoiceemailError} type="error"/>
                                       )}
                                     </div>
 
@@ -1812,26 +1778,7 @@ const [resetCall, setResetCall] = useState(false)
 
                                         </div>
                                         {rentalSignatureError.trim() !== "" && (
-                                          <div className="d-flex align-items-center p-1">
-                                            <MdError
-                                              style={{
-                                                color: "red",
-                                                marginRight: "5px",
-                                                fontSize: "14px",
-                                              }}
-                                            />
-                                            <label
-                                              className="mb-0"
-                                              style={{
-                                                color: "red",
-                                                fontSize: "12px",
-                                                fontFamily: "Gilroy",
-                                                fontWeight: 500,
-                                              }}
-                                            >
-                                              {rentalSignatureError}
-                                            </label>
-                                          </div>
+                                          <ErrorMessage message={rentalSignatureError} type="error"/>
                                         )}
                                       </div>
                                     </div>
@@ -1966,26 +1913,7 @@ const [resetCall, setResetCall] = useState(false)
                               onChange={hanldePrefix}
                             />
                             {prefix_errmsg.trim() !== "" && (
-                              <div className="d-flex align-items-center p-1">
-                                <MdError
-                                  style={{
-                                    color: "red",
-                                    marginRight: "5px",
-                                    fontSize: "14px",
-                                  }}
-                                />
-                                <label
-                                  className="mb-0"
-                                  style={{
-                                    color: "red",
-                                    fontSize: "12px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {prefix_errmsg}
-                                </label>
-                              </div>
+                              <ErrorMessage message={prefix_errmsg} type="error"/>
                             )}
 
                           </Form.Group>
@@ -2006,26 +1934,7 @@ const [resetCall, setResetCall] = useState(false)
                             />
 
                             {suffix_errmsg.trim() !== "" && (
-                              <div className="d-flex align-items-center p-1">
-                                <MdError
-                                  style={{
-                                    color: "red",
-                                    marginRight: "5px",
-                                    fontSize: "14px",
-                                  }}
-                                />
-                                <label
-                                  className="mb-0"
-                                  style={{
-                                    color: "red",
-                                    fontSize: "12px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {suffix_errmsg}
-                                </label>
-                              </div>
+                              <ErrorMessage message={suffix_errmsg} type="error"/>
                             )}
                           </Form.Group>
                         </div>
@@ -2076,26 +1985,7 @@ const [resetCall, setResetCall] = useState(false)
                             />
 
                             {tax_errmsg.trim() !== "" && (
-                              <div className="d-flex align-items-center p-1">
-                                <MdError
-                                  style={{
-                                    color: "red",
-                                    marginRight: "5px",
-                                    fontSize: "14px",
-                                  }}
-                                />
-                                <label
-                                  className="mb-0"
-                                  style={{
-                                    color: "red",
-                                    fontSize: "12px",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  {tax_errmsg}
-                                </label>
-                              </div>
+                              <ErrorMessage message={tax_errmsg} type="error"/>
                             )}
                           </Form.Group>
                         </div>
@@ -2220,18 +2110,7 @@ const [resetCall, setResetCall] = useState(false)
                       </div>
 
                       {!selectedBankId && bankid_Error.trim() !== '' && (
-                        <div style={{ display: 'flex', alignItems: 'center', paddingTop: 8 }}>
-                          <MdError style={{ color: 'red', marginRight: 5, fontSize: 14 }} />
-                          <label
-                            style={{
-                              color: 'red',
-                              fontSize: 12,
-                              fontWeight: 500,
-                            }}
-                          >
-                            {bankid_Error}
-                          </label>
-                        </div>
+                        <ErrorMessage message={bankid_Error} type="error"/>
                       )}
                     </div>
 
@@ -2329,26 +2208,7 @@ const [resetCall, setResetCall] = useState(false)
                         />
                       </div>
                       {notes_errmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {notes_errmsg}
-                          </label>
-                        </div>
+                        <ErrorMessage message={notes_errmsg} type="error"/>
                       )}
                     </div>
 
@@ -2381,26 +2241,7 @@ const [resetCall, setResetCall] = useState(false)
                         />
                       </div>
                       {terms_errmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {terms_errmsg}
-                          </label>
-                        </div>
+                      <ErrorMessage message={terms_errmsg} type="error"/>
                       )}
 
                     </div>
@@ -2470,26 +2311,7 @@ const [resetCall, setResetCall] = useState(false)
 
 
                     {editformErrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {editformErrmsg}
-                        </label>
-                      </div>
+                      <ErrorMessage message={editformErrmsg} type="error"/>
                     )}
 
                     <div className="d-flex justify-content-end mt-2 col-lg-10">
@@ -3359,24 +3181,7 @@ const [resetCall, setResetCall] = useState(false)
               </p>
             </div>
             {fieldError && (
-              <div style={{ color: "red", }}>
-                {" "}
-                <MdError
-                  style={{ fontSize: "13px", marginBottom: "2px" }}
-                />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    marginRight: "3px"
-                  }}
-                >
-                  {" "}
-                  {fieldError}
-                </span>
-              </div>
+              <ErrorMessage message={fieldError} type="error"/>
             )}
             <div className="mb-5" style={{ marginTop: "-25px" }}>
               <div className="row mb-5 align-items-center">
@@ -3561,24 +3366,7 @@ const [resetCall, setResetCall] = useState(false)
 
                   </div>
                   {MobileError && (
-                    <div style={{ color: "red", }}>
-                      {" "}
-                      <MdError
-                        style={{ fontSize: "13px", marginBottom: "2px" }}
-                      />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          marginRight: "3px"
-                        }}
-                      >
-                        {" "}
-                        {MobileError}
-                      </span>
-                    </div>
+                   <ErrorMessage message={MobileError} type="error"/>
                   )}
                 </div>
 
@@ -3623,24 +3411,7 @@ const [resetCall, setResetCall] = useState(false)
                     }}
                   />
                   {emailError && (
-                    <div style={{ color: "red", }}>
-                      {" "}
-                      <MdError
-                        style={{ fontSize: "13px", marginBottom: "2px" }}
-                      />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          marginRight: "3px"
-                        }}
-                      >
-                        {" "}
-                        {emailError}
-                      </span>
-                    </div>
+                  <ErrorMessage message={emailError} type="error"/>
                   )}
                 </div>
 
@@ -3762,46 +3533,10 @@ const [resetCall, setResetCall] = useState(false)
 
                   </div>
                   {noChangesDetectedMsg && (
-                    <div style={{ color: "red", }}>
-                      {" "}
-                      <MdError
-                        style={{ fontSize: "13px", marginBottom: "2px" }}
-                      />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          marginRight: "3px"
-                        }}
-                      >
-                        {" "}
-                        {noChangesDetectedMsg}
-                      </span>
-                    </div>
+                    <ErrorMessage message={noChangesDetectedMsg} type="error"/>
                   )}
                   {signature_errmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginRight: "5px",
-                          fontSize: "14px",
-                        }}
-                      />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {signature_errmsg}
-                      </label>
-                    </div>
+                  <ErrorMessage message={signature_errmsg} type="error"/>
                   )}
                 </div>
               </div>
@@ -3857,24 +3592,7 @@ const [resetCall, setResetCall] = useState(false)
 
 
             {emailError && (
-              <div style={{ color: "red", }}>
-                {" "}
-                <MdError
-                  style={{ fontSize: "13px", marginBottom: "2px" }}
-                />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    marginRight: "3px"
-                  }}
-                >
-                  {" "}
-                  {emailError}
-                </span>
-              </div>
+             <ErrorMessage message={emailError} type="error"/>
             )}
 
 
@@ -4059,26 +3777,7 @@ const [resetCall, setResetCall] = useState(false)
                 </>
 
                 {!selectedBankId && bankid_Error.trim() !== "" && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {bankid_Error}
-                    </label>
-                  </div>
+                  <ErrorMessage message={bankid_Error} type="error"/>
                 )}
               </div>
 
@@ -4106,26 +3805,7 @@ const [resetCall, setResetCall] = useState(false)
                         onChange={hanldePrefix}
                       />
                       {prefix_errmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {prefix_errmsg}
-                          </label>
-                        </div>
+                       <ErrorMessage message={prefix_errmsg} type="error"/>
                       )}
 
                     </Form.Group>
@@ -4146,26 +3826,7 @@ const [resetCall, setResetCall] = useState(false)
                       />
 
                       {suffix_errmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {suffix_errmsg}
-                          </label>
-                        </div>
+                       <ErrorMessage message={suffix_errmsg} type="error"/>
                       )}
                     </Form.Group>
                   </div>
@@ -4216,26 +3877,7 @@ const [resetCall, setResetCall] = useState(false)
                       />
 
                       {tax_errmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {tax_errmsg}
-                          </label>
-                        </div>
+                       <ErrorMessage message={tax_errmsg} type="error"/>
                       )}
                     </Form.Group>
                   </div>
@@ -4276,26 +3918,7 @@ const [resetCall, setResetCall] = useState(false)
                   />
                 </div>
                 {notes_errmsg.trim() !== "" && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {notes_errmsg}
-                    </label>
-                  </div>
+                  <ErrorMessage message={notes_errmsg} type="error"/>
                 )}
               </div>
 
@@ -4328,26 +3951,7 @@ const [resetCall, setResetCall] = useState(false)
                   />
                 </div>
                 {terms_errmsg.trim() !== "" && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {terms_errmsg}
-                    </label>
-                  </div>
+                   <ErrorMessage message={terms_errmsg} type="error"/>
                 )}
 
               </div>
@@ -4405,50 +4009,12 @@ const [resetCall, setResetCall] = useState(false)
 
                 </div>
                 {signature_errmsg.trim() !== "" && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {signature_errmsg}
-                    </label>
-                  </div>
+                 <ErrorMessage message={signature_errmsg} type="error"/>
                 )}
               </div>
 
               {editErrmsg.trim() !== "" && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError
-                    style={{
-                      color: "red",
-                      marginRight: "5px",
-                      fontSize: "14px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {editErrmsg}
-                  </label>
-                </div>
+             <ErrorMessage message={editErrmsg} type="error"/>
               )}
 
               <div className="d-flex justify-content-end flex-wrap mt-3 ">

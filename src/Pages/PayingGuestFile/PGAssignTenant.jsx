@@ -117,17 +117,11 @@ const PGAssignTenant = ({ show, handleClose, currentItem, }) => {
 
 
 
-  useEffect(() => {
-    if (currentItem.hostelId) {
-      dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: currentItem.hostelId, type: "inactive" } })
-    }
-  }, [])
-
-
-
+  
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
+       dispatch({ type: 'UNASSIGNCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id, type: "inactive" } })
       setIsTrigger(true)
 
 

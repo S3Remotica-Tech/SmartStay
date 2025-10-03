@@ -31,6 +31,7 @@ import downloadicon from '../Assets/Images/pdfdown.png';
 import CloseIcon from '../Assets/Images/close_icon.png';
 import PropTypes from "prop-types";
 import BankingAddForm from "./BankingAddForm";
+import ErrorMessage from '../Components/ErrorMessage'
 
 
 const SecurityDepositInvoiceTemplate = ({  BillsTemplateList }) => {
@@ -945,24 +946,7 @@ useEffect(() => {
 
                             </div>
                             {MobileError && (
-                              <div style={{ color: "red", }}>
-                                {" "}
-                                <MdError
-                                  style={{ fontSize: "13px", marginBottom: "2px" }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    marginRight: "3px"
-                                  }}
-                                >
-                                  {" "}
-                                  {MobileError}
-                                </span>
-                              </div>
+                              <ErrorMessage message={MobileError} type="error"/>
                             )}
                           </div>
 
@@ -1018,24 +1002,7 @@ useEffect(() => {
 
                             </div>
                             {emailError && (
-                              <div style={{ color: "red", }}>
-                                {" "}
-                                <MdError
-                                  style={{ fontSize: "13px", marginBottom: "2px" }}
-                                />
-                                <span
-                                  style={{
-                                    fontSize: "12px",
-                                    color: "red",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                    marginRight: "3px"
-                                  }}
-                                >
-                                  {" "}
-                                  {emailError}
-                                </span>
-                              </div>
+                              <ErrorMessage message={emailError} type="error"/>
                             )}
                           </div>
 
@@ -1118,26 +1085,7 @@ useEffect(() => {
 
                               </div>
                               {signature_errmsg.trim() !== "" && (
-                                <div className="d-flex align-items-center p-1">
-                                  <MdError
-                                    style={{
-                                      color: "red",
-                                      marginRight: "5px",
-                                      fontSize: "14px",
-                                    }}
-                                  />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                    }}
-                                  >
-                                    {signature_errmsg}
-                                  </label>
-                                </div>
+                               <ErrorMessage message={signature_errmsg} type="error"/>
                               )}
                             </div>
                           </div>
@@ -1267,26 +1215,7 @@ useEffect(() => {
                     onChange={hanldePrefix}
                   />
                   {prefix_errmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginRight: "5px",
-                          fontSize: "14px",
-                        }}
-                      />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {prefix_errmsg}
-                      </label>
-                    </div>
+                       <ErrorMessage message={prefix_errmsg} type="error"/>
                   )}
 
                 </Form.Group>
@@ -1307,26 +1236,7 @@ useEffect(() => {
                   />
 
                   {suffix_errmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginRight: "5px",
-                          fontSize: "14px",
-                        }}
-                      />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {suffix_errmsg}
-                      </label>
-                    </div>
+                   <ErrorMessage message={suffix_errmsg} type="error"/>
                   )}
                 </Form.Group>
               </div>
@@ -1377,26 +1287,7 @@ useEffect(() => {
                   />
 
                   {tax_errmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginRight: "5px",
-                          fontSize: "14px",
-                        }}
-                      />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {tax_errmsg}
-                      </label>
-                    </div>
+                   <ErrorMessage message={tax_errmsg} type="error"/>
                   )}
                 </Form.Group>
               </div>
@@ -1660,26 +1551,7 @@ useEffect(() => {
               />
             </div>
             {notes_errmsg.trim() !== "" && (
-              <div className="d-flex align-items-center p-1">
-                <MdError
-                  style={{
-                    color: "red",
-                    marginRight: "5px",
-                    fontSize: "14px",
-                  }}
-                />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {notes_errmsg}
-                </label>
-              </div>
+              <ErrorMessage message={notes_errmsg} type="error"/>
             )}
           </div>
 
@@ -1712,26 +1584,7 @@ useEffect(() => {
               />
             </div>
             {terms_errmsg.trim() !== "" && (
-              <div className="d-flex align-items-center p-1">
-                <MdError
-                  style={{
-                    color: "red",
-                    marginRight: "5px",
-                    fontSize: "14px",
-                  }}
-                />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {terms_errmsg}
-                </label>
-              </div>
+            <ErrorMessage message={terms_errmsg} type="error"/>
             )}
 
           </div>
@@ -1800,26 +1653,7 @@ useEffect(() => {
           </div>
 
           {editErrmsg.trim() !== "" && (
-            <div className="d-flex align-items-center p-1">
-              <MdError
-                style={{
-                  color: "red",
-                  marginRight: "5px",
-                  fontSize: "14px",
-                }}
-              />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {editErrmsg}
-              </label>
-            </div>
+            <ErrorMessage message={editErrmsg} type="error"/>
           )}
 
           <div className="d-flex justify-content-end mt-2 col-lg-10">

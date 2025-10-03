@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingCompliance.css";
 import { toast } from 'react-toastify';
+import ErrorMessage from '../Components/ErrorMessage'
 
 function SettingCompliance({ hostelid }) {
   const dispatch = useDispatch();
@@ -46,13 +47,13 @@ function SettingCompliance({ hostelid }) {
 
   const handleConfirmDelete = () => {
     if (rowDetails.complaintTypeId) {
-       setFormLoading(true);
+      setFormLoading(true);
       dispatch({
         type: "DELETE-COMPLAINT-TYPE",
         payload: { id: rowDetails.complaintTypeId },
       });
     }
- 
+
   };
 
   useEffect(() => {
@@ -76,15 +77,15 @@ function SettingCompliance({ hostelid }) {
   //   }
   // }, [hostelid]);
 
-useEffect(() => {
-  if (hostelid) {
-    setLoading(true);
-    dispatch({
-      type: "COMPLAINT-TYPE-LIST",
-      payload: { hostel_id: hostelid },
-    });
-  }
-}, [hostelid]);
+  useEffect(() => {
+    if (hostelid) {
+      setLoading(true);
+      dispatch({
+        type: "COMPLAINT-TYPE-LIST",
+        payload: { hostel_id: hostelid },
+      });
+    }
+  }, [hostelid]);
 
 
 
@@ -131,17 +132,17 @@ useEffect(() => {
     setPlanExpiredCompliance("");
     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
     dispatch({ type: "CLEAR_PLAN-EXPIRED" })
-     dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
+    dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
 
   };
 
   const handleShowForm = () => {
-     if (!hostelid) {
-          toast.error('Please add a hostel before adding Complaints information.', {
-         hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-          });
-          return;
-         }
+    if (!hostelid) {
+      toast.error('Please add a hostel before adding Complaints information.', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
+      return;
+    }
     setShowForm(true);
     dispatch({ type: "ALREADY_ASSIGNCOMPLAINTTYPE_ERROR" });
   };
@@ -164,7 +165,7 @@ useEffect(() => {
     }
   };
 
-  
+
 
   const handleEditType = () => {
     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
@@ -183,14 +184,14 @@ useEffect(() => {
       // });
 
       dispatch({
-  type: "COMPLAINT-TYPE-EDIT",
-  payload: {
-    id,
-    complaintTypeName: complaintTypeName,
-    isActive: true  , 
-    hostelId: hostelid 
-  },
-});
+        type: "COMPLAINT-TYPE-EDIT",
+        payload: {
+          id,
+          complaintTypeName: complaintTypeName,
+          isActive: true,
+          hostelId: hostelid
+        },
+      });
 
       setFormLoading(true)
       setIsChangedError("");
@@ -244,15 +245,15 @@ useEffect(() => {
 
   }, [state.Settings.alreadytypeerror])
 
-    useEffect(() => {
+  useEffect(() => {
     if (state.Settings.alreadyAssignComplainterror) {
       setFormLoading(false)
     }
   }, [state.Settings.alreadyAssignComplainterror])
 
-   const errorMsg = state?.Settings?.alreadyAssignComplainterror;
+  const errorMsg = state?.Settings?.alreadyAssignComplainterror;
 
-  
+
 
 
 
@@ -279,7 +280,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.Settings.deletecomplaintStatuscode === 200) {
-        setFormLoading(false)
+      setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: hostelid },
@@ -445,8 +446,10 @@ useEffect(() => {
 
       <div className="complainttype">
         {complianceFilterddata && complianceFilterddata.length > 0 && (
-          <div className="container show-scrolls" style={{ position: "relative" , maxHeight: "475px",
-                overflowY: "auto"}}>
+          <div className="container show-scrolls" style={{
+            position: "relative", maxHeight: "475px",
+            overflowY: "auto"
+          }}>
             <div className="row ">
               {complianceFilterddata.map((u, i) => {
                 return (
@@ -593,14 +596,14 @@ useEffect(() => {
       </div>
 
       {!loading && complianceFilterddata.length === 0 && (
-        <div  style={{
-              textAlign: "center",
-              marginTop: 90,
-              height: '40vh',
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center"
-            }}>
+        <div style={{
+          textAlign: "center",
+          marginTop: 90,
+          height: '40vh',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
+        }}>
           <div className="d-flex justify-content-center">
             <img
               src={EmptyState}
@@ -608,30 +611,30 @@ useEffect(() => {
               alt="Empty state"
             />
           </div>
-             <div
-              className="pb-1"
-              style={{
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: 18,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              No ComplaintTypes
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                fontSize: 14,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              There are no ComplaintTypes available.
-            </div>
+          <div
+            className="pb-1"
+            style={{
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: 18,
+              color: "rgba(75, 75, 75, 1)",
+            }}
+          >
+            No ComplaintTypes
           </div>
-       
+          <div
+            className="pb-1"
+            style={{
+              fontWeight: 500,
+              fontFamily: "Gilroy",
+              fontSize: 14,
+              color: "rgba(75, 75, 75, 1)",
+            }}
+          >
+            There are no ComplaintTypes available.
+          </div>
+        </div>
+
       )}
 
       {/* {complianceFilterddata.length > 10 && (
@@ -843,39 +846,25 @@ useEffect(() => {
                 />
               </Form.Group>
 
-              <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ marginTop: "10px" }}
-              >
-                {isChangedError && (
-                  <>
-                    <MdError style={{ marginRight: "7px", color: "red", fontSize: "13px" }} />
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: 13,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      {" "}
-                      {isChangedError}{" "}
-                    </span>
-                  </>
-                )}
+
+              {isChangedError && (
+                <div
+                  className="d-flex align-items-center justify-content-center"
+                >
+                  <ErrorMessage message={isChangedError} type="error" />
+
+                </div>
+              )}
 
 
- 
-              </div>
+
             </div>
           </div>
 
-          
-              {state.Settings.alreadytypeerror !== "" && (
-  <div className='d-flex align-items-center justify-content-center mt-2 mb-2'>
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label style={{ color: "red" }}>{state.Settings.alreadytypeerror}</label>
-  </div>
-)}
+
+          {state.Settings.alreadytypeerror !== "" && (
+            <ErrorMessage message={state.Settings.alreadytypeerror} type="error" />
+          )}
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -986,52 +975,23 @@ useEffect(() => {
                     borderRadius: 8,
                   }}
                 />
-              </Form.Group>
-               {state.Settings.alreadytypeerror !== "" && (
-  <div className='d-flex align-items-center mt-2 mb-2'>
-    <MdError style={{ color: "red", marginRight: '5px' }} />
-    <label style={{ color: "red" , fontFamily: "Gilroy",fontSize:14}}>{state.Settings.alreadytypeerror}</label>
-  </div>
-)}
-              <div style={{ marginTop: "-10px" }}>
+
+
+                 {state.Settings.alreadytypeerror !== "" && (
+                <ErrorMessage message={state.Settings.alreadytypeerror} type="error" />
+              )}
+            
                 {complaintError && (
-                  <p
-                    style={{
-                      display: "flex",
-                      fontSize: "13px",
-                      alignItems: "center",
-                      color: "red",
-                      fontFamily: "Gilroy",
-                      marginBottom: "-15px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "13px",
-                        color: "red",
-                        marginRight: "5px",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      <MdError />
-                    </span>
-                    {complaintError}
-                  </p>
+                 <ErrorMessage message={complaintError} type="error" />
                 )}
-              </div>
+              </Form.Group>
+             
+              
             </div>
           </div>
         </Modal.Body>
 
-        {/* {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
-          : null} */}
-
-
-        {formLoading &&
+                {formLoading &&
           <div
             style={{
               position: 'absolute',
@@ -1061,31 +1021,13 @@ useEffect(() => {
 
 
         {planExpiredCompliance && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 10,
-            }}
-          >
-            <MdError style={{ marginRight: "7px", color: "red", fontSize: 14 }} />
-            <span
-              style={{
-                color: "red",
-                fontSize: 12,
-                fontFamily: "Gilroy",
-              }}
-            >
-              {planExpiredCompliance}
-            </span>
-          </div>
+          <ErrorMessage message={planExpiredCompliance} type="error" />
         )}
 
-                   
+
 
         <Modal.Footer
-          className="d-flex justify-content-center"
+          className="d-flex justify-content-center pt-0"
           style={{ borderTop: "none" }}
         >
           <Button
@@ -1168,14 +1110,13 @@ useEffect(() => {
             ></div>
           </div>
         }
- 
 
-{Boolean(errorMsg) && errorMsg !== "undefined" && (
-  <div className="d-flex align-items-center justify-content-center mt-2 mb-2">
-    <MdError style={{ color: "red", marginRight: "5px" }} />
-    <label style={{ color: "red" , fontSize:12 ,   fontFamily: "Gilroy", }}>{errorMsg}</label>
-  </div>
-)}
+
+        {Boolean(errorMsg) && errorMsg !== "undefined" && (
+          <div className="d-flex align-items-center justify-content-center mt-2 mb-2">
+            <ErrorMessage message={errorMsg} type="error" />
+          </div>
+        )}
 
 
         <Modal.Footer
