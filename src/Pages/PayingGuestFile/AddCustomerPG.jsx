@@ -227,40 +227,40 @@ function AddCustomer({ showMenu, handleClose }) {
 
 
 
- const handleHouseNo = (e) => {
-  const value = e.target.value;
-  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+  const handleHouseNo = (e) => {
+    const value = e.target.value;
+    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
-  if (regex.test(value)) {
-    setHouseNo(value);
-    setHouse_NoError("");
-  }
-};
+    if (regex.test(value)) {
+      setHouseNo(value);
+      setHouse_NoError("");
+    }
+  };
 
 
   const handleStreetName = (e) => {
-  const value = e.target.value;
-  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+    const value = e.target.value;
+    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
-  if (regex.test(value)) {
-    setStreet(value);
-    setStreetError("");
-  } else {
-    setStreetError("Please Enter Valid Street Name");
-  }
-};
+    if (regex.test(value)) {
+      setStreet(value);
+      setStreetError("");
+    } else {
+      setStreetError("Please Enter Valid Street Name");
+    }
+  };
 
-const handleLandmark = (e) => {
-  const value = e.target.value;
-  const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+  const handleLandmark = (e) => {
+    const value = e.target.value;
+    const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
-  if (regex.test(value)) {
-    setLandmark(value);
-    setLandmarkError("");
-  } else {
-    setLandmarkError("Please Enter Valid Landmark");
-  }
-};
+    if (regex.test(value)) {
+      setLandmark(value);
+      setLandmarkError("");
+    } else {
+      setLandmarkError("Please Enter Valid Landmark");
+    }
+  };
 
 
 
@@ -842,88 +842,80 @@ const handleLandmark = (e) => {
                                   />
                                 </Form.Group>
                               </div>
-
-                              <Form.Group
-                                className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1"
-                                controlId="exampleForm.ControlInput1"
-                              >
-                                <Form.Label
-                                  style={{
-                                    fontSize: 14,
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500,
-                                  }}
-                                >
-                                  Mobile Number{" "}
-                                  <span style={{ color: "red", fontSize: "20px" }}>
-                                    {" "}
-                                    *{" "}
-                                  </span>
-                                </Form.Label>
-
-                                <InputGroup>
-                                  <Form.Select
-                                    value={countryCode}
-                                    id="vendor-select-pg"
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <Form.Group
+                                  className="mb-1" >
+                                  <Form.Label
                                     style={{
-                                      border: "1px solid #D9D9D9",
-
-                                      borderRadius: "8px 0 0 8px",
-                                      height: 40,
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: countryCode ? 600 : 300,
-                                      boxShadow: "none",
-                                      backgroundColor: "#fff",
-                                      maxWidth: 90,
-                                      paddingRight: 10,
-                                      cursor: "pointer"
-                                    }}
-                                  >
-                                    <option>{countryCode}</option>
-                                  </Form.Select>
-                                  <Form.Control
-                                    value={Phone}
-                                    ref={phoneRef}
-                                    onChange={handlePhone}
-                                    type="text"
-                                    placeholder="Enter Mobile Number"
-                                    maxLength={10}
-                                    style={{
-                                      fontSize: 16,
-                                      color: "#4B4B4B",
+                                      fontSize: 14,
+                                      color: "#222222",
                                       fontFamily: "Gilroy",
                                       fontWeight: 500,
-                                      boxShadow: "none",
-                                      borderLeft: "unset",
-                                      borderRight: "1px solid #D9D9D9",
-                                      borderTop: "1px solid #D9D9D9",
-                                      borderBottom: "1px solid #D9D9D9",
-                                      height: 40,
-                                      borderRadius: "0 8px 8px 0",
                                     }}
-                                  />
-                                </InputGroup>
-                                <p
-                                  id="MobileNumberError"
-                                  style={{
-                                    color: "red",
-                                    fontSize: 11,
-                                    marginTop: "-15px",
-                                  }}
-                                ></p>
-                                {phoneError && (
-                                  <ErrorMessage message={phoneError} type="error"/>
-                                )}
-                                {state.UsersList.phoneError && (
-                                  <ErrorMessage message={state.UsersList.phoneError} type="error"/>
-                                )}
-                                {phoneErrorMessage && (
-                                  <ErrorMessage message={phoneErrorMessage} type="error" />
-                                )}
-                              </Form.Group>
+                                  >
+                                    Mobile Number{" "}
+                                    <span style={{ color: "red", fontSize: "20px" }}>
+                                      {" "}
+                                      *{" "}
+                                    </span>
+                                  </Form.Label>
+
+                                  <InputGroup>
+                                    <Form.Select
+                                      value={countryCode}
+                                      id="vendor-select-pg"
+                                      style={{
+                                        border: "1px solid #D9D9D9",
+
+                                        borderRadius: "8px 0 0 8px",
+                                        height: 40,
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: countryCode ? 600 : 300,
+                                        boxShadow: "none",
+                                        backgroundColor: "#fff",
+                                        maxWidth: 90,
+                                        paddingRight: 10,
+                                        cursor: "pointer"
+                                      }}
+                                    >
+                                      <option>{countryCode}</option>
+                                    </Form.Select>
+                                    <Form.Control
+                                      value={Phone}
+                                      ref={phoneRef}
+                                      onChange={handlePhone}
+                                      type="text"
+                                      placeholder="Enter Mobile Number"
+                                      maxLength={10}
+                                      style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                        boxShadow: "none",
+                                        borderLeft: "unset",
+                                        borderRight: "1px solid #D9D9D9",
+                                        borderTop: "1px solid #D9D9D9",
+                                        borderBottom: "1px solid #D9D9D9",
+                                        height: 40,
+                                        borderRadius: "0 8px 8px 0",
+                                      }}
+                                    />
+                                  </InputGroup>
+                                 
+                                  {phoneError && (
+                                    <ErrorMessage message={phoneError} type="error" />
+                                  )}
+                                  {state.UsersList.phoneError && (
+                                    <ErrorMessage message={state.UsersList.phoneError} type="error" />
+                                  )}
+                                  {phoneErrorMessage && (
+                                    <ErrorMessage message={phoneErrorMessage} type="error" />
+                                  )}
+                                </Form.Group>
+                              </div>
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <Form.Group className="mb-1">
                                   <Form.Label
@@ -956,13 +948,13 @@ const handleLandmark = (e) => {
                                     }}
                                   />
                                   {emailError && (
-                                    <ErrorMessage message={emailError}  type="error"/>
+                                    <ErrorMessage message={emailError} type="error" />
                                   )}
                                   {state.UsersList.emailError && (
                                     <ErrorMessage message={state.UsersList.emailError} type="error" />
                                   )}
                                   {emailErrorMessage && (
-                                    <ErrorMessage message={emailErrorMessage} type="error"/>
+                                    <ErrorMessage message={emailErrorMessage} type="error" />
                                   )}
                                 </Form.Group>
                               </div>
@@ -970,7 +962,7 @@ const handleLandmark = (e) => {
 
                           </div>
                           {state.createAccount?.networkError &&
-                            <ErrorMessage message={state.createAccount?.networkError}  type="error"/>
+                            <ErrorMessage message={state.createAccount?.networkError} type="error" />
                           }
                         </div>
 
@@ -1042,7 +1034,7 @@ const handleLandmark = (e) => {
                               />
                             </Form.Group>
                             {house_noError && (
-                              <ErrorMessage message={house_noError} type="error"/>
+                              <ErrorMessage message={house_noError} type="error" />
                             )}
                           </div>
 
@@ -1077,7 +1069,7 @@ const handleLandmark = (e) => {
                               />
                             </Form.Group>
                             {streetError && (
-                             <ErrorMessage message={streetError}  type="error"/>
+                              <ErrorMessage message={streetError} type="error" />
                             )}
                           </div>
 
@@ -1112,7 +1104,7 @@ const handleLandmark = (e) => {
                               />
                             </Form.Group>
                             {landmarkError && (
-                             <ErrorMessage message={landmarkError} type="error"/>
+                              <ErrorMessage message={landmarkError} type="error" />
                             )}
                           </div>
 
@@ -1154,7 +1146,7 @@ const handleLandmark = (e) => {
                               />
 
                               {pincodeError && (
-                                 <ErrorMessage message={pincodeError} type="error"/>
+                                <ErrorMessage message={pincodeError} type="error" />
                               )}
 
                             </Form.Group>
@@ -1193,7 +1185,7 @@ const handleLandmark = (e) => {
                               />
                             </Form.Group>
                             {cityError && (
-                             <ErrorMessage message={cityError} type="error"/>
+                              <ErrorMessage message={cityError} type="error" />
                             )}
                           </div>
 
@@ -1296,11 +1288,11 @@ const handleLandmark = (e) => {
 
 
 
-                         
+
 
                         </div>
-                      
-                        
+
+
                         <div className="d-flex justify-content-end mt-3">
                           <Button style={{
                             fontFamily: "Gilroy",

@@ -112,7 +112,7 @@ function CustomerCheckout(props) {
     }
   };
 
-  console.log("props",props)
+  console.log("props", props)
 
   const handleCheckOutCustomer = () => {
 
@@ -143,8 +143,8 @@ function CustomerCheckout(props) {
     const formattedrequestDate = dayjs(requestDate).isValid()
       ? dayjs(requestDate).format("DD-MM-YYYY")
       : null;
-const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.customerId;
- if (customerId && formattedDate && formattedrequestDate) {
+    const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.customerId;
+    if (customerId && formattedDate && formattedrequestDate) {
 
       dispatch({
         type: 'ADDCHECKOUTCUSTOMER',
@@ -264,29 +264,20 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                         >
 
                           <Image
-                            // src={
-                            //   props.data && props.data.profile && props.data.profile !== ""
-                            //     ? typeof props.data.profile === "string"
-                            //       ? props.data.profile
-                            //       : URL.createObjectURL(props.data.profile)
-                            //     : Profiles
-                            // }
-                            // alt="Profile"
-                            // roundedCircle
-                            // style={{ height: 60, width: 60 }}
-                            // onError={(e) => {
-
-                            //   e.target.onerror = null;
-                            //   e.target.src = Profiles;
-                            // }}
-                            src={
+                                                       src={
                               props.bedData
-                                && props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== ""
-                                ? typeof props.bedData.currentTenantProfilePic === "string"
-                                  ? props.bedData.currentTenantProfilePic
-                                  : URL.createObjectURL(props.bedData.currentTenantProfilePic)
+                                ? props.bedData.currentTenantProfilePic && props.bedData.currentTenantProfilePic !== ""
+                                  ? typeof props.bedData.currentTenantProfilePic === "string"
+                                    ? props.bedData.currentTenantProfilePic
+                                    : URL.createObjectURL(props.bedData.currentTenantProfilePic)
+                                  : props.bedData.profilePic && props.bedData.profilePic !== ""
+                                    ? typeof props.bedData.profilePic === "string"
+                                      ? props.bedData.profilePic
+                                      : URL.createObjectURL(props.bedData.profilePic)
+                                    : Profiles
                                 : Profiles
                             }
+
                             alt="Profile"
                             roundedCircle
                             style={{ height: 60, width: 60 }}
@@ -310,7 +301,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                                   fontFamily: "Gilroy",
                                 }}
                               >
-                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.currentTenantFullName}
+                                {props.data?.Name || state.UsersList.customerdetails?.data?.[0].Name || props.bedData?.currentTenantFullName || props.bedData?.firstName}
                               </label>
                             </div>
 
@@ -332,7 +323,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {state.UsersList.customerdetails?.data?.[0].floor_name  || props.bedData?.floorName}
+                              {state.UsersList.customerdetails?.data?.[0].floor_name || props.bedData?.floorName}
                             </div>
 
                             <div
@@ -349,7 +340,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {props.bedData?.room?.Room_Name  || props.bedData?.roomName}  - {props.bedData?.bed?.bed_no ||  props.bedData?.bedName}
+                              {props.bedData?.room?.Room_Name || props.bedData?.roomName}  - {props.bedData?.bed?.bed_no || props.bedData?.bedName}
                             </div>
 
 
@@ -371,7 +362,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                           </Form.Label>
 
                           <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                          
+
                             <DatePicker
                               style={{
                                 width: "100%",
@@ -383,7 +374,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
                               value={requestDate ? dayjs(requestDate) : null}
-                                                           onChange={(date) => {
+                              onChange={(date) => {
                                 setCheckOutRequestDateError("");
                                 dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
 
@@ -404,7 +395,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                                   joining = dayjs(`${yyyy}-${mm}-${dd}`).startOf("day");
                                 }
 
-                        
+
                                 let lastBillDate = null;
                                 if (lastDate && /^\d{2}-\d{2}-\d{4}$/.test(lastDate)) {
                                   const [dd, mm, yyyy] = lastDate.split("-");
@@ -459,7 +450,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                           </Form.Label>
 
                           <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                                                        <DatePicker
+                            <DatePicker
                               style={{
                                 width: "100%",
                                 height: 48,
@@ -528,7 +519,7 @@ const customerId = props.bedData?.currentTenantCustomerId || props.bedData?.cust
                   </ModalBody>
 
 
-                 
+
 
 
                   {formLoading &&
@@ -638,7 +629,7 @@ CustomerCheckout.propTypes = {
     bed: PropTypes.shape({
       bed_no: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
-  }).isRequired, 
+  }).isRequired,
 };
 
 export default CustomerCheckout

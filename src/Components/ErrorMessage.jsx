@@ -35,7 +35,7 @@ const Message = ({ message, type = "error" }) => {
         marginTop: 4,
         padding: "6px 10px",
         borderRadius: 4,
-        display: "inline-flex",
+        display: "flex",
         flexDirection: "column",
         gap: 4,
         width: "fit-content",

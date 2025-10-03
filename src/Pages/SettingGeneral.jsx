@@ -409,25 +409,42 @@ function SettingGeneral() {
 
 
 
+const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
 
   const handleHouseNo = (e) => {
-    setHouseNo(e.target.value);
-    setHouse_NoError("")
-    setFormError("");
+    const value = e.target.value;
+    if (regex.test(value)) {
+      setHouseNo(value);
+      setHouse_NoError("");
+      setFormError("");
+    } else {
+      setHouse_NoError("Please Enter valid characters");
+    }
   };
 
   const handleStreetName = (e) => {
-    setStreet(e.target.value);
-    setStreetError("");
-    setFormError("");
-  }
+    const value = e.target.value;
+    if (regex.test(value)) {
+      setStreet(value);
+      setStreetError("");
+      setFormError("");
+    } else {
+      setStreetError("Please Enter valid characters");
+    }
+  };
 
   const handleLandmark = (e) => {
-    setLandmark(e.target.value);
-    setLandmarkError("");
-    setFormError("");
-  }
+    const value = e.target.value;
+    if (regex.test(value)) {
+      setLandmark(value);
+      setLandmarkError("");
+      setFormError("");
+    } else {
+      setLandmarkError("Please Enter valid characters");
+    }
+  };
+
 
 
 
@@ -1701,7 +1718,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {firstNameError && (
-                 <ErrorMessage message={firstNameError} type="error"/>
+                <ErrorMessage message={firstNameError} type="error" />
               )}
             </div>
 
@@ -1794,17 +1811,17 @@ function SettingGeneral() {
                     }}
                   />
                 </InputGroup>
-                
+
 
               </Form.Group>
               {phoneError && (
-                 <ErrorMessage message={phoneError} type="error"/>
+                <ErrorMessage message={phoneError} type="error" />
               )}
               {phoneErrorMessage && (
-                <ErrorMessage message={phoneErrorMessage} type="error"/>
+                <ErrorMessage message={phoneErrorMessage} type="error" />
               )}
               {state.Settings?.generalMobileError && (
-                 <ErrorMessage message={state.Settings?.generalMobileError} type="error"/>
+                <ErrorMessage message={state.Settings?.generalMobileError} type="error" />
               )}
 
             </div>
@@ -1843,14 +1860,14 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {emailError && (
-                <ErrorMessage message={emailError} type="error"/>
+                <ErrorMessage message={emailError} type="error" />
               )}
               {state.Settings?.generalEmailError && (
-                <ErrorMessage message={state.Settings?.generalEmailError} type="error"/>
+                <ErrorMessage message={state.Settings?.generalEmailError} type="error" />
               )}
 
               {emailErrorMessage && (
-                <ErrorMessage message={state.Settings?.generalEmailError} type="error"/>
+                <ErrorMessage message={state.Settings?.generalEmailError} type="error" />
               )}
             </div>
 
@@ -1923,7 +1940,7 @@ function SettingGeneral() {
                   </InputGroup>
                 </Form.Group>
                 {!edit && passwordError && (
-                  <ErrorMessage message={passwordError} type="error"/>
+                  <ErrorMessage message={passwordError} type="error" />
                 )}
               </div>
             )}
@@ -1959,7 +1976,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {house_noError && (
-               <ErrorMessage message={house_noError} type="error"/>
+                <ErrorMessage message={house_noError} type="error" />
               )}
             </div>
 
@@ -1994,7 +2011,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {streetError && (
-                <ErrorMessage message={streetError} type="error"/>
+                <ErrorMessage message={streetError} type="error" />
               )}
             </div>
 
@@ -2029,7 +2046,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {landmarkError && (
-                <ErrorMessage message={landmarkError} type="error"/>
+                <ErrorMessage message={landmarkError} type="error" />
               )}
             </div>
 
@@ -2069,7 +2086,7 @@ function SettingGeneral() {
                   }}
                 />
                 {pincodeError && (
-                  <ErrorMessage message={pincodeError} type="error"/>
+                  <ErrorMessage message={pincodeError} type="error" />
                 )}
 
 
@@ -2109,7 +2126,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {cityError && (
-              <ErrorMessage message={cityError} type="error"/>
+                <ErrorMessage message={cityError} type="error" />
               )}
             </div>
 
@@ -2203,7 +2220,7 @@ function SettingGeneral() {
               </Form.Group>
 
               {!state_name && state_nameError && (
-                <ErrorMessage message={state_nameError} type="error"/>
+                <ErrorMessage message={state_nameError} type="error" />
               )}
             </div>
 
@@ -2213,7 +2230,7 @@ function SettingGeneral() {
           </div>
         </Modal.Body>
 
-       
+
 
         {formLoading && <div
           style={{
@@ -2245,7 +2262,7 @@ function SettingGeneral() {
 
         <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           {formError && (
-           <ErrorMessage message={formError} type="error"/>
+            <ErrorMessage message={formError} type="error" />
           )}
 
           <Button
@@ -2306,7 +2323,7 @@ function SettingGeneral() {
         </Modal.Body>
         {generalDeleteError && (
           <div className="d-flex justify-content-center align-items-center">
-           <ErrorMessage message={generalDeleteError} type="error"/>
+            <ErrorMessage message={generalDeleteError} type="error" />
           </div>
         )}
         <Modal.Footer
@@ -2445,7 +2462,7 @@ function SettingGeneral() {
             </InputGroup>
           </Form.Group>
           {passError && (
-           <ErrorMessage message={passError} type="error"/>
+            <ErrorMessage message={passError} type="error" />
           )}
 
 
@@ -2580,7 +2597,7 @@ function SettingGeneral() {
                 </InputGroup.Text>
               </InputGroup>
               {newPassError && (
-               <ErrorMessage message={newPassError} type="error"/>
+                <ErrorMessage message={newPassError} type="error" />
 
               )}
 
@@ -2650,7 +2667,7 @@ function SettingGeneral() {
                 </InputGroup.Text>
               </InputGroup>
               {conformPasswordError && (
-                 <ErrorMessage message={conformPasswordError} type="error"/>
+                <ErrorMessage message={conformPasswordError} type="error" />
               )}
 
             </Form.Group>

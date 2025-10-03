@@ -293,9 +293,7 @@ function SettingManage() {
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 201) {
       dispatch({ type: "HOSTELLIST" });
-      // dispatch({ type: "HOSTELIDDETAILS" });
-
-
+    
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });

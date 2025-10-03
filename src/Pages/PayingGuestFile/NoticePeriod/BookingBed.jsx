@@ -11,7 +11,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import { MdError } from "react-icons/md";
-import ErrorMessage from '../../Components/ErrorMessage';
+import ErrorMessage from '../../../Components/ErrorMessage';
 
 function BookingBed({
   show, handleClose, currentItem
