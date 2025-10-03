@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
   const state = useSelector((state) => state);
@@ -92,21 +93,45 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
           Are you sure you want to delete the room?
         </Modal.Body>
         {deleteRoomError && (
-          <div className="d-flex justify-content-center align-items-center gap-2 ">
-            <MdError style={{ color: "red" }} />
-            <label
-              className="mb-0"
-              style={{
-                color: "red",
-                fontSize: "12px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                textAlign: "center",
-              }}
-            >
-              {deleteRoomError}
-            </label>
-          </div>
+          
+                    <div 
+                                                                                      style={{
+                                                                                        display: "flex",
+                                                                                        justifyContent: "center",
+                                                                                        // marginTop: 8,
+                                                                                      }}
+                                                                                    >
+                                                                                      <div
+                                                                                        style={{
+                                                                                          color: "red",
+                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                          display: "flex",
+                                                                                          alignItems: "center",
+                                                                                          padding: "4px 10px",
+                                                                                          borderRadius: 4,
+                                                                                          maxWidth: "fit-content", 
+                                                                                        }}
+                                                                                      >
+                                                                                        <img
+                                                                                          src={Error_Icon}
+                                                                                          alt="ErrorIcon"
+                                                                                          style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                                        />
+                                                                                        <span
+                                                                                          style={{
+                                                                                            fontSize: "12px",
+                                                                                            color: "red",
+                                                                                            fontFamily: "Gilroy",
+                                                                                            fontWeight: 500,
+                                                                                            whiteSpace: "normal",
+                                                                                          }}
+                                                                                    >
+                                                                                     {deleteRoomError}
+                                                                                    </span>
+                                                                                  </div>
+                                                                                     </div>
+
+         
         )}
 
         <Modal.Footer

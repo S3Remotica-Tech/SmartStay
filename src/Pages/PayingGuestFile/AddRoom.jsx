@@ -4,9 +4,10 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const state = useSelector((state) => state);
@@ -226,78 +227,207 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             ></div>
           </div>}
           {isChangedError && (
-            <div className="d-flex align-items- justify-content-center">
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "13px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {isChangedError}
-              </label>
-            </div>
+             <div 
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          // marginTop: 8,
+                                        }}
+                                      >
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "4px 10px",
+                                            borderRadius: 4,
+                                            maxWidth: "fit-content", 
+                                          }}
+                                        >
+                                          <img
+                                            src={Error_Icon}
+                                            alt="ErrorIcon"
+                                            style={{ marginRight: "6px", width: 14, height: 14 }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              whiteSpace: "normal",
+                                            }}
+                                      >
+                                       {isChangedError}
+                                      </span>
+                                    </div>
+                                       </div>
+
+           
           )}
 
           {roomError && (
-            <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {roomError}
-              </label>
-            </div>
+              <div 
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "left",
+                                          // marginTop: 8,
+                                          marginLeft:15
+                                        }}
+                                      >
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "4px 10px",
+                                            borderRadius: 4,
+                                            maxWidth: "fit-content", 
+                                          }}
+                                        >
+                                          <img
+                                            src={Error_Icon}
+                                            alt="ErrorIcon"
+                                            style={{ marginRight: "6px", width: 14, height: 14 }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              whiteSpace: "normal",
+                                            }}
+                                      >
+                                       {roomError}
+                                      </span>
+                                    </div>
+                                       </div>
+            
           )}
           {floorError && (
-            <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {floorError}
-              </label>
-            </div>
+            
+               <div 
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          // marginTop: 8,
+                                        }}
+                                      >
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "4px 10px",
+                                            borderRadius: 4,
+                                            maxWidth: "fit-content", 
+                                          }}
+                                        >
+                                          <img
+                                            src={Error_Icon}
+                                            alt="ErrorIcon"
+                                            style={{ marginRight: "6px", width: 14, height: 14 }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              whiteSpace: "normal",
+                                            }}
+                                      >
+                                       {floorError}
+                                      </span>
+                                    </div>
+                                       </div>
+           
           )}
 
           {state.PgList && state.PgList?.alreadyRoomHere && (
-            <div className="d-flex align-items- justify-content-center">
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "13px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {state.PgList?.alreadyRoomHere}
-              </label>
-            </div>
+              <div 
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          // marginTop: 8,
+                                        }}
+                                      >
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "4px 10px",
+                                            borderRadius: 4,
+                                            maxWidth: "fit-content", 
+                                          }}
+                                        >
+                                          <img
+                                            src={Error_Icon}
+                                            alt="ErrorIcon"
+                                            style={{ marginRight: "6px", width: 14, height: 14 }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              whiteSpace: "normal",
+                                            }}
+                                      >
+                                       {state.PgList?.alreadyRoomHere}
+                                      </span>
+                                    </div>
+                                       </div>
+
+          
           )}
 
 
           {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
+              <div 
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          // marginTop: 8,
+                                        }}
+                                      >
+                                        <div
+                                          style={{
+                                            color: "red",
+                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "4px 10px",
+                                            borderRadius: 4,
+                                            maxWidth: "fit-content", 
+                                          }}
+                                        >
+                                          <img
+                                            src={Error_Icon}
+                                            alt="ErrorIcon"
+                                            style={{ marginRight: "6px", width: 14, height: 14 }}
+                                          />
+                                          <span
+                                            style={{
+                                              fontSize: "12px",
+                                              color: "red",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              whiteSpace: "normal",
+                                            }}
+                                      >
+                                       {state.createAccount?.networkError}
+                                      </span>
+                                    </div>
+                                       </div>
+
             : null}
 
           <Modal.Footer style={{ border: "none" }}>

@@ -5,14 +5,14 @@ import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
 import AddCustomer from './AddCustomerPG';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import { DatePicker } from "antd";
 import { Form } from "react-bootstrap";
 import dayjs from "dayjs";
 import moment from "moment";
-
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 
 function DeleteBed({ show, handleClose, deleteBedDetails }) {
@@ -257,12 +257,45 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
         {state.PgList?.deleteBedError && (
-          <div className="d-flex align-items-center p-1 mb-2">
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-              {state.PgList?.deleteBedError}
-            </label>
-          </div>
+         
+                             <div 
+                                                                                               style={{
+                                                                                                 display: "flex",
+                                                                                                 justifyContent: "center",
+                                                                                                 // marginTop: 8,
+                                                                                               }}
+                                                                                             >
+                                                                                               <div
+                                                                                                 style={{
+                                                                                                   color: "red",
+                                                                                                   backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                   display: "flex",
+                                                                                                   alignItems: "center",
+                                                                                                   padding: "4px 10px",
+                                                                                                   borderRadius: 4,
+                                                                                                   maxWidth: "fit-content", 
+                                                                                                 }}
+                                                                                               >
+                                                                                                 <img
+                                                                                                   src={Error_Icon}
+                                                                                                   alt="ErrorIcon"
+                                                                                                   style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                                                 />
+                                                                                                 <span
+                                                                                                   style={{
+                                                                                                     fontSize: "12px",
+                                                                                                     color: "red",
+                                                                                                     fontFamily: "Gilroy",
+                                                                                                     fontWeight: 500,
+                                                                                                     whiteSpace: "normal",
+                                                                                                   }}
+                                                                                             >
+                                                                                              {state.PgList?.deleteBedError}
+                                                                                             </span>
+                                                                                           </div>
+                                                                                              </div>
+
+        
         )}
 
 
@@ -414,21 +447,34 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                       </div>
                     </Form.Group>
                     {advanceDateError && (
-                      <div style={{ color: "red", marginTop: "-7px" }}>
-                        <MdError
-                          style={{ fontSize: "13px", marginRight: "5px" }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {advanceDateError}
-                        </span>
-                      </div>
+
+                             <div style={{
+                                                                                                                 color: "red",
+                                                                                                                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                                                                                             marginTop: 4,
+                                                                                                                                                                             display: "inline-flex", 
+                                                                                                                                                                             alignItems: "center",
+                                                                                                                                                                             padding: "4px 10px", 
+                                                                                                                                                                             borderRadius: 4,
+                                                                                                                                                                           }}> 
+                                                                                                                                                                           <img
+                                                                                                                                                                             src={Error_Icon}
+                                                                                                                                                                             alt="ErrorIcon"
+                                                                                                                                                                             style={{ marginRight: "4px", fontSize:15}}
+                                                                                                                                                                           />
+                                                                                                                                                                           <span
+                                                                                                                                                                             style={{
+                                                                                                                                                                               fontSize: "12px",
+                                                                                                                                                                               color: "red",
+                                                                                                                                                                               fontFamily: "Gilroy",
+                                                                                                                                                                               fontWeight: 500,
+                                                                                                                                                                               whiteSpace: "nowrap", 
+                                                                                                                                                                             }}
+                                                                     >
+                                                                       {advanceDateError}
+                                                                     </span>
+                                                                   </div>
+                    
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -473,21 +519,33 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
                       </div>
                     </Form.Group>
                     {advanceDueDateError && (
-                      <div style={{ color: "red", marginTop: "-7px" }}>
-                        <MdError
-                          style={{ fontSize: "13px", marginRight: "5px" }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {advanceDueDateError}
-                        </span>
-                      </div>
+                             <div style={{
+                                                                                                                 color: "red",
+                                                                                                                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                                                                                             marginTop: 4,
+                                                                                                                                                                             display: "inline-flex", 
+                                                                                                                                                                             alignItems: "center",
+                                                                                                                                                                             padding: "4px 10px", 
+                                                                                                                                                                             borderRadius: 4,
+                                                                                                                                                                           }}> 
+                                                                                                                                                                           <img
+                                                                                                                                                                             src={Error_Icon}
+                                                                                                                                                                             alt="ErrorIcon"
+                                                                                                                                                                             style={{ marginRight: "4px", fontSize:15}}
+                                                                                                                                                                           />
+                                                                                                                                                                           <span
+                                                                                                                                                                             style={{
+                                                                                                                                                                               fontSize: "12px",
+                                                                                                                                                                               color: "red",
+                                                                                                                                                                               fontFamily: "Gilroy",
+                                                                                                                                                                               fontWeight: 500,
+                                                                                                                                                                               whiteSpace: "nowrap", 
+                                                                                                                                                                             }}
+                                                                     >
+                                                                       {advanceDueDateError}
+                                                                     </span>
+                                                                   </div>
+                     
                     )}
                   </div>
                 </div>

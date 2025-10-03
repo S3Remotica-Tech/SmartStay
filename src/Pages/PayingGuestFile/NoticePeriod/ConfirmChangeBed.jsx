@@ -10,9 +10,10 @@ import Frame from "/src/Assets/Images/New_images/Frame.svg";
 import Group from "/src/Assets/Images/New_images/Group.png";
 import { CloseCircle } from "iconsax-react";
 import repeatOne from "/src/Assets/Images/New_images/repeate-one.svg";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import { DatePicker } from "antd";
+import Error_Icon from "/src/Assets/Images/New_images/Error_warning.png";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
@@ -593,23 +594,32 @@ useEffect(() => {
 
                           </div>
                           {dateError && (
-                            <div style={{ color: "red", marginTop: "1px" }}>
-                              {" "}
-                              <MdError
-                                style={{ fontSize: "14px", marginRight: "4px" }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: "12px",
-                                  color: "red",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {" "}
-                                {dateError}
-                              </span>
-                            </div>
+                                  <div style={{
+                                                                                                                                  color: "red",
+                                                                                                                                 backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                                                                                                              marginTop: 4,
+                                                                                                                                                                                              display: "inline-flex", 
+                                                                                                                                                                                              alignItems: "center",
+                                                                                                                                                                                              padding: "4px 10px", 
+                                                                                                                                                                                              borderRadius: 4,
+                                                                                                                                                                                            }}> 
+                                                                                                                                                                                            <img
+                                                                                                                                                                                              src={Error_Icon}
+                                                                                                                                                                                              alt="ErrorIcon"
+                                                                                                                                                                                              style={{ marginRight: "4px", fontSize:15}}
+                                                                                                                                                                                            />
+                                                                                                                                                                                            <span
+                                                                                                                                                                                              style={{
+                                                                                                                                                                                                fontSize: "12px",
+                                                                                                                                                                                                color: "red",
+                                                                                                                                                                                                fontFamily: "Gilroy",
+                                                                                                                                                                                                fontWeight: 500,
+                                                                                                                                                                                                whiteSpace: "nowrap", 
+                                                                                                                                                                                              }}
+                                                                                      >
+                                                                                        {dateError}
+                                                                                      </span>
+                                                                                    </div>
                           )}
                         </Form.Group>
 
@@ -684,23 +694,32 @@ useEffect(() => {
                             }}
                           />
                           {rentError && (
-                            <div style={{ color: "red", marginTop: "0px" }}>
-                              {" "}
-                              <MdError
-                                style={{ fontSize: "14px", marginRight: "4px" }}
-                              />
-                              <span
-                                style={{
-                                  fontSize: "12px",
-                                  color: "red",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {" "}
-                                {rentError}
-                              </span>
-                            </div>
+                               <div style={{
+                                                                                                                                  color: "red",
+                                                                                                                                 backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                                                                                                              marginTop: 4,
+                                                                                                                                                                                              display: "inline-flex", 
+                                                                                                                                                                                              alignItems: "center",
+                                                                                                                                                                                              padding: "4px 10px", 
+                                                                                                                                                                                              borderRadius: 4,
+                                                                                                                                                                                            }}> 
+                                                                                                                                                                                            <img
+                                                                                                                                                                                              src={Error_Icon}
+                                                                                                                                                                                              alt="ErrorIcon"
+                                                                                                                                                                                              style={{ marginRight: "4px", fontSize:15}}
+                                                                                                                                                                                            />
+                                                                                                                                                                                            <span
+                                                                                                                                                                                              style={{
+                                                                                                                                                                                                fontSize: "12px",
+                                                                                                                                                                                                color: "red",
+                                                                                                                                                                                                fontFamily: "Gilroy",
+                                                                                                                                                                                                fontWeight: 500,
+                                                                                                                                                                                                whiteSpace: "nowrap", 
+                                                                                                                                                                                              }}
+                                                                                      >
+                                                                                        {rentError}
+                                                                                      </span>
+                                                                                    </div>
                           )}
                         </Form.Group>
 
