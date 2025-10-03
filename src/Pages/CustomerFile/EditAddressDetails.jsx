@@ -20,6 +20,8 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
     const dispatch = useDispatch();
 
 
+    console.log("addressDetails", addressDetails)
+
     const [houseNo, setHouseNo] = useState("");
     const [street, setStreet] = useState("");
     const [landmark, setLandmark] = useState("");
@@ -39,69 +41,90 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
     useEffect(() => {
         if (addressDetails) {
-            const phoneNumber = String(addressDetails[0].Phone || "");
-            const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+
+            const phoneNumber = String(addressDetails.mobileNo || "");
+            const countryCode = addressDetails.countryCode || "";
             const mobileNumber = phoneNumber.slice(-10);
-            if (addressDetails[0].Name) {
-                let value = addressDetails[0].Name.split(" ");
-                setFirstname(value[0]);
-                setLastname(value[1]);
+
+
+            if (addressDetails.firstName || addressDetails.lastName) {
+                setFirstname(addressDetails.firstName || "");
+                setLastname(addressDetails.lastName || "");
+            } else if (addressDetails.fullName) {
+                let value = addressDetails.fullName.trim().split(" ");
+                setFirstname(value[0] || "");
+                setLastname(value[1] || "");
             } else {
                 setFirstname("");
                 setLastname("");
             }
 
-            setHouseNo(addressDetails[0].Address || "")
-            setStreet(addressDetails[0].area || "")
-            setLandmark(addressDetails[0].landmark || "")
-            setPincode(addressDetails[0].pincode || "")
+
+            setHouseNo(addressDetails.address?.houseNo || "");
+            setStreet(addressDetails.address?.streetName || "");
+            setLandmark(addressDetails.address?.landmark || "");
+            setPincode(addressDetails.address?.pincode || "");
             setCity(
-                addressDetails[0].city && addressDetails[0].city !== "undefined"
-                    ? addressDetails[0].city
+                addressDetails.address?.city && addressDetails.address?.city !== "undefined"
+                    ? addressDetails.address.city
+                    : ""
+            );
+            setStateName(
+                addressDetails.address?.state && addressDetails.address?.state !== "undefined"
+                    ? addressDetails.address.state
                     : ""
             );
 
-            setStateName(
-                addressDetails[0].state && addressDetails[0].state !== "undefined"
-                    ? addressDetails[0].state
-                    : ""
-            );
-            setPhone(mobileNumber)
-            setCountryCode(countryCode)
+
+            setPhone(mobileNumber);
+            setCountryCode(countryCode);
 
 
             setInitialstate({
-                Address: addressDetails[0].Address || "",
-                area: addressDetails[0].area || "",
-                landmark: addressDetails[0].landmark || "",
+                Address: addressDetails.address?.houseNo || "",
+                area: addressDetails.address?.streetName || "",
+                landmark: addressDetails.address?.landmark || "",
                 city:
-                    addressDetails[0].city && addressDetails[0].city !== "undefined"
-                        ? addressDetails[0].city
+                    addressDetails.address?.city && addressDetails.address?.city !== "undefined"
+                        ? addressDetails.address.city
                         : "",
-                pincode: addressDetails[0].pincode || "",
+                pincode: addressDetails.address?.pincode || "",
                 state:
-                    addressDetails[0].state && addressDetails[0].state !== "undefined"
-                        ? addressDetails[0].state
+                    addressDetails.address?.state && addressDetails.address?.state !== "undefined"
+                        ? addressDetails.address.state
                         : "",
             });
         }
-    }, [addressDetails])
+    }, [addressDetails]);
+
+
 
     const handleHouseNoChange = (e) => {
-        setHouseNo(e.target.value);
-        setFormError("")
-    }
+        const value = e.target.value;
+        const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
 
+        if (regex.test(value)) {
+            setHouseNo(value);
+            setFormError("");
+        }
+    };
 
     const handleStreetChange = (e) => {
-        setStreet(e.target.value);
-        setFormError("")
+        const value = e.target.value;
+        const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+        if (regex.test(value)) {
+            setStreet(value);
+            setFormError("")
+        }
     }
 
     const handleLandmarkChange = (e) => {
-        setLandmark(e.target.value);
-        setFormError("")
-
+        const value = e.target.value;
+        const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
+        if (regex.test(value)) {
+            setLandmark(value);
+            setFormError("")
+        }
     };
 
 
@@ -137,15 +160,15 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
         if (rawAddress) {
             const parts = rawAddress.split(",").map((part) => part.trim());
 
-            // remove the `S/O:` part
+
             const addressParts = parts.slice(1);
 
-            // pincode, state and city from the END
+
             const pincodePart = addressParts[addressParts.length - 1];
             const statePart = addressParts[addressParts.length - 2];
             const cityPart = addressParts[addressParts.length - 3];
 
-            // remaining items are house/street/area/landmark
+
             const others = addressParts.slice(0, addressParts.length - 3);
             const [streetNumber, streetName, areaPart, landmarkPart] = others;
 
@@ -679,10 +702,13 @@ function EditAddressDetails({ show, handleClose, addressDetails }) {
 
                     </Modal.Body>
                     {formError && (
-                      <ErrorMessage message={formError} type="error" />
+                        <div className="d-flex justify-content-center">
+                            <ErrorMessage message={formError} type="error" />
+                        </div>
+
                     )}
 
-                    
+
                     <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
                         <div className="d-flex justify-content-end gap-3">
 

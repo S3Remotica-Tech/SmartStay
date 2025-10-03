@@ -2308,7 +2308,9 @@ useEffect(() => {
   const [bactocheckinForm, setBacktoCheckInForm] = useState(false)
 
   const handleCloseAddCustomer = () => {
-    setShowMenu(false)
+     dispatch({ type: "CLEAR_PHONE_ERROR" });
+        dispatch({ type: "CLEAR_EMAIL_ERROR" });
+           setShowMenu(false)
   }
 
 

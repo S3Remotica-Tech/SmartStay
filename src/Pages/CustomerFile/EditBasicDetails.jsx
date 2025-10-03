@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
-mport ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from '../../Components/ErrorMessage'
 
 
 function EditBasicDetails({ show, handleClose, basicDetails }) {
@@ -469,10 +469,7 @@ setIsChanged("")
                                             }}
                                         />
                                     </InputGroup>
-                                    <p
-                                        id="MobileNumberError"
-                                        style={{ color: "red", fontSize: 11, marginTop: "-13px" }}
-                                    ></p>
+                                   
                                 </Form.Group>
                                 {phoneError && (
                                     <ErrorMessage message={phoneError} type="error" />
