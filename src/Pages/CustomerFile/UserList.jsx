@@ -59,6 +59,7 @@ import MakeAsInactive from "./MakeAsInactive";
 import FinalSettlement from "./FinalSettlement";
 import PaginationList from '../../Components/PaginationList';
 import ErrorMessage from '../../Components/ErrorMessage'
+import BackToCheckIn from "./BackToCheckIn";
 function UserList(props) {
   const state = useSelector((state) => state);
 
@@ -2313,7 +2314,9 @@ useEffect(() => {
            setShowMenu(false)
   }
 
-
+const handleCloseBackToCheckIn = () =>{
+  setBacktoCheckInForm(false)
+}
 
 
 
@@ -5580,7 +5583,13 @@ useEffect(() => {
           handleClose={handleCloseBooking} bookingDetails={EditObj} />
       }
 
-      {(advanceForm || showAssignMenu || bactocheckinForm) && (
+{
+      bactocheckinForm  && <BackToCheckIn show={bactocheckinForm}  handleClose={handleCloseBackToCheckIn}/>
+
+}
+
+
+      {(advanceForm || showAssignMenu ) && (
         <UserlistForm
           // setShowMenu={setShowMenu}
           advanceForm={advanceForm}
@@ -5606,8 +5615,8 @@ useEffect(() => {
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
 
-          bactocheckinForm={bactocheckinForm}
-          setBacktoCheckInForm={setBacktoCheckInForm}
+          // bactocheckinForm={bactocheckinForm}
+          // setBacktoCheckInForm={setBacktoCheckInForm}
         />
       )}
 

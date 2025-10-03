@@ -7,7 +7,7 @@ import Select from "react-select";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import ErrorMessage from '../../Components/ErrorMessage';
+import ErrorMessage from '../../../Components/ErrorMessage';
 
 function LongStayRecurringModal({ handleClose, show }) {
 
