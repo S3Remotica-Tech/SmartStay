@@ -4,7 +4,7 @@ import { Modal, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import 'flatpickr/dist/themes/material_green.css';
 import { CloseCircle } from 'iconsax-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import Plus from '../../Assets/Images/New_images/addplus-circle.svg';
