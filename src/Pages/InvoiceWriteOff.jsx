@@ -88,20 +88,20 @@ console.log("matchedDetails",matchedDetails)
 
     //   setBalance(props.wraitofDetails.BalanceDue || 0);
     // }
-
+console.log("props.wraitofDetails.ID",props.wraitofDetails.ID)
 
 const handleSaveWriteOff=()=>{
 
+console.log("payableAmount",props.wraitofDetails.id)
 
-const payload ={
-       formal_checkout: 1,
-      reason_note:comments,
-      id :props.wraitofDetails.ID,
-      hostel_id:props.wraitofDetails.Hostel_Id
-  }
+
   dispatch({
       type: "CONFIRMCHECKOUTDUECUSTOMER",
-      payload: payload
+      payload:{
+    reason:comments,
+      bill_Id :props.wraitofDetails.id,
+      }
+  
     });
 }
 
@@ -110,7 +110,13 @@ const payload ={
 
 
 const handleSaveRefund=()=>{
-console.log("payableAmount",payableAmount)
+console.log("payableAmount",selectedDate)
+const date = new Date(selectedDate);
+const year = date.getFullYear();
+const month = String(date.getMonth() + 1).padStart(2, "0");
+const day = String(date.getDate()).padStart(2, "0");
+
+const payment_date = `${year}-${month}-${day}`; 
     dispatch({
       type: "REFUNDABLEDETAILS",
       payload:{ id: props.wraitofDetails.ID,                 
@@ -118,7 +124,7 @@ console.log("payableAmount",payableAmount)
   amount:  Number(payableAmount),             
   balance_due: balance,        
   payment_by: modeOfPayment,            
-  payment_date: selectedDate}
+  payment_date: payment_date}
 
     });
 }
@@ -130,6 +136,10 @@ console.log("payableAmount",payableAmount)
                       type: "USERLIST",
                       payload: { hostel_id: state.login.selectedHostel_Id },
                     })
+                     dispatch({
+        type: "MANUALINVOICESLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
                     //  dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: dataBed[0]?.Floor, hostel_Id: state.login.selectedHostel_Id } })
             setTimeout(() => {
                 dispatch({ type: "REMOVE_CONFIRM_CHECKOUT_DUE_CUSTOMER" });
@@ -201,22 +211,31 @@ console.log("matchedDet",matchedDet)
      
         <div className="d-flex align-items-center " style={{marginTop:"-30px"}}>
            <img
-//    src={
-//   data?.user_profile && data?.user_profile !== "0"
-//     ? data?.user_profile
-//     : dataBed[0]?.profile && dataBed[0]?.profile !== "0"
-//     ? dataBed[0].profile
-//     : Profile2
-// }
-// src={Profile2}
-  src={matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== "0"
-  ? matchedDet[0].profile
-  : Profile2
-}
 
-    style={{ height: 55, width: 55, cursor: "pointer" }}
-    alt="profile"
-    className="rounded-circle me-3"
+//   src={matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== "0"
+//   ? matchedDet[0].profile
+//   : Profile2
+// }
+
+//     style={{ height: 55, width: 55, cursor: "pointer" }}
+//     alt="profile"
+//     className="rounded-circle me-3"
+                            src={
+  matchedDet && matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== ""
+    ? typeof matchedDet?.[0]?.profile === "string"
+      ? matchedDet?.[0]?.profile.startsWith("/9j/") 
+        ? `data:image/jpeg;base64,${matchedDet?.[0]?.profile}`
+        : matchedDet?.[0]?.profile 
+      : URL.createObjectURL(matchedDet?.[0]?.profile) 
+    : Profile2
+}
+alt="Profile"
+ className="rounded-circle me-3"
+style={{ height: 60, width: 60 }}
+onError={(e) => {
+  e.target.onerror = null;
+  e.target.src = Profile2;
+}}
   />
          <div>
       <p style={{fontSize:"1.25rem",fontFamily:"Gilroy",fontWeight:600}} className="mb-0">
@@ -262,11 +281,11 @@ console.log("matchedDet",matchedDet)
       </Modal.Body>
       <Modal.Footer style={{borderTop:"none",marginTop:"-10px"}}>
         <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} className="btn btn-light"
-        //  onClick={handleClose}
+         onClick={props.handleCloseWriteOffForm}
          >
           Cancel
         </Button>
-        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary" onClick={handleSaveWriteOff}>Conform</Button>
+        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary" onClick={handleSaveWriteOff}>Confirm</Button>
       </Modal.Footer>
     </Modal>
 
@@ -344,14 +363,30 @@ console.log("matchedDet",matchedDet)
     //   ? matchedDet[0].profile
     //   : Profile
     // }
-     src={matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== "0"
-  ? matchedDet[0].profile
-  : Profile2
-}
+//      src={matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== "0"
+//   ? matchedDet[0].profile
+//   : Profile2
+// }
     
-                                    style={{ height: 55, width: 55, cursor: "pointer" }}
-                                    alt="profile"
-                                    className="rounded-circle me-3"
+//                                     style={{ height: 55, width: 55, cursor: "pointer" }}
+//                                     alt="profile"
+//                                     className="rounded-circle me-3"
+ src={
+  matchedDet && matchedDet?.[0]?.profile && matchedDet?.[0]?.profile !== ""
+    ? typeof matchedDet?.[0]?.profile === "string"
+      ? matchedDet?.[0]?.profile.startsWith("/9j/") 
+        ? `data:image/jpeg;base64,${matchedDet?.[0]?.profile}`
+        : matchedDet?.[0]?.profile 
+      : URL.createObjectURL(matchedDet?.[0]?.profile) 
+    : Profile2
+}
+alt="Profile"
+ className="rounded-circle me-3"
+style={{ height: 60, width: 60 }}
+onError={(e) => {
+  e.target.onerror = null;
+  e.target.src = Profile2;
+}}
                                   />
                                   {/* <img src={Profile}  style={{ height: 55, width: 55, cursor: "pointer" }}
                                     alt="profile"

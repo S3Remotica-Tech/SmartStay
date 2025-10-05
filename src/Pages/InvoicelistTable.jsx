@@ -186,14 +186,14 @@ const handleCloseRefundAmount=()=>{
             color: "#000000",
             fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
           }}
-          className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'
+          className=' ps-sm-2 ps-md-3 ps-lg-4'
         >
           ₹{Number(props.item?.BalanceDue || 0).toLocaleString('en-IN')}
         </td>
         <td
           style={{
             border: "none",
-            textAlign: "start",
+            textAlign: "center",
             verticalAlign: "middle",
             fontSize: 13,
             fontWeight: 500,
@@ -202,7 +202,7 @@ const handleCloseRefundAmount=()=>{
           }}
           className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'
         >
-          {props.item.status === "Unpaid" ? (
+          {/* {props.item.status === "Unpaid" ? (
             <span
               style={{
                 backgroundColor: "#FFD9D9",
@@ -227,7 +227,45 @@ const handleCloseRefundAmount=()=>{
             >
               Paid
             </span>
-          )}
+          )} */}
+
+<div
+  style={
+    props.item.status === "Unpaid"
+      ? {
+          backgroundColor: "#FFD9D9",
+          color: "#000",
+          borderRadius: "14px",
+          fontFamily: "Gilroy",
+          padding: "8px 12px",
+        }
+      : props.item.status === "Paid"
+      ? {
+          cursor: "pointer",
+          backgroundColor: "#D9FFD9",
+          color: "#000",
+          borderRadius: "14px",
+          fontFamily: "Gilroy",
+          padding: "8px 12px",
+        }
+      : props.item.status === "Write-off"
+      ? {
+          backgroundColor: "#FFF3CD", 
+          color: "#000",
+          borderRadius: "14px",
+          fontFamily: "Gilroy",
+          padding: "8px 12px",
+        }
+      : {}
+  }
+>
+  {props.item.status}
+</div>
+
+
+          {/* {
+            props.item.status
+          } */}
         </td>
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
