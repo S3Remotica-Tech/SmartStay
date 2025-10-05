@@ -239,27 +239,27 @@ const handleAttach = () => {
 
 
 
-const handleFileOpen2 = (url) => {
-  if (!url) return;
+// const handleFileOpen2 = (url) => {
+//   if (!url) return;
 
-  const lowerUrl = url.toLowerCase();
+//   const lowerUrl = url.toLowerCase();
 
-  if (
-    lowerUrl.endsWith(".pdf") ||
-    lowerUrl.endsWith(".jpg") ||
-    lowerUrl.endsWith(".jpeg") ||
-    lowerUrl.endsWith(".png")
-  ) {
+//   if (
+//     lowerUrl.endsWith(".pdf") ||
+//     lowerUrl.endsWith(".jpg") ||
+//     lowerUrl.endsWith(".jpeg") ||
+//     lowerUrl.endsWith(".png")
+//   ) {
    
-    setPreviewUrl2(url);
-    setShowDocModaldoc2(true);
-  } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-    window.open(viewerUrl, "_blank");
-  } else {
-    window.open(url, "_blank");
-  }
-};
+//     setPreviewUrl2(url);
+//     setShowDocModaldoc2(true);
+//   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+//     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+//     window.open(viewerUrl, "_blank");
+//   } else {
+//     window.open(url, "_blank");
+//   }
+// };
 
 
 // const cleanFileName = (url) => {
@@ -269,21 +269,21 @@ const handleFileOpen2 = (url) => {
 //   const short = parts[0].substring(0, 6); 
 //   return `${short}.${ext}`;
 // };
-const cleanFileName = (url) => {
-  if (!url) return "";
+// const cleanFileName = (url) => {
+//   if (!url) return "";
 
-  const fullName = decodeURIComponent(url.split("/").pop()); // get actual filename
-  const ext = fullName.split(".").pop(); // extension
-  const baseName = fullName.replace(/\.[^/.]+$/, ""); // remove extension
+//   const fullName = decodeURIComponent(url.split("/").pop()); 
+//   const ext = fullName.split(".").pop(); 
+//   const baseName = fullName.replace(/\.[^/.]+$/, ""); 
 
-  const parts = baseName.split("_");
-  const lastPart = parts[parts.length - 1]; // take last meaningful part
+//   const parts = baseName.split("_");
+//   const lastPart = parts[parts.length - 1]; 
 
-  // limit to 8 characters if you want short name
-  const short = lastPart.substring(0, 15);
+ 
+//   const short = lastPart.substring(0, 15);
 
-  return `${short}.${ext}`;
-};
+//   return `${short}.${ext}`;
+// };
 
 
 
@@ -980,8 +980,8 @@ const [additionDetails,setAdditionalDetails] = useState("")
 
   
 
-  const aadharInputRef = useRef(null);
-  const otherDocInputRef = useRef(null);
+  // const aadharInputRef = useRef(null);
+  // const otherDocInputRef = useRef(null);
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
     if (fileImage) {
@@ -1951,9 +1951,10 @@ const formattedReasons = fields.map((item) => {
       }, 100);
     }
   }, [state.UsersList.statuscodeForAdharFileError]);
-  const handleOtherUploadClick = (ref) => {
-    ref.current.click();
-  };
+
+  // const handleOtherUploadClick = (ref) => {
+  //   ref.current.click();
+  // };
 
   useEffect(() => {
     if (state.UsersList.statusCodeForUploadDocument === 200) {
