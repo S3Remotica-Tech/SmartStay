@@ -147,10 +147,10 @@ function UserListRoomDetail(props) {
   const [stayDetailsShow, setStayDetailsShow] = useState(false)
   const [fields, setFields] = useState([]);
   const [showDocModal, setShowDocModal] = useState(false);
-   const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
+  //  const [showDocModaldoc2, setShowDocModaldoc2] = useState(false);
    const [documentvalue,setDocumentValue] = useState("1")
     const [previewUrl, setPreviewUrl] = useState(null);
-         const [previewUrl2, setPreviewUrl2]=useState(null)
+        //  const [previewUrl2, setPreviewUrl2]=useState(null)
           // const aadharInputRef = useRef(null);
   // const [showDocModal, setShowDocModal] = useState(false);
   // const [previewUrl, setPreviewUrl] = useState(null);
@@ -4850,7 +4850,7 @@ const imageUrl = imagePreview
 
 
 
-<Modal
+{/* <Modal
   show={showDocModaldoc2}
   onHide={() => setShowDocModaldoc2(false)}
   size="lg"
@@ -4891,7 +4891,7 @@ const imageUrl = imagePreview
   />
 )}
   </Modal.Body>
-</Modal>
+</Modal> */}
 
                                 </>
   </TabPanel>
