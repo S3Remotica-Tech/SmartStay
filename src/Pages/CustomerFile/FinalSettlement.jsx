@@ -181,7 +181,7 @@ useEffect(()=>{
     if(state.UsersList.StatusCodeForDateUpdate === 200){
          dispatch({
               type: "GETCONFIRMCHECKOUTCUSTOMER",
-              payload: { id: data.ID, hostel_id: state.login.selectedHostel_Id },
+              payload: { id: data.ID || customerID, hostel_id: state.login.selectedHostel_Id },
             });
  dispatch({ type: "CLEAR_CHEKOUT_DATE_CHANGE"})
     }
@@ -204,106 +204,6 @@ useEffect(()=>{
     }
   }, [state.PgList?.AddEBstatusCode]);
 
-//      useEffect(() => {
-//     if (state.UsersList.statusCodegetConfirmCheckout) {
-//         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-//             (invoice) => invoice.balance > 0
-//         );
-//         setBillAmount(validInvoices)
-       
-//         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-//             (deduction) => deduction.amount > 0
-//         );
-
-//         let formattedFields = [];
-
-//         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-//             formattedFields = deduction_details.map((item) => ({
-//                 reason_name: item.reason || "",
-//                 amount: Number(item.amount) || 0,
-//                 showInput: false,
-//             }));
-//         }
-
-//         // ✅ Only other reasons, no DueAmount
-//         setFields(formattedFields);
-
-//         // Other state updates
-//         const rentBalance =
-//             state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-//                 (item) => String(item.action).toLowerCase() === "rent"
-//             )?.balance ?? 0;
-
-//         setRentalBalance(rentBalance);
-//         setDetuction(state?.UsersList?.Deduction);
-//         setReFundableDetails(state?.UsersList?.Refundable_details);
-//         setHostelData(state?.UsersList?.hostelData);
-//     }
-
-//     setTimeout(() => {
-//         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-//     }, 500);
-// }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
-
-
-//    useEffect(() => {
-//         if (state.UsersList.statusCodegetConfirmCheckout) {
-//             const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-//                 (invoice) => invoice.balance > 0
-//             );
-
-
-
-//             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-//                 (deduction) => deduction.amount > 0
-//             );
-//             console.log("deduction_details",deduction_details)
-
-//             const invoiceTotal = Array.isArray(validInvoices)
-//                 ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
-//                 : 0;
-
-// console.log("invoiceTotal",invoiceTotal)
-//             if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-//                 const formattedFields = deduction_details.map((item) => ({
-//                     reason_name: item.reason || "",
-//                     amount: Number(item.amount) || 0,
-//                     showInput: false,
-//                 }));
-           
-            
-//                 formattedFields.unshift({
-//                     reason_name: "DueAmount",
-//                     amount: invoiceTotal,
-//                     showInput: false,
-//                 });
-
-
-//                 setFields(formattedFields);
-//             //   setInvoieTotal(invoiceTotal);
-//             } else {
-//                 setFields([
-//                     { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
-//                 ]);
-//                 // setInvoieTotal(invoiceTotal);
-//             }
-// const rentBalance =
-//   state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-//     (item) => String(item.action).toLowerCase() === "rent"
-//   )?.balance ?? 0;
-// setRentalBalance(rentBalance)
-// setDetuction(state?.UsersList?.Deduction)
-// setReFundableDetails(state?.UsersList?.Refundable_details)
-
-
-// setHostelData(state?.UsersList?.hostelData)
-
-//         }
-
-//         setTimeout(() => {
-//             dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-//         }, 500);
-//     }, [state.UsersList.statusCodegetConfirmCheckout, data,dataBed]);
 
     console.log("hostelData",hostelData)
 
@@ -317,6 +217,7 @@ useEffect(()=>{
 
         setDataBed(userData)
     }, [customerID]);
+    console.log("setDataBed",dataBed)
 
     const reasonOptions = [
         { value: "DueAmount", label: "Due Amount" },
@@ -324,79 +225,12 @@ useEffect(()=>{
         { value: "others", label: "Others" },
     ];
 
-    // const [rentalBalance, setRentalBalance] = useState('')
-
-    // useEffect(() => {
-    //     if (state.UsersList.statusCodegetConfirmCheckout) {
-    //         const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
-    //             (invoice) => invoice.balance > 0
-    //         );
-
-
-
-    //         const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
-    //             (deduction) => deduction.amount > 0
-    //         );
-    //         console.log("deduction_details", deduction_details)
-
-    //         const invoiceTotal = Array.isArray(validInvoices)
-    //             ? validInvoices.reduce((total, invoice) => total + Number(invoice.balance || 0), 0)
-    //             : 0;
-
-    //         console.log("invoiceTotal", invoiceTotal)
-    //         if (Array.isArray(deduction_details) && deduction_details.length > 0) {
-    //             const formattedFields = deduction_details.map((item) => ({
-    //                 reason_name: item.reason || "",
-    //                 amount: Number(item.amount) || 0,
-    //                 showInput: false,
-    //             }));
-
-
-    //             formattedFields.unshift({
-    //                 reason_name: "DueAmount",
-    //                 amount: invoiceTotal,
-    //                 showInput: false,
-    //             });
-
-
-    //             setFields(formattedFields);
-
-    //         } else {
-    //             setFields([
-    //                 { reason_name: "DueAmount", amount: invoiceTotal, showInput: false },
-    //             ]);
-
-    //         }
-    //         const rentBalance =
-    //             state?.UsersList?.GetconfirmcheckoutBillDetails?.find(
-    //                 (item) => String(item.action).toLowerCase() === "rent"
-    //             )?.balance ?? 0;
-    //         setRentalBalance(rentBalance)
-    //         setDetuction(state?.UsersList?.Deduction)
-    //         setReFundableDetails(state?.UsersList?.Refundable_details)
-
-
-    //         setHostelData(state?.UsersList?.hostelData)
-
-    //     }
-
-    //     setTimeout(() => {
-    //         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
-    //     }, 500);
-    // }, [state.UsersList.statusCodegetConfirmCheckout, data, dataBed]);
+    
 
 
     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
 
-    // useEffect(() => {
-    //     if (fields || advanceAmount) {
-        
-    //         const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
-    //             console.log("advanceAmount",totalDeductions)
-    //         const returnAmount = Number(advanceAmount || 0) - totalDeductions;
-    //         setReturnAmount(returnAmount)
-    //     }
-    // }, [fields, advanceAmount])
+  
     useEffect(() => {
     if (fields || advanceAmount) {
         const totalDeductions = fields.reduce((acc, item) => acc + Number(item.amount || 0), 0);
@@ -411,19 +245,7 @@ useEffect(()=>{
 }, [fields, advanceAmount, detuction]);
 
 
-    // const handleFileChange = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         setUploadFile(file);
-    //     }
-    // };
-
-
-    // const handleAddField = () => {
-    //     setFields([...fields, { reason_name: "", amount: "", showInput: false }]);
-
-    //     dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
-    // };
+   
     const handleAddField = () => {
   setFields([
     ...fields,
@@ -478,21 +300,7 @@ useEffect(()=>{
     };
 
 
-    // const handleModeOfPaymentChange = (e) => {
-    //     setModeOfPaymentError("")
-    //     setModeOfPayment(e.target.value);
-    // };
-
-    // const handleCommentsChange = (event) => {
-    //     setComments(event.target.value);
-
-    // };
-
-    // const handleToggle = () => {
-    //     setChecked((prev) => !prev);
-
-    // };
-
+  
    
 
 
@@ -515,13 +323,7 @@ useEffect(()=>{
             }
         };
     }, []);
-    // const [transactionId, setTransactionId] = useState("")
-
-    // const handleTransactionId = (e) => {
-    //     const value = e.target.value;
-    //     setTransactionId(value);
-    //     console.log("setTransactionId", value);
-    // };
+   
 
 
      const [currentReading,setCurrentReading] = useState("")
@@ -548,52 +350,18 @@ useEffect(()=>{
     const handleClickInvoiceNo = () => {
         console.log("INV654 clicked");
     };
+console.log("  const ",state.UsersList?.finalsettleLastrent?.LastReadingDate)
 
-//     const handleCheckedtrue =(e)=>{
-//         setIsConfirmed(e.target.checked)
-//         setCurrenReadingError("")
-
-
-//           dispatch({
-//     type: "CREATEEB",
-//     payload: {
-//       hostel_id : data.Hostel_Id,
-//       floor_id: data.Floor,
-//       room_id :data.hstl_Rooms,
-//       date: checkOutDate,
-//       reading: currentReading,
-//     },
-//   });
-//     }
-// const handleCheckedtrue = (e) => {
-//   const checked = e.target.checked;
-//   setIsConfirmed(checked);
-//   setCurrenReadingError("");
-  
-
- 
-//   if (checked && currentReading) {
-//     dispatch({
-//       type: "CREATEEB",
-//       payload: {
-//         hostel_id: data.Hostel_Id,
-//         floor_id: data.Floor,
-//         room_id: data.hstl_Rooms,
-//         date: checkOutDate,
-//         reading: currentReading,
-//       },
-//     });
-//   } else if (!currentReading) {
-//     setCurrenReadingError("Please enter current reading");
-//   }
-// };
 const handleCheckedtrue = (e) => {
   const checked = e.target.checked;
   setIsConfirmed(checked);
   setCurrenReadingError("");
 
-  const today = new Date().toISOString().split("T")[0]; // format YYYY-MM-DD
-  const lastReadingDate = state.UsersList?.finalsettleLastrent?.LastReadingDate;
+  const today = new Date().toISOString().split("T")[0];
+  const lastReadingDateRaw = state.UsersList?.finalsettleLastrent?.LastReadingDate;
+  const lastReadingDate = lastReadingDateRaw
+    ? new Date(lastReadingDateRaw).toISOString().split("T")[0]
+    : "";
 
   if (checked) {
     if (!currentReading) {
@@ -601,8 +369,8 @@ const handleCheckedtrue = (e) => {
       return;
     }
 
-    // only call API if lastReadingDate is today
-    if (lastReadingDate === today) {
+    // ✅ Call API only when lastReadingDate is NOT today
+    if (lastReadingDate !== today) {
       dispatch({
         type: "CREATEEB",
         payload: {
@@ -614,26 +382,61 @@ const handleCheckedtrue = (e) => {
         },
       });
     } else {
-      setCurrenReadingError("Last reading date is not today");
+     
+      setCurrenReadingError("Last reading date is today — no need to create again");
     }
   }
 };
+
+
+// const handleCheckedtrue = (e) => {
+//   const checked = e.target.checked;
+//   setIsConfirmed(checked);
+//   setCurrenReadingError("");
+
+//   const today = new Date().toISOString().split("T")[0]; 
+//   const lastReadingDate = state.UsersList?.finalsettleLastrent?.LastReadingDate;
+
+//   if (checked) {
+//     if (!currentReading) {
+//       setCurrenReadingError("Please enter current reading");
+//       return;
+//     }
+
+    
+//     if (lastReadingDate === today) {
+//       dispatch({
+//         type: "CREATEEB",
+//         payload: {
+//           hostel_id: data.Hostel_Id,
+//           floor_id: data.Floor,
+//           room_id: data.hstl_Rooms,
+//           date: checkOutDate,
+//           reading: currentReading,
+//         },
+//       });
+//     } else {
+//       setCurrenReadingError("Last reading date is not today");
+//     }
+//   }
+// };
 
 
 
   const inputRef = useRef(null);
   const checkboxRef = useRef(null);
 
-
-
 const handleClickGenerate = () => {
   let hasError = false;
 
   const today = new Date().toISOString().split("T")[0];
-  const lastReadingDate = state.UsersList?.finalsettleLastrent?.LastReadingDate;
+  const lastReadingDateRaw = state.UsersList?.finalsettleLastrent?.LastReadingDate;
+  const lastReadingDate = lastReadingDateRaw
+    ? new Date(lastReadingDateRaw).toISOString().split("T")[0]
+    : "";
 
-  if (lastReadingDate === today) {
-  
+  // ✅ Run validation ONLY when lastReadingDate is NOT today
+  if (lastReadingDate !== today) {
     if (!currentReading) {
       setCurrenReadingError("Please enter current reading");
       hasError = true;
@@ -646,7 +449,6 @@ const handleClickGenerate = () => {
       checkboxRef.current?.focus();
     }
   }
- 
 
   if (hasError) return;
 
@@ -673,29 +475,30 @@ const handleClickGenerate = () => {
 };
 
 
-
 // const handleClickGenerate = () => {
 //   let hasError = false;
 
-//   if (!currentReading) {
+//   const today = new Date().toISOString().split("T")[0];
+//   const lastReadingDate = state.UsersList?.finalsettleLastrent?.LastReadingDate;
+
+//   if (lastReadingDate === today) {
+  
+//     if (!currentReading) {
 //       setCurrenReadingError("Please enter current reading");
 //       hasError = true;
 //       inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
 //       inputRef.current?.focus();
-//     }
-
-//     // Validate checkbox
-//     else if (!isConfirmed) {
+//     } else if (!isConfirmed) {
 //       setCurrenReadingError("Please confirm current reading");
 //       hasError = true;
 //       checkboxRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
 //       checkboxRef.current?.focus();
 //     }
-
+//   }
+ 
 
 //   if (hasError) return;
 
- 
 //   const refundableAmenities = refundableDetails
 //     ? [
 //         { key: "Refundable Rent", amount: refundableDetails.remainingRentRefund },
@@ -714,37 +517,13 @@ const handleClickGenerate = () => {
 //       user_id: data.ID || customerID,
 //       hostel_id: state.login?.selectedHostel_Id,
 //       amenities: [...reasons, ...refundableAmenities],
-   
 //     },
 //   });
 // };
-//     const handleClickGenerate = ()=>{
 
-// const refundableAmenities = refundableDetails
-//     ? [
-//         { key: "Refundable Rent", amount: refundableDetails.remainingRentRefund },
-//         { key: "Refundable Advance", amount: refundableDetails.securityDepositRefund },
-//       ]
-//     : [];
-//         const reasons = nonRefundable.map((item) => ({
-//   key: item.reason,
-//   amount: item.amount,
-// }));
-//          dispatch({
-//                 type: "FINALGENERATE",
-//                 payload: {
-//                   user_id:data.ID || customerID,
-                   
-//                     hostel_id: state.login?.selectedHostel_Id,
-//                     amenities: [
-//       ...reasons,
-//        ...refundableAmenities,
-//     ]
-    
-//                 },
-//             });
 
-//     }
+
+
 
 
     useEffect(()=>{

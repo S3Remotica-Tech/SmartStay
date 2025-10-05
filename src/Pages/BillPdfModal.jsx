@@ -615,7 +615,7 @@ const [billReceipt,setBillReceipt] =useState("")
           marginRight:50
         }}
       >
-        Rs. {Number(item.amount || 0)}
+        Rs. {Number(item.amount_received || 0)}
       </span>
     </div>
   ))}

@@ -78,14 +78,20 @@ function NoticeBedStatusDetails({
 const handleNewBooking = () => {
     showBooking(true)
   }
+  console.log("customerId",customerId)
 
 const handleFinalsettelmentGenerate = () => {
  
     showfinalsettelemnet(true, customerId)
-    dispatch({
+    console.log("customerId",customerId)
+
+    if(customerId && currentItem?.room.Hostel_Id){
+   dispatch({
       type: "GETCONFIRMCHECKOUTCUSTOMER",
       payload: { id: customerId, hostel_id: currentItem?.room.Hostel_Id },
     });
+    }
+ 
   }
 
   // const [detuction, setDetuction] = useState("")

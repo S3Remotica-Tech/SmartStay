@@ -2193,44 +2193,44 @@ useEffect(() => {
 
  
 
-const handleFileUpload = (index, e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+// const handleFileUpload = (index, e) => {
+//   const file = e.target.files[0];
+//   if (!file) return;
 
-  const reader = new FileReader();
+//   const reader = new FileReader();
 
-  reader.onload = (event) => {
-    const fileURL = event.target.result; // Base64 data URL
+//   reader.onload = (event) => {
+//     const fileURL = event.target.result; // Base64 data URL
 
-    const updatedDoc = {
-      type: documents[index].type,
-      name: file.name,
-      size: `${Math.round(file.size / 1024)} KB`,
-      URL: fileURL, // ✅ Use this as URL
-    };
+//     const updatedDoc = {
+//       type: documents[index].type,
+//       name: file.name,
+//       size: `${Math.round(file.size / 1024)} KB`,
+//       URL: fileURL, // ✅ Use this as URL
+//     };
 
-    const newDocuments = [...documents];
-    newDocuments[index] = updatedDoc;
-    setDocuments(newDocuments);
+//     const newDocuments = [...documents];
+//     newDocuments[index] = updatedDoc;
+//     setDocuments(newDocuments);
 
-    // Dispatch with URL instead of raw file
-    dispatch({
-      type: "KYCDOCUMENTSDETAIL",
-      payload: {
-        userId: customerDetails[0].ID,
-        newDocs: [
-          {
-            type: updatedDoc.type,
-            name: updatedDoc.name,
-            URL: updatedDoc.URL,
-          },
-        ],
-      },
-    });
-  };
+//     // Dispatch with URL instead of raw file
+//     dispatch({
+//       type: "KYCDOCUMENTSDETAIL",
+//       payload: {
+//         userId: customerDetails[0].ID,
+//         newDocs: [
+//           {
+//             type: updatedDoc.type,
+//             name: updatedDoc.name,
+//             URL: updatedDoc.URL,
+//           },
+//         ],
+//       },
+//     });
+//   };
 
-  reader.readAsDataURL(file); // Converts file to Base64 URL
-};
+//   reader.readAsDataURL(file); // Converts file to Base64 URL
+// };
 
 const dispatchedRef = useRef(false);
 
@@ -3601,7 +3601,7 @@ const imageUrl = imagePreview
           type="file"
           id={`fileUpload-${index}`}
           style={{ display: "none" }}
-          onChange={(e) => handleFileUpload(index, e)}
+          // onChange={(e) => handleFileUpload(index, e)}
         />
       {/* )} */}
     </div>
