@@ -59,7 +59,11 @@ import EditAddressDetails from "./EditAddressDetails";
 import EditStayDetails from "./EditStayDetails";
 import StayHistory from "./StayHistory";
 import Retry from "../../Assets/Images/New_images/reload.png";
-
+// import upload from "./assets/upload.png";
+// import docDown from "./assets/download.png";
+// import viewdoc from "./assets/view.png";
+import plusIcon from "../../Assets/Images/New_images/Upload_document.png";
+import uploadsett from "../../Assets/Images/New_images/upload setting.png";
 
 
 
@@ -147,28 +151,88 @@ function UserListRoomDetail(props) {
    const [documentvalue,setDocumentValue] = useState("1")
     const [previewUrl, setPreviewUrl] = useState(null);
          const [previewUrl2, setPreviewUrl2]=useState(null)
+          // const aadharInputRef = useRef(null);
+  // const [showDocModal, setShowDocModal] = useState(false);
+  // const [previewUrl, setPreviewUrl] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [manualdocuments, setManualDocuments] = useState([]);
+  // const [uploadError, setUploadError] = useState("");
+  const [uploadpopup , setUploadPopup] = useState(false)
 
-const handleFileOpen = (url) => {
-  if (!url) return;
+  const handleUploadClick = () => {
+    setUploadPopup(true);
+  };
 
-  const lowerUrl = url.toLowerCase();
+  const handleCloseUploadPopup = () => {
+      setUploadPopup(false);
+       setSelectedFile(null);
+         setUploadError("");
+  }
 
-  if (
-    lowerUrl.endsWith(".pdf") ||
-    lowerUrl.endsWith(".jpg") ||
-    lowerUrl.endsWith(".jpeg") ||
-    lowerUrl.endsWith(".png")
-  ) {
-   
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+const handleAttach = () => {
+    if (!selectedFile) {
+      setUploadError("Please select a file to upload");
+      return;
+    }
+
+ const type = "doc1";
+
+    if (selectedFile) { 
+        dispatch({
+          type: "UPLOADDOCUMENT",
+          payload: {
+            user_id: props.id,
+            type,
+            file1: selectedFile,
+          },
+      })
+    }
+
+    const newDoc = {
+      name: selectedFile.name,
+      size: `${(selectedFile.size / 1024).toFixed(0)} KB`,
+      url: URL.createObjectURL(selectedFile),
+    };
+
+    setManualDocuments((prev) => [...prev, newDoc]);
+    setUploadPopup(false);
+    setSelectedFile(null);
+    setUploadError("");
+  };
+
+  const handleFileOpen = (url) => {
     setPreviewUrl(url);
     setShowDocModal(true);
-  } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
-    const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
-    window.open(viewerUrl, "_blank");
-  } else {
-    window.open(url, "_blank");
-  }
-};
+  };
+
+// const handleFileOpen = (url) => {
+//   if (!url) return;
+
+//   const lowerUrl = url.toLowerCase();
+
+//   if (
+//     lowerUrl.endsWith(".pdf") ||
+//     lowerUrl.endsWith(".jpg") ||
+//     lowerUrl.endsWith(".jpeg") ||
+//     lowerUrl.endsWith(".png")
+//   ) {
+   
+//     setPreviewUrl(url);
+//     setShowDocModal(true);
+//   } else if (lowerUrl.endsWith(".xlsx") || lowerUrl.endsWith(".xls")) {
+//     const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`;
+//     window.open(viewerUrl, "_blank");
+//   } else {
+//     window.open(url, "_blank");
+//   }
+// };
 
 
 
@@ -1842,38 +1906,38 @@ const formattedReasons = fields.map((item) => {
     setUploadError(state.UsersList.adharuploadfileError);
   }, [state.UsersList.adharuploadfileError]);
 
-  const handleFileChange = (e, type) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (type === "doc1") {
-        dispatch({
-          type: "UPLOADDOCUMENT",
-          payload: {
-            user_id: props.id,
-            type,
-            file1: file,
-          },
-        });
-      } else if (type === "doc2") {
-        dispatch({
-          type: "UPLOADOTHERDOCUMENT",
-          payload: {
-            user_id: props.id,
-            type,
-            file1: file,
-          },
-        });
-      }
-    }
-  };
+  // const handleFileChange = (e, type) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     if (type === "doc1") {
+  //       dispatch({
+  //         type: "UPLOADDOCUMENT",
+  //         payload: {
+  //           user_id: props.id,
+  //           type,
+  //           file1: file,
+  //         },
+  //       });
+  //     } else if (type === "doc2") {
+  //       dispatch({
+  //         type: "UPLOADOTHERDOCUMENT",
+  //         payload: {
+  //           user_id: props.id,
+  //           type,
+  //           file1: file,
+  //         },
+  //       });
+  //     }
+  //   }
+  // };
 
-  const handleUploadClick = (ref) => {
-    if (ref?.current) {
-      ref.current.click();
-    }
-    setUploadError("");
-    dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
-  };
+  // const handleUploadClick = (ref) => {
+  //   if (ref?.current) {
+  //     ref.current.click();
+  //   }
+  //   setUploadError("");
+  //   dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
+  // };
 
 
 
@@ -4308,125 +4372,269 @@ const imageUrl = imagePreview
 
   </TabPanel>
   <TabPanel value="2">
-    <div
-                                  className="row mt-3"
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10,width:250}}> */}
-                                   
-   <div className="col-md-6">
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
+    <>
+   {manualdocuments.length === 0 ? (
+          <div
+            className="text-center text-muted py-4"
+            style={{ fontFamily: "Gilroy", fontWeight: 500 }}
+          >
+            No document added
+          </div>
+        ) : (
+          <div className="row">
+            {manualdocuments.map((doc, index) => (
+              <div key={index} className="col-md-6 mb-3 mt-2">
+                <div className="border rounded p-3 bg-light d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center">
+            <img src={upload} alt="pdficon" style={{ width: 20, height: 20, marginRight: 8,cursor:"pointer" }}  />
+          </div>
+                  <div>
+                    <p
+                      className="mb-1"
+                      style={{ fontWeight: 600, fontFamily: "Gilroy" , fontSize: 14, }}
+                    >
+                      {doc.name}
+                    </p>
+                    <small className="text-muted" style={{fontSize:12}}>
+                      {doc.size} • {doc.name.split(".").pop().toUpperCase()}
+                    </small>
+                  </div>
+                  <div className="d-flex align-items-center">
+                    <a href={doc.url} download>
+                      <img
+                        src={docDown}
+                        alt="Download"
+                        width={20}
+                        height={20}
+                        className="mx-2"
+                        style={{ cursor: "pointer" }}
+                      />
+                    </a>
+                    <img
+                      src={viewdoc}
+                      alt="View"
+                      width={20}
+                      height={20}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleFileOpen(doc.url)}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      
 
-                                    <button
-                                      className="btn"
-                                      // disabled={props.customerAddPermission}
+      {/* Floating upload button */}
+      <div
+                onClick={handleUploadClick}
+                style={{
+                  position: "absolute",
+                  bottom: "10px",
+                  right: "10px",
+                  backgroundColor: "#00B140",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  boxShadow: "0px 3px 6px rgba(0,0,0,0.25)",
+                }}
+              >
+                <img src={plusIcon} alt="Upload" width={20} height={20} />
+              </div>
+
+      {/* Upload modal */}
+      <Modal
+        show={uploadpopup}
+        onHide={() => setUploadPopup(false)}
+        centered
+        backdrop="static"
+      >
+        <Modal.Body
+          style={{
+            padding: "20px",
+            position: "relative",
+            // textAlign: "center",
+            minHeight: "250px",
+          }}
+        >
+          <Modal.Header style={{border:0 , padding:0}} className="col-lg-12">
+                                  <Modal.Title
                                       style={{
-                                        borderRadius: "10px",
-                                        padding: "5px 10px",
-                                        fontSize: "14px",
-                                        // border: "1px solid #D9D9D9",
-                                        fontFamily: "Gilroy",
-                                       
-                                        
+                                          fontSize: 18,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 600,
                                       }}
-                                      onClick={() => handleUploadClick(aadharInputRef)}
+                                  >
+                                      Upload Document
+                                  </Modal.Title>
+          
+                                  <CloseCircle size="24" color="#000"
+                                      onClick={handleCloseUploadPopup}
+                                      style={{ cursor: "pointer" }} />
+                              </Modal.Header>
+         
+
+          {!selectedFile ? (
+            <>
+            
+             <div className="col-md-12 col-lg-12 mt-3">
+                                 <p className="p-0 m-0">Document</p> 
+                              <div
+                                className="d-flex align-items-center justify-content-center p-3  border rounded"
+                                style={{ backgroundColor: "#f9f9f9" }}
+                              >
+                                
+                                <img
+                                
+                                  src={ uploadsett}
+                                  alt="logo-preview"
+                                  style={{ height: 30 }}
+                                />
+            
+            
+            
+            
+            
+                                <div className="d-flex flex-column ms-3">
+                                  <div>
+                                    <label
+                                      style={{
+                                        cursor: "pointer",
+                                        color: "rgba(30, 69, 225, 1)",
+                                        fontFamily: "Gilroy",
+                                        fontSize: 14,
+                                        fontWeight: 400,
+                                      }}
                                     >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
+                                      Choose file
+                                      <input
+                                        type="file"
+                                        className="d-none"
+                                        accept=".jpg,.jpeg,.png,.pdf"
+                                   onChange={handleFileChange}
                                       />
-                                      {/* Upload Document */} {advanceDetail[0]?.doc1 
-  ? cleanFileName(advanceDetail[0].doc1) 
-  : "Upload Document"}
-
-                                    </button>
-
-
-                                    <input
-                                      type="file"
-                                      ref={aadharInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) => handleFileChange(e, "doc1")}
-                                    />
-
-
-                                   
-
-
-
-
-
-
-
-
-
-
-
-                                    
-                                    {advanceDetail[0]?.doc1 && (
-  <>
-    
-    <a
-      href={advanceDetail[0]?.doc1}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        src={docDown}
-        alt="Download Document"
-        style={{
-          width: 20,
-          height: 20,
-          marginLeft: "10px",
-          cursor: "pointer",
-        }}
-      />
-    </a>
-
- 
-    <img
-      src={viewdoc}
-      alt="View Document"
-      // onClick={() => setShowDocModal(true)}
-      onClick={() => handleFileOpen(advanceDetail[0]?.doc1)}
-      style={{
-        width: 20,
-        height: 20,
-        marginLeft: "10px",
-        cursor: "pointer",
-      }}
-    />
-  </>
-)}
-
-
-
-                                    {uploadError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {uploadError}
-                                        </span>
-                                      </div>
-                                    )}
+                                    </label>
+                                    <span
+                                      className="ms-1"
+                                      style={{
+                                        color: "rgba(22, 21, 28, 1)",
+                                        fontFamily: "Gilroy",
+                                        fontSize: 14,
+                                        fontWeight: 400,
+                                      }}
+                                    >
+                                      to Upload
+                                    </span>
                                   </div>
+                                  <small
+                                    style={{
+                                      fontFamily: "Gilroy",
+                                      fontSize: 12,
+                                      color: "rgba(75, 75, 75, 1)",
+                                      fontWeight: 400,
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    Must be in PNG Format (600px × 300px)
+                                  </small>
+                                </div>
+                              </div>
+            
+                            </div>
+            {/* <div className="d-flex flex-column justify-content-center">
+            <p>Document</p>
+              <label
+                htmlFor="fileUpload"
+                className="btn btn-outline-primary"
+                style={{ cursor: "pointer", padding: "10px 20px" }}
+              >
+                Choose file to Upload
+              </label>
+              <input
+                type="file"
+                id="fileUpload"
+                style={{ display: "none" }}
+                accept=".jpg,.jpeg,.png,.pdf"
+                onChange={handleFileChange}
+              />
+              <p className="text-muted mt-2">
+                JPG, PNG, PDF (600px×300px)
+              </p>
+              </div> */}
+            </>
+          ) : (
+            <div className="mt-3">
+              {selectedFile.type.includes("image") ? (
+                <img
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="preview"
+                  style={{ maxWidth: "100%", borderRadius: "6px" }}
+                />
+              ) : (
+                <p>{selectedFile.name}</p>
+              )}
+              <p className="text-muted">
+                {(selectedFile.size / 1024).toFixed(0)} KB
+              </p>
+            </div>
+          )}
 
-</div>
-</div>
+          {!selectedFile && uploadError && (
+            <div className="text-danger mt-2">
+              <MdError /> {uploadError}
+            </div>
+          )}
+
+           <Modal.Footer style={{ border: "none", paddingTop: 0 , marginTop:10 }}>
+                                  <div className="d-flex justify-content-end gap-3">
+          
+          
+                                      <Button
+                                          onClick={handleCloseUploadPopup}
+                                          className="w-100 mt-1"
+                                          style={{
+                                              backgroundColor: "#fff",
+                                              border: "none",
+                                              color: "#1E45E1",
+                                              fontWeight: 600,
+                                              borderRadius: 12,
+                                              fontSize: 16,
+                                              fontFamily: "Gilroy",
+                                              padding: "8px 40px"
+                                          }}
+                                      >
+                                          Cancel
+                                      </Button>
+          
+                                      <Button
+                                           onClick={handleAttach}
+                                          className="w-100 mt-1"
+                                          style={{
+                                              backgroundColor: "#1E45E1",
+                                              fontWeight: 600,
+                                              borderRadius: 12,
+                                              fontSize: 16,
+                                              fontFamily: "Gilroy",
+                                              padding: "8px 40px"
+                                          }}
+                                      >
+                                          Attach
+                                      </Button>
+                                  </div>
+                              </Modal.Footer>
+
+        
+        </Modal.Body>
+      </Modal>
+
+
+
 {/* <Modal
   show={showDocModal}
   onHide={() => setShowDocModal(false)}
@@ -4517,20 +4725,17 @@ const imageUrl = imagePreview
   </Modal.Body>
 </Modal>
 
-
-                                  {/* <div className="col-6 text-start" style={{backgroundColor:"#EFF4FF",padding:10,marginTop:"-20px",height:54,borderRadius:10}}> */}
+{/* 
                                   <div className="col-md-6">
           <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
             <div className="d-flex align-items-center">
                                     <button
                                       className="btn "
-                                      // disabled={props.customerAddPermission}
                                       style={{
                                         borderRadius: "10px",
                                         padding: "5px 10px",
                                         fontSize: "14px",
                                         fontFamily: "Gilroy",
-                                        // border: "1px solid #D9D9D9",
                                       }}
                                       onClick={() =>
                                         handleOtherUploadClick(otherDocInputRef)
@@ -4543,7 +4748,6 @@ const imageUrl = imagePreview
                                         height={20}
                                         style={{ marginRight: "8px" }}
                                       />
-                                      {/* Upload Document */}
                                         {cleanFileName(advanceDetail[0]?.doc2) || "Untitled Document"}
                                     </button>
                                     <input
@@ -4577,7 +4781,6 @@ const imageUrl = imagePreview
                                          <img
                                           src={viewdoc}
                                           alt="docdown"
-                                          //  onClick={() => setShowDocModaldoc2(true)}
                                           onClick={() => handleFileOpen2(advanceDetail[0]?.doc2)}
                                           style={{
                                             width: 20,
@@ -4590,7 +4793,12 @@ const imageUrl = imagePreview
                                       )} 
                                   </div>
 </div>
-</div>
+</div> */}
+
+
+
+
+
 
                                   {/* <Modal
   show={showDocModaldoc2}
@@ -4683,7 +4891,8 @@ const imageUrl = imagePreview
 )}
   </Modal.Body>
 </Modal>
-                                </div>
+
+                                </>
   </TabPanel>
 </TabContext>
 
