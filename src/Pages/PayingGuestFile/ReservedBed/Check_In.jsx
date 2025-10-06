@@ -24,7 +24,7 @@ function CheckIn({
 }) {
 
 
-    console.log("currentItem", currentItem)
+    
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const bookingDateRef = useRef("");
@@ -477,7 +477,7 @@ setFormLoading(true)
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>{currentItem?.roomName} </label> <span style={{
+                                        }}> Room No {currentItem?.roomName} </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -487,7 +487,7 @@ setFormLoading(true)
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> {currentItem?.bedName}</span>
+                                        }}> Bed No {currentItem?.bedName}</span>
                                     </div>
                                 </div>
 
