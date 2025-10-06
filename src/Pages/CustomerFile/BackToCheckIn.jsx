@@ -203,7 +203,7 @@ const handleRecheckin = (e) => {
                                     </p>
                                     <div className="d-flex gap-2">
                                         <span
-                                            style={{
+                                            style={{    
                                                 backgroundColor: "#FFF3CD",
                                                 color: "#856404",
                                                 fontSize: "12px",
@@ -270,7 +270,7 @@ const handleRecheckin = (e) => {
                             {activeTab === "LONG" ? <>
                                 <div style={{ maxHeight: "320px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-1">
                                     <div className="row d-flex align-items-center">
-                                        <div className="col-12">
+                                        {/* <div className="col-12">
                                             <Form.Label
                                                 style={{
                                                     fontSize: 14,
@@ -488,11 +488,11 @@ const handleRecheckin = (e) => {
 
 
 
-                                        </div>
+                                        </div> */}
 
 
 
-                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                        {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                             <Form.Group controlId="purchaseDate">
                                                 <Form.Label
                                                     style={{
@@ -612,12 +612,12 @@ const handleRecheckin = (e) => {
 
 
 
-                                        </div>
+                                        </div> */}
 
 
                                     </div>
 
-                                    <div style={{
+                                    {/* <div style={{
                                         backgroundColor: "#F7F9FF",
                                         borderRadius: 10,
                                         paddingBottom: 5,
@@ -834,7 +834,7 @@ const handleRecheckin = (e) => {
 
 
 
-                                    </div>
+                                    </div> */}
 
 
 
