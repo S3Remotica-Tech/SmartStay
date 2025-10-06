@@ -55,6 +55,43 @@ function UserAdditionalContact(props) {
     pinCode: "",
   });
 
+// useEffect(()=>{
+// if(props.additionDetails){
+//   setHouseNo(props.additionDetails.Address)
+//   setStreet(props.additionDetails.area)
+//   setLandmark(props.additionDetails.landmark)
+//   setPincode(props.additionDetails.pincode)
+//   setCity(props.additionDetails.city)
+//   setStateName(props.additionDetails.state)
+
+// }
+// },[props.additionDetails])
+const [sameAsTenant, setSameAsTenant] = useState(false);
+
+const handleCheckboxChange = (e) => {
+  const checked = e.target.checked;
+  setSameAsTenant(checked);
+
+  if (checked && props.additionDetails) {
+    setHouseNo(props.additionDetails.Address);
+    setStreet(props.additionDetails.area);
+    setLandmark(props.additionDetails.landmark);
+    setPincode(props.additionDetails.pincode);
+    setCity(props.additionDetails.city);
+    setStateName(props.additionDetails.state);
+  } else {
+    // Optional: clear fields if unchecked
+    setHouseNo("");
+    setStreet("");
+    setLandmark("");
+    setPincode("");
+    setCity("");
+    setStateName("");
+  }
+};
+
+
+
 
   const indianStates = [
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
@@ -501,7 +538,8 @@ useEffect(() => {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    Add Contact
+                    {/* Add Contact */}
+                     {props.editAdditional ? "Edit Contact": "Add Contact"}
                   </div>
                  
                   <CloseCircle size="24" color="#000" onClick={handleCloseAdditionalForm} 
@@ -720,70 +758,7 @@ useEffect(() => {
                     </Form.Group>
                   </div>
 
-                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                    <Form.Group className="">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Address {" "}
-                        <Form.Check
-                                                      type="checkbox"
-                                                      label={
-                                                        <span
-                                                          style={{
-                                                            color: "#1E45E1",
-                                                            fontWeight: 500,
-                                                            whiteSpace: "nowrap",
-                                                            fontSize: 11,
-                                                            fontFamily: "Gilroy",
-                                                          }}
-                                                        >
-                                                          Same as Current
-                                                        </span>
-                                                      }
-                                                      className="ms-3"
-                                                      // ref={rentRef}
-                                                      // onChange={(e) => {
-                                                      //   if (e.target.checked) {
-                                                      //     setNewRoomRent(currentRoomRent);
-                                                      //     setRentError("");
-                                                      //   } else {
-                                                      //     setNewRoomRent("");
-                                                      //     setRentError("");
-                                                      //   }
-                                                      // }}
-                                                    />
-                      </Form.Label>
-                      <FormControl
-                        type="text"
-                        id="form-controls"
-                        placeholder="Enter House No"
-                        value={house_no}
-                        onChange={(e) => handleHouseNo(e)}
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
-                      />
-                    </Form.Group>
-                    {house_noError && (
-                      <div style={{ color: "red" }}>
-                        <MdError style={{ fontFamily: "Gilroy", fontSize: '12px', marginRight: "5px", marginBottom: "1px" }} />
-                        <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                      </div>
-                    )}
-                  </div> */}
+                
   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <Form.Group className="mb-3">
                           <Form.Label
@@ -802,6 +777,8 @@ useEffect(() => {
                             </span>
                             <Form.Check
                               type="checkbox"
+                              checked={sameAsTenant}
+  onChange={handleCheckboxChange}
                               label={
                                 <span
                                   style={{
@@ -1158,7 +1135,7 @@ useEffect(() => {
                   }}
                   onClick={handleSubmitContact}
                 >
-                  Add Contact
+                {props.editAdditional ? "Edit Contact": "Add Contact"}
                 </Button>
               </div>
             </div>

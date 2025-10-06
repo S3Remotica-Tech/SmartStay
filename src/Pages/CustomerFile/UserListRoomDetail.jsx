@@ -64,7 +64,7 @@ import Retry from "../../Assets/Images/New_images/reload.png";
 // import viewdoc from "./assets/view.png";
 import plusIcon from "../../Assets/Images/New_images/Upload_document.png";
 import uploadsett from "../../Assets/Images/New_images/upload setting.png";
-
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 
 
@@ -2052,11 +2052,7 @@ const handleViewKYC = (doc) => {
     setShowModal(false);
   };
  
-// useEffect(() => {
-//   if (customerDetails[0]?.kyc_docs?.length) {
-//     setDocuments(customerDetails[0].kyc_docs);
-//   }
-// }, [customerDetails]);
+
 
   useEffect(() => {
     if (state.createAccount?.networkError) {
@@ -2237,7 +2233,7 @@ useEffect(() => {
   if (customerDetails[0]?.kyc_docs) {
     const docsFromApi = customerDetails[0].kyc_docs;
 
-    // Merge backend docs into fixed structure
+   
     const updatedDocs = documents.map((doc) => {
       const found = docsFromApi.find((d) => d.type === doc.type);
       if (found) {
@@ -2248,7 +2244,7 @@ useEffect(() => {
           size: found.size || doc.size,
         };
       }
-      return doc; // keep default if not found
+      return doc; 
     });
 
     setDocuments(updatedDocs);
@@ -2258,44 +2254,7 @@ useEffect(() => {
 
  
 
-// const handleFileUpload = (index, e) => {
-//   const file = e.target.files[0];
-//   if (!file) return;
 
-//   const reader = new FileReader();
-
-//   reader.onload = (event) => {
-//     const fileURL = event.target.result; // Base64 data URL
-
-//     const updatedDoc = {
-//       type: documents[index].type,
-//       name: file.name,
-//       size: `${Math.round(file.size / 1024)} KB`,
-//       URL: fileURL, // ✅ Use this as URL
-//     };
-
-//     const newDocuments = [...documents];
-//     newDocuments[index] = updatedDoc;
-//     setDocuments(newDocuments);
-
-//     // Dispatch with URL instead of raw file
-//     dispatch({
-//       type: "KYCDOCUMENTSDETAIL",
-//       payload: {
-//         userId: customerDetails[0].ID,
-//         newDocs: [
-//           {
-//             type: updatedDoc.type,
-//             name: updatedDoc.name,
-//             URL: updatedDoc.URL,
-//           },
-//         ],
-//       },
-//     });
-//   };
-
-//   reader.readAsDataURL(file); // Converts file to Base64 URL
-// };
 
 const dispatchedRef = useRef(false);
 
@@ -2345,49 +2304,13 @@ const handleDownloadKYC = () => {
 
 
 
-// const handleDownloadKYCtest = (doc) => {
-//   const link = document.createElement("a");
-//   link.href = doc.URL;
-//   link.download = doc.name;
-//   link.click();
-// };
+
 
 const kycDocs = customerDetails[0]?.kyc_docs;
 
-  // const handleDownloadKYC = () => {
-  //   const kycCard = document.getElementById("kyc-download-card");
-  //   if (!kycCard) return;
+ 
 
-  //   import("html2canvas").then((html2canvas) => {
-  //     html2canvas.default(kycCard).then((canvas) => {
-  //       const link = document.createElement("a");
-  //       link.download = "kyc_details.png";
-  //       link.href = canvas.toDataURL("image/png");
-  //       link.click();
-  //     });
-  //   });
-  // };
 
-// const handleDownloadKYC = (doc) => {
-//   if (doc === "aadhaarKYC") {
-//     // Special Aadhaar download
-//     const element = document.getElementById("kyc-download-card");
-//     if (!element) return;
-
-//     html2canvas(element).then((canvas) => {
-//       const link = document.createElement("a");
-//       link.href = canvas.toDataURL("image/png"); // Convert as PNG
-//       link.download = "KYC_Details.png";
-//       link.click();
-//     });
-//   } else {
-//     // Normal doc download
-//     const link = document.createElement("a");
-//     link.href = doc.URL;
-//     link.download = doc.name;
-//     link.click();
-//   }
-// };
   useEffect(()=>{
     if(state.UsersList.StatusCodeKycDocuments === 200){
 setTimeout(() => {
@@ -2696,36 +2619,7 @@ const imageUrl = imagePreview
 
                   
 
-                      {/* <div
-                     
-                        style={{
-                          cursor: props.customerEditPermission && !customerDetails[0]?.Bed
-                            ? "not-allowed"
-                            : "pointer",
-                          height: 40,
-                          width: 40,
-                          borderRadius: 100,
-                          border: "1px solid #EFEFEF",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          position: "relative",
-                          zIndex: activeRow === item.ID ? 1000 : "auto",
-                          backgroundColor:
-                            activeRow === item.ID ? "#E7F1FF" : "white",
-                        }}
-                       
-                      >
-                        <PiDotsThreeOutlineVerticalFill
-                          style={{
-                            height: 20,
-                            width: 20,
-                            color: props.customerEditPermission
-                              ? "#CCCCCC"
-                              : "#000",
-                          }}
-                        />
-                      </div> */}
+                   
                     </div>
                   </div>
 
@@ -3363,14 +3257,7 @@ const imageUrl = imagePreview
 
 <div className="card mt-4" style={{marginLeft:25,borderRadius:10}}>
   <div className="card-body">
- {/* <ul class="nav nav-tabs mb-3">
-    <li class="nav-item">
-      <a class="nav-link active" data-bs-toggle="tab" href="#kycDocs">KYC Documents</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="tab" href="#manualDocs">Manual Documents</a>
-    </li>
-  </ul> */}
+ 
   <TabContext value={documentvalue}>
   <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
     <TabList
@@ -3410,168 +3297,7 @@ const imageUrl = imagePreview
   </Box>
 
   <TabPanel value="1">
-    {/* <div className="row mt-3">
-  {documents.map((doc, index) => {
-    const isAadhar = doc.name.toLowerCase().includes("aadhar");
-    const existingKycDoc = kycDocs?.find(kycDoc => kycDoc.type === doc.type);
-
-    return (
-      <div className="col-md-6 mt-2" key={index}>
-       
-        {isAadhar && state.UsersList?.KycCustomerDetails?.pic ? (
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-              <img
-                src={adhar}
-                alt="Aadhaar"
-                style={{ width: 20, height: 20, marginRight: 8 }}
-              />
-              <p className="mb-0 fw-semibold small">Aadhaar (KYC)</p>
-            </div>
-            <div className="d-flex gap-2">
-              <img
-                src={viewdoc}
-                alt="viewdoc"
-                onClick={handleViewKYC}
-                style={{ cursor: "pointer", width: 20, height: 20 }}
-              />
-              <img
-                src={docDown}
-                alt="Download Aadhaar"
-                onClick={handleDownloadKYCtest}
-                style={{ cursor: "pointer", width: 20, height: 20 }}
-              />
-            </div>
-          </div>
-        ) : existingKycDoc ? (
-         
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-              <img
-                src={adhar}
-                alt={existingKycDoc.type}
-                style={{ width: 20, height: 20, marginRight: 8 }}
-              />
-              <p className="mb-0 fw-semibold small">{existingKycDoc.type}</p>
-            </div>
-            <div className="d-flex gap-2">
-              <img
-                src={viewdoc}
-                alt="viewdoc"
-                onClick={() => handleViewKYC(existingKycDoc)}
-                style={{ cursor: "pointer", width: 20, height: 20 }}
-              />
-              <img
-                src={docDown}
-                alt="Download"
-                
-                onClick={() => handleDownloadKYC("aadhaarKYC")}
-                style={{ cursor: "pointer", width: 20, height: 20 }}
-              />
-            </div>
-          </div>
-        ) : (
-         
-          <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
-            <div className="d-flex align-items-center">
-              <img
-                src={upload}
-                alt="upload"
-                width={20}
-                height={20}
-                style={{ marginRight: "8px", cursor: "pointer" }}
-                onClick={() =>
-                  document.getElementById(`fileUpload-${index}`).click()
-                }
-              />
-              <div>
-                <p
-                  className="mb-0 fw-semibold small text-truncate"
-                  style={{ maxWidth: "120px" }}
-                  title={doc.name}
-                >
-                  {doc.name}
-                </p>
-                <small className="text-muted">
-                  {doc.size} • {doc.type}
-                </small>
-              </div>
-            </div>
-          </div>
-        )}
-
-      
-        {!existingKycDoc && !(
-          isAadhar && state.UsersList?.KycCustomerDetails?.pic
-        ) && (
-          <input
-            type="file"
-            id={`fileUpload-${index}`}
-            style={{ display: "none" }}
-            onChange={(e) => handleFileUpload(index, e)}
-          />
-        )}
-      </div>
-    );
-  })}
-
-    <div
-                                      id="kyc-download-card"
-                                      style={{
-                                        position: "absolute",
-                                        top: "-9999px",
-                                        left: "-9999px",
-                                        borderRadius: 10,
-                                        padding: 20,
-                                        width: 320,
-                                        textAlign: "center",
-
-                                        fontFamily: "Gilroy",
-                                      }}
-                                    >
-
-                                      <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20, fontFamily: "Gilroy" }}>
-                                        KYC Details
-                                      </h6>
-
-                                      <div style={{ marginBottom: 15 }}>
-                                        <img
-                                          src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-                                          alt="KYC"
-                                          style={{
-                                            height: 120,
-                                            width: 120,
-                                            borderRadius: "25%",
-                                            border: "3px solid #f0f0f0",
-                                          }}
-                                        />
-                                      </div>
-
-                                      <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
-                                        {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
-                                      </h5>
-
-                                      <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
-                                        <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></i>
-
-                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                          Adress<br />
-                                          <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
-                                        </p>
-                                      </div>
-
-
-                                      <div className="d-flex align-items-start" style={{ justifyContent: "center", marginLeft: "-105px" }}>
-                                        <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10 }}></img>
-
-                                        <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
-                                          Aadhar Number<br />
-                                          <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
-                                        </p>
-                                      </div>
-                                    </div>
-
-</div> */}
+  
   <>
 <div className="row mt-3">
  {documents.map((doc, index) => {
@@ -3580,12 +3306,12 @@ const imageUrl = imagePreview
     (kycDoc) => kycDoc.type === doc.type
   );
 
-  // Aadhaar disable condition:
+ 
   const aadharDisabled = state.UsersList?.KycCustomerDetails
 
   return (
     <div className="col-md-6 mt-2" key={index}>
-      {/* Aadhaar already in DB (CustomerDetails) */}
+    
       {isAadhar && state.UsersList?.KycCustomerDetails?.pic ? (
         <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
           <div className="d-flex align-items-center">
@@ -3622,7 +3348,7 @@ const imageUrl = imagePreview
           </div>
         </div>
       ) : (
-        // Upload UI
+      
         <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
           <div className="d-flex align-items-center">
             <img
@@ -3660,15 +3386,14 @@ const imageUrl = imagePreview
         </div>
       )}
 
-      {/* File Upload input (only if not disabled) */}
-      {/* {!existingKycDoc && !aadharDisabled && ( */}
+     
         <input
           type="file"
           id={`fileUpload-${index}`}
           style={{ display: "none" }}
-          // onChange={(e) => handleFileUpload(index, e)}
+         
         />
-      {/* )} */}
+     
     </div>
   );
 })}
@@ -4587,9 +4312,32 @@ const imageUrl = imagePreview
           )}
 
           {!selectedFile && uploadError && (
-            <div className="text-danger mt-2">
-              <MdError /> {uploadError}
-            </div>
+            <div style={{
+                                                         color: "red",
+                                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                                     marginTop: 4,
+                                                                                                                     display: "inline-flex", 
+                                                                                                                     alignItems: "center",
+                                                                                                                     padding: "4px 10px", 
+                                                                                                                     borderRadius: 4,
+                                                                                                                   }}> 
+                                                                                                                   <img
+                                                                                                                     src={Error_Icon}
+                                                                                                                     alt="ErrorIcon"
+                                                                                                                     style={{ marginRight: "4px", fontSize:15}}
+                                                                                                                   />
+                                                                                                                   <span
+                                                                                                                     style={{
+                                                                                                                       fontSize: "12px",
+                                                                                                                       color: "red",
+                                                                                                                       fontFamily: "Gilroy",
+                                                                                                                       fontWeight: 500,
+                                                                                                                       whiteSpace: "nowrap", 
+                                                                                                                     }}
+                                                                                     >
+                                                                                       {uploadError}
+                                                                                     </span>
+                                                                                   </div>
           )}
 
            <Modal.Footer style={{ border: "none", paddingTop: 0 , marginTop:10 }}>
@@ -5502,32 +5250,56 @@ const imageUrl = imagePreview
                                     padding: "20px",
                                   }}
                                 >
-                                  <div
-                                    className="card-header d-flex justify-content-between align-items-center"
-                                    style={{
-                                      backgroundColor: "transparent",
-                                      borderBottom: "1px solid #e0e0e0",
-                                    }}
-                                  >
-                                    <div
-                                      className="fw-semibold"
-                                      style={{
-                                        fontSize: 16,
-                                        lineHeight: "40px",
-                                        fontFamily: "Gilroy"
-                                      }}
-                                    >
-                                      Additional Contact
-                                    </div>
-                                    {/* <button
-                                      disabled={props.customerAddPermission}
-                                      className="btn btn-link fw-medium text-decoration-none"
-                                      style={{ fontSize: 14, fontFamily: "Gilroy" }}
-                                      onClick={handleAdditionalForm}
-                                    >
-                                      + Add Contact
-                                    </button> */}
-                                  </div>
+                                 <div
+  className="card-header d-flex justify-content-between align-items-center"
+  style={{
+    backgroundColor: "transparent",
+    borderBottom: "1px solid #e0e0e0",
+  }}
+>
+  <div
+    className="fw-semibold"
+    style={{
+      fontSize: 16,
+      lineHeight: "40px",
+      fontFamily: "Gilroy",
+    }}
+  >
+    Additional Contact
+   
+  </div>
+{state?.UsersList?.customerAllDetails?.contact_details?.length > 0 && (
+  <div className="d-flex align-items-center gap-3">
+    <Edit
+      size="18"
+      color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"}
+      style={{ cursor: props.customerEditPermission ? "not-allowed" : "pointer" }}
+      onClick={() => {
+        if (!props.customerEditPermission) {
+          handleContactEdit(state.UsersList.customerAllDetails.contact_details[0]);
+        }
+      }}
+    />
+    <Trash
+      size="18"
+      color={props.customerDeletePermission ? "#A9A9A9" : "red"}
+      style={{ cursor: props.customerDeletePermission ? "not-allowed" : "pointer" }}
+      onClick={() => {
+        if (!props.customerDeletePermission) {
+          handleContactDelete(state.UsersList.customerAllDetails.contact_details[0]);
+        }
+      }}
+      onMouseEnter={(e) => {
+        if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = "transparent";
+      }}
+    />
+  </div>
+)}
+</div>
+
 
                                   <div className="card-body" style={{ fontFamily: "Gilroy" }}>
                                     {state?.UsersList?.customerAllDetails
@@ -5647,29 +5419,7 @@ const imageUrl = imagePreview
                                           {state.UsersList.customerAllDetails.contact_details.map(
                                             (v, index) => (
                                               <div key={index}>
-                                                <p className="mb-3">
-                                                  Contact Info{" "}
-                                                  <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} style={{ cursor: "pointer" }} onClick={() => {
-                                                    if (!props.customerEditPermission) {
-                                                      handleContactEdit(v);
-                                                    }
-                                                  }} />
-
-                                                  <Trash size="16" color={props.customerDeletePermission ? "#A9A9A9" : "red"}
-
-
-                                                    onClick={() => {
-                                                      if (!props.customerDeletePermission) {
-                                                        handleContactDelete(v);
-                                                      }
-                                                    }}
-                                                    style={{ cursor: props.customerDeletePermission ? "not-allowed" : "pointer", marginLeft: 10 }} onMouseEnter={(e) => {
-                                                      if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "transparent";
-                                                    }} />
-                                                </p>
+                                               
 
                                                 <div className="row mb-3 g-8">
                                                   <div className="col-sm-4">

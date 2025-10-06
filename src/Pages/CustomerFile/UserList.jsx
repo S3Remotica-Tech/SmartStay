@@ -2479,7 +2479,7 @@ const handleClosefinal = ()=>{
                     marginTop: -15,
                   }}
                 >
-                  Customers
+                  Tenants
                 </label>
               </div>
 
@@ -2766,7 +2766,7 @@ const handleClosefinal = ()=>{
                       onClick={handleShow}
                       style={buttonStyle}
                     >
-                      + Customer
+                      + Tenant
                     </Button>
                   )}
                   {value === "2" && (
@@ -6340,7 +6340,7 @@ const handleClosefinal = ()=>{
                   lineHeight: "normal",
                 }}
               >
-                Customer
+                Tenants
               </Form.Label>
               <Form.Select
                 aria-label="Default select example"

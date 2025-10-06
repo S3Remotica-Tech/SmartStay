@@ -849,7 +849,7 @@ function Sidebar() {
                           fontFamily: "Gilroy",
                         }}
                       >
-                        Customers
+                        Tenants
                       </span>
                     </li>
                     <li

@@ -368,7 +368,7 @@ const handleCloseRefundAmount=()=>{
 
 
                   
-                     {(props.item.action === "checkout" || props.item.action === "advance" || props.item.action === "manual" || props.item.action === "checkIn" || props.item.action === "recuring") && props.item.BalanceDue > 0 && (
+                     {( props.item.action === "advance" || props.item.action === "manual" || props.item.action === "checkIn" || props.item.action === "recuring") && props.item.BalanceDue > 0 && (
                       <>
                       <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${props.billAddPermission ? 'disabled' : ''}`}
@@ -408,13 +408,8 @@ const handleCloseRefundAmount=()=>{
                           Record Payment
                         </label>
                       </div>
-                      </>
-                     )
-                    }
-                   
 
-{ props.item.BalanceDue > 0 && (
-  <div
+ <div
                         className={`d-flex justify-content-start align-items-center gap-2  ${props.billAddPermission ? 'disabled' : ''}`}
                         style={{
                           cursor: props.billAddPermission ? "not-allowed" : "pointer",
@@ -453,9 +448,17 @@ const handleCloseRefundAmount=()=>{
                         </label>
                       </div>
 
+                      </>
+                     )
+                    }
+                   
+
+{/* { (props.item.action === "advance" || props.item.action === "manual" || props.item.action === "checkIn" || props.item.action === "recuring") && props.item.BalanceDue > 0 && (
+ 
+
 
                       
-                    )}
+                    )} */}
 
 
                     {/* {
@@ -500,7 +503,7 @@ const handleCloseRefundAmount=()=>{
                          Refund Amount
                         </label>
                       </div> */}
-                      {props.item.action === "checkout" && props.item.BalanceDue < 0 && (
+                      {props.item.action === "checkout" && (
   <div
     className={`d-flex justify-content-start align-items-center gap-2  ${props.billAddPermission ? 'disabled' : ''}`}
     style={{

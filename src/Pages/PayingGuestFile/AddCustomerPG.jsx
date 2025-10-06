@@ -261,11 +261,14 @@ function AddCustomer({  show, handleClose   }) {
       }
   
       setPincode(value);
-      if (value.length > 0 && value.length < 6) {
-        setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      } else {
-        setPincodeError("");
-      }
+      const err = validatePincode(value)
+       setPincodeError(err);
+
+      // if (value.length > 0 && value.length < 6) {
+      //   setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      // } else {
+      //   setPincodeError("");
+      // }
     };
   
     const handleCity = (e) => {
@@ -294,7 +297,7 @@ function AddCustomer({  show, handleClose   }) {
             setError("Please Enter First Name");
             break;
           case "Phone Number":
-            setError("Please Enter Phone Number");
+            setError("Please Enter Mobile Number");
             break;
           case "Email":
             setError("Please Enter Email Id");
@@ -458,7 +461,7 @@ function AddCustomer({  show, handleClose   }) {
     );
 
     if (isDuplicatePhone) {
-      setPhoneError("This phone Number Already Exists");
+      setPhoneError("This Mobile Number Already Exists");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;
@@ -503,22 +506,7 @@ function AddCustomer({  show, handleClose   }) {
   setEmailError("");
 }
   
-      // if (Email) {
-      //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      //   const isValidEmail = emailRegex.test(Email.toLowerCase());
-      //   if (!isValidEmail) {
-      //     setEmailError("Please Enter Valid Email ID");
-      //     if (!focusedRef.current) {
-      //       focusedRef.current = true;
-      //     }
-      //     hasError = true;
-      //   }
-      //   else {
-      //     setEmailError("");
-      //   }
-      // } else {
-      //   setEmailError("");
-      // }
+     
         if(hasError){
        return
         }
@@ -531,6 +519,28 @@ function AddCustomer({  show, handleClose   }) {
     const handlePrevious = () => {
       setStep(1);
     };
+    const validatePincode = (pincode) => {
+  let error = "";
+
+  if (!pincode) {
+    error = "";
+  } else if (pincode.length !== 6) {
+    error = "Pin Code Must Be Exactly 6 Digits";
+  } else if (pincode[0] === "0") {
+    error = "Pin Code Cannot Start With 0";
+  } else if (pincode.slice(-3) === "000") {
+    error = "Last 3 digits cannot be 000";
+  }
+   else if (!/^\d{6}$/.test(pincode)) {
+    error = "Pin Code must contain only digits";
+  }
+
+  return error;
+};
+
+
+
+
   
     const handleCreateCustomer = () => {
      
@@ -542,14 +552,24 @@ function AddCustomer({  show, handleClose   }) {
   
      
   
-      if (pincode && pincode.length !== 6) {
-        setPincodeError("Pin Code Must Be Exactly 6 Digits");
-        if (!focusedRef.current && pincodeRef?.current) {
-          pincodeRef.current.focus();
-          focusedRef.current = true;
-        }
-        hasError = true;
-      }
+      // if (pincode && pincode.length !== 6) {
+      //   setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      //   if (!focusedRef.current && pincodeRef?.current) {
+      //     pincodeRef.current.focus();
+      //     focusedRef.current = true;
+      //   }
+      //   hasError = true;
+      // }
+    
+const error = validatePincode(pincode);
+if (error) {
+  setPincodeError(error);
+  if (!focusedRef.current && pincodeRef?.current) {
+    pincodeRef.current.focus();
+    focusedRef.current = true;
+  }
+  hasError = true;
+}
   
       
   
@@ -1581,27 +1601,32 @@ function AddCustomer({  show, handleClose   }) {
                               />
     
                               {pincodeError && (
-                                <div className="d-flex align-items-start gap-1 mb-2" style={{ marginTop: "5px" }}>
-                                  <MdError
-                                    style={{
-                                      color: "red",
-                                      fontSize: "13px",
-                                      marginTop: "1px",
-                                    }}
-                                  />
-                                  <label
-                                    className="mb-0"
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: 500,
-                                      lineHeight: "16px",
-                                    }}
-                                  >
-                                    {pincodeError}
-                                  </label>
-                                </div>
+                                   <div style={{
+                                                                                           color: "red",
+                                                                                          backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                                                                                       marginTop: 4,
+                                                                                                                                                       display: "inline-flex", 
+                                                                                                                                                       alignItems: "center",
+                                                                                                                                                       padding: "4px 10px", 
+                                                                                                                                                       borderRadius: 4,
+                                                                                                                                                     }}> 
+                                                                                                                                                     <img
+                                                                                                                                                       src={Error_Icon}
+                                                                                                                                                       alt="ErrorIcon"
+                                                                                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                                                                                     />
+                                                                                                                                                     <span
+                                                                                                                                                       style={{
+                                                                                                                                                         fontSize: "12px",
+                                                                                                                                                         color: "red",
+                                                                                                                                                         fontFamily: "Gilroy",
+                                                                                                                                                         fontWeight: 500,
+                                                                                                                                                         whiteSpace: "nowrap", 
+                                                                                                                                                       }}
+                                               >
+                                                 {pincodeError}
+                                               </span>
+                                             </div>
                               )}
     
                             </Form.Group>

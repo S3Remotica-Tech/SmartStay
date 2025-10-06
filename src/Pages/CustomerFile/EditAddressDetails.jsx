@@ -163,6 +163,7 @@ const validatePincode = (pin) => {
         setFormError("")
 
     };
+
     useEffect(() => {
   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
 
@@ -172,23 +173,62 @@ const validatePincode = (pin) => {
     // remove the `S/O:` part
     const addressParts = parts.slice(1);
 
-    // pincode, state and city from the END
+    // pincode, state, and city from the END
     const pincodePart = addressParts[addressParts.length - 1];
-    const statePart   = addressParts[addressParts.length - 2];
-    const cityPart    = addressParts[addressParts.length - 3];
+    const statePart = addressParts[addressParts.length - 2];
+    const cityPart = addressParts[addressParts.length - 3];
 
     // remaining items are house/street/area/landmark
     const others = addressParts.slice(0, addressParts.length - 3);
     const [streetNumber, streetName, areaPart, landmarkPart] = others;
 
-    setHouseNo(`${streetNumber} ${streetName}`);
-    setStreet(areaPart);
-    setLandmark(landmarkPart);
-    setCity(cityPart);
-    setStateName(statePart);
-    setPincode(pincodePart);
+    const addressObj = {
+      Address: `${streetNumber} ${streetName}`,
+      area: areaPart || "",
+      landmark: landmarkPart || "",
+      city: cityPart || "",
+      pincode: pincodePart || "",
+      state: statePart || "",
+    };
+
+    setHouseNo(addressObj.Address);
+    setStreet(addressObj.area);
+    setLandmark(addressObj.landmark);
+    setCity(addressObj.city);
+    setStateName(addressObj.state);
+    setPincode(addressObj.pincode);
+
+    // 🔥 Sync to initial state so "No changes detected" works
+    setInitialstate(addressObj);
   }
 }, [state.UsersList.KycCustomerDetails?.address]);
+
+//     useEffect(() => {
+//   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
+
+//   if (rawAddress) {
+//     const parts = rawAddress.split(",").map((part) => part.trim());
+
+//     // remove the `S/O:` part
+//     const addressParts = parts.slice(1);
+
+//     // pincode, state and city from the END
+//     const pincodePart = addressParts[addressParts.length - 1];
+//     const statePart   = addressParts[addressParts.length - 2];
+//     const cityPart    = addressParts[addressParts.length - 3];
+
+//     // remaining items are house/street/area/landmark
+//     const others = addressParts.slice(0, addressParts.length - 3);
+//     const [streetNumber, streetName, areaPart, landmarkPart] = others;
+
+//     setHouseNo(`${streetNumber} ${streetName}`);
+//     setStreet(areaPart);
+//     setLandmark(landmarkPart);
+//     setCity(cityPart);
+//     setStateName(statePart);
+//     setPincode(pincodePart);
+//   }
+// }, [state.UsersList.KycCustomerDetails?.address]);
 
 
 
@@ -316,23 +356,7 @@ const MobileNumber = `${countryCode}${phone}`;
   const pincodeRef = useRef(null);
 
     const handleSubmitAddress = ()=>{
-//          const focusedRef = { current: false };
-//  const cleanedPincode = String(pincode || "").trim();
 
-//   if (cleanedPincode && cleanedPincode !== "0" && !/^\d{6}$/.test(cleanedPincode)) {
-//     setPincodeError("Pin Code Must Be Exactly 6 Digits");
-
-//     if (!focusedRef.current && pincodeRef?.current) {
-//       pincodeRef.current.focus();
-//       focusedRef.current = true;
-//     }
-
-//     return; 
-//   } else {
-//     setPincodeError("");
-//   }
-
-//           if (!initialState) return;
 const focusedRef = { current: false };
   const err = validatePincode(pincode, pincodeRef);
 
