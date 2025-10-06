@@ -57,18 +57,45 @@ console.log("matchedDetails",matchedDetails)
   //   setPayableAmount(value);
   
   // };
- const handleAmount = (e) => {
-  let value = e.target.value;
-  setPayableAmount(value);
+//  const handleAmount = (e) => {
+//   let value = e.target.value;
+//   setPayableAmount(value);
 
-  let balanceDue = props.wraitofDetails.BalanceDue || 0;
+//   let balanceDue = props.wraitofDetails.BalanceDue || 0;
 
   
-  let newBalance = balanceDue + Number(value || 0);
+//   let newBalance = balanceDue + Number(value || 0);
 
 
-  setBalance(Math.abs(newBalance));
+//   setBalance(Math.abs(newBalance));
+// };
+
+
+
+const handleAmount = (e) => {
+  let value = e.target.value;
+
+  // Allow only numbers
+  if (!/^\d*$/.test(value)) return;
+
+  const balanceDue = Math.abs(Number(props.wraitofDetails.BalanceDue)) || 0;
+  const enteredAmount = Number(value);
+
+  // If user enters more than balanceDue, stop at max limit
+  if (enteredAmount > balanceDue) {
+    setPayableAmount(balanceDue);
+    setBalance(0);
+  } else {
+    setPayableAmount(value);
+
+    // New balance = balanceDue - enteredAmount
+    const newBalance = balanceDue - enteredAmount;
+    setBalance(newBalance);
+  }
 };
+
+
+
  const handleModeOfPaymentChange = (selectedOption) => {
     if (!selectedOption) return;
 
@@ -119,7 +146,7 @@ const day = String(date.getDate()).padStart(2, "0");
 const payment_date = `${year}-${month}-${day}`; 
     dispatch({
       type: "REFUNDABLEDETAILS",
-      payload:{ id: props.wraitofDetails.ID,                 
+      payload:{ id: props.wraitofDetails.id,                 
   invoice_id:props.wraitofDetails.Invoices,  
   amount:  Number(payableAmount),             
   balance_due: balance,        
