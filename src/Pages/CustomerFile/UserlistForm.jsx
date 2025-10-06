@@ -681,7 +681,7 @@ const handleStreetName = (e) => {
           setError("Please Enter First Name");
           break;
         case "Phone Number":
-          setError("Please Enter Phone Number");
+          setError("Please Enter Mobile Number");
           break;
         case "Email":
           setError("Please Enter Email Id");
@@ -1901,7 +1901,7 @@ const handleNext = () => {
     );
 
     if (isDuplicatePhone) {
-      setPhoneError("This Mobile Number Already Exists");
+      setPhoneError(" Mobile Number Already Exists");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;

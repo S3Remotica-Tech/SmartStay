@@ -93,7 +93,6 @@ function ParticularHostelDetails(props) {
 
 
 
-console.log("customerID",customerID)
   const handleclickBed = (bed, room) => {
 
 console.log("customerID",bed, room)

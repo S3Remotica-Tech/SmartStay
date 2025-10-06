@@ -217,25 +217,43 @@ function AddPg({ show, handleClose, currentItem }) {
   setIsChangedError("");
 };
 
+const validatePincode = (pin) => {
+  const cleanedPin = String(pin || "").trim();
 
-  const handlePinCodeChange = (e) => {
+  if (!cleanedPin) {
+    return "Please Enter Pincode"; 
+  }
+
+  if (!/^\d{6}$/.test(cleanedPin)) {
+    return "Pin Code Must Be Exactly 6 Digits";
+  }
+
+  if (cleanedPin.startsWith("0")) {
+    return "Pin Code Cannot Start With 0";
+  }
+
+  if (cleanedPin.endsWith("000")) {
+    return "Last 3 digits cannot be 000";
+  }
+
+  return ""; 
+};
+
+    const handlePinCodeChange = (e) => {
     const value = e.target.value;
-
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
 
     setPincode(value);
+  const err = validatePincode(value, pincodeRef);
+  setPincodeError(err);
+  setGeneralError("");
+  setIsChangedError("");
 
-    if (value.length > 0 && value.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    } else {
-      setPincodeError("");
-    }
-
-    setGeneralError("");
-    setIsChangedError("");
   };
+
+
 
   const handleCity = (e) => {
     const inputValue = e.target.value;
@@ -323,31 +341,41 @@ function AddPg({ show, handleClose, currentItem }) {
       hasError = true;
     }
 
+const err = validatePincode(pincode);
+if (err) {
+  setPincodeError(err);
+  if (!focused && pincodeRef?.current) {
+    pincodeRef.current.focus();
+    focused = true;
+  }
+  hasError = true;
+} else {
+  setPincodeError("");
+}
 
-
-    const pinString = String(pincode).trim();
-    if (!pinString) {
-      setPincodeError("Please Enter Pincode");
-      if (!focused) {
-        pincodeRef.current?.focus();
-        focused = true;
-      }
-      hasError = true;
-    } else if (!/^\d+$/.test(pinString)) {
-      setPincodeError("Pin Code Must Be Numeric");
-      if (!focused) {
-        pincodeRef.current?.focus();
-        focused = true;
-      }
-      hasError = true;
-    } else if (pinString.length !== 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focused) {
-        pincodeRef.current?.focus();
-        focused = true;
-      }
-      hasError = true;
-    }
+    // const pinString = String(pincode).trim();
+    // if (!pinString) {
+    //   setPincodeError("Please Enter Pincode");
+    //   if (!focused) {
+    //     pincodeRef.current?.focus();
+    //     focused = true;
+    //   }
+    //   hasError = true;
+    // } else if (!/^\d+$/.test(pinString)) {
+    //   setPincodeError("Pin Code Must Be Numeric");
+    //   if (!focused) {
+    //     pincodeRef.current?.focus();
+    //     focused = true;
+    //   }
+    //   hasError = true;
+    // } else if (pinString.length !== 6) {
+    //   setPincodeError("Pin Code Must Be Exactly 6 Digits");
+    //   if (!focused) {
+    //     pincodeRef.current?.focus();
+    //     focused = true;
+    //   }
+    //   hasError = true;
+    // }
 
     if (!city) {
       setCityError("Please Enter City");

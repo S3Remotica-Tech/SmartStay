@@ -117,25 +117,41 @@ function AddVendor({ show, setShow, currentItem }) {
     setCountryError("");
   };
 
+  const validatePincode = (pin) => {
+  const cleanedPin = String(pin || "").trim();
+
+  if (!cleanedPin) {
+    return "Please Enter Pincode"; 
+  }
+
+  if (!/^\d{6}$/.test(cleanedPin)) {
+    return "Pin Code Must Be Exactly 6 Digits";
+  }
+
+  if (cleanedPin.startsWith("0")) {
+    return "Pin Code Cannot Start With 0";
+  }
+
+  if (cleanedPin.endsWith("000")) {
+    return "Last 3 digits cannot be 000";
+  }
+
+  return ""; 
+};
+
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
-
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
 
-    setPinCode(value);
+  setPinCode(value);
+  const err = validatePincode(value, pinCodeRef)
+  setPinCodeError(err)
+  setGeneralError("")
+  setIsChangedError("")
 
-
-    if (value.length > 0 && value.length < 6) {
-      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
-    } else {
-      setPinCodeError("");
-    }
-
-    setGeneralError("");
-    setIsChangedError("");
-  };
+  }
 
 
   const handleHouseNo = (e) => {
@@ -391,30 +407,42 @@ function AddVendor({ show, setShow, currentItem }) {
       isValid = false;
     }
 
-    if (!pinCode) {
-      setPinCodeError("Please Enter Pincode");
-      if (!focusedRef.current && pinCodeRef.current) {
-        pinCodeRef.current.focus();
-        focusedRef.current = true;
+    const err = validatePincode(pinCode)
+     if (err) {
+      setPinCodeError(err);
+     if (!focusedRef.current && pinCodeRef?.current) {
+      pinCodeRef.current.focus();
+      focusedRef.current = true;
       }
-      isValid = false;
-    } else if (!/^\d+$/.test(String(pinCode))) {
-      setPinCodeError("Pin Code Must Be Numeric");
-      if (!focusedRef.current && pinCodeRef.current) {
-        pinCodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else if (String(pinCode).length !== 6) {
-      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
-      if (!focusedRef.current && pinCodeRef.current) {
-        pinCodeRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
+     isValid = false;
     } else {
       setPinCodeError("");
     }
+
+    // if (!pinCode) {
+    //   setPinCodeError("Please Enter Pincode");
+    //   if (!focusedRef.current && pinCodeRef.current) {
+    //     pinCodeRef.current.focus();
+    //     focusedRef.current = true;
+    //   }
+    //   isValid = false;
+    // } else if (!/^\d+$/.test(String(pinCode))) {
+    //   setPinCodeError("Pin Code Must Be Numeric");
+    //   if (!focusedRef.current && pinCodeRef.current) {
+    //     pinCodeRef.current.focus();
+    //     focusedRef.current = true;
+    //   }
+    //   isValid = false;
+    // } else if (String(pinCode).length !== 6) {
+    //   setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+    //   if (!focusedRef.current && pinCodeRef.current) {
+    //     pinCodeRef.current.focus();
+    //     focusedRef.current = true;
+    //   }
+    //   isValid = false;
+    // } else {
+    //   setPinCodeError("");
+    // }
 
 
     if (!state_name) {
