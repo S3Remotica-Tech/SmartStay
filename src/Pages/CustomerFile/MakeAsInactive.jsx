@@ -1,53 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./UserList.css";
-import { Button, Form} from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useDispatch} from "react-redux";
-// import Swal from "sweetalert2";
-// import Image from "react-bootstrap/Image";
-// import UserlistForm from "./UserlistForm";
-// import UserListRoomDetail from "./UserListRoomDetail";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
-// import Emptystate from "../../Assets/Images/Empty-State.jpg";
-// import closecircle from "../../Assets/Images/New_images/close-circle.png";
-// import Box from "@mui/material/Box";
-// import TabList from "@mui/lab/TabList";
-// import excelimg from "../../Assets/Images/New_images/excel_blue.png";
-// import CustomerReAssign from "./CustomerReAssign";
-// import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, Trash } from "iconsax-react";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
-// import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-// import TabPanel from "@mui/lab/TabPanel";
-// import TabContext from "@mui/lab/TabContext";
-// import Tab from "@mui/material/Tab";
-// import UserlistBookings from "./UserlistBookings";
-// import UserlistCheckout from "./UserlistCheckout";
-// import UserlistWalkin from "./UserlistWalkin";
-// import Addbooking from "./Addbookingform";
-// import CheckOutForm from "./UserListCheckoutForm";
-// import UserlistWalkinForm from "./UserlistWalkinForm";
-// import Edit from "../../Assets/Images/Edit-blue.png";
-// import addcircle from "../../Assets/Images/New_images/add-circle.png";
-// import searchteam from "../../Assets/Images/New_images/Search Team.png";
-// import useMediaQuery from "@mui/material/useMediaQuery";
-// import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
-// import CustomerCheckout from "./CustomerCheckout";
 import "react-datepicker/dist/react-datepicker.css";
-// import { toast } from "react-toastify";
-// import Closebtn from "../../Assets/Images/CloseCircle.png";
-// import Calendars from "../../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-// import moment from 'moment';
-// import Filters from "../../Assets/Images/Filters.svg";
 import isBetween from "dayjs/plugin/isBetween";
-// import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-// import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-// import leftarrow from "../../Assets/Images/arrow-left.png";
-// import Select from "react-select";
 import { CloseCircle } from "iconsax-react";
 import ErrorMessage from '../../Components/ErrorMessage'
 
@@ -57,10 +21,9 @@ import ErrorMessage from '../../Components/ErrorMessage'
 function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 
 
-    // const state = useSelector((state) => state);
+    const state = useSelector((state) => state);
 
 
-    // const { RangePicker } = DatePicker;
     dayjs.extend(isBetween);
     const dispatch = useDispatch();
     const [formLoading, setFormLoading] = useState(false)
@@ -68,14 +31,16 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
     const [inActiveComments, setInActiveComments] = useState("")
     const [isActiveDateError, setIsACtiveDateError] = useState("")
 
+    console.log("inActiveDetails", inActiveDetails)
+
 
     const handleInActiveReason = (e) => {
         setInActiveComments(e.target.value)
-    
-      }
-    
-    
-    
+
+    }
+
+
+
 
     const SubmitInActiveForm = () => {
         if (!inActiveDate) {
@@ -85,9 +50,14 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
 
         const incrementDateAndFormat = (date) => {
             const newDate = new Date(date);
-            newDate.setDate(newDate.getDate() + 1);
-            return newDate.toISOString().split("T")[0];
+
+            const day = String(newDate.getDate()).padStart(2, "0");
+            const month = String(newDate.getMonth() + 1).padStart(2, "0");
+            const year = newDate.getFullYear();
+
+            return `${day}-${month}-${year}`;
         };
+
         const formattedDate = inActiveDate
             ? incrementDateAndFormat(inActiveDate)
             : "";
@@ -96,14 +66,39 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
         if (formattedDate) {
             dispatch({
                 type: "BOOKINGACTIVE",
-                payload: {  Inactive_date: formattedDate, Inactive_Reason: inActiveComments },
+                payload: {
+                    cancelDate: formattedDate,
+                    reason: inActiveComments,
+                    customerId: inActiveDetails?.customerId || inActiveDetails?.newTenantCustomerId,
+                    bankId: state.UsersList?.initializeCancelBookingList?.listBanks[0].bankId
+                },
             });
+             setFormLoading(true);
         }
-        setFormLoading(true)
+       
+    };
+
+useEffect(() => {
+    if (state.Booking.StatusCodeInactiveCode === 200) {
+           setFormLoading(false);
+         
     }
 
+  }, [state.Booking.StatusCodeInactiveCode])
 
 
+    useEffect(() => {
+        if (!inActiveDetails) return;
+        if (inActiveDetails.customerId || inActiveDetails.newTenantCustomerId) {
+            dispatch({
+                type: 'INITIALIZECANCELBOOKING',
+                payload: inActiveDetails.customerId || inActiveDetails.newTenantCustomerId
+            });
+        }
+    }, [inActiveDetails]);
+
+
+    console.log("state", state.UsersList?.initializeCancelBookingList)
 
     return (
         <Modal show={show} onHide={handleCloseInActive} centered backdrop="static"   >
@@ -115,7 +110,7 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                         color: "#222222",
                         fontFamily: "Gilroy",
                         fontWeight: 600,
-                    }}>Tenant Inactive ?</Modal.Title>
+                    }}>Tenant Inactive?</Modal.Title>
 
                     <label style={{
                         fontSize: 14,
@@ -146,13 +141,51 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                         e.target.src = Profile;
                     }}
                 />
-                <div>
-                    <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily:"Gilroy" }}>
-                        {inActiveDetails.firstName}
-                    </p>
+                <div >
+                    <div>
+                        <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px", fontFamily: "Gilroy" }}>
+                            {inActiveDetails.firstName} {inActiveDetails.newTenantFullName}
+                        </p>
+
+                    </div>
+
+
+                    <div className="d-flex gap-2">
+                        <span
+                            style={{
+                                backgroundColor: "#FFF3CD",
+                                color: "#856404",
+                                fontSize: "12px",
+                                padding: "2px 8px",
+                                borderRadius: "12px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy"
+                            }}
+                        >
+                            {inActiveDetails?.floorName}
+                        </span>
+                        <span
+                            style={{
+                                backgroundColor: "#F8D7DA",
+                                color: "#721C24",
+                                fontSize: "12px",
+                                padding: "2px 8px",
+                                borderRadius: "12px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy"
+                            }}
+                        >
+                            {inActiveDetails?.roomName} - {inActiveDetails?.bedName}
+                        </span>
+                    </div>
 
                 </div>
+
+
+
             </div>
+
+
 
             <Modal.Body className="ps-4 pe-4 pb-4 pt-0">
 
@@ -181,20 +214,21 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
                                 }}
                                 format="DD/MM/YYYY"
                                 placeholder="DD/MM/YYYY"
-                                value={inActiveDate ? dayjs(inActiveDate) : null}
+                                value={inActiveDate ? dayjs(inActiveDate, "DD/MM/YYYY") : null}
                                 onChange={(date) => {
-                                    setInActiveDate(date ? date.toDate() : null);
+                                    setInActiveDate(date);
                                     setIsACtiveDateError("");
                                 }}
                                 getPopupContainer={() => document.body}
                                 disabledDate={(current) => {
-                                    if (!inActiveDetails?.bookedAt) return true;
+                                    const bookedDate = dayjs(inActiveDetails?.bookedAt, "DD/MM/YYYY");
                                     return (
-                                        current.isBefore(dayjs(inActiveDetails?.bookedAt), "day") ||
+                                        current.isBefore(bookedDate, "day") ||
                                         current.isAfter(dayjs(), "day")
                                     );
                                 }}
                             />
+
 
                         </div>
                     </Form.Group>
@@ -300,14 +334,14 @@ function MakeAsInactive({ show, handleCloseInActive, inActiveDetails }) {
     )
 }
 MakeAsInactive.propTypes = {
-  show: PropTypes.func.isRequired,
-  handleCloseInActive: PropTypes.func.isRequired,
-  inActiveDetails: PropTypes.shape({
-    profilePic: PropTypes.string,
-    firstName: PropTypes.string,
-    bookedAt: PropTypes.string,
-  }).isRequired,
-  
+    show: PropTypes.func.isRequired,
+    handleCloseInActive: PropTypes.func.isRequired,
+    inActiveDetails: PropTypes.shape({
+        profilePic: PropTypes.string,
+        firstName: PropTypes.string,
+        bookedAt: PropTypes.string,
+    }).isRequired,
+
 }
 
 export default MakeAsInactive

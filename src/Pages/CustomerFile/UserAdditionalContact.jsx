@@ -649,6 +649,70 @@ function UserAdditionalContact(props) {
                       </Form.Group>
                     </div>
 
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <Form.Group className="mb-3">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            display: "flex",
+                            alignItems: "center",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          Address {" "} {" "}
+                          <span style={{ color: "red", fontSize: "20px", marginLeft: '4px' }}>
+                            *
+                          </span>
+                          <Form.Check
+                            type="checkbox"
+                            label={
+                              <span
+                                style={{
+                                  color: "#1E45E1",
+                                  fontWeight: 500,
+                                  whiteSpace: "nowrap",
+                                  fontSize: 11,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                Same as tenant address
+                              </span>
+                            }
+                            className="ms-3"
+
+                          />
+                        </Form.Label>
+                        <FormControl
+                          //    value={house_no}
+                          // onChange={(e) => handleHouseNo(e)}
+                          type="text"
+                          id="form-controls"
+                          placeholder="Enter Amount"
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                            border: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: 8,
+                            marginTop: 8,
+                          }}
+                        />
+                        {/* {house_noError && (
+                      <div style={{ color: "red" }}>
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '12px', marginRight: "5px", marginBottom: "1px" }} />
+                        <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
+                      </div>
+                    )} */}
+                      </Form.Group>
+
+
+                    </div>
+
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                       <Form.Group className="">
                         <Form.Label
@@ -942,9 +1006,9 @@ function UserAdditionalContact(props) {
                 </div>
 
                 {guardianAlreadyError && (
-                   <ErrorMessage message={guardianAlreadyError} type="error" />
+                  <ErrorMessage message={guardianAlreadyError} type="error" />
                 )}
-                
+
 
                 <Button
                   className="w-100"

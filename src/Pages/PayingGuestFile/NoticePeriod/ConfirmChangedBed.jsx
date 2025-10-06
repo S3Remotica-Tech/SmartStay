@@ -159,7 +159,7 @@ ConfirmChangeBed.propTypes = {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  style={{ fontSize: 13, height: 40 , fontSize: 14, fontFamily: "Gilroy" }}
+                  style={{ height: 40 , fontSize: 14, fontFamily: "Gilroy" }}
                 />
               </div>
 

@@ -24,7 +24,7 @@ function CheckIn({
 }) {
 
 
-    console.log("currentItem", currentItem)
+    
     const state = useSelector((state) => state);
     const dispatch = useDispatch();
     const bookingDateRef = useRef("");
@@ -44,11 +44,11 @@ function CheckIn({
 
 
     useEffect(() => {
-        if (currentItem.currentTenantCustomerId) {
-            dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: currentItem.currentTenantCustomerId } })
+        if (currentItem?.newTenantCustomerId) {
+            dispatch({ type: 'BOOKEDDETAILS', payload: { hostelId: state.login.selectedHostel_Id, customerId: currentItem?.newTenantCustomerId } })
         }
 
-    }, [currentItem.currentTenantCustomerId])
+    }, [])
 
 
     useEffect(() => {
@@ -61,19 +61,7 @@ function CheckIn({
         }
     }, [state.UsersList?.bookedDetails]);
 
-    // useEffect(() => {
-    //     if (currentItem) {
-    //         setRoomRent(currentItem?.rentAmount)
-    //         const matchedUser = state.UsersList?.Users?.find(
-    //             (user) => user.customerId === currentItem.currentTenantCustomerId
-    //         );
-
-
-    //         setBookingDate(matchedUser?.bookedAt);
-
-
-    //     }
-    // }, [currentItem])
+    
 
     const handleRoomRent = (e) => {
         const newAmount = e.target.value;
@@ -148,36 +136,7 @@ function CheckIn({
         }),
     };
 
-    const [customer, setCustomer] = useState([])
-
-
-    // useEffect(() => {
-
-    //     const Hostel_Id = currentItem?.room.Hostel_Id;
-    //     const Floor_Id = currentItem?.room.Floor_Id;
-    //     const Bed_Id = currentItem?.bed.id;
-    //     const Room_Id = currentItem?.room.Room_Id;
-
-
-    //     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-    //         dispatch({ type: "SETTINGS_GET_RECURRING", payload: { hostel_id: Hostel_Id } });
-    //         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-
-    //     }
-    // }, [currentItem])
-
-
-    // useEffect(() => {
-    //     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-    //         setFormLoading(false)
-    //         setCustomer(state.PgList.OccupiedCustomer)
-    //         setTimeout(() => {
-    //             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-    //         }, 2000)
-    //     }
-
-
-    // }, [state.PgList.OccupiedCustomerGetStatusCode])
+   
 
 
     const [stay_typename, setStayTypeName] = useState("")
@@ -200,38 +159,11 @@ function CheckIn({
         }
     };
 
-    // useEffect(() => {
-    //     if (customer.length > 0) {
-    //         const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
-    //         setCustomerDetails(selectedUser)
-    //         setBookingAmount(Number(selectedUser?.booking_amount))
-
-    //         if (selectedUser?.booking_booking_date) {
-    //             const bookingDayjs = dayjs(selectedUser?.booking_booking_date);
-
-    //             bookingDateRef.current = bookingDayjs;
-    //             setBookingDate(bookingDayjs);
-    //         }
-    //         setCustomerName(selectedUser?.ID)
-    //     }
-    // }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
-
-
-
-    // useEffect(() => {
-    //     if (state.login.selectedHostel_Id) {
-    //         dispatch({
-    //             type: "USERLIST",
-    //             payload: { hostel_id: state.login.selectedHostel_Id },
-    //         });
-    //     }
-    //     setFormLoading(false)
-    // }, [state.login.selectedHostel_Id]);
 
 
     const formatOptions = () => {
         return state.UsersList?.Users
-            ?.filter(user => user.customerId === currentItem.currentTenantCustomerId)
+            ?.filter(user => user.customerId === currentItem.newTenantCustomerId)
             .map(user => ({
                 value: user.customerId,
                 label: (
@@ -446,7 +378,7 @@ function CheckIn({
             dispatch({
                 type: 'BOOKINGTOCHECKIN',
                 payload: {
-                    customerId: currentItem?.currentTenantCustomerId,
+                    customerId: currentItem?.newTenantCustomerId,
                     bookingId: state.UsersList?.bookedDetails?.bookingId,
                     joiningDate: formattedDate,
                     advanceAmount: Number(AdvanceAmount),
@@ -459,9 +391,9 @@ function CheckIn({
                     isAdvanceIncludedInBooking: true
                 }
             });
-
+setFormLoading(true)
         }
-        setFormLoading(true)
+        
 
 
     };
@@ -545,7 +477,7 @@ function CheckIn({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}>Room No {currentItem?.roomName} </label> <span style={{
+                                        }}> Room No {currentItem?.roomName} </label> <span style={{
                                             fontSize: 14,
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
@@ -555,7 +487,7 @@ function CheckIn({
                                             color: "#1E45E1",
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
-                                        }}> Bed {currentItem?.bedName}</span>
+                                        }}> Bed No {currentItem?.bedName}</span>
                                     </div>
                                 </div>
 

@@ -130,8 +130,11 @@ export async function AddBooking(booking) {
           data:datum
         })
       }
-       export async function bookingInActive(datum){
-        return await AxiosConfig.post('/Booking_Inactive',datum,{
-          data:datum
+
+
+       export async function bookingInActive(book){
+        console.log("book&&&&&&&&&&",book)
+        return await AxiosConfigV2.put(`/v2/bookings/cancel/${book.customerId}`,book,{
+          data:book
         })
       }
