@@ -494,7 +494,9 @@ const [billReceipt,setBillReceipt] =useState("")
                             >
                               S.NO
                             </th>
-                            <th style={{ color: "rgba(255, 255, 255, 1)", fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600 }}>Inv No</th>
+                            {invoice_details.invoice_type !== "advance"  &&
+                                                    <th style={{ color: "rgba(255, 255, 255, 1)", fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600 }}>Inv No</th> }
+    
                             <th style={{ color: "rgba(255, 255, 255, 1)", fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600 }}>Description</th>
                             <th
                               style={{
@@ -509,7 +511,7 @@ const [billReceipt,setBillReceipt] =useState("")
                           </tr>
                         </thead>
                         <tbody>
-                          {tabledetails.length > 0 && tabledetails.map((item, index) => (
+                          {/* {tabledetails.length > 0 && tabledetails.map((item, index) => (
                             <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
                               <td>{index + 1}</td>
                               <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>{item.invoice_id}</td>
@@ -517,6 +519,7 @@ const [billReceipt,setBillReceipt] =useState("")
   <div>
     {item.am_name}
   </div>
+     <p>( Refundable Amount)</p> 
   {invoice_details.invoice_type === "advance" && item.am_name !== "Advance" && (
     <div style={{ fontSize: '12px', marginTop: '2px', color: '#666' }}>
     <p>(Non Refundable Amount)</p>  
@@ -526,7 +529,37 @@ const [billReceipt,setBillReceipt] =useState("")
   
                               <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>Rs. {item.amount} </td>
                             </tr>
-                          ))}
+                          ))} */}
+ {tabledetails.length > 0 && 
+  [
+    ...tabledetails.filter(item => invoice_details.invoice_type === "advance" && item.am_name === "Advance"),
+    ...tabledetails.filter(item => !(invoice_details.invoice_type === "advance" && item.am_name === "Advance"))
+  ].map((item, index) => (
+    <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
+      <td>{index + 1}</td>
+                {invoice_details.invoice_type !== "advance" && item.am_name !== "Advance" &&
+      <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>
+        {item.invoice_id}
+      </td>}
+      <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>
+        <div>{item.am_name}</div>
+        {invoice_details.invoice_type === "advance" &&
+         <p>
+          {invoice_details.invoice_type === "advance" && item.am_name === "Advance" 
+            ? "(Refundable Amount)" 
+            : "(Non Refundable Amount)"}
+        </p>
+        }
+        
+      </td>
+      <td style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500 }}>
+        Rs. {invoice_details.invoice_type === "advance" && item.am_name === "Advance" 
+          ? invoice_details?.refundable_Amount 
+          : item.amount}
+      </td>
+    </tr>
+))}
+
                         </tbody>
 
                       </table>
@@ -626,14 +659,14 @@ const [billReceipt,setBillReceipt] =useState("")
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', marginRight:50}}>Rs. {billReceipt.BalanceDueAmount}</span>
                         </div>
 
-                         <div className="d-flex justify-content-between fw-bold py-2">
+                         {/* <div className="d-flex justify-content-between fw-bold py-2">
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Non Refundable</span>
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginRight:"60px" }}>Rs. {invoice_details?.non_refundable_amount}</span>
                         </div>
                         <div className="d-flex justify-content-between fw-bold py-2">
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Refundable</span>
                           <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginRight:"60px" }}>Rs. {invoice_details?.refundable_Amount}</span>
-                        </div>
+                        </div> */}
                       </div>
 
 ):(
