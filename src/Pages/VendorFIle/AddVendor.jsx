@@ -407,10 +407,10 @@ function AddVendor({ show, setShow, currentItem }) {
       isValid = false;
     }
 
-    const err = validatePincode(pinCode);
+    const err = validatePincode(pinCode)
      if (err) {
       setPinCodeError(err);
-     if (!focused && pinCodeRef?.current) {
+     if (!focusedRef.current && pinCodeRef?.current) {
       pinCodeRef.current.focus();
       focusedRef.current = true;
       }
