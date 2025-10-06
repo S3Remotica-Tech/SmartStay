@@ -139,7 +139,8 @@ export const initialState = {
     getRoomReadingList: [],
     getRoomReadingStatus: 0,
     roomReadingError: "",
-    bookingToCheckinStatusCode: 0
+    bookingToCheckinStatusCode: 0,
+    initializeCancelBookingList: []
 
 }
 
@@ -153,6 +154,10 @@ const UserListReducer = (state = initialState, action) => {
             return initialState;
         case 'AVAILABLE_BED':
             return { ...state, availableBedList: action.payload.response }
+
+        case 'INITIALIZE_CANCEL_BOOKING':
+            return { ...state, initializeCancelBookingList: action.payload.response }
+
         case 'BOOKED_DETAILS':
             return { ...state, bookedDetails: action.payload.response }
         case 'ADD_ROOM_READING':

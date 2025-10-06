@@ -222,6 +222,9 @@ catch (error) {
 function* handleBookingInActive(action) {
    const response = yield call(bookingInActive, action.payload)
   
+   console.log("response",response)
+
+
     var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -238,10 +241,10 @@ function* handleBookingInActive(action) {
      
     };
    
-   if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'BOOKING_InActive', payload:{response: response.data, statusCode:response.status || response.data.statusCode}})
+   if (response.status === 200) {
+      yield put({ type: 'BOOKING_INACTIVE', payload:{response: response.data, statusCode:response.status}})
 
-        toast.success(`${response.data.message}`, {
+        toast.success(`${response.data}`, {
         position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -253,9 +256,7 @@ function* handleBookingInActive(action) {
         style: toastStyle,
      });
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
+ 
    if(response){
       refreshToken(response)
    }

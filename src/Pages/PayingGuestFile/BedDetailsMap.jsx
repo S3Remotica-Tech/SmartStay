@@ -301,7 +301,6 @@ function BedDetailsMap({ room, propsValue }) {
 
     }, [state.PgList.OccupiedCustomerGetStatusCode])
 
-console.log("room*******************************",room)
 
     useEffect(() => {
         if (room.id) {
@@ -429,7 +428,17 @@ console.log("room*******************************",room)
 
 
 
+useEffect(() => {
+    if (state.Booking.StatusCodeInactiveCode === 200) {
+          setShowInActive(false)
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_BOOKING_InActive' })
+      }, 1000)
 
+    }
+
+  }, [state.Booking.StatusCodeInactiveCode])
 
 
 
@@ -487,7 +496,7 @@ console.log("room*******************************",room)
             }
 
             {
-                showInactive && <MakeAsInactive show={showInactive} handleClose={handleCloseMakeAsInActive} />
+                showInactive && <MakeAsInactive show={showInactive} handleCloseInActive={handleCloseMakeAsInActive} />
             }
 
             {

@@ -94,7 +94,7 @@ case "REMOVE_ALREADY_MOBILE_ERROR":
         statusCodeForBedBooking: action.payload.statusCode,
       };
 
-      case 'BOOKING_InActive':
+      case 'BOOKING_INACTIVE':
             return { ...state, StatusCodeInactiveCode: action.payload.statusCode }
         case 'CLEAR_BOOKING_InActive':
             return { ...state, StatusCodeInactiveCode: 0 }

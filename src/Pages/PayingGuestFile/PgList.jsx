@@ -112,7 +112,6 @@ function PgList() {
   }, [hostel_Id]);
 
 
-console.log("floorList",floorList)
   
    useEffect(() => {
   if (floorList?.length > 0) {
@@ -387,7 +386,6 @@ console.log("floorList",floorList)
 
   }, [state.UsersList.hosteListStatusCode])
 
-console.log("floorClick",floorClick)
 
 
   // useEffect(() => {

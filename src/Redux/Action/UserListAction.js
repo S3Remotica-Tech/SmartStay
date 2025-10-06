@@ -18,6 +18,12 @@ export async function userlist(users) {
 }
 
 
+// v2
+
+
+export async function cancelBookingGet(customerId) {
+  return await AxiosConfigV2.get(`/v2/bookings/initialize/cancel/${customerId}`)
+}
 
 
 

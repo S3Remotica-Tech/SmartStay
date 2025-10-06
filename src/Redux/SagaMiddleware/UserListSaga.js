@@ -1,7 +1,8 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { bookingToCheckIn, addRoomReading, getRoomReading,
+import {
+   cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
    getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail,
@@ -24,8 +25,8 @@ function* handleBookingToCheckIn(reading) {
 
       if (response.status === 201 || response.status === 200) {
          yield put({ type: 'BOOKING_TO_CHECKIN', payload: { response: response.data, statusCode: response.status } })
-     
-      var toastStyle = {
+
+         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
             width: "100%",
@@ -52,20 +53,20 @@ function* handleBookingToCheckIn(reading) {
             progress: undefined,
             style: toastStyle,
          });
-     
-     
-     
-     
-     
-     
+
+
+
+
+
+
       }
-      
+
       if (response) {
          refreshToken(response)
       }
    }
-  catch (error) {
-    
+   catch (error) {
+
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
@@ -81,7 +82,35 @@ function* handleBookingToCheckIn(reading) {
 
 
 
+function* handleCancelBookingGet(reading) {
+   try {
+      const response = yield call(cancelBookingGet, reading.payload)
 
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'INITIALIZE_CANCEL_BOOKING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+
+
+}
 
 
 
@@ -129,8 +158,8 @@ function* handleAddRoomReading(reading) {
 
       if (response.status === 201 || response.status === 200) {
          yield put({ type: 'ADD_ROOM_READING', payload: { response: response.data, statusCode: response.status } })
-     
-      var toastStyle = {
+
+         var toastStyle = {
             backgroundColor: "#E6F6E6",
             color: "black",
             width: "100%",
@@ -157,20 +186,20 @@ function* handleAddRoomReading(reading) {
             progress: undefined,
             style: toastStyle,
          });
-     
-     
-     
-     
-     
-     
+
+
+
+
+
+
       }
-      
+
       if (response) {
          refreshToken(response)
       }
    }
-  catch (error) {
-    
+   catch (error) {
+
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
@@ -228,13 +257,13 @@ function* handleBookedDetails(action) {
       if (response.status === 200) {
          yield put({ type: 'BOOKED_DETAILS', payload: { response: response.data, statusCode: response.status } })
       }
-     
+
       if (response) {
          refreshToken(response)
       }
    }
-    catch (error) {
-      
+   catch (error) {
+
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
@@ -302,7 +331,7 @@ function* handleCheckIn(datum) {
       }
    }
    catch (error) {
-    
+
 
       if (error.code === 'ERR_BAD_REQUEST') {
          if (error.status === 400) {
@@ -512,7 +541,7 @@ function* handleCreateFloor(data) {
    try {
       const response = yield call(createFloor, data.payload);
 
-     
+
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -1696,9 +1725,9 @@ function* handleCheckoutExportDetails(action) {
 
 function* handleReAssignPage(action) {
    try {
-     
+
       const response = yield call(customerReAssignBed, action.payload);
-    
+
 
       var toastStyle = {
          backgroundColor: "#E6F6E6",
@@ -1716,7 +1745,7 @@ function* handleReAssignPage(action) {
       };
 
       if (response.status === 200 || response.data.statusCode === 200) {
-        
+
          yield put({
             type: 'REASSIGN_BED',
             payload: {
@@ -1737,17 +1766,17 @@ function* handleReAssignPage(action) {
             style: toastStyle,
          });
       } else {
-                 yield put({ type: 'ERROR', payload: response.message });
+         yield put({ type: 'ERROR', payload: response.message });
       }
 
       if (response) {
-      
+
          refreshToken(response);
       }
    }
    catch (err) {
       const error = err || {};
-      
+
       yield put({
          type: 'NETWORK_ERROR',
          payload:
@@ -2272,7 +2301,7 @@ function* handlecustomerUnAssign(action) {
 
    try {
       const response = yield call(CustomerUnAssign, action.payload)
-      
+
 
 
       if (response.status === 200 || response.statusCode === 200) {
@@ -2305,7 +2334,7 @@ function* handlecustomerUnAssign(action) {
 
 function* handleBackToCheckin(action) {
    const response = yield call(backtoCheckin, action.payload)
-  
+
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -2350,7 +2379,7 @@ function* handleBackToCheckin(action) {
 function* handleGetAllFloor(floor) {
    try {
       const response = yield call(GetAllFloor, floor.payload);
-            if (response.status === 200) {
+      if (response.status === 200) {
          yield put({ type: 'ALL_FLOOR_LIST', payload: { response: response.data, statusCode: response.status } })
       }
 
@@ -2372,7 +2401,7 @@ function* handleGetAllFloor(floor) {
 
 function* handleCheckoutProfile(action) {
    const response = yield call(checkoutDetailView, action.payload)
- 
+
 
 
    if (response.status === 200 || response.data.statusCode === 200) {
@@ -2389,12 +2418,11 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
-   
-      yield takeEvery('GETROOMREADING', handleGetRoomReading)
-      yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)
-
+   yield takeEvery('GETROOMREADING', handleGetRoomReading)
+   yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)
+   yield takeEvery('INITIALIZECANCELBOOKING', handleCancelBookingGet)
    yield takeEvery('ADDROOMREADING', handleAddRoomReading)
-  yield takeEvery('BOOKEDDETAILS', handleBookedDetails)
+   yield takeEvery('BOOKEDDETAILS', handleBookedDetails)
    yield takeEvery('AVAILBALEBEDDETAILS', handleAvailableBedDetailsForDate)
    yield takeEvery('CREATECUSTOMERSAVEINFO', handleCustomerSaveInfo)
    yield takeEvery('CHECKIN', handleCheckIn)

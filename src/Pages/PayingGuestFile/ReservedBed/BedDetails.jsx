@@ -298,14 +298,14 @@ function BedDetails({
 
                                     <div className="d-flex gap-3 align-items-center">
                                         <div>
-                                            <Image src={currentItem?.currentTenantProfilePic && currentItem?.currentTenantProfilePic !== "0" ? currentItem?.currentTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
+                                            <Image src={currentItem?.newTenantProfilePic && currentItem?.newTenantProfilePic !== "0" ? currentItem?.newTenantProfilePic : Profile} roundedCircle style={{ height: 50, width: 50 }} alt="image" />
                                         </div>
                                         <div className="mt-2">
                                             <div>
-                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.currentTenantFullName || "N/A"}</label>
+                                                <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.newTenantFullName || "N/A"}</label>
                                             </div>
                                             <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                                           {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
+                                                                           {currentItem?.newTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.newTenantMobile)}` : 'No phone'}
 
                                             </label></div>
                                         </div>
