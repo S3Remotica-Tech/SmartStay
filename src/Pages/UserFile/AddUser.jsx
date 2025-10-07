@@ -51,10 +51,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
   useEffect(() => {
 
-    dispatch({
-      type: "SETTING_ROLE_LIST",
-      // payload: { hostel_id: state.login.selectedHostel_Id },
-    });
+     dispatch({ type: 'SETTING_ROLE_LIST', payload:  state.login.selectedHostel_Id});
   }, []);
 
 
@@ -240,13 +237,16 @@ const handleSubmit = () => {
     isValid = false;
   }
 
-  if (!mobile) {
-    setMobileError("Please Enter Mobile Number");
-    isValid = false;
-  } else if (mobile.length !== 10) {
-    setMobileError("Please Enter Valid Mobile Number");
-    isValid = false;
-  }
+ if (!mobile) {
+  setMobileError("Please Enter Mobile Number");
+  isValid = false;
+} else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(mobile)) {
+   setMobileError("Please Enter Valid Mobile Number");
+  isValid = false;
+} else {
+  setMobileError(""); 
+}
+
 
   if (!role) {
     setRoleError("Please Select Role");

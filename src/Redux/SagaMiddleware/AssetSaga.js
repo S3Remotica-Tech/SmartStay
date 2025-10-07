@@ -1,10 +1,30 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { updateAsset, GetAsset, AddAsset, DeleteAssetList, getHostelRooms, AssignAsset } from "../Action/AssetAction"
+import {getRoleBasedPermission,  updateAsset, GetAsset, AddAsset, DeleteAssetList, getHostelRooms, AssignAsset } from "../Action/AssetAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 
 
+function* handleGetRoleBasedPermission(action) {
+   try {
+      const response = yield call(getRoleBasedPermission, action.payload);
 
+      if (response?.status === 200 || response?.data?.statusCode === 200) {
+         yield put({ type: 'PERMISSION_ROLE_LIST', payload: { response: response?.data || [], statusCode: response?.status || response?.data?.statusCode } })
+      }
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
 
 function* handleGetAsset(action) {
    try {
@@ -293,6 +313,7 @@ function refreshToken(response) {
 
 
 function* AssetSaga() {
+    yield takeEvery('PERMISSIONROLELIST',handleGetRoleBasedPermission)
    yield takeEvery('ASSETLIST', handleGetAsset)
    yield takeEvery('ADDASSET', handleAddAsset)
    yield takeEvery('UPDATEASSET', handleUpdateAsset)

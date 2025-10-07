@@ -16,7 +16,8 @@ import { toast } from 'react-toastify';
 import "./vendor.css";
 import './VendorListMap.css';
 import { useMediaQuery, useTheme } from '@mui/material'
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from '../../Components/ErrorMessage';
+import { useHasPermission } from '../../Utils/Permission';
 
 function Vendor() {
 
@@ -27,6 +28,10 @@ function Vendor() {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false )
 const [currentItem, setCurrentItem] = useState('')
+
+const canWriteVendor = useHasPermission("Vendor", "canWrite");
+const canReadVendor = useHasPermission("Vendor", "canRead");
+
 
 
   const [vendorrolePermission, setVendorRolePermission] = useState("");
@@ -321,7 +326,7 @@ const isAdmin = userType === "admin" || userType === "agent";
   return (
     <>
       {
-        vendorpermissionError ? (
+        !canReadVendor ? (
           <>
             <div
               style={{
@@ -341,9 +346,9 @@ const isAdmin = userType === "admin" || userType === "agent";
               />
 
 
-              {vendorpermissionError && (
-              <ErrorMessage message={vendorpermissionError} type="error"/>
-              )}
+             {!canReadVendor && (
+      <ErrorMessage message={['You do not have access to view Vendor']} type="warning" />
+    )}
             </div></>
         ) :
           <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative", marginTop: 22 }} className='container'>
@@ -408,7 +413,6 @@ const isAdmin = userType === "admin" || userType === "agent";
                           <FormControl size="lg"
                             value={searchQuery}
                             onChange={handleInputChange}
-
                             style={{
                               width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
 
@@ -486,7 +490,7 @@ const isAdmin = userType === "admin" || userType === "agent";
 
 
                   <div >
-                    <Button disabled={vendorAddPermission} onClick={handleShow} className="vendor-button"
+                    <Button  disabled={!canWriteVendor} onClick={handleShow} className="vendor-button"
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",

@@ -109,9 +109,9 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
-      if (fileImage) {
-       setFile(fileImage);
-         }
+    if (fileImage) {
+      setFile(fileImage);
+    }
   };
 
   const handleMobileChange = (e) => {
@@ -276,78 +276,79 @@ function AddPg({ show, handleClose, currentItem }) {
     }
 
     if (!mobile) {
-      setMobileError("Please Enter Mobile No");
-      if (!focused) {
-        mobileRef.current?.focus();
-        focused = true;
-      }
-      hasError = true;
-    }
-
-    if (mobile && mobile.length !== 10) {
-      setMobileError("Please Enter Valid Mobile No");
-      if (!focused) {
-        mobileRef.current?.focus();
-        focused = true;
-      }
-      hasError = true;
-    }
-
-
-
-  const pinString = String(pincode).trim();
-
-if (!pinString) {
-  setPincodeError("Please Enter Pincode");
+  setMobileError("Please Enter Mobile No");
   if (!focused) {
-    pincodeRef.current?.focus();
+    mobileRef.current?.focus();
     focused = true;
   }
   hasError = true;
-} 
-else if (!/^\d+$/.test(pinString)) {
-  setPincodeError("Pin Code Must Be Numeric");
+} else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(mobile)) {
+    setMobileError("Please Enter Valid Mobile No");
   if (!focused) {
-    pincodeRef.current?.focus();
+    mobileRef.current?.focus();
     focused = true;
   }
   hasError = true;
-} 
-else if (pinString.length !== 6) {
-  setPincodeError("Pin Code Must Be Exactly 6 Digits");
-  if (!focused) {
-    pincodeRef.current?.focus();
-    focused = true;
-  }
-  hasError = true;
-} 
-else if (pinString === "000000") {
-  setPincodeError("Pin Code cannot be all zeros");
-  if (!focused) {
-    pincodeRef.current?.focus();
-    focused = true;
-  }
-  hasError = true;
-} 
-else if (pinString[0] === "0") {
-  setPincodeError("Pin Code cannot start with 0");
-  if (!focused) {
-    pincodeRef.current?.focus();
-    focused = true;
-  }
-  hasError = true;
-} 
-else if (pinString.slice(-3) === "000") {
-  setPincodeError("Last 3 digits cannot be 000");
-  if (!focused) {
-    pincodeRef.current?.focus();
-    focused = true;
-  }
-  hasError = true;
-} 
-else {
-  setPincodeError("");
+} else {
+  setMobileError(""); 
 }
+
+
+
+
+    const pinString = String(pincode).trim();
+
+    if (!pinString) {
+      setPincodeError("Please Enter Pincode");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    }
+    else if (!/^\d+$/.test(pinString)) {
+      setPincodeError("Pin Code Must Be Numeric");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    }
+    else if (pinString.length !== 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    }
+    else if (pinString === "000000") {
+      setPincodeError("Pin Code cannot be all zeros");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    }
+    else if (pinString[0] === "0") {
+      setPincodeError("Pin Code cannot start with 0");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    }
+    else if (pinString.slice(-3) === "000") {
+      setPincodeError("Last 3 digits cannot be 000");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    }
+    else {
+      setPincodeError("");
+    }
 
 
     if (!city) {
@@ -439,53 +440,44 @@ else {
       setIsChangedError("");
     }
 
-   
+
 
     dispatch({
-  type: "CREATEPG",
-  payload: {
-    mainImage: file, 
-    additionalImages: [
-      images[0]?.isChanged
-        ? images[0].image
-        : currentItem.image_list?.[0]?.image || null,
-      images[1]?.isChanged
-        ? images[1].image
-        : currentItem.image_list?.[1]?.image || null,
-      images[2]?.isChanged
-        ? images[2].image
-        : currentItem.image_list?.[2]?.image || null,
-      images[3]?.isChanged
-        ? images[3].image
-        : currentItem.image_list?.[3]?.image || null,
-    ].filter(Boolean), 
+      type: "CREATEPG",
+      payload: {
+        mainImage: file,
+        additionalImages: [
+          images[0]?.isChanged
+            ? images[0].image
+            : currentItem.image_list?.[0]?.image || null,
+          images[1]?.isChanged
+            ? images[1].image
+            : currentItem.image_list?.[1]?.image || null,
+          images[2]?.isChanged
+            ? images[2].image
+            : currentItem.image_list?.[2]?.image || null,
+          images[3]?.isChanged
+            ? images[3].image
+            : currentItem.image_list?.[3]?.image || null,
+        ].filter(Boolean),
 
-    payloads: {
-      hostelName: pgName,
-      mobile: `${mobile}`,
-      pincode: Number(pincode),
-      city: city,
-      state: state_name,
-      emailId: email,
-      houseNo: house_no,
-      street: street,
-      landmark: landmark,
-    },
-  },
-});
+        payloads: {
+          hostelName: pgName,
+          mobile: `${mobile}`,
+          pincode: Number(pincode),
+          city: city,
+          state: state_name,
+          emailId: email,
+          houseNo: house_no,
+          street: street,
+          landmark: landmark,
+        },
+      },
+    });
 
 
     setFormLoading(true)
-    // setFile("");
-    // setPgName("");
-    // setMobile("");
-    // setEmail("");
-    // setHouseNo("");
-    // setStreet("");
-    // setLandmark("");
-    // setPincode("");
-    // setCity("");
-    // setStateName("");
+
   };
 
 
@@ -493,15 +485,7 @@ else {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
-  // useEffect(() => {
-  //   if (state.PgList.createPgStatusCode === 201) {
-  //           dispatch({ type: "HOSTELLIST" })
 
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_PG_STATUS_CODE" });
-  //     }, 4000);
-  //   }
-  // }, [state.PgList.createPgStatusCode, hostel_Id]);
 
   useEffect(() => {
     if (currentItem) {
@@ -558,55 +542,55 @@ else {
 
 
 
- 
-const handleFileChange = (index) => async (e) => {
-  const selectedFiles = Array.from(e.target.files);
 
-  if (selectedFiles.length > 0) {
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
-      useWebWorker: true,
-    };
+  const handleFileChange = (index) => async (e) => {
+    const selectedFiles = Array.from(e.target.files);
 
-    const compressedFiles = await Promise.all(
-      selectedFiles.map(async (file) => {
-        try {
-          const compressedBlob = await imageCompression(file, options);
-       
-          return new File([compressedBlob], file.name, {
-            type: compressedBlob.type,
-            lastModified: Date.now(),
-          });
-        } catch (error) {
-          console.error("Image compression error:", error);
-          return null;
-        }
-      })
-    );
+    if (selectedFiles.length > 0) {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+      };
 
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages];
+      const compressedFiles = await Promise.all(
+        selectedFiles.map(async (file) => {
+          try {
+            const compressedBlob = await imageCompression(file, options);
 
-      compressedFiles.forEach((compressedFile, i)  => {
-        if (compressedFile) {
-          const currentIndex = index + i;
+            return new File([compressedBlob], file.name, {
+              type: compressedBlob.type,
+              lastModified: Date.now(),
+            });
+          } catch (error) {
+            console.error("Image compression error:", error);
+            return null;
+          }
+        })
+      );
 
-          updatedImages[currentIndex] = {
-            name: `image${currentIndex + 1}`,
-            image: compressedFile, 
-            isChanged: true,
-          };
-        }
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages];
+
+        compressedFiles.forEach((compressedFile, i) => {
+          if (compressedFile) {
+            const currentIndex = index + i;
+
+            updatedImages[currentIndex] = {
+              name: `image${currentIndex + 1}`,
+              image: compressedFile,
+              isChanged: true,
+            };
+          }
+        });
+
+        return updatedImages;
       });
-
-      return updatedImages;
-    });
-  }
-};
+    }
+  };
 
 
-  
+
 
   const handleMouseEnter = (index) => {
     setDisplayLayer(index);
@@ -644,10 +628,10 @@ const handleFileChange = (index) => async (e) => {
   }, [state.PgList.createPgStatusCode])
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
     }
@@ -687,7 +671,7 @@ useEffect(() => {
           />
         </Modal.Header>
         {generalError && (
-           <ErrorMessage message={generalError} type="error"/>
+          <ErrorMessage message={generalError} type="error" />
         )}
 
 
@@ -799,7 +783,7 @@ useEffect(() => {
               </Form.Group>
 
               {pgNameError && (
-               <ErrorMessage message={pgNameError} type="error"/>
+                <ErrorMessage message={pgNameError} type="error" />
               )}
             </div>
 
@@ -862,11 +846,11 @@ useEffect(() => {
               </Form.Group>
 
               {countryCodeError && (
-               <ErrorMessage message={countryCodeError} type="error"/>
+                <ErrorMessage message={countryCodeError} type="error" />
               )}
 
               {mobileError && (
-         <ErrorMessage message={mobileError} type="error"/>
+                <ErrorMessage message={mobileError} type="error" />
 
               )}
             </div>
@@ -905,8 +889,8 @@ useEffect(() => {
               </Form.Group>
 
               {emailError && (
-         <ErrorMessage message={emailError} type="error"/>
-               
+                <ErrorMessage message={emailError} type="error" />
+
               )}
             </div>
 
@@ -941,7 +925,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {house_noError && (
-               <ErrorMessage message={house_noError} type="error"/>
+                <ErrorMessage message={house_noError} type="error" />
               )}
             </div>
 
@@ -976,7 +960,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {streetError && (
-                 <ErrorMessage message={streetError} type="error"/>
+                <ErrorMessage message={streetError} type="error" />
               )}
             </div>
 
@@ -1011,7 +995,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {landmarkError && (
-                <ErrorMessage message={landmarkError} type="error"/>
+                <ErrorMessage message={landmarkError} type="error" />
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1051,8 +1035,8 @@ useEffect(() => {
                   }}
                 />
                 {pincodeError && (
-                  <ErrorMessage message={pincodeError} type="error"/>
-                  
+                  <ErrorMessage message={pincodeError} type="error" />
+
                 )}
               </Form.Group>
             </div>
@@ -1090,7 +1074,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {cityError && (
-               <ErrorMessage message={cityError} type="error"/>
+                <ErrorMessage message={cityError} type="error" />
               )}
             </div>
 
@@ -1184,7 +1168,7 @@ useEffect(() => {
                   }}
                 />
                 {state_nameError && (
-                  <ErrorMessage message={state_nameError} type="error"/>
+                  <ErrorMessage message={state_nameError} type="error" />
                 )}
               </Form.Group>
             </div>
@@ -1380,12 +1364,12 @@ useEffect(() => {
         >
           {isChangedError && (
             <div ref={nochangeRef} className="d-flex align-items-center justify-content-center">
-               <ErrorMessage message={isChangedError} type="error"/>
+              <ErrorMessage message={isChangedError} type="error" />
             </div>
           )}
 
 
-      
+
 
 
           <Button

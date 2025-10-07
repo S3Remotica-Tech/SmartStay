@@ -1,7 +1,7 @@
 import React from "react";
 import { PiWarningCircle } from "react-icons/pi";
 import { IoIosCheckmark } from "react-icons/io";
-import { MdWarningAmber } from "react-icons/md"; 
+import { MdWarningAmber } from "react-icons/md";
 
 const Message = ({ message, type = "error" }) => {
   if (!message || (Array.isArray(message) && message.length === 0)) return null;
@@ -18,10 +18,11 @@ const Message = ({ message, type = "error" }) => {
       bgColor = "rgba(230, 255, 230, 0.7)";
       break;
     case "warning":
-      icon = <MdWarningAmber style={{ color: "#FFAA00", fontSize: 18 }} />;
-      textColor = "#FFAA00";
-      bgColor = "rgba(255, 250, 230, 0.7)";
+      icon = <MdWarningAmber style={{ color: "#FF8C00", fontSize: 18 }} />; 
+      textColor = "#FF8C00"; 
+      bgColor = "rgba(255, 140, 0, 0.15)"; 
       break;
+
     default:
       icon = <PiWarningCircle style={{ color: "#FF0000", fontSize: 16 }} />;
       textColor = "#FF0000";
@@ -39,7 +40,7 @@ const Message = ({ message, type = "error" }) => {
         flexDirection: "column",
         gap: 4,
         width: "fit-content",
-        textWrap:"wrap"
+        textWrap: "wrap"
       }}
     >
       {messages.map((msg, index) => (

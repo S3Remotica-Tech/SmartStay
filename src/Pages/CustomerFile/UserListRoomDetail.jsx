@@ -2619,13 +2619,8 @@ function UserListRoomDetail(props) {
                           </div>
 
                           <div className="card-body">
-
-
-
-
-
-                            <div className="row">
-                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                           <div className="row ">
+                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start mb-3">
                                 <p
                                   style={{
                                     fontSize: 12,
@@ -2784,407 +2779,183 @@ function UserListRoomDetail(props) {
                                     </div> */}
                             </div>
 
-                            {/* <div className="row">
-                                    <div className="col-sm-12">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Address
-                                      </p>
-
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "flex-end",
-                                          gap: "10px",
-                                          marginTop: "-8px",
-                                        }}
-                                      >
-                                        <House
-                                          size="18"
-                                          color="#1E45E1"
-                                          style={{ marginBottom: "2px" }}
-                                        />
-
-
-
-                                        {(
-                                          customerDetails[0]?.Address ||
-                                          customerDetails[0]?.area ||
-                                          customerDetails[0]?.landmark ||
-                                          (customerDetails[0]?.city && customerDetails[0].city !== "undefined" && customerDetails[0].city !== "null" && customerDetails[0].city !== 0) ||
-                                          customerDetails[0]?.pincode ||
-                                          (customerDetails[0]?.state && customerDetails[0].state !== "undefined" && customerDetails[0].state !== "null" && customerDetails[0].state !== 0)
-                                        ) ? (
-                                          <div
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              lineHeight: "1.5em",
-                                            }}
-                                          >
-                                            {(customerDetails[0]?.Address || customerDetails[0]?.area) && (
-                                              <>
-                                                {customerDetails[0]?.Address ? `${customerDetails[0].Address}, ` : ""}
-                                                {customerDetails[0]?.area ?? ""}
-                                                <br />
-                                              </>
-                                            )}
-
-                                            {(customerDetails[0]?.landmark ||
-                                              customerDetails[0]?.city ||
-                                              customerDetails[0]?.pincode ||
-                                              customerDetails[0]?.state) && (
-                                                <>
-                                                  {customerDetails[0]?.landmark ? `${customerDetails[0].landmark}, ` : ""}
-
-                                                  {(customerDetails[0]?.city &&
-                                                    customerDetails[0].city !== "undefined" &&
-                                                    customerDetails[0].city !== "null" &&
-                                                    customerDetails[0].city !== 0) ? `${customerDetails[0].city}, ` : ""}
-
-                                                  {customerDetails[0]?.pincode ? `${customerDetails[0].pincode} - ` : ""}
-
-                                                  {(customerDetails[0]?.state &&
-                                                    customerDetails[0].state !== "undefined" &&
-                                                    customerDetails[0].state !== "null" &&
-                                                    customerDetails[0].state !== 0) ? customerDetails[0].state : ""}
-                                                </>
-                                              )}
-                                          </div>
-                                        ) : (
-                                          <div
-                                            style={{
-                                              fontSize: 14,
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              lineHeight: "1.5em",
-                                            }}
-                                          >
-                                            No address found
-                                          </div>
-                                        )}
-
-
-
-
-                                      </div>
-                                    </div>
-                                  </div> */}
+                           
                           </div>
                         </div>
                       </div>
 
-                      <div className="col-md-12 mb-3 mb-md-0 mt-3">
-                        <div
-                          className="card"
-                          style={{
-                            borderRadius: "20px",
-                            padding: "5px 10px",
-                            marginLeft: "20px",
-                          }}
-                        >
-                          <div
-                            className="card-header d-flex justify-content-between align-items-center"
-                            style={{ backgroundColor: "transparent" }}
-                          >
-                            <div
-                              style={{
-                                fontSize: 16,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Address Details
-                            </div>
-                            <div
-                              style={{
-                                cursor: props.customerEditPermission
-                                  ? "not-allowed"
-                                  : "pointer",
-                                opacity: props.customerEditPermission
-                                  ? 0.6
-                                  : 1,
-                              }}
-                            >
-                              <div
-                                onClick={() => {
-                                  if (!props.customerEditPermission) {
-                                    handleEditAddressDetailsShow(CustomerOverView);
-                                  }
-                                }}
-                                style={{
-                                  cursor: props.customerEditPermission
-                                    ? "not-allowed"
-                                    : "pointer",
-                                  height: 40,
-                                  width: 40,
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  position: "relative",
-                                  zIndex: 1000,
+                   <div className="col-md-12 mb-3 mb-md-0 mt-3">
+  <div
+    className="card"
+    style={{
+      borderRadius: "20px",
+      padding: "5px 10px",
+      marginLeft: "20px",
+    }}
+  >
 
-                                }}
-                              >
-                                <img
-                                  src={EditImage}
-                                  alt="editimage"
-                                  style={{
-                                    height: 16,
-                                    width: 16,
-                                    color: props.customerEditPermission
-                                      ? "#CCCCCC"
-                                      : "#000",
-                                  }}
-                                />
-                              </div>
-                            </div>
-                          </div>
+    <div
+      className="card-header d-flex justify-content-between align-items-center"
+      style={{ backgroundColor: "transparent" }}
+    >
+      <div
+        style={{
+          fontSize: 16,
+          fontWeight: 600,
+          fontFamily: "Gilroy",
+        }}
+      >
+        Address Details
+      </div>
 
-                          <div className="card-body">
+    
+      <div
+        style={{
+          cursor: props.customerEditPermission ? "not-allowed" : "pointer",
+          opacity: props.customerEditPermission ? 0.6 : 1,
+        }}
+      >
+        <div
+          onClick={() => {
+            if (!props.customerEditPermission) {
+              handleEditAddressDetailsShow(CustomerOverView);
+            }
+          }}
+          style={{
+            height: 40,
+            width: 40,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "relative",
+            zIndex: 1000,
+          }}
+        >
+          <img
+            src={EditImage}
+            alt="edit"
+            style={{
+              height: 16,
+              width: 16,
+              color: props.customerEditPermission ? "#CCCCCC" : "#000",
+            }}
+          />
+        </div>
+      </div>
+    </div>
 
+    
+    <div className="card-body">
+     
+      <div className="row p-0">
+       
+        <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+          <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+            House No / Apartment
+          </p>
+          <div className="d-flex align-items-center gap-2">
+            <House size="18" color="#1E45E1" />
+            <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+              {CustomerOverView.address?.houseNo}
+            </span>
+          </div>
+        </div>
 
-                            <div className="row">
-                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
+        <div className="col-sm-6 col-lg-6 d-flex flex-column align-items-start">
+          <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+            Street / Area
+          </p>
+          <div className="d-flex align-items-center gap-2">
+            <img src={Areaimage} alt="area" style={{ width: 16, height: 16 }} />
+            <span
+              title={CustomerOverView.address?.streetName}
+              style={{
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "200px",
+              }}
+            >
+              {CustomerOverView.address?.streetName}
+            </span>
+          </div>
+        </div>
+      </div>
 
-                                  House No / Apartment
-                                </p>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    marginTop: "-10px",
-                                    gap: "6px",
-                                    width: "100%",
-                                  }}
-                                >
-                                  <House
-                                    size="18"
-                                    color="#1E45E1"
-                                    style={{ marginBottom: "2px" }}
-                                  />
-                                  <span
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      wordBreak: "break-word",
-                                      overflowWrap: "break-word",
-                                      minWidth: 0,
-                                      marginTop: -3
-                                    }}
-                                  >
-                                    {CustomerOverView.address?.houseNo}
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                                style={{ whiteSpace: "nowrap" }}
-                              >
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Street / Area
-                                </p>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    marginTop: "-10px",
-                                    gap: "6px",
-                                    width: "100%",
-                                    paddingLeft: 75
-                                  }}
-                                >
-                                  <img src={Areaimage}
-                                    alt="Areaimage"
-                                    size="18"
-                                    color="#1E45E1"
-                                    style={{ marginBottom: "2px" }}
-                                  />
-                                  <span title={CustomerOverView.address?.streetName}
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      wordBreak: "break-word",
-                                      overflowWrap: "break-word",
-                                      minWidth: 0,
-                                      marginTop: -3,
-                                      whiteSpace: "nowrap",
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      display: "inline-block",
-                                      maxWidth: "200px"
-                                    }}
-                                  >
-                                    {CustomerOverView.address?.streetName}
-                                  </span>
+     
+      <div className="row mt-3">
+       
+        <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+          <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+            Landmark
+          </p>
+          <div className="d-flex align-items-center gap-2">
+            <img src={Landamrkimage} alt="landmark" style={{ width: 16, height: 16 }} />
+            <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+              {CustomerOverView.address?.landmark}
+            </span>
+          </div>
+        </div>
 
-                                </div>
-                              </div>
-                            </div>
+        
+        <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+          <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+            Pincode
+          </p>
+          <div className="d-flex align-items-center gap-2">
+            <img src={PincodeImage} alt="pincode" style={{ width: 16, height: 16 }} />
+            <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+              {CustomerOverView.address?.pincode}
+            </span>
+          </div>
+        </div>
+      </div>
 
-                            <div className="row mt-3">
-                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Landmark
-                                </p>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    marginTop: "-10px",
-                                    gap: "6px",
-                                    width: "100%",
-                                  }}
-                                >
-                                  <img src={Landamrkimage} alt="Landamrkimage" size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
-                                  <span
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      wordBreak: "break-word",
-                                      overflowWrap: "break-word",
-                                      minWidth: 0,
-                                      marginTop: -3
-                                    }}
-                                  >
-                                    {CustomerOverView.address?.landmark}
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                                style={{ whiteSpace: "nowrap" }}
-                              >
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    marginRight: 24
-                                  }}
-                                >
-                                  Pincode
-                                </p>
-                                <p style={{ marginTop: "-10px", marginRight: 15 }}>
-                                  <img src={PincodeImage} alt="PincodeImage" size="16" color="#1E45E1" />
-                                  <span
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      wordBreak: "break-word",
-                                      overflowWrap: "break-word",
-                                      minWidth: 0,
-                                      marginTop: -3,
-                                      marginLeft: 5
-                                    }}
-                                  >
-                                    {CustomerOverView.address?.pincode}
-                                  </span>
-                                </p>
-                              </div>
+      
+      <div className="row mt-3">
+        
+        <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+          <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+            City
+          </p>
+          <div className="d-flex align-items-center gap-2">
+            <img src={CityImage} alt="city" style={{ width: 16, height: 16 }} />
+            <span style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+              {CustomerOverView.address?.city}
+            </span>
+          </div>
+        </div>
 
-                            </div>
+       
+        <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+          <p style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+            State
+          </p>
+          <div className="d-flex align-items-center gap-2">
+            <img src={CityImage} alt="state" style={{ width: 16, height: 16 }} />
+            <span
+              style={{
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "200px",
+              }}
+            >
+              {CustomerOverView.address?.state}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-                            <div className="row">
-                              <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  City
-                                </p>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    marginTop: "-10px",
-                                    gap: "6px",
-                                    width: "100%",
-                                  }}
-                                >
-                                  <img src={CityImage} alt="CityImage" size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
-                                  <span
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      wordBreak: "break-word",
-                                      overflowWrap: "break-word",
-                                      minWidth: 0,
-                                      marginTop: -3,
-
-                                    }}
-                                  >
-                                    {CustomerOverView.address?.city}
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                                style={{ whiteSpace: "nowrap" }}
-                              >
-                                <p
-                                  style={{
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    marginRight: 40
-                                  }}
-                                >
-                                  State
-                                </p>
-                                <p style={{ marginTop: "-10px", marginLeft: 15, marginBottom:0 }} className="d-flex flex-row align-items-center">
-                                  <img src={CityImage} alt="CityImage" size="16" color="#1E45E1" />
-                                  <span
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                      whiteSpace: "nowrap",
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      display: "inline-block",
-                                      maxWidth: "200px"
-                                    }}
-                                  >
-                                    {CustomerOverView?.address?.state}
-                                  </span>
-                                </p>
-                              </div>
-
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
 
                       <div className="card mt-4" style={{ marginLeft: 25, borderRadius: 10 }}>
                         <div className="card-body">

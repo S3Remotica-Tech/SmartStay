@@ -633,18 +633,22 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
       validateField(firstName, "firstName"),
       validateField(emilId, "emilId"),
       validateField(Phone, "Phone"),
-      // !edit ? validateField(password, "password") : true,
-      validateField(city, "City"),
+           validateField(city, "City"),
       validateField(pincode, "Pincode"),
       validateField(state_name, "state_name"),
     ];
 
 
     if (!Phone) {
-      setPhoneError("Please Enter Mobile Number"); hasError = true;
-    } else if (!/^\d{10}$/.test(Phone)) {
-      setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
-    } else setPhoneError("");
+  setPhoneError("Please Enter Mobile Number");
+  hasError = true;
+} else if (!/^(?!0{10})[1-9][0-9]{9}$/.test(Phone)) {
+    setPhoneError("Please Enter Valid Mobile Number");
+  hasError = true;
+} else {
+  setPhoneError(""); 
+}
+
 
 
 
@@ -717,7 +721,7 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
       payload: {
         firstName,
         lastName,
-        mobile: normalizedPhoneNumber,   // use normalized
+        mobile: normalizedPhoneNumber,  
         mailId: emilId,
         houseNo: house_no,
         street,
@@ -726,15 +730,13 @@ const regex = /^[a-zA-Z0-9 .,'\-\/\\#()&:]*$/;
         pincode: Number(pincode),
         state: state_name
       },
-      // only send file when a new file is chosen
+     
       profilePic: isFile(profileimage) ? profileimage : null
     };
 
 
 
-    // if (!edit) payload.accountInfo.password = password;
-    // if (edit && editId) payload.accountInfo.id = editId;
-
+   
 
 
     if (edit && editId) {
