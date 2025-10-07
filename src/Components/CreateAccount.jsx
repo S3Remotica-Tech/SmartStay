@@ -271,16 +271,19 @@ function CreateAccountPage() {
       hasError = true;
     }
 
-    if (!phoneNo) {
-      setPhoneError('Please Enter Mobile No');
-      hasError = true;
-    } else {
-      const phonePattern = /^\d{10}$/;
-      if (!phonePattern.test(phoneNo)) {
-        setPhoneError('Please Enter Valid Mobile Number');
-        hasError = true;
-      }
-    }
+   if (!phoneNo) {
+  setPhoneError("Please Enter Mobile No");
+  hasError = true;
+} else {
+  const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/;
+  if (!phonePattern.test(phoneNo)) {
+    setPhoneError("Please Enter Valid Mobile Number");
+    hasError = true;
+  } else {
+    setPhoneError(""); 
+  }
+}
+
 
 
     if (!password) {

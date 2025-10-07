@@ -368,17 +368,32 @@ function AddCustomer({ showMenu, handleClose }) {
 
 
 
-    if (Phone && Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
+    if (!Phone || Phone.length !== 10) {
+      setPhoneError("Please enter a valid mobile number");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;
       }
       hasError = true;
-    } else if (Phone) {
+    } else if (Phone === "0000000000") {
+      setPhoneError("All digits cannot be zero");
+      if (!focusedRef.current && phoneRef?.current) {
+        phoneRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else if (Phone[0] === "0") {
+      setPhoneError("Mobile number cannot start with 0");
+      if (!focusedRef.current && phoneRef?.current) {
+        phoneRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else {
       setPhoneError("");
       setPhoneErrorMessage("");
     }
+
 
     if (pincode) {
       if (pincode.length !== 6) {
@@ -904,7 +919,7 @@ function AddCustomer({ showMenu, handleClose }) {
                                       }}
                                     />
                                   </InputGroup>
-                                 
+
                                   {phoneError && (
                                     <ErrorMessage message={phoneError} type="error" />
                                   )}

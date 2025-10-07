@@ -345,21 +345,26 @@ function AddVendor({ show, setShow, currentItem }) {
       isValid = false;
     }
 
-    if (!vendor_Mobile) {
-      setMobileError("Please Enter Mobile Number");
-      if (!focusedRef.current && mobileRef.current) {
-        mobileRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    } else if (mobileInvalid) {
-      setMobileError("Enter Valid Mobile Number");
-      if (!focusedRef.current && mobileRef.current) {
-        mobileRef.current.focus();
-        focusedRef.current = true;
-      }
-      isValid = false;
-    }
+   const phonePattern = /^(?!0{10})[1-9][0-9]{9}$/; 
+
+if (!vendor_Mobile) {
+  setMobileError("Please Enter Mobile Number");
+  if (!focusedRef.current && mobileRef.current) {
+    mobileRef.current.focus();
+    focusedRef.current = true;
+  }
+  isValid = false;
+} else if (!phonePattern.test(vendor_Mobile)) {
+  setMobileError("Enter Valid Mobile Number");
+  if (!focusedRef.current && mobileRef.current) {
+    mobileRef.current.focus();
+    focusedRef.current = true;
+  }
+  isValid = false;
+} else {
+  setMobileError(""); 
+}
+
 
     if (!business_Name) {
       setBusinessNameError("Please Enter Business Name");
@@ -566,7 +571,6 @@ else {
       setFirst_Name("");
       setLast_Name("");
       setVendor_Mobile("");
-      // setAddress("");
       setEmail_Id("");
       setBusiness_Name("");
       setHouseNo("")

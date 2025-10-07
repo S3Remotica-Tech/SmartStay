@@ -31,7 +31,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
    
     const handleFirstNameChange = (e) => {
-        const lettersOnly = e.target.value.replace(/[^A-Za-z]/g, "")
+        const lettersOnly = e.target.value.replace(/[^A-Za-z\s]/g, ""); 
         setFirstName(lettersOnly);
         setFirstNameError("")
         setIsChanged("")
@@ -443,8 +443,8 @@ setIsChanged("")
                                             }}
                                         >
 
-                                            <option >
-                                                +{countryCode}
+                                            <option value = "91" >
+                                                + 91 
                                             </option>
 
                                         </Form.Select>

@@ -14,6 +14,11 @@ export async function GetAsset(hostelId) {
   return await AxiosConfigV2.get(`/v2/assets/all-assets/${hostelId}`);
 }
 
+export async function getRoleBasedPermission(roleId) {
+  return await AxiosConfigV2.get(`/v2/role/${roleId}`);
+}
+
+
 
 // v1
 

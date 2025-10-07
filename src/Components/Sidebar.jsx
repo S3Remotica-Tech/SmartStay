@@ -142,7 +142,7 @@ function Sidebar() {
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
   }, []);
-  
+
   useEffect(() => {
     dispatch({ type: "HOSTELLIST" })
   }, []);
@@ -158,11 +158,11 @@ function Sidebar() {
 
 
 
- 
+
 
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
-             dispatch({ type: "HOSTELLIST" })
+      dispatch({ type: "HOSTELLIST" })
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
@@ -184,7 +184,7 @@ function Sidebar() {
     }
   }, [state.UsersList.hosteListStatusCode]);
 
-  
+
 
 
 
@@ -204,7 +204,7 @@ function Sidebar() {
         const emilidd = loginInfo.mailId;
         const Is_Enable = loginInfo?.two_step_verification_status;
 
-  
+
         const encryptedLoginId = CryptoJS.AES.encrypt(
           LoginId.toString(),
           "abcd"
@@ -279,7 +279,7 @@ function Sidebar() {
     setIsDropdownOpen(false);
     localStorage.setItem("currentPage", page);
     setIsSidebarOpen(false);
-     dispatch(checkoutCustomerProfile(true))
+    dispatch(checkoutCustomerProfile(true))
   };
 
   useEffect(() => {
@@ -310,7 +310,7 @@ function Sidebar() {
 
   const handleLogout = () => {
     dispatch({ type: "LOG_OUT" });
-    dispatch({type: 'RESET_ALL'})
+    dispatch({ type: 'RESET_ALL' })
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
     localStorage.setItem("loginId", "");
@@ -318,12 +318,12 @@ function Sidebar() {
     localStorage.setItem("emilidd", "");
     localStorage.setItem("selectedHostelId", "");
     localStorage.setItem("selectedHostelName", "");
-      const cookies = new Cookies();
-     cookies.remove('v2-token', { path: '/' });
-      cookies.remove('token', { path: '/' });
+    const cookies = new Cookies();
+    cookies.remove('v2-token', { path: '/' });
+    cookies.remove('token', { path: '/' });
   };
 
- 
+
 
 
 
@@ -372,10 +372,10 @@ function Sidebar() {
   }, [allPageHostel_Id]);
 
 
-useEffect(() => {
+  useEffect(() => {
     if (hostelListDetail && hostelListDetail?.length > 0) {
-     const firstHostel = hostelListDetail[0]
- 
+      const firstHostel = hostelListDetail[0]
+
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
       setSelectedProfileImage(
@@ -401,7 +401,7 @@ useEffect(() => {
           (item) => item.hostelId === parseInt(savedHostelId, 10)
         );
 
-    
+
       if (currentHostel) {
         setPayingGuestName(currentHostel.Name);
         setAllPageHostel_Id(currentHostel.hostelId);
@@ -414,7 +414,7 @@ useEffect(() => {
         );
       } else {
         const lowestIdItem = hostelListDetail?.reduce((prev, current) =>
-         prev.id < current.id ? prev : current
+          prev.id < current.id ? prev : current
         );
 
 
@@ -433,16 +433,16 @@ useEffect(() => {
       setIsInitialized(true);
     }
   }, [
-          state.UsersList.hosteListStatusCode,
+    state.UsersList.hosteListStatusCode,
     isInitialized,
-     ]);
+  ]);
 
 
 
 
   useEffect(() => {
     if (state.login?.isLoggedIn && hostelListDetail?.length > 0) {
-     const firstHostel = hostelListDetail[0];
+      const firstHostel = hostelListDetail[0];
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
       setSelectedProfileImage(
@@ -457,13 +457,13 @@ useEffect(() => {
     }
   }, [
     state.login?.isLoggedIn,
-       state.UsersList.hosteListStatusCode,
+    state.UsersList.hosteListStatusCode,
   ]);
 
 
-   useEffect(() => {
+  useEffect(() => {
     if (hostelListDetail && hostelListDetail?.length > 0) {
-     const firstHostel = hostelListDetail[0]
+      const firstHostel = hostelListDetail[0]
 
       setAllPageHostel_Id(firstHostel.hostelId);
       setPayingGuestName(firstHostel.name);
@@ -481,7 +481,7 @@ useEffect(() => {
 
   const handleShowsettingsPG = (settingNewDesign) => {
     // handlePageClick("settingNewDesign");
-     navigate("/settingNewDesign"); 
+    navigate("/settingNewDesign");
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
     setIsSidebarOpen(false);
@@ -523,7 +523,11 @@ useEffect(() => {
     }
   }, [state.login?.selectedHostel_Id]);
 
-  
+  useEffect(() => {
+    if (state.createAccount?.accountList?.roleId) {
+      dispatch({ type: 'PERMISSIONROLELIST', payload: state.createAccount?.accountList.roleId })
+    }
+  }, [state.createAccount.accountList.roleId])
 
 
 
@@ -905,7 +909,7 @@ useEffect(() => {
                           fontFamily: "Gilroy",
                         }}
                       >
-                        Customers
+                        Tenant
                       </span>
                     </li>
                     <li
@@ -1215,7 +1219,7 @@ useEffect(() => {
                         color: "blue",
                       }}
                     >
-                 {stateData?.accountList?.roleName}
+                      {stateData?.accountList?.roleName}
                     </span>
                   </div>
                 </div>

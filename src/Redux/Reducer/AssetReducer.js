@@ -12,7 +12,8 @@ export const initialState = {
     getRoomStatusCode: 0,
     bankAmountError: '',
     assetError: '',
-    updateAssetStatusCode: 0
+    updateAssetStatusCode: 0,
+    getPermissionRoleList: []
 }
 
 const AssetReducer = (state = initialState, action) => {
@@ -28,6 +29,10 @@ const AssetReducer = (state = initialState, action) => {
             return { ...state, assetList: action.payload.response, getAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_GET_ASSET_STATUS_CODE':
             return { ...state, getAssetStatusCode: 0 }
+        case 'PERMISSION_ROLE_LIST':
+            return { ...state, getPermissionRoleList: action.payload.response }
+
+
         case 'NO_ASSET_LIST':
             return { ...state, NoDataAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_NO_ASSET_LIST':

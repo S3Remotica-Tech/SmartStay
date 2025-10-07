@@ -7,9 +7,13 @@ import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import "./VendorListMap.css";
 import "./vendor.css";
+import { useHasPermission } from '../../Utils/Permission';
 
 function VendorListMap(props) {
   const [showDots, setShowDots] = useState(null);
+
+  const canUpdateVendor = useHasPermission("Vendor", "canUpdate")
+  const canDeleteVendor = useHasPermission("Vendor", "canDelete")
 
   const popupRef = useRef(null);
 
@@ -165,12 +169,12 @@ function VendorListMap(props) {
 
                       <div
                         onClick={() => {
-                          if (!props.vendorEditPermission) {
+                          if (canUpdateVendor) {
                             handleEdit(props.vendor);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.vendorEditPermission)
+                          if (canUpdateVendor)
                             e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
@@ -183,22 +187,22 @@ function VendorListMap(props) {
                           padding: "8px 12px",
                           width: "100%",
                           backgroundColor: "#F9F9F9",
-                          cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.vendorEditPermission ? "none" : "auto",
-                          opacity: props.vendorEditPermission ? 0.5 : 1,
+                          cursor: !canUpdateVendor ? "not-allowed" : "pointer",
+                          pointerEvents: !canUpdateVendor ? "none" : "auto",
+                          opacity: !canUpdateVendor ? 0.5 : 1,
                           borderTopLeftRadius: 10,
                           borderTopRightRadius: 10,
                         }}
                       >
-                        <Edit size="16" color={props.vendorEditPermission ? "#A9A9A9" : "#1E45E1"} />
+                        <Edit size="16" color={!canUpdateVendor ? "#A9A9A9" : "#1E45E1"} />
                         <label
                           style={{
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
 
-                            color: props.vendorEditPermission ? "#A9A9A9" : "#222222",
-                            cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+                            color: !canUpdateVendor ? "#A9A9A9" : "#222222",
+                            cursor: !canUpdateVendor ? "not-allowed" : "pointer",
                           }}
                         >
                           Edit
@@ -211,12 +215,12 @@ function VendorListMap(props) {
 
                       <div
                         onClick={() => {
-                          if (!props.vendorDeletePermission) {
+                          if (canDeleteVendor) {
                             handleDelete(props.vendor);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.vendorDeletePermission)
+                          if (canDeleteVendor)
                             e.currentTarget.style.backgroundColor = "#FFF0F0";
                         }}
                         onMouseLeave={(e) => {
@@ -229,9 +233,9 @@ function VendorListMap(props) {
                           padding: "8px 12px",
                           width: "100%",
                           backgroundColor: "#F9F9F9",
-                          cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.vendorDeletePermission ? "none" : "auto",
-                          opacity: props.vendorDeletePermission ? 0.5 : 1,
+                          cursor: !canDeleteVendor ? "not-allowed" : "pointer",
+                          pointerEvents: !canDeleteVendor ? "none" : "auto",
+                          opacity: !canDeleteVendor ? 0.5 : 1,
                           borderBottomLeftRadius: 10,
                           borderBottomRightRadius: 10,
                         }}
@@ -239,7 +243,7 @@ function VendorListMap(props) {
 
                         <Trash
                           size="16"
-                          color={props.vendorDeletePermission ? "#A9A9A9" : "red"}
+                          color={!canDeleteVendor ? "#292828ff" : "red"}
                         />
                         <label
                           style={{
@@ -247,8 +251,8 @@ function VendorListMap(props) {
                             fontWeight: 600,
                             fontFamily: "Gilroy",
 
-                            color: props.vendorDeletePermission ? "#A9A9A9" : "#FF0000",
-                            cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+                            color: !canDeleteVendor ? "#A9A9A9" : "#FF0000",
+                            cursor:!canDeleteVendor ? "not-allowed" : "pointer",
                           }}
                         >
                           Delete

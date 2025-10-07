@@ -2441,7 +2441,7 @@ const handleCloseBackToCheckIn = () =>{
                     marginTop: -15,
                   }}
                 >
-                  Customers
+                  Tenants
                 </label>
               </div>
 
@@ -2728,7 +2728,7 @@ const handleCloseBackToCheckIn = () =>{
                       onClick={handleShow}
                       style={buttonStyle}
                     >
-                      + Customer
+                      + Tenant
                     </Button>
                   )}
                   {value === "2" && (
