@@ -3092,7 +3092,11 @@ const imageUrl = imagePreview
                                           width: "100%",
                                         }}
                                       >
-                                        <img src={Landamrkimage} alt="Landamrkimage" size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+                                        <img src={Landamrkimage} alt="Landamrkimage" size="16" color="#1E45E1" style={{
+      width: 16,     
+      height: 16,   
+      flexShrink: 0, 
+    }} />
                                         <span
                                           style={{
                                             fontSize: 14,
