@@ -215,7 +215,7 @@ const handleAttach = () => {
       return;
     }
 
-   const type ="manual"
+  //  const type ="manual"
   dispatch({
           type: "UPLOADDOCUMENT",
           payload: {
