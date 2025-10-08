@@ -54,7 +54,12 @@ function AddBed({ show, setShowBed, currentItem }) {
 
 
   const handleBedNoChange = (e) => {
-    setBedNo(e.target.value);
+
+  let value = e.target.value;
+  if (value.startsWith(" ")) {
+    value = value.trimStart();
+  }
+    setBedNo(value);
     setGeneralError("");
     setBedError("");
     setBedAlreadyBooked("")

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Form, Button, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import electricity from "../Assets/Images/New_images/electricity.svg";
 import editpic from "../Assets/Images/New_images/edit.svg";
@@ -12,6 +12,7 @@ import "./SettingAll.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingElectricity.css";
+import Error_Icon from ".././Assets/Images/New_images/Error_warning.png";
 
 const SettingElectricity = ({ hostelid }) => {
   const dispatch = useDispatch();
@@ -838,42 +839,63 @@ const SettingElectricity = ({ hostelid }) => {
                 />
               </Form.Group>
 
-              <div className=" d-flex align-items-center">
-                {amountErr && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      textAlign: "start",
-                      margin: 0,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    <span style={{ fontSize: "20px" }}>
-                      <MdError style={{ fontSize: "14px", marginRight: 5 }} />
-                    </span>
-                    {amountErr}
-                  </p>
-                )}
-              </div>
+             
+ {amountErr && (
+                                           <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                     {amountErr}
+                                                   </span>
+                                                 </div>
+                                                   )}
               <div className="">
                 {totalErr && (
-                  <p
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      textAlign: "center",
-                      margin: 0,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    <span style={{ fontSize: "20px" }}>
-                      <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                    </span>
-                    {totalErr}
-                  </p>
+               <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                     {totalErr}
+                                                   </span>
+                                                 </div>
                 )}
               </div>
             </div>
@@ -881,10 +903,29 @@ const SettingElectricity = ({ hostelid }) => {
         </Modal.Body>
 
         {state.createAccount?.networkError ?
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-          </div>
+          <div style={{
+                                                                                color: "red",
+                                                                                backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                marginTop: 4,
+                                                                                display: "inline-flex", 
+                                                                                alignItems: "center",
+                                                                                padding: "4px 10px", 
+                                                                                borderRadius: 4,
+                                                                              }}> 
+                                                                              <img
+                                                                                src={Error_Icon}
+                                                                                alt="ErrorIcon"
+                                                                                style={{ marginRight: "4px", fontSize:15}}
+                                                                              />
+                                                                              <span
+                                                                                style={{
+                                                                                  fontSize: "12px",
+                                                                                  color: "red",
+                                                                                  fontFamily: "Gilroy",
+                                                                                  fontWeight: 500,
+                                                                                  whiteSpace: "nowrap", 
+                                                                                }}>{state.createAccount?.networkError}</span>
+                      </div>
           : null}
 
         {formLoading && <div
@@ -1066,26 +1107,32 @@ const SettingElectricity = ({ hostelid }) => {
                     </div>
 
                     {calculatedstartdateerrmsg && (
-                      <div className="d-flex align-items-center  mb-2">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {calculatedstartdateerrmsg}
-                        </label>
-                      </div>
+                     <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                     {calculatedstartdateerrmsg}
+                                                   </span>
+                                                 </div>
                     )}
                   </div>
 
@@ -1173,26 +1220,32 @@ const SettingElectricity = ({ hostelid }) => {
                       />
                     </div>
                     {calculatedenddateerrmsg && (
-                      <div className="d-flex align-items-center  mb-2">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {calculatedenddateerrmsg}
-                        </label>
-                      </div>
+                       <div style={{
+                                                       color: "red",
+                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                       marginTop: 4,
+                                                       display: "inline-flex", 
+                                                       alignItems: "center",
+                                                       padding: "4px 10px", 
+                                                       borderRadius: 4,
+                                                     }}> 
+                                                     <img
+                                                       src={Error_Icon}
+                                                       alt="ErrorIcon"
+                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                     />
+                                                     <span
+                                                       style={{
+                                                         fontSize: "12px",
+                                                         color: "red",
+                                                         fontFamily: "Gilroy",
+                                                         fontWeight: 500,
+                                                         whiteSpace: "nowrap", 
+                                                       }}
+                                                   >
+                                                     {calculatedenddateerrmsg}
+                                                   </span>
+                                                 </div>
                     )}
                   </div>
 

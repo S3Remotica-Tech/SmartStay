@@ -191,7 +191,7 @@ useEffect(()=>{
           setError("Please Select Payment Mode");
           break;
         case "amount":
-          setError("Please Enter Amount");
+          setError("Please Enter Booking Amount");
           break;
 
 
@@ -290,14 +290,22 @@ useEffect(()=>{
 
       hasError = true;
     }
-     if (Number(amount) <= 0) {
-    setamountError("Booking Amount must be greater than 0");
-    if (!focusedRef.current && amountRef?.current) {
-      amountRef.current.focus();
-      focusedRef.current = true;
-    }
-    return;
+if (!amount) {
+  setamountError("Please Enter Booking Amount");
+  if (!focusedRef.current && amountRef?.current) {
+    amountRef.current.focus();
+    focusedRef.current = true;
   }
+  hasError = true;
+} else if (Number(amount) <= 0) {
+  setamountError("Booking Amount must be greater than 0");
+  if (!focusedRef.current && amountRef?.current) {
+    amountRef.current.focus();
+    focusedRef.current = true;
+  }
+  hasError = true;
+}
+
    
     if (hasError) return;
     if (

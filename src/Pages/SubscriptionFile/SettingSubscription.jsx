@@ -10,12 +10,13 @@ import Select from "react-select";
 import DeleteIcon from "../../Assets/Images/Delete_red.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 import PaginationList from '../../Components/PaginationList';
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function SettingSubscription() {
   const state = useSelector((state) => state);
@@ -1491,26 +1492,32 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                     </Form.Group>
 
                     {hostelError && (
-                      <div style={{ color: "red" }}>
-                        {" "}
-                        <MdError
-                          style={{
-                            fontSize: "11px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginRight: "5px",
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "13px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {hostelError}
-                        </span>
-                      </div>
+                             <div style={{
+                                         color: "red",
+                                         backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                         marginTop: 4,
+                                         display: "inline-flex", 
+                                         alignItems: "center",
+                                         padding: "4px 10px", 
+                                         borderRadius: 4,
+                                       }}> 
+                                       <img
+                                         src={Error_Icon}
+                                         alt="ErrorIcon"
+                                         style={{ marginRight: "4px", fontSize:15}}
+                                       />
+                                       <span
+                                         style={{
+                                           fontSize: "12px",
+                                           color: "red",
+                                           fontFamily: "Gilroy",
+                                           fontWeight: 500,
+                                           whiteSpace: "nowrap", 
+                                         }}
+                                     >
+                                       {hostelError}
+                                     </span>
+                                   </div>
                     )}
                   </div>
 
@@ -1555,26 +1562,32 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                       />
                     </Form.Group>
                     {hostelCountError && (
-                      <div style={{ color: "red" }}>
-                        {" "}
-                        <MdError
-                          style={{
-                            fontSize: "11px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginRight: "5px",
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "13px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {hostelCountError}
-                        </span>
-                      </div>
+                    <div style={{
+                                         color: "red",
+                                         backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                         marginTop: 4,
+                                         display: "inline-flex", 
+                                         alignItems: "center",
+                                         padding: "4px 10px", 
+                                         borderRadius: 4,
+                                       }}> 
+                                       <img
+                                         src={Error_Icon}
+                                         alt="ErrorIcon"
+                                         style={{ marginRight: "4px", fontSize:15}}
+                                       />
+                                       <span
+                                         style={{
+                                           fontSize: "12px",
+                                           color: "red",
+                                           fontFamily: "Gilroy",
+                                           fontWeight: 500,
+                                           whiteSpace: "nowrap", 
+                                         }}
+                                     >
+                                       {hostelCountError}
+                                     </span>
+                                   </div>
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1616,26 +1629,32 @@ const hostelDetails = getPlanActive?.[0]?.hostel_details || [];
                       />
                     </Form.Group>
                     {selectedPlanError && (
-                      <div style={{ color: "red" }}>
-                        {" "}
-                        <MdError
-                          style={{
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginRight: "5px",
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "13px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {selectedPlanError}
-                        </span>
-                      </div>
+                                       <div style={{
+                                         color: "red",
+                                         backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                         marginTop: 4,
+                                         display: "inline-flex", 
+                                         alignItems: "center",
+                                         padding: "4px 10px", 
+                                         borderRadius: 4,
+                                       }}> 
+                                       <img
+                                         src={Error_Icon}
+                                         alt="ErrorIcon"
+                                         style={{ marginRight: "4px", fontSize:15}}
+                                       />
+                                       <span
+                                         style={{
+                                           fontSize: "12px",
+                                           color: "red",
+                                           fontFamily: "Gilroy",
+                                           fontWeight: 500,
+                                           whiteSpace: "nowrap", 
+                                         }}
+                                     >
+                                       {selectedPlanError}
+                                     </span>
+                                   </div>
                     )}
                   </div>
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 cmt">

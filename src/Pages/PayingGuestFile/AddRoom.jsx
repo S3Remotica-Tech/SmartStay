@@ -35,11 +35,17 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   }, [editRoom]);
 
   const handleRoomChange = (e) => {
-    const Room_Id = e.target.value;
+
+         let value = e.target.value;
+
+  if (value.startsWith(" ")) {
+    value = value.trimStart();
+  }
+    setRoom(value);
     setRoomError("");
     setIsChangedError("");
     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
-    setRoom(Room_Id);
+   
   };
   const handleCreateRoom = () => {
     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });

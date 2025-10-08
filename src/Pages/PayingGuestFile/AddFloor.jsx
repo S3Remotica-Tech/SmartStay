@@ -66,7 +66,13 @@ function StaticExample({
     }
   }, [state.UsersList.createFloorSuccessStatusCode]);
   const handleFloorChange = (e) => {
-    setFloorNo(e.target.value);
+      let value = e.target.value;
+
+  if (value.startsWith(" ")) {
+    value = value.trimStart();
+  }
+
+    setFloorNo(value);
     setFloorError("");
     dispatch({ type: "CLEAR_ALREADY_FLOOR_ERROR" });
     dispatch({ type: "CLEAR_UPDATE_FLOOR_ERROR" });
