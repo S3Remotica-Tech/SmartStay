@@ -349,7 +349,7 @@ if (err) {
     focused = true;
   }
   hasError = true;
-} else {
+} else { 
   setPincodeError("");
 }
 
@@ -583,6 +583,53 @@ if (err) {
   }, [currentItem]);
 
  
+// const handleFileChange = (index) => async (e) => {
+//   const selectedFiles = Array.from(e.target.files);
+
+//   if (selectedFiles.length > 0) {
+//     const options = {
+//       maxSizeMB: 1,
+//       maxWidthOrHeight: 800,
+//       useWebWorker: true,
+//     };
+
+//     const compressedFiles = await Promise.all(
+//       selectedFiles.map(async (file) => {
+//         try {
+//           const compressedBlob = await imageCompression(file, options);
+       
+//           return new File([compressedBlob], file.name, {
+//             type: compressedBlob.type,
+//             lastModified: Date.now(),
+//           });
+//         } catch (error) {
+//           console.error("Image compression error:", error);
+//           return null;
+//         }
+//       })
+//     );
+
+//     setImages((prevImages) => {
+//       const updatedImages = [...prevImages];
+
+//       compressedFiles.forEach((compressedFile, i)  => {
+//         if (compressedFile) {
+//           const currentIndex = index + i;
+
+//           updatedImages[currentIndex] = {
+//             name: `image${currentIndex + 1}`,
+//             image: compressedFile, 
+//             isChanged: true,
+//           };
+//         }
+//       });
+
+//       return updatedImages;
+//     });
+//   }
+// };
+
+
 const handleFileChange = (index) => async (e) => {
   const selectedFiles = Array.from(e.target.files);
 
@@ -597,7 +644,6 @@ const handleFileChange = (index) => async (e) => {
       selectedFiles.map(async (file) => {
         try {
           const compressedBlob = await imageCompression(file, options);
-       
           return new File([compressedBlob], file.name, {
             type: compressedBlob.type,
             lastModified: Date.now(),
@@ -612,13 +658,13 @@ const handleFileChange = (index) => async (e) => {
     setImages((prevImages) => {
       const updatedImages = [...prevImages];
 
-      compressedFiles.forEach((compressedFile, i)  => {
+      compressedFiles.forEach((compressedFile, i) => {
         if (compressedFile) {
           const currentIndex = index + i;
 
           updatedImages[currentIndex] = {
             name: `image${currentIndex + 1}`,
-            image: compressedFile, 
+            image: compressedFile,
             isChanged: true,
           };
         }
@@ -626,6 +672,9 @@ const handleFileChange = (index) => async (e) => {
 
       return updatedImages;
     });
+
+    // 🔥 Reset file input value to allow reupload of same file
+    e.target.value = "";
   }
 };
 

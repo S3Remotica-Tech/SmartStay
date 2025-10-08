@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { CloseCircle, } from "iconsax-react";
 import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
+import Error_Icon from "../../Assets/Images/New_images/Error_warning.png";
 
 function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   const state = useSelector((state) => state);
@@ -184,19 +185,32 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
 
 
               {hostelError && (
-                <div className="d-flex align-items-center mt-1">
-                  <MdError style={{ color: "red", marginRight: "5px" }} />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {hostelError}
-                  </span>
-                </div>
+              <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}
+                                                                                   >
+                                                                                     {hostelError}
+                                                                                   </span>
+                                                                                 </div>
               )}
 
               <div className="row mt-2">
@@ -234,19 +248,32 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                     />
                   </Form.Group>
                   {errorAmenity && (
-                    <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {errorAmenity}
-                      </span>
-                    </div>
+              <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}
+                                                                                   >
+                                                                                     {errorAmenity}
+                                                                                   </span>
+                                                                                 </div>
                   )}
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -284,19 +311,32 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                   </Form.Group>
 
                   {errorAmount && (
-                    <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {errorAmount}
-                      </span>
-                    </div>
+              <div style={{
+                                                                                       color: "red",
+                                                                                       backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                       marginTop: 4,
+                                                                                       display: "inline-flex", 
+                                                                                       alignItems: "center",
+                                                                                       padding: "4px 10px", 
+                                                                                       borderRadius: 4,
+                                                                                     }}> 
+                                                                                     <img
+                                                                                       src={Error_Icon}
+                                                                                       alt="ErrorIcon"
+                                                                                       style={{ marginRight: "4px", fontSize:15}}
+                                                                                     />
+                                                                                     <span
+                                                                                       style={{
+                                                                                         fontSize: "12px",
+                                                                                         color: "red",
+                                                                                         fontFamily: "Gilroy",
+                                                                                         fontWeight: 500,
+                                                                                         whiteSpace: "nowrap", 
+                                                                                       }}
+                                                                                   >
+                                                                                     {errorAmount}
+                                                                                   </span>
+                                                                                 </div>
                   )}
                 </div>
 
@@ -305,10 +345,42 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             </Modal.Body>
 
             {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
+                <div 
+                                                                                    style={{
+                                                                                      display: "flex",
+                                                                                      justifyContent: "center",
+                                                                                      marginTop: 8,
+                                                                                    }}
+                                                                                  >
+                                                                                    <div
+                                                                                      style={{
+                                                                                        color: "red",
+                                                                                        backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                        display: "flex",
+                                                                                        alignItems: "center",
+                                                                                        padding: "4px 10px",
+                                                                                        borderRadius: 4,
+                                                                                        maxWidth: "fit-content", 
+                                                                                      }}
+                                                                                    >
+                                                                                      <img
+                                                                                        src={Error_Icon}
+                                                                                        alt="ErrorIcon"
+                                                                                        style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                                      />
+                                                                                      <span
+                                                                                        style={{
+                                                                                          fontSize: "12px",
+                                                                                          color: "red",
+                                                                                          fontFamily: "Gilroy",
+                                                                                          fontWeight: 500,
+                                                                                          whiteSpace: "normal",
+                                                                                        }}
+                                                                                      >
+                                                                                        {state.createAccount?.networkError}
+                                                                                      </span>
+                                                                                    </div>
+                                                                                  </div>
               : null}
             {formLoading &&
               <div
@@ -339,39 +411,80 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
             }
 
             {amnitiesError && (
-              <div className="d-flex justify-content-center align-items-center gap-2 ">
-                <MdError style={{ color: "red" }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    textAlign: "center"
-                  }}
-                >
-                  {amnitiesError}
-                </label>
-              </div>
+              <div 
+                                                                                  style={{
+                                                                                    display: "flex",
+                                                                                    justifyContent: "center",
+                                                                                    marginTop: 8,
+                                                                                  }}
+                                                                                >
+                                                                                  <div
+                                                                                    style={{
+                                                                                      color: "red",
+                                                                                      backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                      display: "flex",
+                                                                                      alignItems: "center",
+                                                                                      padding: "4px 10px",
+                                                                                      borderRadius: 4,
+                                                                                      maxWidth: "fit-content", 
+                                                                                    }}
+                                                                                  >
+                                                                                    <img
+                                                                                      src={Error_Icon}
+                                                                                      alt="ErrorIcon"
+                                                                                      style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                                    />
+                                                                                    <span
+                                                                                      style={{
+                                                                                        fontSize: "12px",
+                                                                                        color: "red",
+                                                                                        fontFamily: "Gilroy",
+                                                                                        fontWeight: 500,
+                                                                                        whiteSpace: "normal",
+                                                                                      }}
+                                                                                    >
+                                                                                      {amnitiesError}
+                                                                                    </span>
+                                                                                  </div>
+                                                                                </div>
             )}
             {isChangedError && (
-              <div className="d-flex justify-content-center align-items-center mt-1 mb-2">
-                <MdError style={{ color: "red", fontSize: "13px", marginBottom: '2px' }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    textAlign: "center",
-                    marginLeft: '5px'
-                  }}
-                >
-                  {isChangedError}
-                </label>
-              </div>
+    <div 
+                                                                        style={{
+                                                                          display: "flex",
+                                                                          justifyContent: "center",
+                                                                          marginTop: 8,
+                                                                        }}
+                                                                      >
+                                                                        <div
+                                                                          style={{
+                                                                            color: "red",
+                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                            display: "flex",
+                                                                            alignItems: "center",
+                                                                            padding: "4px 10px",
+                                                                            borderRadius: 4,
+                                                                            maxWidth: "fit-content", 
+                                                                          }}
+                                                                        >
+                                                                          <img
+                                                                            src={Error_Icon}
+                                                                            alt="ErrorIcon"
+                                                                            style={{ marginRight: "6px", width: 14, height: 14 }}
+                                                                          />
+                                                                          <span
+                                                                            style={{
+                                                                              fontSize: "12px",
+                                                                              color: "red",
+                                                                              fontFamily: "Gilroy",
+                                                                              fontWeight: 500,
+                                                                              whiteSpace: "normal",
+                                                                            }}
+                                                                          >
+                                                                            {isChangedError}
+                                                                          </span>
+                                                                        </div>
+                                                                      </div>
             )}
 
             <Modal.Footer style={{ border: "none", paddingTop:2 }}>

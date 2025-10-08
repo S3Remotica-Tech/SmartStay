@@ -550,44 +550,47 @@ function PayingGuestMap(props) {
             </div>
 
             <div
-              style={{
-                lineHeight: 1.5,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                display: "block",
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-              }}
-              title={`
-                        ${props.hostel?.Address || ""}
-                        ${props.hostel?.area ? ", " + props.hostel.area : ""}
-                        ${props.hostel?.city ? ", " + props.hostel.city : ""}
-                        ${props.hostel?.pincode
-                  ? " - " + props.hostel.pincode
-                  : ""
-                }
-                        ${props.hostel?.state ? ", " + props.hostel.state : ""}
-                      `}
-            >
-              {(
-                props.hostel?.city ||
-                props.hostel?.pincode ||
-                props.hostel?.state) && (
-                  <>
-                    {props.hostel?.Address ? props.hostel.Address + ", " : ""}
-                    {props.hostel?.area || ""}
-                    {props.hostel?.landmark || ""}<br></br>
-                    {props.hostel?.city ? props.hostel.city : ""}
-                    {props.hostel?.pin_code
-                      ? " - " + props.hostel.pin_code
-                      : ""}{" "} {props.hostel?.state ? props.hostel.state : ""}
-                    <br></br>
+  style={{
+    lineHeight: 1.5,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    display: "block",
+    fontSize: 14,
+    fontWeight: 600,
+    fontFamily: "Gilroy",
+  }}
+  title={`
+    ${props.hostel?.Address || ""}
+    ${props.hostel?.area ? ", " + props.hostel.area : ""}
+    ${props.hostel?.landmark ? ", " + props.hostel.landmark : ""}
+    ${props.hostel?.city ? ", " + props.hostel.city : ""}
+    ${props.hostel?.pin_code ? " - " + props.hostel.pin_code : ""}
+    ${props.hostel?.state ? ", " + props.hostel.state : ""}
+  `}
+>
+  {(props.hostel?.Address ||
+    props.hostel?.area ||
+    props.hostel?.city ||
+    props.hostel?.pin_code ||
+    props.hostel?.state) && (
+    <>
+      {/* Address Line */}
+      {props.hostel?.Address ? props.hostel.Address : ""}
+      {props.hostel?.area ? `, ${props.hostel.area}` : ""}
+      {props.hostel?.landmark
+        ? `${props.hostel?.Address || props.hostel?.area ? ", " : ""}${props.hostel.landmark}`
+        : ""}
+      <br />
 
-                  </>
-                )}
-            </div>
+      {/* City + Pincode + State */}
+      {props.hostel?.city ? props.hostel.city : ""}
+      {props.hostel?.pin_code ? ` - ${props.hostel.pin_code}` : ""}
+      {props.hostel?.state ? `, ${props.hostel.state}` : ""}
+    </>
+  )}
+</div>
+
           </div>
         </Card.Body>
       </Card>

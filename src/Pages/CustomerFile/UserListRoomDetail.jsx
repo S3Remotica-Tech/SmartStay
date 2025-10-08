@@ -176,35 +176,66 @@ function UserListRoomDetail(props) {
     }
   };
 
+    useEffect(() => {
+    if (state.UsersList.statusCodeForUploadDocument === 200) {
+
+          dispatch({
+    type: "UPLOAD_MANUAL_DOCUMENTS",
+    payload: {
+      userId: customerDetails[0]?.ID,
+      newDocs: [
+        {
+          type: "manual",
+          URL: selectedFile, 
+        },
+      ],
+    },
+  });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
+        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
+        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
+      }, 500);
+    }
+  }, [state.UsersList.statusCodeForUploadDocument]);
+
+  useEffect(()=> {
+    if(state.UsersList?.StatusCodeForManualDocuments){
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_UPLOAD_MANUAL_DOCUMENTS" });
+      }, 500);
+    }
+    
+  },[state.UsersList?.StatusCodeForManualDocuments])
+
 const handleAttach = () => {
     if (!selectedFile) {
       setUploadError("Please select a file to upload");
       return;
     }
 
- const type = "doc1";
-
-    if (selectedFile) { 
-        dispatch({
+  //  const type ="manual"
+  dispatch({
           type: "UPLOADDOCUMENT",
           payload: {
-            user_id: props.id,
-            type,
+            // user_id: props.id,
+            // type,
             file1: selectedFile,
           },
-      })
-    }
+        });
 
-    const newDoc = {
-      name: selectedFile.name,
-      size: `${(selectedFile.size / 1024).toFixed(0)} KB`,
-      url: URL.createObjectURL(selectedFile),
-    };
+  // For UI preview only
+  const newDoc = {
+    name: selectedFile.name,
+    size: `${(selectedFile.size / 1024).toFixed(0)} KB`,
+    url: URL.createObjectURL(selectedFile),
+  };
 
-    setManualDocuments((prev) => [...prev, newDoc]);
-    setUploadPopup(false);
-    setSelectedFile(null);
-    setUploadError("");
+  setManualDocuments((prev) => [...prev, newDoc]);
+  setUploadPopup(false);
+  setSelectedFile(null);
+  setUploadError("");
   };
 
   const handleFileOpen = (url) => {
@@ -1956,16 +1987,7 @@ const formattedReasons = fields.map((item) => {
   //   ref.current.click();
   // };
 
-  useEffect(() => {
-    if (state.UsersList.statusCodeForUploadDocument === 200) {
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
-        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
-        dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
-      }, 500);
-    }
-  }, [state.UsersList.statusCodeForUploadDocument]);
+
 
   useEffect(() => {
     if (state.UsersList.statusCodeForOtherDocu === 200) {

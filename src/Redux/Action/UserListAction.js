@@ -393,8 +393,8 @@ export async function uploadDocument(params) {
 
   const formData = new FormData();
   if (params.file1) formData.append("file1", params.file1);
-  if (params.user_id) formData.append("user_id", params.user_id);
-  if (params.type) formData.append("type", params.type);
+  // if (params.user_id) formData.append("user_id", params.user_id);
+  // if (params.type) formData.append("type", params.type);
 
   try {
     const response = await AxiosConfig.post('/users/upload_doc', formData, {
@@ -503,6 +503,21 @@ export async function kycDocuments(datum) {
   console.log("kycDocuments", datum);
   return await AxiosConfig.post('/users/updateKycDocs', datum);
 }
+
+export async function UplpadManualDocuments(datum) {
+
+  const formData = new FormData();
+  if (datum.userId) formData.append("userId", datum.userId);
+  if (datum.type) formData.append("type", datum.type);
+  if (datum.URL) formData.append("URL", datum.URL); 
+
+  return await AxiosConfig.post("/users/updateManualDocs", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}
+
 
 
 // export async function kycDocuments(params) {

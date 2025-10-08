@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,checkoutDetailView,kycDocuments,checkoutDateChange,generateFinal } from "../Action/UserListAction"
+import { ConfirmCheckout_Due_Customer, deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc, CustomerUnAssign, backtoCheckin,checkoutDetailView,kycDocuments,checkoutDateChange,generateFinal  , UplpadManualDocuments} from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -2125,6 +2125,78 @@ function* handlekycDocuments(action) {
   }
 }
 
+export function* handleUploadManualDocuments(action) {
+  try {
+    const { userId, newDocs } = action.payload;
+    const fileData = newDocs && newDocs.length > 0 ? newDocs[0] : null;
+
+    if (!fileData || !fileData.URL) throw new Error("No file to upload");
+
+    const payload = {
+      userId: userId,
+      type: fileData.type || "manual",
+      URL: fileData.URL, // actual File object
+    };
+
+    const response = yield call(UplpadManualDocuments, payload);
+
+    // Toast style
+    const toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "auto",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+    };
+
+    if (response.status === 200 || response.data.statusCode === 200) {
+      let parsedData = response.data.data;
+      if (typeof parsedData === "string") {
+        try {
+          parsedData = JSON.parse(parsedData);
+        } catch {
+          parsedData = [];
+        }
+      }
+
+      yield put({
+        type: "UPLOAD_MANUAL_DOCUMENTS_DETAILS",
+        payload: {
+          response: { ...response.data, data: parsedData },
+          statusCode: response.status || response.data.statusCode,
+        },
+      });
+
+      toast.success(`${response.data.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
+    } else {
+      yield put({ type: "ERROR", payload: response.data.message });
+    }
+
+    if (response) refreshToken(response);
+  } catch (error) {
+    console.error("Upload saga error:", error);
+    yield put({ type: "ERROR", payload: error.message });
+  }
+}
+
+
 
 function* handleCheckoutDateUpdate(action) {
    const response = yield call(checkoutDateChange, action.payload)
@@ -2258,6 +2330,7 @@ function* UserListSaga() {
       yield takeEvery('KYCDOCUMENTSDETAIL', handlekycDocuments)
       yield takeEvery('CHECKOUTDATEUPDATE',handleCheckoutDateUpdate)
       yield takeEvery('FINALGENERATE',handleFinalGenerate)
+   yield takeEvery('UPLOAD_MANUAL_DOCUMENTS', handleUploadManualDocuments)
 
 
 }

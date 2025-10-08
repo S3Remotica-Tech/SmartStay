@@ -128,6 +128,7 @@ export const initialState = {
     checkoutprofileDetails:[],
     StatuscodeforCheckoutProfile:0,
     StatusCodeKycDocuments:0,
+    StatusCodeForManualDocuments:0,
     backtocheckinError:'',
     StatusCodeForDateUpdate:0,
       StatusCodeForFinalGenerate:0,
@@ -668,7 +669,11 @@ const UserListReducer = (state = initialState, action) => {
              return { ...state, bllingError: action.payload }
               case 'CLEAR_GET_CONFIRM_CHECK_OUT_ERROR':
             return { ...state, bllingError: '' }
-            
+
+        case 'UPLOAD_MANUAL_DOCUMENTS_DETAILS':
+            return { ...state, StatusCodeForManualDocuments: action.payload.statusCode }
+        case 'CLEAR_UPLOAD_MANUAL_DOCUMENTS':
+            return { ...state, StatusCodeForManualDocuments: 0 }    
 
         default:
             return state;
