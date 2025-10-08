@@ -3280,43 +3280,50 @@ const imageUrl = imagePreview
                                         </span>
                                       </div>
                                     </div>
-                                    <div
-                                      className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
-                                      style={{ whiteSpace: "nowrap" }}
-                                    >
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          marginRight:24
-                                        }}
-                                      >
-                                        Pincode
-                                      </p>
-                                      <p style={{ marginTop: "-10px", marginRight: item?.pincode === "0" ? "45px" : "15px" }}>
-                                        <img src={PincodeImage} alt="PincodeImage"  size="16" color="#1E45E1" />
-                                         <span
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            wordBreak: "break-word",
-                                            overflowWrap: "break-word",
-                                            minWidth: 0,
-                                            marginTop: -3,
-                                            marginLeft: 5
-                                          }}
-                                        >
-                                           {item?.pincode === "0" ? "" : item?.pincode || ""}
-                                        </span>
-                                      </p>
-                                    </div>
+                                   <div
+  className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
+  style={{ whiteSpace: "nowrap" }}
+>
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      marginRight: 24,
+    }}
+  >
+    Pincode
+  </p>
+  <p style={{ marginTop: "-10px", marginRight: item?.pincode === "0" ? "45px" : "15px" }}>
+    <img
+      src={PincodeImage}
+      alt="PincodeImage"
+      style={{
+        marginRight: item?.pincode && item?.pincode !== "0" ? 1 : 35,
+      }}
+    />
+    <span
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        wordBreak: "break-word",
+        overflowWrap: "break-word",
+        minWidth: 0,
+        marginTop: -3,
+        marginLeft: 5,
+      }}
+    >
+      {item?.pincode && item?.pincode !== "0" ? item.pincode : ""}
+    </span>
+  </p>
+</div>
+
                                    
                                   </div>
 
                                     <div className="row">
-                                    <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start">
+                                        <div className="col-sm-4 col-lg-6 d-flex flex-column align-items-start"   style={{ whiteSpace: "wrap" }}>
                                       <p
                                         style={{
                                           fontSize: 12,
@@ -3334,7 +3341,11 @@ const imageUrl = imagePreview
                                           width: "100%",
                                         }}
                                       >
-                                        <img src={CityImage} alt="CityImage" size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+                                        <img src={CityImage} alt="CityImage" size="16" color="#1E45E1" style={{
+      width: 16,     
+      height: 16,   
+      flexShrink: 0, 
+    }} />
                                         <span
                                           style={{
                                             fontSize: 14,
@@ -3343,14 +3354,14 @@ const imageUrl = imagePreview
                                             wordBreak: "break-word",
                                             overflowWrap: "break-word",
                                             minWidth: 0,
-                                            marginTop: -3,
-                                            
+                                            marginTop: -3
                                           }}
                                         >
-                                         {item?.city === "undefined" ? "" : item?.city || ""}
+                                          {item?.city === "undefined" ? "" : item?.city || ""}
                                         </span>
                                       </div>
                                     </div>
+                                  
                                     <div
                                       className="col-sm-4 col-lg-6 d-flex flex-column align-items-center"
                                       style={{ whiteSpace: "nowrap" }}

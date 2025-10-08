@@ -3854,7 +3854,7 @@ console.log("selectedFloor",selectedFloor)
 
 <div className="row">
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -3889,7 +3889,7 @@ console.log("selectedFloor",selectedFloor)
 
                       </div>
 
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Booking Amount
@@ -3901,7 +3901,7 @@ console.log("selectedFloor",selectedFloor)
                             value={bookingAmount}
 
                             style={{
-                              marginTop: "-3px",
+                              // marginTop: "-3px",
                               fontSize: 16,
                               color: "#4B4B4B",
                               fontFamily: "Gilroy",
@@ -3934,10 +3934,10 @@ console.log("selectedFloor",selectedFloor)
                       </div>
 
 
-                      <div className="row">
+                      <Row>
                        
                                   {/* <Col md={6}> */}
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2">
                         <Form.Group>
                           <Form.Label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                             Booking Date
@@ -3975,6 +3975,7 @@ console.log("selectedFloor",selectedFloor)
                               color: "#222222",
                               fontFamily: "Gilroy",
                               fontWeight: 500,
+                              margin:5
                             }}
                           >
                             Joining Date{" "}
@@ -4132,7 +4133,7 @@ console.log("selectedFloor",selectedFloor)
                       {/* </div> */}
                       </div>
                         
-                      </div>
+                      </Row>
 
 
               

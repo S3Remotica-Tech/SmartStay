@@ -371,6 +371,8 @@ const focusedRef = { current: false };
     setPincodeError("");
   }
 
+  console.log("pincode", pincode , initialState.pincode);
+  
   if (!initialState) return;
 
   const noChanges =
@@ -378,7 +380,7 @@ const focusedRef = { current: false };
     street === initialState.area &&
     landmark === initialState.landmark &&
     city === initialState.city &&
-    pincode === initialState.pincode &&
+    String(pincode) === String(initialState.pincode) &&
     stateName === initialState.state;
 
   if (noChanges) {
