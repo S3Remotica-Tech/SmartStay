@@ -13,8 +13,7 @@ import PropTypes from "prop-types"
 // import Select from "react-select";
 import "./ParticularHostelDetails.css";
 import BedDetailsMap from './BedDetailsMap';
-
-
+import { useHasPermission } from '../../Utils/Permission';
 
 function ParticularHostelDetails(props) {
 
@@ -37,6 +36,26 @@ function ParticularHostelDetails(props) {
   const [showDeleteRoom, setShowDeleteRoom] = useState(false)
   const [deleteRoomDetails, setDeleteRoomDetails] = useState({ hostel_Id: null, floor_Id: null, room_Id: null })
   const [editRoom, setEditRoom] = useState({ hostel_Id: null, floor_Id: null, room_Id: null, Room_Name: null })
+
+
+
+
+
+
+  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+  const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
+  const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
+
+
+
+
+
+
+
+
+
+
+
 
     const handleShowDots = (roomId) => {
     setShowDots(!showDots)
@@ -113,7 +132,7 @@ function ParticularHostelDetails(props) {
     }
   }, [state.UsersList?.StatusCodeBacktoCheckin]);
 
-console.log("props.floorID",props.floorID)
+
 
   useEffect(() => {
     if (props.floorID && props.hostel_Id) {
@@ -348,7 +367,7 @@ console.log("props.floorID",props.floorID)
                           <div
                             className="d-flex gap-2 align-items-center"
                             onClick={() => {
-                              if (!props.editPermissionError) {
+                              if (canUpdatePayingGuests) {
                                 handleEditRoom(room.hostelId, room.floorId, room.id, room.name);
                               }
                             }}
@@ -356,15 +375,15 @@ console.log("props.floorID",props.floorID)
                               padding: "10px",
                               borderTopLeftRadius: 10,
                               borderTopRightRadius: 10,
-                              pointerEvents: props.editPermissionError ? "none" : "auto",
-                              opacity: props.editPermissionError ? 0.5 : 1,
-                              cursor: props.editPermissionError ? "not-allowed" : "pointer"
+                              // pointerEvents: !canUpdatePayingGuests ? "none" : "auto",
+                              opacity: !canUpdatePayingGuests ? 0.5 : 1,
+                              cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer"
                             }}
-                            onMouseEnter={(e) => { if (!props.editPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                           >
-                            <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
-                            <label style={{ fontSize: 14, fontWeight: 500, color: props.editPermissionError ? "#888888" : "#222222", marginBottom: 0 }}>Edit</label>
+                            <Edit size="16" color={!canUpdatePayingGuests ? "#888888" : "#1E45E1"} />
+                            <label style={{cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer", fontSize: 14, fontWeight: 500, color: !canUpdatePayingGuests ? "#888888" : "#222222", marginBottom: 0 }}>Edit</label>
                           </div>
 
                           <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
@@ -373,7 +392,7 @@ console.log("props.floorID",props.floorID)
                           <div
                             className="d-flex gap-2 align-items-center"
                             onClick={() => {
-                              if (!props.deletePermissionError) {
+                              if (canDeletePayingGuests) {
                                 handleDeleteRoom(room.hostelId, room.floorId, room.id);
                               }
                             }}
@@ -381,15 +400,14 @@ console.log("props.floorID",props.floorID)
                               padding: "10px",
                               borderBottomLeftRadius: 10,
                               borderBottomRightRadius: 10,
-                              pointerEvents: props.deletePermissionError ? "none" : "auto",
-                              opacity: props.deletePermissionError ? 0.5 : 1,
-                              cursor: props.deletePermissionError ? "not-allowed" : "pointer"
+                                                            opacity: !canDeletePayingGuests ? 0.5 : 1,
+                              cursor: !canDeletePayingGuests ? "not-allowed" : "pointer"
                             }}
-                            onMouseEnter={(e) => { if (!props.deletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                           >
-                            <Trash size="16" color={props.deletePermissionError ? "#888888" : "red"} />
-                            <label style={{ fontSize: 14, fontWeight: 500, color: props.deletePermissionError ? "#888888" : "#FF0000", marginBottom: 0 }}>Delete</label>
+                            <Trash size="16" color={!canDeletePayingGuests ? "#888888" : "red"} />
+                            <label style={{ cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",fontSize: 14, fontWeight: 500, color: !canDeletePayingGuests ? "#888888" : "#FF0000", marginBottom: 0 }}>Delete</label>
                           </div>
                         </div>
                       )}
@@ -423,7 +441,7 @@ console.log("props.floorID",props.floorID)
                       padding: "10px 20px",
                       fontFamily: "Gilroy"
                     }}
-                    disabled={props.addPermissionError}
+                    disabled={!canWritePayingGuests}
                     onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}
                   >
                     + Add Room
@@ -442,14 +460,14 @@ console.log("props.floorID",props.floorID)
               <label
                 style={{
                   fontSize: 16,
-                  color: props.addPermissionError ? "#A0A0A0" : "#1E45E1",
+                  color: !canWritePayingGuests ? "#A0A0A0" : "#1E45E1",
                   fontWeight: 600,
                   fontFamily: "Montserrat",
-                  cursor: props.addPermissionError ? "not-allowed" : "pointer",
-                  opacity: props.addPermissionError ? 0.7 : 1,
+                  cursor: !canWritePayingGuests ? "not-allowed" : "pointer",
+                  opacity: !canWritePayingGuests ? 0.7 : 1,
                 }}
                 onClick={
-                  !props.addPermissionError
+                  canWritePayingGuests
                     ? () => handleShowAddRoom(props.floorID, props.hostel_Id)
                     : undefined
                 }

@@ -37,7 +37,7 @@ import Floorimage from "../../Assets/Images/floor_icon.png";
 import RoomImage from "../../Assets/Images/room_icon.png";
 import { triggerPG } from '../../Redux/Action/smartStayAction';
 import ErrorMessage from '../../Components/ErrorMessage'
-
+import { useHasPermission } from '../../Utils/Permission';
 
 function PgList() {
   const dispatch = useDispatch();
@@ -58,7 +58,10 @@ function PgList() {
   const popupRef = useRef(null);
 
 
-
+  const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
+  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+  const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
+  const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
 
 
   const [floorClick, setFloorClick] = useState("");
@@ -112,14 +115,14 @@ function PgList() {
   }, [hostel_Id]);
 
 
-  
-   useEffect(() => {
-  if (floorList?.length > 0) {
-    setFloorClick(floorList[0]?.id);
-  } else {
-    setFloorClick(null); 
-  }
-}, [floorList]);
+
+  useEffect(() => {
+    if (floorList?.length > 0) {
+      setFloorClick(floorList[0]?.id);
+    } else {
+      setFloorClick(null);
+    }
+  }, [floorList]);
 
   useEffect(() => {
     if (state.UsersList.floorListStatusCode === 200) {
@@ -285,7 +288,7 @@ function PgList() {
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
       dispatch({ type: "PARTICULAR_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
-            // dispatch({ type: "HOSTELLIST" });
+      // dispatch({ type: "HOSTELLIST" });
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
@@ -720,7 +723,7 @@ function PgList() {
 
   return (
     <>
-      {permissionError ? (
+      {!canReadPayingGuests ? (
         <>
           <div
             style={{
@@ -739,9 +742,9 @@ function PgList() {
             />
 
 
-            {permissionError && (
-              <ErrorMessage message={permissionError} type="error"/>
-            )}
+
+            <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
+
           </div>
         </>
       ) : (
@@ -943,10 +946,10 @@ function PgList() {
                             paddingLeft: 52,
                             fontFamily: "Gilroy",
                           }}
-                          disabled={addPermissionError}
+                          disabled={!canWritePayingGuests}
                           onClick={() => handleAddFloors(state.login.selectedHostel_Id)}
                         >
-                          +  Floor
+                          + Floor
                         </Button>
                       </div>
                     </div>
@@ -1173,25 +1176,25 @@ function PgList() {
                                           <div
                                             className="d-flex gap-2 align-items-center"
                                             onClick={
-                                              !editPermissionError
+                                              canUpdatePayingGuests
                                                 ? () => handleEditFloor(floorClick, showHostelDetails.id, floorName)
                                                 : undefined
                                             }
                                             style={{
                                               padding: "8px 12px",
                                               borderRadius: 6,
-                                              pointerEvents: editPermissionError ? "none" : "auto",
-                                              opacity: editPermissionError ? 0.5 : 1,
-                                              cursor: editPermissionError ? "not-allowed" : "pointer",
+                                              opacity: !canUpdatePayingGuests ? 0.5 : 1,
+                                              cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
                                             }}
                                           >
-                                            <Edit size="16" color={editPermissionError ? "#A0A0A0" : "#1E45E1"} />
+                                            <Edit size="16" color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"} />
                                             <span
                                               style={{
                                                 fontSize: 14,
                                                 fontWeight: 500,
                                                 fontFamily: "Gilroy",
-                                                color: editPermissionError ? "#A0A0A0" : "#1E45E1",
+                                                color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
+                                                cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
                                               }}
                                             >
                                               Edit
@@ -1203,25 +1206,26 @@ function PgList() {
                                           <div
                                             className="d-flex gap-2 align-items-center"
                                             onClick={
-                                              !deletePermissionError
+                                              canDeletePayingGuests
                                                 ? () => handleShowDelete(floorClick, showHostelDetails.id, floorName)
                                                 : undefined
                                             }
                                             style={{
                                               padding: "8px 12px",
                                               borderRadius: 6,
-                                              pointerEvents: deletePermissionError ? "none" : "auto",
-                                              opacity: deletePermissionError ? 0.5 : 1,
-                                              cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                              pointerEvents: !canDeletePayingGuests ? "none" : "auto",
+                                              opacity: !canDeletePayingGuests ? 0.5 : 1,
+                                              cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
                                             }}
                                           >
-                                            <Trash size="16" color={deletePermissionError ? "#A0A0A0" : "#FF0000"} />
+                                            <Trash size="16" color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"} />
                                             <span
                                               style={{
                                                 fontSize: 14,
                                                 fontWeight: 500,
                                                 fontFamily: "Gilroy",
-                                                color: deletePermissionError ? "#A0A0A0" : "#FF0000",
+                                                color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
+                                                cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
                                               }}
                                             >
                                               Delete

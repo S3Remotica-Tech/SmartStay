@@ -11,7 +11,8 @@ import { MdError } from "react-icons/md";
 import { Edit, Trash } from "iconsax-react";
 import PropTypes from "prop-types";
 import ErrorMessage from '../../Components/ErrorMessage';
-
+import { useHasPermission } from '../../Utils/Permission';
+import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 
 function PayingGuestMap(props) {
 
@@ -21,6 +22,20 @@ function PayingGuestMap(props) {
   const [hoverPgCard, setHoverPgCard] = useState(false);
   const [pgDeleteError, setPgDeleteError] = useState("");
   const popupRef = useRef(null);
+
+
+
+  const canReadPayingGuests = useHasPermission("Paying Guests", "canRead");
+  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+  const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
+  const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
+
+
+
+
+
+
+
 
   const handleEdit = (item) => {
     props.OnEditHostel(item);
@@ -33,7 +48,7 @@ function PayingGuestMap(props) {
   };
 
   const handleSelectedHostel = (selectedHostel) => {
-  
+
     props.OnSelectHostel(selectedHostel);
     props.onRowVisiblity(false);
   };
@@ -118,13 +133,38 @@ function PayingGuestMap(props) {
   };
 
 
- 
+
 
 
 
 
   return (
     <>
+   {!canReadPayingGuests ? (
+           <>
+             <div
+               style={{
+                 display: "flex",
+                 flexDirection: "column",
+                 alignItems: "center",
+                 justifyContent: "center",
+                 height: "100vh",
+               }}
+             >
+   
+               <img
+                 src={EmptyState}
+                 alt="Empty State"
+   
+               />
+   
+   
+   
+               <ErrorMessage message={['You do not have access to view paying guest']} type="warning" />
+   
+             </div>
+           </>
+         ) : (
       <Card
         className="animated-text ms-0 h-100 p-0"
         key={props.hostel && props.hostel.id}
@@ -161,13 +201,19 @@ function PayingGuestMap(props) {
               <div>
                 <div
                   className="pb-2"
-                  onClick={() => handleSelectedHostel(props.hostel.hostelId)}
+                  onClick={() =>
+                    canWritePayingGuests
+                      ? handleSelectedHostel(props.hostel.hostelId)
+                      : null
+                  }
                 >
+
                   <label
-                    className="hover-hostel-name"
+                    className={`${!canWritePayingGuests ? "" : "hover-hostel-name"}`}
+
                     style={{
                       fontSize: 14,
-                      color: "#1E45E1",
+                      color:!canWritePayingGuests ? "#dcdcdc": "#1E45E1",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       textDecoration: "underline",
@@ -248,7 +294,7 @@ function PayingGuestMap(props) {
                       <div
                         className="d-flex gap-2 align-items-center w-100"
                         onClick={
-                          !props.editPermissionError
+                          canUpdatePayingGuests
                             ? () => handleEdit(props.hostel)
                             : undefined
                         }
@@ -257,13 +303,12 @@ function PayingGuestMap(props) {
                           width: "100%",
                           borderTopLeftRadius: 10,
                           borderTopRightRadius: 10,
-                          pointerEvents: props.editPermissionError ? "none" : "auto",
-                          opacity: props.editPermissionError ? 0.5 : 1,
-                          cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                          opacity: !canUpdatePayingGuests ? 0.5 : 1,
+                          cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
                           transition: "background 0.2s ease-in-out",
                         }}
                         onMouseEnter={(e) =>
-                          !props.editPermissionError &&
+
                           (e.currentTarget.style.backgroundColor = "#F0F4FF")
                         }
                         onMouseLeave={(e) =>
@@ -272,14 +317,14 @@ function PayingGuestMap(props) {
                       >
                         <Edit
                           size="16"
-                          color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"}
+                          color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"}
                         />
                         <label
                           style={{
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
-                            color: props.editPermissionError ? "#A0A0A0" : "#1E45E1",
+                            color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
                             cursor: "pointer",
                             marginBottom: 0,
                           }}
@@ -295,7 +340,7 @@ function PayingGuestMap(props) {
                       <div
                         className="d-flex gap-2 align-items-center w-100"
                         onClick={
-                          !props.editPermissionError
+                          canDeletePayingGuests
                             ? () => handleDelete(props.hostel)
                             : undefined
                         }
@@ -304,13 +349,11 @@ function PayingGuestMap(props) {
                           width: "100%",
                           borderBottomLeftRadius: 10,
                           borderBottomRightRadius: 10,
-                          pointerEvents: props.editPermissionError ? "none" : "auto",
-                          opacity: props.editPermissionError ? 0.5 : 1,
-                          cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                          opacity: !canDeletePayingGuests ? 0.5 : 1,
+                          cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
                           transition: "background 0.2s ease-in-out",
                         }}
                         onMouseEnter={(e) =>
-                          !props.editPermissionError &&
                           (e.currentTarget.style.backgroundColor = "#FFF3F3")
                         }
                         onMouseLeave={(e) =>
@@ -319,15 +362,15 @@ function PayingGuestMap(props) {
                       >
                         <Trash
                           size="16"
-                          color={props.editPermissionError ? "#A0A0A0" : "#FF0000"}
+                          color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"}
                         />
                         <label
                           style={{
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
-                            color: props.editPermissionError ? "#A0A0A0" : "#FF0000",
-                            cursor: "pointer",
+                            color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
+                            cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
                             marginBottom: 0,
                           }}
                         >
@@ -372,7 +415,7 @@ function PayingGuestMap(props) {
                       textAlign: "center",
                     }}
                   >
-                    { props.hostel?.noOfAvailableBeds || "0"}
+                    {props.hostel?.noOfAvailableBeds || "0"}
                   </label>
                 </div>
               </Card>
@@ -578,7 +621,7 @@ function PayingGuestMap(props) {
                 props.hostel?.pincode ? `- ${props.hostel.pincode}` : "",
                 props.hostel?.state,
               ]
-                .filter(Boolean) 
+                .filter(Boolean)
                 .join(", ")}
             >
               {(() => {
@@ -591,8 +634,8 @@ function PayingGuestMap(props) {
 
                 const cityStatePin = [
                   props.hostel?.city,
-                                   props.hostel?.state,
-                   props.hostel?.pincode ? `- ${props.hostel.pincode}` : "",
+                  props.hostel?.state,
+                  props.hostel?.pincode ? `- ${props.hostel.pincode}` : "",
                 ].filter(Boolean);
 
                 return (
@@ -607,6 +650,7 @@ function PayingGuestMap(props) {
           </div>
         </Card.Body>
       </Card>
+         )}
 
       {show && (
         <Modal
@@ -649,7 +693,7 @@ function PayingGuestMap(props) {
           </Modal.Body>
           {pgDeleteError && (
             <div className="d-flex justify-content-center align-items-center gap-2 ">
-             <ErrorMessage message={pgDeleteError} type="error" />
+              <ErrorMessage message={pgDeleteError} type="error" />
             </div>
           )}
           <Modal.Footer

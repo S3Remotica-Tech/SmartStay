@@ -33,6 +33,7 @@ import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Tick from '../../Assets/v2Images/Tick.svg'
 import ConfirmChangeBed from './NoticePeriod/ConfirmChangedBed';
+import { useHasPermission } from '../../Utils/Permission';
 
 function BedDetailsMap({ room, propsValue }) {
 
@@ -72,7 +73,7 @@ function BedDetailsMap({ room, propsValue }) {
     const [changeBedClicked, setChangedBedClicked] = useState('')
 
 
-
+ const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
 
     const handleshowfinalsettlement = (isvisible, customerId) => {
         setCustomerId(customerId)
@@ -705,7 +706,7 @@ useEffect(() => {
                 <div
                     className={`col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center ${propsValue.addPermissionError ? 'disabled' : ''}`}
                     onClick={() => {
-                        if (!propsValue.addPermissionError) {
+                        if (canWritePayingGuests) {
                             handleAddBed(propsValue, room.id);
                         }
                     }}
@@ -715,7 +716,7 @@ useEffect(() => {
                         <div>
                             <FaSquarePlus style={{ height: 41, width: 34, color: propsValue.addPermissionError ? "#888888" : "#1E45E1" }} />
                         </div>
-                        <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: propsValue.addPermissionError ? "#888888" : "#1E45E1" }}>
+                        <div className="pt-2" style={{ fontSize: 12, fontWeight: 600, fontFamily: "Montserrat", color: !canWritePayingGuests ? "#888888" : "#1E45E1" }}>
                             Add bed
                         </div>
                     </div>

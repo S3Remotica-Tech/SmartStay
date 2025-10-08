@@ -12,12 +12,12 @@ import { Modal, Button, Form, FormControl, Image } from "react-bootstrap";
 import "./DashboardAnnouncement.css";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import { ArrowLeft2, ArrowRight2, CloseCircle, Edit,Trash } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2, CloseCircle, Edit, Trash } from 'iconsax-react';
 import LoaderComponent from "./LoaderComponent";
 import send from "../Assets/Images/send.svg";
 import PropTypes from "prop-types";
 import ErrorMessage from '../Components/ErrorMessage'
-
+import { useHasPermission } from '../Utils/Permission';
 function DashboardAnnouncement(props) {
 
 
@@ -62,23 +62,29 @@ function DashboardAnnouncement(props) {
 
 
 
+  const canReadDashboard = useHasPermission("Dashboard", "canRead");
+  const canWriteDashboard = useHasPermission("Dashboard", "canWrite");
+  const canUpdateDashboard = useHasPermission("Dashboard", "canUpdate");
+  const canDeleteDashboard = useHasPermission("Dashboard", "canDelete");
+
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-const pageSizeOptions = [
+  const pageSizeOptions = [
     { value: 6, label: "6" },
     { value: 10, label: "10" },
     { value: 50, label: "50" },
     { value: 100, label: "100" },
   ];
 
- const handleItemsPerPageChange = (selectedOption) => {
-  if (selectedOption) {
-    setItemsPerPage(Number(selectedOption.value));
-    setCurrentPage(1);
-  }
-};
+  const handleItemsPerPageChange = (selectedOption) => {
+    if (selectedOption) {
+      setItemsPerPage(Number(selectedOption.value));
+      setCurrentPage(1);
+    }
+  };
 
   const handleCommentsChange = (e) => {
     setComments(e.target.value)
@@ -452,341 +458,416 @@ const pageSizeOptions = [
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end"
 
 
-        }}
-      >
-        <Button
+      {loading &&
+        <LoaderComponent />}
 
+
+      {!canReadDashboard ? (
+        <div
           style={{
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            backgroundColor: "#1E45E1",
-            color: "white",
-            fontWeight: 600,
-            borderRadius: "8px",
-            padding: "12px 16px",
-            width: "auto",
-            maxWidth: "100%",
-            marginBottom: "10px",
-            maxHeight: 50,
-            marginTop: "20px",
-            marginRight: 10
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 100
           }}
-          onClick={handleShowAnnouncement}
-          disabled={props.AnnouncementAddPermission}
-          className="responsive-button"
         >
-          +  Announcement
-        </Button>
-      </div>
 
-      {loading ? (
-        <LoaderComponent />
+          <img
+            src={Emptystate}
+            alt="Empty State"
 
-      ) : currentItems?.length > 0 ? (
-        <div className="show-scrolls pe-4"
-          style={{ maxHeight: "440px", overflowY: "auto", overflowX: 'hidden' }}
-        >
-          <div className="row announcement-card" >
-            {currentItems?.length > 0 ? (
-              currentItems?.map((data) => (
-                <div key={data.id} className="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12 mb-3">
+          />
 
-                  <Card
-                    className="card"
-                    key={data.id}
-                    style={{
-                      borderRadius: "16px",
-                      borderColor: "#DCDCDC",
-                      cursor: "pointer",
 
-                    }}
-                  >
-                    <Card.Body>
-                      <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
+          {!canReadDashboard && (
+            <ErrorMessage message={['You do not have access to view Announcement']} type="warning" />
+          )}
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end"
 
-                        <div className="flex-grow-1 mb-2 mb-sm-0">
-                          <p
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                              fontSize: "12px",
-                              color: "#4B4B4B",
-                              marginBottom: "0px",
-                            }}
-                          >
-                            {new Date(data.createdat).toLocaleDateString("en-GB", {
-                              day: "2-digit",
-                              month: "long",
-                              year: "numeric",
-                            })}
-                          </p>
-                          <p
-                            style={{
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              fontSize: "16px",
-                              color: "#222222",
-                              marginBottom: "0px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => handleCardTittleClick(data)}
-                          >
-                            {data.title}
-                          </p>
-                          <p style={{ marginBottom: "0px" }}>
-                            <Image
-                              roundedCircle
-                              src={
-                                !data.profile || ["0", "", "undefined", "null", "NULL", null, undefined, 0].includes(String(data.profile).trim())
-                                  ? Profile
-                                  : data.profile
-                              }
 
-                              alt="Ellipse5"
-                              width={25}
-                              height={25}
-                            />
-                            <span
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                fontSize: "12px",
-                                color: "#222222",
-                                paddingLeft: "6px",
-                              }}
-                            >
-                              {createprofile.first_name} {createprofile.last_name}
-                            </span>
-                          </p>
-                        </div>
-                        <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0">
-                          <div
-                            className="bd-highlight mb-2 mb-sm-0 me-sm-2"
-                            style={{
-                              border: "1px solid #DCDCDC",
-                              borderRadius: "60px",
-                              height: "36px",
-                              width: "83px",
-                              cursor: "pointer",
-                            }}
-                          >
-                            <p style={{ padding: "4px 10px" }}>
-                              <img src={like} alt="like" width={20} height={20} />
-                              <span
+            }}
+          >
+            <Button
+
+              style={{
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+                backgroundColor: "#1E45E1",
+                color: "white",
+                fontWeight: 600,
+                borderRadius: "8px",
+                padding: "12px 16px",
+                width: "auto",
+                maxWidth: "100%",
+                marginBottom: "10px",
+                maxHeight: 50,
+                marginTop: "20px",
+                marginRight: 10
+              }}
+              onClick={handleShowAnnouncement}
+              disabled={!canWriteDashboard}
+              className="responsive-button"
+            >
+              +  Announcement
+            </Button>
+          </div>
+
+
+
+          {currentItems?.length > 0 ?
+            <div className="show-scrolls pe-4"
+              style={{ maxHeight: "440px", overflowY: "auto", overflowX: 'hidden' }}
+            >
+
+
+
+
+              <div className="row announcement-card" >
+                {currentItems?.length > 0 ? (
+                  currentItems?.map((data) => (
+                    <div key={data.id} className="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12 mb-3">
+
+                      <Card
+                        className="card"
+                        key={data.id}
+                        style={{
+                          borderRadius: "16px",
+                          borderColor: "#DCDCDC",
+                          cursor: "pointer",
+
+                        }}
+                      >
+                        <Card.Body>
+                          <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center">
+
+                            <div className="flex-grow-1 mb-2 mb-sm-0">
+                              <p
                                 style={{
                                   fontFamily: "Gilroy",
                                   fontWeight: 500,
                                   fontSize: "12px",
-                                  color: "#222222",
-                                  paddingLeft: "4px",
+                                  color: "#4B4B4B",
+                                  marginBottom: "0px",
                                 }}
                               >
-                                {data?.like_count}
-                              </span>
-                            </p>
-                          </div>
-
-
-                          <div
-
-                            className="bd-highlight mb-2 mb-sm-0 me-sm-2"
-                            style={{
-                              border: "1px solid #DCDCDC",
-                              borderRadius: "60px",
-                              height: "36px",
-                              width: "72px",
-
-                              cursor: "pointer",
-                            }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleCommentClick(data);
-                            }}
-                          >
-                            <p style={{ padding: "4px 10px" }}>
-                              <img src={message} alt="message" width={20} height={20} />
-                              <span
+                                {new Date(data.createdat).toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "long",
+                                  year: "numeric",
+                                })}
+                              </p>
+                              <p
                                 style={{
                                   fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  fontSize: "12px",
+                                  fontWeight: 600,
+                                  fontSize: "16px",
                                   color: "#222222",
-                                  paddingLeft: "4px",
-                                }}
-                              >
-                                {data?.comment_count}
-                              </span>
-                            </p>
-                          </div>
-
-
-
-                          <div
-                            className="ms-sm-0 ms-md-2 card-popup-container"
-                            style={{
-                              cursor: "pointer", height: 40, width: 40, borderRadius: 100,
-                              border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
-                              position: "relative", zIndex: showDots ? 1000 : 'auto'
-                              , backgroundColor: showDots === data.id ? "#E7F1FF" : "white",
-                            }} onClick={() => handleShowDots(data.id)}>
-                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                            {showDots === data.id && (
-                              <div
-                                className="card-popup"
-                                ref={popupRef}
-                                style={{
+                                  marginBottom: "0px",
                                   cursor: "pointer",
-                                  backgroundColor: "#fff",
-                                  position: "fixed",
-                                  top: popupPosition.top,
-                                  left: popupPosition.left,
-                                  marginRight: 30,
-                                  width: 140,
-                                  height: "auto",
-                                  border: "1px solid #E0E0E0",
-                                  borderRadius: 10,
-                                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "start",
-                                  zIndex: 1001,
-                                  alignItems: "flex-start",
+                                }}
+                                onClick={() => handleCardTittleClick(data)}
+                              >
+                                {data.title}
+                              </p>
+                              <p style={{ marginBottom: "0px" }}>
+                                <Image
+                                  roundedCircle
+                                  src={
+                                    !data.profile || ["0", "", "undefined", "null", "NULL", null, undefined, 0].includes(String(data.profile).trim())
+                                      ? Profile
+                                      : data.profile
+                                  }
+
+                                  alt="Ellipse5"
+                                  width={25}
+                                  height={25}
+                                />
+                                <span
+                                  style={{
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                    fontSize: "12px",
+                                    color: "#222222",
+                                    paddingLeft: "6px",
+                                  }}
+                                >
+                                  {createprofile?.first_name} {createprofile?.last_name}
+                                </span>
+                              </p>
+                            </div>
+                            <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0">
+                              <div
+                                className="bd-highlight mb-2 mb-sm-0 me-sm-2"
+                                style={{
+                                  border: "1px solid #DCDCDC",
+                                  borderRadius: "60px",
+                                  height: "36px",
+                                  width: "83px",
+                                  cursor: "pointer",
                                 }}
                               >
-
-                                <div
-                                  className="d-flex gap-2 align-items-center "
-                                
-                                  
-
-
-                         onClick={() => {
-                          if (!props.AnnouncementEditPermission) {
-                            handleEdit(data);
-                          }
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!props.AnnouncementEditPermission)
-                            e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      
-                              style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                          padding: "8px 12px",
-                          width: "100%",
-                          backgroundColor: "#F9F9F9",
-                          cursor: props.AnnouncementEditPermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.AnnouncementEditPermission ? "none" : "auto",
-                          opacity: props.AnnouncementEditPermission ? 0.5 : 1,
-                          borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
-                        }}  >
-                                  <Edit size="16"   color={props.AnnouncementEditPermission ? "#A9A9A9" : "#1E45E1"} />
-                                  <label
+                                <p style={{ padding: "4px 10px" }}>
+                                  <img src={like} alt="like" width={20} height={20} />
+                                  <span
                                     style={{
-                                      fontSize: 14,
-                                      fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                     
-                                      marginBottom: 0,
-                                     
-                                        color: props.AnnouncementEditPermission ? "#A9A9A9" : "#222222",
-                      cursor: props.AnnouncementEditPermission ? "not-allowed" : "pointer",
+                                      fontWeight: 500,
+                                      fontSize: "12px",
+                                      color: "#222222",
+                                      paddingLeft: "4px",
                                     }}
                                   >
-                                    Edit
-                                  </label>
-                                </div>
-
-
-                                <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
-
-
-                                <div
-                                  className="d-flex gap-2 align-items-center "
-                                 
-                                     onClick={() => {
-                          if (!props.AnnouncementDeletePermission) {
-                            handleDelete(data);
-                          }
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!props.AnnouncementDeletePermission)
-                            e.currentTarget.style.backgroundColor = "#EDF2FF";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = "#F9F9F9";
-                        }}
-                      
-                              style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                          padding: "8px 12px",
-                          width: "100%",
-                          backgroundColor: "#F9F9F9",
-                          cursor: props.AnnouncementDeletePermission ? "not-allowed" : "pointer",
-                          pointerEvents: props.AnnouncementDeletePermission ? "none" : "auto",
-                          opacity: props.AnnouncementDeletePermission ? 0.5 : 1,
-                          borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
-                        }}
-                                >
-                                 
-                                    <Trash
-                                                      size="16"
-                                                      color={props.AnnouncementDeletePermission ? "#A9A9A9" : "red"}
-                                                    />
-                               
-                                   <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      color: props.AnnouncementDeletePermission ? "#A9A9A9" : "#FF0000",
-                      cursor: props.AnnouncementDeletePermission ? "not-allowed" : "pointer",
-                    }}>
-                                    Delete
-                                  </label>
-                                </div>
+                                    {data?.like_count}
+                                  </span>
+                                </p>
                               </div>
 
-                            )}
+
+                              <div
+
+                                className="bd-highlight mb-2 mb-sm-0 me-sm-2"
+                                style={{
+                                  border: "1px solid #DCDCDC",
+                                  borderRadius: "60px",
+                                  height: "36px",
+                                  width: "72px",
+
+                                  cursor: "pointer",
+                                }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if(canWriteDashboard)
+                                  handleCommentClick(data);
+                                }}
+                              >
+                                <p style={{ padding: "4px 10px" }}>
+                                  <img src={message} alt="message" width={20} height={20} />
+                                  <span
+                                    style={{
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                      fontSize: "12px",
+                                      color: "#222222",
+                                      paddingLeft: "4px",
+                                    }}
+                                  >
+                                    {data?.comment_count}
+                                  </span>
+                                </p>
+                              </div>
+
+
+
+                              <div
+                                className="ms-sm-0 ms-md-2 card-popup-container"
+                                style={{
+                                  cursor: "pointer", height: 40, width: 40, borderRadius: 100,
+                                  border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
+                                  position: "relative", zIndex: showDots ? 1000 : 'auto'
+                                  , backgroundColor: showDots === data.id ? "#E7F1FF" : "white",
+                                }} onClick={() => handleShowDots(data.id)}>
+                                <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+
+                                {showDots === data.id && (
+                                  <div
+                                    className="card-popup"
+                                    ref={popupRef}
+                                    style={{
+                                      cursor: "pointer",
+                                      backgroundColor: "#fff",
+                                      position: "fixed",
+                                      top: popupPosition.top,
+                                      left: popupPosition.left,
+                                      marginRight: 30,
+                                      width: 140,
+                                      height: "auto",
+                                      border: "1px solid #E0E0E0",
+                                      borderRadius: 10,
+                                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      justifyContent: "start",
+                                      zIndex: 1001,
+                                      alignItems: "flex-start",
+                                    }}
+                                  >
+
+                                    <div
+                                      className="d-flex gap-2 align-items-center "
+
+
+
+
+                                      onClick={() => {
+                                        if (canUpdateDashboard) {
+                                          handleEdit(data);
+                                        }
+                                      }}
+                                      onMouseEnter={(e) => {
+
+                                        e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                      }}
+
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "10px",
+                                        padding: "8px 12px",
+                                        width: "100%",
+                                        backgroundColor: "#F9F9F9",
+                                        cursor: !canUpdateDashboard ? "not-allowed" : "pointer",
+                                        opacity: !canUpdateDashboard ? 0.5 : 1,
+                                        borderTopLeftRadius: 10,
+                                        borderTopRightRadius: 10,
+                                      }}  >
+                                      <Edit size="16" color={!canUpdateDashboard ? "#A9A9A9" : "#1E45E1"} />
+                                      <label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          marginBottom: 0,
+                                          color: !canUpdateDashboard ? "#A9A9A9" : "#222222",
+                                          cursor: !canUpdateDashboard ? "not-allowed" : "pointer",
+                                        }}
+                                      >
+                                        Edit
+                                      </label>
+                                    </div>
+
+
+                                    <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
+
+
+                                    <div
+                                      className="d-flex gap-2 align-items-center "
+
+                                      onClick={() => {
+                                        if (canDeleteDashboard) {
+                                          handleDelete(data);
+                                        }
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                      }}
+
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "10px",
+                                        padding: "8px 12px",
+                                        width: "100%",
+                                        backgroundColor: "#F9F9F9",
+                                        cursor: !canDeleteDashboard ? "not-allowed" : "pointer",
+                                        opacity: !canDeleteDashboard ? 0.5 : 1,
+                                        borderBottomLeftRadius: 10,
+                                        borderBottomRightRadius: 10,
+                                      }}
+                                    >
+
+                                      <Trash
+                                        size="16"
+                                        color={!canDeleteDashboard ? "#A9A9A9" : "red"}
+                                      />
+
+                                      <label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          color: !canDeleteDashboard ? "#A9A9A9" : "#FF0000",
+                                          cursor: !canDeleteDashboard ? "not-allowed" : "pointer",
+                                        }}>
+                                        Delete
+                                      </label>
+                                    </div>
+                                  </div>
+
+                                )}
+
+
+                              </div>
+
+                            </div>
+
 
 
                           </div>
+                        </Card.Body>
+                      </Card>
+                    </div>
 
-                        </div>
+                  ))
+                ) : (
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "60vh"
+                    }}
+                  >
+                    <div style={{ textAlign: "center" }}>
+                      <img src={Emptystate} alt="emptystate" />
+                    </div>
+                    <div
+                      className="pb-1"
+                      style={{
+                        textAlign: "center",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        fontSize: 20,
+                        color: "rgba(75, 75, 75, 1)",
+
+                      }}
+                    >
+                      No announcements available.
+                    </div>
+                    <div className="pb-1" style={{
+                      textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16,
+                      color: "rgba(75, 75, 75, 1)"
+                    }}>There are no Announcement added.</div>
+
+
+                  </div>
+
+                )
+                }
 
 
 
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </div>
 
-              ))
-            ) : (
 
+
+
+              </div>
+            </div>
+            :
+            (
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  height: "60vh"
+                  height: "60vh",
                 }}
               >
                 <div style={{ textAlign: "center" }}>
@@ -800,135 +881,88 @@ const pageSizeOptions = [
                     fontFamily: "Gilroy",
                     fontSize: 20,
                     color: "rgba(75, 75, 75, 1)",
-
                   }}
                 >
                   No announcements available.
                 </div>
-                <div className="pb-1" style={{
-                  textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16,
-                  color: "rgba(75, 75, 75, 1)"
-                }}>There are no Announcement added.</div>
-
-
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 16,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  There are no announcements added.
+                </div>
               </div>
 
-            )
-            }
-
-
-
-
-
-
-
-          </div>
-        </div>
-
-
-      ) : (
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "60vh",
-          }}
-        >
-          <div style={{ textAlign: "center" }}>
-            <img src={Emptystate} alt="emptystate" />
-          </div>
-          <div
-            className="pb-1"
-            style={{
-              textAlign: "center",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: 20,
-              color: "rgba(75, 75, 75, 1)",
-            }}
-          >
-            No announcements available.
-          </div>
-          <div
-            className="pb-1"
-            style={{
-              textAlign: "center",
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              fontSize: 16,
-              color: "rgba(75, 75, 75, 1)",
-            }}
-          >
-            There are no announcements added.
-          </div>
-        </div>
+            )}
+        </>
       )}
-
-
       <div>
         {filteredData.length > 6 && (
-          <nav className="position-fixed bottom-0 end-0 left-0 d-flex justify-content-end align-items-center" style={{padding:12, backgroundColor:"white"}}>
+          <nav className="position-fixed bottom-0 end-0 left-0 d-flex justify-content-end align-items-center" style={{ padding: 12, backgroundColor: "white" }}>
 
-             <div>
-                             <Select
-                               options={pageSizeOptions}
-                               value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
-                               onChange={handleItemsPerPageChange}
-                               placeholder="Items per page"
-                               classNamePrefix="custom"
-                               menuPlacement="auto"
-                               noOptionsMessage={() => "No options"}
-                              styles={{
-                                       control: (base) => ({
-                                         ...base,
-                                         height: "40px",
-                                         border: "1px solid #1E45E1",
-                                         borderRadius: "5px",
-                                         fontSize: "14px",
-                                         color: "#1E45E1",
-                                         fontWeight: 600,
-                                         cursor: "pointer",
-                                         fontFamily: "Gilroy",
-                                         boxShadow:  "0 0 0 1px #1E45E1",
-                                          width:90,
-                                       }),
-                                       menu: (base) => ({
-                                         ...base,
-                                         backgroundColor: "#f8f9fa",
-                                         border: "1px solid #ced4da",
-                                         fontFamily: "Gilroy",
-                                       }),
-                                       menuList: (base) => ({
-                                         ...base,
-                                         backgroundColor: "#f8f9fa",
-                                         maxHeight: "200px",
-                                         padding: 0,
-                                         overflowY: "auto",
-                                       }),
-                                       placeholder: (base) => ({
-                                         ...base,
-                                         color: "#555",
-                                       }),
-                                       dropdownIndicator: (base) => ({
-                                         ...base,
-                                         color: "#1E45E1",
-                                         cursor: "pointer",
-                                       }),
-                                       indicatorSeparator: () => ({
-                                         display: "none",
-                                       }),
-                                       option: (base, state) => ({
-                                         ...base,
-                                         cursor: "pointer",
-                                         backgroundColor: state.isFocused ? "#1E45E1" : "white",
-                                         color: state.isFocused ? "#fff" : "#000",
-                                       }),
-                                     }}
-                             />
-                           </div>
+            <div>
+              <Select
+                options={pageSizeOptions}
+                value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
+                onChange={handleItemsPerPageChange}
+                placeholder="Items per page"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No options"}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    height: "40px",
+                    border: "1px solid #1E45E1",
+                    borderRadius: "5px",
+                    fontSize: "14px",
+                    color: "#1E45E1",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    fontFamily: "Gilroy",
+                    boxShadow: "0 0 0 1px #1E45E1",
+                    width: 90,
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                    fontFamily: "Gilroy",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "200px",
+                    padding: 0,
+                    overflowY: "auto",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#1E45E1",
+                    cursor: "pointer",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                    color: state.isFocused ? "#fff" : "#000",
+                  }),
+                }}
+              />
+            </div>
 
 
             <ul
@@ -1465,7 +1499,7 @@ const pageSizeOptions = [
             <div
               style={{
                 marginTop: 15,
-                marginBottom:15,
+                marginBottom: 15,
                 position: "relative",
                 display: "inline-block",
                 width: "100%",
@@ -1488,47 +1522,47 @@ const pageSizeOptions = [
                 }}
                 placeholder="Post your reply here"
               />
-              
+
               <div
-  className="input-field"
-  style={{
-    position: "absolute",
-    right: "10px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    backgroundColor: "#1E45E1",
-    border: "1px solid #E7E7E7",
-    borderRadius: "60px",
-    padding: "12px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    cursor: props.AnnouncementAddPermission ? "not-allowed" : "pointer",
-    pointerEvents: props.AnnouncementAddPermission ? "none" : "auto",
-    opacity: props.AnnouncementAddPermission ? 0.5 : 1,
-  }}
-  onClick={() => {
-    if (!props.AnnouncementAddPermission) {
-      handleSendComments();
-    }
-  }}
->
-  <img
-    src={send}
-    alt="Send"
-    style={{
-      width: "16px",
-      height: "16px",
-    }}
-  />
-</div>
+                className="input-field"
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  backgroundColor: "#1E45E1",
+                  border: "1px solid #E7E7E7",
+                  borderRadius: "60px",
+                  padding: "12px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: props.AnnouncementAddPermission ? "not-allowed" : "pointer",
+                  pointerEvents: props.AnnouncementAddPermission ? "none" : "auto",
+                  opacity: props.AnnouncementAddPermission ? 0.5 : 1,
+                }}
+                onClick={() => {
+                  if (!props.AnnouncementAddPermission) {
+                    handleSendComments();
+                  }
+                }}
+              >
+                <img
+                  src={send}
+                  alt="Send"
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                  }}
+                />
+              </div>
 
             </div>
 
 
           </Modal.Footer>
           {displayError && (
-             <ErrorMessage message={displayError} />
+            <ErrorMessage message={displayError} />
           )}
 
         </Modal>
@@ -1705,7 +1739,7 @@ const pageSizeOptions = [
                 }}
               />
               {titleError && (
-               <ErrorMessage message={titleError} />
+                <ErrorMessage message={titleError} />
               )}
 
               {state.PgList.TitleAlready && (
@@ -1766,19 +1800,19 @@ const pageSizeOptions = [
                 }}
               />
               {descriptionError && (
-               <ErrorMessage message={descriptionError} />
+                <ErrorMessage message={descriptionError} />
               )}
             </div>
           </div>
           {errorMessage && (
             <div className="d-flex justify-content-center">
-             <ErrorMessage message={errorMessage} />
+              <ErrorMessage message={errorMessage} />
 
             </div>
           )}
 
           {state.createAccount?.networkError ?
-              <ErrorMessage message={state.createAccount?.networkError} />
+            <ErrorMessage message={state.createAccount?.networkError} />
             : null}
 
           <Button
@@ -1893,8 +1927,8 @@ const pageSizeOptions = [
 DashboardAnnouncement.propTypes = {
   AnnouncementEditPermission: PropTypes.func.isRequired,
   AnnouncementDeletePermission: PropTypes.func.isRequired,
-   AnnouncementAddPermission: PropTypes.func.isRequired,
- 
+  AnnouncementAddPermission: PropTypes.func.isRequired,
+
 
 };
 
