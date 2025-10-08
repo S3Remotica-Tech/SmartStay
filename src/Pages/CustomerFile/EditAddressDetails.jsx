@@ -410,7 +410,7 @@ const focusedRef = { current: false };
       Floor:  addressDetails[0].Floor,
       Rooms:  addressDetails[0].hstl_Rooms,
       Bed: addressDetails[0].hstl_Bed,
-      joining_date: addressDetails[0].Bed,
+      joining_date: addressDetails[0].joining_Date,
       AdvanceAmount: addressDetails[0].AdvanceAmount,
       RoomRent: addressDetails[0].RoomRent,
       ID: addressDetails[0].ID,

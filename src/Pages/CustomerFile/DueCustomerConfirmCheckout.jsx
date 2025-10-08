@@ -55,6 +55,7 @@ function DueCustomerConfirmCheckout({ show, handleClose, data,customerID }) {
        const [hostelData,setHostelData] = useState("")
     //    const [refundableDetails,setReFundableDetails] = useState("")
        const [detuction,setDetuction] = useState("")
+       const [refundCheckout,setRefundCheckout] = useState("")
 
 console.log("detuction",detuction)
 console.log("formLoading",formLoading)
@@ -160,7 +161,7 @@ console.log("formLoading",formLoading)
 //         }, 500);
 //     }, [state.UsersList.statusCodegetConfirmCheckout, data]);
 
-
+console.log("refundCheckout",refundCheckout)
 useEffect(() => {
         if (state.UsersList.statusCodegetConfirmCheckout) {
             const validInvoices = state?.UsersList?.GetconfirmcheckoutBillDetails?.filter(
@@ -168,7 +169,7 @@ useEffect(() => {
             );
 
 
-
+console.log("validInvoices",validInvoices)
             const deduction_details = state?.UsersList?.nonRefundable_details?.filter(
                 (deduction) => deduction.amount > 0
             );
@@ -212,7 +213,7 @@ setDetuction(state?.UsersList?.Deduction)
 
 
 setHostelData(state?.UsersList?.hostelData)
-
+setRefundCheckout(state?.UsersList?.GetconfirmcheckoutBillDetails)
         }
 
         setTimeout(() => {
@@ -220,7 +221,12 @@ setHostelData(state?.UsersList?.hostelData)
         }, 500);
     }, [state.UsersList.statusCodegetConfirmCheckout, data,dataBed]);
 
-
+const disableCheckout =
+  detuction?.DueAmount > 0 ||
+  (Array.isArray(refundCheckout) &&
+    refundCheckout.some(
+      (item) => item.action === "checkout" && item.balance < 0
+    ));
     const advanceAmount = state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
 
     useEffect(() => {
@@ -1808,7 +1814,7 @@ console.log(formattedCheckOutDate);
         <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} className="btn btn-light" onClick={handleClosePopup}>
           Cancel
         </Button>
-        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary" onClick={handleConfirmCheckout} disabled={detuction?.DueAmount > 0}>Check-Out</Button>
+        <Button style={{fontFamily:"Gilroy",fontSize:"1rem",fontWeight:400}} variant="primary" onClick={handleConfirmCheckout} disabled={disableCheckout}>Check-Out</Button>
       </Modal.Footer>
     </Modal>
         </div>

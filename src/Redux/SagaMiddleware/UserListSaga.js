@@ -1813,10 +1813,10 @@ function* handleCustomerDetailsKyc(action) {
    try {
       const response = yield call(handlegetCustomerDetailsKyc, action.payload);
 
+console.log("handleCustomerDetailsKyc",response)
 
 
-
-      if (response.status === 200) {
+      if (response.status === 200 || response.data.status === "KYC Pending") {
          yield put({
             type: 'KYC_CUSTOMER_DETAILS',
             payload: {
@@ -1829,7 +1829,7 @@ function* handleCustomerDetailsKyc(action) {
 
          yield call(refreshToken, response);
       }
-      else if (response.status === 201 || response.statusCode === 201) {
+      else if (response.status === 201 || response.statusCode === 201 ) {
          yield put({ type: 'KYC_NOT_ADDED', payload: { response: response.data, statusCode: response.status || response.statusCode } })
       }
       else {
