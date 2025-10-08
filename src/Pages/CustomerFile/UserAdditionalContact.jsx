@@ -1147,6 +1147,7 @@ useEffect(() => {
                         options={indianStates}
                         onChange={(selectedOption) => {
                           setStateName(selectedOption?.value);
+                          setFormError("");
                         }}
                                                                      ref={stateRef}
                         onInputChange={(inputValue, { action }) => {
