@@ -1307,8 +1307,6 @@ function UserList(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id, event) => {
-  
-
   if (activeRow === id) {
     setActiveRow(null);
     return;
@@ -1319,14 +1317,14 @@ function UserList(props) {
   setSearch(false);
 
   const { top, left, height, bottom } = event.target.getBoundingClientRect();
-  const popupHeight = 120; 
+  const popupHeight = 120;
   const windowHeight = window.innerHeight;
 
   let popupTop;
 
-
   if (bottom + popupHeight > windowHeight) {
-    popupTop = top - popupHeight; 
+   
+    popupTop = top - popupHeight + 100; 
   } else {
     popupTop = top + height;
   }
@@ -1337,20 +1335,51 @@ function UserList(props) {
 };
 
 
+//   const handleShowDots = (id, event) => {
+  
+
+//   if (activeRow === id) {
+//     setActiveRow(null);
+//     return;
+//   } else {
+//     setActiveRow(id);
+//   }
+
+//   setSearch(false);
+
+//   const { top, left, height, bottom } = event.target.getBoundingClientRect();
+//   const popupHeight = 120; 
+//   const windowHeight = window.innerHeight;
+
+//   let popupTop;
+
+
+//   if (bottom + popupHeight > windowHeight) {
+//     popupTop = top - popupHeight; 
+//   } else {
+//     popupTop = top + height;
+//   }
+
+//   const popupLeft = left - 200;
+
+//   setPopupPosition({ top: popupTop, left: popupLeft });
+// };
+
+
  
 
-  useEffect(() => {
-    const handleClickOutsideAccount = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setActiveRow(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutsideAccount);
+//   useEffect(() => {
+//     const handleClickOutsideAccount = (event) => {
+//       if (popupRef.current && !popupRef.current.contains(event.target)) {
+//         setActiveRow(null);
+//       }
+//     };
+//     document.addEventListener("mousedown", handleClickOutsideAccount);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideAccount);
-    };
-  }, []);
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutsideAccount);
+//     };
+//   }, []);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
@@ -4394,7 +4423,7 @@ const handleClosefinal = ()=>{
                                                         cursor: customerAddPermission ? "not-allowed" : "pointer",
                                                       }}
                                                     >
-                                                      Check_In
+                                                      Check-In
                                                     </label>
                                                   </div>
 
@@ -4555,7 +4584,7 @@ const handleClosefinal = ()=>{
                                                           margin: 0,
                                                         }}
                                                       >
-                                                        Back to Check-In
+                                                        Cancel to Check-Out
                                                       </label>
                                                     </div>
 
@@ -4772,7 +4801,7 @@ const handleClosefinal = ()=>{
                                                           margin: 0,
                                                         }}
                                                       >
-                                                        Check_In
+                                                        Check-In
                                                       </label>
                                                     </div>
                                                     <div

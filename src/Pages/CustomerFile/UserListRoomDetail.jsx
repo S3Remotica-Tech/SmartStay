@@ -370,6 +370,7 @@ const handleAttach = () => {
 
     }
   }, [state.UsersList?.UserListStatusCode])
+  console.log("custommeer",customerDetails)
 
 
   useEffect(() => {
@@ -450,7 +451,7 @@ const handleAttach = () => {
     
     
 
-},[])
+},[props.userData])
 
 const [ProfilePic,setProfilepic] = useState(false)
 
@@ -461,17 +462,148 @@ const [ProfilePic,setProfilepic] = useState(false)
     setProfilepic(true)
     setFile(state.UsersList?.KycCustomerDetails?.pic)
 
+
+
+
+
+    
+
       setTimeout(() => {
         dispatch({ type: "REMOVEKYC_CUSTOMER_DETAILS" });
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerDetails]);
+  console.log("state.UsersList.statusCodeForCustomerDetails",state.UsersList?.KycCustomerDetails.status)
 
 const isFirstRun = useRef(true); 
   const MobileNumber = `${countryCode}${props.userData?.Phone}`;
  
     const [advanceDetail, setAdvanceDetail] = useState("");
+  
+
+
+useEffect(() => {
+  const checkImageSame = async () => {
+    if (!file || !customerDetails[0]?.profile) return;
+
+    let fileBase64 = file;
+
     
+    let profileBase64 = customerDetails[0]?.profile;
+  
+
+    // compare
+    if (fileBase64 === profileBase64) {
+      console.log("✅ Both images are same");
+    } else {
+      console.log("❌ Images are different");
+    }
+  };
+
+  checkImageSame();
+}, [file, customerDetails]);
+
+
+console.log("customerDetails",customerDetails)
+
+
+
+
+
+
+// useEffect(() => {
+//   const checkImageSame = async () => {
+//     if (!file || !customerDetails[0]?.profile) return false;
+
+//     const fileBase64 = file;
+//     const profileBase64 = customerDetails[0]?.profile;
+
+  
+//     return fileBase64 === profileBase64;
+//   };
+//   console.log("house_no",house_no)
+//   console.log("street",street)
+//   console.log("landmark",landmark)
+//   console.log("city",city)
+//   console.log('state',state_name)
+//   console.log("pincode".pincode)
+
+
+//   const updateUser = async () => {
+//     if (isFirstRun.current) {
+//       isFirstRun.current = false;
+//       return;
+//     }
+
+//     if (props.userData?.profile && !file) {
+//       return;
+//     }
+
+//     if (
+//       ProfilePic &&
+//       file &&
+//       props.userData?.ID &&
+//       props.userData?.Name &&
+//       props.userData?.Phone
+//     ) {
+//       const isSame = await checkImageSame();
+
+//       if (isSame) {
+//         console.log("✅ Both images are same — skipping API call");
+//         return; 
+//       }
+
+//       const name = props.userData?.Name || "";
+//       const value = name.trim().split(" ");
+//       setFirstname(value[0] || "");
+//       setLastname(value[1] || "");
+
+//       const payload = {
+//         profile: file,
+//         firstname: value[0] || "",
+//         lastname: value[1] || "",
+//         Phone: MobileNumber,
+//         Email: Email,
+//         Address: house_no,
+//         area: street,
+//         landmark: landmark,
+//         city: city,
+//         pincode: pincode,
+//         state: state_name,
+//         AadharNo: AadharNo,
+//         PancardNo: PancardNo,
+//         licence: licence,
+//         HostelName: HostelName,
+//         hostel_Id: hostel_Id,
+//         Floor: props.userData?.Floor,
+//         Rooms: props.userData?.room_id,
+//         Bed: props.userData?.hstl_Bed,
+//         joining_date: props.userData?.joining_Date,
+//         AdvanceAmount: props.userData?.AdvanceAmount,
+//         RoomRent: props.userData?.RoomRent,
+//         BalanceDue: BalanceDue,
+//         PaymentType: PaymentType,
+//         paid_advance: paid_advance,
+//         paid_rent: paid_rent,
+//         ID: props.userData?.ID,
+//       };
+
+//       dispatch({
+//         type: "ADDUSER",
+//         payload: payload,
+//       });
+//     }
+//   };
+
+//   updateUser();
+// }, [ProfilePic, file, props.userData,
+//    house_no,
+//   street,
+//   landmark,
+//   city,
+//   state_name,
+//   pincode]);
+
  
 useEffect(() => {
   if (isFirstRun.current) {
@@ -489,7 +621,8 @@ useEffect(() => {
     file &&
     props.userData?.ID &&
     props.userData?.Name &&
-    props.userData?.Phone
+    props.userData?.Phone 
+    // !iskycverified
   ) {
     const name = props.userData?.Name || "";
     const value = name.trim().split(" ");
@@ -542,9 +675,20 @@ useEffect(() => {
 
   if (base64Pic && base64Pic !== "null" && base64Pic !== undefined) {
     setFile(base64Pic); 
+    console.log("setFile",file)
   
   }
+  
 }, [state.UsersList?.KycCustomerDetails?.pic]);
+
+
+
+
+
+
+
+
+
   useEffect(() => {
   const rawAddress = state.UsersList.KycCustomerDetails?.address || "";
 
@@ -564,12 +708,14 @@ useEffect(() => {
     const [streetNumber, streetName, areaPart, landmarkPart] = others;
 
     setHouseNo(`${streetNumber} ${streetName}`);
+    console.log("jhfkkd",house_no)
     setStreet(areaPart);
     setLandmark(landmarkPart);
     setCity(cityPart);
     setStateName(statePart);
     setPincode(pincodePart);
   }
+    console.log("jhfkkd",house_no)
 }, [state.UsersList.KycCustomerDetails?.address]);
 
 
@@ -3469,8 +3615,20 @@ const imageUrl = imagePreview
               <p style={{ fontWeight: "600", marginTop: 10,fontFamily:"Gilroy",fontSize:16 }}>
                 {selectedDoc.name}
               </p>
-              <p style={{ fontWeight: "400",fontFamily:"Gilroy",fontSize:14 }}>
-                <strong>Address:</strong> {selectedDoc.address}
+              <p  style={{
+    fontWeight: 400,
+    fontFamily: "Gilroy",
+    fontSize: 14,
+    wordWrap: "break-word",
+    whiteSpace: "normal",
+    overflowWrap: "break-word",
+    textAlign: "center", 
+    maxWidth: "90%", 
+    margin: "0 auto",
+  }}>
+                <strong>Address:</strong> 
+                {selectedDoc.address}
+            
               </p>
               <p>
                 <strong>Aadhaar No:</strong> {selectedDoc.aadhaarNumber}

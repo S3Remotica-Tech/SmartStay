@@ -854,7 +854,7 @@ disabledDate={(current) => {
                       }}
                       onClick={handleCheckOutCustomer}
                     >
-                      CheckOut
+                      Check-Out
                     </Button>
                   </div>
 
