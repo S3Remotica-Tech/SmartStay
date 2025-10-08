@@ -4040,7 +4040,7 @@ console.log("selectedFloor",selectedFloor)
     style={{
       width: "100%",
       height: 50,
-      cursor: "not-allowed", 
+      cursor: "pointer", 
       fontFamily: "Gilroy",
       // backgroundColor: "#EFF2FF"
     }}
