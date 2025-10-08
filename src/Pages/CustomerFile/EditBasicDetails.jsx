@@ -31,14 +31,15 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
     const [phonenumError, setphonenumError] = useState("");
     const [emailIdError, setemailIdError] = useState("");
 
+
+
    
     const handleFirstNameChange = (e) => {
-        const lettersOnly = e.target.value.replace(/[^A-Za-z]/g, "")
-        setFirstName(lettersOnly);
-        setFirstNameError("")
-        setIsChanged("")
-        
-    };
+  const lettersOnly = e.target.value.replace(/[^A-Za-z\s]/g, ""); 
+  setFirstName(lettersOnly);
+  setFirstNameError("");
+  setIsChanged("");
+};
 
     const handleLastNameChange = (e) => {
         const lettersOnly = e.target.value.replace(/[^A-Za-z]/g, "");
@@ -139,7 +140,6 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
 
 
 
-  console.log("bascisdetails", basicDetails[0].Email);
   
 
 
@@ -181,7 +181,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
             setFirstNameError("Please Enter First Name");
             return;
         }
-        if (phoneError === "Invalid mobile number") {
+        if (phoneError) {
             return;
         }
         if (!phone) {
@@ -546,9 +546,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
                                             }}
                                         >
 
-                                            <option >
-                                                +{countryCode}
-                                            </option>
+                                          <option value="91">+91</option>
 
                                         </Form.Select>
                                         <Form.Control
