@@ -686,9 +686,9 @@ useEffect(() => {
                                         alt="bedd"
                                         style={{ height: 41, width: 34, cursor: propsValue.addPermissionError ? 'not-allowed' : 'pointer' }}
                                         onClick={() => {
-                                            if (!propsValue.addPermissionError && !state.login.isTrigger) {
+                                            if (canWritePayingGuests && !state.login.isTrigger) {
                                                 handleclickBed(bed, bed.roomId);
-                                            } else if (state.login.isTrigger) {
+                                            } else if (canWritePayingGuests && state.login.isTrigger) {
                                                 handleclickBedForChangeBed(bed, bed.roomId);
                                             }
                                         }}

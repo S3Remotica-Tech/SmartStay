@@ -26,7 +26,8 @@ import { toast } from 'react-toastify';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { CloseCircle } from "iconsax-react";
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../Components/ErrorMessage';
+import { useHasPermission } from '../Utils/Permission';
 
 const Compliance = () => {
 
@@ -70,14 +71,9 @@ const Compliance = () => {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
+const canReadComplaints = useHasPermission("Complaints", "canRead");
+  const canWriteComplaints = useHasPermission("Complaints", "canWrite");
 
-
-  // const pageSizeOptions = [
-  //   { value: 6, label: "6" },
-  //   { value: 10, label: "10" },
-  //   { value: 50, label: "50" },
-  //   { value: 100, label: "100" },
-  // ];
 
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
 
@@ -960,7 +956,7 @@ const Compliance = () => {
   return (
     <>
       {
-        compliancepermissionError ? (
+        !canReadComplaints ? (
           <>
             <div
               style={{
@@ -977,9 +973,9 @@ const Compliance = () => {
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-              {compliancepermissionError && (
-                <ErrorMessage message={compliancepermissionError} type="error" />
-              )}
+             
+                <ErrorMessage message={['You do not have access to view Compliants']} type="warning" />
+             
             </div>
           </>
         ) :
@@ -1210,12 +1206,10 @@ const Compliance = () => {
 
                       <div className='me-2' style={{ paddingRight: 4 }}>
                         <Button
-                          disabled={complianceAddPermission || state?.login?.planStatus === 0}
+                          disabled={!canWriteComplaints || state?.login?.planStatus === 0}
                           onClick={handleShow}
                           style={{
                             fontSize: 13, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 8,
-
-
                             color: '#FFF', fontFamily: 'Montserrat',
                             whiteSpace: "nowrap",
                             width: 146,

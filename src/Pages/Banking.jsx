@@ -13,7 +13,7 @@ import BankingAddForm from "./BankingAddForm";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import {ArrowUp2, ArrowDown2, Edit, Trash  } from "iconsax-react";
+import { ArrowUp2, ArrowDown2, Edit, Trash } from "iconsax-react";
 import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -26,7 +26,7 @@ import transArrow from "../Assets/Images/New_images/arrow-transfer.png";
 import banklogo from "../Assets/Images/New_images/bank_loga.png";
 import PaginationList from "../Components/PaginationList";
 import ErrorMessage from '../Components/ErrorMessage'
-
+import { useHasPermission } from '../Utils/Permission';
 
 function Banking() {
   const state = useSelector((state) => state);
@@ -69,6 +69,17 @@ function Banking() {
   const [formLoading, setFormLoading] = useState(false)
 
 
+  const canReadBanking = useHasPermission("Banking", "canRead");
+  const canWriteBanking = useHasPermission("Banking", "canWrite");
+  const canUpdateBanking = useHasPermission("Banking", "canUpdate");
+  const canDeleteBanking = useHasPermission("Banking", "canDelete");
+
+
+
+
+
+
+
   // const transactionPageOptions = [
   //   { value: 5, label: "5" },
   //   { value: 10, label: "10" },
@@ -87,20 +98,20 @@ function Banking() {
     setBankingRolePermission(state.createAccount.accountList);
   }, [state.createAccount.accountList]);
 
- 
 
 
 
-   useEffect(() => {
-     const userType = bankingrolePermission[0]?.user_details?.user_type
-       const isAdmin =  userType  === "admin" || userType === "agent" ;
-       if (isAdmin) {
+
+  useEffect(() => {
+    const userType = bankingrolePermission[0]?.user_details?.user_type
+    const isAdmin = userType === "admin" || userType === "agent";
+    if (isAdmin) {
       if (state?.login?.planStatus === 0) {
         setBankingPermissionError("");
         setBankingAddPermission("Permission Denied");
         setBankingEditPermission("Permission Denied");
         setBankingDeletePermission("Permission Denied");
-  
+
       } else if (state?.login?.planStatus === 1) {
         setBankingPermissionError("");
         setBankingAddPermission("");
@@ -108,72 +119,72 @@ function Banking() {
         setBankingDeletePermission("");
       }
     }
-  
-    }, [state?.login?.planStatus, state?.login?.selectedHostel_Id,bankingrolePermission])
+
+  }, [state?.login?.planStatus, state?.login?.selectedHostel_Id, bankingrolePermission])
 
 
 
-     useEffect(() => {
-         const bankingPermission = bankingrolePermission[0]?.role_permissions?.find(
-           (perm) => perm.permission_name === "Banking"
-         );
-       
-         const isOwner = bankingrolePermission[0]?.user_details?.user_type === "staff";
-         const planActive = state?.login?.planStatus === 1;
-        
-         if (!bankingPermission || !isOwner) return;
-       
-         
-         if (bankingPermission.per_view === 1 && planActive) {
-           setBankingPermissionError("");
-         } else {
-           setBankingPermissionError("Permission Denied");
-         }
-       
-         
-         if (bankingPermission.per_create === 1 && planActive) {
-           setBankingAddPermission("");
-         } else {
-           setBankingAddPermission("Permission Denied");
-         }
-       
-        
-         if (bankingPermission.per_edit === 1 && planActive) {
-           setBankingEditPermission("");
-         } else {
-           setBankingEditPermission("Permission Denied");
-         }
-       
-         if (bankingPermission.per_delete === 1 && planActive) {
-           setBankingDeletePermission("");
-         } else {
-           setBankingDeletePermission("Permission Denied");
-         }
-       }, [bankingrolePermission, state?.login?.planStatus,state?.login?.selectedHostel_Id]);
+  useEffect(() => {
+    const bankingPermission = bankingrolePermission[0]?.role_permissions?.find(
+      (perm) => perm.permission_name === "Banking"
+    );
+
+    const isOwner = bankingrolePermission[0]?.user_details?.user_type === "staff";
+    const planActive = state?.login?.planStatus === 1;
+
+    if (!bankingPermission || !isOwner) return;
 
 
-;
+    if (bankingPermission.per_view === 1 && planActive) {
+      setBankingPermissionError("");
+    } else {
+      setBankingPermissionError("Permission Denied");
+    }
 
-  
+
+    if (bankingPermission.per_create === 1 && planActive) {
+      setBankingAddPermission("");
+    } else {
+      setBankingAddPermission("Permission Denied");
+    }
 
 
+    if (bankingPermission.per_edit === 1 && planActive) {
+      setBankingEditPermission("");
+    } else {
+      setBankingEditPermission("Permission Denied");
+    }
 
- 
+    if (bankingPermission.per_delete === 1 && planActive) {
+      setBankingDeletePermission("");
+    } else {
+      setBankingDeletePermission("Permission Denied");
+    }
+  }, [bankingrolePermission, state?.login?.planStatus, state?.login?.selectedHostel_Id]);
 
-  
+
+  ;
 
 
 
 
 
 
-      
-  
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (hostel_id) {
       setLoader(true);
-      dispatch({ type: "BANKINGLIST", payload: hostel_id  });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
     }
   }, [hostel_id]);
 
@@ -189,8 +200,8 @@ function Banking() {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-  
-  
+
+
 
 
   useEffect(() => {
@@ -273,7 +284,7 @@ function Banking() {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
       setFormLoading(false)
       setShowAccountTypeOptions(null);
-       dispatch({ type: "BANKINGLIST", payload: hostel_id  });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DEFAULT_ACCOUNT" });
       }, 1000);
@@ -284,7 +295,7 @@ function Banking() {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
       setFormLoading(false)
       handleCloseAddBalance();
-       dispatch({ type: "BANKINGLIST", payload: hostel_id  });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_BANK_AMOUNT" });
       }, 1000);
@@ -332,7 +343,7 @@ function Banking() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeDeleteBank === 200) {
       handleCloseDelete();
-     dispatch({ type: "BANKINGLIST", payload: hostel_id  });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING" });
       }, 1000);
@@ -366,7 +377,7 @@ function Banking() {
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDeleteTrans === 200) {
       handleCloseTransactionDelete();
-       dispatch({ type: "BANKINGLIST", payload: hostel_id  });
+      dispatch({ type: "BANKINGLIST", payload: hostel_id });
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_BANKING_TRANSACTION" });
       }, 1000);
@@ -460,32 +471,32 @@ function Banking() {
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-const sortedData = React.useMemo(() => {
-  if (!sortConfig.key) return transactionFilterddata;
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return transactionFilterddata;
 
-  const sorted = [...transactionFilterddata].sort((a, b) => {
-    const valueA = a[sortConfig.key];
-    const valueB = b[sortConfig.key];
+    const sorted = [...transactionFilterddata].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
 
-    if (!isNaN(valueA) && !isNaN(valueB)) {
-      return sortConfig.direction === 'asc' ? valueA - valueB : valueB - valueA;
-    }
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc' ? valueA - valueB : valueB - valueA;
+      }
 
-    if (typeof valueA === 'string' && typeof valueB === 'string') {
-      return sortConfig.direction === 'asc'
-        ? valueA.localeCompare(valueB)
-        : valueB.localeCompare(valueA);
-    }
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
 
-    return 0;
-  });
+      return 0;
+    });
 
-  return sorted;
-}, [transactionFilterddata, sortConfig]);
+    return sorted;
+  }, [transactionFilterddata, sortConfig]);
 
-const handleSort = (key, direction) => {
-  setSortConfig({ key, direction });
-};
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
 
 
   // const handleItemsPerPageChange = (selectedOption) => {
@@ -628,7 +639,7 @@ const handleSort = (key, direction) => {
 
   return (
     <>
-      {bankingpermissionError ? (
+      {!canReadBanking ? (
         <>
           <div
             style={{
@@ -647,9 +658,9 @@ const handleSort = (key, direction) => {
             />
 
 
-            {bankingpermissionError && (
-             <ErrorMessage message={bankingpermissionError} type="error" />
-            )}
+
+            <ErrorMessage message={['You do not have access to view Banking']} type="warning" />
+
           </div>
         </>
       ) : (
@@ -858,7 +869,7 @@ const handleSort = (key, direction) => {
               <div className="me-2">
 
                 <Button
-                  disabled={bankingAddPermission}
+                  disabled={!canWriteBanking}
                   onClick={handleShowForm}
                   style={{
                     fontFamily: "Gilroy",
@@ -977,13 +988,12 @@ const handleSort = (key, direction) => {
                               <div
                                 className="d-flex justify-content-start align-items-center gap-2"
                                 onClick={() => {
-                                  if (!bankingAddPermission) {
+                                  if (canWriteBanking) {
                                     handleOpenSelfTransfer(item);
                                   }
                                 }}
                                 onMouseEnter={(e) => {
-                                  if (!bankingAddPermission)
-                                    e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                  e.currentTarget.style.backgroundColor = "#EDF2FF";
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -992,9 +1002,8 @@ const handleSort = (key, direction) => {
                                   padding: "8px 12px",
                                   width: "100%",
                                   backgroundColor: "#F9F9F9",
-                                  cursor: bankingAddPermission ? "not-allowed" : "pointer",
-                                  pointerEvents: bankingAddPermission ? "none" : "auto",
-                                  opacity: bankingAddPermission ? 0.5 : 1,
+                                  cursor: !canWriteBanking ? "not-allowed" : "pointer",
+                                  opacity: !canWriteBanking ? 0.5 : 1,
                                   borderTopLeftRadius: 10,
                                   borderTopRightRadius: 10,
                                 }}
@@ -1005,9 +1014,9 @@ const handleSort = (key, direction) => {
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy, sans-serif",
-                                   
-                                      color: bankingAddPermission ? "#A9A9A9" : "#000000",
-                      cursor:bankingAddPermission ? "not-allowed" : "pointer",
+
+                                    color: !canWriteBanking ? "#A9A9A9" : "#000000",
+                                    cursor: !canWriteBanking ? "not-allowed" : "pointer",
                                     whiteSpace: "nowrap",
                                   }}
                                 >
@@ -1020,13 +1029,12 @@ const handleSort = (key, direction) => {
                               <div
                                 className="d-flex justify-content-start align-items-center gap-2"
                                 onClick={() => {
-                                  if (!bankingEditPermission) {
+                                  if (canUpdateBanking) {
                                     handleEditAddBank(item);
                                   }
                                 }}
                                 onMouseEnter={(e) => {
-                                  if (!bankingEditPermission)
-                                    e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                                     e.currentTarget.style.backgroundColor = "#EDF2FF";
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -1035,23 +1043,23 @@ const handleSort = (key, direction) => {
                                   padding: "8px 12px",
                                   width: "100%",
                                   backgroundColor: "#F9F9F9",
-                                  cursor: bankingEditPermission ? "not-allowed" : "pointer",
-                                  pointerEvents: bankingEditPermission ? "none" : "auto",
-                                  opacity: bankingEditPermission ? 0.5 : 1,
+                                  cursor: !canUpdateBanking ? "not-allowed" : "pointer",
+                                  pointerEvents: !canUpdateBanking? "none" : "auto",
+                                  opacity: !canUpdateBanking ? 0.5 : 1,
                                 }}
                               >
-                              
-                                 <Edit
-                                                    size="16"
-                                                    color={bankingEditPermission ? "#A9A9A9" : "#1E45E1"}
-                                                  />
+
+                                <Edit
+                                  size="16"
+                                  color={!canUpdateBanking ? "#A9A9A9" : "#1E45E1"}
+                                />
                                 <label
                                   style={{
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy, sans-serif",
-                                   color: bankingEditPermission ? "#A9A9A9" : "#222222",
-                      cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                    color: !canUpdateBanking ? "#A9A9A9" : "#222222",
+                                    cursor: !canUpdateBanking ? "not-allowed" : "pointer",
                                   }}
                                 >
                                   Edit
@@ -1064,13 +1072,12 @@ const handleSort = (key, direction) => {
                               <div
                                 className="d-flex justify-content-start align-items-center gap-2"
                                 onClick={() => {
-                                  if (!bankingDeletePermission) {
+                                  if (canDeleteBanking) {
                                     handleDeleteForm(item);
                                   }
                                 }}
                                 onMouseEnter={(e) => {
-                                  if (!bankingDeletePermission)
-                                    e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                                                     e.currentTarget.style.backgroundColor = "#FFF0F0";
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -1079,25 +1086,24 @@ const handleSort = (key, direction) => {
                                   padding: "8px 12px",
                                   width: "100%",
                                   backgroundColor: "#F9F9F9",
-                                  cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-                                  pointerEvents: bankingDeletePermission ? "none" : "auto",
-                                  opacity: bankingDeletePermission ? 0.5 : 1,
+                                  cursor: !canDeleteBanking ? "not-allowed" : "pointer",
+                                                                   opacity: !canDeleteBanking ? 0.5 : 1,
                                   borderBottomLeftRadius: 10,
                                   borderBottomRightRadius: 10,
                                 }}
                               >
                                 {/* <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" /> */}
-                                 <Trash
-                                                    size="16"
-                                                    color={bankingDeletePermission ? "#A9A9A9" : "red"}
-                                                  />
+                                <Trash
+                                  size="16"
+                                  color={!canDeleteBanking ? "#A9A9A9" : "red"}
+                                />
                                 <label
                                   style={{
                                     fontSize: 14,
                                     fontWeight: 600,
                                     fontFamily: "Gilroy, sans-serif",
-                                     color: bankingDeletePermission ? "#A9A9A9" : "#FF0000",
-                      cursor:bankingDeletePermission ? "not-allowed" : "pointer",
+                                    color:!canDeleteBanking ? "#A9A9A9" : "#FF0000",
+                                    cursor: !canDeleteBanking ? "not-allowed" : "pointer",
                                   }}
                                 >
                                   Delete
@@ -1143,10 +1149,10 @@ const handleSort = (key, direction) => {
                           {item.setus_default === 0 && (
                             <p
                               style={{
-                                color: bankingAddPermission
+                                color: !canWriteBanking
                                   ? "#ccc"
                                   : "#007bff",
-                                cursor: bankingAddPermission
+                                cursor: !canWriteBanking
                                   ? "not-allowed"
                                   : "pointer",
                                 marginBottom: 0,
@@ -1155,7 +1161,7 @@ const handleSort = (key, direction) => {
                                 fontFamily: "Gilroy",
                               }}
                               onClick={() => {
-                                if (!bankingAddPermission) {
+                                if (canWriteBanking) {
                                   handleAccountTypeChange(item);
                                 }
                               }}
@@ -1166,16 +1172,16 @@ const handleSort = (key, direction) => {
                         </div>
 
                         <span
-                          href={bankingAddPermission ? "#" : undefined}
+                          href={!canWriteBanking ? "#" : undefined}
                           onClick={(e) => {
-                            if (bankingAddPermission) {
+                            if (!canWriteBanking) {
                               e.preventDefault();
                             } else {
                               handleAccountTypeChange(item);
                             }
                           }}
                           className={
-                            bankingAddPermission ? "text-muted" : "text-primary"
+                            !canWriteBanking ? "text-muted" : "text-primary"
                           }
                           style={{
                             textAlign: "end",
@@ -1183,7 +1189,7 @@ const handleSort = (key, direction) => {
                             fontFamily: "Gilroy",
                             fontWeight: 600,
                             textDecoration: "none",
-                            cursor: bankingAddPermission
+                            cursor: !canWriteBanking
                               ? "not-allowed"
                               : "pointer",
                           }}
@@ -1267,22 +1273,22 @@ const handleSort = (key, direction) => {
                         item.balance === "" ||
                         item.balance === null ? (
                         <span
-                          href={bankingAddPermission ? "#" : undefined}
+                          href={!canWriteBanking ? "#" : undefined}
                           className={
-                            bankingAddPermission ? "text-muted" : "text-primary"
+                            !canWriteBanking ? "text-muted" : "text-primary"
                           }
                           style={{
                             fontSize: 14,
                             fontFamily: "Gilroy",
                             fontWeight: 600,
-                            color: bankingAddPermission ? "gray" : "blue",
+                            color: !canWriteBanking ? "gray" : "blue",
                             textDecoration: "none",
-                            cursor: bankingAddPermission
+                            cursor: !canWriteBanking
                               ? "not-allowed"
                               : "pointer",
                           }}
                           onClick={(e) => {
-                            if (bankingAddPermission) {
+                            if (!canWriteBanking) {
                               e.preventDefault();
                             } else {
                               handleShowAddBalance(item);
@@ -1594,131 +1600,131 @@ const handleSort = (key, direction) => {
                     </tbody> */}
 
                     <tbody style={{ textAlign: "center" }}>
-  <PaginationList>
-    {sortedData?.map((user) => {
-      const Dated = new Date(user.date);
-      const day = Dated.getDate();
-      const month = Dated.getMonth();
-      const year = Dated.getFullYear();
+                      <PaginationList>
+                        {sortedData?.map((user) => {
+                          const Dated = new Date(user.date);
+                          const day = Dated.getDate();
+                          const month = Dated.getMonth();
+                          const year = Dated.getFullYear();
 
-      const monthNames = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-      ];
+                          const monthNames = [
+                            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                          ];
 
-      const formattedDate = `${day} ${monthNames[month]} ${year}`;
+                          const formattedDate = `${day} ${monthNames[month]} ${year}`;
 
-      return (
-        <tr
-          key={user.id}
-          style={{
-            fontSize: "13px",
-            fontWeight: 600,
-            textAlign: "center",
-            marginTop: 10,
-          }}
-        >
-          <td
-            style={{
-              border: "none",
-              textAlign: "start",
-              fontSize: "13px",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              paddingTop: 15,
-            }}
-            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-          >
-            <div className="ps-2 ps-lg-2">
-              {user.accountHolder}
-            </div>
-          </td>
-          <td
-            style={{
-              paddingTop: 15,
-              border: "none",
-              textAlign: "start",
-              fontSize: "13px",
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              whiteSpace: "nowrap",
-            }}
-            className="ps-2 ps-lg-2"
-          >
-            <span
-              style={{
-                padding: "3px 10px",
-                borderRadius: "60px",
-                textAlign: "center",
-                fontSize: "11px",
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                backgroundColor: "#EBEBEB",
-              }}
-            >
-              {user.createdAt}
-            </span>
-          </td>
-          <td
-            style={{
-              border: "none",
-              textAlign: "start",
-              fontSize: "13px",
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              paddingTop: 15,
-            }}
-            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-          >
-            {user.amount}
-          </td>
-          <td
-            style={{
-              border: "none",
-              textAlign: "start",
-              fontSize: "13px",
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              paddingTop: 15,
-            }}
-            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-          >
-            {user.source}
-          </td>
-          <td
-            style={{
-              paddingTop: 15,
-              border: "none",
-              textAlign: "start",
-              fontSize: "13px",
-              fontWeight: 500,
-              fontFamily: "Gilroy",
-              whiteSpace: "nowrap",
-            }}
-            className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-          >
-            <span
-              style={{
-                padding: "3px 10px",
-                borderRadius: "60px",
-                backgroundColor: "#EBEBEB",
-                textAlign: "start",
-                fontSize: "11px",
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-              }}
-            >
-              {user.type}
-            </span>
-          </td>
-        </tr>
-      );
-    })}
-  </PaginationList>
-</tbody>
+                          return (
+                            <tr
+                              key={user.id}
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                textAlign: "center",
+                                marginTop: 10,
+                              }}
+                            >
+                              <td
+                                style={{
+                                  border: "none",
+                                  textAlign: "start",
+                                  fontSize: "13px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  paddingTop: 15,
+                                }}
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                              >
+                                <div className="ps-2 ps-lg-2">
+                                  {user.accountHolder}
+                                </div>
+                              </td>
+                              <td
+                                style={{
+                                  paddingTop: 15,
+                                  border: "none",
+                                  textAlign: "start",
+                                  fontSize: "13px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
+                                }}
+                                className="ps-2 ps-lg-2"
+                              >
+                                <span
+                                  style={{
+                                    padding: "3px 10px",
+                                    borderRadius: "60px",
+                                    textAlign: "center",
+                                    fontSize: "11px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    backgroundColor: "#EBEBEB",
+                                  }}
+                                >
+                                  {user.createdAt}
+                                </span>
+                              </td>
+                              <td
+                                style={{
+                                  border: "none",
+                                  textAlign: "start",
+                                  fontSize: "13px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  paddingTop: 15,
+                                }}
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                              >
+                                {user.amount}
+                              </td>
+                              <td
+                                style={{
+                                  border: "none",
+                                  textAlign: "start",
+                                  fontSize: "13px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  paddingTop: 15,
+                                }}
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                              >
+                                {user.source}
+                              </td>
+                              <td
+                                style={{
+                                  paddingTop: 15,
+                                  border: "none",
+                                  textAlign: "start",
+                                  fontSize: "13px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  whiteSpace: "nowrap",
+                                }}
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                              >
+                                <span
+                                  style={{
+                                    padding: "3px 10px",
+                                    borderRadius: "60px",
+                                    backgroundColor: "#EBEBEB",
+                                    textAlign: "start",
+                                    fontSize: "11px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  {user.type}
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </PaginationList>
+                    </tbody>
 
 
-                  
+
 
                   </Table>
                 </div>
@@ -1796,7 +1802,7 @@ const handleSort = (key, direction) => {
               </div>
             )}
 
-             {/* {transactionFilterddata?.length > 5 && (
+            {/* {transactionFilterddata?.length > 5 && (
               <nav
                 style={{
                   display: "flex",
@@ -2144,13 +2150,13 @@ const handleSort = (key, direction) => {
                     }}
                   />
                   {amountError && (
-                     <ErrorMessage message={amountError} type="error" />
-                    
-                    )}
+                    <ErrorMessage message={amountError} type="error" />
+
+                  )}
                 </Form.Group>
 
 
-                    
+
 
 
                 {state.createAccount?.networkError ?
