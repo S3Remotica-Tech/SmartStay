@@ -185,7 +185,7 @@ function EditBasicDetails({ show, handleClose, basicDetails }) {
             return;
         }
         if (!phone) {
-            setPhoneError("Please Enter Phone Number");
+            setPhoneError("Please Enter Mobile Number");
             return;
         }
          if (emailError) {

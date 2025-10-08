@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../Assets/Images/arrow-left.png"
-import { MdError } from "react-icons/md";
+// import { MdError } from "react-icons/md";
 import Logo from '../Assets/Images/get.png'
 import Dial from '../Assets/Images/dial.png'
 import Room from '../Assets/Images/Car.png'
@@ -37,6 +37,7 @@ import NOCReceiptPdfTemplate from "./NocReceiptpdftemplate";
 import RentalReceiptPdfTemplate from "./RentalReceiptPdfTempate";
 import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
 import SecurityReceiptPdfTemplate from "./SecurityDepositReceipt";
+import Error_Icon from ".././Assets/Images/New_images/Error_warning.png";
 
 
 function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
@@ -1661,24 +1662,32 @@ setNotes(RentalinvoiceTemplate.notes)
 
                                     </div>
                                     {paymentMobileError && (
-                                      <div style={{ color: "red", }}>
-                                        {" "}
-                                        <MdError
-                                          style={{ fontSize: "13px", marginBottom: "2px" }}
-                                        />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            marginRight: "3px"
-                                          }}
-                                        >
-                                          {" "}
-                                          {paymentMobileError}
-                                        </span>
-                                      </div>
+                                      <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {paymentMobileError}
+                                                                                        </span>
+                                                                                      </div>
                                     )}
                                   </div>
 
@@ -1734,24 +1743,32 @@ setNotes(RentalinvoiceTemplate.notes)
 
                                     </div>
                                     {paymentinvoiceemailError && (
-                                      <div style={{ color: "red", }}>
-                                        {" "}
-                                        <MdError
-                                          style={{ fontSize: "13px", marginBottom: "2px" }}
-                                        />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                            marginRight: "3px"
-                                          }}
-                                        >
-                                          {" "}
-                                          {paymentinvoiceemailError}
-                                        </span>
-                                      </div>
+                                           <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {paymentinvoiceemailError}
+                                                                                        </span>
+                                                                                      </div>
                                     )}
                                   </div>
 
@@ -1834,26 +1851,32 @@ setNotes(RentalinvoiceTemplate.notes)
 
                                       </div>
                                       {rentalSignatureError.trim() !== "" && (
-                                        <div className="d-flex align-items-center p-1">
-                                          <MdError
-                                            style={{
-                                              color: "red",
-                                              marginRight: "5px",
-                                              fontSize: "14px",
-                                            }}
-                                          />
-                                          <label
-                                            className="mb-0"
-                                            style={{
-                                              color: "red",
-                                              fontSize: "12px",
-                                              fontFamily: "Gilroy",
-                                              fontWeight: 500,
-                                            }}
-                                          >
-                                            {rentalSignatureError}
-                                          </label>
-                                        </div>
+                                          <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {rentalSignatureError}
+                                                                                        </span>
+                                                                                      </div>
                                       )}
                                     </div>
                                   </div>
@@ -1988,26 +2011,32 @@ setNotes(RentalinvoiceTemplate.notes)
                             onChange={hanldePrefix}
                           />
                           {prefix_errmsg.trim() !== "" && (
-                            <div className="d-flex align-items-center p-1">
-                              <MdError
-                                style={{
-                                  color: "red",
-                                  marginRight: "5px",
-                                  fontSize: "14px",
-                                }}
-                              />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {prefix_errmsg}
-                              </label>
-                            </div>
+                                    <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {prefix_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                           )}
 
                         </Form.Group>
@@ -2028,26 +2057,32 @@ setNotes(RentalinvoiceTemplate.notes)
                           />
 
                           {suffix_errmsg.trim() !== "" && (
-                            <div className="d-flex align-items-center p-1">
-                              <MdError
-                                style={{
-                                  color: "red",
-                                  marginRight: "5px",
-                                  fontSize: "14px",
-                                }}
-                              />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {suffix_errmsg}
-                              </label>
-                            </div>
+                                    <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {suffix_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                           )}
                         </Form.Group>
                       </div>
@@ -2098,26 +2133,32 @@ setNotes(RentalinvoiceTemplate.notes)
                           />
 
                           {tax_errmsg.trim() !== "" && (
-                            <div className="d-flex align-items-center p-1">
-                              <MdError
-                                style={{
-                                  color: "red",
-                                  marginRight: "5px",
-                                  fontSize: "14px",
-                                }}
-                              />
-                              <label
-                                className="mb-0"
-                                style={{
-                                  color: "red",
-                                  fontSize: "12px",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                }}
-                              >
-                                {tax_errmsg}
-                              </label>
-                            </div>
+ <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {tax_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                           )}
                         </Form.Group>
                       </div>
@@ -2242,18 +2283,32 @@ setNotes(RentalinvoiceTemplate.notes)
                     </div>
 
                     {!selectedBankId && bankid_Error.trim() !== '' && (
-                      <div style={{ display: 'flex', alignItems: 'center', paddingTop: 8 }}>
-                        <MdError style={{ color: 'red', marginRight: 5, fontSize: 14 }} />
-                        <label
-                          style={{
-                            color: 'red',
-                            fontSize: 12,
-                            fontWeight: 500,
-                          }}
-                        >
-                          {bankid_Error}
-                        </label>
-                      </div>
+                     <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {bankid_Error}
+                                                                                        </span>
+                                                                                      </div>
                     )}
                   </div>
 
@@ -2351,26 +2406,32 @@ setNotes(RentalinvoiceTemplate.notes)
                       />
                     </div>
                     {notes_errmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {notes_errmsg}
-                        </label>
-                      </div>
+   <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {notes_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                     )}
                   </div>
 
@@ -2403,26 +2464,32 @@ setNotes(RentalinvoiceTemplate.notes)
                       />
                     </div>
                     {terms_errmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {terms_errmsg}
-                        </label>
-                      </div>
+  <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {terms_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                     )}
 
                   </div>
@@ -2492,26 +2559,32 @@ setNotes(RentalinvoiceTemplate.notes)
 
 
                   {editformErrmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginRight: "5px",
-                          fontSize: "14px",
-                        }}
-                      />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: 12,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {editformErrmsg}
-                      </label>
-                    </div>
+                   <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {editformErrmsg}
+                                                                                        </span>
+                                                                                      </div>
                   )}
 
                   <div className="d-flex justify-content-end mt-2 col-lg-10">
@@ -3389,24 +3462,32 @@ setNotes(RentalinvoiceTemplate.notes)
               </p>
             </div>
             {fieldError && (
-              <div style={{ color: "red", }}>
-                {" "}
-                <MdError
-                  style={{ fontSize: "13px", marginBottom: "2px" }}
-                />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    marginRight: "3px"
-                  }}
-                >
-                  {" "}
-                  {fieldError}
-                </span>
-              </div>
+ <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {fieldError}
+                                                                                        </span>
+                                                                                      </div>
             )}
             <div className="mb-5" style={{ marginTop: "-25px" }}>
               <div className="row mb-5 align-items-center">
@@ -3599,24 +3680,32 @@ setNotes(RentalinvoiceTemplate.notes)
 
                   </div>
                   {MobileError && (
-                    <div style={{ color: "red", }}>
-                      {" "}
-                      <MdError
-                        style={{ fontSize: "13px", marginBottom: "2px" }}
-                      />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          marginRight: "3px"
-                        }}
-                      >
-                        {" "}
-                        {MobileError}
-                      </span>
-                    </div>
+ <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {MobileError}
+                                                                                        </span>
+                                                                                      </div>
                   )}
                 </div>
 
@@ -3661,24 +3750,32 @@ setNotes(RentalinvoiceTemplate.notes)
                     }}
                   />
                   {emailError && (
-                    <div style={{ color: "red", }}>
-                      {" "}
-                      <MdError
-                        style={{ fontSize: "13px", marginBottom: "2px" }}
-                      />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          marginRight: "3px"
-                        }}
-                      >
-                        {" "}
-                        {emailError}
-                      </span>
-                    </div>
+ <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {emailError}
+                                                                                        </span>
+                                                                                      </div>
                   )}
                 </div>
 
@@ -3800,46 +3897,60 @@ setNotes(RentalinvoiceTemplate.notes)
 
                   </div>
                   {noChangesDetectedMsg && (
-                    <div style={{ color: "red", }}>
-                      {" "}
-                      <MdError
-                        style={{ fontSize: "13px", marginBottom: "2px" }}
-                      />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          marginRight: "3px"
-                        }}
-                      >
-                        {" "}
-                        {noChangesDetectedMsg}
-                      </span>
-                    </div>
+ <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {noChangesDetectedMsg}
+                                                                                        </span>
+                                                                                      </div>
                   )}
                   {signature_errmsg.trim() !== "" && (
-                    <div className="d-flex align-items-center p-1">
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginRight: "5px",
-                          fontSize: "14px",
-                        }}
-                      />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {signature_errmsg}
-                      </label>
-                    </div>
+                  <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {signature_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                   )}
                 </div>
               </div>
@@ -3893,7 +4004,7 @@ setNotes(RentalinvoiceTemplate.notes)
       </button>
     </div>
 )} */}
-            {emailError && (
+            {/* {emailError && (
               <div style={{ color: "red", }}>
                 {" "}
                 <MdError
@@ -3912,7 +4023,7 @@ setNotes(RentalinvoiceTemplate.notes)
                   {emailError}
                 </span>
               </div>
-            )}
+            )} */}
 
 
           </div>
@@ -4096,26 +4207,32 @@ setNotes(RentalinvoiceTemplate.notes)
                 </>
 
                 {!selectedBankId && bankid_Error.trim() !== "" && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {bankid_Error}
-                    </label>
-                  </div>
+                  <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {bankid_Error}
+                                                                                        </span>
+                                                                                      </div>
                 )}
               </div>
 
@@ -4143,26 +4260,32 @@ setNotes(RentalinvoiceTemplate.notes)
                         onChange={hanldePrefix}
                       />
                       {prefix_errmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {prefix_errmsg}
-                          </label>
-                        </div>
+                   <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {prefix_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                       )}
 
                     </Form.Group>
@@ -4183,26 +4306,32 @@ setNotes(RentalinvoiceTemplate.notes)
                       />
 
                       {suffix_errmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {suffix_errmsg}
-                          </label>
-                        </div>
+                           <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {suffix_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                       )}
                     </Form.Group>
                   </div>
@@ -4253,26 +4382,32 @@ setNotes(RentalinvoiceTemplate.notes)
                       />
 
                       {tax_errmsg.trim() !== "" && (
-                        <div className="d-flex align-items-center p-1">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "14px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {tax_errmsg}
-                          </label>
-                        </div>
+      <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {tax_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                       )}
                     </Form.Group>
                   </div>
@@ -4313,26 +4448,32 @@ setNotes(RentalinvoiceTemplate.notes)
                   />
                 </div>
                 {notes_errmsg.trim() !== "" && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {notes_errmsg}
-                    </label>
-                  </div>
+      <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {notes_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                 )}
               </div>
 
@@ -4365,26 +4506,32 @@ setNotes(RentalinvoiceTemplate.notes)
                   />
                 </div>
                 {terms_errmsg.trim() !== "" && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {terms_errmsg}
-                    </label>
-                  </div>
+       <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {terms_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                 )}
 
               </div>
@@ -4474,50 +4621,62 @@ setNotes(RentalinvoiceTemplate.notes)
 
                 </div>
                 {signature_errmsg.trim() !== "" && (
-                  <div className="d-flex align-items-center p-1">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {signature_errmsg}
-                    </label>
-                  </div>
+      <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {signature_errmsg}
+                                                                                        </span>
+                                                                                      </div>
                 )}
               </div>
 
               {editErrmsg.trim() !== "" && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError
-                    style={{
-                      color: "red",
-                      marginRight: "5px",
-                      fontSize: "14px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {editErrmsg}
-                  </label>
-                </div>
+      <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {editErrmsg}
+                                                                                        </span>
+                                                                                      </div>
               )}
 
               <div className="d-flex justify-content-end flex-wrap mt-3 ">
@@ -4625,10 +4784,32 @@ setNotes(RentalinvoiceTemplate.notes)
                         onChange={handleAccountName}
                       />
                       {accountNameError && (
-                        <div style={{ color: "red" }}>
-                          <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                          <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
-                        </div>
+                             <div style={{
+                                                                                            color: "red",
+                                                                                            backgroundColor: "rgba(255, 243, 243, 0.64)",
+                                                                                            marginTop: 4,
+                                                                                            display: "inline-flex", 
+                                                                                            alignItems: "center",
+                                                                                            padding: "4px 10px", 
+                                                                                            borderRadius: 4,
+                                                                                          }}> 
+                                                                                          <img
+                                                                                            src={Error_Icon}
+                                                                                            alt="ErrorIcon"
+                                                                                            style={{ marginRight: "4px", fontSize:15}}
+                                                                                          />
+                                                                                          <span
+                                                                                            style={{
+                                                                                              fontSize: "12px",
+                                                                                              color: "red",
+                                                                                              fontFamily: "Gilroy",
+                                                                                              fontWeight: 500,
+                                                                                              whiteSpace: "nowrap", 
+                                                                                            }}
+                                                                                        >
+                                                                                          {accountNameError}
+                                                                                        </span>
+                                                                                      </div>
                       )}
                     </Form.Group>
 

@@ -480,6 +480,7 @@ const getImageSrc = () => {
           onHide={handleCloseReAssign}
           backdrop="static"
           centered
+          style={{overflowY:'hidden'}}
         >
           <Modal.Dialog
             style={{
@@ -505,7 +506,7 @@ const getImageSrc = () => {
               <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
                 style={{ cursor: 'pointer' }} />
             </Modal.Header>
-            <Modal.Body className="pb-1 pt-0">
+            <Modal.Body className="pb-1 pt-0 mt-2">
               <div className="d-flex align-items-center">
                 <div >
 
@@ -565,7 +566,7 @@ const getImageSrc = () => {
   </div>
 </div>
 
-                  <div  className="show-scroll p-2 mt-0 me-0">
+                  <div  className="show-scroll p-2 mt-0 me-0" >
 
                     <div className="row  ">
                       {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1337,7 +1338,7 @@ const getImageSrc = () => {
 
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group className="mb-3">
+                        <Form.Group className="">
                           <Form.Label
                             style={{
                               fontSize: 14,
