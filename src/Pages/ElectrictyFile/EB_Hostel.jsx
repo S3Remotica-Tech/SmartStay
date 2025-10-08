@@ -616,7 +616,7 @@ const RoomReadingTable = () => {
                           <td style={{ fontSize: 15, fontWeight: 600, paddingLeft: "40px" }}>{row.floorName}</td>
                           <td
                             style={{ color: "#1E45E1", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
-                            onClick={() => handleRoomDetailsPage(row.room)}
+                            onClick={() => handleRoomDetailsPage(row)}
                           >
                             {row.roomName}
                           </td>
