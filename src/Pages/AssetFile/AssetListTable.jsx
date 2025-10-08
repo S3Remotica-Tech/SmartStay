@@ -8,7 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Modal } from 'react-bootstrap';
 import { Edit, Trash, ProfileAdd } from 'iconsax-react';
 import Button from 'react-bootstrap/Button';
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import { useHasPermission } from '../../Utils/Permission';
 
 
 function AssetListTable(props) {
@@ -23,8 +24,9 @@ const state = useSelector(state => state)
   const [assign, setAssign] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-
-
+const canUpdateAsset = useHasPermission("Assets", "canUpdate")
+  const canDeleteAsset = useHasPermission("Assets", "canDelete")
+const canWriteAssets = useHasPermission("Assets", "canWrite");
 
   const handleShowDots = (id, e) => {
     setShowDots(!showDots)
@@ -254,13 +256,12 @@ const state = useSelector(state => state)
                       <div
                         className="d-flex justify-content-start align-items-center gap-2"
                         onClick={() => {
-                          if (!props.assetAddPermission) {
+                          if (canWriteAssets) {
                             handleAssignAsset(props.item);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.assetAddPermission)
-                            e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                                      e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -269,8 +270,8 @@ const state = useSelector(state => state)
                           padding: "8px 12px",
                           width: "100%",
                           backgroundColor: "#F9F9F9",
-                          cursor: props.assetAddPermission ? "not-allowed" : "pointer",
-                          opacity: props.assetAddPermission ? 0.5 : 1,
+                          cursor: !canWriteAssets ? "not-allowed" : "pointer",
+                          opacity: !canWriteAssets ? 0.5 : 1,
                           borderTopLeftRadius: 10,
                           borderTopRightRadius: 10,
                         }}
@@ -278,7 +279,7 @@ const state = useSelector(state => state)
                         <ProfileAdd size="16" color="#1E45E1" />
                         <label
                           style={{
-                            cursor: props.assetAddPermission ? "not-allowed" : "pointer",
+                            cursor: !canWriteAssets ? "not-allowed" : "pointer",
                             fontSize: 14,
                             fontWeight: 600,
                             fontFamily: "Gilroy",
@@ -293,12 +294,12 @@ const state = useSelector(state => state)
                       <div
                         className="d-flex justify-content-start align-items-center gap-2"
                         onClick={() => {
-                          if (!props.assetEditPermission) {
+                          if (canUpdateAsset) {
                             handleEdit(props.item);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.assetEditPermission)
+                          
                             e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
@@ -306,8 +307,8 @@ const state = useSelector(state => state)
                         }}
                         style={{
                           backgroundColor: "#F9F9F9",
-                          cursor: props.assetEditPermission ? "not-allowed" : "pointer",
-                          opacity: props.assetEditPermission ? 0.5 : 1,
+                          cursor: !canUpdateAsset ? "not-allowed" : "pointer",
+                          opacity: !canUpdateAsset ? 0.5 : 1,
                           padding: "8px 12px",
                           width: "100%",
 
@@ -320,7 +321,7 @@ const state = useSelector(state => state)
                             fontWeight: 600,
                             fontFamily: "Gilroy, sans-serif",
                             color: "#222222",
-                            cursor: "pointer",
+                            cursor: !canUpdateAsset ? "not-allowed" : "pointer",
                           }}
                         >
                           Edit
@@ -330,13 +331,12 @@ const state = useSelector(state => state)
                       <div
                         className="d-flex justify-content-start align-items-center gap-2"
                         onClick={() => {
-                          if (!props.assetDeletePermission && props.item.assignmentStatus  === "Unassigned") {
+                          if (canDeleteAsset && props.item.assignmentStatus  === "Unassigned") {
                             handleShowDeleteAsset(props.item);
                           }
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.assetDeletePermission )
-                            e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                                     e.currentTarget.style.backgroundColor = "#FFF0F0";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -344,12 +344,12 @@ const state = useSelector(state => state)
                         style={{
                           backgroundColor: "#F9F9F9",
                           cursor:
-                            props.assetDeletePermission || props.item.assignmentStatus  === "Assigned"
+                           !canDeleteAsset || props.item.assignmentStatus  === "Assigned"
                               ? "not-allowed"
                               : "pointer",
 
                           opacity:
-                            props.assetDeletePermission ||  props.item.assignmentStatus  === "Assigned" ? 0.5 : 1,
+                            !canDeleteAsset  ||  props.item.assignmentStatus  === "Assigned" ? 0.5 : 1,
                           padding: "8px 12px",
                           borderRadius: 6,
                           width: "100%",
@@ -367,7 +367,7 @@ const state = useSelector(state => state)
                               fontFamily: "Gilroy, sans-serif",
                               color: "#FF0000",
                               cursor:
-                                props.assetDeletePermission ||  props.item.assignmentStatus  === "Assigned"
+                                !canDeleteAsset  ||  props.item.assignmentStatus  === "Assigned"
                                   ? "not-allowed"
                                   : "pointer",
                             }}

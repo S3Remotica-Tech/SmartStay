@@ -188,8 +188,7 @@ function VendorListMap(props) {
                           width: "100%",
                           backgroundColor: "#F9F9F9",
                           cursor: !canUpdateVendor ? "not-allowed" : "pointer",
-                          pointerEvents: !canUpdateVendor ? "none" : "auto",
-                          opacity: !canUpdateVendor ? 0.5 : 1,
+                                                   opacity: !canUpdateVendor ? 0.5 : 1,
                           borderTopLeftRadius: 10,
                           borderTopRightRadius: 10,
                         }}
@@ -234,8 +233,7 @@ function VendorListMap(props) {
                           width: "100%",
                           backgroundColor: "#F9F9F9",
                           cursor: !canDeleteVendor ? "not-allowed" : "pointer",
-                          pointerEvents: !canDeleteVendor ? "none" : "auto",
-                          opacity: !canDeleteVendor ? 0.5 : 1,
+                                                   opacity: !canDeleteVendor ? 0.5 : 1,
                           borderBottomLeftRadius: 10,
                           borderBottomRightRadius: 10,
                         }}

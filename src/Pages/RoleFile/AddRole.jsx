@@ -277,24 +277,19 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
         }
 
         if (!isValid) return;
+console.log("permissionRole",permissionRole)
 
+     const formattedPermissionList = permissionRole.map(permission => ({
+    moduleId: permission.moduleId,
+    canRead: permission.canRead === 1 || permission.canRead === true,
+    canWrite: permission.canWrite === 1 || permission.canWrite === true,
+    canUpdate: permission.canUpdate === 1 || permission.canUpdate === true,
+    canDelete: permission.canDelete === 1 || permission.canDelete === true,
+}));
 
-        const formattedPermissionList = permissionRole
-            .map(permission => ({
-                moduleId: permission.moduleId,
-                canRead: Boolean(permission.canRead),
-                canWrite: Boolean(permission.canWrite),
-                canUpdate: Boolean(permission.canUpdate),
-                canDelete: Boolean(permission.canDelete),
-            }))
-            .filter(permission =>
-                permission.canRead ||
-                permission.canWrite ||
-                permission.canUpdate ||
-                permission.canDelete
-            );
 
         let payload;
+       
 
         if (editRoleDetails) {
 
@@ -315,6 +310,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
         if (isValid) {
+             console.log("payload",payload)
             if (editRoleDetails) {
 
                 dispatch({ type: "EDITSETTINGROLEPERMISSION", payload });
