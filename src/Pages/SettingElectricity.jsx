@@ -13,6 +13,9 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingElectricity.css";
 import ErrorMessage from '../Components/ErrorMessage'
+import { useHasPermission } from '../Utils/Permission';
+import Emptystate from "../Assets/Images/Empty-State.jpg";
+
 
 const SettingElectricity = ({ hostelid }) => {
   const dispatch = useDispatch();
@@ -46,9 +49,8 @@ const SettingElectricity = ({ hostelid }) => {
 
 
 
-
-
-
+  const canReadElectricity = useHasPermission("Electricity", "canRead")
+  const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
 
 
 
@@ -449,6 +451,7 @@ const SettingElectricity = ({ hostelid }) => {
           {EbList ? (
 
             <Button
+              disabled={!canUpdateElectricity}
               className="electricity-btn"
               onClick={() => handleEditElectricity(EbList)}
               style={{
@@ -503,132 +506,160 @@ const SettingElectricity = ({ hostelid }) => {
         )}
       </div>
 
-      <>
-        {EbList
-          ?
+      <div>
 
 
-          <Row className="scroll-issue">
-            <Col lg={10} md={8} sm={12} >
-              <Card
-                className="p-2 border mb-4 mb-md-0"
-                style={{ borderRadius: 16 }}
-              >
-                <Card.Body>
-                  <div className="d-flex justify-content-between align-items-center flex-wrap">
+        {
+
+          !canReadElectricity ?
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 100
+              }}
+            >
+
+              <img
+                src={Emptystate}
+                alt="Empty State"
+
+              />
 
 
-                    <div className="d-flex justify-content-between align-items-center" style={{ width: "100%" }}>
-                      <div className="d-flex align-items-center">
-                        <span
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            background: "#E7F1FF",
-                            borderRadius: "50%",
-                            width: 32,
-                            height: 32,
-                            justifyContent: "center",
-                            marginRight: 10,
-                          }}
-                        >
-                          <img
-                            src={electricity}
-                            alt="electricity"
-                            style={{ width: 18, height: 18 }}
-                          />
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 16,
-                            color: "#222",
-                            fontWeight: 600,
-                          }}
-                        >
-                          Electricity Information
-                        </span>
+
+              <ErrorMessage message={['You do not have access to view Electricity']} type="warning" />
+
+            </div>
+            :
+            EbList ?
+
+              <Row className="scroll-issue">
+                <Col lg={10} md={8} sm={12} >
+                  <Card
+                    className="p-2 border mb-4 mb-md-0"
+                    style={{ borderRadius: 16 }}
+                  >
+                    <Card.Body>
+                      <div className="d-flex justify-content-between align-items-center flex-wrap">
+
+
+                        <div className="d-flex justify-content-between align-items-center" style={{ width: "100%" }}>
+                          <div className="d-flex align-items-center">
+                            <span
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                background: "#E7F1FF",
+                                borderRadius: "50%",
+                                width: 32,
+                                height: 32,
+                                justifyContent: "center",
+                                marginRight: 10,
+                              }}
+                            >
+                              <img
+                                src={electricity}
+                                alt="electricity"
+                                style={{ width: 18, height: 18 }}
+                              />
+                            </span>
+                            <span
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontSize: 16,
+                                color: "#222",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Electricity Information
+                            </span>
+                          </div>
+
+                          {/* RIGHT SIDE */}
+                          <div>
+                            <span
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                fontSize: 16,
+                                color: "#222",
+                              }}
+                            >
+                              ₹ {EbList?.chargerPerUnit}rs
+                            </span>
+                            <span
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontWeight: 400,
+                                fontSize: 13,
+                                color: "#939393",
+                                marginLeft: 4,
+                              }}
+                            >
+                              /Unit
+                            </span>
+                          </div>
+                        </div>
+
+
+
                       </div>
-
-                      {/* RIGHT SIDE */}
-                      <div>
-                        <span
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            fontSize: 16,
-                            color: "#222",
-                          }}
-                        >
-                          ₹ {EbList?.chargerPerUnit}rs
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            fontSize: 13,
-                            color: "#939393",
-                            marginLeft: 4,
-                          }}
-                        >
-                          /Unit
-                        </span>
-                      </div>
-                    </div>
+                      <hr />
 
 
 
-                  </div>
-                  <hr />
+                      <Form>
 
+                        <Row className="mb-3 text-center">
+                          <Col >
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "#4B4B4B",
+                                display: "block",
+                              }}
+                            >
+                              Room Based Calculation
+                            </Form.Label>
+                            <Form.Check
+                              disabled={!canUpdateElectricity}
+                              type="switch"
+                              id="roomBased"
+                              checked={roomBasedCalculation}
+                              onChange={() => handleRoomBased(EbList)}
+                              className="custom-switch-pointer"
+                            />
+                          </Col>
 
+                          <Col >
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                                color: "#4B4B4B",
+                                display: "block",
+                              }}
+                            >
+                              Hostel Based Calculation
+                            </Form.Label>
+                            <Form.Check
+                              disabled={!canUpdateElectricity}
+                              type="switch"
+                              id="hostelBased"
+                              checked={hostelBasedCalculation}
+                              onChange={() => handleHostelBased(EbList)}
+                              className="custom-switch-pointer"
+                            />
+                          </Col>
 
-                  <Form>
-                    
-                    <Row className="mb-3 text-center">
-                      <Col >
-                        <Form.Label
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            color: "#4B4B4B",
-                            display: "block",
-                          }}
-                        >
-                          Room Based Calculation
-                        </Form.Label>
-                        <Form.Check 
-                          type="switch"
-                          id="roomBased"
-                          checked={roomBasedCalculation}
-                          onChange={() => handleRoomBased(EbList)}
-                          className="custom-switch-pointer"
-                        />
-                      </Col>
-
-                      <Col >
-                        <Form.Label
-                          style={{
-                            fontSize: 12,
-                            fontFamily: "Gilroy",
-                            fontWeight: 600,
-                            color: "#4B4B4B",
-                            display: "block",
-                          }}
-                        >
-                          Hostel Based Calculation
-                        </Form.Label>
-                        <Form.Check 
-                          type="switch"
-                          id="hostelBased"
-                          checked={hostelBasedCalculation}
-                          onChange={() => handleHostelBased(EbList)}
-                          className="custom-switch-pointer"
-                        />
-                      </Col>
-
-                      {/* <Col>
+                          {/* <Col>
                         <Form.Label
                           style={{
                             fontSize: 12,
@@ -649,10 +680,10 @@ const SettingElectricity = ({ hostelid }) => {
                           className="custom-switch-pointer"
                         />
                       </Col> */}
-                    </Row>
+                        </Row>
 
-                    <style>
-                      {`
+                        <style>
+                          {`
       .custom-switch-pointer input[type="checkbox"],
       .custom-switch-pointer label {
         cursor: pointer !important;
@@ -662,57 +693,55 @@ const SettingElectricity = ({ hostelid }) => {
         justify-content: center;
       }
     `}
-                    </style>
-                  </Form>
+                        </style>
+                      </Form>
 
 
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+              : !loading && (
 
 
-          : !loading && (
-
-
-            <div
-              className="d-flex align-items-center justify-content-center"
-              style={{
-                width: "100%",
-                margin: "0px auto",
-                backgroundColor: "",
-                marginTop: 120,
-                justifyContent: "center", alignItems: "center"
-              }}
-            >
-              <div>
-                <div className="d-flex  justify-content-center">
-                  <img
-                    src={EmptyState}
-
-                    alt="Empty state"
-                  />
-                </div>
                 <div
-                  className="pb-1 mt-3"
+                  className="d-flex align-items-center justify-content-center"
                   style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 18,
-                    color: "rgba(75, 75, 75, 1)",
+                    width: "100%",
+                    margin: "0px auto",
+                    backgroundColor: "",
+                    marginTop: 120,
+                    justifyContent: "center", alignItems: "center"
                   }}
                 >
-                  No Electricity available
+                  <div>
+                    <div className="d-flex  justify-content-center">
+                      <img
+                        src={EmptyState}
+
+                        alt="Empty state"
+                      />
+                    </div>
+                    <div
+                      className="pb-1 mt-3"
+                      style={{
+                        textAlign: "center",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        fontSize: 18,
+                        color: "rgba(75, 75, 75, 1)",
+                      }}
+                    >
+                      No Electricity available
+                    </div>
+
+
+                  </div>
+                  <div></div>
                 </div>
 
-
-              </div>
-              <div></div>
-            </div>
-
-          )}
-      </>
+              )}
+      </div>
 
       <Modal
         show={showFormElectricity}
