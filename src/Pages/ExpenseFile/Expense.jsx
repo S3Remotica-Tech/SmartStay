@@ -24,6 +24,9 @@ import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { useMediaQuery, useTheme } from '@mui/material'
 import PaginationList from "../../Components/PaginationList";
 import ErrorMessage from '../../Components/ErrorMessage';
+import { useHasPermission } from '../../Utils/Permission';
+
+
 
 function Expenses({ allPageHostel_Id }) {
 
@@ -57,6 +60,18 @@ function Expenses({ allPageHostel_Id }) {
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
   const [dates, setDates] = useState([]);
+
+
+  const canReadExpense = useHasPermission("Expense", "canRead");
+  const canWriteExpense = useHasPermission("Expense", "canWrite");
+  
+
+
+
+
+
+
+
 
 
   const [pickerKey, setPickerKey] = useState(0);
@@ -394,7 +409,7 @@ function Expenses({ allPageHostel_Id }) {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-         dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id});
+      dispatch({ type: "BANKINGLIST", payload: state.login.selectedHostel_Id });
     }
   }, [state.login.selectedHostel_Id, dispatch]);
 
@@ -459,7 +474,7 @@ function Expenses({ allPageHostel_Id }) {
       setLoading(true);
       dispatch({
         type: "ASSETLIST",
-        payload:  state.login.selectedHostel_Id ,
+        payload: state.login.selectedHostel_Id,
       });
       dispatch({
         type: "EXPENCES-CATEGORY-LIST",
@@ -633,7 +648,7 @@ function Expenses({ allPageHostel_Id }) {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
-    if (!sortConfig.key) return filteredData; 
+    if (!sortConfig.key) return filteredData;
 
     const sorted = [...filteredData].sort((a, b) => {
       const valueA = a[sortConfig.key];
@@ -888,7 +903,7 @@ function Expenses({ allPageHostel_Id }) {
 
   return (
     <>
-      {expencepermissionError ? (
+      {!canReadExpense ? (
         <>
           <div
             style={{
@@ -907,10 +922,10 @@ function Expenses({ allPageHostel_Id }) {
             />
 
 
-            {expencepermissionError && (
-<ErrorMessage message={expencepermissionError} type="error" />
-              
-            )}
+            
+              <ErrorMessage message={['You do not have access to view Expense']} type="warning" />
+
+            
           </div>
         </>
       ) : (
@@ -1263,7 +1278,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 <div className="me-2" style={{ marginTop: 7, paddingRight: 4 }}>
                   <Button
-                    disabled={expenceAddPermission || state?.login?.planStatus === 0}
+                    disabled={!canWriteExpense || state?.login?.planStatus === 0}
                     onClick={handleShow}
 
                     style={{
@@ -1455,7 +1470,7 @@ function Expenses({ allPageHostel_Id }) {
 
                   <tbody>
                     <PaginationList
-                   
+
                     >
                       {loading
                         ? Array.from({ length: 10 }).map((_, i) => (
@@ -1497,48 +1512,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 
-          {/* {!loading && currentItems && currentItems.length === 0 && (
-            <div
-              className="d-flex align-items-center justify-content-center animated-text mt-5"
-              style={{ width: "100%", height: 350, margin: "0px auto" }}
-            >
-              <div>
-                <div className="d-flex  justify-content-center">
-                  <img
-                    src={EmptyState}
-                    style={{ height: 240, width: 240 }}
-                    alt="Empty state"
-                  />
-                </div>
-                <div
-                  className="pb-1 "
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 18,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No expenses available
-                </div>
-                <div
-                  className="pb-1"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 500,
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  There are no expenses available.
-                </div>
-
-              </div>
-              <div></div>
-            </div>
-          )} */}
+        
 
           {!loading && (!filteredData || filteredData.length === 0) && (
             <div

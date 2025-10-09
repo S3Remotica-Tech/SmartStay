@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {
+import {getParticularRoomReading, 
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
@@ -16,6 +16,35 @@ import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+
+function* handleGetParticularRoomReading(reading) {
+   try {
+      const response = yield call(getParticularRoomReading, reading.payload)
+
+      if (response.status === 200) {
+         yield put({ type: 'GET_PARTICULAR_ROOM_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+
+
+}
 
 
 
@@ -2418,6 +2447,7 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+    yield takeEvery('GETPARTICULARROOMREADING', handleGetParticularRoomReading)
    yield takeEvery('GETROOMREADING', handleGetRoomReading)
    yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)
    yield takeEvery('INITIALIZECANCELBOOKING', handleCancelBookingGet)

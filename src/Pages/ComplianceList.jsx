@@ -20,7 +20,8 @@ import PropTypes from "prop-types"
 import Select from "react-select";
 import "./ComplianceList.css";
 import { CloseCircle, Edit, Trash } from "iconsax-react";
-import ErrorMessage from '../Components/ErrorMessage'
+import ErrorMessage from '../Components/ErrorMessage';
+import { useHasPermission } from '../Utils/Permission';
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -43,6 +44,13 @@ const ComplianceList = (props) => {
 
 
   const popupRef = useRef(null);
+
+  const canWriteComplaints = useHasPermission("Complaints", "canWrite");
+  const canUpdateComplaints = useHasPermission("Complaints", "canUpdate");
+  const canDeleteComplaints = useHasPermission("Complaints", "canDelete");
+
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id);
@@ -616,15 +624,15 @@ const ComplianceList = (props) => {
                             <div
                               className="d-flex align-items-center"
                               onClick={() => {
-                                if (!props.disableActions) {
+                                if (canWriteComplaints) {
                                   handleChangeStatusOpenClose(props.complaints?.complaintResponseDto)
 
                                 }
                               }}
                               style={{
-                                cursor: props.disableActions ? "not-allowed" : "pointer",
+                                cursor: !canWriteComplaints ? "not-allowed" : "pointer",
 
-                                opacity: props.disableActions ? 0.5 : 1,
+                                opacity: !canWriteComplaints ? 0.5 : 1,
                                 borderTopLeftRadius: 10,
                                 borderTopRightRadius: 10,
                                 backgroundColor: "#F9F9F9",
@@ -632,9 +640,7 @@ const ComplianceList = (props) => {
                                 width: "100%",
                               }}
                               onMouseEnter={(e) => {
-                                if (!props.disableActions) {
-                                  (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                                }
+                                (e.currentTarget.style.backgroundColor = "#EDF2FF")
                               }}
                               onMouseLeave={(e) =>
                                 (e.currentTarget.style.backgroundColor = "transparent")
@@ -646,9 +652,9 @@ const ComplianceList = (props) => {
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  cursor: props.disableActions ? "not-allowed" : "pointer",
+                                  cursor: !canWriteComplaints ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
-                                  color: props.disableActions ? "#A9A9A9" : "#222222"
+                                  color: !canWriteComplaints ? "#A9A9A9" : "#222222"
                                 }}
                               >
                                 Change Status
@@ -658,21 +664,20 @@ const ComplianceList = (props) => {
                             <div
                               className="d-flex align-items-center"
                               onClick={() => {
-                                if (!props.disableActions) {
+                                if (canWriteComplaints) {
                                   handleAssignOpenClose(props.complaints?.complaintResponseDto)
                                 }
                               }
                               }
                               style={{
-                                cursor: props.disableActions ? "not-allowed" : "pointer",
-                                opacity: props.disableActions ? 0.5 : 1,
+                                cursor: !canWriteComplaints ? "not-allowed" : "pointer",
+                                opacity: !canWriteComplaints ? 0.5 : 1,
                                 padding: "8px 12px",
                                 width: "100%",
                               }}
                               onMouseEnter={(e) => {
-                                if (!props.disableActions) {
-                                  (e.currentTarget.style.backgroundColor = "#EDF2FF")
-                                }
+                                (e.currentTarget.style.backgroundColor = "#EDF2FF")
+
                               }}
                               onMouseLeave={(e) =>
                                 (e.currentTarget.style.backgroundColor = "transparent")
@@ -684,8 +689,8 @@ const ComplianceList = (props) => {
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  color: props.disableActions ? "#A9A9A9" : "#222222",
-                                  cursor: props.disableActions ? "not-allowed" : "pointer",
+                                  color: !canWriteComplaints ? "#A9A9A9" : "#222222",
+                                  cursor: !canWriteComplaints ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
                               >
@@ -696,17 +701,17 @@ const ComplianceList = (props) => {
                             <div
                               className="d-flex align-items-center"
                               onClick={() => {
-                                if (!props.complianceEditPermission) {
+                                if (canUpdateComplaints) {
                                   handleEdit(props.complaints?.complaintResponseDto);
                                 }
                               }}
                               style={{
-                                cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+                                cursor: !canUpdateComplaints ? "not-allowed" : "pointer",
                                 padding: "8px 12px",
                                 width: "100%",
                               }}
                               onMouseEnter={(e) =>
-                              (e.currentTarget.style.backgroundColor = props.complianceEditPermission
+                              (e.currentTarget.style.backgroundColor = !canUpdateComplaints
                                 ? "transparent"
                                 : "#EDF2FF")
                               }
@@ -716,15 +721,15 @@ const ComplianceList = (props) => {
                             >
                               <Edit
                                 size="16"
-                                color={props.complianceEditPermission ? "#A9A9A9" : "#1E45E1"}
+                                color={!canUpdateComplaints ? "#A9A9A9" : "#1E45E1"}
                               />
                               <label
                                 style={{
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  color: props.complianceEditPermission ? "#ccc" : "#222222",
-                                  cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+                                  color: !canUpdateComplaints ? "#ccc" : "#222222",
+                                  cursor: !canUpdateComplaints ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
                               >
@@ -735,20 +740,20 @@ const ComplianceList = (props) => {
                             <div
                               className="d-flex align-items-center"
                               onClick={() => {
-                                if (!props.complianceDeletePermission) {
+                                if (canDeleteComplaints) {
                                   handleDeleteFormShow(props.complaints?.complaintResponseDto)
                                 }
                               }
                               }
                               style={{
-                                cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
+                                cursor: !canDeleteComplaints ? "not-allowed" : "pointer",
                                 padding: "8px 12px",
                                 width: "100%",
                                 borderBottomLeftRadius: 10,
                                 borderBottomRightRadius: 10,
                               }}
                               onMouseEnter={(e) =>
-                              (e.currentTarget.style.backgroundColor = props.complianceDeletePermission
+                              (e.currentTarget.style.backgroundColor = !canDeleteComplaints
                                 ? "transparent"
                                 : "#FFF0F0")
                               }
@@ -758,15 +763,15 @@ const ComplianceList = (props) => {
                             >
                               <Trash
                                 size="16"
-                                color={props.complianceDeletePermission ? "#A9A9A9" : "red"}
+                                color={!canDeleteComplaints ? "#A9A9A9" : "red"}
                               />
                               <label
                                 style={{
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  color: props.complianceDeletePermission ? "#ccc" : "#FF0000",
-                                  cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
+                                  color: !canDeleteComplaints ? "#ccc" : "#FF0000",
+                                  cursor: !canDeleteComplaints ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
                               >
@@ -877,12 +882,12 @@ const ComplianceList = (props) => {
                         props.complaints?.complaintResponseDto?.assigneeName === null ? (
                         <span
                           style={{
-                            color: "#1E45E1",
+                            color: !canWriteComplaints ? "#DBDBDB" : "#1E45E1",
                             fontSize: "16px",
                             cursor: "pointer",
                             textDecoration: "none",
                           }}
-                          onClick={() => handleAssignOpenClose(props.complaints)}
+                          onClick={() => canWriteComplaints ? handleAssignOpenClose(props.complaints) : ''}
                         >
                           + Assign
                         </span>
@@ -1044,7 +1049,7 @@ const ComplianceList = (props) => {
                 </div>
 
                 <div
-                  onClick={() => handleIconClick(props.complaints.complaintResponseDto)}
+                  onClick={() => canWriteComplaints ? handleIconClick(props.complaints.complaintResponseDto) : ''}
                   style={{
                     border: "1px solid #DCDCDC",
                     borderRadius: "50px",
@@ -1520,7 +1525,7 @@ const ComplianceList = (props) => {
                           {statusError.trim() !== "" && (
                             <div className="d-flex justify-content-center mb-1">
 
-                            <ErrorMessage message={statusError} type="error" />
+                              <ErrorMessage message={statusError} type="error" />
                             </div>
                           )}
                         </div>

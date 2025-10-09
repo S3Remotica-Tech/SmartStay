@@ -16,7 +16,8 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import Select from "react-select";
 import PaginationList from '../../Components/PaginationList';
-import ErrorMessage from '../../Components/ErrorMessage'
+import ErrorMessage from '../../Components/ErrorMessage';
+import { useHasPermission } from '../../Utils/Permission';
 
 
 function Asset() {
@@ -48,7 +49,8 @@ function Asset() {
   const [ExcelDownloadDates, setExcelDownloadDates] = useState([])
   const [filterexcelprice, setFilterExcelPrice] = useState('')
 
-
+const canWriteAssets = useHasPermission("Assets", "canWrite");
+const canReadAssets = useHasPermission("Assets", "canRead");
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -590,7 +592,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
   return (
     <>
       {
-        assetpermissionError ? (
+        !canReadAssets ? (
           <>
             <div
               style={{
@@ -607,7 +609,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-              <ErrorMessage message={assetpermissionError} type="error"/>
+              <ErrorMessage message={['You do not have access to view Asset']} type="warning"/>
 
             </div>
           </>
@@ -847,7 +849,7 @@ if( state.bankingDetails?.bankingList?.length === 0){
                 </div>
 
                 <div style={{ marginTop: 15, paddingRight: 4 }}>
-                  <Button disabled={assetAddPermission || state?.login?.planStatus === 0} onClick={handleShow}
+                  <Button disabled={!canWriteAssets} onClick={handleShow}
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: "14px",

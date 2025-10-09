@@ -48,7 +48,7 @@ import coinImage from "../Assets/Images/New_images/coinimage.png";
 import advancedHand from "../Assets/Images/New_images/AdvancedHand.png";
 import newBooking from "../Assets/Images/New_images/NewBooking.png";
 
-
+import { useHasPermission } from '../Utils/Permission';
 
 
 function Dashboard() {
@@ -79,6 +79,7 @@ function Dashboard() {
   const [selectAdvance, setSelectAdvance] = useState("six_month");
   const [accountList, setAccountList] = useState("");
 
+const canReadDashboard = useHasPermission("Dashboard", "canRead");
 
   const monthNames = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -663,7 +664,7 @@ useEffect(() => {
 
           <div >
             <TabPanel value="1">
-              {permissionError ? (
+              {!canReadDashboard ? (
                 <div
                   style={{
                     display: "flex",
@@ -681,8 +682,8 @@ useEffect(() => {
                   />
 
 
-                  {permissionError && (
-                    <ErrorMessage message={permissionError} type="error" />
+                  {!canReadDashboard && (
+                    <ErrorMessage message={['You do not have access to view Dashboard']} type="warning" />
                   )}
                 </div>
               ) : (

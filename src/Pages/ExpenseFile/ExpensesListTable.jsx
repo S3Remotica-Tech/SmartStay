@@ -10,7 +10,7 @@ import { Modal, Button } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import './Expenses.css';
 import ErrorMessage from '../../Components/ErrorMessage';
-
+import { useHasPermission } from '../../Utils/Permission';
 import PropTypes from "prop-types";
 import Select from "react-select";
 function ExpensesListTable(props) {
@@ -24,6 +24,25 @@ function ExpensesListTable(props) {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
+
+  const canUpdateExpense = useHasPermission("Expense", "canUpdate");
+  const canDeleteExpense = useHasPermission("Expense", "canDelete");
+  const canWriteExpense = useHasPermission("Expense", "canWrite");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const handleShowDots = (event) => {
     setShowDots(!showDots)
@@ -237,13 +256,12 @@ function ExpensesListTable(props) {
                 <div
                   className="d-flex justify-content-start align-items-center gap-2"
                   onClick={() => {
-                    if (!props.expenceDeletePermission) {
+                    if (canWriteExpense) {
                       handleShowTagAsset();
                     }
                   }}
                   onMouseEnter={(e) => {
-                    if (!props.expenceDeletePermission)
-                      e.currentTarget.style.backgroundColor = "#EDF2FF";
+                    e.currentTarget.style.backgroundColor = "#EDF2FF";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -253,8 +271,8 @@ function ExpensesListTable(props) {
                     padding: "8px 10px",
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
-                    cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                    opacity: props.expenceDeletePermission ? 0.5 : 1,
+                    cursor: !canWriteExpense ? "not-allowed" : "pointer",
+                    opacity: !canWriteExpense ? 0.5 : 1,
                   }}
                 >
                   <img src={TagAsset} alt="tag" />
@@ -264,7 +282,7 @@ function ExpensesListTable(props) {
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       color: "#222222",
-                      cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+                      cursor: !canWriteExpense ? "not-allowed" : "pointer",
                     }}
                   >
                     Tag Asset
@@ -275,13 +293,12 @@ function ExpensesListTable(props) {
                 <div
                   className="d-flex justify-content-start align-items-center gap-2"
                   onClick={() => {
-                    if (!props.expenceEditPermission) {
+                    if (canUpdateExpense) {
                       handleEditExpense(props.item);
                     }
                   }}
                   onMouseEnter={(e) => {
-                    if (!props.expenceEditPermission)
-                      e.currentTarget.style.backgroundColor = "#EDF2FF";
+                    e.currentTarget.style.backgroundColor = "#EDF2FF";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -289,8 +306,8 @@ function ExpensesListTable(props) {
                   style={{
                     width: "100%",
                     padding: "8px 10px",
-                    cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
-                    opacity: props.expenceEditPermission ? 0.5 : 1,
+                    cursor: !canUpdateExpense ? "not-allowed" : "pointer",
+                    opacity: !canUpdateExpense ? 0.5 : 1,
                   }}
                 >
                   <Edit
@@ -303,7 +320,7 @@ function ExpensesListTable(props) {
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       color: "#222222",
-                      cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
+                      cursor: !canUpdateExpense ? "not-allowed" : "pointer",
                     }}
                   >
                     Edit
@@ -315,13 +332,12 @@ function ExpensesListTable(props) {
                 <div
                   className="d-flex justify-content-start align-items-center gap-2"
                   onClick={() => {
-                    if (!props.expenceDeletePermission) {
+                    if (canDeleteExpense) {
                       handleDelete(props.item.id);
                     }
                   }}
                   onMouseEnter={(e) => {
-                    if (!props.expenceDeletePermission)
-                      e.currentTarget.style.backgroundColor = "#FFF0F0";
+                    e.currentTarget.style.backgroundColor = "#FFF0F0";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -331,8 +347,8 @@ function ExpensesListTable(props) {
                     padding: "8px 10px",
                     borderBottomLeftRadius: 10,
                     borderBottomRightRadius: 10,
-                    cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                    opacity: props.expenceDeletePermission ? 0.5 : 1,
+                    cursor: !canDeleteExpense ? "not-allowed" : "pointer",
+                    opacity: !canDeleteExpense ? 0.5 : 1,
                   }}
                 >
                   <Trash
@@ -345,7 +361,7 @@ function ExpensesListTable(props) {
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       color: "#FF0000",
-                      cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+                      cursor: !canDeleteExpense ? "not-allowed" : "pointer",
                     }}
                   >
                     Delete

@@ -33,7 +33,7 @@ import overdueimg from "../Assets/Images/New_images/overdueimg.png";
 import noticeimg from "../Assets/Images/New_images/noticeperiodimg.png";
 import ParticularHostelDetails from "./PayingGuestFile/ParticularHostelDetails";
 import ErrorMessage from '../Components/ErrorMessage'
-
+import { useHasPermission } from '../Utils/Permission';
 
 
 function SettingManage() {
@@ -50,6 +50,9 @@ function SettingManage() {
 
   const popupRef = useRef(null);
 
+  const canWritePayingGuests = useHasPermission("Paying Guests", "canWrite");
+  const canUpdatePayingGuests = useHasPermission("Paying Guests", "canUpdate");
+  const canDeletePayingGuests = useHasPermission("Paying Guests", "canDelete");
 
 
   const [hidePgList, setHidePgList] = useState(true);
@@ -76,7 +79,7 @@ function SettingManage() {
   }, [showHostelDetails])
 
 
- 
+
 
 
 
@@ -225,44 +228,44 @@ function SettingManage() {
       dispatch({ type: 'ALLFLOORLIST', payload: { hostel_id: showHostelDetails.hostelId } })
 
       setTimeout(() => {
-      const updatedFloors = floorList || [];
+        const updatedFloors = floorList || [];
 
-      if (updatedFloors.length > 0) {
-               let [start, end] = visibleRange;
+        if (updatedFloors.length > 0) {
+          let [start, end] = visibleRange;
 
-        if (end >= updatedFloors.length) {
-          end = updatedFloors.length - 1;
-        }
-        if (start > end) {
-          start = Math.max(0, end - 1);
-        }
+          if (end >= updatedFloors.length) {
+            end = updatedFloors.length - 1;
+          }
+          if (start > end) {
+            start = Math.max(0, end - 1);
+          }
 
-        const newRange = [start, end];
+          const newRange = [start, end];
 
-                const firstVisibleFloor = updatedFloors.find(
-          (_, index) => index >= newRange[0] && index <= newRange[1]
-        );
+          const firstVisibleFloor = updatedFloors.find(
+            (_, index) => index >= newRange[0] && index <= newRange[1]
+          );
 
-      
-        if (firstVisibleFloor) {
-          setFloorClick(firstVisibleFloor.id);
-          setKey(firstVisibleFloor.id);
-          setFloorName(firstVisibleFloor.name);
+
+          if (firstVisibleFloor) {
+            setFloorClick(firstVisibleFloor.id);
+            setKey(firstVisibleFloor.id);
+            setFloorName(firstVisibleFloor.name);
+          } else {
+            setFloorClick(updatedFloors[0]?.id || null);
+            setKey(updatedFloors[0]?.id || "");
+            setFloorName(updatedFloors[0]?.name || "");
+          }
+
+
         } else {
-          setFloorClick(updatedFloors[0]?.id || null);
-          setKey(updatedFloors[0]?.id || "");
-          setFloorName(updatedFloors[0]?.name || "");
+          setFloorClick(null);
+          setKey("");
+          setFloorName("");
         }
 
-        
-      } else {
-        setFloorClick(null);
-        setKey("");
-        setFloorName("");
-      }
-
-      dispatch({ type: "CLEAR_DELETE_FLOOR" });
-    }, 500);
+        dispatch({ type: "CLEAR_DELETE_FLOOR" });
+      }, 500);
 
 
 
@@ -293,7 +296,7 @@ function SettingManage() {
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 201) {
       dispatch({ type: "HOSTELLIST" });
-    
+
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
@@ -316,11 +319,11 @@ function SettingManage() {
 
 
 
-  
+
 
   const handleSelectedHostel = (selectedHostelId) => {
 
-   
+
     const selected = state.UsersList.hostelList?.find((item) => {
 
       return item.hostelId === selectedHostelId;
@@ -524,7 +527,7 @@ function SettingManage() {
         type: "ROOMCOUNT",
         payload: { floor_Id: floorClick, hostel_Id: showHostelDetails.id },
       });
-dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
+      dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick } })
       dispatch({ type: "HOSTELLIST" });
 
 
@@ -676,7 +679,7 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
 
 
             {permissionError && (
-             <ErrorMessage message={permissionError} type="error"/>
+              <ErrorMessage message={permissionError} type="error" />
             )}
           </div>
         </>
@@ -755,7 +758,7 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
                   <div style={{ marginTop: 6 }}>
                     <Button
                       onClick={handleShowAddPg}
-                      disabled={addPermissionError}
+                      disabled={!canWritePayingGuests}
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
@@ -931,7 +934,7 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
                         paddingLeft: 52,
                         fontFamily: "Gilroy",
                       }}
-                      disabled={addPermissionError}
+                      disabled={!canWritePayingGuests}
                       onClick={() => handleAddFloors(showHostelDetails.hostelId)}
                     >
                       +  Floor
@@ -1149,25 +1152,25 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
                                       <div
                                         className="d-flex gap-2 align-items-center"
                                         onClick={
-                                          !editPermissionError
+                                          canUpdatePayingGuests
                                             ? () => handleEditFloor(floorClick, showHostelDetails.hostelId, floorName)
                                             : undefined
                                         }
                                         style={{
                                           padding: "8px 12px",
                                           borderRadius: 6,
-                                          pointerEvents: editPermissionError ? "none" : "auto",
-                                          opacity: editPermissionError ? 0.5 : 1,
-                                          cursor: editPermissionError ? "not-allowed" : "pointer",
+                                          opacity: !canUpdatePayingGuests ? 0.5 : 1,
+                                          cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
                                         }}
                                       >
-                                        <Edit size="16" color={editPermissionError ? "#A0A0A0" : "#1E45E1"} />
+                                        <Edit size="16" color={!canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1"} />
                                         <span
                                           style={{
                                             fontSize: 14,
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
-                                            color: editPermissionError ? "#A0A0A0" : "#1E45E1",
+                                            color: !canUpdatePayingGuests ? "#A0A0A0" : "#1E45E1",
+                                            cursor: !canUpdatePayingGuests ? "not-allowed" : "pointer",
                                           }}
                                         >
                                           Edit
@@ -1179,25 +1182,25 @@ dispatch({ type: 'GETALLROOMSLIST', payload: { floor_Id: floorClick} })
                                       <div
                                         className="d-flex gap-2 align-items-center"
                                         onClick={
-                                          !deletePermissionError
+                                          canDeletePayingGuests
                                             ? () => handleShowDelete(floorClick, showHostelDetails.hostelId, floorName)
                                             : undefined
                                         }
                                         style={{
                                           padding: "8px 12px",
                                           borderRadius: 6,
-                                          pointerEvents: deletePermissionError ? "none" : "auto",
-                                          opacity: deletePermissionError ? 0.5 : 1,
-                                          cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                          opacity: !canDeletePayingGuests ? 0.5 : 1,
+                                          cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
                                         }}
                                       >
-                                        <Trash size="16" color={deletePermissionError ? "#A0A0A0" : "#FF0000"} />
+                                        <Trash size="16" color={!canDeletePayingGuests ? "#A0A0A0" : "#FF0000"} />
                                         <span
                                           style={{
                                             fontSize: 14,
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
-                                            color: deletePermissionError ? "#A0A0A0" : "#FF0000",
+                                            color: !canDeletePayingGuests ? "#A0A0A0" : "#FF0000",
+                                            cursor: !canDeletePayingGuests ? "not-allowed" : "pointer",
                                           }}
                                         >
                                           Delete

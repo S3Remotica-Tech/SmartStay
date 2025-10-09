@@ -10,7 +10,7 @@ import { LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Image from 'react-bootstrap/Image';
 import { FiCalendar, } from "react-icons/fi";
-
+import { useHasPermission } from '../../../Utils/Permission';
 
 
 
@@ -31,7 +31,7 @@ function OccupiedBedStatus({
     // const [customer, setCustomer] = useState([])
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
-
+    const canWritePayingGuests = false
 
     const popupRef = useRef(null);
 
@@ -162,21 +162,22 @@ function OccupiedBedStatus({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                onClick={() => handleReAssignBed()}
+                                                onClick={() => canWritePayingGuests && handleReAssignBed()}
 
 
                                                 style={{
                                                     padding: "15px",
                                                     borderTopLeftRadius: 10,
                                                     borderTopRightRadius: 10,
-                                                    cursor: "pointer"
+                                                    cursor: canWritePayingGuests ? "pointer" : "not-allowed",
+                                                    opacity: canWritePayingGuests ? 1 : 0.6,
                                                 }}
                                                 onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                                                 onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                             >
 
-                                                <FiCalendar size={16} color="#1E45E1" />
-                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Change Bed</label>
+                                                <FiCalendar size={16} color={canWritePayingGuests ? "#1E45E1" : "#A9A9A9"} />
+                                                <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: canWritePayingGuests ? "pointer" : "not-allowed", }}>Change Bed</label>
                                             </div>
 
                                             <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
@@ -184,23 +185,39 @@ function OccupiedBedStatus({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                onClick={() => handleMoveToNoticePeriod()}
-
+                                                onClick={() => canWritePayingGuests && handleMoveToNoticePeriod()}
                                                 style={{
                                                     padding: "15px",
                                                     borderBottomLeftRadius: 10,
                                                     borderBottomRightRadius: 10,
-
-                                                    cursor: "pointer"
+                                                    cursor: canWritePayingGuests ? "pointer" : "not-allowed",
+                                                    opacity: canWritePayingGuests ? 1 : 0.6,
+                                                                                                    }}
+                                                onMouseEnter={(e) => {
+                                                     e.currentTarget.style.backgroundColor = "#FFF3F3";
                                                 }}
-                                                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
-                                                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "transparent";
+                                                }}
                                             >
                                                 <LogoutCurve
                                                     size="18"
-                                                    color="#FF9500"
-                                                />                                            <label style={{ fontSize: 13, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Move To Notice Period</label>
+                                                    color={canWritePayingGuests ? "#FF9500" : "#A9A9A9"} 
+                                                />
+                                                <label
+                                                    style={{
+                                                        fontSize: 13,
+                                                        fontWeight: 500,
+                                                        color: canWritePayingGuests ? "#222222" : "#A9A9A9", 
+                                                        marginBottom: 0,
+                                                        fontFamily: "Gilroy",
+                                                        cursor: canWritePayingGuests ? "pointer" : "not-allowed",
+                                                    }}
+                                                >
+                                                    Move To Notice Period
+                                                </label>
                                             </div>
+
                                         </div>
                                     )}
                                 </div>
@@ -223,7 +240,7 @@ function OccupiedBedStatus({
                                             </div>
                                             <div>
                                                 <label style={{ fontSize: 16, color: "#4B4B4B", fontWeight: 500, fontFamily: "Gilroy" }}>
-                                                                               {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
+                                                    {currentItem?.currentTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.currentTenantMobile)}` : 'No phone'}
 
                                                 </label>
 

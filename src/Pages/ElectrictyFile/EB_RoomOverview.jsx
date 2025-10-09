@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import LoaderComponent from "../LoaderComponent";
 import leftarrow from "../../Assets/Images/arrow-left.png";
 import building from '/src/Assets/Images/New_images/building1.svg';
@@ -10,125 +10,74 @@ import { FiFilter } from "react-icons/fi";
 import { Table } from "react-bootstrap";
 import PaginationList from "../../Components/PaginationList";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+
+
+const EBRoomOverview = ({ onBack, room }) => {
+
+    const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+
+    const [activeTab, setActiveTab] = useState("room");
+    const [roomReadingList, setRoomReadingList] = useState();
+    const [tableLoading, setTableLoading] = useState(false)
 
 
 
-const EBRoomOverview = ({ onBack }) => {
+    console.log("state", state)
+
+    useEffect(() => {
+        if (room.hostelId && room.roomId) {
+            dispatch({ type: 'GETPARTICULARROOMREADING', payload: { hostelId: room.hostelId, roomId: room.roomId } })
+            setTableLoading(true)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (state.UsersList.getparticularRoomReadingStatus === 200) {
+            setTableLoading(false)
+            setRoomReadingList(state.UsersList?.getParticularRoomReadingList?.readings)
+
+            setTimeout(() => {
+                dispatch({ type: 'REMOVE_GET_PARTICULAR_ROOM_READING' })
+            }, 100)
+
+        }
+
+    }, [state.UsersList.getparticularRoomReadingStatus])
+
+    const formattedReadings = roomReadingList?.map((item) => {
+        const [day, month, year] = item.startDate.split("/");
+        const billingMonth = new Date(`${year}-${month}-01`).toLocaleString("en-US", {
+            month: "long",
+            year: "numeric",
+        });
+
+        const formatDate = (dateStr) => {
+            const [d, m, y] = dateStr.split("/").map(Number);
+            return new Date(y, m - 1, d).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+            });
+        };
 
 
-    const [activeTab, setActiveTab] = useState("customer");
-    // const [loading, setLoading] = useState(false);
+
+        return {
+            billingMonth,
+            from: formatDate(item.startDate),
+            to: formatDate(item.endDate),
+            totalUnits: item.consumption,
+            amount: item.consumption * item.unitPrice,
+        };
+    });
 
 
-    const billingData = [
-        {
-            pic: Ellipse1,
-            name: "Surya",
-            bed: "Bed No 01",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: 300,
-            amount: "₹1,000",
-            action: "⋮",
-        },
-        {
-            name: "Rajesh",
-            bed: "Bed No 02",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: 220,
-            amount: "₹2,200",
-            action: "⋮",
-        },
-        {
-            name: "Ramesh",
-            bed: "Bed No 03",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            action: "⋮",
-        },
-        {
-            name: "Xavier",
-            bed: "Bed No 04",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            action: "⋮",
-        },
-        {
-            name: "Britto",
-            bed: "Bed No 05",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            action: "⋮",
-        },
-        {
-            name: "Alex",
-            bed: "Bed No 01",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            action: "⋮",
-        },
-        {
-            name: "Surya",
-            bed: "Bed No 01",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            action: "⋮",
-        },
-        {
-            name: "Supriya",
-            bed: "Bed No 02",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            action: "⋮",
-        },
-        {
-            name: "Karthick",
-            bed: "Bed No 03",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            action: "⋮",
-        },
-        {
-            name: "Priya",
-            bed: "Bed No 03",
-            billingMonth: "Aug 2025",
-            from: "02 Jul",
-            to: "23 Aug",
-            totalUnits: "---",
-            amount: "₹0.00",
-            action: "⋮",
-
-        },
-    ];
-
-
+    console.log("formattedReadings", formattedReadings)
     return (
         <>
-            {/* {loading && <LoaderComponent />} */}
+
             <div>
                 <div className="mb-5  mx-4">
 
@@ -184,11 +133,11 @@ const EBRoomOverview = ({ onBack }) => {
                                             fontFamily: "Gilroy",
                                         }}
                                     >
-                                        Room No 004
+                                        {room.roomName}
                                     </p>
                                     <div className="d-flex justify-content-start align-items-center" style={{ gap: 6, marginTop: 4 }}>
                                         <img src={building} height="14" width="14" alt="Ground Floor" />
-                                        <div style={{ color: "#4B4B4B", fontSize: 14 }}>Ground Floor</div>
+                                        <div style={{ color: "#4B4B4B", fontSize: 14 }}>{room.floorName}</div>
                                     </div>
                                 </div>
                             </div>
@@ -202,17 +151,17 @@ const EBRoomOverview = ({ onBack }) => {
                         style={{ marginLeft: "2px", marginTop: "-10px" }}
                     >
                         <div
-                            onClick={() => setActiveTab("customer")}
+                            onClick={() => setActiveTab("room")}
                             style={{
                                 fontSize: 17,
                                 fontFamily: "Gilroy",
-                                color: activeTab === "customer" ? "black" : "#4B4B4B",
-                                fontWeight: activeTab === "customer" ? "600" : "normal",
+                                color: activeTab === "room" ? "black" : "#4B4B4B",
+                                fontWeight: activeTab === "room" ? "600" : "normal",
                                 cursor: "pointer",
                                 marginRight: 24,
                                 paddingBottom: 6,
                                 borderBottom:
-                                    activeTab === "customer"
+                                    activeTab === "room"
                                         ? "2px solid #1E45E1"
                                         : "2px solid transparent",
                             }}
@@ -220,16 +169,16 @@ const EBRoomOverview = ({ onBack }) => {
                             Reading
                         </div>
                         <div
-                            onClick={() => setActiveTab("room")}
+                            onClick={() => setActiveTab("customer")}
                             style={{
                                 fontSize: 16,
                                 fontFamily: "Gilroy",
-                                color: activeTab === "room" ? "black" : "#4B4B4B",
-                                fontWeight: activeTab === "room" ? "600" : "normal",
+                                color: activeTab === "customer" ? "black" : "#4B4B4B",
+                                fontWeight: activeTab === "customer" ? "600" : "normal",
                                 cursor: "pointer",
                                 paddingBottom: 6,
                                 borderBottom:
-                                    activeTab === "room"
+                                    activeTab === "customer"
                                         ? "2px solid #1E45E1"
                                         : "2px solid transparent",
                             }}
@@ -251,8 +200,8 @@ const EBRoomOverview = ({ onBack }) => {
                     </div>
                 </div>
 
-                {activeTab === "customer" && (
-                    billingData.length === 0 ? (
+                {activeTab === "room" && (
+                    roomReadingList?.length === 0 ? (
                         <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
@@ -271,6 +220,7 @@ const EBRoomOverview = ({ onBack }) => {
                                 boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
                                 maxHeight: "420px",
                                 overflowY: "auto",
+                                position: "relative"
                             }}
                         >
                             <Table bordered={false} className="align-middle mb-0">
@@ -306,33 +256,63 @@ const EBRoomOverview = ({ onBack }) => {
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
-                                        {billingData.map((row, i) => (
-                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+                                        {formattedReadings?.map((row, i) => (
+                                            <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px", fontFamily: "Gilroy" }}>
 
                                                 <td style={{ paddingLeft: "40px" }}>{row.billingMonth}</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.from}</td>
                                                 <td style={{ paddingLeft: "10px" }}>{row.to}</td>
                                                 <td style={{ paddingLeft: "40px" }}>{row.totalUnits}</td>
                                                 <td style={{ paddingLeft: "25px" }}>{row.amount}</td>
-                                                <td style={{ paddingLeft: "40px" }}>{row.action}</td>
+                                                <td style={{ paddingLeft: "40px" }}>
+                                                    <BiDotsVerticalRounded style={{ color: '#000', fontSize: 19, cursor: "pointer" }} />
+                                                </td>
                                             </tr>
                                         ))}
                                     </PaginationList>
                                 </tbody>
                             </Table>
+
+                            {tableLoading &&
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '50%',
+                                        transform: 'translate(-50%, -50%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: 'transparent',
+                                        opacity: 0.75,
+                                        zIndex: 10,
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            borderTop: '4px solid #1E45E1',
+                                            borderRight: '4px solid transparent',
+                                            borderRadius: '50%',
+                                            width: '40px',
+                                            height: '40px',
+                                            animation: 'spin 1s linear infinite',
+                                        }}
+                                    ></div>
+                                </div>
+                            }
                         </div>
                     )
                 )}
 
-                {activeTab === "room" && (
-                    billingData.length === 0 ? (
+                {activeTab === "customer" && (
+                    roomReadingList?.length === 0 ? (
                         <div style={{ textAlign: "center", marginTop: 40 }}>
                             <img src={emptyimg} width={240} height={240} alt="emptystate" />
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                                No Transaction
+                                No room reading
                             </div>
                             <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                                There are no Transaction available.
+                                There are no room reading available.
                             </div>
                         </div>
                     ) : (
@@ -383,9 +363,9 @@ const EBRoomOverview = ({ onBack }) => {
                                 </thead>
                                 <tbody style={{ fontSize: 14, color: "#000" }}>
                                     <PaginationList>
-                                        {billingData.map((row, i) => (
+                                        {roomReadingList?.map((row, i) => (
                                             <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                                               
+
                                                 <td style={{ paddingLeft: "10px", fontWeight: 600, color: "black" }}>
                                                     <img src={Ellipse1} alt="" style={{ marginRight: "12px" }} />
                                                     {row.name}
