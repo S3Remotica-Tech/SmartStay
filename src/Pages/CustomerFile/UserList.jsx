@@ -712,6 +712,7 @@ function UserList(props) {
     setTableErrmsg("");
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
+    dispatch({ type: 'CLEAR_KYC_DOCUMENTS_DETAILS' })
   };
 
   useEffect(() => {

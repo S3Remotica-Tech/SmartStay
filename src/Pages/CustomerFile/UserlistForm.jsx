@@ -2460,7 +2460,7 @@ console.log("selectedFloor",selectedFloor)
     };
 
     const formattedDate = recheckInDate
-      ? incrementDateAndFormat(recheckInDate) + "T00:00:00"
+      ? incrementDateAndFormat(recheckInDate)
       : "";
 
 

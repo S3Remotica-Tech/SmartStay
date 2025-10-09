@@ -17,7 +17,7 @@ import Error_Icon from ".././Assets/Images/New_images/Error_warning.png";
 const SettingElectricity = ({ hostelid }) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  const [isRecurring, setIsRecurring] = useState(false);
+  // const [isRecurring, setIsRecurring] = useState(false);
   const [roomBasedCalculation, setRoomBasedCalculation] = useState(false);
   const [hostelBasedCalculation, setHostelBasedCalculation] = useState(false);
   const [showFormElectricity, setShowFormElectricity] = useState(false);
@@ -177,32 +177,32 @@ const SettingElectricity = ({ hostelid }) => {
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
-    setIsRecurring(false);
+    // setIsRecurring(false);
     setCalculatedstartdateErrmsg("");
     setCalculatedEnddateErrMsg("");
     setCalculatedEnddate("");
     setCalculatedstartdate("");
   };
 
-  const handleRecurringFormShow = (item) => {
-    setIsRecurring(!isRecurring);
+  // const handleRecurringFormShow = (item) => {
+  //   setIsRecurring(!isRecurring);
 
-    if (!isRecurring === false) {
-      setRecurringForm(false);
-      dispatch({
-        type: "SETTINGSADDRECURRING",
-        payload: {
-          type: "electricity",
-          recure: 0,
-          hostel_id: Number(item.hostel_id),
-          start_date: "0",
-          end_date: "0",
-        },
-      });
-    } else {
-      setRecurringForm(true);
-    }
-  };
+  //   if (!isRecurring === false) {
+  //     setRecurringForm(false);
+  //     dispatch({
+  //       type: "SETTINGSADDRECURRING",
+  //       payload: {
+  //         type: "electricity",
+  //         recure: 0,
+  //         hostel_id: Number(item.hostel_id),
+  //         start_date: "0",
+  //         end_date: "0",
+  //       },
+  //     });
+  //   } else {
+  //     setRecurringForm(true);
+  //   }
+  // };
 
   const handlechangeEvery = (e) => {
     setEvery_Recurr(e.target.value);
@@ -229,7 +229,7 @@ const SettingElectricity = ({ hostelid }) => {
         },
       });
       setFormRecurringLoading(true)
-      setIsRecurring(false);
+      // setIsRecurring(false);
     }
   };
 
@@ -286,7 +286,7 @@ const SettingElectricity = ({ hostelid }) => {
       let temp = state.Settings.EBBillingUnitlist;
       setHostelBasedCalculation(temp[0].hostel_based === 1);
       setRoomBasedCalculation(temp[0].room_based === 1);
-      setIsRecurring(temp[0].recuring);
+      // setIsRecurring(temp[0].recuring);
     }
   }, [state.Settings.EBBillingUnitlist]);
 
@@ -466,7 +466,7 @@ const SettingElectricity = ({ hostelid }) => {
           ? EbList.map((v, index) => {
             return (
               <Row key={index} className="scroll-issue">
-                <Col lg={12} md={12} sm={12} style={{ maxWidth: '900px', width: '100%' }}>
+                <Col lg={8} md={8} sm={12} >
                   <Card
                     className="p-2 border mb-4 mb-md-0"
                     style={{ borderRadius: 16 }}
@@ -663,7 +663,7 @@ const SettingElectricity = ({ hostelid }) => {
                             />
                           </Col>
 
-                          <Col>
+                          {/* <Col>
                             <Form.Label
                               style={{
                                 fontSize: 12,
@@ -682,7 +682,7 @@ const SettingElectricity = ({ hostelid }) => {
                               onChange={() => handleRecurringFormShow(v)}
                               className="custom-switch-pointer"
                             />
-                          </Col>
+                          </Col> */}
                         </Row>
 
                         <style>
