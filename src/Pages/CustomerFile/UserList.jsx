@@ -153,7 +153,7 @@ function UserList(props) {
 
   const canReadTenant = useHasPermission("Customers", "canRead")
   const canWriteTenant = useHasPermission("Customers", "canWrite")
-  const canUpdateTenant = useHasPermission("Customers", "canUpdate")
+  // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
   const canDeleteTenant = useHasPermission("Customers", "canDelete")
 
 
