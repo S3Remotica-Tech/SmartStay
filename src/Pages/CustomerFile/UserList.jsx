@@ -153,12 +153,8 @@ function UserList(props) {
 
   const canReadTenant = useHasPermission("Customers", "canRead")
   const canWriteTenant = useHasPermission("Customers", "canWrite")
-  // const canUpdateTenant = useHasPermission("Customers", "canUpdate")
   const canDeleteTenant = useHasPermission("Customers", "canDelete")
-
-
-
-  const canReadCheckout = useHasPermission("Customers", "canRead")
+  const canWriteWalkin = useHasPermission("Walk in", "canWrite")
 
 
 
@@ -2755,7 +2751,7 @@ function UserList(props) {
                   )} */}
                   {value === "4" && (
                     <Button
-                      disabled={customerWalkInAddPermission}
+                      disabled={!canWriteWalkin}
                       onClick={walkinForm}
                       style={buttonStyle}
                     >

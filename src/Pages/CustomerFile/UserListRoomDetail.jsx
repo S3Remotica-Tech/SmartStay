@@ -60,7 +60,7 @@ import StayHistory from "./StayHistory";
 import Retry from "../../Assets/Images/New_images/reload.png";
 import FileAdd from '../../Assets/Images/New_images/file_add.svg'
 import ErrorMessage from '../../Components/ErrorMessage'
-
+import { useHasPermission } from '../../Utils/Permission';
 
 
 
@@ -143,6 +143,18 @@ function UserListRoomDetail(props) {
   const [documentvalue, setDocumentValue] = useState("1")
   const [previewUrl, setPreviewUrl] = useState(null);
   const [previewUrl2, setPreviewUrl2] = useState(null)
+
+
+
+
+ const canUpdateTenant = useHasPermission("Customers", "canUpdate")
+const canDeleteTenant = useHasPermission("Customers", "canDelete")
+const canWriteTenant = useHasPermission("Customers", "canWrite")
+
+
+
+
+
 
   const handleFileOpen = (url) => {
     if (!url) return;
@@ -2314,7 +2326,7 @@ function UserListRoomDetail(props) {
                     {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
                       <>
                         <Button
-                          disabled={props.customerAddPermission}
+                          disabled={!canWriteTenant}
                           type="primary"
                           style={{
                             borderRadius: "20px",
@@ -2404,7 +2416,7 @@ function UserListRoomDetail(props) {
                       state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
                       <>
                         <Button
-                          disabled={props.customerAddPermission}
+                          disabled={!canWriteTenant}
                           type="primary"
                           style={{
                             borderRadius: "20px",
@@ -2575,22 +2587,22 @@ function UserListRoomDetail(props) {
                             </div>
                             <div
                               style={{
-                                cursor: props.customerEditPermission
+                                cursor: !canUpdateTenant
                                   ? "not-allowed"
                                   : "pointer",
-                                opacity: props.customerEditPermission
+                                opacity: !canUpdateTenant
                                   ? 0.6
                                   : 1,
                               }}
                             >
                               <div
                                 onClick={() => {
-                                  if (!props.customerEditPermission) {
+                                  if (canUpdateTenant) {
                                     handleEditBasicDetails(CustomerOverView);
                                   }
                                 }}
                                 style={{
-                                  cursor: props.customerEditPermission
+                                  cursor: !canUpdateTenant
                                     ? "not-allowed"
                                     : "pointer",
                                   height: 40,
@@ -2609,7 +2621,7 @@ function UserListRoomDetail(props) {
                                   style={{
                                     height: 16,
                                     width: 16,
-                                    color: props.customerEditPermission
+                                    color: !canUpdateTenant
                                       ? "#CCCCCC"
                                       : "#000",
                                   }}
@@ -2811,13 +2823,13 @@ function UserListRoomDetail(props) {
     
       <div
         style={{
-          cursor: props.customerEditPermission ? "not-allowed" : "pointer",
-          opacity: props.customerEditPermission ? 0.6 : 1,
+          cursor: !canUpdateTenant ? "not-allowed" : "pointer",
+          opacity:!canUpdateTenant ? 0.6 : 1,
         }}
       >
         <div
           onClick={() => {
-            if (!props.customerEditPermission) {
+            if (canUpdateTenant) {
               handleEditAddressDetailsShow(CustomerOverView);
             }
           }}
@@ -2837,7 +2849,7 @@ function UserListRoomDetail(props) {
             style={{
               height: 16,
               width: 16,
-              color: props.customerEditPermission ? "#CCCCCC" : "#000",
+              color: !canUpdateTenant ? "#CCCCCC" : "#000",
             }}
           />
         </div>
@@ -3419,45 +3431,45 @@ function UserListRoomDetail(props) {
 
                                 <div className="d-flex flex-row">
                                   <div style={{
-                                    cursor: props.customerEditPermission
+                                    cursor: !canUpdateTenant
                                       ? "not-allowed"
                                       : "pointer",
-                                    opacity: props.customerEditPermission
+                                    opacity: !canUpdateTenant
                                       ? 0.6
                                       : 1,
                                   }}>
                                     <img src={Stayhistory} alt="stayhistoryicon"
                                       onClick={() => {
 
-                                        if (!props.customerEditPermission) {
+                                        if (canUpdateTenant) {
                                           handleShowStayHistory(CustomerOverView);
                                         }
                                       }}
                                       style={{
                                         height: 18, width: 18,
-                                        cursor: props.customerEditPermission
+                                        cursor: !canUpdateTenant
                                           ? "not-allowed"
                                           : "pointer",
                                       }} />
                                   </div>
                                   <div
                                     style={{
-                                      cursor: props.customerEditPermission
+                                      cursor: !canUpdateTenant
                                         ? "not-allowed"
                                         : "pointer",
-                                      opacity: props.customerEditPermission
+                                      opacity: !canUpdateTenant
                                         ? 0.6
                                         : 1,
                                     }}
                                   >
                                     <div
                                       onClick={() => {
-                                        if (!props.customerEditPermission) {
+                                        if (canUpdateTenant) {
                                           handleEditStayDetails(CustomerOverView);
                                         }
                                       }}
                                       style={{
-                                        cursor: props.customerEditPermission
+                                        cursor: !canUpdateTenant 
                                           ? "not-allowed"
                                           : "pointer",
                                         height: 30,
@@ -3477,7 +3489,7 @@ function UserListRoomDetail(props) {
                                         style={{
                                           height: 16,
                                           width: 16,
-                                          color: props.customerEditPermission
+                                          color: !canUpdateTenant
                                             ? "#CCCCCC"
                                             : "#000",
                                         }}
@@ -3532,17 +3544,17 @@ function UserListRoomDetail(props) {
                                   </p>
                                   <p
                                     onClick={() => {
-                                      if (!props.customerEditPermission && CustomerOverView?.hostelInfo?.bedId) {
+                                      if (canUpdateTenant && CustomerOverView?.hostelInfo?.bedId) {
                                         handleShowEditBed(
                                           CustomerOverView
                                         );
                                       }
                                     }}
                                     style={{
-                                      cursor: props.customerEditPermission
+                                      cursor: !canUpdateTenant
                                         ? "not-allowed"
                                         : "pointer",
-                                      opacity: props.customerEditPermission
+                                      opacity: !canUpdateTenant
                                         ? 0.6
                                         : 1,
                                       marginTop: "-10px",
@@ -3552,10 +3564,10 @@ function UserListRoomDetail(props) {
                                       src={RoomImage}
                                       alt="group"
                                       style={{
-                                        cursor: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                        cursor: !canUpdateTenant 
                                           ? "not-allowed"
                                           : "pointer",
-                                        filter: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                        filter: !canUpdateTenant 
                                           ? "grayscale(100%)"
                                           : "none",
                                       }}
@@ -3567,10 +3579,10 @@ function UserListRoomDetail(props) {
                                         fontWeight: 600,
                                         fontFamily: "Gilroy",
                                         marginTop: "-10px",
-                                        cursor: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                        cursor: !canUpdateTenant  
                                           ? "not-allowed"
                                           : "pointer",
-                                        color: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                        color: !canUpdateTenant 
                                           ? "#888888"
                                           : "#000000",
                                       }}
@@ -3595,17 +3607,17 @@ function UserListRoomDetail(props) {
                                   </p>
                                   <p
                                     onClick={() => {
-                                      if (!props.customerEditPermission && CustomerOverView?.hostelInfo?.bedId) {
+                                      if (canUpdateTenant  ) {
                                         handleShowEditBed(
                                           customerDetails
                                         );
                                       }
                                     }}
                                     style={{
-                                      cursor: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                      cursor: !canUpdateTenant  
                                         ? "not-allowed"
                                         : "pointer",
-                                      opacity: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                      opacity: !canUpdateTenant 
                                         ? 0.6
                                         : 1,
                                       marginTop: "-10px",
@@ -3615,10 +3627,10 @@ function UserListRoomDetail(props) {
                                       src={Group}
                                       alt="group"
                                       style={{
-                                        cursor: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                        cursor: !canUpdateTenant 
                                           ? "not-allowed"
                                           : "pointer",
-                                        filter: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                        filter: !canUpdateTenant 
                                           ? "grayscale(100%)"
                                           : "none",
                                       }}
@@ -3629,10 +3641,10 @@ function UserListRoomDetail(props) {
                                         fontSize: 14,
                                         fontWeight: 600,
                                         fontFamily: "Gilroy",
-                                        cursor: props.customerEditPermission
+                                        cursor: !canUpdateTenant 
                                           ? "not-allowed"
                                           : "pointer",
-                                        color: props.customerEditPermission
+                                        color: !canUpdateTenant 
                                           ? "#888888"
                                           : "#000000",
                                       }}
@@ -3654,17 +3666,17 @@ function UserListRoomDetail(props) {
                                   </p>
                                   <p
                                     onClick={() => {
-                                      if (!props.customerEditPermission && CustomerOverView?.hostelInfo?.bedId) {
+                                      if (canUpdateTenant ) {
                                         handleShowEditBed(
                                           customerDetails
                                         );
                                       }
                                     }}
                                     style={{
-                                      cursor: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                      cursor: !canUpdateTenant 
                                         ? "not-allowed"
                                         : "pointer",
-                                      opacity: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                      opacity: !canUpdateTenant 
                                         ? 0.6
                                         : 1,
                                       marginTop: "-10px",
@@ -3675,10 +3687,10 @@ function UserListRoomDetail(props) {
                                       src={LinkImage}
                                       alt="group"
                                       style={{
-                                        cursor: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                        cursor:!canUpdateTenant 
                                           ? "not-allowed"
                                           : "pointer",
-                                        filter: props.customerEditPermission || !CustomerOverView?.hostelInfo?.bedId
+                                        filter: !canUpdateTenant 
                                           ? "grayscale(100%)"
                                           : "none",
                                       }}
@@ -3689,10 +3701,10 @@ function UserListRoomDetail(props) {
                                         fontSize: 14,
                                         fontWeight: 600,
                                         fontFamily: "Gilroy",
-                                        cursor: props.customerEditPermission
+                                        cursor: !canUpdateTenant 
                                           ? "not-allowed"
                                           : "pointer",
-                                        color: props.customerEditPermission
+                                        color: !canUpdateTenant 
                                           ? "#888888"
                                           : "#000000",
                                       }}
@@ -3764,7 +3776,7 @@ function UserListRoomDetail(props) {
 
                                           <div className="col-sm-4 col-lg-4 d-flex flex-column align-items-center">
                                             <Button
-                                              disabled={props.customerAddPermission}
+                                              disabled={!canWriteTenant}
                                               style={{
                                                 width: 102,
                                                 height: 31,
@@ -4039,23 +4051,23 @@ function UserListRoomDetail(props) {
                                             <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
                                               Contact Info{" "}
 
-                                              <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} onClick={() => {
-                                                if (!props.customerEditPermission) {
+                                              <Edit size="16" color={!canUpdateTenant  ? "#A9A9A9" : "#1E45E1"} onClick={() => {
+                                                if (canUpdateTenant ) {
                                                   handleContactEdit(v);
                                                 }
                                               }} />
 
 
-                                              <Trash size="16" color={props.customerDeletePermission ? "#A9A9A9" : "red"}
+                                              <Trash size="16" color={!canDeleteTenant ? "#A9A9A9" : "red"}
 
 
                                                 onClick={() => {
-                                                  if (!props.customerDeletePermission) {
+                                                  if (canDeleteTenant) {
                                                     handleContactDelete(v);
                                                   }
                                                 }}
-                                                style={{ cursor: props.customerDeletePermission ? "not-allowed" : "pointer", }} onMouseEnter={(e) => {
-                                                  if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                style={{ cursor: !canDeleteTenant ? "not-allowed" : "pointer", }} onMouseEnter={(e) => {
+                                              e.currentTarget.style.backgroundColor = "#FFF3F3";
                                                 }}
                                                 onMouseLeave={(e) => {
                                                   e.currentTarget.style.backgroundColor = "transparent";
@@ -4146,22 +4158,22 @@ function UserListRoomDetail(props) {
                                         <div key={index}>
                                           <p className="mb-3">
                                             Contact Info{" "}
-                                            <Edit size="16" color={props.customerEditPermission ? "#A9A9A9" : "#1E45E1"} style={{ cursor: "pointer" }} onClick={() => {
-                                              if (!props.customerEditPermission) {
+                                            <Edit size="16" color={!canUpdateTenant ? "#A9A9A9" : "#1E45E1"} style={{ cursor: "pointer" }} onClick={() => {
+                                              if (canUpdateTenant) {
                                                 handleContactEdit(v);
                                               }
                                             }} />
 
-                                            <Trash size="16" color={props.customerDeletePermission ? "#A9A9A9" : "red"}
+                                            <Trash size="16" color={!canDeleteTenant ? "#A9A9A9" : "red"}
 
 
                                               onClick={() => {
-                                                if (!props.customerDeletePermission) {
+                                                if (canDeleteTenant) {
                                                   handleContactDelete(v);
                                                 }
                                               }}
-                                              style={{ cursor: props.customerDeletePermission ? "not-allowed" : "pointer", marginLeft: 10 }} onMouseEnter={(e) => {
-                                                if (!props.customerDeletePermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                              style={{ cursor: !canDeleteTenant ? "not-allowed" : "pointer", marginLeft: 10 }} onMouseEnter={(e) => {
+                                           e.currentTarget.style.backgroundColor = "#FFF3F3";
                                               }}
                                               onMouseLeave={(e) => {
                                                 e.currentTarget.style.backgroundColor = "transparent";
@@ -4268,7 +4280,7 @@ function UserListRoomDetail(props) {
                                     <button
 
                                       type="button" className="btn mt-2"
-                                      disabled={props.customerAddPermission}
+                                      disabled={!canWriteTenant}
                                       style={{
                                         backgroundColor: "#1E45E1",
                                         fontWeight: 600,
