@@ -6,13 +6,27 @@ import Assign from '../Assets/Images/MoneyAdd-Linear-32px.png';
 import Download from '../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types"
 import WriteOffForm from "./InvoiceWriteOff";
-
-
+import { useHasPermission } from '../Utils/Permission';
 
 const InvoiceTable = (props) => {
 
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
+
+
+const canWriteInvoice = useHasPermission("Invoice", "canWrite")
+const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
+const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
+
+
+
+
+
+
+
+
+
 
   const handleShowDots = (event) => {
     setShowDots(!showDots)
@@ -224,20 +238,20 @@ const handleCloseRefundAmount=()=>{
 
 
                     <div
-                      className={`d-flex justify-content-start align-items-center gap-2 ${props.billEditPermission ? 'disabled' : ''}`}
+                      className={`d-flex justify-content-start align-items-center gap-2 ${!canUpdateInvoice ? 'disabled' : ''}`}
                       style={{
-                        cursor: props.billEditPermission ? "not-allowed" : "pointer",
+                        cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
                         borderTopLeftRadius: 10,
                         borderTopRightRadius: 10,
                         backgroundColor: "#F9F9F9",
                         padding: "8px 12px",
-                         opacity: props.billEditPermission ? 0.5 : 1,
+                         opacity: !canUpdateInvoice ? 0.5 : 1,
                       }}
                       onClick={() => {
-                        if (!props.billEditPermission) handleEdit(props);
+                        if (canUpdateInvoice) handleEdit(props);
                       }}
                       onMouseEnter={(e) => {
-                        if (!props.billEditPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                         e.currentTarget.style.backgroundColor = "#EDF2FF";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -249,7 +263,7 @@ const handleCloseRefundAmount=()=>{
                         style={{
                           height: 16,
                           width: 16,
-                          filter: props.billEditPermission ? "grayscale(100%)" : "none",
+                          filter: !canUpdateInvoice ? "grayscale(100%)" : "none",
                         }}
                       />
                       <label
@@ -258,7 +272,7 @@ const handleCloseRefundAmount=()=>{
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
                           color:  "#222",
-                           cursor: props.billEditPermission ? "not-allowed" : "pointer",
+                           cursor: !canUpdateInvoice ? "not-allowed" : "pointer",
                         }}
                       >
                         Edit
@@ -267,14 +281,14 @@ const handleCloseRefundAmount=()=>{
 
                     <div
                       className="d-flex justify-content-start align-items-center gap-2 "
-                      onClick={() => {if (!props.billAddPermission) {handleInvoicepdf(props.item)}}}
+                      onClick={() => {if (canWriteInvoice) {handleInvoicepdf(props.item)}}}
                       style={{
-                        cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                        cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                         padding: "8px 12px",
-                         opacity: props.billAddPermission ? 0.5 : 1,
+                         opacity: !canWriteInvoice ? 0.5 : 1,
                       }}
                       onMouseEnter={(e) => { 
-                      if (!props.billAddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF"}}
+                     e.currentTarget.style.backgroundColor = "#EDF2FF"}}
                       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
                     >
                       <img src={Download} alt="Download" style={{ height: 16, width: 16 }} />
@@ -284,7 +298,7 @@ const handleCloseRefundAmount=()=>{
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
                           color: "#222",
-                           cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                           cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                         }}
                       >
                         Download
@@ -294,17 +308,17 @@ const handleCloseRefundAmount=()=>{
 
                     {props.item.BalanceDue !== 0 && (
                       <div
-                        className={`d-flex justify-content-start align-items-center gap-2  ${props.billAddPermission ? 'disabled' : ''}`}
+                        className={`d-flex justify-content-start align-items-center gap-2  ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
-                          cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           padding: "8px 12px",
-                          opacity: props.billAddPermission ? 0.5 : 1,
+                          opacity: !canWriteInvoice ? 0.5 : 1,
                         }}
                         onClick={() => {
-                          if (!props.billAddPermission) handleShowform(props);
+                          if (canWriteInvoice) handleShowform(props);
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.billAddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                           e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -316,7 +330,7 @@ const handleCloseRefundAmount=()=>{
                           style={{
                             height: 16,
                             width: 16,
-                            filter: props.billAddPermission ? "grayscale(100%)" : "none",
+                            filter: !canWriteInvoice ? "grayscale(100%)" : "none",
                           }}
                         />
                         <label
@@ -325,7 +339,7 @@ const handleCloseRefundAmount=()=>{
                             fontWeight: 500,
                             fontFamily: "Gilroy, sans-serif",
                             color:  "#222",
-                             cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                             cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           }}
                         >
                           Record Payment
@@ -334,17 +348,17 @@ const handleCloseRefundAmount=()=>{
                     )}
 
                     <div
-                     className={`d-flex justify-content-start align-items-center gap-2 ${props.billAddPermission ? 'disabled' : ''}`}
+                     className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
                         style={{
-                          cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           padding: "8px 12px",
-                          opacity: props.billAddPermission ? 0.5 : 1,
+                          opacity: !canWriteInvoice ? 0.5 : 1,
                         }}
                         onClick={() => {
-                          if (!props.billAddPermission) handleRefundAmount(props);
+                          if (canWriteInvoice) handleRefundAmount(props);
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.billAddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                          e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -356,7 +370,7 @@ const handleCloseRefundAmount=()=>{
                           style={{
                             height: 16,
                             width: 16,
-                            filter: props.billAddPermission ? "grayscale(100%)" : "none",
+                            filter: !canWriteInvoice ? "grayscale(100%)" : "none",
                           }}
                         />
                         <label
@@ -365,25 +379,25 @@ const handleCloseRefundAmount=()=>{
                             fontWeight: 500,
                             fontFamily: "Gilroy, sans-serif",
                             color:  "#222",
-                             cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                             cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           }}
                         >
                          Refund Amount
                         </label>
                       </div>
 <div
-                       className={`d-flex justify-content-start align-items-center gap-2 ${props.billAddPermission ? 'disabled' : ''}`}
+                       className={`d-flex justify-content-start align-items-center gap-2 ${!canWriteInvoice ? 'disabled' : ''}`}
 
                         style={{
-                          cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                          cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           padding: "8px 12px",
-                          opacity: props.billAddPermission ? 0.5 : 1,
+                          opacity: !canWriteInvoice ? 0.5 : 1,
                         }}
                         onClick={() => {
-                          if (!props.billAddPermission) handleWriteOffFrom(props.item);
+                          if (canWriteInvoice) handleWriteOffFrom(props.item);
                         }}
                         onMouseEnter={(e) => {
-                          if (!props.billAddPermission) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        e.currentTarget.style.backgroundColor = "#EDF2FF";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -395,7 +409,7 @@ const handleCloseRefundAmount=()=>{
                           style={{
                             height: 16,
                             width: 16,
-                            filter: props.billAddPermission ? "grayscale(100%)" : "none",
+                            filter: !canWriteInvoice ? "grayscale(100%)" : "none",
                           }}
                         />
                         <label
@@ -404,7 +418,7 @@ const handleCloseRefundAmount=()=>{
                             fontWeight: 500,
                             fontFamily: "Gilroy, sans-serif",
                             color:  "#222",
-                             cursor: props.billAddPermission ? "not-allowed" : "pointer",
+                             cursor: !canWriteInvoice ? "not-allowed" : "pointer",
                           }}
                         >
                          Write_Off
@@ -413,19 +427,19 @@ const handleCloseRefundAmount=()=>{
 
 
                     <div
-                      className={`d-flex justify-content-start align-items-center gap-2  ${props.billDeletePermission ? 'disabled' : ''}`}
+                      className={`d-flex justify-content-start align-items-center gap-2  ${!canDeleteInvoice ? 'disabled' : ''}`}
                       style={{
-                        cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+                        cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
                         borderBottomLeftRadius: 10,
                         borderBottomRightRadius: 10,
                         padding: "8px 12px",
-                        opacity: props.billDeletePermission ? 0.5 : 1,
+                        opacity: !canDeleteInvoice ? 0.5 : 1,
                       }}
                       onClick={() => {
-                        if (!props.billDeletePermission) handleBillDelete(props);
+                        if (canDeleteInvoice) handleBillDelete(props);
                       }}
                       onMouseEnter={(e) => {
-                        if (!props.billDeletePermission) e.currentTarget.style.backgroundColor = "#FFF0F0";
+                        e.currentTarget.style.backgroundColor = "#FFF0F0";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = "#F9F9F9";
@@ -437,7 +451,7 @@ const handleCloseRefundAmount=()=>{
                         style={{
                           height: 16,
                           width: 16,
-                          filter: props.billDeletePermission ? "grayscale(100%)" : "none",
+                          filter: !canDeleteInvoice ? "grayscale(100%)" : "none",
                         }}
                       />
                       <label
@@ -446,7 +460,7 @@ const handleCloseRefundAmount=()=>{
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
                           color:  "#FF0000",
-                           cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+                           cursor: !canDeleteInvoice ? "not-allowed" : "pointer",
                         }}
                       >
                         Delete

@@ -204,24 +204,24 @@ const SettingElectricity = ({ hostelid }) => {
 
 
 
-  
-const handleProRate = () => {
-  const newValue = !isProWrate;   
-  setProWrate(newValue);
-  console.log("isProWrate", newValue);
 
-  if (newValue) {
-    setRecurringForm(true);
-  } else {
-    dispatch({
-      type: "ROOMHOSTELEBCHANGE",
-      payload: {
-        hostelId: hostelid,
-        isProRate: false,
-      },
-    });
-  }
-};
+  const handleProRate = () => {
+    const newValue = !isProWrate;
+    setProWrate(newValue);
+    console.log("isProWrate", newValue);
+
+    if (newValue) {
+      setRecurringForm(true);
+    } else {
+      dispatch({
+        type: "ROOMHOSTELEBCHANGE",
+        payload: {
+          hostelId: hostelid,
+          isProRate: false,
+        },
+      });
+    }
+  };
 
 
   const handlechangeEvery = (e) => {
@@ -509,7 +509,7 @@ const handleProRate = () => {
 
 
           <Row className="scroll-issue">
-            <Col lg={12} md={12} sm={12} style={{ maxWidth: '900px', width: '100%' }}>
+            <Col lg={10} md={8} sm={12} >
               <Card
                 className="p-2 border mb-4 mb-md-0"
                 style={{ borderRadius: 16 }}
@@ -584,8 +584,9 @@ const handleProRate = () => {
 
 
                   <Form>
+                    
                     <Row className="mb-3 text-center">
-                      <Col>
+                      <Col >
                         <Form.Label
                           style={{
                             fontSize: 12,
@@ -597,7 +598,7 @@ const handleProRate = () => {
                         >
                           Room Based Calculation
                         </Form.Label>
-                        <Form.Check style={{ marginLeft: "-75px" }}
+                        <Form.Check 
                           type="switch"
                           id="roomBased"
                           checked={roomBasedCalculation}
@@ -606,7 +607,7 @@ const handleProRate = () => {
                         />
                       </Col>
 
-                      <Col>
+                      <Col >
                         <Form.Label
                           style={{
                             fontSize: 12,
@@ -618,7 +619,7 @@ const handleProRate = () => {
                         >
                           Hostel Based Calculation
                         </Form.Label>
-                        <Form.Check style={{ marginLeft: "-100px" }}
+                        <Form.Check 
                           type="switch"
                           id="hostelBased"
                           checked={hostelBasedCalculation}
@@ -627,7 +628,7 @@ const handleProRate = () => {
                         />
                       </Col>
 
-                      <Col>
+                      {/* <Col>
                         <Form.Label
                           style={{
                             fontSize: 12,
@@ -647,7 +648,7 @@ const handleProRate = () => {
                           onChange={() => handleProRate()}
                           className="custom-switch-pointer"
                         />
-                      </Col>
+                      </Col> */}
                     </Row>
 
                     <style>
@@ -806,19 +807,19 @@ const handleProRate = () => {
 
               <div className=" d-flex align-items-center">
                 {amountErr && (
-                 <ErrorMessage message={amountErr} type="error"/>
+                  <ErrorMessage message={amountErr} type="error" />
                 )}
               </div>
               <div className="">
                 {totalErr && (
-                   <ErrorMessage message={totalErr} type="error"/>
+                  <ErrorMessage message={totalErr} type="error" />
                 )}
               </div>
             </div>
           </div>
         </Modal.Body>
 
-       
+
 
         {formLoading && <div
           style={{
@@ -999,7 +1000,7 @@ const handleProRate = () => {
                     </div>
 
                     {calculatedstartdateerrmsg && (
-                       <ErrorMessage message={calculatedstartdateerrmsg} type="error"/>
+                      <ErrorMessage message={calculatedstartdateerrmsg} type="error" />
                     )}
                   </div>
 
@@ -1086,7 +1087,7 @@ const handleProRate = () => {
                       />
                     </div>
                     {calculatedenddateerrmsg && (
-                      <ErrorMessage message={calculatedenddateerrmsg} type="error"/>
+                      <ErrorMessage message={calculatedenddateerrmsg} type="error" />
                     )}
                   </div>
 

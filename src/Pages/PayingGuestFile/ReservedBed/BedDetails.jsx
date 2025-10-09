@@ -2,18 +2,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-// import { useDispatch, useSelector } from "react-redux";
 import "../../../Pages/AssetFile/addAsset.css";
-// import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import Profile from '../../../Assets/Images/New_images/profile-picture.png'
 import { AddCircle, LogoutCurve } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'react-bootstrap/Image';
-// import UserList from "../../CustomerFile/UserList";
-// import { current } from "@reduxjs/toolkit";
-// import MakeAsInactive from "../../CustomerFile/MakeAsInactive";
+import { useHasPermission } from '../../../Utils/Permission';
+
 
 
 function BedDetails({
@@ -27,38 +24,21 @@ function BedDetails({
     const state = useSelector(state => state)
     const dispatch = useDispatch();
 
-    // const [customer, setCustomer] = useState([])
+    
+    const canWriteCustomers = useHasPermission("Customers", "canWrite")
 
-    
-    
-   
+
     const [showDots, setShowDots] = useState('')
     const [activeRoomId, setActiveRoomId] = useState(null);
     const popupRef = useRef(null);
 
-    // useEffect(() => {
-
-    //     const Hostel_Id = currentItem?.room.Hostel_Id;
-    //     const Floor_Id = currentItem?.room.Floor_Id;
-    //     const Bed_Id = currentItem?.bed.id;
-    //     const Room_Id = currentItem?.room.Room_Id;
-
-
-    //     if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-
-    //         dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
-
-    //     }
-    // }, [currentItem])
+    
 
 
 
     useEffect(() => {
         if (state.Booking.StatusCodeInactiveCode === 200) {
-            // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: currentItem?.room.Floor_Id, hostel_Id: currentItem?.room.Hostel_Id } })
-            // dispatch({ type: 'HOSTELLIST' })
-
-            setTimeout(() => {
+                     setTimeout(() => {
                 dispatch({ type: 'CLEAR_BOOKING_InActive' })
             }, 1000)
 
@@ -67,18 +47,6 @@ function BedDetails({
     }, [state.Booking.StatusCodeInactiveCode])
 
 
-
-
-    // useEffect(() => {
-    //     if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
-
-    //         setCustomer(state.PgList.OccupiedCustomer)
-    //         setTimeout(() => {
-    //             dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
-    //         }, 2000)
-    //     }
-
-    // }, [state.PgList.OccupiedCustomerGetStatusCode])
 
 
 
@@ -108,13 +76,13 @@ function BedDetails({
 
     const handleCheckin = () => {
         handleShowCheck_In(true)
-  
+
     }
 
 
-   
 
-    
+
+
 
 
     // const [customer_details, setCustomerDetails] = useState({})
@@ -122,22 +90,6 @@ function BedDetails({
     const handleMakeInActive = () => {
         handleShowInActiveForm(true)
     }
-
-
-
-
-    // useEffect(() => {
-    //     if (customer.length > 0) {
-    //         const selectedUser = state?.UsersList?.Users.find(item => item.User_Id === customer[0]?.User_Id)
-    //                    // setCustomerDetails(selectedUser)
-    //     }
-
-    // }, [customer, state.PgList.OccupiedCustomerGetStatusCode])
-
-
-
-
-
 
 
 
@@ -239,23 +191,24 @@ function BedDetails({
 
                                             <div
                                                 className="d-flex gap-2 align-items-center"
-                                                onClick={() => handleCheckin(currentItem)}
+                                                onClick={() => canWriteCustomers && handleCheckin(currentItem)}
 
 
                                                 style={{
                                                     padding: "10px",
                                                     borderTopLeftRadius: 10,
                                                     borderTopRightRadius: 10,
-                                                    cursor: "pointer"
+                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                    opacity: canWriteCustomers ? 1 : 0.5,
                                                 }}
                                                 onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#F0F4FF"; }}
                                                 onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                             >
                                                 <AddCircle
                                                     size="18"
-                                                    color="#1E45E1"
+                                                    color={canWriteCustomers ? "#1E45E1" : "#A0A0A0"}
                                                 />
-                                                <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Check-In</label>
+                                                <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Check-In</label>
                                             </div>
 
                                             <div style={{ height: 1, backgroundColor: "#E0E0E0" }} />
@@ -270,15 +223,17 @@ function BedDetails({
                                                     borderBottomLeftRadius: 10,
                                                     borderBottomRightRadius: 10,
 
-                                                    cursor: "pointer"
+                                                    cursor: canWriteCustomers ? "pointer" : "not-allowed",
+                                                    opacity: canWriteCustomers ? 1 : 0.5,
                                                 }}
                                                 onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#FFF3F3"; }}
                                                 onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
                                             >
                                                 <LogoutCurve
                                                     size="18"
-                                                    color="#FF9500"
-                                                />                                            <label style={{ fontSize: 14, fontWeight: 500, color: "#222222", marginBottom: 0, fontFamily: "Gilroy", cursor: "pointer" }}>Make as Inactive</label>
+                                                    color={canWriteCustomers ? "#FF9500" : "#A0A0A0"}
+
+                                                />                                            <label style={{ fontSize: 14, fontWeight: 500, color: canWriteCustomers ? "#222222" : "#dcdcdc", marginBottom: 0, fontFamily: "Gilroy", cursor: canWriteCustomers ? "pointer" : "not-allowed" }}>Make as Inactive</label>
                                             </div>
                                         </div>
                                     )}
@@ -305,7 +260,7 @@ function BedDetails({
                                                 <label style={{ fontSize: 18, color: "#1E45E1", fontFamily: "Gilroy", fontWeight: 600 }} >{currentItem?.newTenantFullName || "N/A"}</label>
                                             </div>
                                             <div><label style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                                           {currentItem?.newTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.newTenantMobile)}` : 'No phone'}
+                                                {currentItem?.newTenantMobile ? `+ ${currentItem?.countryCode} ${String(currentItem?.newTenantMobile)}` : 'No phone'}
 
                                             </label></div>
                                         </div>
@@ -349,9 +304,9 @@ function BedDetails({
                 </Modal>
             </div>
 
-          
 
-           
+
+
 
         </>
     );

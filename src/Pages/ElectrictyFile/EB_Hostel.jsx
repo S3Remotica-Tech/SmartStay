@@ -22,15 +22,20 @@ import dayjs from 'dayjs';
 import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import AddRoomReading from "./AddRoomReading";
-
-
+import { useHasPermission } from '../../Utils/Permission';
+import Emptystate from "../../Assets/Images/Empty-State.jpg";
+import ErrorMessage from '../../Components/ErrorMessage'
 
 const RoomReadingTable = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("room");
-  
+
+  const canReadElectricity = useHasPermission("Electricity", "canRead")
+  const canWriteElectricity = useHasPermission("Electricity", "canWrite");
+  // const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
+  // const canDeleteElectricity = useHasPermission("Electricity", "canDelete");
 
   const data = [
     {
@@ -164,7 +169,7 @@ const RoomReadingTable = () => {
   const [selectedTenant, setSelectedTenant] = useState(null);
   const [filterShow, setFilterShow] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
- const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [roomReadingList, setRoomReadingList] = useState([])
 
 
@@ -182,7 +187,7 @@ const RoomReadingTable = () => {
   // };
 
 
- 
+
 
   // console.log("selectedRow", selectedRow)
 
@@ -218,14 +223,15 @@ const RoomReadingTable = () => {
 
 
   const handleActionClick = (row) => {
-   
+
     setSelectedRow(row);
     setShowModal(true);
   };
 
   const handleCloseShowModal = () => {
-     dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
-    setShowModal(false)}
+    dispatch({ type: 'REMOVE_ROOM_READING_ERROR' })
+    setShowModal(false)
+  }
     ;
 
 
@@ -238,7 +244,7 @@ const RoomReadingTable = () => {
 
   useEffect(() => {
     if (state.UsersList?.getRoomReadingStatus === 200) {
-       setLoading(false)
+      setLoading(false)
       setRoomReadingList(state.UsersList?.getRoomReadingList?.listReadings)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_GET_ROOM_READING' })
@@ -250,7 +256,7 @@ const RoomReadingTable = () => {
 
   useEffect(() => {
     if (state.UsersList?.addRoomReadingStatusCode === 201) {
-       dispatch({ type: 'GETROOMREADING', payload: state.login.selectedHostel_Id })
+      dispatch({ type: 'GETROOMREADING', payload: state.login.selectedHostel_Id })
       setShowModal(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_ADD_ROOM_READING' })
@@ -270,501 +276,531 @@ const RoomReadingTable = () => {
 
 
     <>
-    
-      {!roomDetail && !tenantsDetail ? (
-        <div className="container-fluid p-4" style={{ fontFamily: "Gilroy" }}>
-          <div className="mb-4">
-            <label
-              style={{
-                fontSize: 18,
-                color: "#000",
-                fontWeight: 600,
-                marginRight: "16px",
-              }}
-            >
-              Electricity
-            </label>
+      {
+        !canReadElectricity ? (
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 100
+            }}
+          >
+
+            <img
+              src={Emptystate}
+              alt="Empty State"
+
+            />
+
+
+
+            <ErrorMessage message={['You do not have access to view Electricity']} type="warning" />
+
           </div>
+        )
 
-          <div className="d-flex align-items-center mb-3">
-            <div
-              className="d-flex"
-              style={{ marginLeft: "2px", marginTop: "-10px" }}
-            >
-              <div
-                onClick={() => setActiveTab("room")}
-                style={{
-                  fontSize: 17,
-                  fontFamily: "Gilroy",
-                  color: activeTab === "room" ? "black" : "#4B4B4B",
-                  fontWeight: activeTab === "room" ? "semibold" : "normal",
-                  textTransform: "none",
-                  cursor: "pointer",
-                  marginRight: 24,
-                  paddingBottom: 6,
-                  borderBottom:
-                    activeTab === "room"
-                      ? "2px solid #1E45E1"
-                      : "2px solid transparent",
-                }}
-              >
-                Room Reading
-              </div>
-              <div
-                onClick={() => setActiveTab("customer")}
-                style={{
-                  fontSize: 16,
-                  fontFamily: "Gilroy",
-                  color: activeTab === "room" ? "black" : "#4B4B4B",
-                  fontWeight: activeTab === "customer" ? "semibold" : "normal",
-                  textTransform: "none",
-                  cursor: "pointer",
-                  paddingBottom: 6,
-                  borderBottom:
-                    activeTab === "customer"
-                      ? "2px solid #1E45E1"
-                      : "2px solid transparent",
-                }}
-              >
-                Tenants Reading
-              </div>
-
-
-            </div>
-
-            <div className="ms-auto d-flex gap-2 me-2">
-              <div className="ms-auto d-flex gap-3 me-2 p-1" style={{ backgroundColor: "white", borderRadius: 5, padding: 6, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)" }}>
-                <img src={searchteam} height="20" width="20" alt="search" />
-              </div>
-
-              <div>
-                {/* Filter Button */}
-                <div
-                  className="ms-auto d-flex gap-3 me-2 p-1"
-                  style={{
-                    backgroundColor: "white",
-                    borderRadius: 5,
-                    padding: 6,
-                    boxShadow: "0px 2px 2px rgba(0,0,0,0.2)",
-                  }}
-                  onClick={handleFilterShow}
-                >
-                  <FiFilter size={20} style={{ cursor: "pointer" }} />
+          :
+          (
+            !roomDetail && !tenantsDetail ? (
+              <div className="container-fluid p-4" style={{ fontFamily: "Gilroy" }}>
+                <div className="mb-4">
+                  <label
+                    style={{
+                      fontSize: 18,
+                      color: "#000",
+                      fontWeight: 600,
+                      marginRight: "16px",
+                    }}
+                  >
+                    Electricity
+                  </label>
                 </div>
 
-                {/* Right Side Offcanvas */}
-                <Offcanvas
-                  show={filterShow}
-                  onHide={handleFilterClose}
-                  placement="end"
-                  style={{ width: "320px" }}
-                >
-                  <Offcanvas.Header className="d-flex justify-content-between align-items-center">
-                    <Offcanvas.Title style={{ fontWeight: 600 }}>Filter</Offcanvas.Title>
-                    <CloseCircle
-                      size="26"
-                      color="#000000"
-                      style={{ cursor: "pointer" }}
-                      onClick={handleFilterClose}
-                    />
-                  </Offcanvas.Header>
+                <div className="d-flex align-items-center mb-3">
+                  <div
+                    className="d-flex"
+                    style={{ marginLeft: "2px", marginTop: "-10px" }}
+                  >
+                    <div
+                      onClick={() => setActiveTab("room")}
+                      style={{
+                        fontSize: 17,
+                        fontFamily: "Gilroy",
+                        color: activeTab === "room" ? "black" : "#4B4B4B",
+                        fontWeight: activeTab === "room" ? "semibold" : "normal",
+                        textTransform: "none",
+                        cursor: "pointer",
+                        marginRight: 24,
+                        paddingBottom: 6,
+                        borderBottom:
+                          activeTab === "room"
+                            ? "2px solid #1E45E1"
+                            : "2px solid transparent",
+                      }}
+                    >
+                      Room Reading
+                    </div>
+                    <div
+                      onClick={() => setActiveTab("customer")}
+                      style={{
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        color: activeTab === "room" ? "black" : "#4B4B4B",
+                        fontWeight: activeTab === "customer" ? "semibold" : "normal",
+                        textTransform: "none",
+                        cursor: "pointer",
+                        paddingBottom: 6,
+                        borderBottom:
+                          activeTab === "customer"
+                            ? "2px solid #1E45E1"
+                            : "2px solid transparent",
+                      }}
+                    >
+                      Tenants Reading
+                    </div>
 
-                  <Offcanvas.Body>
-                    <Form>
 
-                      <Form.Group className="mb-3" style={{ position: "relative" }}>
-                        <Form.Label>Datas</Form.Label>
-                        <Form.Control
-                          as="select"
-                          style={{ appearance: "none", paddingRight: "2.5rem" }}
-                        >
-                          <option>All</option>
-                          <option>Active</option>
-                          <option>Inactive</option>
-                        </Form.Control>
-                        <span
+                  </div>
+
+                  <div className="ms-auto d-flex gap-2 me-2">
+                    <div className="ms-auto d-flex gap-3 me-2 p-1" style={{ backgroundColor: "white", borderRadius: 5, padding: 6, boxShadow: "0px 2px 2px rgba(0,0,0,0.2)" }}>
+                      <img src={searchteam} height="20" width="20" alt="search" />
+                    </div>
+
+                    <div>
+                      {/* Filter Button */}
+                      <div
+                        className="ms-auto d-flex gap-3 me-2 p-1"
+                        style={{
+                          backgroundColor: "white",
+                          borderRadius: 5,
+                          padding: 6,
+                          boxShadow: "0px 2px 2px rgba(0,0,0,0.2)",
+                        }}
+                        onClick={handleFilterShow}
+                      >
+                        <FiFilter size={20} style={{ cursor: "pointer" }} />
+                      </div>
+
+                      {/* Right Side Offcanvas */}
+                      <Offcanvas
+                        show={filterShow}
+                        onHide={handleFilterClose}
+                        placement="end"
+                        style={{ width: "320px" }}
+                      >
+                        <Offcanvas.Header className="d-flex justify-content-between align-items-center">
+                          <Offcanvas.Title style={{ fontWeight: 600 }}>Filter</Offcanvas.Title>
+                          <CloseCircle
+                            size="26"
+                            color="#000000"
+                            style={{ cursor: "pointer" }}
+                            onClick={handleFilterClose}
+                          />
+                        </Offcanvas.Header>
+
+                        <Offcanvas.Body>
+                          <Form>
+
+                            <Form.Group className="mb-3" style={{ position: "relative" }}>
+                              <Form.Label>Datas</Form.Label>
+                              <Form.Control
+                                as="select"
+                                style={{ appearance: "none", paddingRight: "2.5rem" }}
+                              >
+                                <option>All</option>
+                                <option>Active</option>
+                                <option>Inactive</option>
+                              </Form.Control>
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  right: "10px",
+                                  top: "65%",
+                                  transform: "translateY(-50%)",
+                                  pointerEvents: "none",
+                                }}
+                              >
+                                <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                              </span>
+                            </Form.Group>
+
+                            <div>
+                              {/* System Filter Header */}
+                              <Form.Group className="mb-3" style={{ position: "relative", cursor: "pointer" }}>
+                                <Form.Label
+                                  className="d-flex justify-content-between align-items-center"
+                                  onClick={() => setIsOpen(!isOpen)}
+                                >
+                                  System Filter
+                                  <span>
+                                    {isOpen ? <ArrowUp2 size="20" color="black" /> : <ArrowDown2 size="20" color="black" />}
+                                  </span>
+                                </Form.Label>
+                              </Form.Group>
+
+                              {/* Filter Contents - Toggle visibility */}
+                              {isOpen && (
+                                <div className="mb-3">
+                                  {/* Month & Year */}
+                                  <Form.Group className="mb-3" style={{ position: "relative" }}>
+                                    <Form.Label>Month &amp; Year</Form.Label>
+                                    <Form.Control
+                                      as="select"
+                                      style={{ appearance: "none", paddingRight: "2.5rem" }}
+                                    >
+                                      <option>August</option>
+                                      <option>July</option>
+                                      <option>June</option>
+                                    </Form.Control>
+                                    <span
+                                      style={{
+                                        position: "absolute",
+                                        right: "10px",
+                                        top: "65%",
+                                        transform: "translateY(-50%)",
+                                        pointerEvents: "none",
+                                      }}
+                                    >
+                                      <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                                    </span>
+                                  </Form.Group>
+
+                                  {/* Custom Date */}
+                                  <Form.Group className="mb-3">
+                                    <Form.Label>Custom Date</Form.Label>
+                                    <div className="d-flex gap-2">
+                                      <Form.Control type="date" />
+                                      <Form.Control type="date" />
+                                    </div>
+                                  </Form.Group>
+
+                                  {/* Floor */}
+                                  <Form.Group className="mb-3" style={{ position: "relative" }}>
+                                    <Form.Label>Floor</Form.Label>
+                                    <Form.Control
+                                      as="select"
+                                      style={{ appearance: "none", paddingRight: "2.5rem" }}
+                                    >
+                                      <option>Ground Floor</option>
+                                      <option>First Floor</option>
+                                      <option>Second Floor</option>
+                                    </Form.Control>
+                                    <span
+                                      style={{
+                                        position: "absolute",
+                                        right: "10px",
+                                        top: "65%",
+                                        transform: "translateY(-50%)",
+                                        pointerEvents: "none",
+                                      }}
+                                    >
+                                      <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
+                                    </span>
+                                  </Form.Group>
+                                </div>
+                              )}
+                            </div>
+
+
+
+
+                            {/* Buttons */}
+                            <div className="d-flex justify-content-between mt-4">
+                              <Button
+                                variant="secondary"
+                                onClick={handleFilterClose}
+                                style={{ minWidth: "100px" }}
+                              >
+                                Reset
+                              </Button>
+                              <Button
+                                variant="primary"
+                                onClick={handleFilterClose}
+                                style={{ minWidth: "100px" }}
+                              >
+                                Apply
+                              </Button>
+                            </div>
+                          </Form>
+                        </Offcanvas.Body>
+                      </Offcanvas>
+                    </div>
+
+                  </div>
+                </div>
+
+                {filters.length > 0 && (
+                  <div className="d-flex flex-wrap gap-2 mt-2">
+                    {filters.map((item, index) => {
+                      let label = item;
+                      let value = "";
+                      if (item.includes("is ")) {
+                        const parts = item.split("is ");
+                        label = parts[0] + "is";
+                        value = parts[1];
+                      }
+                      return (
+                        <div
+                          key={index}
                           style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "65%",
-                            transform: "translateY(-50%)",
-                            pointerEvents: "none",
+                            display: "flex",
+                            alignItems: "center",
+                            background: "#F5F7FB",
+                            borderRadius: "16px",
+                            padding: "2px 12px 2px 10px",
+                            fontSize: "12px",
+                            color: "#222",
+                            fontWeight: 500,
+                            border: "1px solid #E3E6ED",
+                            maxWidth: "fit-content",
+                            minHeight: "26px",
+                            gap: "6px"
                           }}
                         >
-                          <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
-                        </span>
-                      </Form.Group>
-
-                      <div>
-                        {/* System Filter Header */}
-                        <Form.Group className="mb-3" style={{ position: "relative", cursor: "pointer" }}>
-                          <Form.Label
-                            className="d-flex justify-content-between align-items-center"
-                            onClick={() => setIsOpen(!isOpen)}
+                          <span style={{ color: "#6C757D", fontWeight: 400, marginRight: "2px", whiteSpace: "nowrap" }}>{label}</span>
+                          {value && (
+                            <span style={{ color: "#222", fontWeight: 700, marginRight: "6px", whiteSpace: "nowrap" }}>{value}</span>
+                          )}
+                          {!value && (
+                            <span style={{ color: "#222", fontWeight: 700, marginRight: "6px", whiteSpace: "nowrap" }}>{item}</span>
+                          )}
+                          <span
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              background: "#F5F7FB",
+                              borderRadius: "50%",
+                              width: "18px",
+                              height: "18px",
+                              marginLeft: "2px",
+                              cursor: "pointer"
+                            }}
+                            onClick={() => removeFilter(item)}
                           >
-                            System Filter
-                            <span>
-                              {isOpen ? <ArrowUp2 size="20" color="black" /> : <ArrowDown2 size="20" color="black" />}
-                            </span>
-                          </Form.Label>
-                        </Form.Group>
-
-                        {/* Filter Contents - Toggle visibility */}
-                        {isOpen && (
-                          <div className="mb-3">
-                            {/* Month & Year */}
-                            <Form.Group className="mb-3" style={{ position: "relative" }}>
-                              <Form.Label>Month &amp; Year</Form.Label>
-                              <Form.Control
-                                as="select"
-                                style={{ appearance: "none", paddingRight: "2.5rem" }}
-                              >
-                                <option>August</option>
-                                <option>July</option>
-                                <option>June</option>
-                              </Form.Control>
-                              <span
-                                style={{
-                                  position: "absolute",
-                                  right: "10px",
-                                  top: "65%",
-                                  transform: "translateY(-50%)",
-                                  pointerEvents: "none",
-                                }}
-                              >
-                                <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
-                              </span>
-                            </Form.Group>
-
-                            {/* Custom Date */}
-                            <Form.Group className="mb-3">
-                              <Form.Label>Custom Date</Form.Label>
-                              <div className="d-flex gap-2">
-                                <Form.Control type="date" />
-                                <Form.Control type="date" />
-                              </div>
-                            </Form.Group>
-
-                            {/* Floor */}
-                            <Form.Group className="mb-3" style={{ position: "relative" }}>
-                              <Form.Label>Floor</Form.Label>
-                              <Form.Control
-                                as="select"
-                                style={{ appearance: "none", paddingRight: "2.5rem" }}
-                              >
-                                <option>Ground Floor</option>
-                                <option>First Floor</option>
-                                <option>Second Floor</option>
-                              </Form.Control>
-                              <span
-                                style={{
-                                  position: "absolute",
-                                  right: "10px",
-                                  top: "65%",
-                                  transform: "translateY(-50%)",
-                                  pointerEvents: "none",
-                                }}
-                              >
-                                <ArrowDown2 size="20" color="black" style={{ marginTop: 12 }} />
-                              </span>
-                            </Form.Group>
-                          </div>
-                        )}
-                      </div>
-
-
-
-
-                      {/* Buttons */}
-                      <div className="d-flex justify-content-between mt-4">
-                        <Button
-                          variant="secondary"
-                          onClick={handleFilterClose}
-                          style={{ minWidth: "100px" }}
-                        >
-                          Reset
-                        </Button>
-                        <Button
-                          variant="primary"
-                          onClick={handleFilterClose}
-                          style={{ minWidth: "100px" }}
-                        >
-                          Apply
-                        </Button>
-                      </div>
-                    </Form>
-                  </Offcanvas.Body>
-                </Offcanvas>
-              </div>
-
-            </div>
-          </div>
-
-          {filters.length > 0 && (
-            <div className="d-flex flex-wrap gap-2 mt-2">
-              {filters.map((item, index) => {
-                let label = item;
-                let value = "";
-                if (item.includes("is ")) {
-                  const parts = item.split("is ");
-                  label = parts[0] + "is";
-                  value = parts[1];
-                }
-                return (
-                  <div
-                    key={index}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      background: "#F5F7FB",
-                      borderRadius: "16px",
-                      padding: "2px 12px 2px 10px",
-                      fontSize: "12px",
-                      color: "#222",
-                      fontWeight: 500,
-                      border: "1px solid #E3E6ED",
-                      maxWidth: "fit-content",
-                      minHeight: "26px",
-                      gap: "6px"
-                    }}
-                  >
-                    <span style={{ color: "#6C757D", fontWeight: 400, marginRight: "2px", whiteSpace: "nowrap" }}>{label}</span>
-                    {value && (
-                      <span style={{ color: "#222", fontWeight: 700, marginRight: "6px", whiteSpace: "nowrap" }}>{value}</span>
-                    )}
-                    {!value && (
-                      <span style={{ color: "#222", fontWeight: 700, marginRight: "6px", whiteSpace: "nowrap" }}>{item}</span>
-                    )}
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        background: "#F5F7FB",
-                        borderRadius: "50%",
-                        width: "18px",
-                        height: "18px",
-                        marginLeft: "2px",
-                        cursor: "pointer"
-                      }}
-                      onClick={() => removeFilter(item)}
-                    >
-                      <CloseCircle size="13" color="#222" />
-                    </span>
+                            <CloseCircle size="13" color="#222" />
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
+                )}
+
+                {activeTab === "room" && (
+
+
+
+
+
+                  (roomReadingList?.length === 0 && !loading) ? (
+                    <div style={{ textAlign: "center", marginTop: 40 }}>
+                      <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
+                        No Room Reading
+                      </div>
+                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                        There are no Room Reading available.
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="table-responsive"
+                      style={{
+                        background: "#fff",
+                        borderRadius: 12,
+                        boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
+                        maxHeight: "420px",
+                        overflowY: "auto",
+                        position: "relative"
+                      }}
+                    >
+                      <Table bordered={false} className="align-middle mb-0">
+                        <thead
+                          style={{
+                            backgroundColor: "rgba(231, 241, 255, 1)",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 2,
+                          }}
+                        >
+                          <tr className="text-uppercase">
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                              FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
+                            </th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
+                              ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
+                            </th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>OCCUPANTS</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>PREVIOUS</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>CURRENT</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TOTAL UNITS</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>AMOUNT</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>ACTION</th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: 14, color: "#000" }}>
+                          <PaginationList>
+                            {roomReadingList?.map((row, i) => (
+                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+                                <td style={{ fontSize: 15, fontWeight: 600, paddingLeft: "40px" }}>{row.floorName}</td>
+                                <td
+                                  style={{ color: canReadElectricity ? "#1E45E1" : "#DBDBDB", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
+                                  onClick={() => canReadElectricity && handleRoomDetailsPage(row)}
+                                >
+                                  {row.roomName}
+                                </td>
+                                <td style={{ paddingLeft: "40px" }}>{row.noOfTenants}</td>
+                                <td style={{ paddingLeft: "40px" }}>
+                                  {row.entryDate !== "N/A"
+                                    ? new Date(row.entryDate.split("/").reverse().join("-")).toLocaleString("en-US", { month: "short" })
+                                    : "N/A"}
+                                </td>
+                                <td style={{ paddingLeft: "40px" }}>{row.previousReading}</td>
+                                <td style={{ paddingLeft: "40px" }}>{row.currentReading}</td>
+                                <td style={{ paddingLeft: "40px" }}>{row.consumption}</td>
+                                <td style={{ paddingLeft: "30px" }}>{row.totalPrice || '0'}</td>
+                                <td style={{ paddingLeft: "40px" }}>
+                                  <img
+                                    src={Group}
+                                    alt="action"
+                                    style={{
+                                      filter: canWriteElectricity ? "none" : "grayscale(100%) brightness(60%)",
+                                      opacity: canWriteElectricity ? 1 : 0.6,
+                                    }}
+                                    onClick={() => canWriteElectricity && handleActionClick(row)}
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                          </PaginationList>
+                        </tbody>
+                      </Table>
+
+
+
+                      {loading &&
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '70%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
+                          }}
+                        >
+                          <div
+                            style={{
+                              borderTop: '4px solid #1E45E1',
+                              borderRight: '4px solid transparent',
+                              borderRadius: '50%',
+                              width: '40px',
+                              height: '40px',
+                              animation: 'spin 1s linear infinite',
+                            }}
+                          ></div>
+                        </div>
+                      }
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                  )
+                )}
+
+
+
+                {activeTab === "customer" && (
+                  data?.length === 0 ? (
+                    <div style={{ textAlign: "center", marginTop: 40 }}>
+                      <img src={emptyimg} width={240} height={240} alt="emptystate" />
+                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
+                        No Reading
+                      </div>
+                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                        There are no reading available.
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="table-responsive"
+                      style={{
+                        background: "#fff",
+                        borderRadius: 12,
+                        boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
+                        maxHeight: "420px",
+                        overflowY: "auto",
+                      }}
+                    >
+                      <Table bordered={false} className="align-middle mb-0">
+                        <thead
+                          style={{
+                            backgroundColor: "rgba(231, 241, 255, 1)",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 2,
+                          }}
+                        >
+                          <tr className="text-uppercase">
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>NAME</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BED</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>TOTAL UNITS</th>
+                            <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>AMOUNT <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
+
+                          </tr>
+                        </thead>
+                        <tbody style={{ fontSize: 14, color: "#000" }}>
+                          <PaginationList>
+                            {data?.map((row, i) => (
+                              <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
+
+                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1" }}
+                                  onClick={() => handleTenantsDetailsPage(row.tenant)}>
+                                  <img src={Ellipse1} alt="" style={{ marginRight: "12px" }} />
+                                  {row.name}
+                                </td>
+                                <td style={{ fontWeight: 600, color: "black" }}>{row.floor}</td>
+                                <td style={{ fontWeight: 600, color: "black" }}>{row.room}</td>
+                                <td style={{ fontWeight: 600, color: "black" }}>{row.bed}</td>
+                                <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px" }}>{row.units}</td>
+                                <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px", }}>{row.amount}</td>
+
+                              </tr>
+                            ))}
+                          </PaginationList>
+                        </tbody>
+                      </Table>
+                    </div>
+                  )
+                )}
+
+              </div>
+            ) : roomDetail ? (
+              <EB_RoomOverview room={selectedRoom} onBack={handleBack} />
+            ) : tenantsDetail ? (
+              <EB_TenantOverview tenant={selectedTenant} onBack={handleBackTenant} />
+            ) : null
+
           )}
-
-          {activeTab === "room" && (
-
-
-
-
-
-            (roomReadingList?.length === 0 && !loading )? (
-              <div style={{ textAlign: "center", marginTop: 40 }}>
-                <img src={emptyimg} width={240} height={240} alt="emptystate" />
-                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                  No Room Reading
-                </div>
-                <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                  There are no Room Reading available.
-                </div>
-              </div>
-            ) : (
-              <div className="table-responsive"
-                style={{
-                  background: "#fff",
-                  borderRadius: 12,
-                  boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                  maxHeight: "420px",
-                  overflowY: "auto",
-                  position:"relative"
-                }}
-              >
-                <Table bordered={false} className="align-middle mb-0">
-                  <thead
-                    style={{
-                      backgroundColor: "rgba(231, 241, 255, 1)",
-                      position: "sticky",
-                      top: 0,
-                      zIndex: 2,
-                    }}
-                  >
-                    <tr className="text-uppercase">
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                        FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
-                      </th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>
-                        ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" />
-                      </th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>OCCUPANTS</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BILLING MONTH</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>PREVIOUS</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>CURRENT</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>TOTAL UNITS</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>AMOUNT</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 14, padding: "12px 16px" }}>ACTION</th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ fontSize: 14, color: "#000" }}>
-                    <PaginationList>
-                      {roomReadingList?.map((row, i) => (
-                        <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-                          <td style={{ fontSize: 15, fontWeight: 600, paddingLeft: "40px" }}>{row.floorName}</td>
-                          <td
-                            style={{ color: "#1E45E1", cursor: "pointer", fontWeight: 600, paddingLeft: "40px" }}
-                            onClick={() => handleRoomDetailsPage(row)}
-                          >
-                            {row.roomName}
-                          </td>
-                          <td style={{ paddingLeft: "40px" }}>{row.noOfTenants}</td>
-                          <td style={{ paddingLeft: "40px" }}>
-                            {row.entryDate !== "N/A"
-                              ? new Date(row.entryDate.split("/").reverse().join("-")).toLocaleString("en-US", { month: "short" })
-                              : "N/A"}
-                          </td>
-                          <td style={{ paddingLeft: "40px" }}>{row.previousReading}</td>
-                          <td style={{ paddingLeft: "40px" }}>{row.currentReading}</td>
-                          <td style={{ paddingLeft: "40px" }}>{row.consumption}</td>
-                          <td style={{ paddingLeft: "30px" }}>{row.totalPrice || '0'}</td>
-                          <td style={{ paddingLeft: "40px" }}>
-                            <img
-                              src={Group}
-                              alt="action"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => handleActionClick(row)}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </PaginationList>
-                  </tbody>
-                </Table>
-
-
-
-{loading &&
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '70%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                    }}
-                >
-                    <div
-                        style={{
-                            borderTop: '4px solid #1E45E1',
-                            borderRight: '4px solid transparent',
-                            borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
-                            animation: 'spin 1s linear infinite',
-                        }}
-                    ></div>
-                </div>
-            }
- 
-
-
-
-
-
-
-
-
-
-
-              </div>
-            )
-          )}
-
- 
-
-          {activeTab === "customer" && (
-            data?.length === 0 ? (
-              <div style={{ textAlign: "center", marginTop: 40 }}>
-                <img src={emptyimg} width={240} height={240} alt="emptystate" />
-                <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                  No Reading
-                </div>
-                <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                  There are no reading available.
-                </div>
-              </div>
-            ) : (
-              <div className="table-responsive"
-                style={{
-                  background: "#fff",
-                  borderRadius: 12,
-                  boxShadow: "0px 4px 8px rgba(0,0,0,0.05)",
-                  maxHeight: "420px",
-                  overflowY: "auto",
-                }}
-              >
-                <Table bordered={false} className="align-middle mb-0">
-                  <thead
-                    style={{
-                      backgroundColor: "rgba(231, 241, 255, 1)",
-                      position: "sticky",
-                      top: 0,
-                      zIndex: 2,
-                    }}
-                  >
-                    <tr className="text-uppercase">
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>NAME</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>FLOOR <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>ROOM <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>BED</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>TOTAL UNITS</th>
-                      <th style={{ fontFamily: "Gilroy", color: "gray", fontWeight: 600, fontSize: 13, padding: "12px 16px" }}>AMOUNT <img src={arrowSwap} style={{ marginLeft: "4px" }} alt="swap" /></th>
-
-                    </tr>
-                  </thead>
-                  <tbody style={{ fontSize: 14, color: "#000" }}>
-                    <PaginationList>
-                      {data?.map((row, i) => (
-                        <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
-
-                          <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1" }}
-                            onClick={() => handleTenantsDetailsPage(row.tenant)}>
-                            <img src={Ellipse1} alt="" style={{ marginRight: "12px" }} />
-                            {row.name}
-                          </td>
-                          <td style={{ fontWeight: 600, color: "black" }}>{row.floor}</td>
-                          <td style={{ fontWeight: 600, color: "black" }}>{row.room}</td>
-                          <td style={{ fontWeight: 600, color: "black" }}>{row.bed}</td>
-                          <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px" }}>{row.units}</td>
-                          <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px", }}>{row.amount}</td>
-
-                        </tr>
-                      ))}
-                    </PaginationList>
-                  </tbody>
-                </Table>
-              </div>
-            )
-          )}
-
-        </div>
-      ) : roomDetail ? (
-        <EB_RoomOverview room={selectedRoom} onBack={handleBack} />
-      ) : tenantsDetail ? (
-        <EB_TenantOverview tenant={selectedTenant} onBack={handleBackTenant} />
-      ) : null}
-
-
       {showModal && selectedRow && (
-     <AddRoomReading  show={showModal}  handleClose={handleCloseShowModal} selectedRowDetails={selectedRow}/> 
+        <AddRoomReading show={showModal} handleClose={handleCloseShowModal} selectedRowDetails={selectedRow} />
       )}
     </>
 
