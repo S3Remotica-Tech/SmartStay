@@ -72,7 +72,7 @@ function SettingAmenities({ hostelid }) {
 
 
         if (!switchStates[amenity.id]) {
-            setIsDisplayRecurring(true);
+            setIsDisplayRecurring(false);
         }
     };
 
@@ -82,7 +82,7 @@ function SettingAmenities({ hostelid }) {
         if (isChecked === null) return;
 
         if (isChecked) {
-            setIsDisplayRecurring(true);
+            setIsDisplayRecurring(false);
             setIsFormSubmitted(false);
         } else {
 
@@ -783,7 +783,7 @@ function SettingAmenities({ hostelid }) {
         color: "#4B4B4B",
       }}
     >
-      Pro-write
+      Pro-Rate
     </p>
 
     <Form.Check

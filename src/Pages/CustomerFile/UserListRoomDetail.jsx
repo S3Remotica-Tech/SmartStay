@@ -401,7 +401,7 @@ const handleAttach = () => {
 
     }
   }, [state.UsersList?.UserListStatusCode])
-  console.log("custommeer",customerDetails)
+ 
 
 
   useEffect(() => {
@@ -2427,7 +2427,7 @@ useEffect(() => {
 const dispatchedRef = useRef(false);
 
 useEffect(() => {
-  if (state.UsersList.KycCustomerDetails?.pic && !dispatchedRef.current) {
+  if (state.UsersList.KycCustomerDetails?.pic && !dispatchedRef.current && customerDetails[0]?.kyc_docs !== "null") {
    
     dispatch({
       type: "KYCDOCUMENTSDETAIL",
@@ -2444,7 +2444,7 @@ useEffect(() => {
     });
     dispatchedRef.current = true; 
   }
-}, [state.UsersList?.KycCustomerDetails]);
+}, [state.UsersList?.KycCustomerDetails,customerDetails]);
 
 
 const handleDownloadKYCtest = (doc) => {
@@ -2483,6 +2483,7 @@ const kycDocs = customerDetails[0]?.kyc_docs;
     if(state.UsersList.StatusCodeKycDocuments === 200){
 setTimeout(() => {
         dispatch({ type: 'CLEAR_BACK_TO_CHECKIN_USER' })
+         dispatch({ type: 'CLEAR_KYC_DOCUMENTS_DETAILS' })
       }, 3000)
     }
 

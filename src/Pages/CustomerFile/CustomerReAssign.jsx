@@ -1355,6 +1355,7 @@ const getImageSrc = () => {
                             </span>
                             <Form.Check
                               type="checkbox"
+                              style={{ cursor:"pointer"}}
                               label={
                                 <span
                                   style={{
@@ -1363,6 +1364,7 @@ const getImageSrc = () => {
                                     whiteSpace: "nowrap",
                                     fontSize: 11,
                                     fontFamily: "Gilroy",
+                                   
                                   }}
                                 >
                                   Same as Current
