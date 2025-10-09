@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import {getParticularRoomReading, 
+import {getParticularRoomReading, getCustomerReading,
    cancelBookingGet, bookingToCheckIn, addRoomReading, getRoomReading,
    bookedDetails, availableBedDetailsForDate, checkoutDetailView, customerSaveInfo, CheckIn, GetAllFloor, getParticularHostelList, ConfirmCheckout_Due_Customer, deleteCustomer,
    AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer,
@@ -16,7 +16,33 @@ import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+function* handleGetCustomerReading(reading) {
+   try {
+      const response = yield call(getCustomerReading, reading.payload)
 
+      if (response.status === 200) {
+         yield put({ type: 'GET_CUSTOMER_READING', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+     
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (err) {
+
+      const error = err || {};
+
+      yield put({
+         type: 'NETWORK_ERROR',
+         payload:
+            error?.code === 'ERR_NETWORK'
+               ? 'Network error occurred'
+               : error?.message || 'Something went wrong',
+      });
+   }
+
+
+}
 
 function* handleGetParticularRoomReading(reading) {
    try {
@@ -2447,6 +2473,7 @@ function* handleCheckoutProfile(action) {
 
 
 function* UserListSaga() {
+   yield takeEvery('GETCUSTOMERREADING', handleGetCustomerReading)
     yield takeEvery('GETPARTICULARROOMREADING', handleGetParticularRoomReading)
    yield takeEvery('GETROOMREADING', handleGetRoomReading)
    yield takeEvery('BOOKINGTOCHECKIN', handleBookingToCheckIn)

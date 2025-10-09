@@ -699,6 +699,15 @@ export async function getParticularRoomReading(reading) {
 }
 
 
+
+export async function getCustomerReading(hostelId) {
+  return await AxiosConfigV2.get(`/v2/electricity/customers/${hostelId}`)
+}
+
+
+
+
+
 export async function bookingToCheckIn(customer) {
 
   return await AxiosConfigV2.post(`/v2/customers/booked/check-in/${customer.customerId}`, customer, {

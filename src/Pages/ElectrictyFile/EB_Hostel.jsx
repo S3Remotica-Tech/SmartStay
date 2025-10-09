@@ -171,6 +171,7 @@ const RoomReadingTable = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [roomReadingList, setRoomReadingList] = useState([])
+  const [customerReadingList, setCustomerReadingList] = useState([])
 
 
   // const [searchText, setSearchText] = useState("");
@@ -238,6 +239,7 @@ const RoomReadingTable = () => {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       dispatch({ type: 'GETROOMREADING', payload: state.login.selectedHostel_Id })
+      dispatch({ type: 'GETCUSTOMERREADING', payload: state.login.selectedHostel_Id })
       setLoading(true)
     }
   }, [state.login.selectedHostel_Id])
@@ -254,9 +256,22 @@ const RoomReadingTable = () => {
 
   }, [state.UsersList?.getRoomReadingStatus])
 
+useEffect(() => {
+    if (state.UsersList?.getCustomerReadingStatus === 200) {
+      setLoading(false)
+      setCustomerReadingList(state.UsersList?.getCustomerReadingList)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_GET_CUSTOMER_READING' })
+      }, 100)
+
+    }
+
+  }, [state.UsersList?.getCustomerReadingStatus])
+
   useEffect(() => {
     if (state.UsersList?.addRoomReadingStatusCode === 201) {
       dispatch({ type: 'GETROOMREADING', payload: state.login.selectedHostel_Id })
+      dispatch({ type: 'GETCUSTOMERREADING', payload: state.login.selectedHostel_Id })
       setShowModal(false)
       setTimeout(() => {
         dispatch({ type: 'REMOVE_ADD_ROOM_READING' })
@@ -267,6 +282,8 @@ const RoomReadingTable = () => {
 
 
 
+  
+console.log("state",state)
 
 
 
@@ -727,7 +744,7 @@ const RoomReadingTable = () => {
 
 
                 {activeTab === "customer" && (
-                  data?.length === 0 ? (
+                  customerReadingList?.length === 0 ? (
                     <div style={{ textAlign: "center", marginTop: 40 }}>
                       <img src={emptyimg} width={240} height={240} alt="emptystate" />
                       <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
@@ -768,19 +785,19 @@ const RoomReadingTable = () => {
                         </thead>
                         <tbody style={{ fontSize: 14, color: "#000" }}>
                           <PaginationList>
-                            {data?.map((row, i) => (
+                            {customerReadingList?.map((row, i) => (
                               <tr key={i} style={{ borderBottom: "1px solid #ddd", height: "50px" }}>
 
-                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1" }}
+                                <td style={{ paddingLeft: "10px", fontWeight: 600, color: "#1E45E1" , cursor:"pointer"}}
                                   onClick={() => handleTenantsDetailsPage(row.tenant)}>
-                                  <img src={Ellipse1} alt="" style={{ marginRight: "12px" }} />
-                                  {row.name}
+                                  <img src={row.profilePic ? row.profilePic : Ellipse1} alt="" style={{ marginRight: "12px" }} />
+                                  {row.fullName}
                                 </td>
-                                <td style={{ fontWeight: 600, color: "black" }}>{row.floor}</td>
-                                <td style={{ fontWeight: 600, color: "black" }}>{row.room}</td>
-                                <td style={{ fontWeight: 600, color: "black" }}>{row.bed}</td>
-                                <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px" }}>{row.units}</td>
-                                <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px", }}>{row.amount}</td>
+                                <td style={{ fontWeight: 600, color: "black" }}>{row.floorName}</td>
+                                <td style={{ fontWeight: 600, color: "black" }}>{row.roomName}</td>
+                                <td style={{ fontWeight: 600, color: "black" }}>{row.bedName}</td>
+                                <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px" }}>{row.totalUnits}</td>
+                                <td style={{ fontWeight: 600, color: "black", paddingLeft: "30px", }}>{row.totalAmount}</td>
 
                               </tr>
                             ))}
