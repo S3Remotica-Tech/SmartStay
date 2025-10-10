@@ -12,7 +12,9 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
 import { CloseCircle } from "iconsax-react";
+import { useHasPermission } from '../../Utils/Permission';
 import ErrorMessage from '../../Components/ErrorMessage'
+
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -29,6 +31,24 @@ function UserListAmenities(props) {
   const [addamenityShow, setaddamenityShow] = useState(false);
   const [createby, setcreateby] = useState("");
   const [amnityError, setamnityError] = useState("");
+
+
+
+
+
+
+
+const canReadAmenities = useHasPermission("Amenities", "canRead")
+    const canWriteAmenities = useHasPermission("Amenities", "canWrite");
+    const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
+    const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
+
+
+
+
+
+
+
 
   const handleselect = (selectedOption) => {
     const value = selectedOption?.value || "";
@@ -293,6 +313,7 @@ useEffect(() => {
           Amenities
         </Form.Label>
         <Select
+        isDisabled={!canWriteAmenities}
           placeholder="Select an Amenities"
           value={
             state.UsersList?.customerdetails?.all_amenities?.find(
@@ -597,8 +618,29 @@ useEffect(() => {
           </Button>
         </Modal.Footer>
       </Modal>
+{
 
-      <div className="d-flex flex-wrap mt-2">
+!canReadAmenities ? (
+
+ <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                              minHeight:"45vh"
+                              }}
+            >
+              
+              <ErrorMessage message={['You do not have access to view Amenities']} type="warning"/>
+
+            </div>
+
+)
+:
+(
+  <>
+ <div className="d-flex flex-wrap mt-2">
         {state.UsersList.amnetieshistory &&
           [
             ...new Map(
@@ -1010,168 +1052,175 @@ useEffect(() => {
         </div>
           )}
       </div>
-      {amnitiesFilterddata?.length > 2 && (
-        <>
-          <nav style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end",
-            padding: "10px",
-            position: "fixed",
-            bottom: "0px",
-            right: "0px",
-            backgroundColor: "#fff",
-            borderRadius: "5px",
-            zIndex: 1000,
-          }}
 
-          >
-           <div>
-  <Select
-    value={amenitiesOptions.find((opt) => opt.value === amentiesrowsPerPage)}
-    onChange={handleItemsPerPageChange}
-    options={amenitiesOptions}
-    placeholder="Items per page"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    noOptionsMessage={() => "No options"}
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "40px",
-        borderRadius: "6px",
-        fontSize: "14px",
-        color: "#1E45E1",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        border: "1px solid #1E45E1",
-        boxShadow: "0 0 0 1px #1E45E1",
-        cursor: "pointer",
-        width: 90,
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-        fontFamily: "Gilroy",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "200px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-        fontFamily: "Gilroy",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#1E45E1",
-        cursor: "pointer",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: "pointer",
-        backgroundColor: state.isFocused ? "#1E45E1" : "white",
-        color: state.isFocused ? "#fff" : "#000",
-      }),
-    }}
-  />
-</div>
+     
+      </>
+    )
 
-            <ul
-              style={{
-                display: "flex",
-                alignItems: "center",
-                listStyleType: "none",
-                margin: 0,
-                padding: 0,
-              }}
-            >
-              <li style={{ margin: "0 10px" }}>
-                <button
-                  style={{
-                    padding: "5px",
-                    textDecoration: "none",
-                    color: amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
-                    cursor:
-                      amnitiescurrentPage === 1 ? "not-allowed" : "pointer",
-                    borderRadius: "50%",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() =>
-                    handleAmnitiesPageChange(amnitiescurrentPage - 1)
-                  }
-                  disabled={amnitiescurrentPage === 1}
-                >
-                  <ArrowLeft2
-                    size="16"
-                    color={amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                  />
-                </button>
-              </li>
+}
+ </div>
+//       {amnitiesFilterddata?.length > 2 && (
+//         <>
+//           <nav style={{
+//             display: "flex",
+//             alignItems: "center",
+//             justifyContent: "end",
+//             padding: "10px",
+//             position: "fixed",
+//             bottom: "0px",
+//             right: "0px",
+//             backgroundColor: "#fff",
+//             borderRadius: "5px",
+//             zIndex: 1000,
+//           }}
 
-              <li
-                style={{
-                  margin: "0 10px",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                }}
-              >
-                {amnitiescurrentPage} of {totalPagesAmnities}
-              </li>
+//           >
+//            <div>
+//   <Select
+//     value={amenitiesOptions.find((opt) => opt.value === amentiesrowsPerPage)}
+//     onChange={handleItemsPerPageChange}
+//     options={amenitiesOptions}
+//     placeholder="Items per page"
+//     classNamePrefix="custom"
+//     menuPlacement="auto"
+//     noOptionsMessage={() => "No options"}
+//     styles={{
+//       control: (base) => ({
+//         ...base,
+//         height: "40px",
+//         borderRadius: "6px",
+//         fontSize: "14px",
+//         color: "#1E45E1",
+//         fontFamily: "Gilroy",
+//         fontWeight: 600,
+//         border: "1px solid #1E45E1",
+//         boxShadow: "0 0 0 1px #1E45E1",
+//         cursor: "pointer",
+//         width: 90,
+//       }),
+//       menu: (base) => ({
+//         ...base,
+//         backgroundColor: "#f8f9fa",
+//         border: "1px solid #ced4da",
+//         fontFamily: "Gilroy",
+//       }),
+//       menuList: (base) => ({
+//         ...base,
+//         backgroundColor: "#f8f9fa",
+//         maxHeight: "200px",
+//         padding: 0,
+//         scrollbarWidth: "thin",
+//         overflowY: "auto",
+//         fontFamily: "Gilroy",
+//       }),
+//       placeholder: (base) => ({
+//         ...base,
+//         color: "#555",
+//       }),
+//       dropdownIndicator: (base) => ({
+//         ...base,
+//         color: "#1E45E1",
+//         cursor: "pointer",
+//       }),
+//       indicatorSeparator: () => ({
+//         display: "none",
+//       }),
+//       option: (base, state) => ({
+//         ...base,
+//         cursor: "pointer",
+//         backgroundColor: state.isFocused ? "#1E45E1" : "white",
+//         color: state.isFocused ? "#fff" : "#000",
+//       }),
+//     }}
+//   />
+// </div>
 
-              <li style={{ margin: "0 10px" }}>
-                <button
-                  style={{
-                    padding: "5px",
-                    textDecoration: "none",
-                    color:
-                      amnitiescurrentPage === totalPagesAmnities
-                        ? "#ccc"
-                        : "#1E45E1",
-                    cursor:
-                      amnitiescurrentPage === totalPagesAmnities
-                        ? "not-allowed"
-                        : "pointer",
-                    borderRadius: "50%",
-                    display: "inline-block",
-                    minWidth: "30px",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  onClick={() =>
-                    handleAmnitiesPageChange(amnitiescurrentPage + 1)
-                  }
-                  disabled={amnitiescurrentPage === totalPagesAmnities}
-                >
-                  <ArrowRight2
-                    size="16"
-                    color={
-                      amnitiescurrentPage === totalPagesAmnities
-                        ? "#ccc"
-                        : "#1E45E1"
-                    }
-                  />
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </>
-      )}
-    </div>
+//             <ul
+//               style={{
+//                 display: "flex",
+//                 alignItems: "center",
+//                 listStyleType: "none",
+//                 margin: 0,
+//                 padding: 0,
+//               }}
+//             >
+//               <li style={{ margin: "0 10px" }}>
+//                 <button
+//                   style={{
+//                     padding: "5px",
+//                     textDecoration: "none",
+//                     color: amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
+//                     cursor:
+//                       amnitiescurrentPage === 1 ? "not-allowed" : "pointer",
+//                     borderRadius: "50%",
+//                     display: "inline-block",
+//                     minWidth: "30px",
+//                     textAlign: "center",
+//                     backgroundColor: "transparent",
+//                     border: "none",
+//                   }}
+//                   onClick={() =>
+//                     handleAmnitiesPageChange(amnitiescurrentPage - 1)
+//                   }
+//                   disabled={amnitiescurrentPage === 1}
+//                 >
+//                   <ArrowLeft2
+//                     size="16"
+//                     color={amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
+//                   />
+//                 </button>
+//               </li>
+
+//               <li
+//                 style={{
+//                   margin: "0 10px",
+//                   fontSize: "14px",
+//                   fontWeight: "bold",
+//                 }}
+//               >
+//                 {amnitiescurrentPage} of {totalPagesAmnities}
+//               </li>
+
+//               <li style={{ margin: "0 10px" }}>
+//                 <button
+//                   style={{
+//                     padding: "5px",
+//                     textDecoration: "none",
+//                     color:
+//                       amnitiescurrentPage === totalPagesAmnities
+//                         ? "#ccc"
+//                         : "#1E45E1",
+//                     cursor:
+//                       amnitiescurrentPage === totalPagesAmnities
+//                         ? "not-allowed"
+//                         : "pointer",
+//                     borderRadius: "50%",
+//                     display: "inline-block",
+//                     minWidth: "30px",
+//                     textAlign: "center",
+//                     backgroundColor: "transparent",
+//                     border: "none",
+//                   }}
+//                   onClick={() =>
+//                     handleAmnitiesPageChange(amnitiescurrentPage + 1)
+//                   }
+//                   disabled={amnitiescurrentPage === totalPagesAmnities}
+//                 >
+//                   <ArrowRight2
+//                     size="16"
+//                     color={
+//                       amnitiescurrentPage === totalPagesAmnities
+//                         ? "#ccc"
+//                         : "#1E45E1"
+//                     }
+//                   />
+//                 </button>
+//               </li>
+//             </ul>
+//           </nav>
+//         </>
+//       )}
+   
   );
 }
 UserListAmenities.propTypes = {
