@@ -6135,7 +6135,7 @@ console.log("selectedFloor",selectedFloor)
 
                   <div>
                     <p className="mb-1" style={{ fontWeight: 600, fontSize: "15px", marginBottom: "6px" }}>
-                      {props.EditObj?.Name}
+                      {props.EditObj?.Name || props.customer_details?.Name}
                     </p>
                     <div className="d-flex gap-2">
                       <span
