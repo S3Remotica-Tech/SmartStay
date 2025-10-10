@@ -9,3 +9,6 @@ export const useHasPermission = (moduleName, action = "canRead") => {
   );
   return module ? module[action] : false;
 };
+
+
+

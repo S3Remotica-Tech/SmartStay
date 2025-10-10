@@ -73,13 +73,13 @@ function Dashboard() {
   const [cashBackData, setCashBackData] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
   const [hostel_id, setHostel_Id] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
   const [selectAdvance, setSelectAdvance] = useState("six_month");
   const [accountList, setAccountList] = useState("");
 
-const canReadDashboard = useHasPermission("Dashboard", "canRead");
+const canReadDashboard =  useHasPermission("Dashboard", "canRead");
 
   const monthNames = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -139,6 +139,7 @@ const canReadDashboard = useHasPermission("Dashboard", "canRead");
   useEffect(() => {
     if (hostel_id) {
       dispatch({ type: "PGDASHBOARD", payload: { hostel_id: hostel_id } });
+       setLoading(true);
     }
   }, [hostel_id]);
 
@@ -163,7 +164,7 @@ const canReadDashboard = useHasPermission("Dashboard", "canRead");
         hostel_id: hostel_id,
       },
     });
-    setLoading(true);
+   
 
 
   }, [selectCashback, hostel_id]);
@@ -665,10 +666,10 @@ useEffect(() => {
 
           <div >
             <TabPanel value="1">
-              {!canReadDashboard && !loading ? (
+              {(!canReadDashboard && !loading ) ? (
                 <div
                   style={{
-                    display: "flex",
+                    display: "flex", 
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",

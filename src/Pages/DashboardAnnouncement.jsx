@@ -62,10 +62,10 @@ function DashboardAnnouncement(props) {
 
 
 
-  const canReadDashboard = useHasPermission("Dashboard", "canRead");
-  const canWriteDashboard = useHasPermission("Dashboard", "canWrite");
-  const canUpdateDashboard = useHasPermission("Dashboard", "canUpdate");
-  const canDeleteDashboard = useHasPermission("Dashboard", "canDelete");
+  const canReadAnnouncement = useHasPermission("Announcement", "canRead");
+  const canWriteAnnouncement = useHasPermission("Announcement", "canWrite");
+  const canUpdateAnnouncement = useHasPermission("Announcement", "canUpdate");
+  const canDeleteAnnouncement = useHasPermission("Announcement", "canDelete");
 
 
   const handlePageChange = (pageNumber) => {
@@ -459,36 +459,7 @@ function DashboardAnnouncement(props) {
   return (
     <>
 
-
-      {loading &&
-        <LoaderComponent />}
-
-
-      {!canReadDashboard ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: 100
-          }}
-        >
-
-          <img
-            src={Emptystate}
-            alt="Empty State"
-
-          />
-
-
-          {!canReadDashboard && (
-            <ErrorMessage message={['You do not have access to view Announcement']} type="warning" />
-          )}
-        </div>
-      ) : (
-        <>
-          <div
+ <div
             style={{
               display: "flex",
               justifyContent: "flex-end"
@@ -514,13 +485,42 @@ function DashboardAnnouncement(props) {
                 marginRight: 10
               }}
               onClick={handleShowAnnouncement}
-              disabled={!canWriteDashboard}
+              disabled={!canWriteAnnouncement}
               className="responsive-button"
             >
               +  Announcement
             </Button>
           </div>
 
+      {loading &&
+        <LoaderComponent />}
+
+
+      {!canReadAnnouncement ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 100
+          }}
+        >
+
+          <img
+            src={Emptystate}
+            alt="Empty State"
+
+          />
+
+
+          
+            <ErrorMessage message={['You do not have access to view Announcement']} type="warning" />
+       
+        </div>
+      ) : (
+        <>
+         
 
 
           {currentItems?.length > 0 ?
@@ -645,7 +645,7 @@ function DashboardAnnouncement(props) {
                                 }}
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  if(canWriteDashboard)
+                                  if(canWriteAnnouncement)
                                   handleCommentClick(data);
                                 }}
                               >
@@ -708,7 +708,7 @@ function DashboardAnnouncement(props) {
 
 
                                       onClick={() => {
-                                        if (canUpdateDashboard) {
+                                        if (canUpdateAnnouncement) {
                                           handleEdit(data);
                                         }
                                       }}
@@ -727,20 +727,20 @@ function DashboardAnnouncement(props) {
                                         padding: "8px 12px",
                                         width: "100%",
                                         backgroundColor: "#F9F9F9",
-                                        cursor: !canUpdateDashboard ? "not-allowed" : "pointer",
-                                        opacity: !canUpdateDashboard ? 0.5 : 1,
+                                        cursor: !canUpdateAnnouncement ? "not-allowed" : "pointer",
+                                        opacity: !canUpdateAnnouncement ? 0.5 : 1,
                                         borderTopLeftRadius: 10,
                                         borderTopRightRadius: 10,
                                       }}  >
-                                      <Edit size="16" color={!canUpdateDashboard ? "#A9A9A9" : "#1E45E1"} />
+                                      <Edit size="16" color={!canUpdateAnnouncement ? "#A9A9A9" : "#1E45E1"} />
                                       <label
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           marginBottom: 0,
-                                          color: !canUpdateDashboard ? "#A9A9A9" : "#222222",
-                                          cursor: !canUpdateDashboard ? "not-allowed" : "pointer",
+                                          color: !canUpdateAnnouncement ? "#A9A9A9" : "#222222",
+                                          cursor: !canUpdateAnnouncement ? "not-allowed" : "pointer",
                                         }}
                                       >
                                         Edit
@@ -755,7 +755,7 @@ function DashboardAnnouncement(props) {
                                       className="d-flex gap-2 align-items-center "
 
                                       onClick={() => {
-                                        if (canDeleteDashboard) {
+                                        if (canDeleteAnnouncement) {
                                           handleDelete(data);
                                         }
                                       }}
@@ -773,8 +773,8 @@ function DashboardAnnouncement(props) {
                                         padding: "8px 12px",
                                         width: "100%",
                                         backgroundColor: "#F9F9F9",
-                                        cursor: !canDeleteDashboard ? "not-allowed" : "pointer",
-                                        opacity: !canDeleteDashboard ? 0.5 : 1,
+                                        cursor: !canDeleteAnnouncement ? "not-allowed" : "pointer",
+                                        opacity: !canDeleteAnnouncement ? 0.5 : 1,
                                         borderBottomLeftRadius: 10,
                                         borderBottomRightRadius: 10,
                                       }}
@@ -782,7 +782,7 @@ function DashboardAnnouncement(props) {
 
                                       <Trash
                                         size="16"
-                                        color={!canDeleteDashboard ? "#A9A9A9" : "red"}
+                                        color={!canDeleteAnnouncement ? "#A9A9A9" : "red"}
                                       />
 
                                       <label
@@ -790,8 +790,8 @@ function DashboardAnnouncement(props) {
                                           fontSize: 14,
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
-                                          color: !canDeleteDashboard ? "#A9A9A9" : "#FF0000",
-                                          cursor: !canDeleteDashboard ? "not-allowed" : "pointer",
+                                          color: !canDeleteAnnouncement ? "#A9A9A9" : "#FF0000",
+                                          cursor: !canDeleteAnnouncement ? "not-allowed" : "pointer",
                                         }}>
                                         Delete
                                       </label>

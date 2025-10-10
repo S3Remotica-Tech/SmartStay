@@ -33,23 +33,42 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
 
+    // const handleCheckboxChange = (rowName, index) => {
+    //     setErrorIsChanged("")
+    //     setErrorPermission("")
+    //     setCheckboxValues(prev => ({
+    //         ...prev,
+    //         [rowName]: prev[rowName].map((val, i) =>
+    //             i === index ? !val : val
+    //         )
+    //     }));
+    // };
 
+const handleCheckboxChange = (rowName, index) => {
+    setErrorIsChanged("");
+    setErrorPermission("");
 
+    setCheckboxValues(prev => {
+        const row = prev[rowName];
+       
+        let newRow = row.map((val, i) => (i === index ? !val : val));
+      
+        if ((index === 0 || index === 2 || index === 3) && newRow[index]) {
+            newRow[1] = true; 
+        }
+      
+        if (index === 1 && !newRow[1]) {
+            newRow[2] = false; 
+            newRow[3] = false; 
+            newRow[0] = false;
+        }
 
-
-
-
-    const handleCheckboxChange = (rowName, index) => {
-        setErrorIsChanged("")
-        setErrorPermission("")
-        setCheckboxValues(prev => ({
+        return {
             ...prev,
-            [rowName]: prev[rowName].map((val, i) =>
-                i === index ? !val : val
-            )
-        }));
-    };
-
+            [rowName]: newRow
+        };
+    });
+};
 
 
 
@@ -277,7 +296,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
         }
 
         if (!isValid) return;
-console.log("permissionRole",permissionRole)
+
 
      const formattedPermissionList = permissionRole.map(permission => ({
     moduleId: permission.moduleId,
@@ -473,27 +492,7 @@ console.log("permissionRole",permissionRole)
                                         return renderRow(formattedName, module.moduleName);
                                     })}
 
-                                    {/* {renderRow('Dashboard', 'Dashboard')}
-                                    {renderRow('Announcement', 'Announcement')}
-                                    {renderRow('Updates', 'Updates')}
-                                    {renderRow('PayingGuest', 'PayingGuest')}
-                                    {renderRow('Customers', 'Customers')}
-                                    {renderRow('Bookings', 'Bookings')}
-                                    {renderRow('Checkout', 'Checkout')}
-                                    {renderRow('WalkIn', 'WalkIn')}
-                                    {renderRow('Assets', 'Assets')}
-                                    {renderRow('Vendor', 'Vendor')}
-                                    {renderRow('Bills', 'Bills')}
-                                    {renderRow('RecuringBills', 'RecuringBills')}
-                                    {renderRow('Electricity', 'Electricity')}
-                                    {renderRow('Complaints', 'Complaints')}
-                                    {renderRow('Expenses', 'Expenses')}
-                                    {renderRow('Reports', 'Reports')}
-                                    {renderRow('Bankings', 'Bankings')}
-                                    {renderRow('Profile', 'Profile')}
-                                    {renderRow('Amenities', 'Amenities')} */}
-
-
+                                  
                                 </tbody>
 
                             </table>
