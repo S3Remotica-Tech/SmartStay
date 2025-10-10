@@ -9,7 +9,7 @@ function PaginationList({
   onPageChange,
   onItemsPerPageChange,
   pageSizeOptions = [
-    { value: 5, label: "5" },
+    // { value: , label: "5" },
     { value: 10, label: "10" },
     { value: 50, label: "50" },
     { value: 100, label: "100" },
@@ -19,7 +19,7 @@ function PaginationList({
   const totalItems = React.Children.count(children);
 
   const DEFAULT_PAGE = 1;
-  const DEFAULT_ITEMS_PER_PAGE = 5;
+  const DEFAULT_ITEMS_PER_PAGE = 10;
 
 
   const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
@@ -62,10 +62,12 @@ const paginatedChildren = React.Children.toArray(children).slice(
 
 if (totalItems === 0) return null; 
 
+
+
   return (
     <>
       {paginatedChildren}
-      {totalItems > 4 && (
+      {totalItems > 9 && (
 
       <nav
         style={{
