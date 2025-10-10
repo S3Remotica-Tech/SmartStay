@@ -1625,21 +1625,22 @@ function* handleUploadDocument(data) {
 
       };
 
-
+     console.log("response", response);
+     
       if (response.status === 200 || response.statusCode === 200) {
-         yield put({ type: 'UPLOAD_DOCUMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+         yield put({ type: 'UPLOAD_DOCUMENT', payload: { response: response.message, statusCode: response.status || response.statusCode } })
 
-         toast.success(`${response.message}`, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle,
-         });
+         // toast.success(`${response.message}`, {
+         //    position: "bottom-center",
+         //    autoClose: 2000,
+         //    hideProgressBar: true,
+         //    closeButton: false,
+         //    closeOnClick: true,
+         //    pauseOnHover: true,
+         //    draggable: true,
+         //    progress: undefined,
+         //    style: toastStyle,
+         // });
       }
       else if (response.status === 201 || response.statusCode === 201) {
          yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: { response: response.message, statusCode: response.status || response.statusCode } })

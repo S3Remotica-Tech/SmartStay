@@ -88,7 +88,7 @@ export const initialState = {
     generateAdvance: [],
     statusCodeForGenerateAdvance: 0,
     statusCodeForUploadDocument: 0,
-    uploaddocu: [],
+    uploaddocu: "",
     statusCodeForOtherDocu: 0,
     otherUploaddocu: [],
     adharuploadfileError: '',
@@ -539,7 +539,7 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, generateError: '' }
 
         case 'UPLOAD_DOCUMENT':
-            return { ...state, uploaddocu: action.payload.message, statusCodeForUploadDocument: action.payload.statusCode }
+            return { ...state, uploaddocu: action.payload.response, statusCodeForUploadDocument: action.payload.statusCode }
         case 'CLEAR_UPLOAD_DOCUMENT':
             return { ...state, statusCodeForUploadDocument: 0 }
         case 'UPLOAD_OTHER_DOCUMENT':

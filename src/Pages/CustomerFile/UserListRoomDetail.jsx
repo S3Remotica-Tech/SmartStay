@@ -176,21 +176,21 @@ function UserListRoomDetail(props) {
     }
   };
 
+  
+
     useEffect(() => {
     if (state.UsersList.statusCodeForUploadDocument === 200) {
 
-          dispatch({
-    type: "UPLOAD_MANUAL_DOCUMENTS",
-    payload: {
-      userId: customerDetails[0]?.ID,
-      newDocs: [
-        {
-          type: "manual",
-          URL: selectedFile, 
-        },
-      ],
-    },
-  });
+      if(state.UsersList.uploaddocu){
+         dispatch({ type: "UPLOAD_MANUAL_DOCUMENTS",
+         payload: {
+            userId: customerDetails[0]?.ID,
+            newDocs: [{type: "manual", URL: state.UsersList.uploaddocu,  },],
+                  },
+                });
+      }
+
+ 
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
         dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
@@ -232,7 +232,7 @@ const handleAttach = () => {
     url: URL.createObjectURL(selectedFile),
   };
 
-  setManualDocuments((prev) => [...prev, newDoc]);
+  // setManualDocuments((prev) => [...prev, newDoc]);
   setUploadPopup(false);
   setSelectedFile(null);
   setUploadError("");
@@ -486,6 +486,8 @@ const handleAttach = () => {
 
 const [ProfilePic,setProfilepic] = useState(false)
 
+  console.log("state.UsersList?.customerdetails?.data", state.UsersList?.customerdetails?.data);
+  
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
@@ -494,7 +496,7 @@ const [ProfilePic,setProfilepic] = useState(false)
     setFile(state.UsersList?.KycCustomerDetails?.pic)
 
 
-
+   setManualDocuments(state.UsersList?.customerdetails?.data);
 
 
     
@@ -4295,16 +4297,16 @@ const imageUrl = imagePreview
   </TabPanel>
   <TabPanel value="2">
     <>
-   {manualdocuments.length === 0 ? (
+   {manualdocuments && manualdocuments?.length === 0 ? (
           <div
             className="text-center text-muted py-4"
             style={{ fontFamily: "Gilroy", fontWeight: 500 }}
           >
-            No document added
+            No document Added
           </div>
         ) : (
           <div className="row">
-            {manualdocuments.map((doc, index) => (
+            {manualdocuments && manualdocuments?.length > 0 && manualdocuments.map((doc, index) => (
               <div key={index} className="col-md-6 mb-3 mt-2">
                 <div className="border rounded p-3 bg-light d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">
@@ -4315,14 +4317,14 @@ const imageUrl = imagePreview
                       className="mb-1"
                       style={{ fontWeight: 600, fontFamily: "Gilroy" , fontSize: 14, }}
                     >
-                      {doc.name}
+                      {doc?.name}
                     </p>
                     <small className="text-muted" style={{fontSize:12}}>
-                      {doc.size} • {doc.name.split(".").pop().toUpperCase()}
+                      {doc?.size} • {doc?.name?.split(".").pop().toUpperCase()}
                     </small>
                   </div>
                   <div className="d-flex align-items-center">
-                    <a href={doc.url} download>
+                    <a href={doc?.url} download>
                       <img
                         src={docDown}
                         alt="Download"
@@ -4338,7 +4340,7 @@ const imageUrl = imagePreview
                       width={20}
                       height={20}
                       style={{ cursor: "pointer" }}
-                      onClick={() => handleFileOpen(doc.url)}
+                      onClick={() => handleFileOpen(doc?.url)}
                     />
                   </div>
                 </div>

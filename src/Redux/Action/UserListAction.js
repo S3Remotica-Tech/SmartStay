@@ -397,7 +397,7 @@ export async function uploadDocument(params) {
   // if (params.type) formData.append("type", params.type);
 
   try {
-    const response = await AxiosConfig.post('/users/upload_doc', formData, {
+    const response = await AxiosConfig.post('/users/upload_Manualdoc', formData, {
       headers: {
         "Content-type": "multipart/form-data",
       },
