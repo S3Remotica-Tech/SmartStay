@@ -215,24 +215,8 @@ const handleAttach = () => {
       return;
     }
 
-  //  const type ="manual"
-  dispatch({
-          type: "UPLOADDOCUMENT",
-          payload: {
-            // user_id: props.id,
-            // type,
-            file1: selectedFile,
-          },
-        });
-
-  // For UI preview only
-  const newDoc = {
-    name: selectedFile.name,
-    size: `${(selectedFile.size / 1024).toFixed(0)} KB`,
-    url: URL.createObjectURL(selectedFile),
-  };
-
-  // setManualDocuments((prev) => [...prev, newDoc]);
+    dispatch({ type: "UPLOADDOCUMENT", payload: { file1: selectedFile},});
+    
   setUploadPopup(false);
   setSelectedFile(null);
   setUploadError("");
