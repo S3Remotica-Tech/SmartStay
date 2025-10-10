@@ -6,6 +6,10 @@ import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
 import Emptystate from "../../Assets/Images/Empty-State.jpg";
 import Select from "react-select";
+import ErrorMessage from '../../Components/ErrorMessage';
+import { useHasPermission } from '../../Utils/Permission';
+
+
 function UserEb(props) {
   const state = useSelector(state => state)
 
@@ -34,6 +38,20 @@ const ebOptions = [
 ];
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+
+
+const canReadElectricity = useHasPermission("Electricity", "canRead")
+  const canWriteElectricity = useHasPermission("Electricity", "canWrite");
+  const canUpdateElectricity = useHasPermission("Electricity", "canUpdate");
+  const canDeleteElectricity = useHasPermission("Electricity", "canDelete");
+
+
+
+
+
+
+
 
   const sortedData = React.useMemo(() => {
     if (!sortConfig.key) return currentRowsEb;
@@ -123,7 +141,36 @@ const ebOptions = [
           className=" booking-table-userlist  booking-table ms-2"
           style={{ paddingBottom: "20px" }}
         >
-          {sortedData?.length > 0 ? (
+          {
+          
+          !canReadElectricity ? (
+
+ <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                              minHeight:"45vh"
+                              }}
+            >
+              
+              <ErrorMessage message={['You do not have access to view Eb Reading']} type="warning"/>
+
+            </div>
+
+
+          )
+          
+          
+          : 
+          
+          
+          
+          
+          
+          
+          sortedData?.length > 0 ? (
             <div
 
               className='show-scrolls'
@@ -400,7 +447,7 @@ const ebOptions = [
               </div>
             </div>}
         </div>
-        {EbFilterddata?.length > 4 && (
+        {/* {EbFilterddata?.length > 4 && (
 
           <nav className="position-fixed bottom-0 end-0 left-0 mb-3 me-3 d-flex justify-content-end align-items-center"
    style={{backgroundColor:"white", zIndex:1000}}
@@ -523,7 +570,7 @@ const ebOptions = [
               </li>
             </ul>
           </nav>
-        )}
+        )} */}
       </div>
     </>
   )

@@ -6104,7 +6104,7 @@ dispatch({ type: "MANUALINVOICESLIST", payload:  hostelId })
             </TabPanel>
 
             <TabPanel value="3">
-              {canReadReceipt ? (
+              {!canReadReceipt ? (
                 <>
                   <div
                     style={{
