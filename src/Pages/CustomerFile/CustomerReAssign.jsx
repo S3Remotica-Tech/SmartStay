@@ -279,7 +279,14 @@ function CustomerReAssign(props) {
       return;
     }
 
-
+ if (!newRoomRent || Number(newRoomRent) <= 0) {
+    setRentError("Room rent must be greater than 0");
+    if (!focusedRef.current && rentRef?.current) {
+      rentRef.current.focus();
+      focusedRef.current = true;
+    }
+    hasError = true;
+  }
 
     if (hasError) return;
 
