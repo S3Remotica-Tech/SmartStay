@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-// import { Edit, Trash, ProfileAdd } from 'iconsax-react';
+import { Edit, Trash } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import AddAmenities from './AmenitiesFile/AddAmenities';
 import RecurringEnable from './AmenitiesFile/RecurringEnable';
@@ -18,6 +18,9 @@ import './SettingsAmentities.css';
 import Select from "react-select";
 import directRight from '../Assets/Images/New_images/direct-right.svg';
 import link2 from '../Assets/Images/New_images/link-2.svg';
+import { useHasPermission } from '../Utils/Permission';
+import ErrorMessage from '../Components/ErrorMessage'
+
 function SettingAmenities({ hostelid }) {
 
 
@@ -43,6 +46,10 @@ function SettingAmenities({ hostelid }) {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
 
+    const canReadAmenities = useHasPermission("Amenities", "canRead")
+    const canWriteAmenities = useHasPermission("Amenities", "canWrite");
+    const canUpdateAmenities = useHasPermission("Amenities", "canUpdate");
+    const canDeleteAmenities = useHasPermission("Amenities", "canDelete");
 
 
 
@@ -357,7 +364,6 @@ function SettingAmenities({ hostelid }) {
                 <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
                     <Button
                         onClick={handleOpenAmenities}
-
                         style={{
                             fontFamily: "Gilroy",
                             fontSize: "14px",
@@ -375,7 +381,7 @@ function SettingAmenities({ hostelid }) {
                             minWidth: "130px",
                             whiteSpace: "nowrap",
                         }}
-                        disabled={showPopup}
+                        disabled={showPopup || !canWriteAmenities}
                     >
                         {" "}
                         + Amenities
@@ -396,21 +402,45 @@ function SettingAmenities({ hostelid }) {
 
             )}
 
-            <div className='container mt-4 mb-3 show-scrolls' style={{ position: "relative" , maxHeight: "460px",
-                overflowY: "auto",backgroundColor:""}}>
+
+            {
+                !canReadAmenities ? (
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            height: "100vh"
+                        }}
+                    >
 
 
-                <div className='row row-gap-3'>
+                        <ErrorMessage message={['You do not have access to view Settings Amenities']} type="warning" />
+
+                    </div>
 
 
 
-                    {currentRowAmenities && currentRowAmenities.length > 0 ? (
-                        currentRowAmenities.map((amenity, index) => (
+                )
+                    : (
+                        <div className='container mt-4 mb-3 show-scrolls' style={{
+                            position: "relative", maxHeight: "460px",
+                            overflowY: "auto", backgroundColor: ""
+                        }}>
 
-                            <div key={index} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 p-2' >
-                                <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
-                                    <Card.Body>
-                                        {/* <div className='d-flex justify-content-between align-items-center'>
+
+                            <div className='row row-gap-3'>
+
+
+
+                                {currentRowAmenities && currentRowAmenities.length > 0 ? (
+                                    currentRowAmenities.map((amenity, index) => (
+
+                                        <div key={index} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 p-2' >
+                                            <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
+                                                <Card.Body>
+                                                    {/* <div className='d-flex justify-content-between align-items-center'>
                                             <div>
                                             <img src={directRight} alt="directRight" />  <label style={{ fontFamily: "Gilroy", fontSize: 16, color: "#222", fontWeight: 600, }}>{amenity.Amnities_Name}</label>
                                             </div>
@@ -560,278 +590,323 @@ function SettingAmenities({ hostelid }) {
 
                                             </div>
                                         </div> */}
-                                        <div className="d-flex justify-content-between align-items-center">
-  {/* Left side */}
-  <div className="d-flex align-items-center">
-    <img src={directRight} alt="directRight" style={{ marginRight: 6 }} />
-    <label
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: 16,
-        color: "#222",
-        fontWeight: 600,
-        margin: 0,
-      }}
-    >
-      {amenity.Amnities_Name}
-    </label>
-  </div>
-
-  {/* Right side (icon + dots) */}
-  <div className="d-flex align-items-center gap-1">
-    <img
-      src={link2}
-      alt="link2"
-      style={{ width: 18, height: 18, cursor: "pointer" }}
-    />
-
-    <div
-      style={{
-        cursor: "pointer",
-        height: 40,
-        width: 40,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-        zIndex: showDots ? 1000 : "auto",
-        backgroundColor: showDots === index ? "#E7F1FF" : "white",
-        borderRadius: "50%",
-      }}
-      onClick={() => handleDotsClick(index)}
-    >
-      <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
-
-      {showDots === index && (
-        <div
-          ref={popupRef}
-          style={{
-            cursor: "pointer",
-            backgroundColor: "#F9F9F9",
-            position: "absolute",
-            right: 40,
-            top: 40,
-            width: 180,
-            border: "1px solid #EBEBEB",
-            borderRadius: 10,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "start",
-            zIndex: 1050,
-            fontSize: 14,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-          }}
-        >
-          {/* dropdown items same as you have */}
-        </div>
-      )}
-    </div>
-  </div>
-</div>
+                                                    <div className="d-flex justify-content-between align-items-center">
+                                                        {/* Left side */}
+                                                        <div className="d-flex align-items-center">
+                                                            <img src={directRight} alt="directRight" style={{ marginRight: 6 }} />
+                                                            <label
+                                                                style={{
+                                                                    fontFamily: "Gilroy",
+                                                                    fontSize: 16,
+                                                                    color: "#222",
+                                                                    fontWeight: 600,
+                                                                    margin: 0,
+                                                                }}
+                                                            >
+                                                                {amenity.Amnities_Name}
+                                                            </label>
+                                                        </div>
 
 
-                                        <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
-                                        <div className="row row-gap-2">
-                                            {/* <div className="col-lg-4 col-md-4 col-12">
-                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Name</p>
-                                                <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.Amnities_Name}</p>
-                                            </div> */}
-                                            {/* <div className="col-lg-4 col-md-4 col-12">
-                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Amount</p>
-                                                <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹{amenity.Amount}</p>
-                                            </div> */}
-                                            <div className="col-lg-12 col-md-12 col-12">
-  <div className="d-flex justify-content-between">
-    <p
-      className="mb-1"
-      style={{
-        fontSize: 13,
-        fontFamily: "Gilroy",
-        fontWeight: 400,
-        color: "#4B4B4B",
-      }}
-    >
-      Price
-    </p>
-    <p 
-      style={{
-        fontSize: 16,
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        paddingRight:10
-      }}
-    >
-      ₹{amenity.Amount}<span style={{
-        fontSize: 16,
-        fontFamily: "Gilroy",
-        fontWeight: 400,
-      }}>/Month</span>
-    </p>
-  </div>
-</div>
-<div className="col-lg-12 col-md-12 col-12">
-  <div className="d-flex justify-content-between align-items-center">
-    <p
-      className="mb-1"
-      style={{
-        fontSize: 13,
-        fontFamily: "Gilroy",
-        fontWeight: 400,
-        color: "#4B4B4B",
-      }}
-    >
-      Pro-write
-    </p>
-
-    <Form.Check
-      type="switch"
-      checked={switchStates[amenity.id]}
-      id={`custom-switch-${amenity.id}`}
-      className="custom-switch-pointer"
-      style={{ boxShadow: "none" }}
-     
-      onChange={() => handleToggle(amenity)}
-    />
-  </div>
-
-  <style>
-    {`
-      .custom-switch-pointer input[type="checkbox"],
-      .custom-switch-pointer label {
-        cursor: pointer !important;
-      }
-    `}
-  </style>
-</div>
+                                                        <div className="d-flex align-items-center gap-1">
+                                                            <img
+                                                                src={link2}
+                                                                alt="link2"
+                                                                onClick={() => {
+                                                                    if (canWriteAmenities || canUpdateAmenities) {
+                                                                        // handleAssignAmenities();
+                                                                    }
+                                                                }}
+                                                                style={{
+                                                                    width: 18,
+                                                                    height: 18,
+                                                                    cursor: (canWriteAmenities || canUpdateAmenities) ? "pointer" : "not-allowed",
+                                                                    opacity: (canWriteAmenities || canUpdateAmenities) ? 1 : 0.5,
+                                                                }}
+                                                            />
 
 
-                                            {/* <div className="col-lg-4 col-md-4 col-12">
-                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Recuring</p>
+                                                            <div
+                                                                style={{
+                                                                    cursor: "pointer",
+                                                                    height: 40,
+                                                                    width: 40,
+                                                                    display: "flex",
+                                                                    justifyContent: "center",
+                                                                    alignItems: "center",
+                                                                    position: "relative",
+                                                                    zIndex: showDots ? 1000 : "auto",
+                                                                    backgroundColor: showDots === index ? "#E7F1FF" : "white",
+                                                                    borderRadius: "50%",
+                                                                }}
+                                                                onClick={() => handleDotsClick(index)}
+                                                            >
+                                                                <PiDotsThreeOutlineVerticalFill style={{ height: 18, width: 18 }} />
 
-                                                <div>
-                                                    <Form.Check
-                                                        type="switch"
-                                                        checked={switchStates[amenity.id]}
-                                                        id={`custom-switch-${amenity.id}`}
-                                                        className="custom-switch-pointer"
-                                                        style={{ boxShadow: "none" }}
-                                                        label="Recurring"
-                                                        onChange={() => handleToggle(amenity)}
-                                                    />
+                                                                {showDots === index && <>
 
-                                                    <style>
-                                                        {`
-      .custom-switch-pointer input[type="checkbox"],
-      .custom-switch-pointer label {
-        cursor: pointer !important;
-      }
-    `}
-                                                    </style>
-                                                </div>
-
-                                            </div> */}
-                                            {/* <div className="col-lg-4 col-md-4 col-12">
-                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation Type</p>
-                                                <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Monthly</p>
-                                            </div>
-                                            <div className="col-lg-4 col-md-4 col-12">
-                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation Start Date</p>
-                                                <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.startdate}</p>
-                                            </div>
-                                            <div className="col-lg-4 col-md-4 col-12">
-                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation End Date</p>
-                                                <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{amenity.enddate}</p>
-                                            </div> */}
+                                                                    <div
+                                                                        ref={popupRef}
+                                                                        style={{
+                                                                            cursor: "pointer",
+                                                                            backgroundColor: "#F9F9F9",
+                                                                            position: "absolute",
+                                                                            right: window.innerWidth <= 335 ? 0 : 40,
+                                                                            top: 20,
+                                                                            width: window.innerWidth <= 335 ? 120 : 180,
+                                                                            border: "1px solid #EBEBEB",
+                                                                            borderRadius: 10,
+                                                                            display: "flex",
+                                                                            flexDirection: "column",
+                                                                            alignItems: "start",
+                                                                            zIndex: 1050,
+                                                                            fontSize: window.innerWidth <= 335 ? 13 : 14,
+                                                                            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                                                                        }}
+                                                                    >
+                                                                        <div style={{ width: "100%" }}>
 
 
 
 
+                                                                            <div
+                                                                                // onClick={() => canUpdateAmenities && handleEditAmenities(amenity)}
+                                                                                className="d-flex gap-2 align-items-center w-100"
+                                                                                style={{
+                                                                                    cursor: canUpdateAmenities ? "pointer" : "not-allowed",
+                                                                                    padding: "8px 12px",
+                                                                                    transition: "background 0.2s ease",
+                                                                                    opacity: canUpdateAmenities ? 1 : 0.5,
 
+                                                                                }}
+                                                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                                                                                onMouseLeave={(e) =>
+                                                                                    (e.currentTarget.style.backgroundColor = "transparent")
+                                                                                }
+                                                                            >
+                                                                                <Edit size="16" color={canUpdateAmenities ? "#1E45E1" : "#A0A0A0"} />
+                                                                                <label
+                                                                                    style={{
+                                                                                        fontSize: 14,
+                                                                                        fontWeight: 600,
+                                                                                        fontFamily: "Gilroy",
+                                                                                        cursor: canUpdateAmenities ? "pointer" : "not-allowed",
+                                                                                        color: canUpdateAmenities ? "#222222" : "#A0A0A0",
+                                                                                    }}
+                                                                                >
+                                                                                    Edit
+                                                                                </label>
+                                                                            </div>
+                                                                            <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+
+                                                                            <div
+                                                                                // onClick={() => canDeleteAmenities &&  handleDeleteAmenities(amenity)}
+                                                                                className="d-flex gap-2  align-items-center w-100"
+                                                                                style={{
+                                                                                    cursor: canDeleteAmenities ? "pointer" : "not-allowed",
+                                                                                    padding: "8px 12px",
+                                                                                    opacity: canDeleteAmenities ? 1 : 0.5,
+                                                                                    borderBottomLeftRadius: 10,
+                                                                                    borderBottomRightRadius: 10,
+                                                                                    transition: "background 0.2s ease",
+                                                                                }}
+                                                                                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                                                                                onMouseLeave={(e) =>
+                                                                                    (e.currentTarget.style.backgroundColor = "transparent")
+                                                                                }
+                                                                            >
+                                                                                <Trash size="16" color={canDeleteAmenities ? "red" : "#A0A0A0"} />
+                                                                                <label
+                                                                                    style={{
+                                                                                        fontSize: 14,
+                                                                                        fontWeight: 600,
+                                                                                        fontFamily: "Gilroy",
+                                                                                        cursor: canDeleteAmenities ? "pointer" : "not-allowed",
+                                                                                        color: canDeleteAmenities ? "#FF0000" : "#A0A0A0",
+                                                                                    }}
+                                                                                >
+                                                                                    Delete
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </>}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
+                                                    <div className="row row-gap-2">
+                                                        <div className="col-lg-12 col-md-12 col-12">
+                                                            <div className="d-flex justify-content-between">
+                                                                <p
+                                                                    className="mb-1"
+                                                                    style={{
+                                                                        fontSize: 13,
+                                                                        fontFamily: "Gilroy",
+                                                                        fontWeight: 400,
+                                                                        color: "#4B4B4B",
+                                                                    }}
+                                                                >
+                                                                    Price
+                                                                </p>
+                                                                <p
+                                                                    style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Gilroy",
+                                                                        fontWeight: 600,
+                                                                        paddingRight: 10
+                                                                    }}
+                                                                >
+                                                                    ₹{amenity.Amount}<span style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Gilroy",
+                                                                        fontWeight: 400,
+                                                                    }}>/Month</span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-lg-12 col-md-12 col-12">
+                                                            <div className="d-flex justify-content-between align-items-center">
+                                                                <p
+                                                                    className="mb-1"
+                                                                    style={{
+                                                                        fontSize: 13,
+                                                                        fontFamily: "Gilroy",
+                                                                        fontWeight: 400,
+                                                                        color: "#4B4B4B",
+                                                                    }}
+                                                                >
+                                                                    Pro-Rate
+                                                                </p>
+
+                                                                <Form.Check
+                                                                    disabled={!canUpdateAmenities}
+                                                                    type="switch"
+                                                                    checked={switchStates[amenity.id]}
+                                                                    id={`custom-switch-${amenity.id}`}
+                                                                    className="custom-switch-pointer"
+                                                                    style={{ boxShadow: "none" }}
+
+                                                                    onChange={() => handleToggle(amenity)}
+                                                                />
+                                                            </div>
+
+                                                            <style>
+                                                                {`
+    .custom-switch-pointer input[type="checkbox"],
+    .custom-switch-pointer label {
+      cursor: pointer !important;
+    }
+
+    .custom-switch-pointer input[type="checkbox"]:disabled + label {
+      cursor: not-allowed !important;
+      opacity: 0.6; 
+    }
+  `}
+                                                            </style>
+
+                                                        </div>
+
+
+
+
+
+
+
+                                                    </div>
+
+                                                </Card.Body>
+                                            </Card>
                                         </div>
+                                    ))
 
-                                    </Card.Body>
-                                </Card>
+                                ) : !loading &&
+
+
+
+
+
+
+
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        marginTop: 90,
+                                        paddingLeft: "0px",
+                                    }}
+                                >
+                                    <div style={{ textAlign: "center" }}>
+                                        <img
+                                            src={EmptyState}
+                                            alt="emptystate"
+                                            style={{ maxWidth: "250px" }}
+                                        />
+                                        <div
+                                            style={{
+                                                fontWeight: 600,
+                                                fontFamily: "Gilroy",
+                                                fontSize: 18,
+                                                color: "rgba(75, 75, 75, 1)",
+                                            }}
+                                        >
+                                            No Amenities available
+                                        </div>
+                                    </div>
+                                </div>
+
+                                }
                             </div>
-                        ))
-
-                    ) : !loading &&
 
 
 
 
-
-
-
-  <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            marginTop:90,
-              paddingLeft: "0px", 
-            }}
-          >
-            <div style={{ textAlign: "center" }}>
-              <img
-                src={EmptyState}
-                alt="emptystate"
-                style={{ maxWidth: "250px" }}
-              />
-              <div
-                style={{
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 18,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                 No Amenities available
-              </div>
-            </div>
-          </div>
-
-                    }
-                </div>
-
-
-
-
-                {loading &&
-                    <div
-                        style={{
-                            position: 'fixed',
-                            right: "30%",
-                            display: 'flex',
-                            height: "50vh",
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: 'transparent',
-                            opacity: 0.75,
-                            zIndex: 10,
-                        }}
-                    >
-                        <div
-                            style={{
-                                borderTop: '4px solid #1E45E1',
-                                borderRight: '4px solid transparent',
-                                borderRadius: '50%',
-                                width: '40px',
-                                height: '40px',
-                                animation: 'spin 1s linear infinite',
-                            }}
-                        ></div>
-                    </div>
-                }
+                            {loading &&
+                                <div
+                                    style={{
+                                        position: 'fixed',
+                                        right: "30%",
+                                        display: 'flex',
+                                        height: "50vh",
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor: 'transparent',
+                                        opacity: 0.75,
+                                        zIndex: 10,
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            borderTop: '4px solid #1E45E1',
+                                            borderRight: '4px solid transparent',
+                                            borderRadius: '50%',
+                                            width: '40px',
+                                            height: '40px',
+                                            animation: 'spin 1s linear infinite',
+                                        }}
+                                    ></div>
+                                </div>
+                            }
 
 
 
 
 
 
-            </div>
+                        </div>
+
+                    )
+            }
 
 
-            {amenitiesFilterddata.length > 2 && (
+
+            {/* {amenitiesFilterddata.length > 2 && (
                 <nav
                     style={{
                         display: "flex",
@@ -985,7 +1060,7 @@ function SettingAmenities({ hostelid }) {
                         </li>
                     </ul>
                 </nav>
-            )}
+            )} */}
 
 
 
@@ -1000,7 +1075,7 @@ function SettingAmenities({ hostelid }) {
             {
                 IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid}
                 //  assignAmenitiesDetails={assignAmenitiesDetails}
-                  />
+                />
             }
 
 
@@ -1084,7 +1159,7 @@ function SettingAmenities({ hostelid }) {
                                 fontFamily: "Gilroy",
                                 fontSize: "14px",
                             }}
-                            // onClick={handleDeleteAmenitiesConfirm}
+                        // onClick={handleDeleteAmenitiesConfirm}
                         >
                             Delete
                         </Button>

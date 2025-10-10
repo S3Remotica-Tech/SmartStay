@@ -39,7 +39,8 @@ import SecurityDepositInvoiceTemplate from "./SecurityDepositInvoice";
 import SecurityReceiptPdfTemplate from "./SecurityDepositReceipt";
 import BankingAddForm from "./BankingAddForm";
 import ErrorMessage from '../Components/ErrorMessage'
-
+import { useHasPermission } from '../Utils/Permission';
+import Emptystate from "../Assets/Images/Empty-State.jpg";
 function SettingInvoice({ hostelid, setIsInvoiceAddMode, setIsSidebarOpen }) {
 
 
@@ -76,6 +77,8 @@ const [resetCall, setResetCall] = useState(false)
   const innerScrollRef = useRef(null);
   const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
 
+
+
   const [accountNameError, setaccountnameError] = useState("");
   const [bankid_Error, setBankIdError] = useState("");
   const [prefix_errmsg, setPrefixErrMsg] = useState('')
@@ -105,6 +108,8 @@ const [resetCall, setResetCall] = useState(false)
 
 
   
+const canReadInvoice = useHasPermission("Bills", "canRead")
+const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
 
 
 
@@ -1406,11 +1411,6 @@ const [resetCall, setResetCall] = useState(false)
             className=" py-2 col-md-12"
 
           >
-
-
-
-
-
             <div
               className="bg-white"
               style={{
@@ -1694,7 +1694,7 @@ const [resetCall, setResetCall] = useState(false)
                                         />
 
                                       </div>
-                                      {paymentinvoiceemailError && (
+                                      {paymentinvoiceemailError !== "" && (
                                       <ErrorMessage message={paymentinvoiceemailError} type="error"/>
                                       )}
                                     </div>
@@ -2316,6 +2316,7 @@ const [resetCall, setResetCall] = useState(false)
 
                     <div className="d-flex justify-content-end mt-2 col-lg-10">
                       <Button
+                      disabled={!canUpdateInvoice}
                         style={{
                           width: 160,
                           height: 42,
@@ -3118,6 +3119,46 @@ const [resetCall, setResetCall] = useState(false)
 
 
       {
+
+!canReadInvoice ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: 90
+                      }}
+                    >
+
+                      <img
+                        src={Emptystate}
+                        alt="Empty State"
+
+                      />
+
+
+                     
+                        <ErrorMessage message={['You do not have access to view Bill Templates']} type="warning"/>
+                    
+                    </div>
+                  </>
+                ) :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         cardshow &&
         <div className=" py-2 col-md-11">
 
@@ -3545,7 +3586,7 @@ const [resetCall, setResetCall] = useState(false)
             {
               savebuttonshow ? (
                 <div className="d-flex justify-content-end mt-1 me-5" style={{ paddingRight: 10 }}>
-                  <button className="btn btn-outline-dark me-2" type="button" onClick={handleReset} style={{
+                  <button disabled={!canUpdateInvoice} className="btn btn-outline-dark me-2" type="button" onClick={handleReset} style={{
                     fontWeight: 600,
                     borderRadius: 12,
                     fontSize: 16,
@@ -3555,7 +3596,9 @@ const [resetCall, setResetCall] = useState(false)
                   >
                     Reset
                   </button>
-                  <button className="btn" onClick={handleSaveTemplate} style={{
+                  <button
+                  disabled={!canUpdateInvoice}
+                  className="btn" onClick={handleSaveTemplate} style={{
                     backgroundColor: "#1E45E1",
                     fontWeight: 600,
                     borderRadius: 12,
@@ -3591,9 +3634,9 @@ const [resetCall, setResetCall] = useState(false)
 
 
 
-            {emailError && (
+            {/* {emailError && (
              <ErrorMessage message={emailError} type="error"/>
-            )}
+            )} */}
 
 
           </div>

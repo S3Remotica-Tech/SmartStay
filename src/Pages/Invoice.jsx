@@ -184,8 +184,8 @@ const InvoicePage = () => {
 
 const canReadInvoice = useHasPermission("Bills", "canRead")
 const canWriteInvoice = useHasPermission("Bills", "canWrite")
-// const canUpdateInvoice = useHasPermission("Invoice", "canUpdate")
-// const canDeleteInvoice = useHasPermission("Invoice", "canDelete")
+// const canUpdateInvoice = useHasPermission("Bills", "canUpdate")
+// const canDeleteInvoice = useHasPermission("Bills", "canDelete")
 
 
 
