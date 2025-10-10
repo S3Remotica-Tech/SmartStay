@@ -629,7 +629,7 @@ const formatDate = (date) => {
                                             }}
                                         >
                                             Booking Date {" "}
-                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                            {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
                                         </Form.Label>
 
                                         <Form.Control
@@ -668,7 +668,7 @@ const formatDate = (date) => {
                                             }}
                                         >
                                             Booking Amount
-                                            <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                            {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
                                         </Form.Label>
                                         <Form.Control
                                             value={bookingAmount}
@@ -706,7 +706,57 @@ const formatDate = (date) => {
                                             <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                         </Form.Label>
                                         <Select
-                                            styles={customStyles}
+                                            styles={{ control: (base) => ({
+            ...base,
+            height: "48px",
+            border: "1px solid #D9D9D9",
+            borderRadius: "8px",
+            fontSize: "16px",
+            color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+            boxShadow: "none",
+            // backgroundColor: "#EFF2FF"
+
+        }),
+        menu: (base) => ({
+            ...base,
+            backgroundColor: "#f8f9fa",
+            border: "1px solid #ced4da",
+            fontFamily: "Gilroy",
+        }),
+        menuList: (base) => ({
+            ...base,
+            backgroundColor: "#f8f9fa",
+            maxHeight: "120px",
+            padding: 0,
+            scrollbarWidth: "thin",
+            overflowY: "auto",
+            fontFamily: "Gilroy",
+        }),
+        placeholder: (base) => ({
+            ...base,
+            color: "#555",
+        }),
+        dropdownIndicator: (base) => ({
+            ...base,
+            color: "#555",
+            display: "inline-block",
+            fill: "currentColor",
+            lineHeight: 1,
+            stroke: "currentColor",
+            strokeWidth: 0,
+            cursor: "pointer"
+        }),
+        indicatorSeparator: () => ({
+            display: "none",
+        }),
+        option: (base, state) => ({
+            ...base,
+            cursor: "pointer",
+            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+            color: "#000",
+        }),}}
                                             options={longStayOnly}
                                             onChange={handleStayTypeChange}
                                             placeholder="Select a Type"

@@ -1369,18 +1369,18 @@ function UserList(props) {
 
  
 
-//   useEffect(() => {
-//     const handleClickOutsideAccount = (event) => {
-//       if (popupRef.current && !popupRef.current.contains(event.target)) {
-//         setActiveRow(null);
-//       }
-//     };
-//     document.addEventListener("mousedown", handleClickOutsideAccount);
+  useEffect(() => {
+    const handleClickOutsideAccount = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setActiveRow(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutsideAccount);
 
-//     return () => {
-//       document.removeEventListener("mousedown", handleClickOutsideAccount);
-//     };
-//   }, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideAccount);
+    };
+  }, []);
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {

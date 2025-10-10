@@ -2396,7 +2396,7 @@ const handleImageUpload = async (event) => {
   { type: "LICENSE", name: "License.pdf", size: "180 KB", URL: "" },
   { type: "RENTAL_AGREEMENT", name: "Rental Agreement.pdf", size: "180 KB", URL: "" },
 ]);
-
+console.log("documents",documents)
 useEffect(() => {
   if (customerDetails[0]?.kyc_docs) {
     const docsFromApi = customerDetails[0].kyc_docs;
@@ -2427,7 +2427,7 @@ useEffect(() => {
 const dispatchedRef = useRef(false);
 
 useEffect(() => {
-  if (state.UsersList.KycCustomerDetails?.pic && !dispatchedRef.current && customerDetails[0]?.kyc_docs !== "null") {
+  if (state.UsersList.KycCustomerDetails?.pic && !dispatchedRef.current) {
    
     dispatch({
       type: "KYCDOCUMENTSDETAIL",
@@ -2444,7 +2444,8 @@ useEffect(() => {
     });
     dispatchedRef.current = true; 
   }
-}, [state.UsersList?.KycCustomerDetails,customerDetails]);
+}, [state.UsersList?.KycCustomerDetails]);
+// const visibleDocs = documents.filter((doc) => doc.URL);
 
 
 const handleDownloadKYCtest = (doc) => {
@@ -2476,7 +2477,13 @@ const handleDownloadKYC = () => {
 
 const kycDocs = customerDetails[0]?.kyc_docs;
 
- 
+const hasAnyDoc =
+  documents.some((doc) => {
+    const existingKycDoc = kycDocs?.find((k) => k.type === doc.type);
+    const isAadhar = doc.name.toLowerCase().includes("aadhar");
+    const hasAadhar = isAadhar && state.UsersList?.KycCustomerDetails?.pic;
+    return existingKycDoc || hasAadhar;
+  });
 
 
   useEffect(()=>{
@@ -3483,7 +3490,8 @@ const imageUrl = imagePreview
   <TabPanel value="1">
   
   <>
-<div className="row mt-3">
+{/* <div className="row mt-3">
+  
  {documents.map((doc, index) => {
   const isAadhar = doc.name.toLowerCase().includes("aadhar");
   const existingKycDoc = kycDocs?.find(
@@ -3579,10 +3587,112 @@ const imageUrl = imagePreview
         />
      
     </div>
-  );
+  )
 })}
 
+
+
+
+</div> */}
+<div className="row">
+  {hasAnyDoc ? (
+    documents.map((doc, index) => {
+      const isAadhar = doc.name.toLowerCase().includes("aadhar");
+      const existingKycDoc = kycDocs?.find(
+        (kycDoc) => kycDoc.type === doc.type
+      );
+      const aadharDisabled = state.UsersList?.KycCustomerDetails;
+
+     
+      return (
+        <div className="col-md-6 mt-2" key={index}>
+          {isAadhar && state.UsersList?.KycCustomerDetails?.pic ? (
+            // --- Aadhaar block ---
+            <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+              <div className="d-flex align-items-center">
+                <img
+                  src={adhar}
+                  alt="Aadhaar"
+                  style={{
+                    width: 20,
+                    height: 20,
+                    marginRight: 8,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    if (!aadharDisabled) {
+                      document.getElementById(`fileUpload-${index}`).click();
+                    }
+                  }}
+                />
+                <p className="mb-0 fw-semibold small">Aadhaar (KYC)</p>
+              </div>
+              <div className="d-flex gap-2">
+                <img
+                  src={viewdoc}
+                  alt="viewdoc"
+                  onClick={() => handleViewKYC("aadhaar")}
+                  style={{ cursor: "pointer", width: 20, height: 20 }}
+                />
+                <img
+                  src={docDown}
+                  alt="Download Aadhaar"
+                  onClick={handleDownloadKYC}
+                  style={{ cursor: "pointer", width: 20, height: 20 }}
+                />
+              </div>
+            </div>
+          ) : existingKycDoc ? (
+            // --- Existing KYC doc block ---
+            <div className="d-flex align-items-center justify-content-between border rounded p-3 bg-light">
+              <div className="d-flex align-items-center">
+                <img
+                  src={adhar}
+                  alt={existingKycDoc.type}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    marginRight: 8,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    document.getElementById(`fileUpload-${index}`).click();
+                  }}
+                />
+                <p className="mb-0 fw-semibold small">
+                  {existingKycDoc.type}
+                </p>
+              </div>
+              <div className="d-flex gap-2">
+                <img
+                  src={viewdoc}
+                  alt="viewdoc"
+                  onClick={() => handleViewKYC(existingKycDoc)}
+                  style={{ cursor: "pointer", width: 20, height: 20 }}
+                />
+                <img
+                  src={docDown}
+                  alt="Download"
+                  onClick={() => handleDownloadKYCtest(existingKycDoc)}
+                  style={{ cursor: "pointer", width: 20, height: 20 }}
+                />
+              </div>
+            </div>
+          ) : null}
+
+          <input
+            type="file"
+            id={`fileUpload-${index}`}
+            style={{ display: "none" }}
+          />
+        </div>
+      );
+    })
+  ) : (
+    <div className="text-center text-muted py-4"  style={{ fontFamily: "Gilroy", fontWeight: 500 }}>No document added</div>
+  )}
 </div>
+
 
 
 
